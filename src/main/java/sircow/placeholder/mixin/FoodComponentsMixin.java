@@ -2,9 +2,6 @@ package sircow.placeholder.mixin;
 
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.component.type.FoodComponents;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.Items;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -58,113 +55,45 @@ public class FoodComponentsMixin {
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void modifyFood(CallbackInfo ci) {
-        APPLE = new FoodComponent.Builder().nutrition(4).saturationModifier(1.0F).snack().build();
+        APPLE = new FoodComponent.Builder().nutrition(4).saturationModifier(1.0F).build();
         BAKED_POTATO = new FoodComponent.Builder().nutrition(5).saturationModifier(1.2F).build();
-        BEETROOT = new FoodComponent.Builder().nutrition(2).saturationModifier(1.0F).snack().build();
-        BEETROOT_SOUP = new FoodComponent.Builder().nutrition(8).saturationModifier(1.5F).usingConvertsTo(Items.BOWL).build();
+        BEETROOT = new FoodComponent.Builder().nutrition(2).saturationModifier(1.0F).build();
+        BEETROOT_SOUP = new FoodComponent.Builder().nutrition(8).saturationModifier(1.5F).build();
         BREAD = new FoodComponent.Builder().nutrition(4).saturationModifier(0.8F).build();
-        CARROT = new FoodComponent.Builder().nutrition(3).saturationModifier(1.0F).snack().build();
-        CHORUS_FRUIT = new FoodComponent.Builder().nutrition(2).saturationModifier(1.0F).snack().alwaysEdible().build();
+        CARROT = new FoodComponent.Builder().nutrition(3).saturationModifier(1.0F).build();
+        CHORUS_FRUIT = new FoodComponent.Builder().nutrition(2).saturationModifier(1.0F).alwaysEdible().build();
         COOKED_CHICKEN = new FoodComponent.Builder().nutrition(6).saturationModifier(1.2F).build();
         COOKED_COD = new FoodComponent.Builder().nutrition(5).saturationModifier(1.2F).build();
         COOKED_MUTTON = new FoodComponent.Builder().nutrition(6).saturationModifier(1.2F).build();
         COOKED_PORKCHOP = new FoodComponent.Builder().nutrition(6).saturationModifier(1.4F).build();
         COOKED_RABBIT = new FoodComponent.Builder().nutrition(5).saturationModifier(1.2F).build();
         COOKED_SALMON = new FoodComponent.Builder().nutrition(6).saturationModifier(1.2F).build();
-        COOKIE = new FoodComponent.Builder().nutrition(2).saturationModifier(0.2F).snack().build();
-        DRIED_KELP = new FoodComponent.Builder().nutrition(1).saturationModifier(1.2F).snack().build();
-        ENCHANTED_GOLDEN_APPLE = new FoodComponent.Builder()
-                .nutrition(8)
-                .saturationModifier(1.2F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 400, 1), 1.0F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 6000, 0), 1.0F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 6000, 0), 1.0F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 2400, 3), 1.0F)
-                .alwaysEdible()
-                .build();
-        GOLDEN_APPLE = new FoodComponent.Builder()
-                .nutrition(4)
-                .saturationModifier(1.2F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 100, 1), 1.0F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 2400, 0), 1.0F)
-                .alwaysEdible()
-                .build();
-        GLOW_BERRIES = new FoodComponent.Builder().nutrition(2).saturationModifier(1.2F).snack().build();
+        COOKIE = new FoodComponent.Builder().nutrition(2).saturationModifier(0.2F).build();
+        DRIED_KELP = new FoodComponent.Builder().nutrition(1).saturationModifier(1.2F).build();
+        ENCHANTED_GOLDEN_APPLE = new FoodComponent.Builder().nutrition(8).saturationModifier(1.2F).alwaysEdible().build();
+        GOLDEN_APPLE = new FoodComponent.Builder().nutrition(4).saturationModifier(1.2F).alwaysEdible().build();
+        GLOW_BERRIES = new FoodComponent.Builder().nutrition(2).saturationModifier(1.2F).build();
         GOLDEN_CARROT = new FoodComponent.Builder().nutrition(6).saturationModifier(2.4F).build();
-        HONEY_BOTTLE = new FoodComponent.Builder()
-                .nutrition(6)
-                .saturationModifier(0.2F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 0, 0), 1.0F)
-                .snack()
-                .build();
-        MELON_SLICE = new FoodComponent.Builder().nutrition(2).saturationModifier(1.0F).snack().build();
-        MUSHROOM_STEW = new FoodComponent.Builder().nutrition(8).saturationModifier(1.5F).usingConvertsTo(Items.BOWL).build();
-        POISONOUS_POTATO = new FoodComponent.Builder()
-                .nutrition(2)
-                .saturationModifier(0.0F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0), 0.6F)
-                .snack()
-                .build();
-        POTATO = new FoodComponent.Builder().nutrition(2).saturationModifier(1.0F).snack().build();
-        PUFFERFISH = new FoodComponent.Builder()
-                .nutrition(1).saturationModifier(0.2F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 1200, 1), 1.0F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 2), 1.0F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 300, 0), 1.0F)
-                .build();
+        HONEY_BOTTLE = new FoodComponent.Builder().nutrition(6).saturationModifier(0.2F).build();
+        MELON_SLICE = new FoodComponent.Builder().nutrition(2).saturationModifier(1.0F).build();
+        MUSHROOM_STEW = new FoodComponent.Builder().nutrition(8).saturationModifier(1.5F).build();
+        POISONOUS_POTATO = new FoodComponent.Builder().nutrition(2).saturationModifier(0.0F).build();
+        POTATO = new FoodComponent.Builder().nutrition(2).saturationModifier(1.0F).build();
+        PUFFERFISH = new FoodComponent.Builder().nutrition(1).saturationModifier(0.2F).build();
         PUMPKIN_PIE = new FoodComponent.Builder().nutrition(8).saturationModifier(1.2F).build();
-        RABBIT_STEW = new FoodComponent.Builder().nutrition(10).saturationModifier(1.2F).usingConvertsTo(Items.BOWL).build();
-        BEEF = new FoodComponent.Builder()
-                .nutrition(2)
-                .saturationModifier(0.6F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 0), 0.3F)
-                .build();
-        CHICKEN = new FoodComponent.Builder()
-                .nutrition(2)
-                .saturationModifier(0.6F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 600, 0), 0.5F)
-                .build();
-        COD = new FoodComponent.Builder()
-                .nutrition(2).saturationModifier(0.6F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 0), 0.3F)
-                .build();
-        MUTTON = new FoodComponent.Builder()
-                .nutrition(2).saturationModifier(0.6F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 0), 0.3F)
-                .build();
-        PORKCHOP = new FoodComponent.Builder()
-                .nutrition(2)
-                .saturationModifier(0.6F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 0), 0.3F)
-                .build();
-        RABBIT = new FoodComponent.Builder()
-                .nutrition(2)
-                .saturationModifier(0.6F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 0), 0.3F)
-                .build();
-        SALMON = new FoodComponent.Builder()
-                .nutrition(2)
-                .saturationModifier(0.6F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 0), 0.3F)
-                .build();
-        ROTTEN_FLESH = new FoodComponent.Builder()
-                .nutrition(4)
-                .saturationModifier(0.0F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 600, 0), 1.0F)
-                .build();
-        SPIDER_EYE = new FoodComponent.Builder()
-                .nutrition(2)
-                .saturationModifier(0.0F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0), 1.0F)
-                .snack()
-                .build();
+        RABBIT_STEW = new FoodComponent.Builder().nutrition(10).saturationModifier(1.2F).build();
+        BEEF = new FoodComponent.Builder().nutrition(2).saturationModifier(0.6F).build();
+        CHICKEN = new FoodComponent.Builder().nutrition(2).saturationModifier(0.6F).build();
+        COD = new FoodComponent.Builder().nutrition(2).saturationModifier(0.6F).build();
+        MUTTON = new FoodComponent.Builder().nutrition(2).saturationModifier(0.6F).build();
+        PORKCHOP = new FoodComponent.Builder().nutrition(2).saturationModifier(0.6F).build();
+        RABBIT = new FoodComponent.Builder().nutrition(2).saturationModifier(0.6F).build();
+        SALMON = new FoodComponent.Builder().nutrition(2).saturationModifier(0.6F).build();
+        ROTTEN_FLESH = new FoodComponent.Builder().nutrition(4).saturationModifier(0.0F).build();
+        SPIDER_EYE = new FoodComponent.Builder().nutrition(2).saturationModifier(0.0F).build();
         COOKED_BEEF = new FoodComponent.Builder().nutrition(6).saturationModifier(1.2F).build();
-        SUSPICIOUS_STEW = new FoodComponent.Builder().nutrition(8).saturationModifier(1.6F).usingConvertsTo(Items.BOWL).alwaysEdible().build();
-        SWEET_BERRIES = new FoodComponent.Builder().nutrition(2).saturationModifier(1.2F).snack().build();
-        TROPICAL_FISH = new FoodComponent.Builder()
-                .nutrition(2)
-                .saturationModifier(0.6F)
-                .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 600, 0), 1.0F)
-                .build();
+        SUSPICIOUS_STEW = new FoodComponent.Builder().nutrition(8).saturationModifier(1.6F).alwaysEdible().build();
+        SWEET_BERRIES = new FoodComponent.Builder().nutrition(2).saturationModifier(1.2F).build();
+        TROPICAL_FISH = new FoodComponent.Builder().nutrition(2).saturationModifier(0.6F).build();
     }
 }

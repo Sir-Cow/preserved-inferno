@@ -7,6 +7,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
@@ -60,15 +61,19 @@ public class ConduitMixin {
         ci.cancel();
     }
     // change magic damage to custom damage type which makes player-killed loot drop
-    @Inject(method = "attackHostileEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"), cancellable = true)
+    @Inject(method = "attackHostileEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;serverDamage(Lnet/minecraft/entity/damage/DamageSource;F)V"), cancellable = true)
     private static void changeDamageSource(World world, BlockPos pos, BlockState state, List<BlockPos> activatingBlocks, ConduitBlockEntity blockEntity, CallbackInfo ci) {
         ConduitBlockEntityAccessor accessor = (ConduitBlockEntityAccessor) blockEntity;
         LivingEntity targetEntity = accessor.getTargetEntity();
+
         if (targetEntity != null) {
             PlayerEntity player = world.getPlayers().getFirst();
             if (player != null) {
                 DamageSource damageSource = ModDamageTypes.of(world, ModDamageTypes.TAG_CONDUIT, player);
-                targetEntity.damage(damageSource, 4.0F);
+                if (world instanceof ServerWorld serverWorld) {
+                    targetEntity.damage(serverWorld, damageSource, 4.0F);
+                }
+
             }
         }
         ci.cancel();

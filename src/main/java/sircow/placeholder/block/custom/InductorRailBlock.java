@@ -23,7 +23,7 @@ public class InductorRailBlock extends AbstractRailBlock implements Oxidizable {
     public static final EnumProperty<RailShape> SHAPE = Properties.STRAIGHT_RAIL_SHAPE;
     public static final BooleanProperty POWERED = Properties.POWERED;
 
-    public InductorRailBlock(OxidationLevel oxidationLevel, Settings settings) {
+    public InductorRailBlock(OxidationLevel oxidationLevel, AbstractBlock.Settings settings) {
         super(true, settings);
         this.oxidationLevel = oxidationLevel;
         this.setDefaultState(this.stateManager.getDefaultState().with(POWERED, Boolean.TRUE).with(SHAPE, RailShape.NORTH_SOUTH).with(WATERLOGGED, Boolean.FALSE));

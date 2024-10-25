@@ -32,6 +32,7 @@
   "block.placeholder.new_cauldron": "Cauldron",
   "block.placeholder.new_loom": "Loom",
   "block.placeholder.new_fletching_table": "Fletching Table",
+  "block.placeholder.new_enchanting_table": "Enchanting Table",
 
   "itemgroup.placeholder.placeholder_items": "Placeholder"
 }

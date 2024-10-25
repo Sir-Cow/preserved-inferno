@@ -37,18 +37,19 @@ public class ModItemGroups {
                         entries.add(ModItems.WHITE_CLOTH);
                         entries.add(ModItems.YELLOW_CLOTH);
 
-                        entries.add(ModBlocks.NEW_CAULDRON_BLOCK);
-                        entries.add(ModBlocks.NEW_LOOM_BLOCK);
-                        entries.add(ModBlocks.NEW_FLETCHING_TABLE_BLOCK);
+                        entries.add(ModItems.NEW_CAULDRON_BLOCK);
+                        entries.add(ModItems.NEW_LOOM_BLOCK);
+                        entries.add(ModItems.NEW_FLETCHING_TABLE_BLOCK);
+                        entries.add(ModItems.NEW_ENCHANTING_TABLE_BLOCK);
 
-                        entries.add(ModBlocks.INDUCTOR_RAIL);
-                        entries.add(ModBlocks.EXPOSED_INDUCTOR_RAIL);
-                        entries.add(ModBlocks.WEATHERED_INDUCTOR_RAIL);
-                        entries.add(ModBlocks.OXIDIZED_INDUCTOR_RAIL);
-                        entries.add(ModBlocks.WAXED_INDUCTOR_RAIL);
-                        entries.add(ModBlocks.WAXED_EXPOSED_INDUCTOR_RAIL);
-                        entries.add(ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL);
-                        entries.add(ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL);
+                        entries.add(ModItems.INDUCTOR_RAIL);
+                        entries.add(ModItems.EXPOSED_INDUCTOR_RAIL);
+                        entries.add(ModItems.WEATHERED_INDUCTOR_RAIL);
+                        entries.add(ModItems.OXIDIZED_INDUCTOR_RAIL);
+                        entries.add(ModItems.WAXED_INDUCTOR_RAIL);
+                        entries.add(ModItems.WAXED_EXPOSED_INDUCTOR_RAIL);
+                        entries.add(ModItems.WAXED_WEATHERED_INDUCTOR_RAIL);
+                        entries.add(ModItems.WAXED_OXIDIZED_INDUCTOR_RAIL);
                     }).build());
 
     public static void registerItemGroups() {

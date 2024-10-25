@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -23,13 +24,12 @@ public class NewCauldronBlockScreen extends HandledScreen<NewCauldronBlockScreen
 
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
         RenderSystem.setShaderTexture(0, TEXTURE);
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
 
-        context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
 
         renderProgressArrow(context, x, y);
         renderProgressWater(context, x, y);
@@ -37,16 +37,12 @@ public class NewCauldronBlockScreen extends HandledScreen<NewCauldronBlockScreen
 
     private void renderProgressArrow(DrawContext context, int x, int y) {
         if(handler.isCrafting()) {
-            context.drawTexture(TEXTURE, x + 85, y + 34,
-                    176, 0,
-                    8, handler.getScaledProgressArrow());
+            context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x + 85, y + 34, 176, 0, 8, handler.getScaledProgressArrow(), 256, 256);
         }
     }
 
     private void renderProgressWater(DrawContext context, int x, int y) {
-        context.drawTexture(TEXTURE, x + 152, y + 15 + (32 - handler.getScaledProgressWater()),
-                176, 32 + (32 - handler.getScaledProgressWater()),
-                16, handler.getScaledProgressWater());
+        context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x + 152, y + 15 + (32 - handler.getScaledProgressWater()), 176, 32 + (32 - handler.getScaledProgressWater()), 16, handler.getScaledProgressWater(), 256, 256);
     }
 
     @Override

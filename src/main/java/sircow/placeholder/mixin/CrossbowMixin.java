@@ -29,7 +29,7 @@ public class CrossbowMixin {
             for (ItemStack itemStack : shooter.getHandItems()) {
                 if (itemStack.getItem() instanceof CrossbowItem &&
                         EnchantmentHelper.getLevel(shooter.getWorld().getRegistryManager()
-                                .getWrapperOrThrow(Enchantments.MULTISHOT.getRegistryRef())
+                                .getOrThrow(Enchantments.MULTISHOT.getRegistryRef())
                                 .getOrThrow(Enchantments.MULTISHOT), itemStack) > 0) {
                     double originalDamage = arrow.getDamage();
                     double modifiedDamage = originalDamage * 0.75; // Reduce damage to 75%

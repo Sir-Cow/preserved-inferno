@@ -140,8 +140,7 @@ public class NewLoomBlockEntity extends BlockEntity implements ExtendedScreenHan
                 this.removeStack(INPUT_SLOT, 1);
                 this.removeStack(INPUT_SLOT_TWO, 1);
                 // unbreaking check
-                int unbreakingLevel = EnchantmentHelper.getLevel(Objects.requireNonNull(this.getWorld()).getRegistryManager()
-                        .getWrapperOrThrow(Enchantments.UNBREAKING.getRegistryRef())
+                int unbreakingLevel = EnchantmentHelper.getLevel(Objects.requireNonNull(this.getWorld()).getRegistryManager().getOrThrow(Enchantments.UNBREAKING.getRegistryRef())
                         .getOrThrow(Enchantments.UNBREAKING), this.getStack(INPUT_SLOT_THREE));
                 if (unbreakingLevel > 0) {
                     double chance = 1.0 / (unbreakingLevel + 1);

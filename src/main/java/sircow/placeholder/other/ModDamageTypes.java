@@ -16,7 +16,7 @@ public class ModDamageTypes {
     );
 
     public static DamageSource of(World world, RegistryKey<DamageType> key, @Nullable Entity attacker) {
-        return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key), attacker);
+        return new DamageSource(world.getRegistryManager().getOrThrow(RegistryKeys.DAMAGE_TYPE).getOrThrow(key), attacker);
     }
 
     public static void registerModDamageTypes() {

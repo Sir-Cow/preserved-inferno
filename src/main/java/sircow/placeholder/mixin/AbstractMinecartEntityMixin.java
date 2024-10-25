@@ -16,8 +16,10 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import sircow.placeholder.Placeholder;
 import sircow.placeholder.block.ModBlocks;
 
+/*
 @Mixin(AbstractMinecartEntity.class)
 public abstract class AbstractMinecartEntityMixin extends Entity {
+
     @Unique
     private double maxSpeed = 8.0;
 
@@ -81,3 +83,4 @@ public abstract class AbstractMinecartEntityMixin extends Entity {
         return speed / (this.isTouchingWater() ? 40.0 : 20.0);
     }
 }
+*/
