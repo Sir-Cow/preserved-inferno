@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "bed",
   "key": {
-    "#": {
-      "item": "placeholder:black_cloth"
-    },
-    "X": {
-      "tag": "minecraft:planks"
-    }
+    "#": "placeholder:black_cloth",
+    "X": "#minecraft:planks"
   },
   "pattern": [
     "###",

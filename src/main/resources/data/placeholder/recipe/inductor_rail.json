@@ -1,20 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "C C",
-    "CSC",
-    "C C"
-  ],
+  "category": "misc",
   "key": {
-    "C": {
-      "item": "minecraft:copper_ingot"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "#": "minecraft:stick",
+    "X": "minecraft:copper_ingot"
   },
+  "pattern": [
+    "X X",
+    "X#X",
+    "X X"
+  ],
   "result": {
-    "id": "placeholder:inductor_rail",
-    "count": 4
+    "count": 6,
+    "id": "placeholder:inductor_rail"
   }
 }

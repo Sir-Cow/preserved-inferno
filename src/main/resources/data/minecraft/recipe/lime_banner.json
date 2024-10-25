@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "banner",
   "key": {
-    "#": {
-      "item": "placeholder:lime_cloth"
-    },
-    "|": {
-      "item": "minecraft:stick"
-    }
+    "#": "placeholder:lime_cloth",
+    "|": "minecraft:stick"
   },
   "pattern": [
     "#",

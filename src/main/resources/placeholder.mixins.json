@@ -6,8 +6,6 @@
     "AbstractFurnaceBlockEntityAccessor",
     "AbstractFurnaceBlockEntityMixin",
     "BrewingRecipeRegistryMixin",
-    "BrewingStandBlockEntityMixin",
-    "BrewingStandScreenHandlerMixin",
     "ConduitBlockEntityAccessor",
     "ConduitMixin",
     "ConsumableComponentMixin",

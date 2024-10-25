@@ -3,12 +3,8 @@
   "category": "building",
   "group": "waxed_inductor_rail",
   "ingredients": [
-    {
-      "item": "placeholder:inductor_rail"
-    },
-    {
-      "item": "minecraft:honeycomb"
-    }
+    "placeholder:inductor_rail",
+    "minecraft:honeycomb"
   ],
   "result": {
     "count": 1,

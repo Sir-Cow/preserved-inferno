@@ -2,20 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "T": {
-      "item": "placeholder:hollow_twine"
-    },
-    "F": {
-      "item": "minecraft:feather"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "A": "placeholder:hollow_twine",
+    "B": "minecraft:stick",
+    "C": "minecraft:feather"
   },
   "pattern": [
-    "TST",
-    "STS",
-    "FSF"
+    "ABA",
+    "BAB",
+    "CBC"
   ],
   "result": {
     "count": 1,

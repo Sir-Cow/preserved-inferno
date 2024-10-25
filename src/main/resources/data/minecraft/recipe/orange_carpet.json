@@ -3,9 +3,7 @@
   "category": "misc",
   "group": "carpet",
   "key": {
-    "#": {
-      "item": "placeholder:orange_cloth"
-    }
+    "#": "placeholder:orange_cloth"
   },
   "pattern": [
     "##"

@@ -1,17 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "bed",
   "key": {
-    "#": "placeholder:gray_cloth",
-    "X": "#minecraft:planks"
+    "X": "minecraft:diamond"
   },
   "pattern": [
-    "###",
-    "XXX"
+    "X X",
+    "XXX",
+    "X X"
   ],
   "result": {
     "count": 1,
-    "id": "minecraft:gray_bed"
+    "id": "minecraft:diamond_horse_armor"
   }
 }

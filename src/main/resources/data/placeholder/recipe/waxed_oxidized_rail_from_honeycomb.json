@@ -1,14 +1,10 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "building",
-  "group": "waxed_oxidized_inductor_rail",
+  "group": "waxed_inductor_rail",
   "ingredients": [
-    {
-      "item": "placeholder:oxidized_inductor_rail"
-    },
-    {
-      "item": "minecraft:honeycomb"
-    }
+    "placeholder:oxidized_inductor_rail",
+    "minecraft:honeycomb"
   ],
   "result": {
     "count": 1,

@@ -2,17 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "X": {
-      "item": "minecraft:gold_ingot"
-    }
+    "#": "#minecraft:planks",
+    "@": "minecraft:flint"
   },
   "pattern": [
-    "X X",
-    "XXX",
-    "X X"
+    "@@",
+    "##",
+    "##"
   ],
   "result": {
     "count": 1,
-    "id": "minecraft:golden_horse_armor"
+    "id": "placeholder:new_fletching_table"
   }
 }

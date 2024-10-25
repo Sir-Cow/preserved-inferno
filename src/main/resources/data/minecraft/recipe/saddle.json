@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "minecraft:leather"
-    },
-    "B": {
-      "item": "minecraft:string"
-    },
-    "C": {
-      "item": "minecraft:iron_ingot"
-    }
+    "A": "minecraft:leather",
+    "B": "minecraft:string",
+    "C": "minecraft:iron_ingot"
   },
   "pattern": [
     "AAA",

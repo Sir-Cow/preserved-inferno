@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "minecraft:stick"
-    },
-    "X": {
-      "tag": "placeholder:cloth"
-    }
+    "#": "minecraft:stick",
+    "X": "#placeholder:cloth"
   },
   "pattern": [
     "###",
