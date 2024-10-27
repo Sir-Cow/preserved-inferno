@@ -4,7 +4,10 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import sircow.placeholder.block.ModBlocks;
+import sircow.placeholder.block.entity.ModBlockEntities;
+import sircow.placeholder.entity.NewEnchantingTableBlockEntityRenderer;
 import sircow.placeholder.screen.ModScreenHandlers;
 import sircow.placeholder.screen.NewCauldronBlockScreen;
 import sircow.placeholder.screen.NewLoomBlockScreen;
@@ -28,5 +31,7 @@ public class PlaceholderClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WAXED_EXPOSED_INDUCTOR_RAIL, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL, RenderLayer.getCutout());
+		// block entity renderers
+		BlockEntityRendererFactories.register(ModBlockEntities.NEW_ENCHANTING_TABLE_BLOCK_ENTITY, NewEnchantingTableBlockEntityRenderer::new);
 	}
 }

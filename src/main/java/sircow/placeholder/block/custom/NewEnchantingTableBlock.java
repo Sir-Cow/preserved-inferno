@@ -10,7 +10,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Nameable;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
@@ -20,6 +24,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import sircow.placeholder.block.entity.ModBlockEntities;
 import sircow.placeholder.block.entity.NewEnchantingTableBlockEntity;
+import sircow.placeholder.screen.NewEnchantingTableBlockScreenHandler;
 
 import java.util.List;
 
@@ -32,7 +37,7 @@ public class NewEnchantingTableBlock extends BlockWithEntity implements BlockEnt
             .toList();
 
     @Override
-    public MapCodec<? extends BlockWithEntity> getCodec() {
+    public MapCodec<NewEnchantingTableBlock> getCodec() {
         return CODEC;
     }
 
@@ -88,20 +93,31 @@ public class NewEnchantingTableBlock extends BlockWithEntity implements BlockEnt
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return validateTicker(type, ModBlockEntities.NEW_ENCHANTING_TABLE_BLOCK_ENTITY,
-                NewEnchantingTableBlockEntity::tick);
+        return world.isClient ? validateTicker(type, ModBlockEntities.NEW_ENCHANTING_TABLE_BLOCK_ENTITY,
+                NewEnchantingTableBlockEntity::tick) : null;
     }
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
-            NamedScreenHandlerFactory screenHandlerFactory = ((NewEnchantingTableBlockEntity) world.getBlockEntity(pos));
-
-            if (screenHandlerFactory != null) {
-                player.openHandledScreen(screenHandlerFactory);
-            }
+            player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
         }
+
         return ActionResult.SUCCESS;
+    }
+
+    @Nullable
+    @Override
+    protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof NewEnchantingTableBlockEntity) {
+            Text text = ((Nameable)blockEntity).getDisplayName();
+            return new SimpleNamedScreenHandlerFactory(
+                    (syncId, inventory, player) -> new NewEnchantingTableBlockScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos)), text
+            );
+        } else {
+            return null;
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package sircow.placeholder.item;
 
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -10,12 +11,14 @@ import net.minecraft.util.Identifier;
 import sircow.placeholder.Placeholder;
 import sircow.placeholder.block.ModBlocks;
 
+import java.util.function.Function;
+
 public class ModItems {
     // items
     public static final Item RAW_HIDE = registerItem("raw_hide");
     public static final Item PHANTOM_SINEW = registerItem("phantom_sinew");
     public static final Item HOLLOW_TWINE = registerItem("hollow_twine");
-    public static final Item DREAMCATCHER = registerItem("dreamcatcher");
+    public static final Item DREAMCATCHER = register("dreamcatcher", new Item.Settings().maxCount(1));
 
     public static final Item BLACK_CLOTH = registerItem("black_cloth");
     public static final Item BLUE_CLOTH = registerItem("blue_cloth");
@@ -52,6 +55,22 @@ public class ModItems {
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, id);
         Item.Settings settings = new Item.Settings().registryKey(key);
         return Registry.register(Registries.ITEM, key, new Item(settings));
+    }
+
+    private static RegistryKey<Item> keyOf(String id) {
+        return RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Placeholder.MOD_ID, id));
+    }
+
+    public static Item register(String id, Item.Settings settings) {
+        return register(keyOf(id), Item::new, settings);
+    }
+
+    public static Item register(RegistryKey<Item> key, Function<Item.Settings, Item> factory, Item.Settings settings) {
+        Item item = factory.apply(settings.registryKey(key));
+        if (item instanceof BlockItem blockItem) {
+            blockItem.appendBlocks(Item.BLOCK_ITEMS, item);
+        }
+        return Registry.register(Registries.ITEM, key, item);
     }
 
     public static void registerModItems() {

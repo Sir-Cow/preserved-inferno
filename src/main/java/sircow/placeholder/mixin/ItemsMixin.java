@@ -3,7 +3,6 @@ package sircow.placeholder.mixin;
 import net.minecraft.component.type.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.HoneycombItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
@@ -156,12 +155,5 @@ public abstract class ItemsMixin {
         return original.food(FoodComponents.TROPICAL_FISH, ConsumableComponent.builder()
                 .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.HUNGER, 600, 0), 1.0F))
                 .build());
-    }
-
-    // make honeycomb edible
-    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=honeycomb")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
-    private static Item.Settings modifyHoneycomb (Item.Settings settings) {
-        return new HoneycombItem.Settings().food(new FoodComponent.Builder().nutrition(6).saturationModifier(0.1F).build(), ConsumableComponent.builder().consumeSeconds(0.8F).build());
     }
 }

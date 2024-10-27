@@ -4,9 +4,6 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -15,26 +12,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.PotionItem;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.Potions;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import sircow.placeholder.Placeholder;
-import sircow.placeholder.item.ModItems;
 import sircow.placeholder.screen.NewFletchingTableBlockScreenHandler;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 public class NewFletchingTableBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
@@ -118,9 +105,7 @@ public class NewFletchingTableBlockEntity extends BlockEntity implements Extende
         if (inputItem == Items.FLINT && inputItem2 == Items.STICK && inputItem3 == Items.FEATHER) {
             ItemStack result;
             if (inputItem4 instanceof PotionItem) {
-                result = new ItemStack(Items.TIPPED_ARROW);
-                //PotionContentsComponent potionContentsComponent = getStack(INPUT_SLOT_FOUR).get(DataComponentTypes.POTION_CONTENTS);
-                //Placeholder.LOGGER.info("{}", potionContentsComponent);
+                result = new ItemStack(Items.TIPPED_ARROW, 16);
                 result.set(DataComponentTypes.POTION_CONTENTS, getStack(INPUT_SLOT_FOUR).get(DataComponentTypes.POTION_CONTENTS));
             }
             else {
@@ -141,14 +126,6 @@ public class NewFletchingTableBlockEntity extends BlockEntity implements Extende
         else {
             this.setStack(OUTPUT_SLOT, ItemStack.EMPTY);
         }
-    }
-
-    private boolean canInsertItemIntoOutputSlot(Item item) {
-        return this.getStack(OUTPUT_SLOT).getItem() == item || this.getStack(OUTPUT_SLOT).isEmpty();
-    }
-
-    private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
-        return this.getStack(OUTPUT_SLOT).getCount() + result.getCount() <= getStack(OUTPUT_SLOT).getMaxCount();
     }
 
     private boolean isOutputSlotEmptyOrReceivable() {

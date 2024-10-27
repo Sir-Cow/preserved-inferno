@@ -3,25 +3,18 @@ package sircow.placeholder.block;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
 import sircow.placeholder.Placeholder;
 import sircow.placeholder.block.custom.*;
 
 import java.util.function.Function;
 
-import static net.minecraft.block.MapColor.ORANGE;
-
 public class ModBlocks {
     public static final Block INDUCTOR_RAIL = register("inductor_rail",
-            settings -> new InductorRailBlock(Oxidizable.OxidationLevel.UNAFFECTED, settings), AbstractBlock.Settings.copy(Blocks.RAIL).noCollision().strength(0.7F).mapColor(ORANGE).sounds(BlockSoundGroup.COPPER));
+            settings -> new InductorRailBlock(Oxidizable.OxidationLevel.UNAFFECTED, settings), AbstractBlock.Settings.copy(Blocks.RAIL).noCollision().strength(0.7F).mapColor(MapColor.ORANGE).sounds(BlockSoundGroup.COPPER));
     public static final Block EXPOSED_INDUCTOR_RAIL = register("exposed_inductor_rail",
             settings -> new InductorRailBlock(Oxidizable.OxidationLevel.EXPOSED, settings), AbstractBlock.Settings.copy(Blocks.RAIL).noCollision().strength(0.7F).mapColor(MapColor.TERRACOTTA_LIGHT_GRAY).sounds(BlockSoundGroup.COPPER));
     public static final Block WEATHERED_INDUCTOR_RAIL = register("weathered_inductor_rail",
@@ -29,7 +22,7 @@ public class ModBlocks {
     public static final Block OXIDIZED_INDUCTOR_RAIL = register("oxidized_inductor_rail",
             settings -> new InductorRailBlock(Oxidizable.OxidationLevel.OXIDIZED, settings), AbstractBlock.Settings.copy(Blocks.RAIL).noCollision().strength(0.7F).mapColor(MapColor.TEAL).sounds(BlockSoundGroup.COPPER));
     public static final Block WAXED_INDUCTOR_RAIL = register("waxed_inductor_rail",
-            settings -> new InductorRailBlock(Oxidizable.OxidationLevel.UNAFFECTED, settings), AbstractBlock.Settings.copy(Blocks.RAIL).noCollision().strength(0.7F).mapColor(ORANGE).sounds(BlockSoundGroup.COPPER));
+            settings -> new InductorRailBlock(Oxidizable.OxidationLevel.UNAFFECTED, settings), AbstractBlock.Settings.copy(Blocks.RAIL).noCollision().strength(0.7F).mapColor(MapColor.ORANGE).sounds(BlockSoundGroup.COPPER));
     public static final Block WAXED_EXPOSED_INDUCTOR_RAIL = register("waxed_exposed_inductor_rail",
             settings -> new InductorRailBlock(Oxidizable.OxidationLevel.EXPOSED, settings), AbstractBlock.Settings.copy(Blocks.RAIL).noCollision().strength(0.7F).mapColor(MapColor.TERRACOTTA_LIGHT_GRAY).sounds(BlockSoundGroup.COPPER));
     public static final Block WAXED_WEATHERED_INDUCTOR_RAIL = register("waxed_weathered_inductor_rail",

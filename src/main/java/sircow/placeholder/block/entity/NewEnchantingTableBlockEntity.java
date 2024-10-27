@@ -1,22 +1,15 @@
 package sircow.placeholder.block.entity;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.screen.PropertyDelegate;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Nameable;
 import net.minecraft.util.collection.DefaultedList;
@@ -25,14 +18,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import sircow.placeholder.screen.NewEnchantingTableBlockScreenHandler;
 
-public class NewEnchantingTableBlockEntity extends BlockEntity implements Nameable, ExtendedScreenHandlerFactory, ImplementedInventory {
+public class NewEnchantingTableBlockEntity extends BlockEntity implements Nameable {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-
-    protected final PropertyDelegate propertyDelegate;
-    private int progress = 0;
-    private int maxProgress = 100;
 
     public int ticks;
     public float nextPageAngle;
@@ -45,34 +33,10 @@ public class NewEnchantingTableBlockEntity extends BlockEntity implements Nameab
     public float lastBookRotation;
     public float targetBookRotation;
     private static final Random RANDOM = Random.create();
-    @Nullable
-    private Text customName;
+    @Nullable private Text customName;
 
     public NewEnchantingTableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.NEW_ENCHANTING_TABLE_BLOCK_ENTITY, pos, state);
-        this.propertyDelegate = new PropertyDelegate() {
-            @Override
-            public int get(int index) {
-                return switch (index) {
-                    case 0 -> NewEnchantingTableBlockEntity.this.progress;
-                    case 1 -> NewEnchantingTableBlockEntity.this.maxProgress;
-                    default -> 0;
-                };
-            }
-
-            @Override
-            public void set(int index, int value) {
-                switch (index) {
-                    case 0 -> NewEnchantingTableBlockEntity.this.progress = value;
-                    case 1 -> NewEnchantingTableBlockEntity.this.maxProgress = value;
-                }
-            }
-
-            @Override
-            public int size() {
-                return 2;
-            }
-        };
     }
 
     @Override
@@ -161,8 +125,7 @@ public class NewEnchantingTableBlockEntity extends BlockEntity implements Nameab
         return Nameable.super.getDisplayName();
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public Text getCustomName() {
         return this.customName;
     }
@@ -177,20 +140,5 @@ public class NewEnchantingTableBlockEntity extends BlockEntity implements Nameab
     protected void addComponents(ComponentMap.Builder componentMapBuilder) {
         super.addComponents(componentMapBuilder);
         componentMapBuilder.add(DataComponentTypes.CUSTOM_NAME, this.customName);
-    }
-
-    @Override
-    public Object getScreenOpeningData(ServerPlayerEntity player) {
-        return new NewEnchantingTableBlockData(this.pos);
-    }
-
-    @Override
-    public @Nullable ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new NewEnchantingTableBlockScreenHandler(syncId, playerInventory, (ScreenHandlerContext) this);
-    }
-
-    @Override
-    public DefaultedList<ItemStack> getItems() {
-        return inventory;
     }
 }

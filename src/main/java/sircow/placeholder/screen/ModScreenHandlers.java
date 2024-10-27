@@ -3,11 +3,12 @@ package sircow.placeholder.screen;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import sircow.placeholder.Placeholder;
 import sircow.placeholder.block.entity.NewCauldronBlockData;
-import sircow.placeholder.block.entity.NewEnchantingTableBlockData;
 import sircow.placeholder.block.entity.NewFletchingTableBlockData;
 import sircow.placeholder.block.entity.NewLoomBlockData;
 
@@ -25,8 +26,11 @@ public class ModScreenHandlers {
                     new ExtendedScreenHandlerType<>(NewFletchingTableBlockScreenHandler::new, NewFletchingTableBlockData.PACKET_CODEC));
 
     public static final ScreenHandlerType<NewEnchantingTableBlockScreenHandler> NEW_ENCHANTING_TABLE_BLOCK_SCREEN_HANDLER =
-            Registry.register(Registries.SCREEN_HANDLER, Identifier.of(Placeholder.MOD_ID, "new_enchanting_table"),
-                    new ExtendedScreenHandlerType<>(NewEnchantingTableBlockScreenHandler::new, NewEnchantingTableBlockData.PACKET_CODEC));
+            register("new_enchanting_table", NewEnchantingTableBlockScreenHandler::new);
+
+    private static <T extends ScreenHandler> ScreenHandlerType<T> register(String id, ScreenHandlerType.Factory<T> factory) {
+        return Registry.register(Registries.SCREEN_HANDLER, Identifier.of(Placeholder.MOD_ID, id), new ScreenHandlerType<>(factory, FeatureFlags.VANILLA_FEATURES));
+    }
 
     public static void registerScreenHandlers() {
         Placeholder.LOGGER.info("Registering Screen Handlers for " + Placeholder.MOD_ID);

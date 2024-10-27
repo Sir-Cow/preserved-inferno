@@ -2,7 +2,6 @@ package sircow.placeholder.screen;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
@@ -29,8 +28,8 @@ import net.minecraft.util.Util;
 import net.minecraft.util.collection.IndexedIterable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
+import sircow.placeholder.block.ModBlocks;
 import sircow.placeholder.block.custom.NewEnchantingTableBlock;
-import sircow.placeholder.block.entity.NewEnchantingTableBlockData;
 
 import java.util.List;
 import java.util.Optional;
@@ -51,20 +50,20 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
     public final int[] enchantmentId = new int[]{-1, -1, -1};
     public final int[] enchantmentLevel = new int[]{-1, -1, -1};
 
-    public NewEnchantingTableBlockScreenHandler(int syncId, PlayerInventory inventory, NewEnchantingTableBlockData data) {
-        this(syncId, inventory, (ScreenHandlerContext) inventory.player.getWorld().getBlockEntity(data.pos()));
+    public NewEnchantingTableBlockScreenHandler(int syncId, PlayerInventory inventory) {
+        this(syncId, inventory, ScreenHandlerContext.EMPTY);
     }
 
     public NewEnchantingTableBlockScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(ModScreenHandlers.NEW_ENCHANTING_TABLE_BLOCK_SCREEN_HANDLER, syncId);
         this.context = context;
-        this.addSlot(new Slot(this.inventory, 0, 15, 47) {
+        this.addSlot(new Slot(this.inventory, 0, 25, 53) {
             @Override
             public int getMaxItemCount() {
                 return 1;
             }
         });
-        this.addSlot(new Slot(this.inventory, 1, 35, 47) {
+        this.addSlot(new Slot(this.inventory, 1, 45, 53) {
             @Override
             public boolean canInsert(ItemStack stack) {
                 return stack.isOf(Items.LAPIS_LAZULI);
@@ -88,6 +87,122 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
         this.addProperty(Property.create(this.enchantmentLevel, 2));
     }
 
+    @Override
+    public void onContentChanged(Inventory inventory) {
+        if (inventory == this.inventory) {
+            ItemStack itemStack = inventory.getStack(0);
+            if (!itemStack.isEmpty() && itemStack.isEnchantable()) {
+                this.context.run((world, pos) -> {
+                    IndexedIterable<RegistryEntry<Enchantment>> indexedIterable = world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getIndexedEntries();
+                    int ix = 0;
+
+                    for (BlockPos blockPos : NewEnchantingTableBlock.POWER_PROVIDER_OFFSETS) {
+                        if (NewEnchantingTableBlock.canAccessPowerProvider(world, pos, blockPos)) {
+                            ix++;
+                        }
+                    }
+
+                    this.random.setSeed(this.seed.get());
+
+                    for (int j = 0; j < 3; j++) {
+                        this.enchantmentPower[j] = EnchantmentHelper.calculateRequiredExperienceLevel(this.random, j, ix, itemStack);
+                        this.enchantmentId[j] = -1;
+                        this.enchantmentLevel[j] = -1;
+                        if (this.enchantmentPower[j] < j + 1) {
+                            this.enchantmentPower[j] = 0;
+                        }
+                    }
+
+                    for (int jx = 0; jx < 3; jx++) {
+                        if (this.enchantmentPower[jx] > 0) {
+                            List<EnchantmentLevelEntry> list = this.generateEnchantments(world.getRegistryManager(), itemStack, jx, this.enchantmentPower[jx]);
+                            if (list != null && !list.isEmpty()) {
+                                EnchantmentLevelEntry enchantmentLevelEntry = list.get(this.random.nextInt(list.size()));
+                                this.enchantmentId[jx] = indexedIterable.getRawId(enchantmentLevelEntry.enchantment);
+                                this.enchantmentLevel[jx] = enchantmentLevelEntry.level;
+                            }
+                        }
+                    }
+
+                    this.sendContentUpdates();
+                });
+            } else {
+                for (int i = 0; i < 3; i++) {
+                    this.enchantmentPower[i] = 0;
+                    this.enchantmentId[i] = -1;
+                    this.enchantmentLevel[i] = -1;
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean onButtonClick(PlayerEntity player, int id) {
+        if (id >= 0 && id < this.enchantmentPower.length) {
+            ItemStack itemStack = this.inventory.getStack(0);
+            ItemStack itemStack2 = this.inventory.getStack(1);
+            int i = id + 1;
+            if ((itemStack2.isEmpty() || itemStack2.getCount() < i) && !player.isInCreativeMode()) {
+                return false;
+            } else if (this.enchantmentPower[id] <= 0
+                    || itemStack.isEmpty()
+                    || (player.experienceLevel < i || player.experienceLevel < this.enchantmentPower[id]) && !player.getAbilities().creativeMode) {
+                return false;
+            } else {
+                this.context.run((world, pos) -> {
+                    ItemStack itemStack3 = itemStack;
+                    List<EnchantmentLevelEntry> list = this.generateEnchantments(world.getRegistryManager(), itemStack, id, this.enchantmentPower[id]);
+                    if (!list.isEmpty()) {
+                        player.applyEnchantmentCosts(itemStack, i);
+                        if (itemStack.isOf(Items.BOOK)) {
+                            itemStack3 = itemStack.withItem(Items.ENCHANTED_BOOK);
+                            this.inventory.setStack(0, itemStack3);
+                        }
+
+                        for (EnchantmentLevelEntry enchantmentLevelEntry : list) {
+                            itemStack3.addEnchantment(enchantmentLevelEntry.enchantment, enchantmentLevelEntry.level);
+                        }
+
+                        itemStack2.decrementUnlessCreative(i, player);
+                        if (itemStack2.isEmpty()) {
+                            this.inventory.setStack(1, ItemStack.EMPTY);
+                        }
+
+                        player.incrementStat(Stats.ENCHANT_ITEM);
+                        if (player instanceof ServerPlayerEntity) {
+                            Criteria.ENCHANTED_ITEM.trigger((ServerPlayerEntity)player, itemStack3, i);
+                        }
+
+                        this.inventory.markDirty();
+                        this.seed.set(player.getEnchantingTableSeed());
+                        this.onContentChanged(this.inventory);
+                        world.playSound(null, pos, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                    }
+                });
+                return true;
+            }
+        } else {
+            Util.logErrorOrPause(player.getName() + " pressed invalid button id: " + id);
+            return false;
+        }
+    }
+
+    private List<EnchantmentLevelEntry> generateEnchantments(DynamicRegistryManager registryManager, ItemStack stack, int slot, int level) {
+        this.random.setSeed(this.seed.get() + slot);
+        Optional<RegistryEntryList.Named<Enchantment>> optional = registryManager.getOrThrow(RegistryKeys.ENCHANTMENT)
+                .getOptional(EnchantmentTags.IN_ENCHANTING_TABLE);
+        if (optional.isEmpty()) {
+            return List.of();
+        } else {
+            List<EnchantmentLevelEntry> list = EnchantmentHelper.generateEnchantments(this.random, stack, level, ((RegistryEntryList.Named)optional.get()).stream());
+            if (stack.isOf(Items.BOOK) && list.size() > 1) {
+                list.remove(this.random.nextInt(list.size()));
+            }
+
+            return list;
+        }
+    }
+
     public int getLapisCount() {
         ItemStack itemStack = this.inventory.getStack(1);
         return itemStack.isEmpty() ? 0 : itemStack.getCount();
@@ -105,7 +220,7 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return canUse(this.context, player, Blocks.ENCHANTING_TABLE);
+        return canUse(this.context, player, ModBlocks.NEW_ENCHANTING_TABLE_BLOCK);
     }
 
     @Override
