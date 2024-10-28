@@ -1,33 +1,21 @@
 package sircow.placeholder.screen;
 
-import com.google.common.collect.Lists;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.EnchantingPhrases;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.model.BookModel;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.StringVisitable;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.random.Random;
 import sircow.placeholder.Placeholder;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
 public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTableBlockScreenHandler> {
@@ -44,8 +32,10 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     private static final Identifier ENCHANTMENT_SLOT_DISABLED_TEXTURE = Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchantment_slot_disabled");
     private static final Identifier ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE = Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchantment_slot_highlighted");
     private static final Identifier ENCHANTMENT_SLOT_TEXTURE = Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchantment_slot");
-    private static final Identifier TEXTURE = Identifier.of(Placeholder.MOD_ID, "textures/gui/container/new_enchanting_table_gui.png");
+    private static final Identifier TEXTURE = Identifier.of(Placeholder.MOD_ID,"textures/gui/container/new_enchanting_table_gui.png");
     private static final Identifier BOOK_TEXTURE = Identifier.ofVanilla("textures/entity/enchanting_table_book.png");
+    private static final Identifier SCROLLER_TEXTURE = Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/scroller");
+    private static final Identifier SCROLLER_DISABLED_TEXTURE = Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/scroller_disabled");
     private final Random random = Random.create();
     private BookModel BOOK_MODEL;
     public float nextPageAngle;
@@ -55,6 +45,9 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     public float nextPageTurningSpeed;
     public float pageTurningSpeed;
     private ItemStack stack;
+    private boolean itemInEnchantSlot;
+
+    private final Slot itemSlot = this.handler.getInputSlot();
 
     public NewEnchantingTableBlockScreen(NewEnchantingTableBlockScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -74,67 +67,15 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
         this.doTick();
     }
 
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        int i = (this.width - this.backgroundWidth) / 2;
-        int j = (this.height - this.backgroundHeight) / 2;
-
-        if (this.client != null){
-            for(int k = 0; k < 3; ++k) {
-                double d = mouseX - (double)(i + 60);
-                double e = mouseY - (double)(j + 14 + 19 * k);
-                if (d >= 0.0 && e >= 0.0 && d < 108.0 && e < 19.0 && this.handler.onButtonClick(this.client.player, k)) {
-                    if (this.client.interactionManager != null) {
-                        this.client.interactionManager.clickButton(this.handler.syncId, k);
-                    }
-                    return true;
-                }
-            }
-        }
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
         context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, i, j, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 256, 256);
         this.drawBook(context, i, j, delta);
-        EnchantingPhrases.getInstance().setSeed(this.handler.getSeed());
-        int k = this.handler.getLapisCount();
 
-        for(int l = 0; l < 3; ++l) {
-            int m = i + 60;
-            int n = m + 20;
-            int o = this.handler.enchantmentPower[l];
-            if (o == 0) {
-                //context.drawGuiTexture(RenderLayer::getGuiTextured, ENCHANTMENT_SLOT_DISABLED_TEXTURE, m, j + 14 + 19 * l, 108, 19);
-            } else {
-                String string = "" + o;
-                int p = 86 - this.textRenderer.getWidth(string);
-                StringVisitable stringVisitable = EnchantingPhrases.getInstance().generatePhrase(this.textRenderer, p);
-                int q = 6839882;
-                if ((k < l + 1 || Objects.requireNonNull(Objects.requireNonNull(this.client).player).experienceLevel < o) && !Objects.requireNonNull(Objects.requireNonNull(this.client).player).getAbilities().creativeMode) {
-                    //context.drawGuiTexture(RenderLayer::getGuiTextured, ENCHANTMENT_SLOT_DISABLED_TEXTURE, m, j + 14 + 19 * l, 108, 19);
-                    //context.drawGuiTexture(RenderLayer::getGuiTextured, LEVEL_DISABLED_TEXTURES[l], m + 1, j + 15 + 19 * l, 16, 16);
-                    context.drawTextWrapped(this.textRenderer, stringVisitable, n, j + 16 + 19 * l, p, (q & 16711422) >> 1);
-                    q = 4226832;
-                } else {
-                    int r = mouseX - (i + 60);
-                    int s = mouseY - (j + 14 + 19 * l);
-                    if (r >= 0 && s >= 0 && r < 108 && s < 19) {
-                        //context.drawGuiTexture(RenderLayer::getGuiTextured, ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE, m, j + 14 + 19 * l, 108, 19);
-                        q = 16777088;
-                    } else {
-                        //context.drawGuiTexture(RenderLayer::getGuiTextured, ENCHANTMENT_SLOT_TEXTURE, m, j + 14 + 19 * l, 108, 19);
-                    }
-
-                    //context.drawGuiTexture(RenderLayer::getGuiTextured, LEVEL_TEXTURES[l], m + 1, j + 15 + 19 * l, 16, 16);
-                    context.drawTextWrapped(this.textRenderer, stringVisitable, n, j + 16 + 19 * l, p, q);
-                    q = 8453920;
-                }
-                context.drawTextWithShadow(this.textRenderer, string, n + 86 - this.textRenderer.getWidth(string), j + 16 + 19 * l + 7, q);
-            }
-        }
+        Identifier identifier = this.itemInEnchantSlot ? SCROLLER_TEXTURE : SCROLLER_DISABLED_TEXTURE;
+        context.drawGuiTexture(RenderLayer::getGuiTextured, identifier, i + 156, j + 13, 12, 15);
     }
 
     private void drawBook(DrawContext context, int x, int y, float delta) {
@@ -169,49 +110,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             super.render(context, mouseX, mouseY, f);
             this.drawMouseoverTooltip(context, mouseX, mouseY);
             if (this.client.player != null) {
-                boolean bl = this.client.player.getAbilities().creativeMode;
-                int i = this.handler.getLapisCount();
-
-                for(int j = 0; j < 3; ++j) {
-                    int k = this.handler.enchantmentPower[j];
-                    if (this.client.world != null) {
-                        Optional<RegistryEntry.Reference<Enchantment>> optional = this.client.world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getEntry(this.handler.enchantmentId[j]);
-                        if (optional.isPresent()) {
-                            int l = this.handler.enchantmentLevel[j];
-                            int m = j + 1;
-                            if (this.isPointWithinBounds(60, 14 + 19 * j, 108, 17, mouseX, mouseY) && k > 0 && l >= 0) {
-                                List<Text> list = Lists.newArrayList();
-                                list.add(Text.translatable("container.enchant.clue", Enchantment.getName(optional.get(), l)).formatted(Formatting.WHITE));
-                                if (!bl) {
-                                    list.add(ScreenTexts.EMPTY);
-                                    if (this.client.player.experienceLevel < k) {
-                                        list.add(Text.translatable("container.enchant.level.requirement", this.handler.enchantmentPower[j]).formatted(Formatting.RED));
-                                    } else {
-                                        MutableText mutableText;
-                                        if (m == 1) {
-                                            mutableText = Text.translatable("container.enchant.lapis.one");
-                                        } else {
-                                            mutableText = Text.translatable("container.enchant.lapis.many", m);
-                                        }
-
-                                        list.add(mutableText.formatted(i >= m ? Formatting.GRAY : Formatting.RED));
-                                        MutableText mutableText2;
-                                        if (m == 1) {
-                                            mutableText2 = Text.translatable("container.enchant.level.one");
-                                        } else {
-                                            mutableText2 = Text.translatable("container.enchant.level.many", m);
-                                        }
-
-                                        list.add(mutableText2.formatted(Formatting.GRAY));
-                                    }
-                                }
-
-                                context.drawTooltip(this.textRenderer, list, mouseX, mouseY);
-                                break;
-                            }
-                        }
-                    }
-                }
+                itemInEnchantSlot = itemSlot.getStack() != null;
             }
         }
     }

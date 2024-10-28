@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 import sircow.placeholder.Placeholder;
 
 public class NewLoomBlockScreen extends HandledScreen<NewLoomBlockScreenHandler> {
-    private static final Identifier TEXTURE = Identifier.of(Placeholder.MOD_ID, "textures/gui/new_loom_gui.png");
+    private static final Identifier TEXTURE = Identifier.of(Placeholder.MOD_ID, "textures/gui/container/new_loom_gui.png");
 
     public NewLoomBlockScreen(NewLoomBlockScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);

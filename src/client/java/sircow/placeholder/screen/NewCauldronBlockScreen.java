@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 import sircow.placeholder.Placeholder;
 
 public class NewCauldronBlockScreen extends HandledScreen<NewCauldronBlockScreenHandler> {
-    private static final Identifier TEXTURE = Identifier.of(Placeholder.MOD_ID, "textures/gui/new_cauldron_gui.png");
+    private static final Identifier TEXTURE = Identifier.of(Placeholder.MOD_ID, "textures/gui/container/new_cauldron_gui.png");
 
     public NewCauldronBlockScreen(NewCauldronBlockScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
