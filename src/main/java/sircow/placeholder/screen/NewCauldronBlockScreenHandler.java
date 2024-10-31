@@ -76,7 +76,7 @@ public class NewCauldronBlockScreenHandler extends ScreenHandler {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
         PotionContentsComponent potionContentsComponent = slot.getStack().get(DataComponentTypes.POTION_CONTENTS);
-        if (slot != null && slot.hasStack()) {
+        if (slot.hasStack()) {
             ItemStack originalStack = slot.getStack();
             newStack = originalStack.copy();
             Item inputCheck = conversionMap.get(originalStack.getItem());

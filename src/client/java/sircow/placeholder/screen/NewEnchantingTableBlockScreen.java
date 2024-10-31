@@ -29,6 +29,44 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/20_levels_disabled"),
             Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/30_levels_disabled")
     };
+    private static final Identifier[] ENCHANTMENT_ICON_TEXTURES = new Identifier[]{
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/aqua_affinity"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/bane_of_arthropods"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/blast_protection"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/breach"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/channeling"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/density"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/depth_strider"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/efficiency"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/feather_falling"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/fire_aspect"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/fire_protection"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/flame"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/fortune"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/impaling"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/infinity"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/knockback"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/looting"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/loyalty"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/luck_of_the_sea"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/lure"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/multishot"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/piercing"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/power"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/projectile_protection"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/protection"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/punch"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/quick_charge"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/respiration"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/riptide"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/sharpness"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/silk_touch"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/smite"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/sweeping_edge"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/thorns"),
+            Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchant_overlay/unbreaking"),
+    };
+
     private static final Identifier ENCHANTMENT_SLOT_DISABLED_TEXTURE = Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchantment_slot_disabled");
     private static final Identifier ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE = Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchantment_slot_highlighted");
     private static final Identifier ENCHANTMENT_SLOT_TEXTURE = Identifier.of(Placeholder.MOD_ID,"container/enchanting_table/enchantment_slot");
@@ -46,6 +84,9 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     public float pageTurningSpeed;
     private ItemStack stack;
     private boolean itemInEnchantSlot;
+    private float scrollAmount;
+    private boolean mouseClicked;
+    private int scrollOffset;
 
     private final Slot itemSlot = this.handler.getInputSlot();
 
@@ -74,8 +115,14 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
         context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, i, j, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 256, 256);
         this.drawBook(context, i, j, delta);
 
-        Identifier identifier = this.itemInEnchantSlot ? SCROLLER_TEXTURE : SCROLLER_DISABLED_TEXTURE;
-        context.drawGuiTexture(RenderLayer::getGuiTextured, identifier, i + 156, j + 13, 12, 15);
+        int k = (int)(41.0F * this.scrollAmount);
+        Identifier identifier = this.shouldScroll() ? SCROLLER_TEXTURE : SCROLLER_DISABLED_TEXTURE;
+        context.drawGuiTexture(RenderLayer::getGuiTextured, identifier, i + 156, j + 13 + k, 12, 15);
+        int l = this.x + 97;
+        int m = this.y + 12;
+        int n = this.scrollOffset + 16;
+        this.renderIcons(context, l, m, n);
+        this.renderEXPIcons(context, this.x + 71, this.y + 13);
     }
 
     private void drawBook(DrawContext context, int x, int y, float delta) {
@@ -109,14 +156,102 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             float f = this.client.getRenderTickCounter().getTickDelta(false);
             super.render(context, mouseX, mouseY, f);
             this.drawMouseoverTooltip(context, mouseX, mouseY);
-            if (this.client.player != null) {
-                itemInEnchantSlot = itemSlot.getStack() != null;
+        }
+    }
+
+    private void renderIcons(DrawContext context, int x, int y, int scrollOffset) {
+        for (int i = this.scrollOffset; i < scrollOffset && i < ENCHANTMENT_ICON_TEXTURES.length; i++) {
+            int j = i - this.scrollOffset;
+            int k = x + j % 4 * 14;
+            int l = j / 4;
+            int m = y + l * 14 + 2;
+            context.drawGuiTexture(RenderLayer::getGuiTextured, ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
+            context.drawGuiTexture(RenderLayer::getGuiTextured, ENCHANTMENT_ICON_TEXTURES[i], k, m, 14, 14);
+        }
+    }
+
+    private void renderEXPIcons(DrawContext context, int x, int y) {
+        context.drawGuiTexture(RenderLayer::getGuiTextured, LEVEL_DISABLED_TEXTURES[0], x, y, 16, 16);
+        context.drawGuiTexture(RenderLayer::getGuiTextured, LEVEL_DISABLED_TEXTURES[1], x, y + 20, 16, 16);
+        context.drawGuiTexture(RenderLayer::getGuiTextured, LEVEL_DISABLED_TEXTURES[2], x, y + 40, 16, 16);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        this.mouseClicked = false;
+        if (this.itemInEnchantSlot) {
+            int i = this.x + 52;
+            int j = this.y + 14;
+            int k = this.scrollOffset + 12;
+
+            for (int l = this.scrollOffset; l < k; l++) {
+                int m = l - this.scrollOffset;
+                double d = mouseX - (double)(i + m % 4 * 16);
+                double e = mouseY - (double)(j + m / 4 * 18);
+                if (d >= 0.0 && e >= 0.0 && d < 16.0 && e < 18.0) {
+                    if (this.client != null) {
+                        if (this.handler.onButtonClick(this.client.player, l)) {
+                            if (this.client.interactionManager != null) {
+                                this.client.interactionManager.clickButton(this.handler.syncId, l);
+                                return true;
+                            }
+                        }
+                    }
+                }
             }
+
+            i = this.x + 156;
+            j = this.y + 9;
+            if (mouseX >= (double)i && mouseX < (double)(i + 12) && mouseY >= (double)j && mouseY < (double)(j + 54)) {
+                this.mouseClicked = true;
+            }
+        }
+
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        if (this.mouseClicked && this.shouldScroll()) {
+            int i = this.y + 14;
+            int j = i + 54;
+            this.scrollAmount = ((float)mouseY - (float)i - 7.5F) / ((float)(j - i) - 15.0F);
+            this.scrollAmount = MathHelper.clamp(this.scrollAmount, 0.0F, 1.0F);
+            this.scrollOffset = (int)((double)(this.scrollAmount * (float)this.getMaxScroll()) + 0.5) * 4;
+            return true;
+        } else {
+            return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+        }
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        if (super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+            return true;
+        } else {
+            if (this.shouldScroll()) {
+                int i = this.getMaxScroll();
+                float f = (float)verticalAmount / (float)i;
+                this.scrollAmount = MathHelper.clamp(this.scrollAmount - f, 0.0F, 1.0F);
+                this.scrollOffset = (int)((double)(this.scrollAmount * (float)i) + 0.5) * 4;
+            }
+
+            return true;
         }
     }
 
     public void doTick() {
         ItemStack itemStack = this.handler.getSlot(0).getStack();
+
+        if (!this.handler.inputSlot.getStack().isEmpty()) {
+            this.itemInEnchantSlot = true;
+            //Placeholder.LOGGER.info("enchants: {}", this.handler.getAllEnchantments());
+        }
+        else {
+            this.itemInEnchantSlot = false;
+        }
+
+
         if (!ItemStack.areEqual(itemStack, this.stack)) {
             this.stack = itemStack;
 
@@ -148,5 +283,13 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
         f = MathHelper.clamp(f, -0.2F, 0.2F);
         this.pageRotationSpeed += (f - this.pageRotationSpeed) * 0.9F;
         this.nextPageAngle += this.pageRotationSpeed;
+    }
+
+    private boolean shouldScroll() {
+        return this.itemInEnchantSlot && ENCHANTMENT_ICON_TEXTURES.length > 16;
+    }
+
+    protected int getMaxScroll() {
+        return (ENCHANTMENT_ICON_TEXTURES.length + 4 - 1) / 4 - 3;
     }
 }

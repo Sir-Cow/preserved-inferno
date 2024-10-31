@@ -289,12 +289,7 @@ public class NewCauldronBlockEntity extends BlockEntity implements ExtendedScree
             boolean hasInput = getStack(INPUT_SLOT).getItem() == inputItem;
             return hasInput && this.progressWater >= 1 && canInsertAmountIntoOutputSlot(result) && canInsertItemIntoOutputSlot(result.getItem());
         }
-        else if (this.getStack(INPUT_SLOT).contains(DataComponentTypes.DYED_COLOR)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        else return this.getStack(INPUT_SLOT).contains(DataComponentTypes.DYED_COLOR);
     }
 
     private boolean canInsertItemIntoOutputSlot(Item item) {

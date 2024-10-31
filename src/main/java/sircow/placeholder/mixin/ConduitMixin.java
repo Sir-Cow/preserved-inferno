@@ -47,13 +47,13 @@ public class ConduitMixin {
         int k = pos.getX();
         int l = pos.getY();
         int m = pos.getZ();
-        Box box = new Box((double) k, (double) l, (double) m, (double) (k + 1), (double) (l + 1), (double) (m + 1))
-                .expand((double) j)
-                .stretch(0.0, (double) world.getHeight(), 0.0);
+        Box box = new Box(k, l, m, k + 1, l + 1, m + 1)
+                .expand(j)
+                .stretch(0.0, world.getHeight(), 0.0);
         List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
         if (!list.isEmpty()) {
             for (PlayerEntity playerEntity : list) {
-                if (pos.isWithinDistance(playerEntity.getBlockPos(), (double) j)) {
+                if (pos.isWithinDistance(playerEntity.getBlockPos(), j)) {
                     playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.CONDUIT_POWER, 260, 0, true, true));
                 }
             }
@@ -73,7 +73,6 @@ public class ConduitMixin {
                 if (world instanceof ServerWorld serverWorld) {
                     targetEntity.damage(serverWorld, damageSource, 4.0F);
                 }
-
             }
         }
         ci.cancel();
