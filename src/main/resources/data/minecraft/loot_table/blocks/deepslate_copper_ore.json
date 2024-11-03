@@ -1,4 +1,3 @@
-
 {
   "type": "minecraft:block",
   "pools": [
@@ -27,7 +26,7 @@
                   }
                 }
               ],
-              "name": "minecraft:gold_ore"
+              "name": "minecraft:deepslate_copper_ore"
             },
             {
               "type": "minecraft:item",
@@ -36,8 +35,8 @@
                   "add": false,
                   "count": {
                     "type": "minecraft:uniform",
-                    "max": 2.0,
-                    "min": 1.0
+                    "max": 6.0,
+                    "min": 9.0
                   },
                   "function": "minecraft:set_count"
                 },
@@ -50,7 +49,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "placeholder:raw_gold_chunk"
+              "name": "minecraft:raw_copper"
             }
           ]
         }
@@ -58,5 +57,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "minecraft:blocks/gold_ore"
+  "random_sequence": "minecraft:blocks/deepslate_copper_ore"
 }

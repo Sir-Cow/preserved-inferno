@@ -2,14 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "placeholder:raw_gold_chunk"
+    "#": "minecraft:soul_torch",
+    "X": "minecraft:iron_nugget"
   },
   "pattern": [
-    "##",
-    "##"
+    " X ",
+    "X#X",
+    " X "
   ],
   "result": {
     "count": 1,
-    "id": "minecraft:raw_gold"
+    "id": "minecraft:soul_lantern"
   }
 }

@@ -1,13 +1,22 @@
 package sircow.placeholder.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.*;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
+import net.minecraft.item.equipment.EquipmentModels;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Rarity;
+import net.minecraft.util.Unit;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
+import sircow.placeholder.item.ModItems;
 
 @Mixin(Items.class)
 public abstract class ItemsMixin {
@@ -155,5 +164,27 @@ public abstract class ItemsMixin {
         return original.food(FoodComponents.TROPICAL_FISH, ConsumableComponent.builder()
                 .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.HUNGER, 600, 0), 1.0F))
                 .build());
+    }
+
+    // make items edible
+    @WrapOperation(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=glistering_melon_slice")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;)Lnet/minecraft/item/Item;", ordinal = 0))
+    private static Item modifyGlisteringMelonSlice(String id, Operation<Item> original) {
+        return Items.register("glistering_melon_slice", new Item.Settings().food(new FoodComponent.Builder().nutrition(6).saturationModifier(1.2F).alwaysEdible().build(), ConsumableComponent.builder()
+                .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 1), 1.0F))
+                .build()));
+    }
+
+    // modify elytra repair item
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=elytra")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
+    private static Item.Settings modifyElytra(Item.Settings original) {
+        return original.maxDamage(432)
+                .rarity(Rarity.EPIC)
+                .component(DataComponentTypes.GLIDER, Unit.INSTANCE)
+                .component(
+                        DataComponentTypes.EQUIPPABLE,
+                        EquippableComponent.builder(EquipmentSlot.CHEST).equipSound(SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA).model(EquipmentModels.ELYTRA).damageOnHurt(false).build()
+                ).repairable(ModItems.PHANTOM_SINEW);
     }
 }

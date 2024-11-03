@@ -5,9 +5,8 @@
     "#": "placeholder:raw_copper_chunk"
   },
   "pattern": [
-    "###",
-    "###",
-    "###"
+    "##",
+    "##"
   ],
   "result": {
     "count": 1,

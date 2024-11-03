@@ -5,9 +5,8 @@
     "#": "placeholder:raw_iron_chunk"
   },
   "pattern": [
-    "###",
-    "###",
-    "###"
+    "##",
+    "##"
   ],
   "result": {
     "count": 1,
