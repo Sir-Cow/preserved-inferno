@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 25,
+  "experience": 0.1,
+  "ingredient": [
+    "placeholder:raw_copper_chunk"
+  ],
+  "result": {
+    "id": "placeholder:copper_nugget"
+  }
+}

@@ -20,6 +20,11 @@ public class ModItemGroups {
                         entries.add(ModItems.HOLLOW_TWINE);
                         entries.add(ModItems.DREAMCATCHER);
 
+                        entries.add(ModItems.RAW_IRON_CHUNK);
+                        entries.add(ModItems.RAW_GOLD_CHUNK);
+                        entries.add(ModItems.RAW_COPPER_CHUNK);
+                        entries.add(ModItems.COPPER_NUGGET);
+
                         entries.add(ModItems.BLACK_CLOTH);
                         entries.add(ModItems.BLUE_CLOTH);
                         entries.add(ModItems.BROWN_CLOTH);

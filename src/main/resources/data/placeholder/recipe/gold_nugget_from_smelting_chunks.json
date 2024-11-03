@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 50,
+  "experience": 0.1,
+  "ingredient": [
+    "placeholder:raw_gold_chunk"
+  ],
+  "result": {
+    "id": "minecraft:gold_nugget"
+  }
+}

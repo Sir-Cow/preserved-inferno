@@ -20,6 +20,11 @@ public class ModItems {
     public static final Item HOLLOW_TWINE = registerItem("hollow_twine");
     public static final Item DREAMCATCHER = register("dreamcatcher", new Item.Settings().maxCount(1));
 
+    public static final Item RAW_IRON_CHUNK = registerItem("raw_iron_chunk");
+    public static final Item RAW_GOLD_CHUNK = registerItem("raw_gold_chunk");
+    public static final Item RAW_COPPER_CHUNK = registerItem("raw_copper_chunk");
+    public static final Item COPPER_NUGGET = registerItem("copper_nugget");
+
     public static final Item BLACK_CLOTH = registerItem("black_cloth");
     public static final Item BLUE_CLOTH = registerItem("blue_cloth");
     public static final Item BROWN_CLOTH = registerItem("brown_cloth");
