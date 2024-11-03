@@ -9,7 +9,17 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:mutton"
+          "name": "minecraft:mutton",
+          "functions": [
+            {
+              "function": "minecraft:enchanted_count_increase",
+              "enchantment": "minecraft:looting",
+              "count": {
+                "min": 0,
+                "max": 1
+              }
+            }
+          ]
         }
       ]
     },

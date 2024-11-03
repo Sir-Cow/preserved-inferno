@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "raw_iron_chunk",
+  "ingredients": [
+    "minecraft:raw_iron"
+  ],
+  "result": {
+    "count": 9,
+    "id": "placeholder:raw_iron_chunk"
+  }
+}
