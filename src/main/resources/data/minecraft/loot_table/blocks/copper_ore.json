@@ -26,7 +26,7 @@
                   }
                 }
               ],
-              "name": "placeholder:raw_copper_chunk"
+              "name": "minecraft:copper_ore"
             },
             {
               "type": "minecraft:item",
@@ -49,7 +49,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "minecraft:raw_copper"
+              "name": "placeholder:raw_copper_chunk"
             }
           ]
         }

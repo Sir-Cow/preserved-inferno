@@ -49,7 +49,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "minecraft:raw_copper"
+              "name": "placeholder:raw_copper_chunk"
             }
           ]
         }

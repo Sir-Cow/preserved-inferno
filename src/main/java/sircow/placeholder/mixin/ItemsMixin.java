@@ -170,7 +170,7 @@ public abstract class ItemsMixin {
     @WrapOperation(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=glistering_melon_slice")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;)Lnet/minecraft/item/Item;", ordinal = 0))
     private static Item modifyGlisteringMelonSlice(String id, Operation<Item> original) {
-        return Items.register("glistering_melon_slice", new Item.Settings().food(new FoodComponent.Builder().nutrition(6).saturationModifier(1.2F).alwaysEdible().build(), ConsumableComponent.builder()
+        return Items.register("glistering_melon_slice", new Item.Settings().food(new FoodComponent.Builder().nutrition(6).saturationModifier(1.2F).alwaysEdible().build(), ConsumableComponent.builder().consumeSeconds(0.8F)
                 .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 1), 1.0F))
                 .build()));
     }
