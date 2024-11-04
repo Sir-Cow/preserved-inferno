@@ -10,6 +10,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
+import net.minecraft.item.consume.TeleportRandomlyConsumeEffect;
 import net.minecraft.item.equipment.EquipmentModels;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Rarity;
@@ -58,14 +59,18 @@ public abstract class ItemsMixin {
         return original.food(FoodComponents.BEETROOT, ConsumableComponent.builder().consumeSeconds(0.8F).build());
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=carrot")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
+            target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
     private static Item.Settings modifyCarrot(Item.Settings original) {
         return original.food(FoodComponents.CARROT, ConsumableComponent.builder().consumeSeconds(0.8F).build());
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=chorus_fruit")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
     private static Item.Settings modifyChorusFruit(Item.Settings original) {
-        return original.food(FoodComponents.CHORUS_FRUIT, ConsumableComponent.builder().consumeSeconds(0.8F).build());
+        return original.food(FoodComponents.CHORUS_FRUIT, ConsumableComponent.builder()
+                .consumeSeconds(0.8F)
+                .consumeEffect(new TeleportRandomlyConsumeEffect())
+                .build())
+                .useCooldown(1.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=cookie")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
@@ -73,7 +78,7 @@ public abstract class ItemsMixin {
         return original.food(FoodComponents.COOKIE, ConsumableComponent.builder().consumeSeconds(0.8F).build());
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=glow_berries")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
+            target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
     private static Item.Settings modifyGlowBerries(Item.Settings original) {
         return original.food(FoodComponents.GLOW_BERRIES, ConsumableComponent.builder().consumeSeconds(0.8F).build());
     }
@@ -85,10 +90,13 @@ public abstract class ItemsMixin {
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=poisonous_potato")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
     private static Item.Settings modifyPoisonousPotato(Item.Settings original) {
-        return original.food(FoodComponents.POISONOUS_POTATO, ConsumableComponent.builder().consumeSeconds(0.8F).build());
+        return original.food(FoodComponents.POISONOUS_POTATO, ConsumableComponent.builder()
+        .consumeSeconds(0.8F)
+        .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0), 0.6F))
+        .build());
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=potato")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
+            target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
     private static Item.Settings modifyPotato(Item.Settings original) {
         return original.food(FoodComponents.POTATO, ConsumableComponent.builder().consumeSeconds(0.8F).build());
     }
@@ -154,7 +162,7 @@ public abstract class ItemsMixin {
         return original.food(FoodComponents.SPIDER_EYE, ConsumableComponent.builder().consumeSeconds(0.8F).build());
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=sweet_berries")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
+            target = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/item/Item$Settings;)Lnet/minecraft/item/Item;", ordinal = 0))
     private static Item.Settings modifySweetBerries(Item.Settings original) {
         return original.food(FoodComponents.SWEET_BERRIES, ConsumableComponent.builder().consumeSeconds(0.8F).build());
     }
