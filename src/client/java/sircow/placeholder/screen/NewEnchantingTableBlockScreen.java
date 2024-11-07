@@ -8,7 +8,11 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.model.BookModel;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -16,6 +20,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.random.Random;
 import sircow.placeholder.Placeholder;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Environment(EnvType.CLIENT)
 public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTableBlockScreenHandler> {
@@ -87,6 +95,60 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     private float scrollAmount;
     private boolean mouseClicked;
     private int scrollOffset;
+    private String itemCategory;
+    private boolean tenTextureActive;
+    private boolean twentyTextureActive;
+    private boolean thirtyTextureActive;
+
+    private static final Map<String, Set<Integer>> itemCategorySlots = new HashMap<>();
+    static {
+        itemCategorySlots.put("sword", Set.of(1, 9, 15, 16, 29, 31, 32, 34));
+        itemCategorySlots.put("axe", Set.of(7, 12, 30, 34));
+        itemCategorySlots.put("tool", Set.of(7, 12, 30, 34));
+        itemCategorySlots.put("bow", Set.of(11, 14, 22, 25, 34));
+        itemCategorySlots.put("fishing_rod", Set.of(18, 19, 34));
+        itemCategorySlots.put("trident", Set.of(4, 13, 17, 28, 34));
+        itemCategorySlots.put("mace", Set.of(3, 5, 9));
+        itemCategorySlots.put("crossbow", Set.of(20, 21, 26, 34));
+    }
+
+    public String[] enchantmentNames = {
+            "Aqua Affinity",
+            "Bane Of Arthropods",
+            "Blast Protection",
+            "Breach",
+            "Channeling",
+            "Density",
+            "Depth Strider",
+            "Efficiency",
+            "Feather Falling",
+            "Fire Aspect",
+            "Fire Protection",
+            "Flame",
+            "Fortune",
+            "Impaling",
+            "Infinity",
+            "Knockback",
+            "Looting",
+            "Loyalty",
+            "Luck Of The Sea",
+            "Lure",
+            "Multishot",
+            "Piercing",
+            "Power",
+            "Projectile Protection",
+            "Protection",
+            "Punch",
+            "Quick Charge",
+            "Respiration",
+            "Riptide",
+            "Sharpness",
+            "Silk Touch",
+            "Smite",
+            "Sweeping Edge",
+            "Thorns",
+            "Unbreaking"
+    };
 
     private final Slot itemSlot = this.handler.getInputSlot();
 
@@ -101,6 +163,9 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
         if (this.client != null) {
             this.BOOK_MODEL = new BookModel(this.client.getEntityModelLoader().getModelPart(EntityModelLayers.BOOK));
         }
+        this.tenTextureActive = false;
+        this.twentyTextureActive = false;
+        this.thirtyTextureActive = false;
     }
 
     public void handledScreenTick() {
@@ -165,15 +230,39 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             int k = x + j % 4 * 14;
             int l = j / 4;
             int m = y + l * 14 + 2;
-            context.drawGuiTexture(RenderLayer::getGuiTextured, ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
+
+            if (!this.itemInEnchantSlot) {
+                context.drawGuiTexture(RenderLayer::getGuiTextured, ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
+            }
+            Set<Integer> slots = itemCategorySlots.get(this.itemCategory);
+            context.drawGuiTexture(RenderLayer::getGuiTextured, slots != null && slots.contains(i) ? ENCHANTMENT_SLOT_TEXTURE : ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
             context.drawGuiTexture(RenderLayer::getGuiTextured, ENCHANTMENT_ICON_TEXTURES[i], k, m, 14, 14);
         }
     }
 
     private void renderEXPIcons(DrawContext context, int x, int y) {
-        context.drawGuiTexture(RenderLayer::getGuiTextured, LEVEL_DISABLED_TEXTURES[0], x, y, 16, 16);
-        context.drawGuiTexture(RenderLayer::getGuiTextured, LEVEL_DISABLED_TEXTURES[1], x, y + 20, 16, 16);
-        context.drawGuiTexture(RenderLayer::getGuiTextured, LEVEL_DISABLED_TEXTURES[2], x, y + 40, 16, 16);
+        context.drawGuiTexture(RenderLayer::getGuiTextured, !tenTextureActive ? LEVEL_DISABLED_TEXTURES[0] : LEVEL_TEXTURES[0], x, y, 16, 16);
+        context.drawGuiTexture(RenderLayer::getGuiTextured, !twentyTextureActive ? LEVEL_DISABLED_TEXTURES[1] : LEVEL_TEXTURES[1], x, y + 20, 16, 16);
+        context.drawGuiTexture(RenderLayer::getGuiTextured, !thirtyTextureActive ? LEVEL_DISABLED_TEXTURES[2] : LEVEL_TEXTURES[2], x, y + 40, 16, 16);
+    }
+
+    @Override
+    protected void drawMouseoverTooltip(DrawContext context, int x, int y) {
+        super.drawMouseoverTooltip(context, x, y);
+        int scrollOffset = this.scrollOffset + 16;
+        Set<Integer> slots = itemCategorySlots.get(this.itemCategory);
+        if (this.itemInEnchantSlot) {
+            for (int i = this.scrollOffset; i < scrollOffset && i < ENCHANTMENT_ICON_TEXTURES.length; i++) {
+                int j = i - this.scrollOffset;
+                int k = 97 + j % 4 * 14;
+                int l = j / 4;
+                int m = 12 + l * 14 + 2;
+                if (this.isPointWithinBounds(k, m, 14, 14, x, y) && slots != null && slots.contains(i)) {
+                    context.drawTooltip(this.textRenderer, Text.literal(this.enchantmentNames[i]), x, y);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -245,10 +334,37 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
 
         if (!this.handler.inputSlot.getStack().isEmpty()) {
             this.itemInEnchantSlot = true;
-            //Placeholder.LOGGER.info("enchants: {}", this.handler.getAllEnchantments());
+
+            RegistryEntry<Item> entry = Registries.ITEM.getEntry(itemStack.getItem());
+
+            if (entry.isIn(ItemTags.SWORDS)) {
+                this.itemCategory = "sword";
+            }
+            else if (entry.isIn(ItemTags.AXES)) {
+                this.itemCategory = "axe";
+            }
+            else if (entry.isIn(ItemTags.PICKAXES) || entry.isIn(ItemTags.SHOVELS) || entry.isIn(ItemTags.HOES)) {
+                this.itemCategory = "tool";
+            }
+            else if (entry.isIn(ItemTags.BOW_ENCHANTABLE)) {
+                this.itemCategory = "bow";
+            }
+            else if (entry.isIn(ItemTags.FISHING_ENCHANTABLE)) {
+                this.itemCategory = "fishing_rod";
+            }
+            else if (entry.isIn(ItemTags.TRIDENT_ENCHANTABLE)) {
+                this.itemCategory = "trident";
+            }
+            else if (entry.isIn(ItemTags.MACE_ENCHANTABLE)) {
+                this.itemCategory = "mace";
+            }
+            else if (entry.isIn(ItemTags.CROSSBOW_ENCHANTABLE)) {
+                this.itemCategory = "crossbow";
+            }
         }
         else {
             this.itemInEnchantSlot = false;
+            this.itemCategory = "";
         }
 
 

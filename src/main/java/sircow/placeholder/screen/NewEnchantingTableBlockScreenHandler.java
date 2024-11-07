@@ -2,7 +2,6 @@ package sircow.placeholder.screen;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -10,19 +9,12 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.Slot;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import sircow.placeholder.block.ModBlocks;
-
-import java.util.List;
-import java.util.Optional;
 
 public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
     static final Identifier EMPTY_LAPIS_SLOT_TEXTURE = Identifier.ofVanilla("item/empty_slot_lapis_lazuli");
@@ -80,22 +72,9 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
         this.addProperty(Property.create(this.enchantmentLevel, 2));
     }
 
-    public ItemEnchantmentsComponent getPossibleEnchantments(ItemStack itemStack) {
+    public ItemEnchantmentsComponent getPresentEnchantments(ItemStack itemStack) {
         return EnchantmentHelper.getEnchantments(itemStack);
     }
-
-    /*
-    public String getEnchantments() {
-        Optional<RegistryEntryList.Named<Enchantment>> optional = this.world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT)
-                .getOptional(EnchantmentTags.IN_ENCHANTING_TABLE);
-        if (optional.isEmpty()) {
-            return List.of(optional).getFirst().get().get(1).getIdAsString();
-        } else {
-            optional.get().size();
-            return List.of(optional).getFirst().get().get(1).getIdAsString();
-        }
-    }
-    */
 
     @Override
     public void onClosed(PlayerEntity player) {
