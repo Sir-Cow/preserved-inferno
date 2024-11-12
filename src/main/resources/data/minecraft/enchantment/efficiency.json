@@ -6,13 +6,10 @@
   "effects": {
     "minecraft:attributes": [
       {
-        "effect": {
-          "type": "minecraft:add",
-          "value": {
-            "type": "minecraft:linear",
-            "base": 4,
-            "per_level_above_first": 12
-          }
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 4,
+          "per_level_above_first": 12
         },
         "attribute": "minecraft:mining_efficiency",
         "id": "minecraft:enchantment.efficiency",
