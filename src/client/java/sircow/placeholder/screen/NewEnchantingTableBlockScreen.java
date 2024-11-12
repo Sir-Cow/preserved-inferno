@@ -2,18 +2,21 @@ package sircow.placeholder.screen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.model.BookModel;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
+import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -21,9 +24,7 @@ import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.random.Random;
 import sircow.placeholder.Placeholder;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Environment(EnvType.CLIENT)
 public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTableBlockScreenHandler> {
@@ -110,6 +111,10 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
         itemCategorySlots.put("trident", Set.of(4, 13, 17, 28, 34));
         itemCategorySlots.put("mace", Set.of(3, 5, 9));
         itemCategorySlots.put("crossbow", Set.of(20, 21, 26, 34));
+        itemCategorySlots.put("helmet", Set.of(0, 2, 10, 23, 24, 27, 33, 34));
+        itemCategorySlots.put("chestplate", Set.of(2, 10, 23, 24, 33, 34));
+        itemCategorySlots.put("leggings", Set.of(2, 10, 23, 24, 33, 34));
+        itemCategorySlots.put("boots", Set.of(2, 6, 8, 10, 23, 24, 33, 34));
     }
 
     public String[] enchantmentNames = {
@@ -150,7 +155,12 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             "Unbreaking"
     };
 
-    private final Slot itemSlot = this.handler.getInputSlot();
+    public String[] enchantmentLevelCosts = {
+            "30", "10", "10", "10", "30", "10", "10", "10", "10", "10",
+            "10", "20", "20", "10", "30", "20", "20", "10", "10", "10",
+            "30", "10", "10", "10", "10", "20", "10", "10", "10", "10",
+            "30", "10", "10", "10", "10",
+    };
 
     public NewEnchantingTableBlockScreen(NewEnchantingTableBlockScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -166,6 +176,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
         this.tenTextureActive = false;
         this.twentyTextureActive = false;
         this.thirtyTextureActive = false;
+        this.handler.enchantSelected = false;
     }
 
     public void handledScreenTick() {
@@ -232,10 +243,39 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             int m = y + l * 14 + 2;
 
             if (!this.itemInEnchantSlot) {
+                this.tenTextureActive = false;
+                this.twentyTextureActive = false;
+                this.thirtyTextureActive = false;
+                this.handler.enchantSelected = false;
                 context.drawGuiTexture(RenderLayer::getGuiTextured, ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
             }
             Set<Integer> slots = itemCategorySlots.get(this.itemCategory);
-            context.drawGuiTexture(RenderLayer::getGuiTextured, slots != null && slots.contains(i) ? ENCHANTMENT_SLOT_TEXTURE : ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
+            if (!this.handler.enchantSelected) {
+                context.drawGuiTexture(RenderLayer::getGuiTextured, slots != null && slots.contains(i) ? ENCHANTMENT_SLOT_TEXTURE : ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
+            }
+            else {
+                if (i != this.handler.getSelectedEnchantID()) {
+                    context.drawGuiTexture(RenderLayer::getGuiTextured, slots != null && slots.contains(i) ? ENCHANTMENT_SLOT_TEXTURE : ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
+                }
+                else {
+                    context.drawGuiTexture(RenderLayer::getGuiTextured, ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE, k, m, 14, 14);
+                    if (Objects.equals(enchantmentLevelCosts[i], "10")) {
+                        this.tenTextureActive = true;
+                        this.twentyTextureActive = false;
+                        this.thirtyTextureActive = false;
+                    }
+                    else if (Objects.equals(enchantmentLevelCosts[i], "20")) {
+                        this.tenTextureActive = false;
+                        this.twentyTextureActive = true;
+                        this.thirtyTextureActive = false;
+                    }
+                    else if (Objects.equals(enchantmentLevelCosts[i], "30")) {
+                        this.tenTextureActive = false;
+                        this.twentyTextureActive = false;
+                        this.thirtyTextureActive = true;
+                    }
+                }
+            }
             context.drawGuiTexture(RenderLayer::getGuiTextured, ENCHANTMENT_ICON_TEXTURES[i], k, m, 14, 14);
         }
     }
@@ -269,33 +309,71 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         this.mouseClicked = false;
         if (this.itemInEnchantSlot) {
-            int i = this.x + 52;
-            int j = this.y + 14;
-            int k = this.scrollOffset + 12;
+            // enchant slots
+            int scrollOffset = this.scrollOffset + 16;
+            Set<Integer> slots = itemCategorySlots.get(this.itemCategory);
 
-            for (int l = this.scrollOffset; l < k; l++) {
-                int m = l - this.scrollOffset;
-                double d = mouseX - (double)(i + m % 4 * 16);
-                double e = mouseY - (double)(j + m / 4 * 18);
-                if (d >= 0.0 && e >= 0.0 && d < 16.0 && e < 18.0) {
-                    if (this.client != null) {
-                        if (this.handler.onButtonClick(this.client.player, l)) {
-                            if (this.client.interactionManager != null) {
-                                this.client.interactionManager.clickButton(this.handler.syncId, l);
-                                return true;
-                            }
+            for (int i2 = this.scrollOffset; i2 < scrollOffset && i2 < ENCHANTMENT_ICON_TEXTURES.length; i2++) {
+                int j2 = i2 - this.scrollOffset;
+                int k2 = 97 + j2 % 4 * 14;
+                int l2 = j2 / 4;
+                int m2 = 12 + l2 * 14 + 2;
+                if (this.client != null) {
+                    // slot click
+                    if (this.isPointWithinBounds(k2, m2, 14, 14, mouseX, mouseY)
+                            && slots != null && slots.contains(i2)) {
+                        MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_LOOM_SELECT_PATTERN, 1.0F));
+                        this.handler.enchantSelected = true;
+                        this.handler.selectedEnchantID = i2;
+                        if (this.client.interactionManager != null) {
+                            this.client.interactionManager.clickButton(this.handler.syncId, i2);
+                            return true;
                         }
                     }
                 }
             }
-
-            i = this.x + 156;
-            j = this.y + 9;
+            // level click
+            if (this.client != null) {
+                if (this.handler.lapisSlot.getStack().getItem() == Items.LAPIS_LAZULI) {
+                    // 10 level
+                    if (this.isPointWithinBounds(71, 13, 16, 16, mouseX, mouseY) && this.tenTextureActive) {
+                        if (this.client.player != null) {
+                            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F));
+                        }
+                        if (this.client.interactionManager != null) {
+                            this.client.interactionManager.clickButton(this.handler.syncId, 100 + 1);
+                            return true;
+                        }
+                    }
+                    // 20 level
+                    else if (this.isPointWithinBounds(71, 13 + 20, 16, 16, mouseX, mouseY) && this.twentyTextureActive) {
+                        if (this.client.player != null) {
+                            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F));
+                        }
+                        if (this.client.interactionManager != null) {
+                            this.client.interactionManager.clickButton(this.handler.syncId, 100 + 2);
+                            return true;
+                        }
+                    }
+                    // 30 level
+                    else if (this.isPointWithinBounds(71, 13 + 40, 16, 16, mouseX, mouseY) && this.thirtyTextureActive) {
+                        if (this.client.player != null) {
+                            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F));
+                        }
+                        if (this.client.interactionManager != null) {
+                            this.client.interactionManager.clickButton(this.handler.syncId, 100 + 3);
+                            return true;
+                        }
+                    }
+                }
+            }
+            // scroll
+            int i = this.x + 156;
+            int j = this.y + 9;
             if (mouseX >= (double)i && mouseX < (double)(i + 12) && mouseY >= (double)j && mouseY < (double)(j + 54)) {
                 this.mouseClicked = true;
             }
         }
-
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
@@ -315,18 +393,15 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        if (super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
-            return true;
-        } else {
+        if (!super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
             if (this.shouldScroll()) {
                 int i = this.getMaxScroll();
-                float f = (float)verticalAmount / (float)i;
+                float f = (float) verticalAmount / (float) i;
                 this.scrollAmount = MathHelper.clamp(this.scrollAmount - f, 0.0F, 1.0F);
-                this.scrollOffset = (int)((double)(this.scrollAmount * (float)i) + 0.5) * 4;
+                this.scrollOffset = (int) ((double) (this.scrollAmount * (float) i) + 0.5) * 4;
             }
-
-            return true;
         }
+        return true;
     }
 
     public void doTick() {
@@ -360,6 +435,18 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             }
             else if (entry.isIn(ItemTags.CROSSBOW_ENCHANTABLE)) {
                 this.itemCategory = "crossbow";
+            }
+            else if (entry.isIn(ItemTags.HEAD_ARMOR_ENCHANTABLE)) {
+                this.itemCategory = "helmet";
+            }
+            else if (entry.isIn(ItemTags.CHEST_ARMOR_ENCHANTABLE)) {
+                this.itemCategory = "chestplate";
+            }
+            else if (entry.isIn(ItemTags.LEG_ARMOR_ENCHANTABLE)) {
+                this.itemCategory = "leggings";
+            }
+            else if (entry.isIn(ItemTags.FOOT_ARMOR_ENCHANTABLE)) {
+                this.itemCategory = "boots";
             }
         }
         else {

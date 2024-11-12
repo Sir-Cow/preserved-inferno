@@ -19,7 +19,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class NewEnchantingTableBlockEntity extends BlockEntity implements Nameable {
+public class NewEnchantingTableBlockEntity extends BlockEntity implements Nameable, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
 
     public int ticks;
@@ -140,5 +140,10 @@ public class NewEnchantingTableBlockEntity extends BlockEntity implements Nameab
     protected void addComponents(ComponentMap.Builder componentMapBuilder) {
         super.addComponents(componentMapBuilder);
         componentMapBuilder.add(DataComponentTypes.CUSTOM_NAME, this.customName);
+    }
+
+    @Override
+    public DefaultedList<ItemStack> getItems() {
+        return inventory;
     }
 }
