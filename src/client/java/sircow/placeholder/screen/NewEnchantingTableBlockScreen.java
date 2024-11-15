@@ -115,6 +115,12 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
         itemCategorySlots.put("chestplate", Set.of(2, 10, 23, 24, 33, 34));
         itemCategorySlots.put("leggings", Set.of(2, 10, 23, 24, 33, 34));
         itemCategorySlots.put("boots", Set.of(2, 6, 8, 10, 23, 24, 33, 34));
+        itemCategorySlots.put("book", Set.of(
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                31, 32, 33, 34
+        ));
     }
 
     public String[] enchantmentNames = {
@@ -195,7 +201,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
         Identifier identifier = this.shouldScroll() ? SCROLLER_TEXTURE : SCROLLER_DISABLED_TEXTURE;
         context.drawGuiTexture(RenderLayer::getGuiTextured, identifier, i + 156, j + 13 + k, 12, 15);
         int l = this.x + 97;
-        int m = this.y + 12;
+        int m = this.y + 11;
         int n = this.scrollOffset + 16;
         this.renderIcons(context, l, m, n);
         this.renderEXPIcons(context, this.x + 71, this.y + 13);
@@ -296,7 +302,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
                 int j = i - this.scrollOffset;
                 int k = 97 + j % 4 * 14;
                 int l = j / 4;
-                int m = 12 + l * 14 + 2;
+                int m = 11 + l * 14 + 2;
                 if (this.isPointWithinBounds(k, m, 14, 14, x, y) && slots != null && slots.contains(i)) {
                     context.drawTooltip(this.textRenderer, Text.literal(this.enchantmentNames[i]), x, y);
                     break;
@@ -317,7 +323,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
                 int j2 = i2 - this.scrollOffset;
                 int k2 = 97 + j2 % 4 * 14;
                 int l2 = j2 / 4;
-                int m2 = 12 + l2 * 14 + 2;
+                int m2 = 11 + l2 * 14 + 2;
                 if (this.client != null) {
                     // slot click
                     if (this.isPointWithinBounds(k2, m2, 14, 14, mouseX, mouseY)
@@ -334,12 +340,9 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             }
             // level click
             if (this.client != null) {
-                if (this.handler.lapisSlot.getStack().getItem() == Items.LAPIS_LAZULI) {
+                if (this.handler.getSlot(1).getStack().getItem() == Items.LAPIS_LAZULI) {
                     // 10 level
                     if (this.isPointWithinBounds(71, 13, 16, 16, mouseX, mouseY) && this.tenTextureActive) {
-                        if (this.client.player != null) {
-                            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F));
-                        }
                         if (this.client.interactionManager != null) {
                             this.client.interactionManager.clickButton(this.handler.syncId, 100 + 1);
                             return true;
@@ -347,9 +350,6 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
                     }
                     // 20 level
                     else if (this.isPointWithinBounds(71, 13 + 20, 16, 16, mouseX, mouseY) && this.twentyTextureActive) {
-                        if (this.client.player != null) {
-                            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F));
-                        }
                         if (this.client.interactionManager != null) {
                             this.client.interactionManager.clickButton(this.handler.syncId, 100 + 2);
                             return true;
@@ -357,9 +357,6 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
                     }
                     // 30 level
                     else if (this.isPointWithinBounds(71, 13 + 40, 16, 16, mouseX, mouseY) && this.thirtyTextureActive) {
-                        if (this.client.player != null) {
-                            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F));
-                        }
                         if (this.client.interactionManager != null) {
                             this.client.interactionManager.clickButton(this.handler.syncId, 100 + 3);
                             return true;
@@ -407,7 +404,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     public void doTick() {
         ItemStack itemStack = this.handler.getSlot(0).getStack();
 
-        if (!this.handler.inputSlot.getStack().isEmpty()) {
+        if (!this.handler.getSlot(0).getStack().isEmpty()) {
             this.itemInEnchantSlot = true;
 
             RegistryEntry<Item> entry = Registries.ITEM.getEntry(itemStack.getItem());
@@ -448,6 +445,9 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             else if (entry.isIn(ItemTags.FOOT_ARMOR_ENCHANTABLE)) {
                 this.itemCategory = "boots";
             }
+            else if (this.handler.getSlot(0).getStack().getItem() == Items.BOOK || this.handler.getSlot(0).getStack().getItem() == Items.ENCHANTED_BOOK) {
+                this.itemCategory = "book";
+            }
         }
         else {
             this.itemInEnchantSlot = false;
@@ -465,14 +465,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
 
         this.pageAngle = this.nextPageAngle;
         this.pageTurningSpeed = this.nextPageTurningSpeed;
-        boolean bl = false;
-
-        for(int i = 0; i < 3; ++i) {
-            if (this.handler.enchantmentPower[i] != 0) {
-                bl = true;
-                break;
-            }
-        }
+        boolean bl = this.handler.enchantmentPower != 0;
 
         if (bl) {
             this.nextPageTurningSpeed += 0.2F;

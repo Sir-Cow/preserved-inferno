@@ -1,9 +1,10 @@
 package sircow.placeholder.screen;
 
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.block.EnchantingTableBlock;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,9 +16,13 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.Slot;
 
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sircow.placeholder.block.ModBlocks;
+import sircow.placeholder.block.custom.NewEnchantingTableBlock;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,11 +40,8 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
     };
 
     public final ScreenHandlerContext context;
-    public final int[] enchantmentPower = new int[3];
-    public final int[] enchantmentId = new int[]{-1, -1, -1};
-    public final int[] enchantmentLevel = new int[]{-1, -1, -1};
-    final Slot inputSlot;
-    final Slot lapisSlot;
+    public int enchantmentPower;
+
     public World world;
     public boolean enchantSelected;
     public int selectedEnchantID;
@@ -50,66 +52,6 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
             "30", "10", "10", "10", "10", "20", "10", "10", "10", "10",
             "30", "10", "10", "10", "10",
     };
-
-    public NewEnchantingTableBlockScreenHandler(int syncId, PlayerInventory inventory) {
-        this(syncId, inventory, ScreenHandlerContext.EMPTY);
-        this.world = inventory.player.getWorld();
-    }
-
-    public NewEnchantingTableBlockScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(ModScreenHandlers.NEW_ENCHANTING_TABLE_BLOCK_SCREEN_HANDLER, syncId);
-        this.context = context;
-        this.inputSlot = this.addSlot(new Slot(this.inventory, 0, 25, 53) {
-            @Override
-            public int getMaxItemCount() {
-                return 1;
-            }
-        });
-        this.lapisSlot = this.addSlot(new Slot(this.inventory, 1, 45, 53) {
-            @Override
-            public boolean canInsert(ItemStack stack) {
-                return stack.isOf(Items.LAPIS_LAZULI);
-            }
-
-            @Override
-            public Pair<Identifier, Identifier> getBackgroundSprite() {
-                return Pair.of(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, NewEnchantingTableBlockScreenHandler.EMPTY_LAPIS_SLOT_TEXTURE);
-            }
-        });
-
-        this.addPlayerSlots(playerInventory, 8, 84);
-        this.addProperty(Property.create(this.enchantmentPower, 0));
-        this.addProperty(Property.create(this.enchantmentPower, 1));
-        this.addProperty(Property.create(this.enchantmentPower, 2));
-    }
-
-    public ItemEnchantmentsComponent getPresentEnchantments(ItemStack itemStack) {
-        return EnchantmentHelper.getEnchantments(itemStack);
-    }
-
-    @Override
-    public void onClosed(PlayerEntity player) {
-        super.onClosed(player);
-        this.context.run((world, pos) -> this.dropInventory(player, this.inventory));
-        this.enchantSelected = false;
-    }
-
-    @Override
-    public boolean canUse(PlayerEntity player) {
-        return canUse(this.context, player, ModBlocks.NEW_ENCHANTING_TABLE_BLOCK);
-    }
-
-    public Slot getInputSlot() { return this.inputSlot; }
-
-    public Slot getLapisSlot() { return this.lapisSlot; }
-
-    public void setSelectedEnchantID (int num) {
-        this.selectedEnchantID = num;
-    }
-
-    public int getSelectedEnchantID() {
-        return this.selectedEnchantID;
-    }
 
     public static final Map<Integer, RegistryKey<Enchantment>> enchants = new HashMap<>();
 
@@ -151,27 +93,123 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
         enchants.put(34, Enchantments.UNBREAKING);
     }
 
+    public NewEnchantingTableBlockScreenHandler(int syncId, PlayerInventory inventory) {
+        this(syncId, inventory, ScreenHandlerContext.EMPTY);
+        this.world = inventory.player.getWorld();
+    }
+
+    public NewEnchantingTableBlockScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
+        super(ModScreenHandlers.NEW_ENCHANTING_TABLE_BLOCK_SCREEN_HANDLER, syncId);
+        this.context = context;
+        this.addSlot(new Slot(this.inventory, 0, 25, 53) {
+            @Override
+            public int getMaxItemCount() {
+                return 1;
+            }
+        });
+        this.addSlot(new Slot(this.inventory, 1, 45, 53) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return stack.isOf(Items.LAPIS_LAZULI);
+            }
+
+            @Override
+            public Pair<Identifier, Identifier> getBackgroundSprite() {
+                return Pair.of(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, NewEnchantingTableBlockScreenHandler.EMPTY_LAPIS_SLOT_TEXTURE);
+            }
+        });
+
+        this.addPlayerSlots(playerInventory, 8, 84);
+    }
+
+    @Override
+    public void onClosed(PlayerEntity player) {
+        super.onClosed(player);
+        this.context.run((world, pos) -> this.dropInventory(player, this.inventory));
+        this.enchantSelected = false;
+    }
+
+    @Override
+    public boolean canUse(PlayerEntity player) {
+        return canUse(this.context, player, ModBlocks.NEW_ENCHANTING_TABLE_BLOCK);
+    }
+
+    public int getSelectedEnchantID() {
+        return this.selectedEnchantID;
+    }
+
+    @Override
+    public void onContentChanged(Inventory inventory) {
+        if (inventory == this.inventory) {
+            ItemStack itemStack = inventory.getStack(0);
+            if (!itemStack.isEmpty()) {
+                this.context.run((world, pos) -> {
+                    int bookshelfCount = 0;
+
+                    for (BlockPos blockPos : EnchantingTableBlock.POWER_PROVIDER_OFFSETS) {
+                        if (NewEnchantingTableBlock.canAccessPowerProvider(world, pos, blockPos)) {
+                            bookshelfCount++;
+                        }
+                    }
+
+                    if (bookshelfCount >= 5 && bookshelfCount < 10) {
+                        this.enchantmentPower = 1;
+                    }
+                    else if (bookshelfCount >= 10 && bookshelfCount < 15) {
+                        this.enchantmentPower = 2;
+                    }
+                    else if (bookshelfCount >= 15) {
+                        this.enchantmentPower = 3;
+                    }
+
+                    this.sendContentUpdates();
+                });
+            } else {
+                this.enchantmentPower = 0;
+            }
+        }
+    }
+
     @Override
     public boolean onButtonClick(PlayerEntity player, int id) {
-
+        ItemStack itemStack = this.inventory.getStack(0);
+        ItemEnchantmentsComponent presentEnchantments = itemStack.getEnchantments();
         AtomicBoolean shouldReduceXP = new AtomicBoolean(false);
         if (id == 101) {
-            if (player.experienceLevel >= 10 || player.isInCreativeMode()) {
+            if (this.enchantmentPower < 1) {
+                return false;
+            }
+            else if (player.experienceLevel >= 10 || player.isInCreativeMode()) {
                 this.context.run((world, pos) -> {
-                    ItemStack itemStack = this.inventory.getStack(0);
-                    ItemEnchantmentsComponent presentEnchantments = itemStack.getEnchantments();
                     RegistryKey<Enchantment> enchantment = enchants.get(this.selectedEnchantID);
 
                     if (Objects.equals(enchantmentLevelCosts[this.selectedEnchantID], "10")) {
                         if (enchantment != null && !presentEnchantments.getEnchantments().contains(world.getRegistryManager()
                                 .getOrThrow(enchantment.getRegistryRef())
                                 .getOrThrow(enchantment))) {
-                            itemStack.addEnchantment(world.getRegistryManager()
-                                    .getOrThrow(enchantment.getRegistryRef())
-                                    .getOrThrow(enchantment), 1);
-                            shouldReduceXP.set(true);
-                            this.getLapisSlot().getStack().decrement(1);
-                            this.inventory.markDirty();
+                            if (this.inventory.getStack(0).getItem() == Items.BOOK) {
+                                this.inventory.getStack(0).decrement(1);
+                                this.inventory.setStack(0, new ItemStack(Items.ENCHANTED_BOOK, 1));
+                            }
+                            if (this.inventory.getStack(0).getItem() != Items.ENCHANTED_BOOK ||
+                                    !Objects.requireNonNull(this.inventory.getStack(0)
+                                                    .get(DataComponentTypes.STORED_ENCHANTMENTS))
+                                            .getEnchantments().contains(world.getRegistryManager()
+                                                    .getOrThrow(enchantment.getRegistryRef())
+                                                    .getOrThrow(enchantment))) {
+                                this.inventory.getStack(0)
+                                        .addEnchantment(world.getRegistryManager()
+                                                .getOrThrow(enchantment.getRegistryRef())
+                                                .getOrThrow(enchantment), 1);
+                                shouldReduceXP.set(true);
+                                this.getSlot(1).getStack().decrement(1);
+                                this.inventory.markDirty();
+                                this.onContentChanged(this.inventory);
+                                world.playSound(null, pos,
+                                        SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE,
+                                        SoundCategory.BLOCKS,
+                                        1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                            }
                         }
                     }
                 });
@@ -184,22 +222,38 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
             }
         }
         else if (id == 102) {
-            if (player.experienceLevel >= 20 || player.isInCreativeMode()) {
+            if (this.enchantmentPower < 2) {
+                return false;
+            }
+            else if (player.experienceLevel >= 20 || player.isInCreativeMode()) {
                 this.context.run((world, pos) -> {
-                    ItemStack itemStack = this.inventory.getStack(0);
-                    ItemEnchantmentsComponent presentEnchantments = itemStack.getEnchantments();
                     RegistryKey<Enchantment> enchantment = enchants.get(this.selectedEnchantID);
 
                     if (Objects.equals(enchantmentLevelCosts[this.selectedEnchantID], "20")) {
                         if (enchantment != null && !presentEnchantments.getEnchantments().contains(world.getRegistryManager()
                                 .getOrThrow(enchantment.getRegistryRef())
                                 .getOrThrow(enchantment))) {
-                            itemStack.addEnchantment(world.getRegistryManager()
-                                    .getOrThrow(enchantment.getRegistryRef())
-                                    .getOrThrow(enchantment), 1);
-                            shouldReduceXP.set(true);
-                            this.getLapisSlot().getStack().decrement(1);
-                            this.inventory.markDirty();
+                            if (this.inventory.getStack(0).getItem() == Items.BOOK) {
+                                this.inventory.getStack(0).decrement(1);
+                                this.inventory.setStack(0, new ItemStack(Items.ENCHANTED_BOOK, 1));
+                            }
+                            if (this.inventory.getStack(0).getItem() != Items.ENCHANTED_BOOK ||
+                                    !Objects.requireNonNull(this.inventory.getStack(0).get(DataComponentTypes.STORED_ENCHANTMENTS))
+                                            .getEnchantments().contains(world.getRegistryManager()
+                                                    .getOrThrow(enchantment.getRegistryRef())
+                                                    .getOrThrow(enchantment))) {
+                                this.inventory.getStack(0).addEnchantment(world.getRegistryManager()
+                                        .getOrThrow(enchantment.getRegistryRef())
+                                        .getOrThrow(enchantment), 1);
+                                shouldReduceXP.set(true);
+                                this.getSlot(1).getStack().decrement(1);
+                                this.inventory.markDirty();
+                                this.onContentChanged(this.inventory);
+                                world.playSound(null, pos,
+                                        SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE,
+                                        SoundCategory.BLOCKS,
+                                        1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                            }
                         }
                     }
                 });
@@ -212,23 +266,38 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
             }
         }
         else if (id == 103) {
-            if (player.experienceLevel >= 30 || player.isInCreativeMode()) {
+            if (this.enchantmentPower < 3) {
+                return false;
+            }
+            else if (player.experienceLevel >= 30 || player.isInCreativeMode()) {
                 this.context.run((world, pos) -> {
-                    ItemStack itemStack = this.inventory.getStack(0);
-                    ItemEnchantmentsComponent presentEnchantments = itemStack.getEnchantments();
                     RegistryKey<Enchantment> enchantment = enchants.get(this.selectedEnchantID);
 
                     if (Objects.equals(enchantmentLevelCosts[this.selectedEnchantID], "30")) {
                         if (enchantment != null && !presentEnchantments.getEnchantments().contains(world.getRegistryManager()
                                 .getOrThrow(enchantment.getRegistryRef())
                                 .getOrThrow(enchantment))) {
-                            itemStack.addEnchantment(world.getRegistryManager()
-                                    .getOrThrow(enchantment.getRegistryRef())
-                                    .getOrThrow(enchantment), 1);
-                            shouldReduceXP.set(true);
-
-                            this.getLapisSlot().getStack().decrement(1);
-                            this.inventory.markDirty();
+                            if (this.inventory.getStack(0).getItem() == Items.BOOK) {
+                                this.inventory.getStack(0).decrement(1);
+                                this.inventory.setStack(0, new ItemStack(Items.ENCHANTED_BOOK, 1));
+                            }
+                            if (this.inventory.getStack(0).getItem() != Items.ENCHANTED_BOOK ||
+                                    !Objects.requireNonNull(this.inventory.getStack(0).get(DataComponentTypes.STORED_ENCHANTMENTS))
+                                            .getEnchantments().contains(world.getRegistryManager()
+                                                    .getOrThrow(enchantment.getRegistryRef())
+                                                    .getOrThrow(enchantment))) {
+                                this.inventory.getStack(0).addEnchantment(world.getRegistryManager()
+                                        .getOrThrow(enchantment.getRegistryRef())
+                                        .getOrThrow(enchantment), 1);
+                                shouldReduceXP.set(true);
+                                this.getSlot(1).getStack().decrement(1);
+                                this.inventory.markDirty();
+                                this.onContentChanged(this.inventory);
+                                world.playSound(null, pos,
+                                        SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE,
+                                        SoundCategory.BLOCKS,
+                                        1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                            }
                         }
                     }
                 });
