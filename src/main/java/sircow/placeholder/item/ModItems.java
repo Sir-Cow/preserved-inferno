@@ -65,6 +65,10 @@ public class ModItems {
     private static RegistryKey<Item> keyOf(String id) {
         return RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Placeholder.MOD_ID, id));
     }
+    
+    public static Item register(String id, Function<Item.Settings, Item> factory, Item.Settings settings) {
+        return register(keyOf(id), factory, settings);
+    }
 
     public static Item register(String id, Item.Settings settings) {
         return register(keyOf(id), Item::new, settings);

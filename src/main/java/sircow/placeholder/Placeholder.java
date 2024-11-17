@@ -14,6 +14,7 @@ import sircow.placeholder.item.ModItems;
 import sircow.placeholder.other.ModDamageTypes;
 import sircow.placeholder.other.ModEvents;
 import sircow.placeholder.screen.ModScreenHandlers;
+import sircow.placeholder.sound.ModSounds;
 
 public class Placeholder implements ModInitializer {
 	public static final String MOD_ID = "placeholder";
@@ -33,6 +34,7 @@ public class Placeholder implements ModInitializer {
 		ModBlockEntities.registerBlockEntities();
 		ModScreenHandlers.registerScreenHandlers();
 		ModEvents.registerModEvents();
+		ModSounds.registerSounds();
 		// other
 		ModBlocks.initialize();
 		ModEvents.modifySleeping();

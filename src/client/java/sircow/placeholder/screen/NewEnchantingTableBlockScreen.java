@@ -25,6 +25,7 @@ import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import sircow.placeholder.Placeholder;
+import sircow.placeholder.sound.ModSounds;
 
 import java.util.*;
 
@@ -93,7 +94,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     public float pageRotationSpeed;
     public float nextPageTurningSpeed;
     public float pageTurningSpeed;
-    private ItemStack stack;
+    private ItemStack stack = ItemStack.EMPTY;
     private boolean itemInEnchantSlot;
     private float scrollAmount;
     private boolean mouseClicked;
@@ -110,10 +111,9 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
         itemCategorySlots.put("swordBane", Set.of(1, 9, 15, 16, 32, 34));
         itemCategorySlots.put("swordSharp", Set.of(9, 15, 16, 29, 32, 34));
         itemCategorySlots.put("swordSmite", Set.of(9, 15, 16, 31, 32, 34));
-        itemCategorySlots.put("axe", Set.of(7, 12, 30, 34));
-        itemCategorySlots.put("axeFort", Set.of(7, 12, 34));
-        itemCategorySlots.put("axeSilk", Set.of(7, 30, 34));
         itemCategorySlots.put("tool", Set.of(7, 12, 30, 34));
+        itemCategorySlots.put("toolFort", Set.of(7, 12, 34));
+        itemCategorySlots.put("toolSilk", Set.of(7, 30, 34));
         itemCategorySlots.put("bow", Set.of(11, 14, 22, 25, 34));
         itemCategorySlots.put("bowMending", Set.of(11, 22, 25, 34));
         itemCategorySlots.put("fishingRod", Set.of(18, 19, 34));
@@ -362,7 +362,16 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
                     // slot click
                     if (this.isPointWithinBounds(k2, m2, 14, 14, mouseX, mouseY)
                             && slots != null && slots.contains(i2)) {
-                        MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_LOOM_SELECT_PATTERN, 1.0F));
+                        MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(ModSounds.ENCHANT_CLICK, 1.0F));
+                        int randomNum = (int)(Math.random() * 3);
+                        switch (randomNum) {
+                            case 0 ->
+                                    MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(ModSounds.ENCHANT_OPEN_FLIP_ONE, 1.0F));
+                            case 1 ->
+                                    MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(ModSounds.ENCHANT_OPEN_FLIP_TWO, 1.0F));
+                            case 2 ->
+                                    MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(ModSounds.ENCHANT_OPEN_FLIP_THREE, 1.0F));
+                        }
                         this.handler.enchantSelected = true;
                         this.handler.selectedEnchantID = i2;
                         if (this.client.interactionManager != null) {
@@ -438,6 +447,30 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     public void doTick() {
         ItemStack itemStack = this.handler.getSlot(0).getStack();
 
+        if (!ItemStack.areEqual(itemStack, this.stack)) {
+            this.stack = itemStack;
+            do {
+                this.approximatePageAngle = this.approximatePageAngle + (float)(this.random.nextInt(4) - this.random.nextInt(4));
+            } while (this.nextPageAngle <= this.approximatePageAngle + 1.0F && this.nextPageAngle >= this.approximatePageAngle - 1.0F);
+        }
+
+        this.pageAngle = this.nextPageAngle;
+        this.pageTurningSpeed = this.nextPageTurningSpeed;
+        boolean bl = this.handler.enchantmentPower != 0;
+
+        if (bl) {
+            this.nextPageTurningSpeed += 0.2F;
+        } else {
+            this.nextPageTurningSpeed -= 0.2F;
+        }
+
+        this.nextPageTurningSpeed = MathHelper.clamp(this.nextPageTurningSpeed, 0.0F, 1.0F);
+        float f = (this.approximatePageAngle - this.nextPageAngle) * 0.4F;
+        float g = 0.2F;
+        f = MathHelper.clamp(f, -0.2F, 0.2F);
+        this.pageRotationSpeed = this.pageRotationSpeed + (f - this.pageRotationSpeed) * 0.9F;
+        this.nextPageAngle = this.nextPageAngle + this.pageRotationSpeed;
+
         if (!this.handler.getSlot(0).getStack().isEmpty()) {
             this.itemInEnchantSlot = true;
 
@@ -463,23 +496,20 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
                     this.itemCategory = "sword";
                 }
             }
-            else if (entry.isIn(ItemTags.AXES)) {
+            else if (entry.isIn(ItemTags.AXES) || entry.isIn(ItemTags.PICKAXES) || entry.isIn(ItemTags.SHOVELS) || entry.isIn(ItemTags.HOES)) {
                 if (itemStack.getEnchantments().getEnchantments().contains(this.world.getRegistryManager()
                         .getOrThrow(Enchantments.FORTUNE.getRegistryRef())
                         .getOrThrow(Enchantments.FORTUNE))) {
-                    this.itemCategory = "axeFort";
+                    this.itemCategory = "toolFort";
                 }
                 else if (itemStack.getEnchantments().getEnchantments().contains(this.world.getRegistryManager()
                         .getOrThrow(Enchantments.SILK_TOUCH.getRegistryRef())
                         .getOrThrow(Enchantments.SILK_TOUCH))) {
-                    this.itemCategory = "axeSilk";
+                    this.itemCategory = "toolSilk";
                 }
                 else {
-                    this.itemCategory = "axe";
+                    this.itemCategory = "tool";
                 }
-            }
-            else if (entry.isIn(ItemTags.PICKAXES) || entry.isIn(ItemTags.SHOVELS) || entry.isIn(ItemTags.HOES)) {
-                this.itemCategory = "tool";
             }
             else if (entry.isIn(ItemTags.BOW_ENCHANTABLE)) {
                 if (itemStack.getEnchantments().getEnchantments().contains(this.world.getRegistryManager()
@@ -681,32 +711,6 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             this.itemInEnchantSlot = false;
             this.itemCategory = "";
         }
-
-
-        if (!ItemStack.areEqual(itemStack, this.stack)) {
-            this.stack = itemStack;
-
-            do {
-                this.approximatePageAngle += (float)(this.random.nextInt(4) - this.random.nextInt(4));
-            } while(this.nextPageAngle <= this.approximatePageAngle + 1.0F && this.nextPageAngle >= this.approximatePageAngle - 1.0F);
-        }
-
-        this.pageAngle = this.nextPageAngle;
-        this.pageTurningSpeed = this.nextPageTurningSpeed;
-        boolean bl = this.handler.enchantmentPower != 0;
-
-        if (bl) {
-            this.nextPageTurningSpeed += 0.2F;
-        } else {
-            this.nextPageTurningSpeed -= 0.2F;
-        }
-
-        this.nextPageTurningSpeed = MathHelper.clamp(this.nextPageTurningSpeed, 0.0F, 1.0F);
-        float f = (this.approximatePageAngle - this.nextPageAngle) * 0.4F;
-        float g = 0.2F;
-        f = MathHelper.clamp(f, -0.2F, 0.2F);
-        this.pageRotationSpeed += (f - this.pageRotationSpeed) * 0.9F;
-        this.nextPageAngle += this.pageRotationSpeed;
     }
 
     private boolean shouldScroll() {

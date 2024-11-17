@@ -1,0 +1,56 @@
+{
+  "enchant_click": {
+    "subtitle": "sounds.placeholder.enchant_click",
+    "sounds": [
+      "placeholder:click"
+    ]
+  },
+  "enchant_one": {
+    "subtitle": "sounds.placeholder.enchant_one",
+    "sounds": [
+      "placeholder:enchant1"
+    ]
+  },
+  "enchant_two": {
+    "subtitle": "sounds.placeholder.enchant_two",
+    "sounds": [
+      "placeholder:enchant2"
+    ]
+  },
+  "enchant_three": {
+    "subtitle": "sounds.placeholder.enchant_three",
+    "sounds": [
+      "placeholder:enchant3"
+    ]
+  },
+  "enchant_open_flip_one": {
+    "subtitle": "sounds.placeholder.enchant_open_flip_one",
+    "sounds": [
+      "placeholder:open_flip1"
+    ]
+  },
+  "enchant_open_flip_two": {
+    "subtitle": "sounds.placeholder.enchant_open_flip_two",
+    "sounds": [
+      "placeholder:open_flip2"
+    ]
+  },
+  "enchant_open_flip_three": {
+    "subtitle": "sounds.placeholder.enchant_open_flip_three",
+    "sounds": [
+      "placeholder:open_flip3"
+    ]
+  },
+  "enchant_close_one": {
+    "subtitle": "sounds.placeholder.enchant_close_one",
+    "sounds": [
+      "placeholder:close_put1"
+    ]
+  },
+  "enchant_close_two": {
+    "subtitle": "sounds.placeholder.enchant_close_two",
+    "sounds": [
+      "placeholder:close_put2"
+    ]
+  }
+}

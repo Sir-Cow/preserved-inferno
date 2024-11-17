@@ -39,5 +39,15 @@
   "block.placeholder.new_fletching_table": "Fletching Table",
   "block.placeholder.new_enchanting_table": "Enchanting Table",
 
-  "itemgroup.placeholder.placeholder_items": "Placeholder"
+  "itemgroup.placeholder.placeholder_items": "Placeholder",
+
+  "sounds.placeholder.enchant_click": "Enchant Click",
+  "sounds.placeholder.enchant_one": "Enchant One",
+  "sounds.placeholder.enchant_two": "Enchant Two",
+  "sounds.placeholder.enchant_three": "Enchant Three",
+  "sounds.placeholder.enchant_open_flip_one": "Enchant Open Flip One",
+  "sounds.placeholder.enchant_open_flip_two": "Enchant Open Flip Two",
+  "sounds.placeholder.enchant_open_flip_three": "Enchant Open Flip Three",
+  "sounds.placeholder.enchant_close_one": "Enchant Close One",
+  "sounds.placeholder.enchant_close_two": "Enchant Close Two"
 }

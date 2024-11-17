@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import sircow.placeholder.block.ModBlocks;
 import sircow.placeholder.block.custom.NewEnchantingTableBlock;
+import sircow.placeholder.sound.ModSounds;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -125,7 +126,16 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
     @Override
     public void onClosed(PlayerEntity player) {
         super.onClosed(player);
-        this.context.run((world, pos) -> this.dropInventory(player, this.inventory));
+        this.context.run((world, pos) -> {
+            this.dropInventory(player, this.inventory);
+            int randomNum = (int)(Math.random() * 1);
+            switch (randomNum) {
+                case 0 ->
+                        world.playSound(null, pos, ModSounds.ENCHANT_CLOSE_ONE, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                case 1 ->
+                        world.playSound(null, pos, ModSounds.ENCHANT_CLOSE_TWO, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+            }
+        });
         this.enchantSelected = false;
     }
 
@@ -205,10 +215,7 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
                                 this.getSlot(1).getStack().decrement(1);
                                 this.inventory.markDirty();
                                 this.onContentChanged(this.inventory);
-                                world.playSound(null, pos,
-                                        SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE,
-                                        SoundCategory.BLOCKS,
-                                        1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                                world.playSound(null, pos, ModSounds.ENCHANT_ONE, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
                             }
                         }
                     }
@@ -249,10 +256,7 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
                                 this.getSlot(1).getStack().decrement(1);
                                 this.inventory.markDirty();
                                 this.onContentChanged(this.inventory);
-                                world.playSound(null, pos,
-                                        SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE,
-                                        SoundCategory.BLOCKS,
-                                        1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                                world.playSound(null, pos, ModSounds.ENCHANT_TWO, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
                             }
                         }
                     }
@@ -293,10 +297,7 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
                                 this.getSlot(1).getStack().decrement(1);
                                 this.inventory.markDirty();
                                 this.onContentChanged(this.inventory);
-                                world.playSound(null, pos,
-                                        SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE,
-                                        SoundCategory.BLOCKS,
-                                        1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                                world.playSound(null, pos, ModSounds.ENCHANT_THREE, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
                             }
                         }
                     }
