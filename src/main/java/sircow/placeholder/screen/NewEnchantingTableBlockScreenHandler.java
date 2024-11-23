@@ -21,6 +21,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import sircow.placeholder.Placeholder;
 import sircow.placeholder.block.ModBlocks;
 import sircow.placeholder.block.custom.NewEnchantingTableBlock;
 import sircow.placeholder.sound.ModSounds;
@@ -41,11 +42,12 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
     };
 
     public final ScreenHandlerContext context;
-    public int enchantmentPower;
 
     public World world;
     public boolean enchantSelected;
     public int selectedEnchantID;
+
+    public final Property enchantmentPower = Property.create();
 
     public String[] enchantmentLevelCosts = {
             "30", "10", "10", "10", "30", "10", "10", "10", "10", "10",
@@ -119,7 +121,7 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
                 return Pair.of(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, NewEnchantingTableBlockScreenHandler.EMPTY_LAPIS_SLOT_TEXTURE);
             }
         });
-
+        this.addProperty(this.enchantmentPower);
         this.addPlayerSlots(playerInventory, 8, 84);
     }
 
@@ -151,32 +153,30 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
     @Override
     public void onContentChanged(Inventory inventory) {
         if (inventory == this.inventory) {
-            ItemStack itemStack = inventory.getStack(0);
-            if (!itemStack.isEmpty()) {
-                this.context.run((world, pos) -> {
-                    int bookshelfCount = 0;
+            this.context.run((world, pos) -> {
+                int bookshelfCount = 0;
 
-                    for (BlockPos blockPos : EnchantingTableBlock.POWER_PROVIDER_OFFSETS) {
-                        if (NewEnchantingTableBlock.canAccessPowerProvider(world, pos, blockPos)) {
-                            bookshelfCount++;
-                        }
+                for (BlockPos blockPos : EnchantingTableBlock.POWER_PROVIDER_OFFSETS) {
+                    if (NewEnchantingTableBlock.canAccessPowerProvider(world, pos, blockPos)) {
+                        bookshelfCount++;
                     }
+                }
 
-                    if (bookshelfCount >= 5 && bookshelfCount < 10) {
-                        this.enchantmentPower = 1;
-                    }
-                    else if (bookshelfCount >= 10 && bookshelfCount < 15) {
-                        this.enchantmentPower = 2;
-                    }
-                    else if (bookshelfCount >= 15) {
-                        this.enchantmentPower = 3;
-                    }
+                if (bookshelfCount < 5) {
+                    this.enchantmentPower.set(0);
+                }
+                else if (bookshelfCount >= 5 && bookshelfCount < 10) {
+                    this.enchantmentPower.set(1);
+                }
+                else if (bookshelfCount >= 10 && bookshelfCount < 15) {
+                    this.enchantmentPower.set(2);
+                }
+                else if (bookshelfCount >= 15) {
+                    this.enchantmentPower.set(3);
+                }
 
-                    this.sendContentUpdates();
-                });
-            } else {
-                this.enchantmentPower = 0;
-            }
+                this.sendContentUpdates();
+            });
         }
     }
 
@@ -186,7 +186,7 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
         ItemEnchantmentsComponent presentEnchantments = itemStack.getEnchantments();
         AtomicBoolean shouldReduceXP = new AtomicBoolean(false);
         if (id == 101) {
-            if (this.enchantmentPower < 1) {
+            if (this.enchantmentPower.get() < 1) {
                 return false;
             }
             else if (player.experienceLevel >= 10 || player.isInCreativeMode()) {
@@ -229,7 +229,7 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
             }
         }
         else if (id == 102) {
-            if (this.enchantmentPower < 2) {
+            if (this.enchantmentPower.get() < 2) {
                 return false;
             }
             else if (player.experienceLevel >= 20 || player.isInCreativeMode()) {
@@ -270,7 +270,7 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
             }
         }
         else if (id == 103) {
-            if (this.enchantmentPower < 3) {
+            if (this.enchantmentPower.get() < 3) {
                 return false;
             }
             else if (player.experienceLevel >= 30 || player.isInCreativeMode()) {

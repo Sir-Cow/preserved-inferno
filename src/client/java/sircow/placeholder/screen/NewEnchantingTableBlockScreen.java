@@ -1,7 +1,9 @@
 package sircow.placeholder.screen;
 
+import com.google.common.collect.Lists;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.EnchantingTableBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -19,12 +21,15 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import sircow.placeholder.Placeholder;
+import sircow.placeholder.block.custom.NewEnchantingTableBlock;
 import sircow.placeholder.sound.ModSounds;
 
 import java.util.*;
@@ -104,6 +109,8 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     private boolean twentyTextureActive;
     private boolean thirtyTextureActive;
     public World world;
+    public int enchPower;
+    public int previousEnchPower;
 
     private static final Map<String, Set<Integer>> itemCategorySlots = new HashMap<>();
     static {
@@ -157,41 +164,13 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     }
 
     public String[] enchantmentNames = {
-            "Aqua Affinity",
-            "Bane Of Arthropods",
-            "Blast Protection",
-            "Breach",
-            "Channeling",
-            "Density",
-            "Depth Strider",
-            "Efficiency",
-            "Feather Falling",
-            "Fire Aspect",
-            "Fire Protection",
-            "Flame",
-            "Fortune",
-            "Impaling",
-            "Infinity",
-            "Knockback",
-            "Looting",
-            "Loyalty",
-            "Luck Of The Sea",
-            "Lure",
-            "Multishot",
-            "Piercing",
-            "Power",
-            "Projectile Protection",
-            "Protection",
-            "Punch",
-            "Quick Charge",
-            "Respiration",
-            "Riptide",
-            "Sharpness",
-            "Silk Touch",
-            "Smite",
-            "Sweeping Edge",
-            "Thorns",
-            "Unbreaking"
+            "Aqua Affinity", "Bane Of Arthropods", "Blast Protection", "Breach", "Channeling",
+            "Density", "Depth Strider", "Efficiency", "Feather Falling", "Fire Aspect",
+            "Fire Protection", "Flame", "Fortune", "Impaling", "Infinity",
+            "Knockback", "Looting", "Loyalty", "Luck Of The Sea", "Lure",
+            "Multishot", "Piercing", "Power", "Projectile Protection", "Protection",
+            "Punch", "Quick Charge", "Respiration", "Riptide", "Sharpness",
+            "Silk Touch", "Smite", "Sweeping Edge", "Thorns", "Unbreaking"
     };
 
     public String[] enchantmentLevelCosts = {
@@ -199,6 +178,44 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             "10", "20", "20", "10", "30", "20", "20", "10", "10", "10",
             "30", "10", "10", "10", "10", "20", "10", "10", "10", "10",
             "30", "10", "10", "10", "10",
+    };
+
+    public String[] enchantmentDescriptions = {
+            "Mining speed is no longer affected while submerged.",
+            "Deal 3.5 more damage to arthropods.",
+            "Decrease damage taken from explosions by 4%.",
+            "Reduces the effectiveness of armor by 20%.",
+            "Summon a lightning bolt upon hitting a target.",
+            "Increase the damage dealt per block fallen by 0.75.",
+            "Decrease the slowing effect of water by 33%.",
+            "Gain +4 Mining Speed.",
+            "Decrease damage taken from falling by 10%.",
+            "Ignite targets for 3 seconds.",
+            "Decrease damage taken from fire by 4%.",
+            "Ignite targets for 3 seconds.",
+            "Increase the chance for double drops by +50%.",
+            "Deal 3.5 more damage to soaked enemies.",
+            "The bow no longer consumes arrows.",
+            "Increase knockback dealt by 2.5 blocks.",
+            "Increase the chance for a common drop by 1.",
+            "Returns the trident to the user",
+            "Increases the weight of obtaining treasure by 1.",
+            "Decreases the wait time of a catch by 5 seconds.",
+            "Shoot 2 extra arrows but with 75%",
+            "Arrows can pierce 2 enemies and reduces",
+            "Deal 0.5 more damage with arrows.",
+            "Decrease damage taken from projectiles by 4%.",
+            "Decrease damage taken by 1%.",
+            "Increase the knockback dealt with arrows.",
+            "Decrease the loading time by 0.25 seconds.",
+            "Increases your underwater breathing",
+            "Propels you 6 blocks ahead while soaked.",
+            "Deal 1 more damage.",
+            "Mined blocks drop themselves.",
+            "Deal 3.5 more damage to undead mobs.",
+            "Increases the damage of your sweeping attack",
+            "Gain a 15% chance to deal damage",
+            "Decrease the chance for your tool"
     };
 
     public NewEnchantingTableBlockScreen(NewEnchantingTableBlockScreenHandler handler, PlayerInventory inventory, Text title) {
@@ -338,9 +355,28 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
                 int l = j / 4;
                 int m = 11 + l * 14 + 2;
                 if (this.isPointWithinBounds(k, m, 14, 14, x, y) && slots != null && slots.contains(i)) {
-                    context.drawTooltip(this.textRenderer, Text.literal(this.enchantmentNames[i]), x, y);
+                    List<Text> list = Lists.<Text>newArrayList();
+                    list.add(Text.literal(this.enchantmentNames[i] + " I"));
+                    list.add(Text.literal(this.enchantmentDescriptions[i]).formatted(Formatting.WHITE));
+                    // these are line breaks
+                    switch (i) {
+                        case 10 -> list.add(Text.literal("Also reduces burning time by 10%."));
+                        case 16 -> list.add(Text.literal("Also increases the chance of rare drops by 0.5%."));
+                        case 17 -> list.add(Text.literal("at 20 blocks per second."));
+                        case 20 -> list.add(Text.literal("of the original damage."));
+                        case 21 -> list.add(Text.literal("the effectiveness of armor by 20%."));
+                        case 27 -> list.add(Text.literal("time by 10 seconds."));
+                        case 32 -> list.add(Text.literal("by 50% of your weapon's attack damage."));
+                        case 33 -> list.add(Text.literal("when attacked by an enemy."));
+                        case 34 -> list.add(Text.literal("to consume durability by 20%."));
+                    }
+                    context.drawTooltip(this.textRenderer, list, x, y);
                     break;
                 }
+            }
+
+            if (this.isPointWithinBounds(0, 0, 60, 60, x, y)) {
+                context.drawTooltip(this.textRenderer, Text.literal("Bookshelf Power: " + this.enchPower) , x, y);
             }
         }
     }
@@ -445,6 +481,8 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     }
 
     public void doTick() {
+        this.enchPower = this.handler.enchantmentPower.get();
+
         ItemStack itemStack = this.handler.getSlot(0).getStack();
 
         if (!ItemStack.areEqual(itemStack, this.stack)) {
@@ -456,7 +494,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
 
         this.pageAngle = this.nextPageAngle;
         this.pageTurningSpeed = this.nextPageTurningSpeed;
-        boolean bl = this.handler.enchantmentPower != 0;
+        boolean bl = this.handler.enchantmentPower.get() != 0;
 
         if (bl) {
             this.nextPageTurningSpeed += 0.2F;
@@ -718,6 +756,6 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     }
 
     protected int getMaxScroll() {
-        return (ENCHANTMENT_ICON_TEXTURES.length + 4 - 1) / 4 - 3;
+        return (ENCHANTMENT_ICON_TEXTURES.length) / 4 - 3;
     }
 }
