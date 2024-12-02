@@ -11,7 +11,7 @@
 		"homepage": "",
 		"sources": "https://github.com/Sir-Cow/placeholder-mod"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/placeholder/icon.png",
 	"environment": "*",
 	"entrypoints": {

@@ -196,7 +196,7 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
                     if (Objects.equals(enchantmentLevelCosts[this.selectedEnchantID], "10")) {
                         if (enchantment != null && !presentEnchantments.getEnchantments().contains(world.getRegistryManager()
                                 .getOrThrow(enchantment.getRegistryRef())
-                                .getOrThrow(enchantment))) {
+                                .getOrThrow(enchantment)) && this.inventory.getStack(0).getItem() != Items.ENCHANTED_BOOK) {
                             if (this.inventory.getStack(0).getItem() == Items.BOOK) {
                                 this.inventory.getStack(0).decrement(1);
                                 this.inventory.setStack(0, new ItemStack(Items.ENCHANTED_BOOK, 1));
@@ -239,7 +239,7 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
                     if (Objects.equals(enchantmentLevelCosts[this.selectedEnchantID], "20")) {
                         if (enchantment != null && !presentEnchantments.getEnchantments().contains(world.getRegistryManager()
                                 .getOrThrow(enchantment.getRegistryRef())
-                                .getOrThrow(enchantment))) {
+                                .getOrThrow(enchantment)) && this.inventory.getStack(0).getItem() != Items.ENCHANTED_BOOK) {
                             if (this.inventory.getStack(0).getItem() == Items.BOOK) {
                                 this.inventory.getStack(0).decrement(1);
                                 this.inventory.setStack(0, new ItemStack(Items.ENCHANTED_BOOK, 1));
@@ -280,7 +280,7 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
                     if (Objects.equals(enchantmentLevelCosts[this.selectedEnchantID], "30")) {
                         if (enchantment != null && !presentEnchantments.getEnchantments().contains(world.getRegistryManager()
                                 .getOrThrow(enchantment.getRegistryRef())
-                                .getOrThrow(enchantment))) {
+                                .getOrThrow(enchantment)) && this.inventory.getStack(0).getItem() != Items.ENCHANTED_BOOK) {
                             if (this.inventory.getStack(0).getItem() == Items.BOOK) {
                                 this.inventory.getStack(0).decrement(1);
                                 this.inventory.setStack(0, new ItemStack(Items.ENCHANTED_BOOK, 1));

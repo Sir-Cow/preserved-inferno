@@ -110,7 +110,6 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     private boolean thirtyTextureActive;
     public World world;
     public int enchPower;
-    public int previousEnchPower;
 
     private static final Map<String, Set<Integer>> itemCategorySlots = new HashMap<>();
     static {
@@ -180,6 +179,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             "30", "10", "10", "10", "10",
     };
 
+    /*
     public String[] enchantmentDescriptions = {
             "Mining speed is no longer affected while submerged.",
             "Deal 3.5 more damage to arthropods.",
@@ -217,6 +217,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
             "Gain a 15% chance to deal damage",
             "Decrease the chance for your tool"
     };
+    */
 
     public NewEnchantingTableBlockScreen(NewEnchantingTableBlockScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -348,6 +349,13 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
         super.drawMouseoverTooltip(context, x, y);
         int scrollOffset = this.scrollOffset + 16;
         Set<Integer> slots = itemCategorySlots.get(this.itemCategory);
+
+        if (!this.itemInEnchantSlot) {
+            if (this.isPointWithinBounds(71, 13, 16, 16, x, y)) {
+                context.drawTooltip(this.textRenderer, Text.literal("No item present") , x, y);
+            }
+        }
+
         if (this.itemInEnchantSlot) {
             for (int i = this.scrollOffset; i < scrollOffset && i < ENCHANTMENT_ICON_TEXTURES.length; i++) {
                 int j = i - this.scrollOffset;
@@ -357,6 +365,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
                 if (this.isPointWithinBounds(k, m, 14, 14, x, y) && slots != null && slots.contains(i)) {
                     List<Text> list = Lists.<Text>newArrayList();
                     list.add(Text.literal(this.enchantmentNames[i] + " I"));
+                    /*
                     list.add(Text.literal(this.enchantmentDescriptions[i]).formatted(Formatting.WHITE));
                     // these are line breaks
                     switch (i) {
@@ -370,13 +379,83 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
                         case 33 -> list.add(Text.literal("when attacked by an enemy."));
                         case 34 -> list.add(Text.literal("to consume durability by 20%."));
                     }
+                    */
                     context.drawTooltip(this.textRenderer, list, x, y);
                     break;
                 }
             }
 
-            if (this.isPointWithinBounds(0, 0, 60, 60, x, y)) {
+            // hover over animated book
+            if (this.isPointWithinBounds(24, 18, 40, 24, x, y)) {
                 context.drawTooltip(this.textRenderer, Text.literal("Bookshelf Power: " + this.enchPower) , x, y);
+            }
+            // hover over 10 exp
+            if (this.isPointWithinBounds(71, 13, 16, 16, x, y)) {
+                List<Text> list = Lists.<Text>newArrayList();
+                if (this.handler.getSlot(1).getStack().isEmpty()) {
+                    list.add(Text.literal("Lapis Lazuli missing"));
+                }
+                if (!this.tenTextureActive && this.handler.enchantSelected) {
+                    list.add(Text.literal("10 Levels needed"));
+                }
+                else if (this.itemInEnchantSlot && !this.handler.enchantSelected) {
+                    list.add(Text.literal("Enchant not selected"));
+                }
+
+                if (this.enchPower < 1) {
+                    list.add(Text.literal("Not enough bookshelf power"));
+                }
+                else if (this.tenTextureActive && this.handler.enchantSelected) {
+                    list.add(Text.literal("Enchant for 10 Levels"));
+                }
+
+                context.drawTooltip(this.textRenderer, list, x, y);
+            }
+
+            // hover over 20 exp
+            if (this.isPointWithinBounds(71, 33, 16, 16, x, y)) {
+                List<Text> list = Lists.<Text>newArrayList();
+                if (this.handler.getSlot(1).getStack().isEmpty()) {
+                    list.add(Text.literal("Lapis Lazuli missing"));
+                }
+                if (!this.twentyTextureActive && this.handler.enchantSelected) {
+                    list.add(Text.literal("20 Levels needed"));
+                }
+                else if (this.itemInEnchantSlot && !this.handler.enchantSelected) {
+                    list.add(Text.literal("Enchant not selected"));
+                }
+
+                if (this.enchPower < 1) {
+                    list.add(Text.literal("Not enough bookshelf power"));
+                }
+                else if (this.twentyTextureActive && this.handler.enchantSelected) {
+                    list.add(Text.literal("Enchant for 20 Levels"));
+                }
+
+                context.drawTooltip(this.textRenderer, list, x, y);
+            }
+
+            // hover over 30 exp
+            if (this.isPointWithinBounds(71, 53, 16, 16, x, y)) {
+                List<Text> list = Lists.<Text>newArrayList();
+                if (this.handler.getSlot(1).getStack().isEmpty()) {
+                    list.add(Text.literal("Lapis Lazuli missing"));
+                }
+                if (!this.twentyTextureActive && this.handler.enchantSelected) {
+                    list.add(Text.literal("30 Levels needed"));
+                }
+                else if (this.itemInEnchantSlot && !this.handler.enchantSelected) {
+                    list.add(Text.literal("Enchant not selected"));
+                }
+
+                if (this.enchPower < 1) {
+                    list.add(Text.literal("Not enough bookshelf power"));
+                }
+                else if (this.twentyTextureActive && this.handler.enchantSelected) {
+                    list.add(Text.literal("Enchant for 30 Levels"));
+                }
+
+                context.drawTooltip(this.textRenderer, list, x, y);
             }
         }
     }
@@ -741,7 +820,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
                     }
                 }
             }
-            else if (this.handler.getSlot(0).getStack().getItem() == Items.BOOK || this.handler.getSlot(0).getStack().getItem() == Items.ENCHANTED_BOOK) {
+            else if (this.handler.getSlot(0).getStack().getItem() == Items.BOOK) {
                 this.itemCategory = "book";
             }
         }
