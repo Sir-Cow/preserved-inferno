@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
 import net.minecraft.item.consume.TeleportRandomlyConsumeEffect;
-import net.minecraft.item.equipment.EquipmentModels;
+import net.minecraft.item.equipment.EquipmentAssetKeys;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.Unit;
@@ -203,7 +203,10 @@ public abstract class ItemsMixin {
                 .component(DataComponentTypes.GLIDER, Unit.INSTANCE)
                 .component(
                         DataComponentTypes.EQUIPPABLE,
-                        EquippableComponent.builder(EquipmentSlot.CHEST).equipSound(SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA).model(EquipmentModels.ELYTRA).damageOnHurt(false).build()
+                        EquippableComponent.builder(EquipmentSlot.CHEST)
+                                .equipSound(SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA)
+                                .model(EquipmentAssetKeys.ELYTRA)
+                                .damageOnHurt(false).build()
                 ).repairable(ModItems.PHANTOM_SINEW);
     }
 }

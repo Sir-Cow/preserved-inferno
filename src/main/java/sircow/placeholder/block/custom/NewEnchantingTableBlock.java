@@ -81,11 +81,6 @@ public class NewEnchantingTableBlock extends BlockWithEntity implements BlockEnt
     }
 
     @Override
-    protected BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
-
-    @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new NewEnchantingTableBlockEntity(pos, state);
     }

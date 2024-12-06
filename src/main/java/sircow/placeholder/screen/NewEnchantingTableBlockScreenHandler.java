@@ -1,6 +1,5 @@
 package sircow.placeholder.screen;
 
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.EnchantingTableBlock;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
@@ -17,11 +16,9 @@ import net.minecraft.screen.*;
 import net.minecraft.screen.slot.Slot;
 
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import sircow.placeholder.Placeholder;
 import sircow.placeholder.block.ModBlocks;
 import sircow.placeholder.block.custom.NewEnchantingTableBlock;
 import sircow.placeholder.sound.ModSounds;
@@ -32,7 +29,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
-    static final Identifier EMPTY_LAPIS_SLOT_TEXTURE = Identifier.ofVanilla("item/empty_slot_lapis_lazuli");
+    static final Identifier EMPTY_LAPIS_LAZULI_SLOT_TEXTURE = Identifier.ofVanilla("container/slot/lapis_lazuli");
     public final Inventory inventory = new SimpleInventory(2) {
         @Override
         public void markDirty() {
@@ -117,8 +114,8 @@ public class NewEnchantingTableBlockScreenHandler extends ScreenHandler {
             }
 
             @Override
-            public Pair<Identifier, Identifier> getBackgroundSprite() {
-                return Pair.of(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, NewEnchantingTableBlockScreenHandler.EMPTY_LAPIS_SLOT_TEXTURE);
+            public Identifier getBackgroundSprite() {
+                return NewEnchantingTableBlockScreenHandler.EMPTY_LAPIS_LAZULI_SLOT_TEXTURE;
             }
         });
         this.addProperty(this.enchantmentPower);

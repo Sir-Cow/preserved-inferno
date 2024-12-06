@@ -229,7 +229,7 @@ public class NewEnchantingTableBlockScreen extends HandledScreen<NewEnchantingTa
     protected void init() {
         super.init();
         if (this.client != null) {
-            this.BOOK_MODEL = new BookModel(this.client.getEntityModelLoader().getModelPart(EntityModelLayers.BOOK));
+            this.BOOK_MODEL = new BookModel(this.client.getLoadedEntityModels().getModelPart(EntityModelLayers.BOOK));
         }
         this.tenTextureActive = false;
         this.twentyTextureActive = false;

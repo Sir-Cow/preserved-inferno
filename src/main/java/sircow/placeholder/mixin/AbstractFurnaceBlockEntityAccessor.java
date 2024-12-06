@@ -7,19 +7,19 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(AbstractFurnaceBlockEntity.class)
 public interface AbstractFurnaceBlockEntityAccessor {
-    @Accessor("cookTimeTotal")
+    @Accessor("cookingTotalTime")
     int getCookTimeTotal();;
 
-    @Accessor("cookTime")
+    @Accessor("cookingTimeSpent")
     int getCookTime();
 
-    @Accessor("cookTime")
+    @Accessor("cookingTimeSpent")
     void setCookTime(int cookTime);
 
-    @Accessor("burnTime")
+    @Accessor("litTimeRemaining")
     int getBurnTime();
 
-    @Accessor("burnTime")
+    @Accessor("litTimeRemaining")
     void setBurnTime(int burnTime);
 
     @Invoker("isBurning")
