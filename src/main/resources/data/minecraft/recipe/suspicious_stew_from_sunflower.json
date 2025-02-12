@@ -13,7 +13,7 @@
       "minecraft:suspicious_stew_effects": [
         {
           "duration": 160,
-          "id": "minecraft:absorption",
+          "id": "minecraft:absorption"
         }
       ]
     },

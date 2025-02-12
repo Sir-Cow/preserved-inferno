@@ -92,7 +92,7 @@
               "function": "minecraft:enchanted_count_increase"
             }
           ],
-          "name": "placeholder:raw_hide"
+          "name": "preservedinferno:raw_hide"
         }
       ],
       "rolls": 1.0

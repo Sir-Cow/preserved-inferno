@@ -1,31 +1,31 @@
 {
 	"schemaVersion": 1,
-	"id": "placeholder",
+	"id": "preservedinferno",
 	"version": "${version}",
-	"name": "placeholder",
+	"name": "preservedinferno",
 	"description": "Enhancing Minecraft Vanilla gameplay",
 	"authors": [
 		"Sir_Cow", "Perpillow"
 	],
 	"contact": {
 		"homepage": "",
-		"sources": "https://github.com/Sir-Cow/placeholder-mod"
+		"sources": "https://github.com/Sir-Cow/preserved-inferno"
 	},
 	"license": "MIT",
-	"icon": "assets/placeholder/icon.png",
+	"icon": "assets/preservedinferno/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"sircow.placeholder.Placeholder"
+			"sircow.preservedinferno.PreservedInferno"
 		],
 		"client": [
-			"sircow.placeholder.PlaceholderClient"
+			"sircow.preservedinferno.PreservedInfernoClient"
 		]
 	},
 	"mixins": [
-		"placeholder.mixins.json",
+		"preservedinferno.mixins.json",
 		{
-			"config": "placeholder.client.mixins.json",
+			"config": "preservedinferno.client.mixins.json",
 			"environment": "client"
 		}
 	],

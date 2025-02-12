@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "preservedinferno:block/oxidized_inductor_rail"
+  }
+}

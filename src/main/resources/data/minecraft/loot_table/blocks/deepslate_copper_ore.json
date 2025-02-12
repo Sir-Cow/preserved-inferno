@@ -49,7 +49,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "placeholder:raw_copper_chunk"
+              "name": "preservedinferno:raw_copper_chunk"
             }
           ]
         }

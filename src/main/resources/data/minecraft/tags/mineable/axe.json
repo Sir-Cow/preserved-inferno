@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "placeholder:new_loom",
-    "placeholder:new_fletching_table"
+    "preservedinferno:new_loom",
+    "preservedinferno:new_fletching_table"
   ]
 }

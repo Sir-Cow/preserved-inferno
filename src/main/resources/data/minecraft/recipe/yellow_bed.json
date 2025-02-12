@@ -3,7 +3,7 @@
   "category": "misc",
   "group": "bed",
   "key": {
-    "#": "placeholder:yellow_cloth",
+    "#": "preservedinferno:yellow_cloth",
     "X": "#minecraft:planks"
   },
   "pattern": [
