@@ -2,8 +2,8 @@
 	"schemaVersion": 1,
 	"id": "preservedinferno",
 	"version": "${version}",
-	"name": "Preserved Inferno",
-	"description": "Enhancing Minecraft Vanilla gameplay",
+	"name": "Preserved: Inferno",
+	"description": "Core changes that aim to increase the difficulty of survival mode. Part of the Preserves mod set.",
 	"authors": [
 		"Sir_Cow", "Perpillow"
 	],
