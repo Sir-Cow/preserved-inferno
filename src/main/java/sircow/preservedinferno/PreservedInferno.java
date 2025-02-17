@@ -18,7 +18,8 @@ import sircow.preservedinferno.sound.ModSounds;
 
 public class PreservedInferno implements ModInitializer {
 	public static final String MOD_ID = "preservedinferno";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+	public static final String MOD_NAME = "Preserved: Inferno";
+	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
 
 	public static final TagKey<Block> TAG_COPPER_RAILS = TagKey.of(
 			RegistryKeys.BLOCK, Identifier.of("preservedinferno", "preservedinferno_rails")
