@@ -8,8 +8,8 @@
       {
         "amount": {
           "type": "minecraft:linear",
-          "base": 0.15,
-          "per_level_above_first": 0.15
+          "base": 0.25,
+          "per_level_above_first": 0.25
         },
         "attribute": "minecraft:sneaking_speed",
         "id": "minecraft:enchantment.swift_sneak",
@@ -21,7 +21,7 @@
     "base": 75,
     "per_level_above_first": 25
   },
-  "max_level": 3,
+  "max_level": 1,
   "min_cost": {
     "base": 25,
     "per_level_above_first": 25

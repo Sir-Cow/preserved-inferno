@@ -8,8 +8,8 @@
       {
         "amount": {
           "type": "minecraft:linear",
-          "base": 0.33333334,
-          "per_level_above_first": 0.33333334
+          "base": 0.5,
+          "per_level_above_first": 0.25
         },
         "attribute": "minecraft:water_movement_efficiency",
         "id": "minecraft:enchantment.depth_strider",
@@ -22,7 +22,7 @@
     "base": 25,
     "per_level_above_first": 10
   },
-  "max_level": 3,
+  "max_level": 1,
   "min_cost": {
     "base": 10,
     "per_level_above_first": 10

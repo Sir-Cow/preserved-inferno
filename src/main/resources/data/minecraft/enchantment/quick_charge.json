@@ -8,8 +8,8 @@
       "type": "minecraft:add",
       "value": {
         "type": "minecraft:linear",
-        "base": -0.25,
-        "per_level_above_first": -0.25
+        "base": -0.5,
+        "per_level_above_first": -0.5
       }
     },
     "minecraft:crossbow_charging_sounds": [
@@ -31,7 +31,7 @@
     "base": 50,
     "per_level_above_first": 0
   },
-  "max_level": 3,
+  "max_level": 1,
   "min_cost": {
     "base": 12,
     "per_level_above_first": 20

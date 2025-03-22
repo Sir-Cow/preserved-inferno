@@ -8,7 +8,7 @@
       {
         "effect": {
           "type": "minecraft:multiply",
-          "factor": 1.0
+          "factor": 2.0
         }
       }
     ]

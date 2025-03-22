@@ -10,8 +10,8 @@
           "type": "minecraft:add",
           "value": {
             "type": "minecraft:linear",
-            "base": 0.005,
-            "per_level_above_first": 0.005
+            "base": 0.01,
+            "per_level_above_first": 0.01
           }
         },
         "enchanted": "attacker",
@@ -29,7 +29,7 @@
     "base": 65,
     "per_level_above_first": 9
   },
-  "max_level": 2,
+  "max_level": 1,
   "min_cost": {
     "base": 15,
     "per_level_above_first": 9

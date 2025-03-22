@@ -24,13 +24,13 @@ public abstract class ItemsMixin {
     // modify stack size of potions
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=potion")),
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/Item$Settings;maxCount(I)Lnet/minecraft/item/Item$Settings;", ordinal = 0))
-    private static int modifyPotionStackSize(int old) { return 16; }
+    private static int modifyPotionStackSize(int old) { return 4; }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=splash_potion")),
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/Item$Settings;maxCount(I)Lnet/minecraft/item/Item$Settings;", ordinal = 0))
-    private static int modifySplashPotionStackSize(int old) { return 16; }
+    private static int modifySplashPotionStackSize(int old) { return 4; }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=lingering_potion")),
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/Item$Settings;maxCount(I)Lnet/minecraft/item/Item$Settings;", ordinal = 0))
-    private static int modifyLingeringPotionStackSize(int old) { return 16; }
+    private static int modifyLingeringPotionStackSize(int old) { return 4; }
 
     // modify stew/soup stack sizes
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=beetroot_soup")),

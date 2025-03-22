@@ -8,8 +8,8 @@
       {
         "amount": {
           "type": "minecraft:linear",
-          "base": 0.66,
-          "per_level_above_first": 0.66
+          "base": 1.0,
+          "per_level_above_first": 1.0
         },
         "attribute": "minecraft:oxygen_bonus",
         "id": "minecraft:enchantment.respiration",
@@ -21,7 +21,7 @@
     "base": 40,
     "per_level_above_first": 10
   },
-  "max_level": 3,
+  "max_level": 1,
   "min_cost": {
     "base": 10,
     "per_level_above_first": 10

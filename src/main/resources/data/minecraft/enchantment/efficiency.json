@@ -7,9 +7,8 @@
     "minecraft:attributes": [
       {
         "amount": {
-          "type": "minecraft:linear",
-          "base": 4,
-          "per_level_above_first": 12
+          "type": "minecraft:levels_squared",
+          "added": 5.0
         },
         "attribute": "minecraft:mining_efficiency",
         "id": "minecraft:enchantment.efficiency",
@@ -21,7 +20,7 @@
     "base": 51,
     "per_level_above_first": 10
   },
-  "max_level": 3,
+  "max_level": 1,
   "min_cost": {
     "base": 1,
     "per_level_above_first": 10
