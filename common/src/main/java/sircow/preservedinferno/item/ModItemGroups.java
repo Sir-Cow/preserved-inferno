@@ -1,0 +1,77 @@
+package sircow.preservedinferno.item;
+
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import sircow.preservedinferno.Constants;
+
+public class ModItemGroups {
+    public static final ResourceKey<CreativeModeTab> PRESERVED_INFERNO_TAB_KEY =
+            ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "pinferno"));
+
+    public static CreativeModeTab PRESERVED_INFERNO_GROUP;
+
+    public static void register() {
+        PRESERVED_INFERNO_GROUP = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
+                .title(Component.translatable("itemgroup.pinferno.items"))
+                .icon(() -> new net.minecraft.world.item.ItemStack(ModItems.DREAMCATCHER))
+                .displayItems((displayContext, entries) -> {
+                    entries.accept(ModItems.RAW_HIDE);
+                    entries.accept(ModItems.PHANTOM_SINEW);
+                    entries.accept(ModItems.HOLLOW_TWINE);
+                    entries.accept(ModItems.DREAMCATCHER);
+
+                    entries.accept(ModItems.RAW_IRON_CHUNK);
+                    entries.accept(ModItems.RAW_GOLD_CHUNK);
+                    entries.accept(ModItems.RAW_COPPER_CHUNK);
+                    entries.accept(ModItems.COPPER_NUGGET);
+
+                    entries.accept(ModItems.BLACK_CLOTH);
+                    entries.accept(ModItems.BLUE_CLOTH);
+                    entries.accept(ModItems.BROWN_CLOTH);
+                    entries.accept(ModItems.CYAN_CLOTH);
+                    entries.accept(ModItems.GRAY_CLOTH);
+                    entries.accept(ModItems.GREEN_CLOTH);
+                    entries.accept(ModItems.LIGHT_BLUE_CLOTH);
+                    entries.accept(ModItems.LIGHT_GRAY_CLOTH);
+                    entries.accept(ModItems.LIME_CLOTH);
+                    entries.accept(ModItems.MAGENTA_CLOTH);
+                    entries.accept(ModItems.ORANGE_CLOTH);
+                    entries.accept(ModItems.PINK_CLOTH);
+                    entries.accept(ModItems.PURPLE_CLOTH);
+                    entries.accept(ModItems.RED_CLOTH);
+                    entries.accept(ModItems.WHITE_CLOTH);
+                    entries.accept(ModItems.YELLOW_CLOTH);
+
+                    entries.accept(ModItems.DIAMOND_SHIELD);
+                    entries.accept(ModItems.GOLDEN_SHIELD);
+                    entries.accept(ModItems.IRON_SHIELD);
+                    entries.accept(ModItems.NETHERITE_SHIELD);
+                    entries.accept(ModItems.WOODEN_SHIELD);
+
+                    entries.accept(ModItems.INDUCTOR_RAIL);
+                    entries.accept(ModItems.EXPOSED_INDUCTOR_RAIL);
+                    entries.accept(ModItems.WEATHERED_INDUCTOR_RAIL);
+                    entries.accept(ModItems.OXIDIZED_INDUCTOR_RAIL);
+                    entries.accept(ModItems.WAXED_INDUCTOR_RAIL);
+                    entries.accept(ModItems.WAXED_EXPOSED_INDUCTOR_RAIL);
+                    entries.accept(ModItems.WAXED_WEATHERED_INDUCTOR_RAIL);
+                    entries.accept(ModItems.WAXED_OXIDIZED_INDUCTOR_RAIL);
+                })
+                .build();
+        registerCreativeTab(PRESERVED_INFERNO_GROUP);
+    }
+
+    private static void registerCreativeTab(CreativeModeTab tab){
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, ModItemGroups.PRESERVED_INFERNO_TAB_KEY, tab);
+    }
+
+    public static void registerItemGroups() {
+        register();
+        Constants.LOG.info("Registering Mod Item Groups for " + Constants.MOD_ID);
+    }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 50,
+  "experience": 0.1,
+  "ingredient": [
+    "pinferno:raw_copper_chunk"
+  ],
+  "result": {
+    "id": "pinferno:copper_nugget"
+  }
+}

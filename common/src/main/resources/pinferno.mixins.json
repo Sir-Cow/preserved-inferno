@@ -1,0 +1,33 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "sircow.preservedinferno.mixin",
+  "refmap": "${mod_id}.refmap.json",
+  "compatibilityLevel": "JAVA_18",
+  "mixins": [
+    "AbstractCauldronBlockMixin",
+    "AbstractFurnaceBlockEntityAccessor",
+    "AbstractFurnaceBlockEntityMixin",
+    "ConduitBlockEntityAccessor",
+    "ConduitMixin",
+    "ConsumablesMixin",
+    "CraftingTableBlockMixin",
+    "CrossbowMixin",
+    "FoodDataMixin",
+    "FoodsMixin",
+    "HoneycombItemMixin",
+    "ItemsMixin",
+    "PhantomSpawnerMixin",
+    "PlayerMixin",
+    "PotionBrewingMixin",
+    "ServerPlayerMixin",
+    "TippedArrowItemMixin",
+    "TridentMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+

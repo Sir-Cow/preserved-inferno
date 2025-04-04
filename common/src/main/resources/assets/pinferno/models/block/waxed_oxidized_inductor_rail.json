@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/rail_flat",
+  "textures": {
+    "rail": "pinferno:block/oxidized_inductor_rail"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "pinferno:hollow_twine",
+    "B": "minecraft:stick",
+    "C": "minecraft:feather"
+  },
+  "pattern": [
+    "ABA",
+    "BAB",
+    "CBC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:dreamcatcher"
+  }
+}

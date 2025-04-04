@@ -1,0 +1,56 @@
+{
+  "enchant_click": {
+    "subtitle": "sounds.pinferno.enchant_click",
+    "sounds": [
+      "pinferno:click"
+    ]
+  },
+  "enchant_one": {
+    "subtitle": "sounds.pinferno.enchant_one",
+    "sounds": [
+      "pinferno:enchant1"
+    ]
+  },
+  "enchant_two": {
+    "subtitle": "sounds.pinferno.enchant_two",
+    "sounds": [
+      "pinferno:enchant2"
+    ]
+  },
+  "enchant_three": {
+    "subtitle": "sounds.pinferno.enchant_three",
+    "sounds": [
+      "pinferno:enchant3"
+    ]
+  },
+  "enchant_open_flip_one": {
+    "subtitle": "sounds.pinferno.enchant_open_flip_one",
+    "sounds": [
+      "pinferno:open_flip1"
+    ]
+  },
+  "enchant_open_flip_two": {
+    "subtitle": "sounds.pinferno.enchant_open_flip_two",
+    "sounds": [
+      "pinferno:open_flip2"
+    ]
+  },
+  "enchant_open_flip_three": {
+    "subtitle": "sounds.pinferno.enchant_open_flip_three",
+    "sounds": [
+      "pinferno:open_flip3"
+    ]
+  },
+  "enchant_close_one": {
+    "subtitle": "sounds.pinferno.enchant_close_one",
+    "sounds": [
+      "pinferno:close_put1"
+    ]
+  },
+  "enchant_close_two": {
+    "subtitle": "sounds.pinferno.enchant_close_two",
+    "sounds": [
+      "pinferno:close_put2"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "waxed_inductor_rail",
+  "ingredients": [
+    "pinferno:inductor_rail",
+    "minecraft:honeycomb"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:waxed_inductor_rail"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "raw_copper_chunk",
+  "ingredients": [
+    "minecraft:raw_copper"
+  ],
+  "result": {
+    "count": 4,
+    "id": "pinferno:raw_copper_chunk"
+  }
+}

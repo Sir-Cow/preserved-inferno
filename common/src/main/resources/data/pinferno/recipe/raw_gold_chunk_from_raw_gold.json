@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "raw_gold_chunk",
+  "ingredients": [
+    "minecraft:raw_gold"
+  ],
+  "result": {
+    "count": 4,
+    "id": "pinferno:raw_gold_chunk"
+  }
+}
