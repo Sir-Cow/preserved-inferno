@@ -10,27 +10,8 @@
           "type": "minecraft:add",
           "value": {
             "type": "minecraft:linear",
-            "base": 3.0,
-            "per_level_above_first": 3.0
-          }
-        },
-        "requirements": {
-          "condition": "minecraft:entity_properties",
-          "entity": "this",
-          "predicate": {
-            "type": "#minecraft:sensitive_to_impaling"
-          }
-        }
-      }
-    ],
-    "minecraft:damage": [
-      {
-        "effect": {
-          "type": "minecraft:add",
-          "value": {
-            "type": "minecraft:linear",
-            "base": 1.0,
-            "per_level_above_first": 1.0
+            "base": 2.0,
+            "per_level_above_first": 2.0
           }
         }
       }
@@ -41,7 +22,7 @@
     "base": 21,
     "per_level_above_first": 8
   },
-  "max_level": 5,
+  "max_level": 1,
   "min_cost": {
     "base": 1,
     "per_level_above_first": 8
