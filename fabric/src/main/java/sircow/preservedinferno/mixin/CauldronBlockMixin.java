@@ -2,9 +2,6 @@ package sircow.preservedinferno.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.CauldronBlock;
@@ -14,7 +11,6 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -26,20 +22,6 @@ import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
 
 @Mixin(CauldronBlock.class)
 public class CauldronBlockMixin implements EntityBlock {
-
-    @Unique
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide) {
-            MenuProvider menuProvider = ((PreservedCauldronBlockEntity) level.getBlockEntity(pos));
-            if (menuProvider != null) {
-                player.openMenu(menuProvider);
-            }
-            player.openMenu(state.getMenuProvider(level, pos));
-        }
-
-        return InteractionResult.SUCCESS;
-    }
-
     @Unique
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {

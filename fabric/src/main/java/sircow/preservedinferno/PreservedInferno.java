@@ -16,7 +16,6 @@ import sircow.preservedinferno.block.entity.PreservedCauldronBlockData;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
 import sircow.preservedinferno.block.entity.PreservedFletchingTableBlockData;
 import sircow.preservedinferno.block.entity.PreservedFletchingTableBlockEntity;
-import sircow.preservedinferno.client.FabricPreservedInfernoClient;
 import sircow.preservedinferno.other.FabricModEvents;
 import sircow.preservedinferno.screen.PreservedCauldronMenu;
 import sircow.preservedinferno.screen.PreservedEnchantmentMenu;
@@ -47,10 +46,10 @@ public class PreservedInferno implements ModInitializer {
     }
 
     static {
-        FabricPreservedInfernoClient.PRESERVED_CAULDRON_MENU_TYPE = () -> PRESERVED_CAULDRON_MENU_TYPE;
-        FabricPreservedInfernoClient.PRESERVED_FLETCHING_TABLE_MENU_TYPE = () -> PRESERVED_FLETCHING_TABLE_MENU_TYPE;
         Constants.PRESERVED_LOOM_MENU_TYPE = () -> PRESERVED_LOOM_MENU_TYPE;
         Constants.PRESERVED_ENCHANT_MENU_TYPE = () -> PRESERVED_ENCHANT_MENU_TYPE;
+        MenuTypes.PRESERVED_CAULDRON_MENU_TYPE = () -> PRESERVED_CAULDRON_MENU_TYPE;
+        MenuTypes.PRESERVED_FLETCHING_TABLE_MENU_TYPE = () -> PRESERVED_FLETCHING_TABLE_MENU_TYPE;
     }
 
     // block entities
