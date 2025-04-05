@@ -95,6 +95,11 @@ public class PreservedFletchingTableMenu extends AbstractContainerMenu {
             } else {
                 slot.setChanged();
             }
+
+            if (originalStack.getCount() == newStack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+            slot.onTake(player, originalStack);
         }
         return newStack;
     }

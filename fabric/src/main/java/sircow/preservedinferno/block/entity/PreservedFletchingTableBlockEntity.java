@@ -87,7 +87,7 @@ public class PreservedFletchingTableBlockEntity extends BaseContainerBlockEntity
     }
 
     public static void tick(ServerLevel world, BlockPos pos, BlockState state, PreservedFletchingTableBlockEntity fletchingTableBlock) {
-        if(world.isClientSide) {
+        if (world.isClientSide) {
             return;
         }
 
