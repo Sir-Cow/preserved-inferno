@@ -108,8 +108,13 @@ public class PreservedFletchingTableBlockEntity extends BaseContainerBlockEntity
         if (inputItem == Items.FLINT && inputItem2 == Items.STICK && inputItem3 == Items.FEATHER) {
             ItemStack result;
             if (inputItem4 instanceof PotionItem) {
+                if (this.getItem(OUTPUT_SLOT).getItem() == Items.ARROW) {
+                    this.setItem(OUTPUT_SLOT, ItemStack.EMPTY);
+                    setChanged();
+                }
                 result = new ItemStack(Items.TIPPED_ARROW, 16);
                 result.set(DataComponents.POTION_CONTENTS, getItem(INPUT_SLOT_FOUR).get(DataComponents.POTION_CONTENTS));
+                setChanged();
             }
             else {
                result = new ItemStack(outputItem, 16);
@@ -117,13 +122,22 @@ public class PreservedFletchingTableBlockEntity extends BaseContainerBlockEntity
 
             if (this.getItem(OUTPUT_SLOT).isEmpty()) {
                 this.setItem(OUTPUT_SLOT, new ItemStack(result.getItem(), getItem(OUTPUT_SLOT).getCount() + result.getCount()));
-                if (this.getItem(INPUT_SLOT_FOUR) != null){
+                if (!this.getItem(INPUT_SLOT_FOUR).isEmpty()) {
                     this.getItem(OUTPUT_SLOT).set(DataComponents.POTION_CONTENTS, getItem(INPUT_SLOT_FOUR).get(DataComponents.POTION_CONTENTS));
                 }
-                this.removeItem(INPUT_SLOT, 1);
-                this.removeItem(INPUT_SLOT_TWO, 1);
-                this.removeItem(INPUT_SLOT_THREE, 1);
-                this.removeItem(INPUT_SLOT_FOUR, 1);
+                setChanged();
+            }
+            else if (this.getItem(OUTPUT_SLOT).getItem() == Items.TIPPED_ARROW) {
+                if (this.getItem(INPUT_SLOT_FOUR).isEmpty()) {
+                    if (!this.getItem(INPUT_SLOT).isEmpty() && !this.getItem(INPUT_SLOT_TWO).isEmpty() && !this.getItem(INPUT_SLOT_THREE).isEmpty())
+                    {
+                        this.setItem(OUTPUT_SLOT, new ItemStack(Items.ARROW, 16));
+                    }
+                    else {
+                        this.setItem(OUTPUT_SLOT, ItemStack.EMPTY);
+                    }
+                }
+                setChanged();
             }
         }
         else {

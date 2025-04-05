@@ -2,6 +2,7 @@ package sircow.preservedinferno.screen;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -50,6 +51,21 @@ public class PreservedFletchingTableMenu extends AbstractContainerMenu {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return false;
+            }
+
+            @Override
+            public void onTake(Player player, ItemStack stack) {
+                PreservedFletchingTableMenu.this.inventory.removeItem(0, 1);
+                PreservedFletchingTableMenu.this.inventory.removeItem(1, 1);
+                PreservedFletchingTableMenu.this.inventory.removeItem(2, 1);
+                if (!PreservedFletchingTableMenu.this.inventory.getItem(3).isEmpty()) {
+                    ItemEntity itementity = player.drop(new ItemStack(Items.GLASS_BOTTLE), false);
+                    if (itementity != null) {
+                        itementity.setNoPickUpDelay();
+                        itementity.setTarget(player.getUUID());
+                    }
+                }
+                PreservedFletchingTableMenu.this.inventory.removeItem(3, 1);
             }
         });
 
