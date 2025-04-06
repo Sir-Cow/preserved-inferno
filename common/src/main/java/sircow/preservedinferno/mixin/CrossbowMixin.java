@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import sircow.preservedinferno.Captures;
 
 @Mixin(CrossbowItem.class)
 public class CrossbowMixin {
@@ -25,13 +26,14 @@ public class CrossbowMixin {
     // reduce damage by 75% if multishot is present
     @Inject(method = "shootProjectile", at = @At("HEAD"))
     private void modifyArrowDamage(LivingEntity shooter, Projectile projectile, int index, float speed, float divergence, float yaw, LivingEntity target, CallbackInfo ci) {
+        ItemStack[] hands = {shooter.getMainHandItem(), shooter.getOffhandItem()};
         if (projectile instanceof AbstractArrow arrow) {
-            for (ItemStack itemStack : shooter.getHandSlots()) {
+            for (ItemStack itemStack : hands) {
                 if (itemStack.getItem() instanceof CrossbowItem &&
                         EnchantmentHelper.getItemEnchantmentLevel(shooter.level().registryAccess()
                                 .lookupOrThrow(Enchantments.MULTISHOT.registryKey())
                                 .getOrThrow(Enchantments.MULTISHOT), itemStack) > 0) {
-                    double originalDamage = arrow.getBaseDamage();
+                    double originalDamage = Captures.arrowBaseDamage;
                     double modifiedDamage = originalDamage * 0.75; // Reduce damage to 75%
                     arrow.setBaseDamage(modifiedDamage);
                     break;

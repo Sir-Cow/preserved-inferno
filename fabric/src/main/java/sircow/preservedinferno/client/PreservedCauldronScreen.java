@@ -27,7 +27,6 @@ public class PreservedCauldronScreen extends AbstractContainerScreen<PreservedCa
     protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
         int x = this.leftPos;
         int y = this.topPos;
-
         context.blit(RenderType::guiTextured, BG_LOCATION, x, y, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
         renderProgressArrow(context, x, y);
         renderProgressWater(context, x, y);

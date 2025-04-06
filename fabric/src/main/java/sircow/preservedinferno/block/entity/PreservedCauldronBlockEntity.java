@@ -174,8 +174,8 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     @Override
     protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         super.loadAdditional(nbt, registryLookup);
-        this.progress = nbt.getInt("newCauldronProgress");
-        this.progressWater = nbt.getInt("newCauldronWaterProgress");
+        this.progress = nbt.getIntOr("newCauldronProgress", 0);
+        this.progressWater = nbt.getIntOr("newCauldronWaterProgress", 0);
         ContainerHelper.loadAllItems(nbt, this.inventory, registryLookup);
     }
 

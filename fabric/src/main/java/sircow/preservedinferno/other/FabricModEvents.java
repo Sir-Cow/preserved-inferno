@@ -13,7 +13,7 @@ public class FabricModEvents {
         // only allow sleeping if holding a dreamcatcher
         EntitySleepEvents.ALLOW_SLEEPING.register((Player player, BlockPos pos) -> {
             if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() != ModItems.DREAMCATCHER) {
-                if (player.level().isNight()) {
+                if (player.level().isMoonVisible()) {
                     player.displayClientMessage(Component.literal("You may not rest now; nightmares haunt you in your sleep"), true);
                 }
                 return Player.BedSleepingProblem.OTHER_PROBLEM;

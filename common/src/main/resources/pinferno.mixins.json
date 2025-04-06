@@ -5,6 +5,7 @@
   "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_18",
   "mixins": [
+    "AbstractArrowMixin",
     "AbstractFurnaceBlockEntityAccessor",
     "AbstractFurnaceBlockEntityMixin",
     "ConduitBlockEntityAccessor",
@@ -20,7 +21,6 @@
     "PlayerMixin",
     "PotionBrewingMixin",
     "ServerPlayerMixin",
-    "TippedArrowItemMixin",
     "TridentMixin"
   ],
   "client": [],

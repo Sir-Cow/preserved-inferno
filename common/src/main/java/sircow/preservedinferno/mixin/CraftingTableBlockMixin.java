@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class CraftingTableBlockMixin {
 
     @Inject(method = "getMenuProvider", at = @At("HEAD"), cancellable = true)
-    private void cancelGeetMenuProvider(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
+    private void cancelGetMenuProvider(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
         if (((Object) this) instanceof FletchingTableBlock) {
             cir.setReturnValue(null);
             cir.cancel();
