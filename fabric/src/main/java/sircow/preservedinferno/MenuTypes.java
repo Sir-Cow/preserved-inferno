@@ -8,5 +8,4 @@ import java.util.function.Supplier;
 
 public class MenuTypes {
     public static Supplier<MenuType<PreservedCauldronMenu>> PRESERVED_CAULDRON_MENU_TYPE;
-    public static Supplier<MenuType<PreservedFletchingTableMenu>> PRESERVED_FLETCHING_TABLE_MENU_TYPE;
 }

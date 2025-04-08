@@ -111,7 +111,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
                 PreservedLoomMenu.this.inputSlotOne.remove(1);
                 PreservedLoomMenu.this.inputSlotTwo.remove(1);
                 ItemStack shearsItemStack = PreservedLoomMenu.this.shearsSlot.getItem();
-                if (shearsItemStack != null && !shearsItemStack.isEmpty()) {
+                if (!shearsItemStack.isEmpty()) {
                     // unbreaking check
                     int unbreakingLevel = EnchantmentHelper.getItemEnchantmentLevel(PreservedLoomMenu.this.world.registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey())
                             .getOrThrow(Enchantments.UNBREAKING), shearsItemStack);
@@ -166,7 +166,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
     public ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index == this.resultSlot.index) {
@@ -211,24 +211,23 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
 
             if (itemstack1.isEmpty()) {
                 slot.setByPlayer(ItemStack.EMPTY);
-            } else {
+            }
+            else {
                 slot.setChanged();
             }
 
             if (itemstack1.getCount() == itemstack.getCount()) {
                 return ItemStack.EMPTY;
             }
-
             slot.onTake(player, itemstack1);
         }
-
         return itemstack;
     }
 
     @Override
     public void removed(Player player) {
         super.removed(player);
-        this.access.execute((p_39871_, p_39872_) -> this.clearContainer(player, this.inputContainer));
+        this.access.execute((level, blockPos) -> this.clearContainer(player, this.inputContainer));
     }
 
     private void setupResultSlot() {
@@ -246,21 +245,5 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
 
     public NonNullList<ItemStack> getItems() {
         return inventory;
-    }
-
-    public Slot getInputSlotOne() {
-        return this.inputSlotOne;
-    }
-
-    public Slot getInputSlotTwo() {
-        return this.inputSlotTwo;
-    }
-
-    public Slot getShearsSlot() {
-        return this.shearsSlot;
-    }
-
-    public Slot getResultSlot() {
-        return this.resultSlot;
     }
 }
