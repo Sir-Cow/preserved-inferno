@@ -33,7 +33,7 @@ public class AbstractCauldronBlockMixin {
     }
 
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
-    public void cancel3(ItemStack p_316791_, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult stack, CallbackInfoReturnable<InteractionResult> cir) {
+    public void cancel3(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult stack, CallbackInfoReturnable<InteractionResult> cir) {
         if (!level.isClientSide) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof PreservedCauldronBlockEntity menuProvider) {

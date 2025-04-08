@@ -7,8 +7,8 @@
   "mixins": [
     "AbstractCauldronBlockMixin",
     "CauldronBlockMixin",
+    "CraftingTableBlockMixin",
     "EnchantingTableBlockMixin",
-    "FletchingTableBlockMixin",
     "LoomBlockMixin"
   ],
   "client": [],
