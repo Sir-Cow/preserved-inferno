@@ -210,6 +210,6 @@ public abstract class ItemsMixin {
                                 .setEquipSound(SoundEvents.ARMOR_EQUIP_ELYTRA)
                                 .setAsset(EquipmentAssets.ELYTRA)
                                 .setDamageOnHurt(false).build()
-                ).repairable(ModItems.PHANTOM_SINEW);
+                ).repairable(ModItems.HOLLOW_TWINE);
     }
 }

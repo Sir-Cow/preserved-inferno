@@ -8,6 +8,7 @@
     "AbstractArrowMixin",
     "AbstractFurnaceBlockEntityAccessor",
     "AbstractFurnaceBlockEntityMixin",
+    "BrewingStandBlockEntityMixin",
     "ConduitBlockEntityAccessor",
     "ConduitMixin",
     "ConsumablesMixin",
@@ -23,7 +24,9 @@
     "ServerPlayerMixin",
     "TridentMixin"
   ],
-  "client": [],
+  "client": [
+    "BrewingStandScreenMixin"
+  ],
   "server": [],
   "injectors": {
     "defaultRequire": 1
