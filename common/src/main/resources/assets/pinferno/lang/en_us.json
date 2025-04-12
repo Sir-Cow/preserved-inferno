@@ -26,14 +26,14 @@
   "item.pinferno.white_cloth": "White Cloth",
   "item.pinferno.yellow_cloth": "Yellow Cloth",
 
-  "block.pinferno.inductor_rail": "Inductor Rail",
-  "block.pinferno.exposed_inductor_rail": "Exposed Inductor Rail",
-  "block.pinferno.weathered_inductor_rail": "Weathered Inductor Rail",
-  "block.pinferno.oxidized_inductor_rail": "Oxidized Inductor Rail",
-  "block.pinferno.waxed_inductor_rail": "Waxed Inductor Rail",
-  "block.pinferno.waxed_exposed_inductor_rail": "Waxed Exposed Inductor Rail",
-  "block.pinferno.waxed_weathered_inductor_rail": "Waxed Weathered Inductor Rail",
-  "block.pinferno.waxed_oxidized_inductor_rail": "Waxed Oxidized Inductor Rail",
+  "item.pinferno.inductor_rail": "Inductor Rail",
+  "item.pinferno.exposed_inductor_rail": "Exposed Inductor Rail",
+  "item.pinferno.weathered_inductor_rail": "Weathered Inductor Rail",
+  "item.pinferno.oxidized_inductor_rail": "Oxidized Inductor Rail",
+  "item.pinferno.waxed_inductor_rail": "Waxed Inductor Rail",
+  "item.pinferno.waxed_exposed_inductor_rail": "Waxed Exposed Inductor Rail",
+  "item.pinferno.waxed_weathered_inductor_rail": "Waxed Weathered Inductor Rail",
+  "item.pinferno.waxed_oxidized_inductor_rail": "Waxed Oxidized Inductor Rail",
 
   "itemgroup.pinferno.items": "Preserved: Inferno",
 

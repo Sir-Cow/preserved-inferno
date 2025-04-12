@@ -1,10 +1,6 @@
 package sircow.preservedinferno.block.custom;
 
 import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,18 +10,12 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.RailShape;
 
-public class InductorRailBlock extends BaseRailBlock implements WeatheringCopper {
-    public static final MapCodec<InductorRailBlock> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(WeatheringCopper.WeatherState.CODEC.fieldOf("weathering_state").forGetter(InductorRailBlock::getAge), propertiesCodec())
-                    .apply(instance, InductorRailBlock::new)
-    );
+public class InductorRailBlock extends BaseRailBlock {
+        public static final MapCodec<InductorRailBlock> CODEC = simpleCodec(InductorRailBlock::new);
     public static final EnumProperty<RailShape> SHAPE = BlockStateProperties.RAIL_SHAPE_STRAIGHT;
-    private final WeatheringCopper.WeatherState weatherState;
 
-
-    public InductorRailBlock(WeatheringCopper.WeatherState weatherState, BlockBehaviour.Properties properties) {
+    public InductorRailBlock(BlockBehaviour.Properties properties) {
         super(true, properties);
-        this.weatherState = weatherState;
         this.registerDefaultState(this.stateDefinition
                 .any().setValue(SHAPE, RailShape.NORTH_SOUTH)
                 .setValue(WATERLOGGED, Boolean.FALSE)
@@ -33,7 +23,7 @@ public class InductorRailBlock extends BaseRailBlock implements WeatheringCopper
     }
 
     @Override
-    public MapCodec<InductorRailBlock> codec() {
+    public MapCodec<? extends InductorRailBlock> codec() {
         return CODEC;
     }
 
@@ -143,21 +133,5 @@ public class InductorRailBlock extends BaseRailBlock implements WeatheringCopper
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(SHAPE, WATERLOGGED);
-    }
-
-    // oxidization stuff
-    @Override
-    protected void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        this.changeOverTime(state, world, pos, random);
-    }
-
-    @Override
-    protected boolean isRandomlyTicking(BlockState state) {
-        return WeatheringCopper.getNext(state.getBlock()).isPresent();
-    }
-
-    @Override
-    public WeatheringCopper.WeatherState getAge() {
-        return this.weatherState;
     }
 }

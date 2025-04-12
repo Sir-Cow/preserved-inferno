@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EnchantingTableBlock;
 import sircow.preservedinferno.Constants;
+import sircow.preservedinferno.sound.ModSounds;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -127,12 +129,12 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
         this.access.execute((world, pos) -> {
             this.clearContainer(player, this.enchantSlots);
             int randomNum = (int)(Math.random() * 1);
-//            switch (randomNum) {
-//                case 0 ->
-//                        world.playSound(null, pos, ModSounds.ENCHANT_CLOSE_ONE, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
-//                case 1 ->
-//                        world.playSound(null, pos, ModSounds.ENCHANT_CLOSE_TWO, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
-//            }
+            switch (randomNum) {
+                case 0 ->
+                        world.playSound(null, pos, ModSounds.ENCHANT_CLOSE_ONE, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                case 1 ->
+                        world.playSound(null, pos, ModSounds.ENCHANT_CLOSE_TWO, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+            }
         });
         this.enchantSelected = false;
     }
@@ -158,16 +160,16 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                     }
                 }
 
-                if (bookshelfCount < 5) {
+                if (bookshelfCount < 4) {
                     this.enchantmentPower.set(0);
                 }
-                else if (bookshelfCount >= 5 && bookshelfCount < 10) {
+                else if (bookshelfCount >= 4 && bookshelfCount < 8) {
                     this.enchantmentPower.set(1);
                 }
-                else if (bookshelfCount >= 10 && bookshelfCount < 15) {
+                else if (bookshelfCount >= 8 && bookshelfCount < 12) {
                     this.enchantmentPower.set(2);
                 }
-                else if (bookshelfCount >= 15) {
+                else if (bookshelfCount >= 12) {
                     this.enchantmentPower.set(3);
                 }
 
@@ -211,7 +213,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                                 this.getSlot(1).getItem().shrink(1);
                                 this.enchantSlots.setChanged();
                                 this.slotsChanged(this.enchantSlots);
-                                //world.playSound(null, pos, ModSounds.ENCHANT_ONE, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                                world.playSound(null, pos, ModSounds.ENCHANT_ONE, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
                             }
                         }
                     }
@@ -252,7 +254,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                                 this.getSlot(1).getItem().shrink(1);
                                 this.enchantSlots.setChanged();
                                 this.slotsChanged(this.enchantSlots);
-                                //world.playSound(null, pos, ModSounds.ENCHANT_TWO, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                                world.playSound(null, pos, ModSounds.ENCHANT_TWO, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
                             }
                         }
                     }
@@ -293,7 +295,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                                 this.getSlot(1).getItem().shrink(1);
                                 this.enchantSlots.setChanged();
                                 this.slotsChanged(this.enchantSlots);
-                                //world.playSound(null, pos, ModSounds.ENCHANT_THREE, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                                world.playSound(null, pos, ModSounds.ENCHANT_THREE, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
                             }
                         }
                     }
@@ -357,4 +359,3 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
         return itemStack;
     }
 }
-

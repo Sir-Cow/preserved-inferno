@@ -2,7 +2,6 @@ package sircow.preservedinferno;
 
 import net.minecraft.world.inventory.MenuType;
 import sircow.preservedinferno.screen.PreservedCauldronMenu;
-import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
 
 import java.util.function.Supplier;
 

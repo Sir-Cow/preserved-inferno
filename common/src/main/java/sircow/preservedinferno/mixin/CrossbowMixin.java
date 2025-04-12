@@ -22,7 +22,7 @@ public class CrossbowMixin {
     private int modifyIntValue(int original) {
         return 1;
     }
-    
+
     // reduce damage by 75% if multishot is present
     @Inject(method = "shootProjectile", at = @At("HEAD"))
     private void modifyArrowDamage(LivingEntity shooter, Projectile projectile, int index, float speed, float divergence, float yaw, LivingEntity target, CallbackInfo ci) {

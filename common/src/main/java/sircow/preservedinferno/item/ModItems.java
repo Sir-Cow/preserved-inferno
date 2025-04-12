@@ -4,13 +4,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Block;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.block.ModBlocks;
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class ModItems {
@@ -48,40 +44,11 @@ public class ModItems {
     public static final Item NETHERITE_SHIELD = registerItem("netherite_shield");
     public static final Item WOODEN_SHIELD = registerItem("wooden_shield");
 
-    public static final Item INDUCTOR_RAIL = registerBlock(ModBlocks.INDUCTOR_RAIL);
-    public static final Item EXPOSED_INDUCTOR_RAIL = registerBlock(ModBlocks.EXPOSED_INDUCTOR_RAIL);
-    public static final Item WEATHERED_INDUCTOR_RAIL = registerBlock(ModBlocks.WEATHERED_INDUCTOR_RAIL);
-    public static final Item OXIDIZED_INDUCTOR_RAIL = registerBlock(ModBlocks.OXIDIZED_INDUCTOR_RAIL);
-    public static final Item WAXED_INDUCTOR_RAIL = registerBlock(ModBlocks.WAXED_INDUCTOR_RAIL);
-    public static final Item WAXED_EXPOSED_INDUCTOR_RAIL = registerBlock(ModBlocks.WAXED_EXPOSED_INDUCTOR_RAIL);
-    public static final Item WAXED_WEATHERED_INDUCTOR_RAIL = registerBlock(ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL);
-    public static final Item WAXED_OXIDIZED_INDUCTOR_RAIL = registerBlock(ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL);
-
-    private static ResourceKey<Item> blockIdToItemId(ResourceKey<Block> blockId) {
-        return ResourceKey.create(Registries.ITEM, blockId.location());
-    }
 
     private static ResourceKey<Item> moddedItemId(String name) {
-        return ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name));
+        return ResourceKey.create(Registries.ITEM, Constants.id(name));
     }
 
-    public static Item registerBlock(Block block) {
-        return registerBlock(block, BlockItem::new);
-    }
-
-    public static Item registerBlock(Block block, BiFunction<Block, Item.Properties, Item> factory) {
-        return registerBlock(block, factory, new Item.Properties());
-    }
-
-    public static Item registerBlock(Block block, BiFunction<Block, Item.Properties, Item> factory, Item.Properties properties) {
-        return registerItem(
-                blockIdToItemId(block.builtInRegistryHolder().key()), p_370785_ -> factory.apply(block, p_370785_), properties.useBlockDescriptionPrefix()
-        );
-    }
-
-    public static Item registerItem(String name, Function<Item.Properties, Item> factory, Item.Properties properties) {
-        return registerItem(moddedItemId(name), factory, properties);
-    }
 
     public static Item registerItem(String name, Item.Properties properties) {
         return registerItem(moddedItemId(name), Item::new, properties);
@@ -96,7 +63,6 @@ public class ModItems {
         if (item instanceof BlockItem blockitem) {
             blockitem.registerBlocks(Item.BY_BLOCK, item);
         }
-
         return Registry.register(BuiltInRegistries.ITEM, key, item);
     }
 

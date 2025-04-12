@@ -12,13 +12,11 @@ public class CommonClass {
         if (Services.PLATFORM.isModLoaded("pinferno")) {
             Constants.LOG.info("Initialising Preserved: Inferno");
             // registering
-            ModItemGroups.registerItemGroups();
-            ModItems.registerModItems();
             ModBlocks.registerModBlocks();
+            ModItems.registerModItems();
+            ModItemGroups.registerItemGroups();
             ModDamageTypes.registerModDamageTypes();
             ModSounds.registerSounds();
-            // other
-            ModBlocks.initialize();
         }
     }
 }

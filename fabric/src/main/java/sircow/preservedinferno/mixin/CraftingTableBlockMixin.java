@@ -38,7 +38,8 @@ public class CraftingTableBlockMixin {
                 player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
                 cir.setReturnValue(InteractionResult.SUCCESS);
             }
-        } else {
+        }
+        else {
             // do nothing!
         }
     }

@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import sircow.preservedinferno.Constants;
+import sircow.preservedinferno.block.ModBlocks;
 
 public class ModItemGroups {
     public static final ResourceKey<CreativeModeTab> PRESERVED_INFERNO_TAB_KEY =
@@ -53,14 +54,14 @@ public class ModItemGroups {
                     entries.accept(ModItems.NETHERITE_SHIELD);
                     entries.accept(ModItems.WOODEN_SHIELD);
 
-                    entries.accept(ModItems.INDUCTOR_RAIL);
-                    entries.accept(ModItems.EXPOSED_INDUCTOR_RAIL);
-                    entries.accept(ModItems.WEATHERED_INDUCTOR_RAIL);
-                    entries.accept(ModItems.OXIDIZED_INDUCTOR_RAIL);
-                    entries.accept(ModItems.WAXED_INDUCTOR_RAIL);
-                    entries.accept(ModItems.WAXED_EXPOSED_INDUCTOR_RAIL);
-                    entries.accept(ModItems.WAXED_WEATHERED_INDUCTOR_RAIL);
-                    entries.accept(ModItems.WAXED_OXIDIZED_INDUCTOR_RAIL);
+                    entries.accept(ModBlocks.INDUCTOR_RAIL.asItem());
+                    entries.accept(ModBlocks.EXPOSED_INDUCTOR_RAIL.asItem());
+                    entries.accept(ModBlocks.WEATHERED_INDUCTOR_RAIL.asItem());
+                    entries.accept(ModBlocks.OXIDIZED_INDUCTOR_RAIL.asItem());
+                    entries.accept(ModBlocks.WAXED_INDUCTOR_RAIL.asItem());
+                    entries.accept(ModBlocks.WAXED_EXPOSED_INDUCTOR_RAIL.asItem());
+                    entries.accept(ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL.asItem());
+                    entries.accept(ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL.asItem());
                 })
                 .build();
         registerCreativeTab(PRESERVED_INFERNO_GROUP);
