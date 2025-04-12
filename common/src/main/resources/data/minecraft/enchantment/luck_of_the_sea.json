@@ -4,18 +4,6 @@
     "translate": "enchantment.minecraft.luck_of_the_sea"
   },
   "effects": {
-    "minecraft:fishing_luck_bonus": [
-      {
-        "effect": {
-          "type": "minecraft:add",
-          "value": {
-            "type": "minecraft:linear",
-            "base": 1.0,
-            "per_level_above_first": 1.0
-          }
-        }
-      }
-    ]
   },
   "max_cost": {
     "base": 65,
@@ -29,6 +17,6 @@
   "slots": [
     "mainhand"
   ],
-  "supported_items": "#minecraft:enchantable/fishing",
+  "supported_items": [],
   "weight": 2
 }

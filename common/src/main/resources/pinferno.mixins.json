@@ -13,7 +13,6 @@
     "ConduitMixin",
     "ConsumablesMixin",
     "CrossbowMixin",
-    "EnchantmentsMixin",
     "FletchingTableBlockMixin",
     "FoodDataMixin",
     "FoodsMixin",

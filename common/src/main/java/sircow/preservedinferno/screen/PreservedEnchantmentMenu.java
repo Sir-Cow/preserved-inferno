@@ -24,8 +24,7 @@ import net.minecraft.world.level.block.EnchantingTableBlock;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.sound.ModSounds;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -38,61 +37,49 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
             PreservedEnchantmentMenu.this.slotsChanged(this);
         }
     };
-
     private final ContainerLevelAccess access;
-
     public Level world;
     public boolean enchantSelected;
     public int selectedEnchantID;
-
     public final DataSlot enchantmentPower = DataSlot.standalone();
 
-    public String[] enchantmentLevelCosts = {
-            "30", "10", "10", "10", "30", "10", "10", "10", "10", "10",
-            "10", "20", "20", "10", "30", "20", "20", "10", "10", "10",
-            "30", "10", "10", "10", "10", "20", "10", "10", "10", "10",
-            "30", "10", "10", "10", "10",
-    };
+    public record EnchantmentInfo(String name, String levelCost, ResourceKey<Enchantment> enchantmentKey) {}
 
-    public static final Map<Integer, ResourceKey<Enchantment>> enchants = new HashMap<>();
-
-    static {
-        enchants.put(0, Enchantments.AQUA_AFFINITY);
-        enchants.put(1, Enchantments.BANE_OF_ARTHROPODS);
-        enchants.put(2, Enchantments.BLAST_PROTECTION);
-        enchants.put(3, Enchantments.BREACH);
-        enchants.put(4, Enchantments.CHANNELING);
-        enchants.put(5, Enchantments.DENSITY);
-        enchants.put(6, Enchantments.DEPTH_STRIDER);
-        enchants.put(7, Enchantments.EFFICIENCY);
-        enchants.put(8, Enchantments.FEATHER_FALLING);
-        enchants.put(9, Enchantments.FIRE_ASPECT);
-        enchants.put(10, Enchantments.FIRE_PROTECTION);
-        enchants.put(11, Enchantments.FLAME);
-        enchants.put(12, Enchantments.FORTUNE);
-        enchants.put(13, Enchantments.IMPALING);
-        enchants.put(14, Enchantments.INFINITY);
-        enchants.put(15, Enchantments.KNOCKBACK);
-        enchants.put(16, Enchantments.LOOTING);
-        enchants.put(17, Enchantments.LOYALTY);
-        enchants.put(18, Enchantments.LUCK_OF_THE_SEA);
-        enchants.put(19, Enchantments.LURE);
-        enchants.put(20, Enchantments.MULTISHOT);
-        enchants.put(21, Enchantments.PIERCING);
-        enchants.put(22, Enchantments.POWER);
-        enchants.put(23, Enchantments.PROJECTILE_PROTECTION);
-        enchants.put(24, Enchantments.PROTECTION);
-        enchants.put(25, Enchantments.PUNCH);
-        enchants.put(26, Enchantments.QUICK_CHARGE);
-        enchants.put(27, Enchantments.RESPIRATION);
-        enchants.put(28, Enchantments.RIPTIDE);
-        enchants.put(29, Enchantments.SHARPNESS);
-        enchants.put(30, Enchantments.SILK_TOUCH);
-        enchants.put(31, Enchantments.SMITE);
-        enchants.put(32, Enchantments.SWEEPING_EDGE);
-        enchants.put(33, Enchantments.THORNS);
-        enchants.put(34, Enchantments.UNBREAKING);
-    }
+    public static final List<EnchantmentInfo> ENCHANTMENT_DATA = List.of(
+            new EnchantmentInfo("Aqua Affinity", "20", Enchantments.AQUA_AFFINITY),
+            new EnchantmentInfo("Bane Of Arthropods", "10", Enchantments.BANE_OF_ARTHROPODS),
+            new EnchantmentInfo("Blast Protection", "10", Enchantments.BLAST_PROTECTION),
+            new EnchantmentInfo("Breach", "30", Enchantments.BREACH),
+            new EnchantmentInfo("Channeling", "30", Enchantments.CHANNELING),
+            new EnchantmentInfo("Density", "30", Enchantments.DENSITY),
+            new EnchantmentInfo("Depth Strider", "20", Enchantments.DEPTH_STRIDER),
+            new EnchantmentInfo("Efficiency", "10", Enchantments.EFFICIENCY),
+            new EnchantmentInfo("Feather Falling", "20", Enchantments.FEATHER_FALLING),
+            new EnchantmentInfo("Fire Aspect", "20", Enchantments.FIRE_ASPECT),
+            new EnchantmentInfo("Fire Protection", "10", Enchantments.FIRE_PROTECTION),
+            new EnchantmentInfo("Flame", "20", Enchantments.FLAME),
+            new EnchantmentInfo("Fortune", "30", Enchantments.FORTUNE),
+            new EnchantmentInfo("Impaling", "10", Enchantments.IMPALING),
+            new EnchantmentInfo("Infinity", "30", Enchantments.INFINITY),
+            new EnchantmentInfo("Knockback", "20", Enchantments.KNOCKBACK),
+            new EnchantmentInfo("Looting", "30", Enchantments.LOOTING),
+            new EnchantmentInfo("Loyalty", "20", Enchantments.LOYALTY),
+            new EnchantmentInfo("Multishot", "30", Enchantments.MULTISHOT),
+            new EnchantmentInfo("Piercing", "10", Enchantments.PIERCING),
+            new EnchantmentInfo("Power", "10", Enchantments.POWER),
+            new EnchantmentInfo("Projectile Protection", "10", Enchantments.PROJECTILE_PROTECTION),
+            new EnchantmentInfo("Protection", "10", Enchantments.PROTECTION),
+            new EnchantmentInfo("Punch", "20", Enchantments.PUNCH),
+            new EnchantmentInfo("Quick Charge", "30", Enchantments.QUICK_CHARGE),
+            new EnchantmentInfo("Respiration", "20", Enchantments.RESPIRATION),
+            new EnchantmentInfo("Riptide", "20", Enchantments.RIPTIDE),
+            new EnchantmentInfo("Sharpness", "10", Enchantments.SHARPNESS),
+            new EnchantmentInfo("Silk Touch", "30", Enchantments.SILK_TOUCH),
+            new EnchantmentInfo("Smite", "10", Enchantments.SMITE),
+            new EnchantmentInfo("Sweeping Edge", "20", Enchantments.SWEEPING_EDGE),
+            new EnchantmentInfo("Thorns", "10", Enchantments.THORNS),
+            new EnchantmentInfo("Unbreaking", "20", Enchantments.UNBREAKING)
+    );
 
     public PreservedEnchantmentMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, ContainerLevelAccess.NULL);
@@ -189,9 +176,9 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
             }
             else if (player.experienceLevel >= 10 || player.hasInfiniteMaterials()) {
                 this.access.execute((world, pos) -> {
-                    ResourceKey<Enchantment> enchantment = enchants.get(this.selectedEnchantID);
+                    ResourceKey<Enchantment> enchantment = ENCHANTMENT_DATA.get(this.selectedEnchantID).enchantmentKey();
 
-                    if (Objects.equals(enchantmentLevelCosts[this.selectedEnchantID], "10")) {
+                    if (Objects.equals(ENCHANTMENT_DATA.get(this.selectedEnchantID).levelCost(), "10")) {
                         if (enchantment != null && !presentEnchantments.keySet().contains(world.registryAccess()
                                 .lookupOrThrow(enchantment.registryKey())
                                 .getOrThrow(enchantment)) && this.enchantSlots.getItem(0).getItem() != Items.ENCHANTED_BOOK) {
@@ -219,7 +206,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                     }
                 });
                 if (shouldReduceXP.get()) {
-                    if (Objects.equals(enchantmentLevelCosts[this.selectedEnchantID], "10")) {
+                    if (Objects.equals(ENCHANTMENT_DATA.get(this.selectedEnchantID).levelCost(), "10")) {
                         player.giveExperienceLevels(-10);
                     }
                     shouldReduceXP.set(false);
@@ -232,9 +219,9 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
             }
             else if (player.experienceLevel >= 20 || player.hasInfiniteMaterials()) {
                 this.access.execute((world, pos) -> {
-                    ResourceKey<Enchantment> enchantment = enchants.get(this.selectedEnchantID);
+                    ResourceKey<Enchantment> enchantment = ENCHANTMENT_DATA.get(this.selectedEnchantID).enchantmentKey();
 
-                    if (Objects.equals(enchantmentLevelCosts[this.selectedEnchantID], "20")) {
+                    if (Objects.equals(ENCHANTMENT_DATA.get(this.selectedEnchantID).levelCost(), "20")) {
                         if (enchantment != null && !presentEnchantments.keySet().contains(world.registryAccess()
                                 .lookupOrThrow(enchantment.registryKey())
                                 .getOrThrow(enchantment)) && this.enchantSlots.getItem(0).getItem() != Items.ENCHANTED_BOOK) {
@@ -260,7 +247,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                     }
                 });
                 if (shouldReduceXP.get()) {
-                    if (Objects.equals(enchantmentLevelCosts[this.selectedEnchantID], "20")) {
+                    if (Objects.equals(ENCHANTMENT_DATA.get(this.selectedEnchantID).levelCost(), "20")) {
                         player.giveExperienceLevels(-20);
                     }
                     shouldReduceXP.set(false);
@@ -273,9 +260,9 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
             }
             else if (player.experienceLevel >= 30 || player.hasInfiniteMaterials()) {
                 this.access.execute((world, pos) -> {
-                    ResourceKey<Enchantment> enchantment = enchants.get(this.selectedEnchantID);
+                    ResourceKey<Enchantment> enchantment = ENCHANTMENT_DATA.get(this.selectedEnchantID).enchantmentKey();
 
-                    if (Objects.equals(enchantmentLevelCosts[this.selectedEnchantID], "30")) {
+                    if (Objects.equals(ENCHANTMENT_DATA.get(this.selectedEnchantID).levelCost(), "30")) {
                         if (enchantment != null && !presentEnchantments.keySet().contains(world.registryAccess()
                                 .lookupOrThrow(enchantment.registryKey())
                                 .getOrThrow(enchantment)) && this.enchantSlots.getItem(0).getItem() != Items.ENCHANTED_BOOK) {
@@ -301,7 +288,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                     }
                 });
                 if (shouldReduceXP.get()) {
-                    if (Objects.equals(enchantmentLevelCosts[this.selectedEnchantID], "30")) {
+                    if (Objects.equals(ENCHANTMENT_DATA.get(this.selectedEnchantID).levelCost(), "30")) {
                         player.giveExperienceLevels(-30);
                     }
                     shouldReduceXP.set(false);

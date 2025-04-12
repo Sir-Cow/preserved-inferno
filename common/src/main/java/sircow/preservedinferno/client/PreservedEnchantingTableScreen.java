@@ -4,21 +4,21 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.model.BookModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -26,6 +26,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.screen.PreservedEnchantmentMenu;
+import sircow.preservedinferno.sound.ModSounds;
 
 import java.util.*;
 
@@ -59,8 +60,6 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             Constants.id("container/enchanting_table/enchant_overlay/knockback"),
             Constants.id("container/enchanting_table/enchant_overlay/looting"),
             Constants.id("container/enchanting_table/enchant_overlay/loyalty"),
-            Constants.id("container/enchanting_table/enchant_overlay/luck_of_the_sea"),
-            Constants.id("container/enchanting_table/enchant_overlay/lure"),
             Constants.id("container/enchanting_table/enchant_overlay/multishot"),
             Constants.id("container/enchanting_table/enchant_overlay/piercing"),
             Constants.id("container/enchanting_table/enchant_overlay/power"),
@@ -107,71 +106,55 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
 
     private static final Map<String, Set<Integer>> itemCategorySlots = new HashMap<>();
     static {
-        itemCategorySlots.put("sword", Set.of(1, 9, 15, 16, 29, 31, 32, 34));
-        itemCategorySlots.put("swordBane", Set.of(1, 9, 15, 16, 32, 34));
-        itemCategorySlots.put("swordSharp", Set.of(9, 15, 16, 29, 32, 34));
-        itemCategorySlots.put("swordSmite", Set.of(9, 15, 16, 31, 32, 34));
-        itemCategorySlots.put("tool", Set.of(7, 12, 30, 34));
-        itemCategorySlots.put("toolFort", Set.of(7, 12, 34));
-        itemCategorySlots.put("toolSilk", Set.of(7, 30, 34));
-        itemCategorySlots.put("bow", Set.of(11, 14, 22, 25, 34));
-        itemCategorySlots.put("bowMending", Set.of(11, 22, 25, 34));
-        itemCategorySlots.put("fishingRod", Set.of(18, 19, 34));
-        itemCategorySlots.put("trident", Set.of(4, 13, 17, 28, 34));
-        itemCategorySlots.put("tridentRip", Set.of(13, 28, 34));
-        itemCategorySlots.put("tridentWithoutRip", Set.of(4, 13, 17, 34));
-        itemCategorySlots.put("crossbow", Set.of(20, 21, 26, 34));
-        itemCategorySlots.put("crossbowPierce", Set.of(21, 26, 34));
-        itemCategorySlots.put("crossbowMulti", Set.of(20, 26, 34));
+        itemCategorySlots.put("sword", Set.of(1, 9, 15, 16, 27, 29, 30, 32));
+        itemCategorySlots.put("swordBane", Set.of(1, 9, 15, 16, 30, 32));
+        itemCategorySlots.put("swordSharp", Set.of(9, 15, 16, 27, 30, 32));
+        itemCategorySlots.put("swordSmite", Set.of(9, 15, 16, 29, 30, 32));
+        itemCategorySlots.put("tool", Set.of(7, 12, 28, 32));
+        itemCategorySlots.put("toolFort", Set.of(7, 12, 32));
+        itemCategorySlots.put("toolSilk", Set.of(7, 28, 32));
+        itemCategorySlots.put("bow", Set.of(11, 14, 20, 23, 32));
+        itemCategorySlots.put("bowMending", Set.of(11, 20, 23, 32));
+        itemCategorySlots.put("fishingRod", Set.of(32));
+        itemCategorySlots.put("trident", Set.of(4, 13, 17, 26, 32));
+        itemCategorySlots.put("tridentRip", Set.of(13, 26, 32));
+        itemCategorySlots.put("tridentWithoutRip", Set.of(4, 13, 17, 32));
+        itemCategorySlots.put("crossbow", Set.of(18, 19, 24, 32));
+        itemCategorySlots.put("crossbowPierce", Set.of(19, 24, 32));
+        itemCategorySlots.put("crossbowMulti", Set.of(18, 24, 32));
         itemCategorySlots.put("mace", Set.of(3, 5, 9));
         itemCategorySlots.put("maceBreach", Set.of(3, 9));
         itemCategorySlots.put("maceDensity", Set.of(5, 9));
-        itemCategorySlots.put("helmet", Set.of(0, 2, 10, 23, 24, 27, 33, 34));
-        itemCategorySlots.put("chestplate", Set.of(2, 10, 23, 24, 33, 34));
-        itemCategorySlots.put("leggings", Set.of(2, 10, 23, 24, 33, 34));
-        itemCategorySlots.put("boots", Set.of(2, 6, 8, 10, 23, 24, 33, 34));
-        itemCategorySlots.put("helmetProt", Set.of(0, 24, 27, 33, 34));
-        itemCategorySlots.put("helmetProj", Set.of(0, 23, 27, 33, 34));
-        itemCategorySlots.put("helmetFire", Set.of(0, 10, 27, 33, 34));
-        itemCategorySlots.put("helmetBlast", Set.of(0, 2, 27, 33, 34));
-        itemCategorySlots.put("depthNoProt", Set.of(2, 6, 8, 10, 23, 24, 33, 34));
-        itemCategorySlots.put("depthProt", Set.of(6, 8, 24, 33, 34));
-        itemCategorySlots.put("depthProj", Set.of(6, 8, 23, 33, 34));
-        itemCategorySlots.put("depthFire", Set.of(6, 8, 10, 33, 34));
-        itemCategorySlots.put("depthBlast", Set.of(2, 6, 8, 33, 34));
-        itemCategorySlots.put("frostWalkNoProt", Set.of(2, 8, 10, 23, 24, 33, 34));
-        itemCategorySlots.put("frostWalkProt", Set.of(8, 24, 33, 34));
-        itemCategorySlots.put("frostWalkProj", Set.of(8, 23, 33, 34));
-        itemCategorySlots.put("frostWalkFire", Set.of(8, 10, 33, 34));
-        itemCategorySlots.put("frostWalkBlast", Set.of(2, 8, 33, 34));
-        itemCategorySlots.put("armourProt", Set.of(24, 33, 34));
-        itemCategorySlots.put("armourProj", Set.of(23, 33, 34));
-        itemCategorySlots.put("armourFire", Set.of(10, 33, 34));
-        itemCategorySlots.put("armourBlast", Set.of(2, 33, 34));
+        itemCategorySlots.put("helmet", Set.of(0, 2, 10, 21, 22, 25, 31, 32));
+        itemCategorySlots.put("chestplate", Set.of(2, 10, 21, 22, 31, 32));
+        itemCategorySlots.put("leggings", Set.of(2, 10, 21, 22, 31, 32));
+        itemCategorySlots.put("boots", Set.of(2, 6, 8, 10, 21, 22, 31, 32));
+        itemCategorySlots.put("helmetProt", Set.of(0, 22, 25, 31, 32));
+        itemCategorySlots.put("helmetProj", Set.of(0, 21, 25, 31, 32));
+        itemCategorySlots.put("helmetFire", Set.of(0, 10, 25, 31, 32));
+        itemCategorySlots.put("helmetBlast", Set.of(0, 2, 25, 31, 32));
+        itemCategorySlots.put("depthNoProt", Set.of(2, 6, 8, 10, 21, 22, 31, 32));
+        itemCategorySlots.put("depthProt", Set.of(6, 8, 22, 31, 32));
+        itemCategorySlots.put("depthProj", Set.of(6, 8, 21, 31, 32));
+        itemCategorySlots.put("depthFire", Set.of(6, 8, 10, 31, 32));
+        itemCategorySlots.put("depthBlast", Set.of(2, 6, 8, 31, 32));
+        itemCategorySlots.put("frostWalkNoProt", Set.of(2, 8, 10, 21, 22, 31, 32));
+        itemCategorySlots.put("frostWalkProt", Set.of(8, 22, 31, 32));
+        itemCategorySlots.put("frostWalkProj", Set.of(8, 21, 31, 32));
+        itemCategorySlots.put("frostWalkFire", Set.of(8, 10, 31, 32));
+        itemCategorySlots.put("frostWalkBlast", Set.of(2, 8, 31, 32));
+        itemCategorySlots.put("armourProt", Set.of(22, 31, 32));
+        itemCategorySlots.put("armourProj", Set.of(21, 31, 32));
+        itemCategorySlots.put("armourFire", Set.of(10, 31, 32));
+        itemCategorySlots.put("armourBlast", Set.of(2, 31, 32));
+        itemCategorySlots.put("shears", Set.of(7, 32));
         itemCategorySlots.put("book", Set.of(
                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
                 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
                 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-                31, 32, 33, 34
+                31, 32
         ));
     }
-
-    public String[] enchantmentNames = {
-            "Aqua Affinity", "Bane Of Arthropods", "Blast Protection", "Breach", "Channeling",
-            "Density", "Depth Strider", "Efficiency", "Feather Falling", "Fire Aspect",
-            "Fire Protection", "Flame", "Fortune", "Impaling", "Infinity",
-            "Knockback", "Looting", "Loyalty", "Luck Of The Sea", "Lure",
-            "Multishot", "Piercing", "Power", "Projectile Protection", "Protection",
-            "Punch", "Quick Charge", "Respiration", "Riptide", "Sharpness",
-            "Silk Touch", "Smite", "Sweeping Edge", "Thorns", "Unbreaking"
-    };
-
-    public String[] enchantmentLevelCosts = {
-            "30", "10", "10", "10", "30", "10", "10", "10", "10", "10",
-            "10", "20", "20", "10", "30", "20", "20", "10", "10", "10",
-            "30", "10", "10", "10", "10", "20", "10", "10", "10", "10",
-            "30", "10", "10", "10", "10",
-    };
 
     /*
     public String[] enchantmentDescriptions = {
@@ -311,17 +294,17 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 }
                 else {
                     context.blitSprite(RenderType::guiTextured, ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE, k, m, 14, 14);
-                    if (Objects.equals(enchantmentLevelCosts[i], "10")) {
+                    if (Objects.equals(PreservedEnchantmentMenu.ENCHANTMENT_DATA.get(i).levelCost(), "10")) {
                         this.tenTextureActive = true;
                         this.twentyTextureActive = false;
                         this.thirtyTextureActive = false;
                     }
-                    else if (Objects.equals(enchantmentLevelCosts[i], "20")) {
+                    else if (Objects.equals(PreservedEnchantmentMenu.ENCHANTMENT_DATA.get(i).levelCost(), "20")) {
                         this.tenTextureActive = false;
                         this.twentyTextureActive = true;
                         this.thirtyTextureActive = false;
                     }
-                    else if (Objects.equals(enchantmentLevelCosts[i], "30")) {
+                    else if (Objects.equals(PreservedEnchantmentMenu.ENCHANTMENT_DATA.get(i).levelCost(), "30")) {
                         this.tenTextureActive = false;
                         this.twentyTextureActive = false;
                         this.thirtyTextureActive = true;
@@ -358,7 +341,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 int m = 11 + l * 14 + 2;
                 if (this.isHovering(k, m, 14, 14, x, y) && slots != null && slots.contains(i)) {
                     List<Component> list = Lists.<Component>newArrayList();
-                    list.add(Component.literal(this.enchantmentNames[i] + " I"));
+                    list.add(Component.literal(PreservedEnchantmentMenu.ENCHANTMENT_DATA.get(i).name() + " I"));
                     /*
                     list.add(Text.literal(this.enchantmentDescriptions[i]).formatted(Formatting.WHITE));
                     // these are line breaks
@@ -471,16 +454,16 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                     // slot click
                     if (this.isHovering(k2, m2, 14, 14, mouseX, mouseY)
                             && slots != null && slots.contains(i2)) {
-//                        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_CLICK, 1.0F));
-//                        int randomNum = (int)(Math.random() * 3);
-//                        switch (randomNum) {
-//                            case 0 ->
-//                                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_OPEN_FLIP_ONE, 1.0F));
-//                            case 1 ->
-//                                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_OPEN_FLIP_TWO, 1.0F));
-//                            case 2 ->
-//                                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_OPEN_FLIP_THREE, 1.0F));
-//                        }
+                        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_CLICK, 1.0F));
+                        int randomNum = (int)(Math.random() * 3);
+                        switch (randomNum) {
+                            case 0 ->
+                                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_OPEN_FLIP_ONE, 1.0F));
+                            case 1 ->
+                                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_OPEN_FLIP_TWO, 1.0F));
+                            case 2 ->
+                                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_OPEN_FLIP_THREE, 1.0F));
+                        }
                         this.menu.enchantSelected = true;
                         this.menu.selectedEnchantID = i2;
 
@@ -554,6 +537,96 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         return true;
     }
 
+    private boolean hasEnchantment(ItemStack itemStack, ResourceKey enchantment) {
+        return itemStack.getEnchantments().keySet().contains(this.world.registryAccess().lookupOrThrow(enchantment.registryKey()).getOrThrow(enchantment));
+    }
+
+    private void determineItemCategory(ItemStack itemStack) {
+        if (itemStack.isEmpty()) {
+            this.itemInEnchantSlot = false;
+            this.itemCategory = "";
+            return;
+        }
+        this.itemInEnchantSlot = true;
+        this.itemCategory = null;
+
+        if (itemStack.is(ItemTags.SWORDS)) {
+            if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "swordBane";
+            else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "swordSharp";
+            else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "swordSmite";
+            else this.itemCategory = "sword";
+        }
+        else if (itemStack.is(ItemTags.AXES) || itemStack.is(ItemTags.PICKAXES) || itemStack.is(ItemTags.SHOVELS) || itemStack.is(ItemTags.HOES)) {
+            if (hasEnchantment(itemStack, Enchantments.FORTUNE)) this.itemCategory = "toolFort";
+            else if (hasEnchantment(itemStack, Enchantments.SILK_TOUCH)) this.itemCategory = "toolSilk";
+            else this.itemCategory = "tool";
+        }
+        else if (itemStack.is(ItemTags.BOW_ENCHANTABLE)) {
+            this.itemCategory = hasEnchantment(itemStack, Enchantments.MENDING) ? "bowMending" : "bow";
+        }
+        else if (itemStack.is(ItemTags.FISHING_ENCHANTABLE)) {
+            this.itemCategory = "fishingRod";
+        }
+        else if (itemStack.is(ItemTags.TRIDENT_ENCHANTABLE)) {
+            if (hasEnchantment(itemStack, Enchantments.RIPTIDE)) this.itemCategory = "tridentRip";
+            else if (hasEnchantment(itemStack, Enchantments.CHANNELING) || hasEnchantment(itemStack, Enchantments.LOYALTY)) this.itemCategory = "tridentWithoutRip";
+            else this.itemCategory = "trident";
+        }
+        else if (itemStack.is(ItemTags.CROSSBOW_ENCHANTABLE)) {
+            if (hasEnchantment(itemStack, Enchantments.PIERCING)) this.itemCategory = "crossbowPierce";
+            else if (hasEnchantment(itemStack, Enchantments.MULTISHOT)) this.itemCategory = "crossbowMulti";
+            else this.itemCategory = "crossbow";
+        }
+        else if (itemStack.is(ItemTags.MACE_ENCHANTABLE)) {
+            if (hasEnchantment(itemStack, Enchantments.BREACH)) this.itemCategory = "maceBreach";
+            else if (hasEnchantment(itemStack, Enchantments.DENSITY)) this.itemCategory = "maceDensity";
+            else this.itemCategory = "mace";
+        }
+        else if (itemStack.is(ItemTags.HEAD_ARMOR_ENCHANTABLE)) {
+            this.itemCategory = getArmorCategory(itemStack, "helmet");
+        }
+        else if (itemStack.is(ItemTags.CHEST_ARMOR_ENCHANTABLE)) {
+            this.itemCategory = getArmorCategory(itemStack, "chestplate", "armour");
+        }
+        else if (itemStack.is(ItemTags.LEG_ARMOR_ENCHANTABLE)) {
+            this.itemCategory = getArmorCategory(itemStack, "leggings", "armour");
+        }
+        else if (itemStack.is(ItemTags.FOOT_ARMOR_ENCHANTABLE)) {
+            if (hasEnchantment(itemStack, Enchantments.FROST_WALKER)) {
+                this.itemCategory = getBootCategory(itemStack, "frostWalkNoProt", "frostWalk");
+            }
+            else {
+                this.itemCategory = getBootCategory(itemStack, "depthNoProt", "depth");
+            }
+        }
+        else if (itemStack.getItem() == Items.SHEARS) {
+            this.itemCategory = "shears";
+        }
+        else if (itemStack.getItem() == Items.BOOK) {
+            this.itemCategory = "book";
+        }
+    }
+
+    private String getArmorCategory(ItemStack itemStack, String baseCategory, String protectionPrefix) {
+        if (hasEnchantment(itemStack, Enchantments.PROTECTION)) return protectionPrefix + "Prot";
+        if (hasEnchantment(itemStack, Enchantments.PROJECTILE_PROTECTION)) return protectionPrefix + "Proj";
+        if (hasEnchantment(itemStack, Enchantments.FIRE_PROTECTION)) return protectionPrefix + "Fire";
+        if (hasEnchantment(itemStack, Enchantments.BLAST_PROTECTION)) return protectionPrefix + "Blast";
+        return baseCategory;
+    }
+
+    private String getArmorCategory(ItemStack itemStack, String baseCategory) {
+        return getArmorCategory(itemStack, baseCategory, baseCategory.substring(0, baseCategory.length() - 4)); // Remove "Prot" etc.
+    }
+
+    private String getBootCategory(ItemStack itemStack, String noProtectionCategory, String protectionPrefix) {
+        if (hasEnchantment(itemStack, Enchantments.PROTECTION)) return protectionPrefix + "Prot";
+        if (hasEnchantment(itemStack, Enchantments.PROJECTILE_PROTECTION)) return protectionPrefix + "Proj";
+        if (hasEnchantment(itemStack, Enchantments.FIRE_PROTECTION)) return protectionPrefix + "Fire";
+        if (hasEnchantment(itemStack, Enchantments.BLAST_PROTECTION)) return protectionPrefix + "Blast";
+        return noProtectionCategory;
+    }
+
     public void tickBook() {
         this.enchPower = this.menu.enchantmentPower.get();
 
@@ -578,248 +651,13 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
 
         this.nextPageTurningSpeed = Mth.clamp(this.nextPageTurningSpeed, 0.0F, 1.0F);
         float f = (this.approximatePageAngle - this.nextPageAngle) * 0.4F;
-        float g = 0.2F;
         f = Mth.clamp(f, -0.2F, 0.2F);
         this.pageRotationSpeed = this.pageRotationSpeed + (f - this.pageRotationSpeed) * 0.9F;
         this.nextPageAngle = this.nextPageAngle + this.pageRotationSpeed;
 
         if (!this.menu.getSlot(0).getItem().isEmpty()) {
             this.itemInEnchantSlot = true;
-            Registry<Item> entry = this.world.registryAccess().lookupOrThrow(Registries.ITEM);
-
-            if (entry.get(ItemTags.SWORDS).isPresent()) {
-                if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.BANE_OF_ARTHROPODS.registryKey())
-                        .getOrThrow(Enchantments.BANE_OF_ARTHROPODS))) {
-                    this.itemCategory = "swordBane";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.SHARPNESS.registryKey())
-                        .getOrThrow(Enchantments.SHARPNESS))) {
-                    this.itemCategory = "swordSharp";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.SMITE.registryKey())
-                        .getOrThrow(Enchantments.SMITE))) {
-                    this.itemCategory = "swordSmite";
-                }
-                else {
-                    this.itemCategory = "sword";
-                }
-            }
-            else if (entry.get(ItemTags.AXES).isPresent() ||
-                    entry.get(ItemTags.PICKAXES).isPresent() ||
-                    entry.get(ItemTags.SHOVELS).isPresent() ||
-                    entry.get(ItemTags.HOES).isPresent()) {
-                if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.FORTUNE.registryKey())
-                        .getOrThrow(Enchantments.FORTUNE))) {
-                    this.itemCategory = "toolFort";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.SILK_TOUCH.registryKey())
-                        .getOrThrow(Enchantments.SILK_TOUCH))) {
-                    this.itemCategory = "toolSilk";
-                }
-                else {
-                    this.itemCategory = "tool";
-                }
-            }
-            else if (entry.get(ItemTags.BOW_ENCHANTABLE).isPresent()) {
-                if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.MENDING.registryKey())
-                        .getOrThrow(Enchantments.MENDING))) {
-                    this.itemCategory = "bowMending";
-                }
-                else {
-                    this.itemCategory = "bow";
-                }
-            }
-            else if (entry.get(ItemTags.FISHING_ENCHANTABLE).isPresent()) {
-                this.itemCategory = "fishingRod";
-            }
-            else if (entry.get(ItemTags.TRIDENT_ENCHANTABLE).isPresent()) {
-                if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.RIPTIDE.registryKey())
-                        .getOrThrow(Enchantments.RIPTIDE))) {
-                    this.itemCategory = "tridentRip";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.CHANNELING.registryKey())
-                        .getOrThrow(Enchantments.CHANNELING)) ||
-                        itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                                .lookupOrThrow(Enchantments.LOYALTY.registryKey())
-                                .getOrThrow(Enchantments.LOYALTY))) {
-                    this.itemCategory = "tridentWithoutRip";
-                }
-                else {
-                    this.itemCategory = "trident";
-                }
-            }
-            else if (entry.get(ItemTags.CROSSBOW_ENCHANTABLE).isPresent()) {
-                if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.PIERCING.registryKey())
-                        .getOrThrow(Enchantments.PIERCING))) {
-                    this.itemCategory = "crossbowPierce";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.MULTISHOT.registryKey())
-                        .getOrThrow(Enchantments.MULTISHOT))) {
-                    this.itemCategory = "crossbowMulti";
-                }
-                else {
-                    this.itemCategory = "crossbow";
-                }
-            }
-            else if (entry.get(ItemTags.MACE_ENCHANTABLE).isPresent()) {
-                if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.BREACH.registryKey())
-                        .getOrThrow(Enchantments.BREACH))) {
-                    this.itemCategory = "maceBreach";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.DENSITY.registryKey())
-                        .getOrThrow(Enchantments.DENSITY))) {
-                    this.itemCategory = "maceDensity";
-                }
-                else {
-                    this.itemCategory = "mace";
-                }
-            }
-            else if (entry.get(ItemTags.HEAD_ARMOR_ENCHANTABLE).isPresent()) {
-                if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.PROTECTION))) {
-                    this.itemCategory = "helmetProt";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.PROJECTILE_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) {
-                    this.itemCategory = "helmetProj";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.FIRE_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.FIRE_PROTECTION))) {
-                    this.itemCategory = "helmetFire";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.BLAST_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.BLAST_PROTECTION))) {
-                    this.itemCategory = "helmetBlast";
-                }
-                else {
-                    this.itemCategory = "helmet";
-                }
-            }
-            else if (entry.get(ItemTags.CHEST_ARMOR_ENCHANTABLE).isPresent()) {
-                if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.PROTECTION))) {
-                    this.itemCategory = "armourProt";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.PROJECTILE_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) {
-                    this.itemCategory = "armourProj";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.FIRE_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.FIRE_PROTECTION))) {
-                    this.itemCategory = "armourFire";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.BLAST_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.BLAST_PROTECTION))) {
-                    this.itemCategory = "armourBlast";
-                }
-                else {
-                    this.itemCategory = "chestplate";
-                }
-            }
-            else if (entry.get(ItemTags.LEG_ARMOR_ENCHANTABLE).isPresent()) {
-                if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.PROTECTION))) {
-                    this.itemCategory = "armourProt";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.PROJECTILE_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) {
-                    this.itemCategory = "armourProj";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.FIRE_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.FIRE_PROTECTION))) {
-                    this.itemCategory = "armourFire";
-                }
-                else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.BLAST_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.BLAST_PROTECTION))) {
-                    this.itemCategory = "armourBlast";
-                }
-                else {
-                    this.itemCategory = "leggings";
-                }
-            }
-            else if (entry.get(ItemTags.FOOT_ARMOR_ENCHANTABLE).isPresent()) {
-                if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.FROST_WALKER.registryKey())
-                        .getOrThrow(Enchantments.FROST_WALKER))) {
-                    if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                            .lookupOrThrow(Enchantments.PROTECTION.registryKey())
-                            .getOrThrow(Enchantments.PROTECTION))) {
-                        this.itemCategory = "frostWalkProt";
-                    }
-                    else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                            .lookupOrThrow(Enchantments.PROJECTILE_PROTECTION.registryKey())
-                            .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) {
-                        this.itemCategory = "frostWalkProj";
-                    }
-                    else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                            .lookupOrThrow(Enchantments.FIRE_PROTECTION.registryKey())
-                            .getOrThrow(Enchantments.FIRE_PROTECTION))) {
-                        this.itemCategory = "frostWalkFire";
-                    }
-                    else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                            .lookupOrThrow(Enchantments.BLAST_PROTECTION.registryKey())
-                            .getOrThrow(Enchantments.BLAST_PROTECTION))) {
-                        this.itemCategory = "frostWalkBlast";
-                    }
-                    else {
-                        this.itemCategory = "frostWalkNoProt";
-                    }
-                }
-                else if (!itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                        .lookupOrThrow(Enchantments.FROST_WALKER.registryKey())
-                        .getOrThrow(Enchantments.FROST_WALKER))) {
-                    if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                            .lookupOrThrow(Enchantments.PROTECTION.registryKey())
-                            .getOrThrow(Enchantments.PROTECTION))) {
-                        this.itemCategory = "depthProt";
-                    }
-                    else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                            .lookupOrThrow(Enchantments.PROJECTILE_PROTECTION.registryKey())
-                            .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) {
-                        this.itemCategory = "depthProj";
-                    }
-                    else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                            .lookupOrThrow(Enchantments.FIRE_PROTECTION.registryKey())
-                            .getOrThrow(Enchantments.FIRE_PROTECTION))) {
-                        this.itemCategory = "depthFire";
-                    }
-                    else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                            .lookupOrThrow(Enchantments.BLAST_PROTECTION.registryKey())
-                            .getOrThrow(Enchantments.BLAST_PROTECTION))) {
-                        this.itemCategory = "depthBlast";
-                    }
-                    else {
-                        this.itemCategory = "depthNoProt";
-                    }
-                }
-            }
-            else if (this.menu.getSlot(0).getItem().getItem() == Items.BOOK) {
-                this.itemCategory = "book";
-            }
+            determineItemCategory(this.menu.getSlot(0).getItem());
         }
         else {
             this.itemInEnchantSlot = false;
