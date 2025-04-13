@@ -369,20 +369,20 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             // hover over 10 exp
             if (this.isHovering(71, 13, 16, 16, x, y)) {
                 List<Component> list = Lists.newArrayList();
-                if (this.menu.getSlot(1).getItem().isEmpty()) {
+                if (this.menu.getSlot(1).getItem().isEmpty() && !this.twentyTextureActive && !this.thirtyTextureActive) {
                     list.add(Component.literal("Lapis Lazuli missing"));
                 }
-                if (!this.tenTextureActive && this.menu.enchantSelected) {
+                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) {
                     list.add(Component.literal("10 Levels needed"));
                 }
                 else if (this.itemInEnchantSlot && !this.menu.enchantSelected) {
                     list.add(Component.literal("Enchant not selected"));
                 }
 
-                if (this.enchPower < 1) {
+                if (this.enchPower < 1 && !this.twentyTextureActive && !this.thirtyTextureActive) {
                     list.add(Component.literal("Not enough bookshelf power"));
                 }
-                else if (this.tenTextureActive && this.menu.enchantSelected) {
+                else if (this.tenTextureActive && this.menu.enchantSelected && !this.twentyTextureActive && !this.thirtyTextureActive) {
                     list.add(Component.literal("Enchant for 10 Levels"));
                 }
 
@@ -392,20 +392,20 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             // hover over 20 exp
             if (this.isHovering(71, 33, 16, 16, x, y)) {
                 List<Component> list = Lists.newArrayList();
-                if (this.menu.getSlot(1).getItem().isEmpty()) {
+                if (this.menu.getSlot(1).getItem().isEmpty() && !this.tenTextureActive && !this.thirtyTextureActive) {
                     list.add(Component.literal("Lapis Lazuli missing"));
                 }
-                if (!this.twentyTextureActive && this.menu.enchantSelected) {
+                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) {
                     list.add(Component.literal("20 Levels needed"));
                 }
                 else if (this.itemInEnchantSlot && !this.menu.enchantSelected) {
                     list.add(Component.literal("Enchant not selected"));
                 }
 
-                if (this.enchPower < 1) {
+                if (this.enchPower < 2 && !this.tenTextureActive && !this.thirtyTextureActive) {
                     list.add(Component.literal("Not enough bookshelf power"));
                 }
-                else if (this.twentyTextureActive && this.menu.enchantSelected) {
+                else if (this.twentyTextureActive && this.menu.enchantSelected && !this.tenTextureActive && !this.thirtyTextureActive) {
                     list.add(Component.literal("Enchant for 20 Levels"));
                 }
 
@@ -415,20 +415,20 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             // hover over 30 exp
             if (this.isHovering(71, 53, 16, 16, x, y)) {
                 List<Component> list = Lists.newArrayList();
-                if (this.menu.getSlot(1).getItem().isEmpty()) {
+                if (this.menu.getSlot(1).getItem().isEmpty() && !this.tenTextureActive && !this.twentyTextureActive) {
                     list.add(Component.literal("Lapis Lazuli missing"));
                 }
-                if (!this.twentyTextureActive && this.menu.enchantSelected) {
+                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) {
                     list.add(Component.literal("30 Levels needed"));
                 }
                 else if (this.itemInEnchantSlot && !this.menu.enchantSelected) {
                     list.add(Component.literal("Enchant not selected"));
                 }
 
-                if (this.enchPower < 1) {
+                if (this.enchPower < 3 && !this.tenTextureActive && !this.twentyTextureActive) {
                     list.add(Component.literal("Not enough bookshelf power"));
                 }
-                else if (this.twentyTextureActive && this.menu.enchantSelected) {
+                else if (this.thirtyTextureActive && this.menu.enchantSelected && !this.tenTextureActive && !this.twentyTextureActive) {
                     list.add(Component.literal("Enchant for 30 Levels"));
                 }
 

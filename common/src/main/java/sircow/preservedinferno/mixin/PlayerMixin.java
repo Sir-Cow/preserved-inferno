@@ -7,12 +7,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,23 +22,30 @@ public abstract class PlayerMixin extends LivingEntity {
         super(entityType, world);
     }
 
-    @Shadow protected abstract boolean isEquipped(Item p_365145_);
-
     @Unique
-    boolean isFromTurtleHelmet = false;
+    private boolean hasWaterBreathingFromHelmet = false;
 
-    // make water breathing duration from turtle helmet infinite, also check the water breathing is ONLY from the turtle helmet
-    @Inject(method = "turtleHelmetTick", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "tick", at = @At("HEAD"))
     private void updateTurtleHelmet(CallbackInfo ci) {
-        ItemStack itemStack = this.getItemBySlot(EquipmentSlot.HEAD);
-        if (itemStack.is(Items.TURTLE_HELMET) && this.isEyeInFluid(FluidTags.WATER)) {
-            this.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, -1, 0, false, false, true));
-            isFromTurtleHelmet = true;
+        boolean isInWater = this.isEyeInFluid(FluidTags.WATER);
+        boolean isWearingHelmet = this.getItemBySlot(EquipmentSlot.HEAD).is(Items.TURTLE_HELMET);
+
+        if (isInWater && isWearingHelmet) {
+            if (!hasWaterBreathingFromHelmet) {
+                this.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, -1, 0, false, false, true));
+                hasWaterBreathingFromHelmet = true;
+            }
         }
-        if ((!isEquipped(Items.TURTLE_HELMET) || !this.isEyeInFluid(FluidTags.WATER)) && isFromTurtleHelmet) {
-            this.removeEffect(MobEffects.WATER_BREATHING);
-            isFromTurtleHelmet = false;
+        else {
+            if (hasWaterBreathingFromHelmet) {
+                this.removeEffect(MobEffects.WATER_BREATHING);
+                hasWaterBreathingFromHelmet = false;
+            }
         }
+    }
+
+    @Inject(method = "turtleHelmetTick", at = @At("HEAD"), cancellable = true)
+    private void cancelTurtleHelmetTick(CallbackInfo ci) {
         ci.cancel();
     }
 }
