@@ -150,13 +150,13 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                 if (bookshelfCount < 4) {
                     this.enchantmentPower.set(0);
                 }
-                else if (bookshelfCount >= 4 && bookshelfCount < 8) {
+                else if (bookshelfCount < 8) {
                     this.enchantmentPower.set(1);
                 }
-                else if (bookshelfCount >= 8 && bookshelfCount < 12) {
+                else if (bookshelfCount < 12) {
                     this.enchantmentPower.set(2);
                 }
-                else if (bookshelfCount >= 12) {
+                else {
                     this.enchantmentPower.set(3);
                 }
 
@@ -312,15 +312,18 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                 if (!this.moveItemStackTo(itemStack2, 2, 38, true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (slot == 1) {
+            }
+            else if (slot == 1) {
                 if (!this.moveItemStackTo(itemStack2, 2, 38, true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (itemStack2.is(Items.LAPIS_LAZULI)) {
+            }
+            else if (itemStack2.is(Items.LAPIS_LAZULI)) {
                 if (!this.moveItemStackTo(itemStack2, 1, 2, true)) {
                     return ItemStack.EMPTY;
                 }
-            } else {
+            }
+            else {
                 if (this.slots.getFirst().hasItem() || !this.slots.getFirst().mayPlace(itemStack2)) {
                     return ItemStack.EMPTY;
                 }
@@ -332,7 +335,8 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
 
             if (itemStack2.isEmpty()) {
                 slot2.setByPlayer(ItemStack.EMPTY);
-            } else {
+            }
+            else {
                 slot2.setChanged();
             }
 

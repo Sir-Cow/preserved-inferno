@@ -19,7 +19,7 @@ public class ModSounds {
     public static final SoundEvent ENCHANT_CLOSE_TWO = register("enchant_close_two");
 
     private static SoundEvent register(String name) {
-        return register(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name));
+        return register(Constants.id(name));
     }
 
     private static SoundEvent register(ResourceLocation name) {

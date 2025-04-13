@@ -327,12 +327,6 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         int scrollOffset = this.scrollOffset + 16;
         Set<Integer> slots = itemCategorySlots.get(this.itemCategory);
 
-        if (!this.itemInEnchantSlot) {
-            if (this.isHovering(71, 13, 16, 16, x, y)) {
-                context.renderTooltip(this.font, Component.literal("No item present") , x, y);
-            }
-        }
-
         if (this.itemInEnchantSlot) {
             for (int i = this.scrollOffset; i < scrollOffset && i < ENCHANTMENT_ICON_TEXTURES.length; i++) {
                 int j = i - this.scrollOffset;
@@ -366,6 +360,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             if (this.isHovering(24, 18, 40, 24, x, y)) {
                 context.renderTooltip(this.font, Component.literal("Bookshelf Power: " + this.enchPower) , x, y);
             }
+
             // hover over 10 exp
             if (this.isHovering(71, 13, 16, 16, x, y)) {
                 List<Component> list = Lists.newArrayList();
@@ -519,7 +514,8 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             this.scrollAmount = Mth.clamp(this.scrollAmount, 0.0F, 1.0F);
             this.scrollOffset = (int)((double)(this.scrollAmount * (float)this.getMaxScroll()) + 0.5) * 4;
             return true;
-        } else {
+        }
+        else {
             return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
         }
     }
@@ -629,7 +625,6 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
 
     public void tickBook() {
         this.enchPower = this.menu.enchantmentPower.get();
-
         ItemStack itemStack = this.menu.getSlot(0).getItem();
 
         if (!ItemStack.matches(itemStack, this.stack)) {
