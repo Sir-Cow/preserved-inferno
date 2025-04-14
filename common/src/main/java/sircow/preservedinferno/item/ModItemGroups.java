@@ -21,15 +21,16 @@ public class ModItemGroups {
                 .title(Component.translatable("itemgroup.pinferno.items"))
                 .icon(() -> new net.minecraft.world.item.ItemStack(ModItems.DREAMCATCHER))
                 .displayItems((displayContext, entries) -> {
-                    entries.accept(ModItems.RAW_HIDE);
-                    entries.accept(ModItems.PHANTOM_SINEW);
-                    entries.accept(ModItems.HOLLOW_TWINE);
                     entries.accept(ModItems.DREAMCATCHER);
+                    entries.accept(ModItems.ELDER_GUARDIAN_SPINE);
+                    entries.accept(ModItems.HOLLOW_TWINE);
+                    entries.accept(ModItems.PHANTOM_SINEW);
+                    entries.accept(ModItems.RAW_HIDE);
 
+                    entries.accept(ModItems.COPPER_NUGGET);
+                    entries.accept(ModItems.RAW_COPPER_CHUNK);
                     entries.accept(ModItems.RAW_IRON_CHUNK);
                     entries.accept(ModItems.RAW_GOLD_CHUNK);
-                    entries.accept(ModItems.RAW_COPPER_CHUNK);
-                    entries.accept(ModItems.COPPER_NUGGET);
 
                     entries.accept(ModItems.BLACK_CLOTH);
                     entries.accept(ModItems.BLUE_CLOTH);
@@ -48,11 +49,11 @@ public class ModItemGroups {
                     entries.accept(ModItems.WHITE_CLOTH);
                     entries.accept(ModItems.YELLOW_CLOTH);
 
-                    entries.accept(ModItems.DIAMOND_SHIELD);
-                    entries.accept(ModItems.GOLDEN_SHIELD);
-                    entries.accept(ModItems.IRON_SHIELD);
-                    entries.accept(ModItems.NETHERITE_SHIELD);
                     entries.accept(ModItems.WOODEN_SHIELD);
+                    entries.accept(ModItems.IRON_SHIELD);
+                    entries.accept(ModItems.GOLDEN_SHIELD);
+                    entries.accept(ModItems.DIAMOND_SHIELD);
+                    entries.accept(ModItems.NETHERITE_SHIELD);
 
                     entries.accept(ModBlocks.INDUCTOR_RAIL.asItem());
                     entries.accept(ModBlocks.EXPOSED_INDUCTOR_RAIL.asItem());

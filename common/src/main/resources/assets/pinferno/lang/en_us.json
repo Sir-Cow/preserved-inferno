@@ -1,13 +1,14 @@
 {
-  "item.pinferno.raw_hide": "Raw Hide",
-  "item.pinferno.phantom_sinew": "Phantom Sinew",
-  "item.pinferno.hollow_twine": "Hollow Twine",
   "item.pinferno.dreamcatcher": "Dreamcatcher",
+  "item.pinferno.elder_guardian_spine": "Elder Guardian Spine",
+  "item.pinferno.hollow_twine": "Hollow Twine",
+  "item.pinferno.phantom_sinew": "Phantom Sinew",
+  "item.pinferno.raw_hide": "Raw Hide",
 
+  "item.pinferno.copper_nugget": "Copper Nugget",
+  "item.pinferno.raw_copper_chunk": "Raw Copper Chunk",
   "item.pinferno.raw_iron_chunk": "Raw Iron Chunk",
   "item.pinferno.raw_gold_chunk": "Raw Gold Chunk",
-  "item.pinferno.raw_copper_chunk": "Raw Copper Chunk",
-  "item.pinferno.copper_nugget": "Copper Nugget",
 
   "item.pinferno.black_cloth": "Black Cloth",
   "item.pinferno.blue_cloth": "Blue Cloth",
@@ -25,6 +26,12 @@
   "item.pinferno.red_cloth": "Red Cloth",
   "item.pinferno.white_cloth": "White Cloth",
   "item.pinferno.yellow_cloth": "Yellow Cloth",
+
+  "item.pinferno.wooden_shield": "Wooden Shield",
+  "item.pinferno.iron_shield": "Iron Shield",
+  "item.pinferno.golden_shield": "Golden Shield",
+  "item.pinferno.diamond_shield": "Diamond Shield",
+  "item.pinferno.netherite_shield": "Netherite Shield",
 
   "item.pinferno.inductor_rail": "Inductor Rail",
   "item.pinferno.exposed_inductor_rail": "Exposed Inductor Rail",

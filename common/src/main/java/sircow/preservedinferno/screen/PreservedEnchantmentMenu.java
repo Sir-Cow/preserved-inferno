@@ -147,10 +147,10 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                     }
                 }
 
-                if (bookshelfCount < 4) {
+                if (bookshelfCount < 3) {
                     this.enchantmentPower.set(0);
                 }
-                else if (bookshelfCount < 8) {
+                else if (bookshelfCount < 6) {
                     this.enchantmentPower.set(1);
                 }
                 else if (bookshelfCount < 12) {

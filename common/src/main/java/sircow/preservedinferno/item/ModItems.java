@@ -11,10 +11,11 @@ import java.util.function.Function;
 
 public class ModItems {
     // items
-    public static final Item RAW_HIDE = registerItem("raw_hide");
-    public static final Item PHANTOM_SINEW = registerItem("phantom_sinew");
-    public static final Item HOLLOW_TWINE = registerItem("hollow_twine");
     public static final Item DREAMCATCHER = registerItem("dreamcatcher", new Item.Properties().stacksTo(1));
+    public static final Item ELDER_GUARDIAN_SPINE = registerItem("elder_guardian_spine");
+    public static final Item HOLLOW_TWINE = registerItem("hollow_twine");
+    public static final Item PHANTOM_SINEW = registerItem("phantom_sinew");
+    public static final Item RAW_HIDE = registerItem("raw_hide");
 
     public static final Item RAW_IRON_CHUNK = registerItem("raw_iron_chunk");
     public static final Item RAW_GOLD_CHUNK = registerItem("raw_gold_chunk");
