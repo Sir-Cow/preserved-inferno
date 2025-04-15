@@ -39,11 +39,11 @@ public class ModItems {
     public static final Item WHITE_CLOTH = registerItem("white_cloth");
     public static final Item YELLOW_CLOTH = registerItem("yellow_cloth");
 
-    public static final Item DIAMOND_SHIELD = registerItem("diamond_shield");
-    public static final Item GOLDEN_SHIELD = registerItem("golden_shield");
-    public static final Item IRON_SHIELD = registerItem("iron_shield");
-    public static final Item NETHERITE_SHIELD = registerItem("netherite_shield");
-    public static final Item WOODEN_SHIELD = registerItem("wooden_shield");
+    public static final Item DIAMOND_SHIELD = registerItem("diamond_shield", new Item.Properties().stacksTo(1));
+    public static final Item GOLDEN_SHIELD = registerItem("golden_shield", new Item.Properties().stacksTo(1));
+    public static final Item IRON_SHIELD = registerItem("iron_shield", new Item.Properties().stacksTo(1));
+    public static final Item NETHERITE_SHIELD = registerItem("netherite_shield", new Item.Properties().stacksTo(1));
+    public static final Item WOODEN_SHIELD = registerItem("wooden_shield", new Item.Properties().stacksTo(1));
 
 
     private static ResourceKey<Item> moddedItemId(String name) {
