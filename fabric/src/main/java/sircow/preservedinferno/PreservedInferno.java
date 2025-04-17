@@ -15,13 +15,13 @@ import sircow.preservedinferno.block.FabricModBlocks;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockData;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
 import sircow.preservedinferno.other.FabricModEvents;
-import sircow.preservedinferno.screen.PreservedCauldronMenu;
-import sircow.preservedinferno.screen.PreservedEnchantmentMenu;
-import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
-import sircow.preservedinferno.screen.PreservedLoomMenu;
+import sircow.preservedinferno.screen.*;
 
 public class PreservedInferno implements ModInitializer {
     // menus
+    private static final MenuType<AnglingTableMenu> ANGLING_TABLE_MENU_TYPE =
+            Registry.register(BuiltInRegistries.MENU, Constants.id("angling_table"),
+                    new ExtendedScreenHandlerType<>((pWindowID, pInventory, pData) -> new AnglingTableMenu(pWindowID, pInventory), BlockData.CODEC));
     public static final MenuType<PreservedCauldronMenu> PRESERVED_CAULDRON_MENU_TYPE =
             Registry.register(BuiltInRegistries.MENU, Constants.id("preserved_cauldron"),
                     new ExtendedScreenHandlerType<>(PreservedCauldronMenu::new, PreservedCauldronBlockData.STREAM_CODEC));
@@ -44,6 +44,7 @@ public class PreservedInferno implements ModInitializer {
     }
 
     static {
+        Constants.ANGLING_TABLE_MENU_TYPE = () -> ANGLING_TABLE_MENU_TYPE;
         Constants.PRESERVED_ENCHANT_MENU_TYPE = () -> PRESERVED_ENCHANT_MENU_TYPE;
         Constants.PRESERVED_FLETCHING_TABLE_MENU_TYPE = () -> PRESERVED_FLETCHING_TABLE_MENU_TYPE;
         Constants.PRESERVED_LOOM_MENU_TYPE = () -> PRESERVED_LOOM_MENU_TYPE;

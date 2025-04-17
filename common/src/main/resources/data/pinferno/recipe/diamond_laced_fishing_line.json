@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": "pinferno:aquatic_fiber",
+    "X": "minecraft:diamond"
+  },
+  "pattern": [
+    " X ",
+    "XFX",
+    " X "
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:diamond_laced_fishing_line"
+  }
+}

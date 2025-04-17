@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#minecraft:netherite_tool_materials",
+  "base": "pinferno:diamond_laced_fishing_line",
+  "result": {
+    "id": "pinferno:netherite_laced_fishing_line"
+  },
+  "template": "minecraft:netherite_upgrade_smithing_template"
+}

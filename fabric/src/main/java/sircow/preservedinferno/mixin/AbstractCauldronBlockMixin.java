@@ -23,12 +23,12 @@ import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
 public class AbstractCauldronBlockMixin {
     // cancel vanilla interactions
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    public void preserved_inferno$cancel(BlockState p_220702_, ServerLevel p_220703_, BlockPos p_220704_, RandomSource p_220705_, CallbackInfo ci) {
+    public void preserved_inferno$cancel(BlockState state, ServerLevel level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
         ci.cancel();
     }
 
     @Inject(method = "hasAnalogOutputSignal", at = @At("HEAD"), cancellable = true)
-    public void preserved_inferno$cancel2(BlockState p_151986_, CallbackInfoReturnable<Boolean> cir) {
+    public void preserved_inferno$cancel2(BlockState state, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false);
     }
 

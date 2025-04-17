@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#minecraft:netherite_tool_materials",
+  "base": "pinferno:diamond_fishing_hook",
+  "result": {
+    "id": "pinferno:netherite_fishing_hook"
+  },
+  "template": "minecraft:netherite_upgrade_smithing_template"
+}

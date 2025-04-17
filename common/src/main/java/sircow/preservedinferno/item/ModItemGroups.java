@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.block.ModBlocks;
 
@@ -54,6 +55,20 @@ public class ModItemGroups {
                     entries.accept(ModItems.GOLDEN_SHIELD);
                     entries.accept(ModItems.DIAMOND_SHIELD);
                     entries.accept(ModItems.NETHERITE_SHIELD);
+
+                    entries.accept(ModItems.AQUATIC_FIBER);
+                    entries.accept(ModItems.CACHE);
+                    entries.accept(ModItems.IRON_FISHING_HOOK);
+                    entries.accept(ModItems.DIAMOND_FISHING_HOOK);
+                    entries.accept(ModItems.NETHERITE_FISHING_HOOK);
+                    entries.accept(ModItems.IRON_LACED_FISHING_LINE);
+                    entries.accept(ModItems.DIAMOND_LACED_FISHING_LINE);
+                    entries.accept(ModItems.NETHERITE_LACED_FISHING_LINE);
+                    entries.accept(ModItems.IRON_SINKER);
+                    entries.accept(ModItems.DIAMOND_SINKER);
+                    entries.accept(ModItems.NETHERITE_SINKER);
+                    entries.accept(ModItems.MUSIC_DISC_AQUA);
+                    entries.accept(ModBlocks.ANGLING_TABLE.asItem());
 
                     entries.accept(ModBlocks.INDUCTOR_RAIL.asItem());
                     entries.accept(ModBlocks.EXPOSED_INDUCTOR_RAIL.asItem());

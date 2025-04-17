@@ -10,14 +10,26 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import sircow.preservedinferno.Constants;
+import sircow.preservedinferno.block.custom.AnglingTableBlock;
 import sircow.preservedinferno.block.custom.InductorRailBlock;
 import sircow.preservedinferno.block.custom.WeatheringInductorRailBlock;
 
 import java.util.function.Function;
 
 public class ModBlocks {
+    public static final Block ANGLING_TABLE = register("angling_table",
+            AnglingTableBlock::new, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .instrument(NoteBlockInstrument.BASS)
+                    .strength(2.5F)
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava(),
+            true
+    );
+
     public static final Block INDUCTOR_RAIL = register("inductor_rail",
             (properties -> new WeatheringInductorRailBlock(WeatheringCopper.WeatherState.UNAFFECTED, properties)),
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).noCollission().strength(0.7F).sound(SoundType.COPPER), true);

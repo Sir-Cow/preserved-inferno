@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "pinferno:block/angling_table_bottom",
+    "east": "pinferno:block/angling_table_side",
+    "north": "pinferno:block/angling_table_side",
+    "particle": "pinferno:block/angling_table_side",
+    "south": "pinferno:block/angling_table_side",
+    "up": "pinferno:block/angling_table_top",
+    "west": "pinferno:block/angling_table_side"
+  }
+}

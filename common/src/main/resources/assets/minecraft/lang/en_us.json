@@ -1,4 +1,10 @@
 {
   "replace": true,
-  "block.minecraft.bed.no_sleep": ""
+  "block.minecraft.bed.no_sleep": "",
+  "advancements.story.follow_ender_eye.description": "Follow an Awakened Eye",
+  "entity.minecraft.eye_of_ender": "Awakened Eye",
+  "item.minecraft.ender_eye": "Awakened Eye",
+  "subtitles.block.end_portal_frame.fill": "Awakened Eye attaches",
+  "subtitles.entity.ender_eye.death": "Awakened Eye falls",
+  "subtitles.entity.ender_eye.launch": "Awakened Eye shoots"
 }

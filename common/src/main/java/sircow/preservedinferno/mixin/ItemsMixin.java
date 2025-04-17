@@ -308,7 +308,7 @@ public abstract class ItemsMixin {
                 .component(DataComponents.WEAPON, new Weapon(1));
     }
 
-    // modify bow durability
+    // modify durabilities
     @ModifyArg(method = "<clinit>", slice = @Slice(
             from = @At(value = "CONSTANT", args = "stringValue=bow")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
@@ -316,5 +316,14 @@ public abstract class ItemsMixin {
     ))
     private static Item.Properties preserved_blizzard$modifyBow(Item.Properties properties) {
         return new Item.Properties().durability(465).enchantable(1);
+    }
+
+    @ModifyArg(method = "<clinit>", slice = @Slice(
+            from = @At(value = "CONSTANT", args = "stringValue=fishing_rod")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0
+    ))
+    private static Item.Properties preserved_blizzard$modifyFishingRod(Item.Properties properties) {
+        return new Item.Properties().enchantable(1).stacksTo(1);
     }
 }

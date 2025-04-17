@@ -7,12 +7,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.screen.PreservedLoomMenu;
+import sircow.preservedinferno.screen.AnglingTableMenu;
 
-public class PreservedLoomScreen extends AbstractContainerScreen<PreservedLoomMenu> {
-    private static final ResourceLocation BG_LOCATION = Constants.id("textures/gui/container/preserved_loom_gui.png");
+public class AnglingTableScreen extends AbstractContainerScreen<AnglingTableMenu> {
+    private static final ResourceLocation BG_LOCATION = Constants.id("textures/gui/container/angling_table_gui.png");
 
-    public PreservedLoomScreen(PreservedLoomMenu menu, Inventory playerInventory, Component title) {
+    public AnglingTableScreen(AnglingTableMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
 
@@ -22,7 +22,7 @@ public class PreservedLoomScreen extends AbstractContainerScreen<PreservedLoomMe
     }
 
     @Override
-    protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
+    protected void renderBg(GuiGraphics context, float partialTick, int mouseX, int mouseY) {
         int i = this.leftPos;
         int j = this.topPos;
         context.blit(RenderType::guiTextured, BG_LOCATION, i, j, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);

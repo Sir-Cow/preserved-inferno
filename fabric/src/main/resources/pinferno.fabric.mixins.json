@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AbstractCauldronBlockMixin",
+    "AnglingTableBlockMixin",
     "CauldronBlockMixin",
     "CraftingTableBlockMixin",
     "EnchantingTableBlockMixin",

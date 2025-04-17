@@ -4,6 +4,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import sircow.preservedinferno.Constants;
 
@@ -39,17 +40,88 @@ public class ModItems {
     public static final Item WHITE_CLOTH = registerItem("white_cloth");
     public static final Item YELLOW_CLOTH = registerItem("yellow_cloth");
 
-    public static final Item DIAMOND_SHIELD = registerItem("diamond_shield", new Item.Properties().stacksTo(1));
-    public static final Item GOLDEN_SHIELD = registerItem("golden_shield", new Item.Properties().stacksTo(1));
-    public static final Item IRON_SHIELD = registerItem("iron_shield", new Item.Properties().stacksTo(1));
-    public static final Item NETHERITE_SHIELD = registerItem("netherite_shield", new Item.Properties().stacksTo(1));
-    public static final Item WOODEN_SHIELD = registerItem("wooden_shield", new Item.Properties().stacksTo(1));
+    public static final Item DIAMOND_SHIELD = registerItem("diamond_shield", new Item.Properties()
+            .durability(1561)
+            .stacksTo(1)
+            .repairable(ItemTags.DIAMOND_TOOL_MATERIALS)
+    );
+    public static final Item GOLDEN_SHIELD = registerItem("golden_shield", new Item.Properties()
+            .durability(32)
+            .stacksTo(1)
+            .repairable(ItemTags.GOLD_TOOL_MATERIALS)
+    );
+    public static final Item IRON_SHIELD = registerItem("iron_shield", new Item.Properties()
+            .durability(250)
+            .stacksTo(1)
+            .repairable(ItemTags.IRON_TOOL_MATERIALS)
+    );
+    public static final Item NETHERITE_SHIELD = registerItem("netherite_shield", new Item.Properties()
+            .durability(2031)
+            .stacksTo(1)
+            .repairable(ItemTags.NETHERITE_TOOL_MATERIALS)
+            .fireResistant()
+    );
+    public static final Item WOODEN_SHIELD = registerItem("wooden_shield", new Item.Properties()
+            .durability(59)
+            .stacksTo(1)
+            .repairable(ItemTags.WOODEN_TOOL_MATERIALS)
+    );
 
+    public static final Item AQUATIC_FIBER = registerItem("aquatic_fiber");
+    public static final Item CACHE = registerItem("cache", new Item.Properties().stacksTo(1));
+    public static final Item IRON_FISHING_HOOK = registerItem("iron_fishing_hook", new Item.Properties()
+            .durability(250)
+            .stacksTo(1)
+            .repairable(ItemTags.IRON_TOOL_MATERIALS)
+    );
+    public static final Item DIAMOND_FISHING_HOOK = registerItem("diamond_fishing_hook", new Item.Properties()
+            .durability(1561)
+            .stacksTo(1)
+            .repairable(ItemTags.DIAMOND_TOOL_MATERIALS)
+    );
+    public static final Item NETHERITE_FISHING_HOOK = registerItem("netherite_fishing_hook", new Item.Properties()
+            .durability(2031)
+            .stacksTo(1)
+            .repairable(ItemTags.NETHERITE_TOOL_MATERIALS)
+            .fireResistant()
+    );
+    public static final Item IRON_LACED_FISHING_LINE = registerItem("iron_laced_fishing_line", new Item.Properties()
+            .durability(250)
+            .stacksTo(1)
+            .repairable(ItemTags.IRON_TOOL_MATERIALS)
+    );
+    public static final Item DIAMOND_LACED_FISHING_LINE = registerItem("diamond_laced_fishing_line", new Item.Properties()
+            .durability(1561)
+            .stacksTo(1)
+            .repairable(ItemTags.DIAMOND_TOOL_MATERIALS)
+    );
+    public static final Item NETHERITE_LACED_FISHING_LINE = registerItem("netherite_laced_fishing_line", new Item.Properties()
+            .durability(2031)
+            .stacksTo(1)
+            .repairable(ItemTags.NETHERITE_TOOL_MATERIALS)
+            .fireResistant()
+    );
+    public static final Item IRON_SINKER = registerItem("iron_sinker", new Item.Properties()
+            .durability(250)
+            .stacksTo(1)
+            .repairable(ItemTags.IRON_TOOL_MATERIALS)
+    );
+    public static final Item DIAMOND_SINKER = registerItem("diamond_sinker", new Item.Properties()
+            .durability(1561)
+            .stacksTo(1)
+            .repairable(ItemTags.DIAMOND_TOOL_MATERIALS)
+    );
+    public static final Item NETHERITE_SINKER = registerItem("netherite_sinker", new Item.Properties()
+            .durability(2031)
+            .stacksTo(1)
+            .repairable(ItemTags.NETHERITE_TOOL_MATERIALS)
+            .fireResistant()
+    );
+    public static final Item MUSIC_DISC_AQUA = registerItem("music_disc_aqua", new Item.Properties().stacksTo(1));
 
     private static ResourceKey<Item> moddedItemId(String name) {
         return ResourceKey.create(Registries.ITEM, Constants.id(name));
     }
-
 
     public static Item registerItem(String name, Item.Properties properties) {
         return registerItem(moddedItemId(name), Item::new, properties);

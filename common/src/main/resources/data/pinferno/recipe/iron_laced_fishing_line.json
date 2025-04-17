@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": "pinferno:aquatic_fiber",
+    "X": "minecraft:iron_ingot"
+  },
+  "pattern": [
+    " X ",
+    "XFX",
+    " X "
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:iron_laced_fishing_line"
+  }
+}
