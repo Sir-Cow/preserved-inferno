@@ -22,7 +22,7 @@ public class ConsumablesMixin {
     @Mutable @Final @Shadow public static Consumable HONEY_BOTTLE;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
-    private static void modifyConsumableComponents(CallbackInfo ci) {
+    private static void preserved_inferno$modifyConsumableComponents(CallbackInfo ci) {
         HONEY_BOTTLE = defaultDrink()
                 .consumeSeconds(0.8F)
                 .sound(SoundEvents.HONEY_DRINK)
@@ -31,5 +31,5 @@ public class ConsumablesMixin {
     }
 
     @ModifyConstant(method = "defaultDrink", constant = @Constant(floatValue = 1.6F))
-    private static float modifyFloatValue(float original) { return 0.8F; }
+    private static float preserved_inferno$modifyFloatValue(float original) { return 0.8F; }
 }

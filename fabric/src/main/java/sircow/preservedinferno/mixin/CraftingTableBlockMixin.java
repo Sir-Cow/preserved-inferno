@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.CraftingTableBlock;
 import net.minecraft.world.level.block.FletchingTableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,7 +31,7 @@ public class CraftingTableBlockMixin {
     private static final Component CONTAINER_TITLE = Component.literal("Fletching Table");
 
     @Inject(method = "useWithoutItem", at = @At("HEAD"), cancellable = true)
-    public void checkForFletchingTable(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
+    public void preserved_inferno$checkForFletchingTable(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if (!level.isClientSide) {
             if (level.getBlockState(pos).getBlock() instanceof FletchingTableBlock) {
                 player.openMenu(state.getMenuProvider(level, pos));
@@ -44,19 +44,19 @@ public class CraftingTableBlockMixin {
         }
     }
 
+    @SuppressWarnings("rawtypes")
     @Inject(method = "getMenuProvider", at = @At("HEAD"), cancellable = true)
-    public void checkForFletchingTable2(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
+    public void preserved_inferno$checkForFletchingTable2(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
         if (level.getBlockState(pos).getBlock() instanceof FletchingTableBlock) {
             cir.setReturnValue(
                     new ExtendedScreenHandlerFactory() {
-
                         @Override
-                        public @Nullable AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
+                        public @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
                             return new PreservedFletchingTableMenu(syncId, playerInventory, ContainerLevelAccess.create(level, pos));
                         }
 
                         @Override
-                        public Component getDisplayName() {
+                        public @NotNull Component getDisplayName() {
                             return CONTAINER_TITLE;
                         }
 

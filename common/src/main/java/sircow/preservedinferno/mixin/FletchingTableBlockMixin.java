@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(FletchingTableBlock.class)
 public class FletchingTableBlockMixin {
     @Inject(method = "useWithoutItem", at = @At("HEAD"), cancellable = true)
-    public void useWithoutItemOverride(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
+    public void preserved_inferno$useWithoutItemOverride(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if (!level.isClientSide) {
             MenuProvider menuProvider = state.getMenuProvider(level, pos);
             if (menuProvider != null) {

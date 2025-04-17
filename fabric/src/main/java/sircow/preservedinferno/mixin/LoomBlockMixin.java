@@ -26,8 +26,9 @@ public class LoomBlockMixin {
     @Unique
     private static final Component CONTAINER_TITLE = Component.translatable("container.loom");
 
+    @SuppressWarnings("rawtypes")
     @Inject(method = "getMenuProvider", at = @At("HEAD"), cancellable = true)
-    private void injectGetMenuProvider(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
+    private void preserved_inferno$injectGetMenuProvider(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
         cir.setReturnValue(new ExtendedScreenHandlerFactory() {
             @Override
             public PreservedInferno.BlockData getScreenOpeningData(ServerPlayer serverPlayer) {

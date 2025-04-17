@@ -28,6 +28,7 @@ public class CauldronBlockMixin implements EntityBlock {
         return new PreservedCauldronBlockEntity(pos, state);
     }
 
+    @SuppressWarnings("unchecked")
     @Unique
     private static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(
             BlockEntityType<A> serverType, BlockEntityType<E> clientType, BlockEntityTicker<? super E> ticker
@@ -56,22 +57,22 @@ public class CauldronBlockMixin implements EntityBlock {
 
     // cancel other vanilla cauldron stuff
     @Inject(method = "canReceiveStalactiteDrip", at = @At("HEAD"), cancellable = true)
-    public void cancel(Fluid fluid, CallbackInfoReturnable<Boolean> cir) {
+    public void preserved_inferno$cancel(Fluid fluid, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false);
     }
 
     @Inject(method = "receiveStalactiteDrip", at = @At("HEAD"), cancellable = true)
-    public void cancel2(BlockState state, Level level, BlockPos pos, Fluid fluid, CallbackInfo ci) {
+    public void preserved_inferno$cancel2(BlockState state, Level level, BlockPos pos, Fluid fluid, CallbackInfo ci) {
         ci.cancel();
     }
 
     @Inject(method = "shouldHandlePrecipitation", at = @At("HEAD"), cancellable = true)
-    private static void cancel3(Level level, Biome.Precipitation precipitation, CallbackInfoReturnable<Boolean> cir) {
+    private static void preserved_inferno$cancel3(Level level, Biome.Precipitation precipitation, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false);
     }
 
     @Inject(method = "handlePrecipitation", at = @At("HEAD"), cancellable = true)
-    public void cancel4(BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation, CallbackInfo ci) {
+    public void preserved_inferno$cancel4(BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation, CallbackInfo ci) {
         ci.cancel();
     }
 }

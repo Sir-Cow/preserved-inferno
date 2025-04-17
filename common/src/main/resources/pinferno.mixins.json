@@ -8,6 +8,7 @@
     "AbstractArrowMixin",
     "AbstractFurnaceBlockEntityAccessor",
     "AbstractFurnaceBlockEntityMixin",
+    "AxeItemMixin",
     "BlocksMixin",
     "BrewingStandBlockEntityMixin",
     "ConduitBlockEntityAccessor",
@@ -20,11 +21,13 @@
     "FoodsMixin",
     "HoneycombItemMixin",
     "ItemsMixin",
+    "MaceItemMixin",
     "PhantomSpawnerMixin",
     "PlayerMixin",
     "PotionBrewingMixin",
     "ServerPlayerMixin",
-    "TridentMixin"
+    "ThrownTridentMixin",
+    "TridentItemMixin"
   ],
   "client": [
     "BrewingStandScreenMixin"

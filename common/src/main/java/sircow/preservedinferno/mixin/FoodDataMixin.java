@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.*;
 @Mixin(FoodData.class)
 public class FoodDataMixin {
     @ModifyConstant(method = "tick", constant = @Constant(intValue = 10))
-    private int modifySaturationHealRateAgain(int constant) {
+    private int preserved_inferno$modifySaturationHealRateAgain(int constant) {
         return 30;
     }
 }

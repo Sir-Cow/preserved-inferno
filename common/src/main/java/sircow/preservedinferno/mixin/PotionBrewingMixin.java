@@ -12,7 +12,7 @@ import sircow.preservedinferno.item.ModItems;
 @Mixin(PotionBrewing.class)
 public class PotionBrewingMixin {
     @Inject(method = "addVanillaMixes", at = @At("HEAD"), cancellable = true)
-    private static void addVanillaMixes(PotionBrewing.Builder builder, CallbackInfo ci) {
+    private static void preserved_inferno$addVanillaMixes(PotionBrewing.Builder builder, CallbackInfo ci) {
         builder.addContainer(Items.POTION);
         builder.addContainer(Items.SPLASH_POTION);
         builder.addContainer(Items.LINGERING_POTION);

@@ -25,8 +25,9 @@ import sircow.preservedinferno.screen.PreservedEnchantmentMenu;
 
 @Mixin(EnchantingTableBlock.class)
 public class EnchantingTableBlockMixin {
+    @SuppressWarnings("rawtypes")
     @Inject(method = "getMenuProvider", at = @At("HEAD"), cancellable = true)
-    public void getMenuProvider(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
+    public void preserved_inferno$getMenuProvider(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
         BlockEntity blockentity = level.getBlockEntity(pos);
         if (blockentity instanceof EnchantingTableBlockEntity) {
             Component component = ((Nameable) blockentity).getDisplayName();

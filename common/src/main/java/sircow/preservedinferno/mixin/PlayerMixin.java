@@ -26,7 +26,7 @@ public abstract class PlayerMixin extends LivingEntity {
     private boolean hasWaterBreathingFromHelmet = false;
 
     @Inject(method = "tick", at = @At("HEAD"))
-    private void updateTurtleHelmet(CallbackInfo ci) {
+    private void preserved_inferno$updateTurtleHelmet(CallbackInfo ci) {
         boolean isInWater = this.isEyeInFluid(FluidTags.WATER);
         boolean isWearingHelmet = this.getItemBySlot(EquipmentSlot.HEAD).is(Items.TURTLE_HELMET);
 
@@ -45,7 +45,7 @@ public abstract class PlayerMixin extends LivingEntity {
     }
 
     @Inject(method = "turtleHelmetTick", at = @At("HEAD"), cancellable = true)
-    private void cancelTurtleHelmetTick(CallbackInfo ci) {
+    private void preserved_inferno$cancelTurtleHelmetTick(CallbackInfo ci) {
         ci.cancel();
     }
 }

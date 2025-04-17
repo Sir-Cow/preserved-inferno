@@ -25,10 +25,6 @@
           "condition": "minecraft:all_of",
           "terms": [
             {
-              "condition": "minecraft:weather_check",
-              "thundering": true
-            },
-            {
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
@@ -64,6 +60,10 @@
               "pitch": 1.0,
               "sound": "minecraft:item.trident.thunder",
               "volume": 5.0
+            },
+            {
+              "type": "minecraft:change_item_damage",
+              "amount": 4.0
             }
           ]
         },
@@ -71,10 +71,6 @@
         "requirements": {
           "condition": "minecraft:all_of",
           "terms": [
-            {
-              "condition": "minecraft:weather_check",
-              "thundering": true
-            },
             {
               "condition": "minecraft:entity_properties",
               "entity": "this",

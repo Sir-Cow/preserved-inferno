@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ElderGuardian.class)
 public class ElderGuardianMixin {
     @Inject(method = "createAttributes", at = @At("RETURN"), cancellable = true)
-    private static void modifyMaxHealth(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+    private static void preserved_inferno$modifyMaxHealth(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         AttributeSupplier.Builder builder = cir.getReturnValue();
         builder.add(Attributes.MAX_HEALTH, 300.0D);
         cir.setReturnValue(builder);

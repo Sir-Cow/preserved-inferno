@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 @Mixin(BrewingStandScreen.class)
 public class BrewingStandScreenMixin {
     @ModifyConstant(method = "renderBg", constant = @Constant(floatValue = 400.0F))
-    private float modifyBrewTime(float original) {
+    private float preserved_inferno$modifyBrewTime(float original) {
         return 160;
     }
 }

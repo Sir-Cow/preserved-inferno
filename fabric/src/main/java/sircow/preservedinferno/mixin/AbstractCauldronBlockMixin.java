@@ -23,17 +23,17 @@ import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
 public class AbstractCauldronBlockMixin {
     // cancel vanilla interactions
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    public void cancel(BlockState p_220702_, ServerLevel p_220703_, BlockPos p_220704_, RandomSource p_220705_, CallbackInfo ci) {
+    public void preserved_inferno$cancel(BlockState p_220702_, ServerLevel p_220703_, BlockPos p_220704_, RandomSource p_220705_, CallbackInfo ci) {
         ci.cancel();
     }
 
     @Inject(method = "hasAnalogOutputSignal", at = @At("HEAD"), cancellable = true)
-    public void cancel2(BlockState p_151986_, CallbackInfoReturnable<Boolean> cir) {
+    public void preserved_inferno$cancel2(BlockState p_151986_, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false);
     }
 
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
-    public void cancel3(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult stack, CallbackInfoReturnable<InteractionResult> cir) {
+    public void preserved_inferno$cancel3(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult stack, CallbackInfoReturnable<InteractionResult> cir) {
         if (!level.isClientSide) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof PreservedCauldronBlockEntity menuProvider) {

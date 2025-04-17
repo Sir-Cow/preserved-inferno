@@ -9,5 +9,5 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 public class PhantomSpawnerMixin {
     // modify phantom spawn time
     @ModifyConstant(method = "tick", constant = @Constant(intValue = 72000))
-    private int modifyIntValue(int original) { return 168000; }
+    private int preserved_inferno$modifyIntValue(int original) { return 168000; }
 }

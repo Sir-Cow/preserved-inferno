@@ -51,7 +51,7 @@ public class FoodsMixin {
     @Mutable @Final @Shadow public static FoodProperties TROPICAL_FISH;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
-    private static void modifyFood(CallbackInfo ci) {
+    private static void preserved_inferno$modifyFood(CallbackInfo ci) {
         APPLE = new FoodProperties.Builder().nutrition(4).saturationModifier(1.0F).build();
         BAKED_POTATO = new FoodProperties.Builder().nutrition(5).saturationModifier(1.2F).build();
         BEETROOT = new FoodProperties.Builder().nutrition(2).saturationModifier(1.0F).build();

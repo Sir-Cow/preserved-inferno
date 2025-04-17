@@ -116,15 +116,15 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         itemCategorySlots.put("toolSilk", Set.of(7, 28, 32));
         itemCategorySlots.put("bow", Set.of(11, 14, 20, 23, 32));
         itemCategorySlots.put("bowMending", Set.of(11, 20, 23, 32));
-        itemCategorySlots.put("trident", Set.of(4, 13, 17, 26, 32));
-        itemCategorySlots.put("tridentRip", Set.of(13, 26, 32));
-        itemCategorySlots.put("tridentWithoutRip", Set.of(4, 13, 17, 32));
+        itemCategorySlots.put("trident", Set.of(4, 13, 16, 17, 26, 32));
+        itemCategorySlots.put("tridentRip", Set.of(13, 16, 26, 32));
+        itemCategorySlots.put("tridentWithoutRip", Set.of(4, 13, 16, 17, 32));
         itemCategorySlots.put("crossbow", Set.of(18, 19, 24, 32));
         itemCategorySlots.put("crossbowPierce", Set.of(19, 24, 32));
         itemCategorySlots.put("crossbowMulti", Set.of(18, 24, 32));
-        itemCategorySlots.put("mace", Set.of(3, 5, 9));
-        itemCategorySlots.put("maceBreach", Set.of(3, 9));
-        itemCategorySlots.put("maceDensity", Set.of(5, 9));
+        itemCategorySlots.put("mace", Set.of(3, 5, 9, 16));
+        itemCategorySlots.put("maceBreach", Set.of(3, 9, 16));
+        itemCategorySlots.put("maceDensity", Set.of(5, 9, 16));
         itemCategorySlots.put("helmet", Set.of(0, 2, 10, 21, 22, 25, 31, 32));
         itemCategorySlots.put("chestplate", Set.of(2, 10, 21, 22, 31, 32));
         itemCategorySlots.put("leggings", Set.of(2, 10, 21, 22, 31, 32));
@@ -534,6 +534,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         return true;
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private boolean hasEnchantment(ItemStack itemStack, ResourceKey enchantment) {
         return itemStack.getEnchantments().keySet().contains(this.world.registryAccess().lookupOrThrow(enchantment.registryKey()).getOrThrow(enchantment));
     }

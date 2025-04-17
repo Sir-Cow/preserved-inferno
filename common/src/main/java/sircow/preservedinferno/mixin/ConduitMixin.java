@@ -22,26 +22,26 @@ import java.util.List;
 public class ConduitMixin {
     // extend conduit radius
     @ModifyConstant(method = "updateDestroyTarget", constant = @Constant(doubleValue = 8.0F))
-    private static double modifyDoubleValue(double original) {
+    private static double preserved_inferno$modifyDoubleValue(double original) {
         return 16.0F;
     }
     // extend conduit radius
     @ModifyConstant(method = "getDestroyRangeAABB", constant = @Constant(doubleValue = 8.0F))
-    private static double modifyDoubleValueAgain(double original) {
+    private static double preserved_inferno$modifyDoubleValueAgain(double original) {
         return 16.0F;
     }
     // damage speed
     @ModifyConstant(method = "clientTick", constant = @Constant(longValue = 40L))
-    private static long modifyLongValue(long original) {
+    private static long preserved_inferno$modifyLongValue(long original) {
         return 1L;
     }
     @ModifyConstant(method = "serverTick", constant = @Constant(longValue = 40L))
-    private static long modifyLongValueAgain(long original) {
+    private static long preserved_inferno$modifyLongValueAgain(long original) {
         return 1L;
     }
     // remove in rain or water to grant effect
     @Inject(method = "applyEffects", at = @At("HEAD"), cancellable = true)
-    private static void givePlayersEffects(Level level, BlockPos pos, List<BlockPos> positions, CallbackInfo ci) {
+    private static void preserved_inferno$givePlayersEffects(Level level, BlockPos pos, List<BlockPos> positions, CallbackInfo ci) {
         int i = positions.size();
         int j = i / 7 * 16;
         int k = pos.getX();
@@ -62,7 +62,7 @@ public class ConduitMixin {
     }
     // change magic damage to custom damage type which makes player-killed loot drop
     @Inject(method = "updateDestroyTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)V"), cancellable = true)
-    private static void changeDamageSource(Level level, BlockPos pos, BlockState state, List<BlockPos> positions, ConduitBlockEntity blockEntity, CallbackInfo ci) {
+    private static void preserved_inferno$changeDamageSource(Level level, BlockPos pos, BlockState state, List<BlockPos> positions, ConduitBlockEntity blockEntity, CallbackInfo ci) {
         ConduitBlockEntityAccessor accessor = (ConduitBlockEntityAccessor) blockEntity;
         LivingEntity targetEntity = accessor.getTargetEntity();
 
