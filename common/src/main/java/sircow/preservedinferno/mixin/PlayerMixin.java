@@ -188,38 +188,68 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         if (currentHeat >= 100) {
             this.heatDamageTickCounter++;
             if (this.heatDamageTickCounter >= 20) {
-                if (currentHeat < 110) {
+                if (currentHeat < 105) {
+                    this.hurt((this.damageSource), 0.5F);
+                }
+                if (currentHeat >= 105 && currentHeat < 110) {
+                    this.hurt((this.damageSource), 1.0F);
+                }
+                if (currentHeat >= 110 && currentHeat < 115) {
+                    this.hurt((this.damageSource), 1.5F);
+                }
+                if (currentHeat >= 115 && currentHeat < 120) {
                     this.hurt((this.damageSource), 2.0F);
                 }
-                if (currentHeat >= 110 && currentHeat < 120) {
+                if (currentHeat >= 120 && currentHeat < 125) {
                     this.hurt((this.damageSource), 2.5F);
                 }
-                if (currentHeat >= 120 && currentHeat < 130) {
+                if (currentHeat >= 125 && currentHeat < 130) {
                     this.hurt((this.damageSource), 3.0F);
                 }
-                if (currentHeat >= 130 && currentHeat < 140) {
+                if (currentHeat >= 130 && currentHeat < 135) {
                     this.hurt((this.damageSource), 3.5F);
                 }
-                if (currentHeat >= 140 && currentHeat < 150) {
+                if (currentHeat >= 135 && currentHeat < 140) {
                     this.hurt((this.damageSource), 4.0F);
                 }
-                if (currentHeat >= 150 && currentHeat < 160) {
+                if (currentHeat >= 140 && currentHeat < 145) {
                     this.hurt((this.damageSource), 4.5F);
                 }
-                if (currentHeat >= 160 && currentHeat < 170) {
+                if (currentHeat >= 145 && currentHeat < 150) {
                     this.hurt((this.damageSource), 5.0F);
                 }
-                if (currentHeat >= 170 && currentHeat < 180) {
+                if (currentHeat >= 150 && currentHeat < 155) {
                     this.hurt((this.damageSource), 5.5F);
                 }
-                if (currentHeat >= 180 && currentHeat < 190) {
+                if (currentHeat >= 155 && currentHeat < 160) {
                     this.hurt((this.damageSource), 6.0F);
                 }
-                if (currentHeat >= 190 && currentHeat < 200) {
+                if (currentHeat >= 160 && currentHeat < 165) {
                     this.hurt((this.damageSource), 6.5F);
                 }
-                if (currentHeat >= 200) {
+                if (currentHeat >= 165 && currentHeat < 170) {
                     this.hurt((this.damageSource), 7.0F);
+                }
+                if (currentHeat >= 170 && currentHeat < 175) {
+                    this.hurt((this.damageSource), 7.5F);
+                }
+                if (currentHeat >= 175 && currentHeat < 180) {
+                    this.hurt((this.damageSource), 8.0F);
+                }
+                if (currentHeat >= 180 && currentHeat < 185) {
+                    this.hurt((this.damageSource), 8.5F);
+                }
+                if (currentHeat >= 185 && currentHeat < 190) {
+                    this.hurt((this.damageSource), 9.0F);
+                }
+                if (currentHeat >= 190 && currentHeat < 195) {
+                    this.hurt((this.damageSource), 9.5F);
+                }
+                if (currentHeat >= 195 && currentHeat < 200) {
+                    this.hurt((this.damageSource), 10.0F);
+                }
+                if (currentHeat >= 200) {
+                    this.hurt((this.damageSource), 10.5F);
                 }
 
                 this.heatDamageTickCounter = 0;
