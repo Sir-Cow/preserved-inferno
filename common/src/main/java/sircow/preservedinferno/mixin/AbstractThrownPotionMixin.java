@@ -18,7 +18,7 @@ import java.util.function.Predicate;
 
 @Mixin(AbstractThrownPotion.class)
 public class AbstractThrownPotionMixin {
-    @Unique private static final int HEAT_MODIFIER = 2;
+    @Unique private static final int HEAT_MODIFIER = 1;
     @Unique private static final Predicate<LivingEntity> PLAYER = livingEntity -> livingEntity instanceof Player;
     @Unique private final Set<Player> hitPlayers = new HashSet<>();
 
@@ -29,12 +29,14 @@ public class AbstractThrownPotionMixin {
         hitPlayers.clear();
 
         for (LivingEntity livingEntity : level.getEntitiesOfClass(LivingEntity.class, aABB, PLAYER)) {
-            if (livingEntity instanceof Player) {
-                Player player = (Player) livingEntity;
+            if (livingEntity instanceof Player player) {
+                int currentHeat = ((HeatAccessor) player).preserved_inferno$getHeat();
+
                 if (!hitPlayers.contains(player)) {
-                    if (((HeatAccessor) player).preserved_inferno$getHeat() >= HEAT_MODIFIER) {
+                    if (currentHeat >= HEAT_MODIFIER) {
                         ((HeatAccessor) player).preserved_inferno$decreaseHeat(HEAT_MODIFIER);
-                    } else if (((HeatAccessor) player).preserved_inferno$getHeat() < HEAT_MODIFIER && ((HeatAccessor) player).preserved_inferno$getHeat() > 0) {
+                    }
+                    else if (currentHeat < HEAT_MODIFIER && currentHeat > 0) {
                         ((HeatAccessor) player).preserved_inferno$setHeat(0);
                     }
                     hitPlayers.add(player);

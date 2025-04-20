@@ -50,6 +50,7 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         conversionMap.put(ModItems.RAW_HIDE, Items.LEATHER);
         conversionMap.put(Items.DIRT, Items.MUD);
         conversionMap.put(Items.COARSE_DIRT, Items.MUD);
+        conversionMap.put(Items.ROOTED_DIRT, Items.MUD);
         // concrete
         conversionMap.put(Items.BLACK_CONCRETE_POWDER, Items.BLACK_CONCRETE);
         conversionMap.put(Items.BLUE_CONCRETE_POWDER, Items.BLUE_CONCRETE);

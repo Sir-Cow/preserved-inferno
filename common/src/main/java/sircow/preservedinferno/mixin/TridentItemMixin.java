@@ -40,7 +40,7 @@ public class TridentItemMixin {
             index = 5
     )
     private float preserved_inferno$modifyVelocity(float inaccuracy) {
-        return 3.5F;
+        return 3.0F;
     }
     // modify accuracy
     @ModifyArg(
@@ -55,7 +55,7 @@ public class TridentItemMixin {
     // modify time it takes to charge up throw
     @ModifyConstant(method = "releaseUsing", constant = @Constant(intValue = 10), require = 0)
     private int preserved_inferno$modifyChargeTicks(int originalValue) {
-        return 2;
+        return 4;
     }
 
     // modify base damage and attack speed

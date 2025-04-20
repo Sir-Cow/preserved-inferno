@@ -58,15 +58,15 @@
 
   "itemgroup.pinferno.items": "Preserved: Inferno",
 
-  "sounds.pinferno.enchant_click": "Enchant Click",
-  "sounds.pinferno.enchant_one": "Enchant One",
-  "sounds.pinferno.enchant_two": "Enchant Two",
-  "sounds.pinferno.enchant_three": "Enchant Three",
-  "sounds.pinferno.enchant_open_flip_one": "Enchant Open Flip One",
-  "sounds.pinferno.enchant_open_flip_two": "Enchant Open Flip Two",
-  "sounds.pinferno.enchant_open_flip_three": "Enchant Open Flip Three",
-  "sounds.pinferno.enchant_close_one": "Enchant Close One",
-  "sounds.pinferno.enchant_close_two": "Enchant Close Two",
+  "sounds.pinferno.enchant_click": "Enchantment Selected",
+  "sounds.pinferno.enchant_one": "Enchantment Applied",
+  "sounds.pinferno.enchant_two": "Enchantment Applied",
+  "sounds.pinferno.enchant_three": "Enchantment Applied",
+  "sounds.pinferno.enchant_open_flip_one": "Enchantment Selected",
+  "sounds.pinferno.enchant_open_flip_two": "Enchantment Selected",
+  "sounds.pinferno.enchant_open_flip_three": "Enchantment Selected",
+  "sounds.pinferno.enchant_close_one": "Closed Enchanting Table",
+  "sounds.pinferno.enchant_close_two": "Closed Enchanting Table",
 
   "death.attack.heat": "%1$s burned up",
   "death.attack.heat.player": "%1$s burned up whilst trying to escape %2$s"
