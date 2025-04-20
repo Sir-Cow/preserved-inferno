@@ -36,12 +36,12 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     @Unique private int heatIncreaseTickCounter = 0;
     @Unique private int heatDecreaseTickCounter = 0;
     @Unique private int heatDamageTickCounter = 0;
-    @Unique private static final int INCREASE_CAP = 120;
+    @Unique private static final int INCREASE_CAP = 60;
     @Unique private static final int DECREASE_CAP = 80;
-    @Unique private static final int IN_WATER_CAP_REDUCTION = 6;
-    @Unique private static final int IN_POWDER_SNOW_CAP_REDUCTION = 26;
-    @Unique private static final int FIRE_RES_INCREASE = 100;
-    @Unique private static final int FIRE_PROT_INCREASE = 20;
+    @Unique private static final int IN_WATER_CAP_REDUCTION = 10;
+    @Unique private static final int IN_POWDER_SNOW_CAP_REDUCTION = 30;
+    @Unique private static final int FIRE_RES_INCREASE = 80;
+    @Unique private static final int FIRE_PROT_INCREASE = 10;
     @Unique private static final EntityDataAccessor<Integer> DATA_HEAT = SynchedEntityData.defineId(PlayerMixin.class, EntityDataSerializers.INT);
     @Unique DamageSource damageSource = ModDamageTypes.of(this.level(), ModDamageTypes.HEAT, this);
 
@@ -152,6 +152,10 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
             }
             if (fireProtCheck() == 4) {
                 tickCap += (FIRE_PROT_INCREASE * 4);
+            }
+
+            if (currentHeat == 0) {
+                preserved_inferno$increaseHeat(1);
             }
 
             if (currentHeat < 200) {
