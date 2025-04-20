@@ -69,7 +69,7 @@ public class ConduitMixin {
         if (targetEntity != null) {
             Player player = level.players().getFirst();
             if (player != null) {
-                DamageSource damageSource = ModDamageTypes.of(level, ModDamageTypes.TAG_CONDUIT, player);
+                DamageSource damageSource = ModDamageTypes.of(level, ModDamageTypes.CONDUIT, player);
                 if (level instanceof ServerLevel serverWorld) {
                     targetEntity.hurtServer(serverWorld, damageSource, 4.0F);
                 }

@@ -14,7 +14,7 @@ public class ServerPlayerMixin {
     // prevent advancements where player needs to kill a mob from granting when killed by conduit
     @Inject(method = "awardKillScore", at = @At("HEAD"), cancellable = true)
     private void preserved_inferno$preventAdvancementStatIncrease(Entity entityKilled, DamageSource damageSource, CallbackInfo ci) {
-        if (damageSource.is(ModDamageTypes.TAG_CONDUIT)) {
+        if (damageSource.is(ModDamageTypes.CONDUIT)) {
             ci.cancel();
         }
     }

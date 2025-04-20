@@ -8,6 +8,7 @@
     "AbstractArrowMixin",
     "AbstractFurnaceBlockEntityAccessor",
     "AbstractFurnaceBlockEntityMixin",
+    "AbstractThrownPotionMixin",
     "AxeItemMixin",
     "BlocksMixin",
     "BrewingStandBlockEntityMixin",
@@ -21,6 +22,7 @@
     "FoodsMixin",
     "HoneycombItemMixin",
     "ItemsMixin",
+    "ItemStackMixin",
     "MaceItemMixin",
     "PhantomSpawnerMixin",
     "PlayerMixin",
@@ -30,7 +32,8 @@
     "TridentItemMixin"
   ],
   "client": [
-    "BrewingStandScreenMixin"
+    "BrewingStandScreenMixin",
+    "GuiMixin"
   ],
   "server": [],
   "injectors": {
