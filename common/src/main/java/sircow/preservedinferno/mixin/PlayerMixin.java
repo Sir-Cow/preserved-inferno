@@ -92,17 +92,13 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         preserved_inferno$setHeat(0);
     }
 
-    @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        if (tag.contains("preserved_inferno$heat")) {
-            this.preserved_inferno$setHeat(tag.getIntOr("preserved_inferno$heat", 0));
-        }
+    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+    public void preserved_inferno$readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+        this.preserved_inferno$setHeat(tag.getIntOr("preserved_inferno$heat", 0));
     }
 
-    @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
+    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
+    public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         tag.putInt("preserved_inferno$heat", this.preserved_inferno$getHeat());
     }
 
