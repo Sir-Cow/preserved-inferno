@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.RenderType;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.MenuTypes;
 import sircow.preservedinferno.block.ModBlocks;
+import sircow.preservedinferno.screen.CacheScreen;
+import sircow.preservedinferno.screen.PreservedCauldronScreen;
 
 public class FabricPreservedInfernoClient implements ClientModInitializer {
 
@@ -14,6 +16,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     public void onInitializeClient() {
         // menus
         MenuScreens.register(Constants.ANGLING_TABLE_MENU_TYPE.get(), AnglingTableScreen::new);
+        MenuScreens.register(MenuTypes.CACHE_MENU_TYPE.get(), CacheScreen::new);
         MenuScreens.register(Constants.PRESERVED_ENCHANT_MENU_TYPE.get(), PreservedEnchantingTableScreen::new);
         MenuScreens.register(Constants.PRESERVED_FLETCHING_TABLE_MENU_TYPE.get(), PreservedFletchingTableScreen::new);
         MenuScreens.register(Constants.PRESERVED_LOOM_MENU_TYPE.get(), PreservedLoomScreen::new);

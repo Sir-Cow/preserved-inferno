@@ -28,7 +28,7 @@ import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
 @Mixin(CraftingTableBlock.class)
 public class CraftingTableBlockMixin {
     @Unique
-    private static final Component CONTAINER_TITLE = Component.literal("Fletching Table");
+    private static final Component CONTAINER_TITLE = Component.translatable("block.minecraft.fletching_table");
 
     @Inject(method = "useWithoutItem", at = @At("HEAD"), cancellable = true)
     public void preserved_inferno$checkForFletchingTable(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
@@ -67,7 +67,8 @@ public class CraftingTableBlockMixin {
                         }
                     }
             );
-        } else {
+        }
+        else {
             // do nothing!
         }
     }

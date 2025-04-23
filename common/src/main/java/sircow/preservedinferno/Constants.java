@@ -4,10 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sircow.preservedinferno.screen.AnglingTableMenu;
-import sircow.preservedinferno.screen.PreservedEnchantmentMenu;
-import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
-import sircow.preservedinferno.screen.PreservedLoomMenu;
+import sircow.preservedinferno.screen.*;
 
 import java.util.function.Supplier;
 

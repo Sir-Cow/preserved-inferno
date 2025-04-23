@@ -5,22 +5,21 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.block.ModBlocks;
 
-public class ModItemGroups {
+public class FabricModItemGroups {
     public static final ResourceKey<CreativeModeTab> PRESERVED_INFERNO_TAB_KEY =
-            ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "pinferno"));
+            ResourceKey.create(Registries.CREATIVE_MODE_TAB, Constants.id("pinferno"));
 
     public static CreativeModeTab PRESERVED_INFERNO_GROUP;
 
     public static void register() {
         PRESERVED_INFERNO_GROUP = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                 .title(Component.translatable("itemgroup.pinferno.items"))
-                .icon(() -> new net.minecraft.world.item.ItemStack(ModItems.DREAMCATCHER))
+                .icon(() -> new ItemStack(ModItems.DREAMCATCHER))
                 .displayItems((displayContext, entries) -> {
                     entries.accept(ModItems.DREAMCATCHER);
                     entries.accept(ModItems.ELDER_GUARDIAN_SPINE);
@@ -57,7 +56,7 @@ public class ModItemGroups {
                     entries.accept(ModItems.NETHERITE_SHIELD);
 
                     entries.accept(ModItems.AQUATIC_FIBER);
-                    entries.accept(ModItems.CACHE);
+                    entries.accept(FabricModItems.CACHE);
                     entries.accept(ModItems.IRON_FISHING_HOOK);
                     entries.accept(ModItems.DIAMOND_FISHING_HOOK);
                     entries.accept(ModItems.NETHERITE_FISHING_HOOK);
@@ -84,11 +83,11 @@ public class ModItemGroups {
     }
 
     private static void registerCreativeTab(CreativeModeTab tab){
-        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, ModItemGroups.PRESERVED_INFERNO_TAB_KEY, tab);
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, FabricModItemGroups.PRESERVED_INFERNO_TAB_KEY, tab);
     }
 
     public static void registerItemGroups() {
         register();
-        Constants.LOG.info("Registering Mod Item Groups for " + Constants.MOD_ID);
+        //Constants.LOG.info("Registering Mod Item Groups for " + Constants.MOD_ID);
     }
 }

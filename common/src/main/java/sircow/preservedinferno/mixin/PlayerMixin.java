@@ -71,7 +71,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         }
 
         // nether heat
-        if (!this.level().isClientSide() && !Objects.requireNonNull(this.gameMode()).isCreative()) {
+        if (!this.level().isClientSide() && Objects.requireNonNull(this.gameMode()).isSurvival()) {
             preserved_inferno$doHeatChange();
         }
     }

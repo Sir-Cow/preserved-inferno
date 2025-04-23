@@ -33,7 +33,7 @@ public class CauldronBlockMixin implements EntityBlock {
     private static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(
             BlockEntityType<A> serverType, BlockEntityType<E> clientType, BlockEntityTicker<? super E> ticker
     ) {
-        return clientType.equals(serverType) ? (BlockEntityTicker<A>)ticker : null;
+        return clientType.equals(serverType) ? (BlockEntityTicker<A>) ticker : null;
     }
 
     @Unique

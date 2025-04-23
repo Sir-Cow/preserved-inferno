@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:ender_pearl",
+    "S": "minecraft:blaze_powder"
+  },
+  "pattern": [
+    " S ",
+    "S#S",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:ender_eye"
+  }
+}

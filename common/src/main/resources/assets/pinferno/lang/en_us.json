@@ -69,5 +69,10 @@
   "sounds.pinferno.enchant_close_two": "Closed Enchanting Table",
 
   "death.attack.heat": "%1$s burned up",
-  "death.attack.heat.player": "%1$s burned up whilst trying to escape %2$s"
+  "death.attack.heat.player": "%1$s burned up whilst trying to escape %2$s",
+
+  "block.minecraft.bed.no_dreamcatcher": "You may not rest now; nightmares haunt you in your sleep",
+
+  "container.pinferno.angling_table": "Angling Table",
+  "container.pinferno.cache": "Cache"
 }

@@ -182,7 +182,7 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
 
     @Override
     public Component getDefaultName() {
-        return Component.literal("Cauldron");
+        return Component.translatable("block.minecraft.cauldron");
     }
 
     @Override

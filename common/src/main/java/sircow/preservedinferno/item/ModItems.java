@@ -13,7 +13,7 @@ import java.util.function.Function;
 public class ModItems {
     // items
     public static final Item DREAMCATCHER = registerItem("dreamcatcher", new Item.Properties().stacksTo(1));
-    public static final Item ELDER_GUARDIAN_SPINE = registerItem("elder_guardian_spine");
+    public static final Item ELDER_GUARDIAN_SPINE = registerItem("elder_guardian_spine", new Item.Properties().rarity(Rarity.EPIC));
     public static final Item HOLLOW_TWINE = registerItem("hollow_twine");
     public static final Item PHANTOM_SINEW = registerItem("phantom_sinew");
     public static final Item RAW_HIDE = registerItem("raw_hide");
@@ -68,7 +68,7 @@ public class ModItems {
     );
 
     public static final Item AQUATIC_FIBER = registerItem("aquatic_fiber");
-    public static final Item CACHE = registerItem("cache", new Item.Properties().stacksTo(1));
+
     public static final Item IRON_FISHING_HOOK = registerItem("iron_fishing_hook", new Item.Properties()
             .durability(250)
             .stacksTo(1)
@@ -121,6 +121,10 @@ public class ModItems {
 
     private static ResourceKey<Item> moddedItemId(String name) {
         return ResourceKey.create(Registries.ITEM, Constants.id(name));
+    }
+
+    public static Item registerItem(String name, Function<Item.Properties, Item> factory, Item.Properties properties) {
+        return registerItem(moddedItemId(name), factory, properties);
     }
 
     public static Item registerItem(String name, Item.Properties properties) {

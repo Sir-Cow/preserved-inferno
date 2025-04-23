@@ -1,7 +1,6 @@
 package sircow.preservedinferno;
 
 import sircow.preservedinferno.block.ModBlocks;
-import sircow.preservedinferno.item.ModItemGroups;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.other.ModDamageTypes;
 import sircow.preservedinferno.platform.Services;
@@ -14,7 +13,6 @@ public class CommonClass {
             // registering
             ModBlocks.registerModBlocks();
             ModItems.registerModItems();
-            ModItemGroups.registerItemGroups();
             ModDamageTypes.registerModDamageTypes();
             ModSounds.registerSounds();
         }

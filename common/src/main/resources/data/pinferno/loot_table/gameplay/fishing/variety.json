@@ -8,33 +8,33 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:bone",
-          "weight": 15
+          "weight": 10
         },
         {
           "type": "minecraft:item",
           "name": "pinferno:raw_hide",
-          "weight": 15
+          "weight": 10
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:string",
-          "weight": 15,
+          "weight": 10,
           "conditions": []
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:coal",
+          "name": "minecraft:rabbit_foot",
           "weight": 10
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:iron_ingot",
-          "weight": 5
+          "weight": 10
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:gold_ingot",
-          "weight": 5,
+          "weight": 10,
           "conditions": []
         },
         {
@@ -45,7 +45,7 @@
         {
           "type": "minecraft:item",
           "name": "pinferno:aquatic_fiber",
-          "weight": 5
+          "weight": 10
         },
         {
           "type": "minecraft:item",

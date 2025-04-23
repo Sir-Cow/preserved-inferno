@@ -20,34 +20,33 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.block.custom.AnglingTableBlock;
 import sircow.preservedinferno.screen.AnglingTableMenu;
-import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
 
 @Mixin(AnglingTableBlock.class)
 public class AnglingTableBlockMixin {
-    @Shadow private static final Component CONTAINER_TITLE = Component.literal("Angling Table");
+    @Shadow
+    private static final Component CONTAINER_TITLE = Component.translatable("container.pinferno.angling_table");
 
     @SuppressWarnings("rawtypes")
     @Inject(method = "getMenuProvider", at = @At("HEAD"), cancellable = true)
     public void preserved_inferno$checkForFletchingTable2(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
-
-            cir.setReturnValue(
-                    new ExtendedScreenHandlerFactory() {
-                        @Override
-                        public @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
-                            return new AnglingTableMenu(syncId, playerInventory, ContainerLevelAccess.create(level, pos));
-                        }
-
-                        @Override
-                        public @NotNull Component getDisplayName() {
-                            return CONTAINER_TITLE;
-                        }
-
-                        @Override
-                        public Object getScreenOpeningData(ServerPlayer serverPlayer) {
-                            boolean isEmpty = level.getBlockEntity(pos) == null;
-                            return new PreservedInferno.BlockData(isEmpty);
-                        }
+        cir.setReturnValue(
+                new ExtendedScreenHandlerFactory() {
+                    @Override
+                    public @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
+                        return new AnglingTableMenu(syncId, playerInventory, ContainerLevelAccess.create(level, pos));
                     }
-            );
+
+                    @Override
+                    public @NotNull Component getDisplayName() {
+                        return CONTAINER_TITLE;
+                    }
+
+                    @Override
+                    public Object getScreenOpeningData(ServerPlayer serverPlayer) {
+                        boolean isEmpty = level.getBlockEntity(pos) == null;
+                        return new PreservedInferno.BlockData(isEmpty);
+                    }
+                }
+        );
     }
 }

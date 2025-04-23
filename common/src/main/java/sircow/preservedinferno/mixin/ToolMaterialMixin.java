@@ -16,7 +16,7 @@ public class ToolMaterialMixin {
 
     static {
         WOOD = new ToolMaterial(WOOD.incorrectBlocksForDrops(), WOOD.durability(), 1.0F, WOOD.attackDamageBonus(), WOOD.enchantmentValue(), WOOD.repairItems());
-        STONE = new ToolMaterial(STONE.incorrectBlocksForDrops(), STONE.durability(), 3.0F, STONE.attackDamageBonus(), STONE.enchantmentValue(), STONE.repairItems());
+        STONE = new ToolMaterial(STONE.incorrectBlocksForDrops(), STONE.durability(), 2.0F, STONE.attackDamageBonus(), STONE.enchantmentValue(), STONE.repairItems());
         GOLD = new ToolMaterial(GOLD.incorrectBlocksForDrops(), GOLD.durability(), 21.0F, GOLD.attackDamageBonus(), GOLD.enchantmentValue(), GOLD.repairItems());
         DIAMOND = new ToolMaterial(DIAMOND.incorrectBlocksForDrops(), DIAMOND.durability(), 10.0F, DIAMOND.attackDamageBonus(), DIAMOND.enchantmentValue(), DIAMOND.repairItems());
         NETHERITE = new ToolMaterial(NETHERITE.incorrectBlocksForDrops(), NETHERITE.durability(), 15.0F, NETHERITE.attackDamageBonus(), NETHERITE.enchantmentValue(), NETHERITE.repairItems());

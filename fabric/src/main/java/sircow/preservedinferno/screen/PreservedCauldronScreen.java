@@ -1,4 +1,4 @@
-package sircow.preservedinferno.client;
+package sircow.preservedinferno.screen;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -7,7 +7,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.screen.PreservedCauldronMenu;
 
 public class PreservedCauldronScreen extends AbstractContainerScreen<PreservedCauldronMenu> {
     private static final ResourceLocation BG_LOCATION = Constants.id("textures/gui/container/preserved_cauldron_gui.png");

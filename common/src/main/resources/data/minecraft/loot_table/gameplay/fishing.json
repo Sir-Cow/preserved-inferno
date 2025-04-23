@@ -8,7 +8,7 @@
           "type": "minecraft:loot_table",
           "quality": -2,
           "value": "minecraft:gameplay/fishing/junk",
-          "weight": 9
+          "weight": 20
         },
         {
           "type": "minecraft:loot_table",
@@ -26,19 +26,19 @@
           ],
           "quality": 2,
           "value": "minecraft:gameplay/fishing/treasure",
-          "weight": 6
+          "weight": 10
         },
         {
           "type": "minecraft:loot_table",
           "quality": 0,
           "value": "pinferno:gameplay/fishing/variety",
-          "weight": 15
+          "weight": 20
         },
         {
           "type": "minecraft:loot_table",
           "quality": -1,
           "value": "minecraft:gameplay/fishing/fish",
-          "weight": 70
+          "weight": 50
         }
       ],
       "rolls": 1.0
