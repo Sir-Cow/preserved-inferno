@@ -21,6 +21,8 @@ public class GuiMixin {
     @Unique private static final ResourceLocation HEAT_FILLED_SPRITE = Constants.id("textures/gui/sprites/hud/heat_bar_filled.png");
     @Unique private static final ResourceLocation HEAT_100_SPRITE = Constants.id("textures/gui/sprites/hud/heat_100.png");
     @Unique private static final ResourceLocation HEAT_OVER_100_SPRITE = Constants.id("textures/gui/sprites/hud/heat_over_100.png");
+    @Unique private static final ResourceLocation NEW_ARMOUR_BAR_EMPTY = Constants.id("hud/armor_bar_empty");
+    @Unique private static final ResourceLocation NEW_ARMOUR_BAR_FILLED = Constants.id("hud/armor_bar_filled");
 
     @Unique private int heat;
     @Unique private Player player;
@@ -81,5 +83,31 @@ public class GuiMixin {
                 guiGraphics.blit(RenderType::guiTextured, HEAT_FILLED_SPRITE, x - barWidth, y, 0, 0, filledWidth, barHeight, barWidth, barHeight);
             }
         }
+    }
+
+    // replace vanilla with custom armour bar
+    @Inject(method = "renderArmor", at = @At("HEAD"), cancellable = true)
+    private static void preserved_inferno$modifyArmourBar(GuiGraphics guiGraphics, Player player, int y, int heartRows, int height, int x, CallbackInfo ci) {
+        double maxArmourVal = 100.0F; // its actually 150 but this is a cap for only the bar
+        int armourVal = player.getArmorValue();
+        double percentageMultiplier;
+        int barWidth = 81;
+        int barHeight = 9;
+
+        int j = y - (heartRows - 1) * height - 10;
+
+        if (armourVal > 0) {
+            guiGraphics.blitSprite(RenderType::guiTextured, NEW_ARMOUR_BAR_EMPTY, x, j, barWidth, barHeight);
+
+            if (armourVal >= 100) {
+                percentageMultiplier = 1.0F;
+            }
+            else {
+                percentageMultiplier = armourVal / maxArmourVal;
+            }
+
+            guiGraphics.blitSprite(RenderType::guiTextured, NEW_ARMOUR_BAR_FILLED, barWidth, barHeight, 0, 0, x, j, (int)(percentageMultiplier * barWidth), barHeight);
+        }
+        ci.cancel();
     }
 }
