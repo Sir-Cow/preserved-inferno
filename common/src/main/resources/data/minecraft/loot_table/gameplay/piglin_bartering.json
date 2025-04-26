@@ -13,7 +13,18 @@
             }
           ],
           "name": "minecraft:book",
-          "weight": 5
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:enchant_randomly",
+              "options": "minecraft:fire_protection"
+            }
+          ],
+          "name": "minecraft:book",
+          "weight": 8
         },
         {
           "type": "minecraft:item",
@@ -52,17 +63,6 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:set_potion",
-              "id": "minecraft:water"
-            }
-          ],
-          "name": "minecraft:potion",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
@@ -73,22 +73,6 @@
             }
           ],
           "name": "minecraft:iron_nugget",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 4.0,
-                "min": 2.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "minecraft:ender_pearl",
           "weight": 10
         },
         {
@@ -115,7 +99,23 @@
               "count": {
                 "type": "minecraft:uniform",
                 "max": 12.0,
-                "min": 5.0
+                "min": 6.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:glowstone_dust",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 2.0,
+                "min": 1.0
               },
               "function": "minecraft:set_count"
             }
@@ -125,28 +125,18 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:obsidian",
-          "weight": 40
-        },
-        {
-          "type": "minecraft:item",
           "functions": [
             {
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 3.0,
+                "max": 2.0,
                 "min": 1.0
               },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "minecraft:crying_obsidian",
-          "weight": 40
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:fire_charge",
+          "name": "minecraft:obsidian",
           "weight": 40
         },
         {
@@ -162,7 +152,43 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "minecraft:leather",
+          "name": "minecraft:crying_obsidian",
+          "weight": 40
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:fire_charge",
+          "weight": 40
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:music_disc_pigstep",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "pinferno:nether_alloy_upgrade_smithing_template",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:netherite_upgrade_smithing_template",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 4.0,
+                "min": 2.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "pinferno:raw_hide",
           "weight": 40
         },
         {
@@ -179,7 +205,7 @@
             }
           ],
           "name": "minecraft:soul_sand",
-          "weight": 40
+          "weight": 50
         },
         {
           "type": "minecraft:item",
@@ -188,14 +214,14 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 8.0,
-                "min": 2.0
+                "max": 12.0,
+                "min": 8.0
               },
               "function": "minecraft:set_count"
             }
           ],
           "name": "minecraft:nether_brick",
-          "weight": 40
+          "weight": 50
         },
         {
           "type": "minecraft:item",
@@ -227,7 +253,7 @@
             }
           ],
           "name": "minecraft:gravel",
-          "weight": 40
+          "weight": 50
         },
         {
           "type": "minecraft:item",
@@ -243,7 +269,7 @@
             }
           ],
           "name": "minecraft:blackstone",
-          "weight": 40
+          "weight": 50
         }
       ],
       "rolls": 1.0

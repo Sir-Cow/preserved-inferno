@@ -69,6 +69,8 @@ public class ModItems {
 
     public static final Item AQUATIC_FIBER = registerItem("aquatic_fiber");
 
+    public static final Item NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE = registerItem("nether_alloy_upgrade_smithing_template");
+
     public static final Item IRON_FISHING_HOOK = registerItem("iron_fishing_hook", new Item.Properties()
             .durability(250)
             .stacksTo(1)

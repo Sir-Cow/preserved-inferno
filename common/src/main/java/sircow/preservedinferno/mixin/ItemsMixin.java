@@ -194,7 +194,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;)Lnet/minecraft/world/item/Item;", ordinal = 0))
     private static Item preserved_inferno$modifyGlisteringMelonSlice(String id, Operation<Item> original) {
         return Items.registerItem("glistering_melon_slice", new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationModifier(1.2F).alwaysEdible().build(), Consumable.builder().consumeSeconds(0.8F)
-                .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.REGENERATION, 40, 1), 1.0F))
+                .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.REGENERATION, 80, 1), 1.0F))
                 .build()));
     }
 

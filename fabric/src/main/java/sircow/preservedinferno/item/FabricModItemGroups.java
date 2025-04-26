@@ -55,6 +55,8 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.DIAMOND_SHIELD);
                     entries.accept(ModItems.NETHERITE_SHIELD);
 
+                    entries.accept(ModItems.NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE);
+
                     entries.accept(ModItems.AQUATIC_FIBER);
                     entries.accept(FabricModItems.CACHE);
                     entries.accept(ModItems.IRON_FISHING_HOOK);

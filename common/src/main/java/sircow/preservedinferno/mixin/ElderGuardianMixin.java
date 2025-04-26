@@ -5,7 +5,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.ElderGuardian;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ElderGuardian.class)
@@ -15,5 +17,10 @@ public class ElderGuardianMixin {
         AttributeSupplier.Builder builder = cir.getReturnValue();
         builder.add(Attributes.MAX_HEALTH, 300.0D);
         cir.setReturnValue(builder);
+    }
+
+    @ModifyConstant(method = "customServerAiStep", constant = @Constant(intValue = 1200))
+    private int preserved_inferno$modifyInterval(int original) {
+        return 20;
     }
 }

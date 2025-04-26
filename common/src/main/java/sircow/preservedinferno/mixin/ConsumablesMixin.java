@@ -1,9 +1,11 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.consume_effects.RemoveStatusEffectsConsumeEffect;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,14 +17,39 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
+
 import static net.minecraft.world.item.component.Consumables.defaultDrink;
+import static net.minecraft.world.item.component.Consumables.defaultFood;
 
 @Mixin(Consumables.class)
 public class ConsumablesMixin {
+    @Mutable @Final @Shadow public static Consumable ENCHANTED_GOLDEN_APPLE;
+    @Mutable @Final @Shadow public static Consumable GOLDEN_APPLE;
     @Mutable @Final @Shadow public static Consumable HONEY_BOTTLE;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void preserved_inferno$modifyConsumableComponents(CallbackInfo ci) {
+        ENCHANTED_GOLDEN_APPLE = defaultFood()
+                .onConsume(
+                        new ApplyStatusEffectsConsumeEffect(
+                                List.of(
+                                        new MobEffectInstance(MobEffects.REGENERATION, 400, 1),
+                                        new MobEffectInstance(MobEffects.RESISTANCE, 6000, 0),
+                                        new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 6000, 0),
+                                        new MobEffectInstance(MobEffects.ABSORPTION, 12000, 3)
+                                )
+                        )
+                )
+                .build();
+        GOLDEN_APPLE = defaultFood()
+                .onConsume(
+                        new ApplyStatusEffectsConsumeEffect(List.of(
+                                new MobEffectInstance(MobEffects.REGENERATION, 200, 1),
+                                new MobEffectInstance(MobEffects.ABSORPTION, 12000, 0)
+                        ))
+                )
+                .build();
         HONEY_BOTTLE = defaultDrink()
                 .consumeSeconds(0.8F)
                 .sound(SoundEvents.HONEY_DRINK)
