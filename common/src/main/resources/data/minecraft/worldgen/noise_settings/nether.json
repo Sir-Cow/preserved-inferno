@@ -557,25 +557,6 @@
                 "add_surface_depth": true,
                 "offset": 0,
                 "secondary_depth_range": 0,
-                "surface_type": "ceiling"
-              },
-              "then_run": {
-                "type": "minecraft:block",
-                "result_state": {
-                  "Name": "minecraft:air",
-                  "Properties": {
-                    "axis": "y"
-                  }
-                }
-              }
-            },
-            {
-              "type": "minecraft:condition",
-              "if_true": {
-                "type": "minecraft:stone_depth",
-                "add_surface_depth": true,
-                "offset": 0,
-                "secondary_depth_range": 0,
                 "surface_type": "floor"
               },
               "then_run": {

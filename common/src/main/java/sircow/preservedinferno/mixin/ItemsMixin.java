@@ -8,20 +8,26 @@ import net.minecraft.util.Unit;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import net.minecraft.world.item.consume_effects.TeleportRandomlyConsumeEffect;
 import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.Equippable;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import sircow.preservedinferno.RegisterItemChecker;
 import sircow.preservedinferno.item.ModItems;
+import sircow.preservedinferno.other.HeatAccessor;
 
 @Mixin(value = Items.class, priority = 1100)
 public abstract class ItemsMixin {
@@ -100,7 +106,25 @@ public abstract class ItemsMixin {
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=melon_slice")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
     private static Item.Properties preserved_inferno$modifyMelonSlice(Item.Properties original) {
-        return original.food(Foods.MELON_SLICE, Consumable.builder().consumeSeconds(0.8F).build());
+        return original.food(Foods.MELON_SLICE, Consumable.builder().consumeSeconds(0.8F)
+                .onConsume(new ConsumeEffect() {
+                    @Override
+                    public @NotNull Type<? extends ConsumeEffect> getType() { return null; }
+
+                    @Override
+                    public boolean apply(@NotNull Level level, @NotNull ItemStack itemStack, @NotNull LivingEntity livingEntity) {
+                        if (livingEntity instanceof Player player) {
+                            if (!level.isClientSide()) {
+                                int currentHeat = ((HeatAccessor) player).preserved_inferno$getHeat();
+                                if (currentHeat >= 1) {
+                                    ((HeatAccessor) player).preserved_inferno$decreaseHeat(1);
+                                }
+                            }
+                        }
+                        return false;
+                    }
+                })
+                .build());
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=poisonous_potato")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
@@ -193,9 +217,29 @@ public abstract class ItemsMixin {
     @WrapOperation(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=glistering_melon_slice")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;)Lnet/minecraft/world/item/Item;", ordinal = 0))
     private static Item preserved_inferno$modifyGlisteringMelonSlice(String id, Operation<Item> original) {
-        return Items.registerItem("glistering_melon_slice", new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationModifier(1.2F).alwaysEdible().build(), Consumable.builder().consumeSeconds(0.8F)
-                .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.REGENERATION, 80, 1), 1.0F))
-                .build()));
+        return Items.registerItem("glistering_melon_slice",
+                new Item.Properties()
+                        .food(new FoodProperties.Builder().nutrition(6).saturationModifier(1.2F).alwaysEdible().build(),
+                                Consumable.builder().consumeSeconds(0.8F)
+                                        .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.REGENERATION, 80, 1), 1.0F))
+                                        .onConsume(new ConsumeEffect() {
+                                            @Override
+                                            public @NotNull Type<? extends ConsumeEffect> getType() { return null; }
+
+                                            @Override
+                                            public boolean apply(@NotNull Level level, @NotNull ItemStack itemStack, @NotNull LivingEntity livingEntity) {
+                                                if (livingEntity instanceof Player player) {
+                                                    if (!level.isClientSide()) {
+                                                        int currentHeat = ((HeatAccessor) player).preserved_inferno$getHeat();
+                                                        if (currentHeat >= 1) {
+                                                            ((HeatAccessor) player).preserved_inferno$decreaseHeat(1);
+                                                        }
+                                                    }
+                                                }
+                                                return false;
+                                            }
+                                        })
+                                        .build()));
     }
 
     // modify elytra repair item

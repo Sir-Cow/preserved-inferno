@@ -1,6 +1,7 @@
 package sircow.preservedinferno;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.core.Registry;
@@ -8,6 +9,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -16,10 +18,17 @@ import sircow.preservedinferno.block.entity.PreservedCauldronBlockData;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
 import sircow.preservedinferno.item.FabricModItemGroups;
 import sircow.preservedinferno.item.FabricModItems;
+import sircow.preservedinferno.other.DelayedBlockTransformationTask;
 import sircow.preservedinferno.other.FabricModEvents;
 import sircow.preservedinferno.screen.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PreservedInferno implements ModInitializer {
+    private static final List<DelayedBlockTransformationTask> scheduledTasks = new ArrayList<>();
+    public static PreservedInferno INSTANCE;
+
     // menus
     private static final MenuType<AnglingTableMenu> ANGLING_TABLE_MENU_TYPE =
             Registry.register(BuiltInRegistries.MENU, Constants.id("angling_table"),
@@ -82,12 +91,37 @@ public class PreservedInferno implements ModInitializer {
         return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Constants.id(path), blockEntityType);
     }
 
+    public static void scheduleDelayedTask(DelayedBlockTransformationTask task) {
+        scheduledTasks.add(task);
+    }
+
+    // server tick
+    private void onServerTick(MinecraftServer server) {
+        // handling melting nether blocks
+        List<DelayedBlockTransformationTask> tasksToRemove = new ArrayList<>();
+        List<DelayedBlockTransformationTask> tasksToSchedule = new ArrayList<>();
+        for (DelayedBlockTransformationTask task : scheduledTasks) {
+            task.tick();
+            if (task.isFinished()) {
+                DelayedBlockTransformationTask nextTask = task.transformBlock();
+                if (nextTask != null) {
+                    tasksToSchedule.add(nextTask);
+                }
+                tasksToRemove.add(task);
+            }
+        }
+        scheduledTasks.removeAll(tasksToRemove);
+        scheduledTasks.addAll(tasksToSchedule);
+    }
+
     @Override
     public void onInitialize() {
+        INSTANCE = this;
         CommonClass.init();
         FabricModEvents.registerModEvents();
         FabricModItems.registerModItems();
         FabricModBlocks.registerBlocks();
         FabricModItemGroups.registerItemGroups();
+        ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
     }
 }

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "nether_gold_plate",
+  "ingredients": [
+    "pinferno:nether_alloy_ingot"
+  ],
+  "result": {
+    "count": 9,
+    "id": "pinferno:nether_gold_plate"
+  }
+}

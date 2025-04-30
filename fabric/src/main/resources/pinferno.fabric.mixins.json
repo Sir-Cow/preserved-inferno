@@ -7,10 +7,12 @@
   "mixins": [
     "AbstractCauldronBlockMixin",
     "AnglingTableBlockMixin",
+    "BlockItemMixin",
     "CauldronBlockMixin",
     "CraftingTableBlockMixin",
     "EnchantingTableBlockMixin",
-    "LoomBlockMixin"
+    "LoomBlockMixin",
+    "PlayerMixin"
   ],
   "client": [],
   "server": [],

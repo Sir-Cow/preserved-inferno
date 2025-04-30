@@ -1,5 +1,6 @@
 package sircow.preservedinferno.mixin;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -8,6 +9,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,6 +20,12 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.IceBlock;
+import net.minecraft.world.level.block.SnowLayerBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -43,6 +51,8 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     @Unique private static final int FIRE_RES_INCREASE = 80;
     @Unique private static final int FIRE_PROT_INCREASE = 10;
     @Unique private static final EntityDataAccessor<Integer> DATA_HEAT = SynchedEntityData.defineId(PlayerMixin.class, EntityDataSerializers.INT);
+    @Unique private static final EntityDataAccessor<Boolean> DATA_CAN_DO_HEAT_CHANGE = SynchedEntityData.defineId(PlayerMixin.class, EntityDataSerializers.BOOLEAN);
+    @Unique private @Nullable BlockPos lastSteppedOnIcePos = null;
     @Unique DamageSource damageSource = ModDamageTypes.of(this.level(), ModDamageTypes.HEAT, this);
 
     @Shadow @Nullable public abstract GameType gameMode();
@@ -72,8 +82,50 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
 
         // nether heat
         if (!this.level().isClientSide() && Objects.requireNonNull(this.gameMode()).isSurvival()) {
-            preserved_inferno$doHeatChange();
+            if (this.level().dimension() == Level.NETHER) {
+                BlockPos blockBelow = this.blockPosition().below();
+
+                boolean onColdBlock = false;
+                if (standingOnBlock(this) && !this.isInPowderSnow) {
+                    BlockState stateAtFeet = this.level().getBlockState(this.blockPosition().below());
+                    if (stateAtFeet.getBlock() instanceof IceBlock ||
+                            stateAtFeet.getBlock() instanceof SnowLayerBlock ||
+                            stateAtFeet.getBlock() == Blocks.SNOW_BLOCK ||
+                            stateAtFeet.getBlock() == Blocks.PACKED_ICE ||
+                            stateAtFeet.getBlock() == Blocks.BLUE_ICE
+                    ){
+                        onColdBlock = true;
+                    }
+                }
+
+                if (onColdBlock) {
+                    preserved_inferno$setCanDoHeatChange(false);
+                    lastSteppedOnIcePos = blockBelow.immutable();
+                }
+                else if (lastSteppedOnIcePos != null && !lastSteppedOnIcePos.equals(blockBelow)) {
+                    preserved_inferno$setCanDoHeatChange(true);
+                    lastSteppedOnIcePos = null;
+                }
+                else if (lastSteppedOnIcePos != null && lastSteppedOnIcePos.equals(blockBelow)) {
+                    preserved_inferno$setCanDoHeatChange(false);
+                }
+                else if (lastSteppedOnIcePos == null) {
+                    preserved_inferno$setCanDoHeatChange(true);
+                }
+            }
+
+            if (preserved_inferno$canDoHeatChange()) {
+                preserved_inferno$doHeatChange();
+            }
         }
+    }
+
+    @Unique
+    private boolean standingOnBlock(Entity entity) {
+        AABB box = new AABB(entity.blockPosition());
+        Vec3 pos = entity.position();
+        float expand = entity.getBbWidth() / 2;
+        return !box.intersect(new AABB(pos, pos).inflate(expand, 0, expand)).equals(box);
     }
 
     @Inject(method = "turtleHelmetTick", at = @At("HEAD"), cancellable = true)
@@ -85,6 +137,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
     private void preserved_inferno$defineHeat(SynchedEntityData.Builder builder, CallbackInfo ci) {
         builder.define(DATA_HEAT, 0);
+        builder.define(DATA_CAN_DO_HEAT_CHANGE, false);
     }
 
     @Inject(method = "die", at = @At("TAIL"))
@@ -116,12 +169,24 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     public void preserved_inferno$increaseHeat(int heat) {
         int i = this.preserved_inferno$getHeat();
         this.entityData.set(DATA_HEAT, i + heat);
+        //Constants.LOG.info("heat increase: {}", preserved_inferno$getHeat());
     }
 
     @Unique
     public void preserved_inferno$decreaseHeat(int heat) {
         int i = this.preserved_inferno$getHeat();
         this.entityData.set(DATA_HEAT, i - heat);
+        //Constants.LOG.info("heat decrease: {}", preserved_inferno$getHeat());
+    }
+
+    @Unique
+    public boolean preserved_inferno$canDoHeatChange() {
+        return this.entityData.get(DATA_CAN_DO_HEAT_CHANGE);
+    }
+
+    @Unique
+    public void preserved_inferno$setCanDoHeatChange(boolean canDoHeatChange) {
+        this.entityData.set(DATA_CAN_DO_HEAT_CHANGE, canDoHeatChange);
     }
 
     @Unique
@@ -130,7 +195,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
 
         // heat increase
         int tickCap;
-        if (this.level().dimension() == Level.NETHER) {
+        if (this.level().dimension() == Level.NETHER && !this.isInPowderSnow) {
             tickCap = INCREASE_CAP;
 
             if (this.hasEffect(MobEffects.FIRE_RESISTANCE)) {
@@ -159,6 +224,23 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
                 if (this.heatIncreaseTickCounter >= tickCap) {
                     preserved_inferno$increaseHeat(1);
                     this.heatIncreaseTickCounter = 0;
+                }
+            }
+        }
+        else if (this.level().dimension() == Level.NETHER && this.isInPowderSnow) {
+            tickCap = 20;
+            if (currentHeat > 4) {
+                this.heatDecreaseTickCounter += 1;
+                if (this.heatDecreaseTickCounter >= tickCap) {
+                    preserved_inferno$decreaseHeat(5);
+                    this.heatDecreaseTickCounter = 0;
+                }
+            }
+            if (currentHeat <= 4 && currentHeat > 0) {
+                this.heatDecreaseTickCounter += 1;
+                if (this.heatDecreaseTickCounter >= tickCap) {
+                    preserved_inferno$decreaseHeat(0);
+                    this.heatDecreaseTickCounter = 0;
                 }
             }
         }

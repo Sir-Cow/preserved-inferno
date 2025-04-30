@@ -5,4 +5,5 @@ public interface HeatAccessor {
     void preserved_inferno$setHeat(int heat);
     void preserved_inferno$increaseHeat(int heat);
     void preserved_inferno$decreaseHeat(int heat);
+    void preserved_inferno$setCanDoHeatChange(boolean canDoHeatChange);
 }

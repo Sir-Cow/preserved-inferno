@@ -19,6 +19,7 @@
     "BoggedMixin",
     "BrewingStandBlockEntityMixin",
     "CamelMixin",
+    "CarversMixin",
     "ChickenMixin",
     "CombatRulesMixin",
     "ConduitBlockEntityAccessor",
