@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#minecraft:netherite_tool_materials",
+  "base": "pinferno:diamond_shield",
+  "result": {
+    "count": 1,
+    "id": "pinferno:netherite_shield"
+  },
+  "template": "minecraft:netherite_upgrade_smithing_template"
+}

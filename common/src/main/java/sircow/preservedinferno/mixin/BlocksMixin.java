@@ -1,6 +1,7 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -66,5 +67,14 @@ public class BlocksMixin {
                 .requiresCorrectToolForDrops()
                 .pushReaction(PushReaction.BLOCK)
                 .strength(50.0F, 30.0F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=netherrack")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyNetherrack(BlockBehaviour.Properties original) {
+        return original.mapColor(MapColor.NETHER)
+                .instrument(NoteBlockInstrument.BASEDRUM)
+                .requiresCorrectToolForDrops()
+                .strength(1.0F)
+                .sound(SoundType.NETHERRACK);
     }
 }

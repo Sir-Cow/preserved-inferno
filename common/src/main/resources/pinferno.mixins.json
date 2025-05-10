@@ -37,13 +37,13 @@
     "GiantMixin",
     "GuardianMixin",
     "HoneycombItemMixin",
+    "ItemMixin",
     "ItemsMixin",
     "ItemStackMixin",
     "LightningBoltMixin",
     "MaceItemMixin",
     "MagmaCubeMixin",
     "PhantomMixin",
-    "PhantomSpawnerMixin",
     "PiglinMixin",
     "PlayerMixin",
     "PotionBrewingMixin",
@@ -54,6 +54,7 @@
     "SkeletonHorseMixin",
     "SnifferMixin",
     "SnowGolemMixin",
+    "SynchedEntityDataMixin",
     "ThrownTridentMixin",
     "ToolMaterialMixin",
     "TridentItemMixin",
@@ -71,7 +72,8 @@
   ],
   "client": [
     "BrewingStandScreenMixin",
-    "GuiMixin"
+    "GuiMixin",
+    "ItemInHandRendererMixin"
   ],
   "server": [],
   "injectors": {

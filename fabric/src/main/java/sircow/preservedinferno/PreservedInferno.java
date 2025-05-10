@@ -10,16 +10,22 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import sircow.preservedinferno.block.FabricModBlocks;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockData;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
+import sircow.preservedinferno.events.ModEvents;
 import sircow.preservedinferno.item.FabricModItemGroups;
 import sircow.preservedinferno.item.FabricModItems;
+import sircow.preservedinferno.item.custom.PreservedShieldItem;
 import sircow.preservedinferno.other.DelayedBlockTransformationTask;
 import sircow.preservedinferno.other.FabricModEvents;
+import sircow.preservedinferno.other.ShieldStaminaHandler;
 import sircow.preservedinferno.screen.*;
 
 import java.util.ArrayList;
@@ -112,16 +118,23 @@ public class PreservedInferno implements ModInitializer {
         }
         scheduledTasks.removeAll(tasksToRemove);
         scheduledTasks.addAll(tasksToSchedule);
+
+        // handle custom shields
+        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+            ShieldStaminaHandler.onServerTick(player);
+        }
     }
 
     @Override
     public void onInitialize() {
         INSTANCE = this;
+
         CommonClass.init();
         FabricModEvents.registerModEvents();
         FabricModItems.registerModItems();
         FabricModBlocks.registerBlocks();
         FabricModItemGroups.registerItemGroups();
         ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
+        ModEvents.register(FabricModEvents::onPlayerDamageWhileBlocking);
     }
 }

@@ -2,16 +2,21 @@ package sircow.preservedinferno.client;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.Component;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.MenuTypes;
 import sircow.preservedinferno.block.ModBlocks;
+import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.screen.CacheScreen;
 import sircow.preservedinferno.screen.PreservedCauldronScreen;
 
-public class FabricPreservedInfernoClient implements ClientModInitializer {
+import java.text.DecimalFormat;
 
+public class FabricPreservedInfernoClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         // menus
@@ -31,5 +36,19 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WAXED_EXPOSED_INDUCTOR_RAIL, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL, RenderType.cutout());
+
+        // custom shield tooltip
+        ItemTooltipCallback.EVENT.register((stack, context, tooltipType, lines) -> {
+            Integer maxStamina = stack.get(ModComponents.SHIELD_MAX_STAMINA_COMPONENT);
+            Float staminaRegenRate = stack.get(ModComponents.SHIELD_REGEN_RATE_COMPONENT);
+            DecimalFormat df = new DecimalFormat("#.####");
+            if (maxStamina != null) {
+                lines.add(1, Component.translatable("item.modifiers.offhand").withStyle(ChatFormatting.GRAY));
+                lines.add(2, Component.translatable("item.pinferno.shield_max_stamina", maxStamina).withStyle(ChatFormatting.DARK_GREEN));
+                lines.add(3, Component.empty());
+                lines.add(4, Component.translatable("item.pinferno.modifiers.not_active").withStyle(ChatFormatting.GRAY));
+                lines.add(5, Component.translatable("item.pinferno.shield_regen_rate", df.format(staminaRegenRate * 20)).withStyle(ChatFormatting.BLUE));
+            }
+        });
     }
 }

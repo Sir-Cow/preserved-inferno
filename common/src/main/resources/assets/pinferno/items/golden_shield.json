@@ -1,6 +1,14 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "pinferno:item/golden_shield"
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "pinferno:item/golden_shield"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "pinferno:item/golden_shield_blocking"
+    },
+    "property": "minecraft:using_item"
   }
 }

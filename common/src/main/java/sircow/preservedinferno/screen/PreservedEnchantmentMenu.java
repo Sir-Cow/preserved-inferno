@@ -21,6 +21,7 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EnchantingTableBlock;
+import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.sound.ModSounds;
 
@@ -97,7 +98,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
         });
         this.addSlot(new Slot(this.enchantSlots, 1, 45, 53) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean mayPlace(@NotNull ItemStack stack) {
                 return stack.is(Items.LAPIS_LAZULI);
             }
 
@@ -111,7 +112,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public void removed(Player player) {
+    public void removed(@NotNull Player player) {
         super.removed(player);
         this.access.execute((world, pos) -> {
             this.clearContainer(player, this.enchantSlots);
@@ -127,7 +128,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NotNull Player player) {
         return stillValid(this.access, player, Blocks.ENCHANTING_TABLE);
     }
 
@@ -136,7 +137,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public void slotsChanged(Container inventory) {
+    public void slotsChanged(@NotNull Container inventory) {
         if (inventory == this.enchantSlots) {
             this.access.execute((world, pos) -> {
                 int bookshelfCount = 0;
@@ -166,7 +167,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean clickMenuButton(Player player, int id) {
+    public boolean clickMenuButton(@NotNull Player player, int id) {
         ItemStack itemStack = this.enchantSlots.getItem(0);
         ItemEnchantments presentEnchantments = itemStack.getEnchantments();
         AtomicBoolean shouldReduceXP = new AtomicBoolean(false);
@@ -302,7 +303,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int slot) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int slot) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot2 = this.slots.get(slot);
         if (slot2.hasItem()) {

@@ -78,5 +78,9 @@
   "block.minecraft.bed.no_dreamcatcher": "You may not rest now; nightmares haunt you in your sleep",
 
   "container.pinferno.angling_table": "Angling Table",
-  "container.pinferno.cache": "Cache"
+  "container.pinferno.cache": "Cache",
+
+  "item.pinferno.shield_max_stamina": " +%s Stamina",
+  "item.pinferno.shield_regen_rate": " +%s Stamina Recovery",
+  "item.pinferno.modifiers.not_active": "When not active:"
 }

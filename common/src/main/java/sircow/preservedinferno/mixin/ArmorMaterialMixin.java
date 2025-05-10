@@ -73,7 +73,7 @@ public class ArmorMaterialMixin {
     // modify toughness values for individual armour pieces
     @Inject(method = "createAttributes", at = @At("HEAD"), cancellable = true)
     private void preserved_inferno$modifyValues(ArmorType armorType, CallbackInfoReturnable<ItemAttributeModifiers> cir) {
-
+        int defenseVal;
         float toughVal;
         ItemAttributeModifiers.Builder itemattributemodifiers$builder = ItemAttributeModifiers.builder();
         EquipmentSlotGroup equipmentslotgroup = EquipmentSlotGroup.bySlot(armorType.getSlot());
@@ -81,65 +81,77 @@ public class ArmorMaterialMixin {
 
         if (assetId.toString().contains("leather")) {
             toughVal = LEATHER_TOUGHNESS.getOrDefault(armorType, 0.0F);
-            this.defense.put(ArmorType.BOOTS, 3);
-            this.defense.put(ArmorType.LEGGINGS, 6);
-            this.defense.put(ArmorType.CHESTPLATE, 7);
-            this.defense.put(ArmorType.HELMET, 4);
-            this.defense.put(ArmorType.BODY, 20);
+            defenseVal = switch (armorType) {
+                case HELMET -> 8;
+                case CHESTPLATE -> 14;
+                case LEGGINGS -> 12;
+                case BOOTS -> 6;
+                case BODY -> 20;
+            };
         }
         else if (assetId.toString().contains("chainmail")) {
             toughVal = CHAINMAIL_TOUGHNESS.getOrDefault(armorType, 0.0F);
-            this.defense.put(ArmorType.BOOTS, 5);
-            this.defense.put(ArmorType.LEGGINGS, 12);
-            this.defense.put(ArmorType.CHESTPLATE, 15);
-            this.defense.put(ArmorType.HELMET, 8);
-            this.defense.put(ArmorType.BODY, 4);
+            defenseVal = switch (armorType) {
+                case HELMET -> 9;
+                case CHESTPLATE -> 20;
+                case LEGGINGS -> 15;
+                case BOOTS -> 6;
+                case BODY -> 4;
+            };
         }
         else if (assetId.toString().contains("iron")) {
             toughVal = IRON_TOUGHNESS.getOrDefault(armorType, 0.0F);
-            this.defense.put(ArmorType.BOOTS, 7);
-            this.defense.put(ArmorType.LEGGINGS, 11);
-            this.defense.put(ArmorType.CHESTPLATE, 13);
-            this.defense.put(ArmorType.HELMET, 9);
-            this.defense.put(ArmorType.BODY, 30);
+            defenseVal = switch (armorType) {
+                case HELMET -> 12;
+                case CHESTPLATE -> 15;
+                case LEGGINGS -> 13;
+                case BOOTS -> 10;
+                case BODY -> 30;
+            };
         }
         else if (assetId.toString().contains("gold")) {
             toughVal = GOLD_TOUGHNESS.getOrDefault(armorType, 0.0F);
-            this.defense.put(ArmorType.BOOTS, 4);
-            this.defense.put(ArmorType.LEGGINGS, 9);
-            this.defense.put(ArmorType.CHESTPLATE, 11);
-            this.defense.put(ArmorType.HELMET, 6);
-            this.defense.put(ArmorType.BODY, 40);
+            defenseVal = switch (armorType) {
+                case HELMET -> 8;
+                case CHESTPLATE -> 14;
+                case LEGGINGS -> 12;
+                case BOOTS -> 6;
+                case BODY -> 40;
+            };
         }
         else if (assetId.toString().contains("diamond")) {
             toughVal = DIAMOND_TOUGHNESS.getOrDefault(armorType, 0.0F);
-            this.defense.put(ArmorType.BOOTS, 10);
-            this.defense.put(ArmorType.LEGGINGS, 17);
-            this.defense.put(ArmorType.CHESTPLATE, 20);
-            this.defense.put(ArmorType.HELMET, 13);
-            this.defense.put(ArmorType.BODY, 50);
+            defenseVal = switch (armorType) {
+                case HELMET -> 16;
+                case CHESTPLATE -> 25;
+                case LEGGINGS -> 20;
+                case BOOTS -> 14;
+                case BODY -> 50;
+            };
         }
         else if (assetId.toString().contains("netherite")) {
             toughVal = NETHERITE_TOUGHNESS.getOrDefault(armorType, 0.0F);
-            this.defense.put(ArmorType.BOOTS, 13);
-            this.defense.put(ArmorType.LEGGINGS, 24);
-            this.defense.put(ArmorType.CHESTPLATE, 28);
-            this.defense.put(ArmorType.HELMET, 15);
-            this.defense.put(ArmorType.BODY, 11);
+            defenseVal = switch (armorType) {
+                case HELMET -> 15;
+                case CHESTPLATE -> 28;
+                case LEGGINGS -> 24;
+                case BOOTS -> 13;
+                case BODY -> 11;
+            };
         }
         else if (assetId.toString().contains("turtle")) {
             toughVal = TURTLE_TOUGHNESS.getOrDefault(armorType, 0.0F);
-            this.defense.put(ArmorType.BOOTS, 2);
-            this.defense.put(ArmorType.LEGGINGS, 5);
-            this.defense.put(ArmorType.CHESTPLATE, 6);
-            this.defense.put(ArmorType.HELMET, 12);
-            this.defense.put(ArmorType.BODY, 5);
+            defenseVal = switch (armorType) {
+                case HELMET -> 15;
+                case CHESTPLATE -> 6;
+                case LEGGINGS, BODY -> 5;
+                case BOOTS -> 2;
+            };
         }
         else {
             toughVal = this.toughness;
+            defenseVal = this.defense.getOrDefault(armorType, 0);
         }
-
-        int defenseVal = this.defense.getOrDefault(armorType, 0);
 
         itemattributemodifiers$builder.add(Attributes.ARMOR, new AttributeModifier(resourcelocation, defenseVal, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);
         itemattributemodifiers$builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(resourcelocation, toughVal, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);

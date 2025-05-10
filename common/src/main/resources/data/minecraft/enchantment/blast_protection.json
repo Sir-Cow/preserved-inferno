@@ -4,26 +4,14 @@
     "translate": "enchantment.minecraft.blast_protection"
   },
   "effects": {
-    "minecraft:attributes": [
-      {
-        "amount": {
-          "type": "minecraft:linear",
-          "base": 0.25,
-          "per_level_above_first": 0.25
-        },
-        "attribute": "minecraft:explosion_knockback_resistance",
-        "id": "minecraft:enchantment.blast_protection",
-        "operation": "add_value"
-      }
-    ],
     "minecraft:damage_protection": [
       {
         "effect": {
           "type": "minecraft:add",
           "value": {
             "type": "minecraft:linear",
-            "base": 3.125,
-            "per_level_above_first": 3.125
+            "base": 3.75,
+            "per_level_above_first": 3.75
           }
         },
         "requirements": {

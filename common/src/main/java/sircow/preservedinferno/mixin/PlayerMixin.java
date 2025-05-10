@@ -2,17 +2,12 @@ package sircow.preservedinferno.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -35,6 +30,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sircow.preservedinferno.other.HeatAccessor;
 import sircow.preservedinferno.other.ModDamageTypes;
+import sircow.preservedinferno.other.ModEntityData;
+import sircow.preservedinferno.other.ShieldStaminaHandler;
 
 import java.util.Objects;
 
@@ -50,8 +47,6 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     @Unique private static final int IN_POWDER_SNOW_CAP_REDUCTION = 30;
     @Unique private static final int FIRE_RES_INCREASE = 80;
     @Unique private static final int FIRE_PROT_INCREASE = 10;
-    @Unique private static final EntityDataAccessor<Integer> DATA_HEAT = SynchedEntityData.defineId(PlayerMixin.class, EntityDataSerializers.INT);
-    @Unique private static final EntityDataAccessor<Boolean> DATA_CAN_DO_HEAT_CHANGE = SynchedEntityData.defineId(PlayerMixin.class, EntityDataSerializers.BOOLEAN);
     @Unique private @Nullable BlockPos lastSteppedOnIcePos = null;
     @Unique DamageSource damageSource = ModDamageTypes.of(this.level(), ModDamageTypes.HEAT, this);
 
@@ -133,60 +128,65 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         ci.cancel();
     }
 
-    // nether heat
-    @Inject(method = "defineSynchedData", at = @At("TAIL"))
-    private void preserved_inferno$defineHeat(SynchedEntityData.Builder builder, CallbackInfo ci) {
-        builder.define(DATA_HEAT, 0);
-        builder.define(DATA_CAN_DO_HEAT_CHANGE, false);
+    @Inject(method = "die", at = @At("TAIL"))
+    private void preserved_inferno$resetThingsOnDeath(DamageSource cause, CallbackInfo ci) {
+        Player player = (Player)(Object)this;
+        preserved_inferno$setHeat(0);
+        ShieldStaminaHandler.onPlayerDeath(player);
     }
 
-    @Inject(method = "die", at = @At("TAIL"))
-    private void preserved_inferno$resetHeatOnDeath(DamageSource cause, CallbackInfo ci) {
-        preserved_inferno$setHeat(0);
+    @Inject(method = "defineSynchedData", at = @At("HEAD"))
+    private void preserved_inferno$registerDataEarly(SynchedEntityData.Builder builder, CallbackInfo ci) {
+        ModEntityData.registerThis(builder);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     public void preserved_inferno$readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        this.preserved_inferno$setHeat(tag.getIntOr("preserved_inferno$heat", 0));
+        this.entityData.set(ModEntityData.PLAYER_HEAT, tag.getIntOr("preserved_inferno$heat", 0));
+        this.entityData.set(ModEntityData.PLAYER_SHIELD_STAMINA, tag.getFloatOr("preserved_inferno$stamina", 0));
+        this.entityData.set(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE, tag.getBooleanOr("preserved_inferno$canDoHeatChange", false));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        tag.putInt("preserved_inferno$heat", this.preserved_inferno$getHeat());
+        tag.putInt("preserved_inferno$heat", this.entityData.get(ModEntityData.PLAYER_HEAT));
+        tag.putFloat("preserved_inferno$stamina", this.entityData.get(ModEntityData.PLAYER_SHIELD_STAMINA));
+        tag.putBoolean("preserved_inferno$canDoHeatChange", this.entityData.get(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE));
     }
 
-    @Unique
-    public int preserved_inferno$getHeat() {
-        return this.entityData.get(DATA_HEAT);
+    @Unique public int preserved_inferno$getHeat() {
+        return this.entityData.get(ModEntityData.PLAYER_HEAT);
     }
-
+    @Unique public float preserved_inferno$getStamina() {
+        return this.entityData.get(ModEntityData.PLAYER_SHIELD_STAMINA);
+    }
+    @Unique public void preserved_inferno$setHeat(int heat) {
+        this.entityData.set(ModEntityData.PLAYER_HEAT, heat);
+    }
+    @Unique public void preserved_inferno$setStamina(float stamina) {
+        this.entityData.set(ModEntityData.PLAYER_SHIELD_STAMINA, stamina);
+    }
     @Unique
-    public void preserved_inferno$setHeat(int heat) {
-        this.entityData.set(DATA_HEAT, heat);
+    public boolean preserved_inferno$canDoHeatChange() {
+        return this.entityData.get(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE);
+    }
+    @Unique
+    public void preserved_inferno$setCanDoHeatChange(boolean canDoHeatChange) {
+        this.entityData.set(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE, canDoHeatChange);
     }
 
     @Unique
     public void preserved_inferno$increaseHeat(int heat) {
         int i = this.preserved_inferno$getHeat();
-        this.entityData.set(DATA_HEAT, i + heat);
+        this.entityData.set(ModEntityData.PLAYER_HEAT, i + heat);
         //Constants.LOG.info("heat increase: {}", preserved_inferno$getHeat());
     }
 
     @Unique
     public void preserved_inferno$decreaseHeat(int heat) {
         int i = this.preserved_inferno$getHeat();
-        this.entityData.set(DATA_HEAT, i - heat);
+        this.entityData.set(ModEntityData.PLAYER_HEAT, i - heat);
         //Constants.LOG.info("heat decrease: {}", preserved_inferno$getHeat());
-    }
-
-    @Unique
-    public boolean preserved_inferno$canDoHeatChange() {
-        return this.entityData.get(DATA_CAN_DO_HEAT_CHANGE);
-    }
-
-    @Unique
-    public void preserved_inferno$setCanDoHeatChange(boolean canDoHeatChange) {
-        this.entityData.set(DATA_CAN_DO_HEAT_CHANGE, canDoHeatChange);
     }
 
     @Unique

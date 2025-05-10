@@ -18,6 +18,8 @@ import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import net.minecraft.world.item.consume_effects.TeleportRandomlyConsumeEffect;
+import net.minecraft.world.item.equipment.ArmorMaterials;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.level.Level;
@@ -28,6 +30,8 @@ import org.spongepowered.asm.mixin.injection.*;
 import sircow.preservedinferno.RegisterItemChecker;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.other.HeatAccessor;
+
+import java.util.function.Function;
 
 @Mixin(value = Items.class, priority = 1100)
 public abstract class ItemsMixin {
@@ -282,40 +286,40 @@ public abstract class ItemsMixin {
 
     // modify sword attack damage
     @ModifyArg(method = "<clinit>", slice = @Slice(
-            from = @At(value = "CONSTANT", args = "stringValue=wooden_sword"),
-            to = @At(value = "CONSTANT", args = "stringValue=stone_sword")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;"),
-            index = 1
+            from = @At(value = "CONSTANT", args = "stringValue=wooden_sword")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;",
+            ordinal = 0
+    ), index = 1
     )
     private static float preserved_inferno$modifyWoodenSword(float attackDamage) {
         return 2.0F;
     }
 
     @ModifyArg(method = "<clinit>", slice = @Slice(
-            from = @At(value = "CONSTANT", args = "stringValue=golden_sword"),
-            to = @At(value = "CONSTANT", args = "stringValue=iron_sword")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;"),
-            index = 1
+            from = @At(value = "CONSTANT", args = "stringValue=golden_sword")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;",
+            ordinal = 0
+    ), index = 1
     )
     private static float preserved_inferno$modifyGoldenSword(float attackDamage) {
         return 2.0F;
     }
 
     @ModifyArg(method = "<clinit>", slice = @Slice(
-            from = @At(value = "CONSTANT", args = "stringValue=iron_sword"),
-            to = @At(value = "CONSTANT", args = "stringValue=diamond_sword")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;"),
-            index = 1
+            from = @At(value = "CONSTANT", args = "stringValue=iron_sword")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;",
+            ordinal = 0
+    ), index = 1
     )
     private static float preserved_inferno$modifyIronSword(float attackDamage) {
         return 2.0F;
     }
 
     @ModifyArg(method = "<clinit>", slice = @Slice(
-            from = @At(value = "CONSTANT", args = "stringValue=stone_sword"),
-            to = @At(value = "CONSTANT", args = "stringValue=golden_sword")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;"),
-            index = 1
+            from = @At(value = "CONSTANT", args = "stringValue=stone_sword")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;",
+            ordinal = 0
+    ), index = 1
     )
     private static float preserved_inferno$modifyStoneSword(float attackDamage) {
         return 2.0F;
@@ -369,5 +373,139 @@ public abstract class ItemsMixin {
     ))
     private static Item.Properties preserved_blizzard$modifyFishingRod(Item.Properties properties) {
         return new Item.Properties().enchantable(1).stacksTo(1);
+    }
+
+    // modify chainmail rarity
+    @ModifyArg(method = "<clinit>", slice = @Slice(
+            from = @At(value = "CONSTANT", args = "stringValue=chainmail_helmet")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0
+    ))
+    private static Item.Properties preserved_blizzard$modifyChainmail1(Item.Properties properties) {
+        return new Item.Properties().humanoidArmor(ArmorMaterials.CHAINMAIL, ArmorType.HELMET).rarity(Rarity.COMMON);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(
+            from = @At(value = "CONSTANT", args = "stringValue=chainmail_chestplate")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0
+    ))
+    private static Item.Properties preserved_blizzard$modifyChainmail2(Item.Properties properties) {
+        return new Item.Properties().humanoidArmor(ArmorMaterials.CHAINMAIL, ArmorType.CHESTPLATE).rarity(Rarity.COMMON);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(
+            from = @At(value = "CONSTANT", args = "stringValue=chainmail_leggings")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0
+    ))
+    private static Item.Properties preserved_blizzard$modifyChainmail3(Item.Properties properties) {
+        return new Item.Properties().humanoidArmor(ArmorMaterials.CHAINMAIL, ArmorType.LEGGINGS).rarity(Rarity.COMMON);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(
+            from = @At(value = "CONSTANT", args = "stringValue=chainmail_boots")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0
+    ))
+    private static Item.Properties preserved_blizzard$modifyChainmail4(Item.Properties properties) {
+        return new Item.Properties().humanoidArmor(ArmorMaterials.CHAINMAIL, ArmorType.BOOTS).rarity(Rarity.COMMON);
+    }
+
+    // modify hoe properties
+    @ModifyArg(method = "<clinit>", slice = @Slice (
+            from = @At(value = "CONSTANT", args = "stringValue=wooden_hoe")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0)
+    )
+    private static Function<Item.Properties, Item> preserved_inferno$modifyWoodenHoe(Function<Item.Properties, Item> p_361381_) {
+        return (properties) -> new HoeItem(ToolMaterial.WOOD, 1.0F, -2.0F, properties);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice (
+            from = @At(value = "CONSTANT", args = "stringValue=golden_hoe")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0)
+    )
+    private static Function<Item.Properties, Item> preserved_inferno$modifyGoldenHoe(Function<Item.Properties, Item> p_361381_) {
+        return (properties) -> new HoeItem(ToolMaterial.GOLD, 1.0F, -2.0F, properties);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice (
+            from = @At(value = "CONSTANT", args = "stringValue=stone_hoe")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0)
+    )
+    private static Function<Item.Properties, Item> preserved_inferno$modifyStoneHoe(Function<Item.Properties, Item> p_361381_) {
+        return (properties) -> new HoeItem(ToolMaterial.STONE, 1.0F, -2.0F, properties);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice (
+            from = @At(value = "CONSTANT", args = "stringValue=iron_hoe")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0)
+    )
+    private static Function<Item.Properties, Item> preserved_inferno$modifyIronHoe(Function<Item.Properties, Item> p_361381_) {
+        return (properties) -> new HoeItem(ToolMaterial.IRON, 2.0F, -2.0F, properties);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice (
+            from = @At(value = "CONSTANT", args = "stringValue=diamond_hoe")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0)
+    )
+    private static Function<Item.Properties, Item> preserved_inferno$modifyDiamondHoe(Function<Item.Properties, Item> p_361381_) {
+        return (properties) -> new HoeItem(ToolMaterial.DIAMOND, 2.0F, -2.0F, properties);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice (
+            from = @At(value = "CONSTANT", args = "stringValue=netherite_hoe")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0)
+    )
+    private static Function<Item.Properties, Item> preserved_inferno$modifyNetheriteHoe(Function<Item.Properties, Item> p_361381_) {
+        return (properties) -> new HoeItem(ToolMaterial.NETHERITE, 2.0F, -2.0F, properties);
+    }
+
+    // modify pickaxe properties
+    @ModifyArg(method = "<clinit>", slice = @Slice (
+            from = @At(value = "CONSTANT", args = "stringValue=wooden_pickaxe")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0), index = 1
+    )
+    private static Item.Properties preserved_inferno$modifyWoodenPickaxe(Item.Properties properties) {
+        return new Item.Properties().pickaxe(ToolMaterial.WOOD, 2.0F, -3.0F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice (
+            from = @At(value = "CONSTANT", args = "stringValue=golden_pickaxe")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0), index = 1
+    )
+    private static Item.Properties preserved_inferno$modifyGoldenPickaxe(Item.Properties properties) {
+        return new Item.Properties().pickaxe(ToolMaterial.GOLD, 2.0F, -3.0F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice (
+            from = @At(value = "CONSTANT", args = "stringValue=stone_pickaxe")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0), index = 1
+    )
+    private static Item.Properties preserved_inferno$modifyStonePickaxe(Item.Properties properties) {
+        return new Item.Properties().pickaxe(ToolMaterial.STONE, 2.0F, -3.0F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice (
+            from = @At(value = "CONSTANT", args = "stringValue=iron_pickaxe")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0), index = 1
+    )
+    private static Item.Properties preserved_inferno$modifyIronPickaxe(Item.Properties properties) {
+        return new Item.Properties().pickaxe(ToolMaterial.IRON, 2.0F, -3.0F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice (
+            from = @At(value = "CONSTANT", args = "stringValue=diamond_pickaxe")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0), index = 1
+    )
+    private static Item.Properties preserved_inferno$modifyDiamondPickaxe(Item.Properties properties) {
+        return new Item.Properties().pickaxe(ToolMaterial.DIAMOND, 3.0F, -3.0F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice (
+            from = @At(value = "CONSTANT", args = "stringValue=netherite_pickaxe")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0), index = 1
+    )
+    private static Item.Properties preserved_inferno$modifyNetheritePickaxe(Item.Properties properties) {
+        return new Item.Properties().pickaxe(ToolMaterial.NETHERITE, 3.0F, -3.0F).fireResistant();
     }
 }

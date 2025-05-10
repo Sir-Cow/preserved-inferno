@@ -111,9 +111,24 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         itemCategorySlots.put("swordBane", Set.of(1, 9, 15, 16, 30, 32));
         itemCategorySlots.put("swordSharp", Set.of(9, 15, 16, 27, 30, 32));
         itemCategorySlots.put("swordSmite", Set.of(9, 15, 16, 29, 30, 32));
-        itemCategorySlots.put("tool", Set.of(7, 12, 28, 32));
-        itemCategorySlots.put("toolFort", Set.of(7, 12, 32));
-        itemCategorySlots.put("toolSilk", Set.of(7, 28, 32));
+        itemCategorySlots.put("pickaxe", Set.of(3, 7, 12, 28, 32));
+        itemCategorySlots.put("shovel", Set.of(7, 12, 28, 32));
+        itemCategorySlots.put("toolWeapon", Set.of(1, 7, 12, 16, 27, 28, 29, 32));
+        itemCategorySlots.put("toolWeaponBane", Set.of(1, 7, 12, 16, 28, 32));
+        itemCategorySlots.put("toolWeaponSharp", Set.of(7, 12, 16, 27, 28, 32));
+        itemCategorySlots.put("toolWeaponSmite", Set.of(7, 12, 16, 28, 29, 32));
+        itemCategorySlots.put("pickaxeFort", Set.of(3, 7, 12, 32));
+        itemCategorySlots.put("shovelFort", Set.of(7, 12, 32));
+        itemCategorySlots.put("toolFortWeapon", Set.of(1, 7, 12, 16, 27, 29, 32));
+        itemCategorySlots.put("toolFortWeaponBane", Set.of(1, 7, 12, 16, 32));
+        itemCategorySlots.put("toolFortWeaponSharp", Set.of(7, 12, 16, 27, 32));
+        itemCategorySlots.put("toolFortWeaponSmite", Set.of(7, 12, 16, 29, 32));
+        itemCategorySlots.put("pickaxeSilk", Set.of(3, 7, 28, 32));
+        itemCategorySlots.put("shovelSilk", Set.of(7, 28, 32));
+        itemCategorySlots.put("toolSilkWeapon", Set.of(1, 7, 16, 27, 28, 29, 32));
+        itemCategorySlots.put("toolSilkWeaponBane", Set.of(1, 7, 16, 28, 32));
+        itemCategorySlots.put("toolSilkWeaponSharp", Set.of(7, 16, 27, 28, 32));
+        itemCategorySlots.put("toolSilkWeaponSmite", Set.of(7, 16, 28, 29, 32));
         itemCategorySlots.put("bow", Set.of(11, 14, 20, 23, 32));
         itemCategorySlots.put("bowMending", Set.of(11, 20, 23, 32));
         itemCategorySlots.put("trident", Set.of(4, 13, 16, 17, 26, 32));
@@ -554,10 +569,41 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "swordSmite";
             else this.itemCategory = "sword";
         }
-        else if (itemStack.is(ItemTags.AXES) || itemStack.is(ItemTags.PICKAXES) || itemStack.is(ItemTags.SHOVELS) || itemStack.is(ItemTags.HOES)) {
-            if (hasEnchantment(itemStack, Enchantments.FORTUNE)) this.itemCategory = "toolFort";
-            else if (hasEnchantment(itemStack, Enchantments.SILK_TOUCH)) this.itemCategory = "toolSilk";
-            else this.itemCategory = "tool";
+        else if (itemStack.is(ItemTags.PICKAXES)) {
+            if (hasEnchantment(itemStack, Enchantments.FORTUNE)) this.itemCategory = "pickaxeFort";
+            else if (hasEnchantment(itemStack, Enchantments.SILK_TOUCH)) this.itemCategory = "pickaxeSilk";
+            else this.itemCategory = "pickaxe";
+        }
+        else if (itemStack.is(ItemTags.SHOVELS)) {
+            if (hasEnchantment(itemStack, Enchantments.FORTUNE)) this.itemCategory = "shovelFort";
+            else if (hasEnchantment(itemStack, Enchantments.SILK_TOUCH)) this.itemCategory = "shovelSilk";
+            else this.itemCategory = "shovel";
+        }
+        else if (itemStack.is(ItemTags.AXES) || itemStack.is(ItemTags.HOES)) {
+            if (hasEnchantment(itemStack, Enchantments.FORTUNE)) {
+                if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "toolFortWeaponBane";
+                else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "toolFortWeaponSharp";
+                else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "toolFortWeaponSmite";
+                else {
+                    this.itemCategory = "toolFortWeapon";
+                }
+            }
+            else if (hasEnchantment(itemStack, Enchantments.SILK_TOUCH)) {
+                if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "toolSilkWeaponBane";
+                else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "toolSilkWeaponSharp";
+                else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "toolSilkWeaponSmite";
+                else {
+                    this.itemCategory = "toolSilkWeapon";
+                }
+            }
+            else {
+                if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "toolWeaponBane";
+                else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "toolWeaponSharp";
+                else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "toolWeaponSmite";
+                else {
+                    this.itemCategory = "toolWeapon";
+                }
+            }
         }
         else if (itemStack.is(ItemTags.BOW_ENCHANTABLE)) {
             this.itemCategory = hasEnchantment(itemStack, Enchantments.MENDING) ? "bowMending" : "bow";
