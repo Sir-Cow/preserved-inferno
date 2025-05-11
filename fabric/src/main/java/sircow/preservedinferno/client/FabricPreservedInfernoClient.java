@@ -43,11 +43,20 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             Float staminaRegenRate = stack.get(ModComponents.SHIELD_REGEN_RATE_COMPONENT);
             DecimalFormat df = new DecimalFormat("#.####");
             if (maxStamina != null) {
-                lines.add(1, Component.translatable("item.modifiers.offhand").withStyle(ChatFormatting.GRAY));
-                lines.add(2, Component.translatable("item.pinferno.shield_max_stamina", maxStamina).withStyle(ChatFormatting.DARK_GREEN));
-                lines.add(3, Component.empty());
-                lines.add(4, Component.translatable("item.pinferno.modifiers.not_active").withStyle(ChatFormatting.GRAY));
-                lines.add(5, Component.translatable("item.pinferno.shield_regen_rate", df.format(staminaRegenRate * 20)).withStyle(ChatFormatting.BLUE));
+                int insertIndex = lines.size();
+                for (int i = 0; i < lines.size(); i++) {
+                    if (lines.get(i).getString().contains("pinferno")) {
+                        insertIndex = i;
+                        break;
+                    }
+                }
+
+                lines.add(insertIndex++, Component.empty());
+                lines.add(insertIndex++, Component.translatable("item.modifiers.offhand").withStyle(ChatFormatting.GRAY));
+                lines.add(insertIndex++, Component.translatable("item.pinferno.shield_max_stamina", maxStamina).withStyle(ChatFormatting.DARK_GREEN));
+                lines.add(insertIndex++, Component.empty());
+                lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.not_active").withStyle(ChatFormatting.GRAY));
+                lines.add(insertIndex, Component.translatable("item.pinferno.shield_regen_rate", df.format(staminaRegenRate * 20)).withStyle(ChatFormatting.BLUE));
             }
         });
     }
