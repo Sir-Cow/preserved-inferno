@@ -137,9 +137,15 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         itemCategorySlots.put("crossbow", Set.of(18, 19, 24, 32));
         itemCategorySlots.put("crossbowPierce", Set.of(19, 24, 32));
         itemCategorySlots.put("crossbowMulti", Set.of(18, 24, 32));
-        itemCategorySlots.put("mace", Set.of(3, 5, 9, 16));
-        itemCategorySlots.put("maceBreach", Set.of(3, 9, 16));
-        itemCategorySlots.put("maceDensity", Set.of(5, 9, 16));
+        itemCategorySlots.put("mace", Set.of(1, 3, 5, 9, 16, 29));
+        itemCategorySlots.put("maceBane", Set.of(1, 3, 5, 9, 16));
+        itemCategorySlots.put("maceSmite", Set.of(3, 5, 9, 16, 29));
+        itemCategorySlots.put("maceBreach", Set.of(1, 3, 9, 16, 29));
+        itemCategorySlots.put("maceBreachBane", Set.of(1, 3, 9, 16));
+        itemCategorySlots.put("maceBreachSmite", Set.of(3, 9, 16, 29));
+        itemCategorySlots.put("maceDensity", Set.of(1, 5, 9, 16, 29));
+        itemCategorySlots.put("maceDensityBane", Set.of(1, 5, 9, 16));
+        itemCategorySlots.put("maceDensitySmite", Set.of(5, 9, 16, 29));
         itemCategorySlots.put("helmet", Set.of(0, 2, 10, 21, 22, 25, 31, 32));
         itemCategorySlots.put("chestplate", Set.of(2, 10, 21, 22, 31, 32));
         itemCategorySlots.put("leggings", Set.of(2, 10, 21, 22, 31, 32));
@@ -619,9 +625,27 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             else this.itemCategory = "crossbow";
         }
         else if (itemStack.is(ItemTags.MACE_ENCHANTABLE)) {
-            if (hasEnchantment(itemStack, Enchantments.BREACH)) this.itemCategory = "maceBreach";
-            else if (hasEnchantment(itemStack, Enchantments.DENSITY)) this.itemCategory = "maceDensity";
-            else this.itemCategory = "mace";
+            if (hasEnchantment(itemStack, Enchantments.BREACH)) {
+                if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "maceBreachBane";
+                else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "maceBreachSmite";
+                else {
+                    this.itemCategory = "maceBreach";
+                }
+            }
+            else if (hasEnchantment(itemStack, Enchantments.DENSITY)) {
+                if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "maceDensityBane";
+                else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "maceDensitySmite";
+                else {
+                    this.itemCategory = "maceDensity";
+                }
+            }
+            else {
+                if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "maceBane";
+                else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "maceSmite";
+                else {
+                    this.itemCategory = "mace";
+                }
+            }
         }
         else if (itemStack.is(ItemTags.HEAD_ARMOR_ENCHANTABLE)) {
             if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()

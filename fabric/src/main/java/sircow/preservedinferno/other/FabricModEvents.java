@@ -2,7 +2,6 @@ package sircow.preservedinferno.other;
 
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
-import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,13 +33,18 @@ public class FabricModEvents {
         });
     }
 
-    public static void removeTridentDropFromDrowned() {
+    public static void handleEntityDeath() {
         ServerLivingEntityEvents.AFTER_DEATH.register((livingEntity, damageSource) -> {
+            // prevent drowned dropping trident
             if (livingEntity instanceof Drowned drowned) {
                 ItemStack heldItem = drowned.getItemInHand(InteractionHand.MAIN_HAND);
                 if (heldItem.getItem() instanceof TridentItem) {
                     drowned.setDropChance(EquipmentSlot.MAINHAND, 0);
                 }
+            }
+            // reset shield cooldown
+            if (livingEntity instanceof Player player) {
+                ShieldStaminaHandler.playerShieldCooldownMap.remove(player.getUUID());
             }
         });
     }
@@ -66,7 +70,7 @@ public class FabricModEvents {
     public static void registerModEvents() {
         Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
         modifySleeping();
-        removeTridentDropFromDrowned();
+        handleEntityDeath();
         damageThing();
     }
 }
