@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.level.block.Blocks;
+import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
 
 public class PreservedFletchingTableMenu extends AbstractContainerMenu {
@@ -50,29 +51,29 @@ public class PreservedFletchingTableMenu extends AbstractContainerMenu {
 
         this.flintInputSlot = this.addSlot(new Slot(this.inputContainer, 0, 62, 15) { // flint input
             @Override
-            public boolean mayPlace(ItemStack stack) { return stack.getItem() == Items.FLINT; }
+            public boolean mayPlace(@NotNull ItemStack stack) { return stack.getItem() == Items.FLINT; }
         });
         this.stickInputSlot = this.addSlot(new Slot(this.inputContainer, 1, 62, 35) { // stick input
             @Override
-            public boolean mayPlace(ItemStack stack) { return stack.getItem() == Items.STICK; }
+            public boolean mayPlace(@NotNull ItemStack stack) { return stack.getItem() == Items.STICK; }
         });
         this.featherInputSlot = this.addSlot(new Slot(this.inputContainer, 2, 62, 55) { // feather input
             @Override
-            public boolean mayPlace(ItemStack stack) { return stack.getItem() == Items.FEATHER; }
+            public boolean mayPlace(@NotNull ItemStack stack) { return stack.getItem() == Items.FEATHER; }
         });
         this.potionInputSlot = this.addSlot(new Slot(this.inputContainer, 3, 116, 55) { // potion input
             @Override
-            public boolean mayPlace(ItemStack stack) { return stack.getItem() == Items.POTION; }
+            public boolean mayPlace(@NotNull ItemStack stack) { return stack.getItem() == Items.POTION; }
         });
 
         this.resultSlot = this.addSlot(new Slot(this.outputContainer, 0, 116, 35) { // output
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean mayPlace(@NotNull ItemStack stack) {
                 return false;
             }
 
             @Override
-            public void onTake(Player player, ItemStack stack) {
+            public void onTake(@NotNull Player player, @NotNull ItemStack stack) {
                 PreservedFletchingTableMenu.this.flintInputSlot.remove(1);
                 PreservedFletchingTableMenu.this.stickInputSlot.remove(1);
                 PreservedFletchingTableMenu.this.featherInputSlot.remove(1);
@@ -91,7 +92,7 @@ public class PreservedFletchingTableMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
         if (slot.hasItem()) {
@@ -152,7 +153,7 @@ public class PreservedFletchingTableMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public void slotsChanged(Container inventory) {
+    public void slotsChanged(@NotNull Container inventory) {
         ItemStack itemstack = this.flintInputSlot.getItem();
         ItemStack itemstack1 = this.stickInputSlot.getItem();
         ItemStack itemstack2 = this.featherInputSlot.getItem();
@@ -190,13 +191,13 @@ public class PreservedFletchingTableMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public void removed(Player player) {
+    public void removed(@NotNull Player player) {
         super.removed(player);
         this.access.execute((level, blockPos) -> this.clearContainer(player, this.inputContainer));
     }
 
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NotNull Player player) {
         return stillValid(this.access, player, Blocks.FLETCHING_TABLE);
     }
 }

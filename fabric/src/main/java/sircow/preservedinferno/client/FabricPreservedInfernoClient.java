@@ -37,8 +37,9 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL, RenderType.cutout());
 
-        // custom shield tooltip
+        // custom tooltip
         ItemTooltipCallback.EVENT.register((stack, context, tooltipType, lines) -> {
+            // shields
             Integer maxStamina = stack.get(ModComponents.SHIELD_MAX_STAMINA_COMPONENT);
             Float staminaRegenRate = stack.get(ModComponents.SHIELD_REGEN_RATE_COMPONENT);
             DecimalFormat df = new DecimalFormat("#.####");

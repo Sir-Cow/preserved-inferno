@@ -1,0 +1,17 @@
+{
+  "values": [
+    "minecraft:bow",
+    "minecraft:crossbow",
+    "minecraft:emerald",
+    "minecraft:diamond",
+    "minecraft:book",
+    "minecraft:name_tag",
+    "minecraft:nautilus_shell",
+    "minecraft:golden_apple",
+    "minecraft:enchanted_golden_apple",
+    "minecraft:music_disc_otherside",
+    "minecraft:experience_bottle",
+    "pinferno:cache",
+    "pinferno:music_disc_aqua"
+  ]
+}

@@ -30,6 +30,8 @@
     "ElderGuardianMixin",
     "EndermanMixin",
     "EvokerMixin",
+    "FishingHookMixin",
+    "FishingRodItemMixin",
     "FletchingTableBlockMixin",
     "FoodDataMixin",
     "FoodsMixin",

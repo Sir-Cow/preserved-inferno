@@ -28,6 +28,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import sircow.preservedinferno.RegisterItemChecker;
+import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.other.HeatAccessor;
 
@@ -362,7 +363,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
             ordinal = 0
     ))
-    private static Item.Properties preserved_blizzard$modifyBow(Item.Properties properties) {
+    private static Item.Properties preserved_inferno$modifyBow(Item.Properties properties) {
         return new Item.Properties().durability(465).enchantable(1);
     }
 
@@ -371,8 +372,16 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
             ordinal = 0
     ))
-    private static Item.Properties preserved_blizzard$modifyFishingRod(Item.Properties properties) {
-        return new Item.Properties().enchantable(1).stacksTo(1);
+    private static Item.Properties preserved_inferno$modifyFishingRod(Item.Properties properties) {
+        return new Item.Properties()
+                .enchantable(1)
+                .stacksTo(1)
+                .component(ModComponents.HOOK_COMPONENT, "none")
+                .component(ModComponents.HOOK_DURABILITY, 0)
+                .component(ModComponents.LINE_COMPONENT, "none")
+                .component(ModComponents.LINE_DURABILITY, 0)
+                .component(ModComponents.SINKER_COMPONENT, "none")
+                .component(ModComponents.SINKER_DURABILITY, 0);
     }
 
     // modify chainmail rarity
@@ -381,7 +390,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
             ordinal = 0
     ))
-    private static Item.Properties preserved_blizzard$modifyChainmail1(Item.Properties properties) {
+    private static Item.Properties preserved_inferno$modifyChainmail1(Item.Properties properties) {
         return new Item.Properties().humanoidArmor(ArmorMaterials.CHAINMAIL, ArmorType.HELMET).rarity(Rarity.COMMON);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(
@@ -389,7 +398,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
             ordinal = 0
     ))
-    private static Item.Properties preserved_blizzard$modifyChainmail2(Item.Properties properties) {
+    private static Item.Properties preserved_inferno$modifyChainmail2(Item.Properties properties) {
         return new Item.Properties().humanoidArmor(ArmorMaterials.CHAINMAIL, ArmorType.CHESTPLATE).rarity(Rarity.COMMON);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(
@@ -397,7 +406,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
             ordinal = 0
     ))
-    private static Item.Properties preserved_blizzard$modifyChainmail3(Item.Properties properties) {
+    private static Item.Properties preserved_inferno$modifyChainmail3(Item.Properties properties) {
         return new Item.Properties().humanoidArmor(ArmorMaterials.CHAINMAIL, ArmorType.LEGGINGS).rarity(Rarity.COMMON);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(
@@ -405,7 +414,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
             ordinal = 0
     ))
-    private static Item.Properties preserved_blizzard$modifyChainmail4(Item.Properties properties) {
+    private static Item.Properties preserved_inferno$modifyChainmail4(Item.Properties properties) {
         return new Item.Properties().humanoidArmor(ArmorMaterials.CHAINMAIL, ArmorType.BOOTS).rarity(Rarity.COMMON);
     }
 

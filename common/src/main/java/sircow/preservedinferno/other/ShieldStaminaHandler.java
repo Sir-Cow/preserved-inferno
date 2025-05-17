@@ -16,35 +16,42 @@ public class ShieldStaminaHandler {
     private static final int COOLDOWN_TICKS = 20 * 10;
     private static final float STAMINA_LOSS = 0.05F;
     public static DamageSource lastBypassingSource = null;
+    private static boolean isHandlingBypassingDamage = false;
 
     public static void onPlayerDamagedWhileBlocking(ServerPlayer player, ItemStack blockingStack, float amount, DamageSource source) {
+        if (isHandlingBypassingDamage) {
+            return;
+        }
+
         if (blockingStack.getItem() instanceof PreservedShieldItem) {
             if (source.is(DamageTypeTags.BYPASSES_SHIELD)) {
                 lastBypassingSource = source;
+                isHandlingBypassingDamage = true;
+                player.hurt(source, amount);
+                isHandlingBypassingDamage = false;
             }
             else {
                 lastBypassingSource = null;
-            }
+                float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
 
-            float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
+                if (currentStamina > 0) {
+                    float blockedDamage = Math.min(currentStamina, amount);
+                    float excessDamage = amount - blockedDamage;
+                    float newStamina = Math.max(0, currentStamina - blockedDamage);
 
-            if (currentStamina > 0) {
-                float blockedDamage = Math.min(currentStamina, amount);
-                float excessDamage = amount - blockedDamage;
-                float newStamina = Math.max(0, currentStamina - blockedDamage);
-
-                if (newStamina != currentStamina) {
-                    player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
+                    if (newStamina != currentStamina) {
+                        player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
+                    }
+                    if (newStamina <= 0) {
+                        triggerCooldown(player, blockingStack);
+                    }
+                    if (excessDamage > 0) {
+                        player.hurt(source, excessDamage);
+                    }
                 }
-                if (newStamina <= 0) {
-                    triggerCooldown(player, blockingStack);
+                else {
+                    player.hurt(source, amount);
                 }
-                if (excessDamage > 0) {
-                    player.hurt(source, excessDamage);
-                }
-            }
-            else {
-                player.hurt(source, amount);
             }
         }
         else {
