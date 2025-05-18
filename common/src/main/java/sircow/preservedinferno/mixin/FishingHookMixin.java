@@ -22,25 +22,42 @@ public abstract class FishingHookMixin {
     @Shadow @Mutable @Final private int luck;
     @Shadow @Mutable @Final private int lureSpeed;
     @Unique private boolean lureSpeedModified = false;
+    @Unique private ItemStack fishingWithStack = null;
     @Shadow public abstract @Nullable Player getPlayerOwner();
 
     // hook effect
     @Inject(method = "catchingFish", at = @At("HEAD"))
-    private void addLureSpeed(BlockPos pos, CallbackInfo ci) {
+    private void preserved_inferno$addLureSpeed(BlockPos pos, CallbackInfo ci) {
         if (!lureSpeedModified) {
             Player owner = this.getPlayerOwner();
+
             if (owner != null) {
-                if (Objects.equals(owner.getMainHandItem().get(ModComponents.HOOK_COMPONENT), "iron")) {
-                    this.lureSpeed += 100;
-                    lureSpeedModified = true;
+                ItemStack mainStack = owner.getMainHandItem();
+                ItemStack offStack = owner.getOffhandItem();
+
+                if (Boolean.TRUE.equals(mainStack.get(ModComponents.IS_FISHING))) {
+                    fishingWithStack = mainStack;
                 }
-                if (Objects.equals(owner.getMainHandItem().get(ModComponents.HOOK_COMPONENT), "diamond")) {
-                    this.lureSpeed += 200;
-                    lureSpeedModified = true;
+                if (Boolean.TRUE.equals(offStack.get(ModComponents.IS_FISHING))) {
+                    fishingWithStack = offStack;
                 }
-                if (Objects.equals(owner.getMainHandItem().get(ModComponents.HOOK_COMPONENT), "netherite")) {
-                    this.lureSpeed += 300;
-                    lureSpeedModified = true;
+
+                if (fishingWithStack != null) {
+                    if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "iron")) {
+                        this.lureSpeed += 100;
+                        lureSpeedModified = true;
+                    }
+                    if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "diamond")) {
+                        this.lureSpeed += 200;
+                        lureSpeedModified = true;
+                    }
+                    if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "netherite")) {
+                        this.lureSpeed += 300;
+                        lureSpeedModified = true;
+                    }
+                    if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "none")) {
+                        lureSpeedModified = true;
+                    }
                 }
             }
         }
@@ -49,51 +66,76 @@ public abstract class FishingHookMixin {
     @ModifyArg(method = "retrieve(Lnet/minecraft/world/item/ItemStack;)I", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/item/ItemEntity;<init>(Lnet/minecraft/world/level/Level;DDDLnet/minecraft/world/item/ItemStack;)V",
             ordinal = 0), index = 4)
-    private ItemStack addFortune(ItemStack originalStack) {
+    private ItemStack preserved_inferno$addFortune(ItemStack originalStack) {
         boolean doFortune = false;
         double randomNum = new Random().nextDouble();
+        double randomNum2 = new Random().nextDouble();
+        double randomNum3 = new Random().nextDouble();
+        int fortuneCounter = 0;
         Player owner = this.getPlayerOwner();
-        if (owner != null && (originalStack.is(ModTags.FISHING_LOOT_FISH) || originalStack.is(ModTags.FISHING_LOOT_VARIETY) || originalStack.is(ModTags.FISHING_LOOT_JUNK))) {
-            if (Objects.equals(owner.getMainHandItem().get(ModComponents.LINE_COMPONENT), "iron")) {
-                double chance = 1.0 - (2.0 / (1.0 + 2.0));
-                if (randomNum < chance) {
-                    doFortune = true;
-                }
-            }
-            if (Objects.equals(owner.getMainHandItem().get(ModComponents.LINE_COMPONENT), "diamond")) {
-                double chance = 1.0 - (2.0 / (2.0 + 2.0));
-                if (randomNum < chance) {
-                    doFortune = true;
-                }
-            }
-            if (Objects.equals(owner.getMainHandItem().get(ModComponents.LINE_COMPONENT), "netherite")) {
-                double chance = 1.0 - (2.0 / (3.0 + 2.0));
-                if (randomNum < chance) {
-                    doFortune = true;
-                }
-            }
-        }
 
-        if (originalStack != null && !originalStack.isEmpty() && doFortune) {
-            ItemStack fortuneStack = originalStack.copy();
-            fortuneStack.grow(originalStack.getCount());
-            return fortuneStack;
+        if (owner != null) {
+            if (fishingWithStack != null) {
+                if (originalStack.is(ModTags.FISHING_LOOT_FISH) || originalStack.is(ModTags.FISHING_LOOT_VARIETY) || originalStack.is(ModTags.FISHING_LOOT_JUNK)) {
+                    if (Objects.equals(fishingWithStack.get(ModComponents.LINE_COMPONENT), "iron")) {
+                        double chance = 1.0 - (2.0 / (1.0 + 2.0));
+                        if (randomNum < chance) {
+                            fortuneCounter += 1;
+                            doFortune = true;
+                        }
+                    }
+                    if (Objects.equals(fishingWithStack.get(ModComponents.LINE_COMPONENT), "diamond")) {
+                        double chance = 1.0 - (2.0 / (2.0 + 2.0));
+                        if (randomNum < chance) {
+                            fortuneCounter += 1;
+                            doFortune = true;
+                        }
+                        if (randomNum2 < chance) {
+                            fortuneCounter += 1;
+                            doFortune = true;
+                        }
+                    }
+                    if (Objects.equals(fishingWithStack.get(ModComponents.LINE_COMPONENT), "netherite")) {
+                        double chance = 1.0 - (2.0 / (3.0 + 2.0));
+                        if (randomNum < chance) {
+                            fortuneCounter += 1;
+                            doFortune = true;
+                        }
+                        if (randomNum2 < chance) {
+                            fortuneCounter += 1;
+                            doFortune = true;
+                        }
+                        if (randomNum3 < chance) {
+                            fortuneCounter += 1;
+                            doFortune = true;
+                        }
+                    }
+                }
+                if (!originalStack.isEmpty() && doFortune) {
+                    ItemStack fortuneStack = originalStack.copy();
+                    fortuneStack.grow(fortuneCounter);
+                    return fortuneStack;
+                }
+            }
         }
         return originalStack;
     }
     // sinker effect
     @Inject(method = "retrieve", at = @At("HEAD"))
-    public void addLuck(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+    public void preserved_inferno$addLuck(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
         Player owner = this.getPlayerOwner();
+
         if (owner != null) {
-            if (Objects.equals(owner.getMainHandItem().get(ModComponents.SINKER_COMPONENT), "iron")) {
-                this.luck += 1;
-            }
-            if (Objects.equals(owner.getMainHandItem().get(ModComponents.SINKER_COMPONENT), "diamond")) {
-                this.luck += 2;
-            }
-            if (Objects.equals(owner.getMainHandItem().get(ModComponents.SINKER_COMPONENT), "netherite")) {
-                this.luck += 3;
+            if (fishingWithStack != null) {
+                if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "iron")) {
+                    this.luck += 1;
+                }
+                if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "diamond")) {
+                    this.luck += 2;
+                }
+                if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "netherite")) {
+                    this.luck += 3;
+                }
             }
         }
     }

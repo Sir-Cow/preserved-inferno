@@ -381,7 +381,8 @@ public abstract class ItemsMixin {
                 .component(ModComponents.LINE_COMPONENT, "none")
                 .component(ModComponents.LINE_DURABILITY, 0)
                 .component(ModComponents.SINKER_COMPONENT, "none")
-                .component(ModComponents.SINKER_DURABILITY, 0);
+                .component(ModComponents.SINKER_DURABILITY, 0)
+                .component(ModComponents.IS_FISHING, false);
     }
 
     // modify chainmail rarity
@@ -449,7 +450,7 @@ public abstract class ItemsMixin {
             ordinal = 0)
     )
     private static Function<Item.Properties, Item> preserved_inferno$modifyIronHoe(Function<Item.Properties, Item> p_361381_) {
-        return (properties) -> new HoeItem(ToolMaterial.IRON, 2.0F, -2.0F, properties);
+        return (properties) -> new HoeItem(ToolMaterial.IRON, 1.0F, -2.0F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=diamond_hoe")), at = @At(value = "INVOKE",

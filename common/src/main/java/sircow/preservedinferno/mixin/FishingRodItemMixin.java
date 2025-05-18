@@ -53,6 +53,21 @@ public class FishingRodItemMixin {
         }
     }
 
+    @Inject(method = "use", at = @At("HEAD"))
+    public void preserved_inferno$isFishingCheck(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+        ItemStack fishingRod = player.getItemInHand(hand);
+        if (player.fishing == null) {
+            if (!level.isClientSide) {
+                fishingRod.set(ModComponents.IS_FISHING, true);
+            }
+        }
+        if (Boolean.TRUE.equals(fishingRod.get(ModComponents.IS_FISHING)) && player.fishing != null) {
+            if (!level.isClientSide) {
+                fishingRod.set(ModComponents.IS_FISHING, false);
+            }
+        }
+    }
+
     @Inject(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/FishingHook;retrieve(Lnet/minecraft/world/item/ItemStack;)I"))
     private void preserved_inferno$onUseRetrieve(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         if (!level.isClientSide && player.fishing != null && player.gameMode() != GameType.CREATIVE) {

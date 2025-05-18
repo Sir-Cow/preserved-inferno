@@ -82,5 +82,9 @@
 
   "item.pinferno.shield_max_stamina": " +%s Stamina",
   "item.pinferno.shield_regen_rate": " +%s Stamina Recovery",
-  "item.pinferno.modifiers.not_active": "When not active:"
+  "item.pinferno.modifiers.not_active": "When not active:",
+
+  "item.pinferno.modifiers.fishing_speed": " +%s Fishing Speed",
+  "item.pinferno.modifiers.fortune": " +%s Fortune",
+  "item.pinferno.modifiers.luck": " +%s Luck"
 }
