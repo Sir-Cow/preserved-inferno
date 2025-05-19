@@ -12,6 +12,7 @@ import sircow.preservedinferno.MenuTypes;
 import sircow.preservedinferno.block.ModBlocks;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.item.ModItems;
+import sircow.preservedinferno.other.ModTags;
 import sircow.preservedinferno.screen.CacheScreen;
 import sircow.preservedinferno.screen.PreservedCauldronScreen;
 
@@ -40,6 +41,9 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
 
         // custom tooltip
         ItemTooltipCallback.EVENT.register((stack, context, tooltipType, lines) -> {
+            String durabilityTranslatable = Component.translatable("item.durability").getString();
+            String textBeforeSplit = durabilityTranslatable.substring(0, durabilityTranslatable.indexOf(':')).trim();
+
             // shields
             Integer maxStamina = stack.get(ModComponents.SHIELD_MAX_STAMINA_COMPONENT);
             Float staminaRegenRate = stack.get(ModComponents.SHIELD_REGEN_RATE_COMPONENT);
@@ -47,7 +51,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             if (maxStamina != null) {
                 int insertIndex = lines.size();
                 for (int i = 0; i < lines.size(); i++) {
-                    if (lines.get(i).getString().contains("pinferno")) {
+                    if (lines.get(i).getString().contains(textBeforeSplit) || (!lines.get(i).getString().contains(textBeforeSplit) && lines.get(i).getString().contains("pinferno"))) {
                         insertIndex = i;
                         break;
                     }
@@ -60,39 +64,43 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                 lines.add(insertIndex, Component.translatable("item.pinferno.shield_regen_rate", df.format(staminaRegenRate * 20)).withStyle(ChatFormatting.BLUE));
             }
             // fishing upgrades
-            int insertIndex = lines.size();
-            for (int i = 0; i < lines.size(); i++) {
-                if (lines.get(i).getString().contains("pinferno")) {
-                    insertIndex = i;
-                    break;
+            if (stack.is(ModTags.ROD_UPGRADES)) {
+                int insertIndex = lines.size();
+                for (int i = 0; i < lines.size(); i++) {
+                    if (lines.get(i).getString().contains(textBeforeSplit) || (!lines.get(i).getString().contains(textBeforeSplit) && lines.get(i).getString().contains("pinferno"))) {
+                        insertIndex = i;
+                        break;
+                    }
                 }
-            }
-            if (stack.is(ModItems.IRON_FISHING_HOOK)) {
-                lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fishing_speed", 1).withStyle(ChatFormatting.BLUE));
-            }
-            if (stack.is(ModItems.DIAMOND_FISHING_HOOK)) {
-                lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fishing_speed", 2).withStyle(ChatFormatting.BLUE));
-            }
-            if (stack.is(ModItems.NETHERITE_FISHING_HOOK)) {
-                lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fishing_speed", 3).withStyle(ChatFormatting.BLUE));
-            }
-            if (stack.is(ModItems.IRON_LACED_FISHING_LINE)) {
-                lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fortune", 1).withStyle(ChatFormatting.BLUE));
-            }
-            if (stack.is(ModItems.DIAMOND_LACED_FISHING_LINE)) {
-                lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fortune", 2).withStyle(ChatFormatting.BLUE));
-            }
-            if (stack.is(ModItems.NETHERITE_LACED_FISHING_LINE)) {
-                lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fortune", 3).withStyle(ChatFormatting.BLUE));
-            }
-            if (stack.is(ModItems.IRON_SINKER)) {
-                lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", 1).withStyle(ChatFormatting.BLUE));
-            }
-            if (stack.is(ModItems.DIAMOND_SINKER)) {
-                lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", 2).withStyle(ChatFormatting.BLUE));
-            }
-            if (stack.is(ModItems.NETHERITE_SINKER)) {
-                lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", 3).withStyle(ChatFormatting.BLUE));
+                lines.add(insertIndex++, Component.empty());
+                lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.on_rod").withStyle(ChatFormatting.GRAY));
+                if (stack.is(ModItems.IRON_FISHING_HOOK)) {
+                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fishing_speed", 1).withStyle(ChatFormatting.BLUE));
+                }
+                if (stack.is(ModItems.DIAMOND_FISHING_HOOK)) {
+                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fishing_speed", 2).withStyle(ChatFormatting.BLUE));
+                }
+                if (stack.is(ModItems.NETHERITE_FISHING_HOOK)) {
+                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fishing_speed", 3).withStyle(ChatFormatting.BLUE));
+                }
+                if (stack.is(ModItems.IRON_LACED_FISHING_LINE)) {
+                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fortune", 1).withStyle(ChatFormatting.BLUE));
+                }
+                if (stack.is(ModItems.DIAMOND_LACED_FISHING_LINE)) {
+                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fortune", 2).withStyle(ChatFormatting.BLUE));
+                }
+                if (stack.is(ModItems.NETHERITE_LACED_FISHING_LINE)) {
+                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fortune", 3).withStyle(ChatFormatting.BLUE));
+                }
+                if (stack.is(ModItems.IRON_SINKER)) {
+                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", 1).withStyle(ChatFormatting.BLUE));
+                }
+                if (stack.is(ModItems.DIAMOND_SINKER)) {
+                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", 2).withStyle(ChatFormatting.BLUE));
+                }
+                if (stack.is(ModItems.NETHERITE_SINKER)) {
+                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", 3).withStyle(ChatFormatting.BLUE));
+                }
             }
         });
     }

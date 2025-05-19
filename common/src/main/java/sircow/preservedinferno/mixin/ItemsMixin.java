@@ -17,7 +17,6 @@ import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.consume_effects.ConsumeEffect;
-import net.minecraft.world.item.consume_effects.TeleportRandomlyConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAssets;
@@ -89,15 +88,6 @@ public abstract class ItemsMixin {
     private static Item.Properties preserved_inferno$modifyCarrot(Item.Properties original) {
         return original.food(Foods.CARROT, Consumable.builder().consumeSeconds(0.8F).build());
     }
-    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=chorus_fruit")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
-    private static Item.Properties preserved_inferno$modifyChorusFruit(Item.Properties original) {
-        return original.food(Foods.CHORUS_FRUIT, Consumable.builder()
-                .consumeSeconds(0.8F)
-                .onConsume(new TeleportRandomlyConsumeEffect())
-                .build())
-                .useCooldown(1.0F);
-    }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=cookie")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
     private static Item.Properties preserved_inferno$modifyCookie(Item.Properties original) {
@@ -131,14 +121,6 @@ public abstract class ItemsMixin {
                 })
                 .build());
     }
-    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=poisonous_potato")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
-    private static Item.Properties preserved_inferno$modifyPoisonousPotato(Item.Properties original) {
-        return original.food(Foods.POISONOUS_POTATO, Consumable.builder()
-        .consumeSeconds(0.8F)
-        .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), 0.6F))
-        .build());
-    }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=potato")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
     private static Item.Properties preserved_inferno$modifyPotato(Item.Properties original) {
@@ -148,13 +130,6 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
     private static Item.Properties preserved_inferno$modifyBeef(Item.Properties original) {
         return original.food(Foods.BEEF, Consumable.builder()
-                .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 0), 0.3F))
-                .build());
-    }
-    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=chicken")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
-    private static Item.Properties preserved_inferno$modifyChicken(Item.Properties original) {
-        return original.food(Foods.CHICKEN, Consumable.builder()
                 .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 0), 0.3F))
                 .build());
     }
@@ -193,24 +168,12 @@ public abstract class ItemsMixin {
                 .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 0), 0.3F))
                 .build());
     }
-    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=rotten_flesh")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
-    private static Item.Properties preserved_inferno$modifyRottenFlesh(Item.Properties original) {
-        return original.food(Foods.ROTTEN_FLESH, Consumable.builder()
-                .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.HUNGER, 600, 0), 1.0F))
-                .build());
-    }
-    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=spider_eye")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
-    private static Item.Properties preserved_inferno$modifySpiderEye(Item.Properties original) {
-        return original.food(Foods.SPIDER_EYE, Consumable.builder().consumeSeconds(0.8F).build());
-    }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=sweet_berries")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
     private static Item.Properties preserved_inferno$modifySweetBerries(Item.Properties original) {
         return original.food(Foods.SWEET_BERRIES, Consumable.builder().consumeSeconds(0.8F).build());
     }
-    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=porkchop")), at = @At(value = "INVOKE",
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=tropical_fish")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
     private static Item.Properties preserved_inferno$modifyTropicalFish(Item.Properties original) {
         return original.food(Foods.TROPICAL_FISH, Consumable.builder()

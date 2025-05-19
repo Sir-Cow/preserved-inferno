@@ -86,5 +86,6 @@
 
   "item.pinferno.modifiers.fishing_speed": " +%s Fishing Speed",
   "item.pinferno.modifiers.fortune": " +%s Fortune",
-  "item.pinferno.modifiers.luck": " +%s Luck"
+  "item.pinferno.modifiers.luck": " +%s Luck",
+  "item.pinferno.modifiers.on_rod": "When on Rod:"
 }

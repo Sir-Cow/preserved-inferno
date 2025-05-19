@@ -8,10 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
-import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
-import net.minecraft.world.item.consume_effects.ClearAllStatusEffectsConsumeEffect;
-import net.minecraft.world.item.consume_effects.ConsumeEffect;
-import net.minecraft.world.item.consume_effects.RemoveStatusEffectsConsumeEffect;
+import net.minecraft.world.item.consume_effects.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
@@ -32,13 +29,25 @@ import static net.minecraft.world.item.component.Consumables.defaultFood;
 
 @Mixin(Consumables.class)
 public class ConsumablesMixin {
+    @Mutable @Final @Shadow public static Consumable CHICKEN;
+    @Mutable @Final @Shadow public static Consumable CHORUS_FRUIT;
     @Mutable @Final @Shadow public static Consumable ENCHANTED_GOLDEN_APPLE;
     @Mutable @Final @Shadow public static Consumable GOLDEN_APPLE;
     @Mutable @Final @Shadow public static Consumable HONEY_BOTTLE;
     @Mutable @Final @Shadow public static Consumable MILK_BUCKET;
+    @Mutable @Final @Shadow public static Consumable POISONOUS_POTATO;
+    @Mutable @Final @Shadow public static Consumable ROTTEN_FLESH;
+    @Mutable @Final @Shadow public static Consumable SPIDER_EYE;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void preserved_inferno$modifyConsumableComponents(CallbackInfo ci) {
+        CHICKEN = defaultFood()
+                .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 0), 0.3F))
+                .build();
+        CHORUS_FRUIT = defaultFood()
+                .consumeSeconds(0.8F)
+                .onConsume(new TeleportRandomlyConsumeEffect())
+                .build();
         ENCHANTED_GOLDEN_APPLE = defaultFood()
                 .onConsume(
                         new ApplyStatusEffectsConsumeEffect(
@@ -86,6 +95,17 @@ public class ConsumablesMixin {
                         return false;
                     }
                 })
+                .build();
+        POISONOUS_POTATO = defaultFood()
+                .consumeSeconds(0.8F)
+                .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), 0.6F))
+                .build();
+        ROTTEN_FLESH = defaultFood()
+                .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.HUNGER, 600, 0), 1.0F))
+                .build();
+        SPIDER_EYE = defaultFood()
+                .consumeSeconds(0.8F)
+                .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.POISON, 100, 0)))
                 .build();
     }
 
