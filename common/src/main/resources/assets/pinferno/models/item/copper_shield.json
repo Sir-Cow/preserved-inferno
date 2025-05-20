@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "pinferno:item/wooden_shield"
+    "layer0": "pinferno:item/copper_shield"
   },
   "display": {
     "firstperson_left_hand": {

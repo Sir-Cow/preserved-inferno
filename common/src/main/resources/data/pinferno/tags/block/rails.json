@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "minecraft:powered_rail",
     "pinferno:inductor_rail",
     "pinferno:exposed_inductor_rail",
     "pinferno:weathered_inductor_rail",

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "F": "pinferno:aquatic_fiber",
+    "X": "#pinferno:copper_tool_materials"
+  },
+  "pattern": [
+    "  F",
+    "X X",
+    " X "
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:copper_fishing_hook"
+  }
+}

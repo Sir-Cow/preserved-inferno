@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:sweet_berries",
+    "X": "minecraft:gold_ingot"
+  },
+  "pattern": [
+    " # ",
+    "#X#",
+    " # "
+  ],
+  "result": {
+    "count": 4,
+    "id": "pinferno:gilden_berries"
+  }
+}

@@ -52,6 +52,7 @@
     "RabbitMixin",
     "ServerPlayerMixin",
     "SheepMixin",
+    "ShovelItemMixin",
     "ShulkerMixin",
     "SkeletonHorseMixin",
     "SnifferMixin",

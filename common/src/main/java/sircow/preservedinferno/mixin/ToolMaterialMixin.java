@@ -18,8 +18,8 @@ public class ToolMaterialMixin {
     @Shadow @Final @Mutable public static ToolMaterial NETHERITE;
 
     static {
-        WOOD = new ToolMaterial(WOOD.incorrectBlocksForDrops(), 64, 1.0F, WOOD.attackDamageBonus(), WOOD.enchantmentValue(), WOOD.repairItems());
-        STONE = new ToolMaterial(STONE.incorrectBlocksForDrops(), 128, 2.0F, STONE.attackDamageBonus(), STONE.enchantmentValue(), STONE.repairItems());
+        WOOD = new ToolMaterial(WOOD.incorrectBlocksForDrops(), 32, 1.0F, WOOD.attackDamageBonus(), WOOD.enchantmentValue(), WOOD.repairItems());
+        STONE = new ToolMaterial(STONE.incorrectBlocksForDrops(), 64, 2.0F, STONE.attackDamageBonus(), STONE.enchantmentValue(), STONE.repairItems());
         IRON = new ToolMaterial(IRON.incorrectBlocksForDrops(), 256, 5.0F, IRON.attackDamageBonus(), IRON.enchantmentValue(), IRON.repairItems());
         GOLD = new ToolMaterial(GOLD.incorrectBlocksForDrops(), GOLD.durability(), 21.0F, GOLD.attackDamageBonus(), GOLD.enchantmentValue(), GOLD.repairItems());
         DIAMOND = new ToolMaterial(DIAMOND.incorrectBlocksForDrops(), 1024, 9.0F, DIAMOND.attackDamageBonus(), DIAMOND.enchantmentValue(), DIAMOND.repairItems());

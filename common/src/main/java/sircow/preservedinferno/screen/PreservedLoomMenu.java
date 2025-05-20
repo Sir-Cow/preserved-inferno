@@ -17,6 +17,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.item.ModItems;
 
@@ -52,6 +53,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
         conversionMap.put(Items.YELLOW_WOOL, ModItems.YELLOW_CLOTH);
 
         conversionMap.put(ModItems.PHANTOM_SINEW, ModItems.HOLLOW_TWINE);
+        conversionMap.put(Items.LEATHER, ModItems.LEATHER_FABRIC);
         conversionMap.put(Items.STRING, Items.WHITE_WOOL);
     }
 
@@ -84,31 +86,31 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
         this.access = access;
         this.inputSlotOne = this.addSlot(new Slot(this.inputContainer, 0, 48, 26) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean mayPlace(@NotNull ItemStack stack) {
                 return conversionMap.containsKey(stack.getItem());
             }
         });
         this.inputSlotTwo = this.addSlot(new Slot(this.inputContainer, 1, 68, 26) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean mayPlace(@NotNull ItemStack stack) {
                 return conversionMap.containsKey(stack.getItem());
             }
         });
         this.shearsSlot = this.addSlot(new Slot(this.inputContainer, 2, 58, 45) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean mayPlace(@NotNull ItemStack stack) {
                 return stack.getItem() == Items.SHEARS;
             }
         });
 
         this.resultSlot = this.addSlot(new Slot(this.outputContainer, 0, 134, 36) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean mayPlace(@NotNull ItemStack stack) {
                 return false;
             }
 
             @Override
-            public void onTake(Player player, ItemStack stack) {
+            public void onTake(@NotNull Player player, @NotNull ItemStack stack) {
                 PreservedLoomMenu.this.world = player.level();
                 PreservedLoomMenu.this.inputSlotOne.remove(1);
                 PreservedLoomMenu.this.inputSlotTwo.remove(1);
@@ -147,12 +149,12 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NotNull Player player) {
         return stillValid(this.access, player, Blocks.LOOM);
     }
 
     @Override
-    public void slotsChanged(Container inventory) {
+    public void slotsChanged(@NotNull Container inventory) {
         ItemStack itemstack = this.inputSlotOne.getItem();
         ItemStack itemstack1 = this.inputSlotTwo.getItem();
         ItemStack itemstack2 = this.shearsSlot.getItem();
@@ -165,7 +167,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
         if (slot.hasItem()) {
@@ -227,7 +229,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public void removed(Player player) {
+    public void removed(@NotNull Player player) {
         super.removed(player);
         this.access.execute((level, blockPos) -> this.clearContainer(player, this.inputContainer));
     }
@@ -237,7 +239,12 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
         ItemStack itemstack1 = this.inputSlotTwo.getItem();
         ItemStack itemstack2 = ItemStack.EMPTY;
         if (!itemstack.isEmpty() && !itemstack1.isEmpty()) {
-            itemstack2 = new ItemStack(conversionMap.get(itemstack1.getItem()));
+            if (conversionMap.get(itemstack1.getItem()) == ModItems.LEATHER_FABRIC) {
+                itemstack2 = new ItemStack(conversionMap.get(itemstack1.getItem()), 8);
+            }
+            else {
+                itemstack2 = new ItemStack(conversionMap.get(itemstack1.getItem()));
+            }
         }
 
         if (!ItemStack.matches(itemstack2, this.resultSlot.getItem())) {
@@ -245,7 +252,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
         }
     }
 
-    public NonNullList<ItemStack> getItems() {
+    public @NotNull NonNullList<ItemStack> getItems() {
         return inventory;
     }
 }

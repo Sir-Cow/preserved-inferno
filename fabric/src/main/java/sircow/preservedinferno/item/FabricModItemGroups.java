@@ -26,11 +26,19 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.HOLLOW_TWINE);
                     entries.accept(ModItems.PHANTOM_SINEW);
                     entries.accept(ModItems.RAW_HIDE);
+                    entries.accept(ModItems.LEATHER_FABRIC);
+                    entries.accept(ModItems.GILDEN_BERRIES);
 
                     entries.accept(ModItems.COPPER_NUGGET);
                     entries.accept(ModItems.RAW_COPPER_CHUNK);
                     entries.accept(ModItems.RAW_IRON_CHUNK);
                     entries.accept(ModItems.RAW_GOLD_CHUNK);
+
+                    entries.accept(ModItems.COPPER_SHOVEL);
+                    entries.accept(ModItems.COPPER_PICKAXE);
+                    entries.accept(ModItems.COPPER_AXE);
+                    entries.accept(ModItems.COPPER_SCYTHE);
+                    entries.accept(ModItems.COPPER_SWORD);
 
                     entries.accept(ModItems.BLACK_CLOTH);
                     entries.accept(ModItems.BLUE_CLOTH);
@@ -49,7 +57,7 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.WHITE_CLOTH);
                     entries.accept(ModItems.YELLOW_CLOTH);
 
-                    entries.accept(ModItems.WOODEN_SHIELD);
+                    entries.accept(ModItems.COPPER_SHIELD);
                     entries.accept(ModItems.IRON_SHIELD);
                     entries.accept(ModItems.GOLDEN_SHIELD);
                     entries.accept(ModItems.DIAMOND_SHIELD);
@@ -59,19 +67,22 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.NETHER_ALLOY_INGOT);
                     entries.accept(ModItems.NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE);
 
+                    entries.accept(ModBlocks.ANGLING_TABLE.asItem());
                     entries.accept(ModItems.AQUATIC_FIBER);
                     entries.accept(FabricModItems.CACHE);
+                    entries.accept(ModItems.COPPER_FISHING_HOOK);
                     entries.accept(ModItems.IRON_FISHING_HOOK);
                     entries.accept(ModItems.DIAMOND_FISHING_HOOK);
                     entries.accept(ModItems.NETHERITE_FISHING_HOOK);
+                    entries.accept(ModItems.COPPER_LACED_FISHING_LINE);
                     entries.accept(ModItems.IRON_LACED_FISHING_LINE);
                     entries.accept(ModItems.DIAMOND_LACED_FISHING_LINE);
                     entries.accept(ModItems.NETHERITE_LACED_FISHING_LINE);
+                    entries.accept(ModItems.COPPER_SINKER);
                     entries.accept(ModItems.IRON_SINKER);
                     entries.accept(ModItems.DIAMOND_SINKER);
                     entries.accept(ModItems.NETHERITE_SINKER);
                     entries.accept(ModItems.MUSIC_DISC_AQUA);
-                    entries.accept(ModBlocks.ANGLING_TABLE.asItem());
 
                     entries.accept(ModBlocks.INDUCTOR_RAIL.asItem());
                     entries.accept(ModBlocks.EXPOSED_INDUCTOR_RAIL.asItem());

@@ -72,6 +72,11 @@ public abstract class ItemsMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;stacksTo(I)Lnet/minecraft/world/item/Item$Properties;", ordinal = 0))
     private static int preserved_inferno$modifyEnderPearlStackSize(int old) { return 64; }
 
+    // modify shears durability
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=shears")),
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;durability(I)Lnet/minecraft/world/item/Item$Properties;", ordinal = 0))
+    private static int preserved_inferno$modifyShearsDurability(int old) { return 64; }
+
     // modify food (mainly to speed up eating time or modify status effects)
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=apple")), at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
@@ -189,7 +194,7 @@ public abstract class ItemsMixin {
                 new Item.Properties()
                         .food(new FoodProperties.Builder().nutrition(6).saturationModifier(1.2F).alwaysEdible().build(),
                                 Consumable.builder().consumeSeconds(0.8F)
-                                        .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.REGENERATION, 80, 1), 1.0F))
+                                        .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.REGENERATION, 160, 1), 1.0F))
                                         .onConsume(new ConsumeEffect() {
                                             @Override
                                             public @NotNull Type<? extends ConsumeEffect> getType() { return null; }
@@ -236,7 +241,7 @@ public abstract class ItemsMixin {
             index = 0
     )
     private static String preserved_inferno$catchItemName(String name) {
-        if (RegisterItemChecker.AXES.contains(name)) {
+        if (RegisterItemChecker.AXES.contains(name) || RegisterItemChecker.SHOVELS.contains(name)) {
             preserved_inferno$callFlip(name);
         }
         return name;
@@ -256,7 +261,7 @@ public abstract class ItemsMixin {
     ), index = 1
     )
     private static float preserved_inferno$modifyWoodenSword(float attackDamage) {
-        return 2.0F;
+        return 1.0F;
     }
 
     @ModifyArg(method = "<clinit>", slice = @Slice(
@@ -266,7 +271,7 @@ public abstract class ItemsMixin {
     ), index = 1
     )
     private static float preserved_inferno$modifyGoldenSword(float attackDamage) {
-        return 2.0F;
+        return 1.0F;
     }
 
     @ModifyArg(method = "<clinit>", slice = @Slice(
@@ -286,9 +291,21 @@ public abstract class ItemsMixin {
     ), index = 1
     )
     private static float preserved_inferno$modifyStoneSword(float attackDamage) {
-        return 2.0F;
+        return 1.0F;
     }
 
+    // shovels
+    @ModifyArg(method = "<clinit>", slice = @Slice(
+            from = @At(value = "CONSTANT", args = "stringValue=netherite_shovel")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            ordinal = 0
+    ), index = 1
+    )
+    private static Function<Item.Properties, Item> preserved_inferno$modifyNetheriteShovel(Function<Item.Properties, Item> factory) {
+        return properties -> new ShovelItem(ToolMaterial.NETHERITE, 2.5F, -2.5F, properties);
+    }
+
+    // other weapons
     @ModifyArg(method = "<clinit>", slice = @Slice(
             from = @At(value = "CONSTANT", args = "stringValue=trident")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
@@ -389,7 +406,7 @@ public abstract class ItemsMixin {
             ordinal = 0)
     )
     private static Function<Item.Properties, Item> preserved_inferno$modifyWoodenHoe(Function<Item.Properties, Item> p_361381_) {
-        return (properties) -> new HoeItem(ToolMaterial.WOOD, 1.0F, -2.0F, properties);
+        return (properties) -> new HoeItem(ToolMaterial.WOOD, 0.0F, -2.0F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=golden_hoe")), at = @At(value = "INVOKE",
@@ -397,7 +414,7 @@ public abstract class ItemsMixin {
             ordinal = 0)
     )
     private static Function<Item.Properties, Item> preserved_inferno$modifyGoldenHoe(Function<Item.Properties, Item> p_361381_) {
-        return (properties) -> new HoeItem(ToolMaterial.GOLD, 1.0F, -2.0F, properties);
+        return (properties) -> new HoeItem(ToolMaterial.GOLD, 0.0F, -2.0F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=stone_hoe")), at = @At(value = "INVOKE",
@@ -405,7 +422,7 @@ public abstract class ItemsMixin {
             ordinal = 0)
     )
     private static Function<Item.Properties, Item> preserved_inferno$modifyStoneHoe(Function<Item.Properties, Item> p_361381_) {
-        return (properties) -> new HoeItem(ToolMaterial.STONE, 1.0F, -2.0F, properties);
+        return (properties) -> new HoeItem(ToolMaterial.STONE, 0.0F, -2.0F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=iron_hoe")), at = @At(value = "INVOKE",
@@ -439,7 +456,7 @@ public abstract class ItemsMixin {
             ordinal = 0), index = 1
     )
     private static Item.Properties preserved_inferno$modifyWoodenPickaxe(Item.Properties properties) {
-        return new Item.Properties().pickaxe(ToolMaterial.WOOD, 2.0F, -3.0F);
+        return new Item.Properties().pickaxe(ToolMaterial.WOOD, 1.0F, -3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=golden_pickaxe")), at = @At(value = "INVOKE",
@@ -447,7 +464,7 @@ public abstract class ItemsMixin {
             ordinal = 0), index = 1
     )
     private static Item.Properties preserved_inferno$modifyGoldenPickaxe(Item.Properties properties) {
-        return new Item.Properties().pickaxe(ToolMaterial.GOLD, 2.0F, -3.0F);
+        return new Item.Properties().pickaxe(ToolMaterial.GOLD, 1.0F, -3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=stone_pickaxe")), at = @At(value = "INVOKE",
@@ -455,7 +472,7 @@ public abstract class ItemsMixin {
             ordinal = 0), index = 1
     )
     private static Item.Properties preserved_inferno$modifyStonePickaxe(Item.Properties properties) {
-        return new Item.Properties().pickaxe(ToolMaterial.STONE, 2.0F, -3.0F);
+        return new Item.Properties().pickaxe(ToolMaterial.STONE, 1.0F, -3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=iron_pickaxe")), at = @At(value = "INVOKE",

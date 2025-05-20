@@ -63,7 +63,7 @@ public class ConsumablesMixin {
         GOLDEN_APPLE = defaultFood()
                 .onConsume(
                         new ApplyStatusEffectsConsumeEffect(List.of(
-                                new MobEffectInstance(MobEffects.REGENERATION, 200, 1),
+                                new MobEffectInstance(MobEffects.REGENERATION, 240, 1),
                                 new MobEffectInstance(MobEffects.ABSORPTION, 12000, 0)
                         ))
                 )

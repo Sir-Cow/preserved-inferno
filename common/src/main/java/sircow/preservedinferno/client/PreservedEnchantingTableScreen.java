@@ -786,7 +786,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 || itemStack.getItem() == Items.CARROT_ON_A_STICK
                 || itemStack.getItem() == Items.WARPED_FUNGUS_ON_A_STICK
                 || itemStack.getItem() == Items.ELYTRA
-                || itemStack.getItem() == ModItems.WOODEN_SHIELD
+                || itemStack.getItem() == ModItems.COPPER_SHIELD
                 || itemStack.getItem() == ModItems.GOLDEN_SHIELD
                 || itemStack.getItem() == ModItems.IRON_SHIELD
                 || itemStack.getItem() == ModItems.DIAMOND_SHIELD

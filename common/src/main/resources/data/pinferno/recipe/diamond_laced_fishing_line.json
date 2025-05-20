@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "equipment",
   "key": {
     "F": "pinferno:aquatic_fiber",
     "X": "minecraft:diamond"

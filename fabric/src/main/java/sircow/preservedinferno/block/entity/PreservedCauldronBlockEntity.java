@@ -181,12 +181,12 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     @Override
-    public Component getDefaultName() {
+    public @NotNull Component getDefaultName() {
         return Component.translatable("block.minecraft.cauldron");
     }
 
     @Override
-    public AbstractContainerMenu createMenu(int syncId, Inventory playerInventory) {
+    public @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory) {
         return new PreservedCauldronMenu(syncId, playerInventory, this.propertyDelegate, this.propertyDelegateTwo, this);
     }
 

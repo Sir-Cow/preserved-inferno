@@ -221,6 +221,10 @@ public class AnglingTableMenu extends AbstractContainerMenu {
 
         // hooks
         if (!hook.isEmpty()) {
+            if (hook.getItem() == ModItems.COPPER_FISHING_HOOK && !Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "copper")) {
+                rod.set(ModComponents.HOOK_COMPONENT, "copper");
+                rod.set(ModComponents.HOOK_DURABILITY, hook.getDamageValue());
+            }
             if (hook.getItem() == ModItems.IRON_FISHING_HOOK && !Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "iron")) {
                 rod.set(ModComponents.HOOK_COMPONENT, "iron");
                 rod.set(ModComponents.HOOK_DURABILITY, hook.getDamageValue());
@@ -235,6 +239,13 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             }
         }
         else {
+            if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "copper")) {
+                if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
+                    this.inputContainer.setItem(this.hookInputSlot.index, new ItemStack(ModItems.COPPER_FISHING_HOOK, 1));
+                    this.inputContainer.getItem(this.hookInputSlot.index).setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    hookPresent = true;
+                }
+            }
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "iron")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
                     this.inputContainer.setItem(this.hookInputSlot.index, new ItemStack(ModItems.IRON_FISHING_HOOK, 1));
@@ -262,6 +273,10 @@ public class AnglingTableMenu extends AbstractContainerMenu {
         }
         // lines
         if (!line.isEmpty()) {
+            if (line.getItem() == ModItems.COPPER_LACED_FISHING_LINE && !Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "copper")) {
+                rod.set(ModComponents.LINE_COMPONENT, "copper");
+                rod.set(ModComponents.LINE_DURABILITY, line.getDamageValue());
+            }
             if (line.getItem() == ModItems.IRON_LACED_FISHING_LINE && !Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "iron")) {
                 rod.set(ModComponents.LINE_COMPONENT, "iron");
                 rod.set(ModComponents.LINE_DURABILITY, line.getDamageValue());
@@ -276,6 +291,13 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             }
         }
         else {
+            if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "copper")) {
+                if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
+                    this.inputContainer.setItem(this.lineInputSlot.index, new ItemStack(ModItems.COPPER_LACED_FISHING_LINE, 1));
+                    this.inputContainer.getItem(this.lineInputSlot.index).setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    linePresent = true;
+                }
+            }
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "iron")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
                     this.inputContainer.setItem(this.lineInputSlot.index, new ItemStack(ModItems.IRON_LACED_FISHING_LINE, 1));
@@ -303,6 +325,10 @@ public class AnglingTableMenu extends AbstractContainerMenu {
         }
         // sinkers
         if (!sinker.isEmpty()) {
+            if (sinker.getItem() == ModItems.COPPER_SINKER && !Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "copper")) {
+                rod.set(ModComponents.SINKER_COMPONENT, "copper");
+                rod.set(ModComponents.SINKER_DURABILITY, sinker.getDamageValue());
+            }
             if (sinker.getItem() == ModItems.IRON_SINKER && !Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "iron")) {
                 rod.set(ModComponents.SINKER_COMPONENT, "iron");
                 rod.set(ModComponents.SINKER_DURABILITY, sinker.getDamageValue());
@@ -317,6 +343,13 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             }
         }
         else {
+            if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "copper")) {
+                if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
+                    this.inputContainer.setItem(this.sinkerInputSlot.index, new ItemStack(ModItems.COPPER_SINKER, 1));
+                    this.inputContainer.getItem(this.sinkerInputSlot.index).setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    sinkerPresent = true;
+                }
+            }
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "iron")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
                     this.inputContainer.setItem(this.sinkerInputSlot.index, new ItemStack(ModItems.IRON_SINKER, 1));
