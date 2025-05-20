@@ -135,9 +135,11 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         ShieldStaminaHandler.onPlayerDeath(player);
     }
 
-    @Inject(method = "defineSynchedData", at = @At("HEAD"))
+    @Inject(method = "defineSynchedData", at = @At("TAIL"))
     private void preserved_inferno$registerDataEarly(SynchedEntityData.Builder builder, CallbackInfo ci) {
-        ModEntityData.registerThis(builder);
+        builder.define(ModEntityData.PLAYER_SHIELD_STAMINA, 0.0F);
+        builder.define(ModEntityData.PLAYER_HEAT, 0);
+        builder.define(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE, false);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
