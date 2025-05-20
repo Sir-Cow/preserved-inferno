@@ -2,16 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "#": "minecraft:stick",
-    "X": "#pinferno:copper_tool_materials"
+    "#": "minecraft:iron_nugget"
   },
   "pattern": [
-    "XX",
     " #",
-    " #"
+    "# "
   ],
   "result": {
     "count": 1,
-    "id": "pinferno:copper_scythe"
+    "id": "minecraft:shears"
   }
 }

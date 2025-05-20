@@ -48,8 +48,8 @@ public class ModItems {
     public static final Item RAW_HIDE = registerItem("raw_hide", Item::new, new Item.Properties());
     public static final Item LEATHER_FABRIC = registerItem("leather_fabric", Item::new, new Item.Properties());
     public static final Item GILDEN_BERRIES = registerItem("gilden_berries", Item::new, new Item.Properties().food(
-            new FoodProperties.Builder().nutrition(4).saturationModifier(1.2F).build(),
-            defaultFood().onConsume(new ApplyStatusEffectsConsumeEffect(List.of(new MobEffectInstance(MobEffects.REGENERATION, 120, 1)))).build()));
+            new FoodProperties.Builder().nutrition(4).saturationModifier(1.2F).alwaysEdible().build(),
+            defaultFood().consumeSeconds(0.8F).onConsume(new ApplyStatusEffectsConsumeEffect(List.of(new MobEffectInstance(MobEffects.REGENERATION, 120, 0)))).build()));
 
     public static final Item RAW_IRON_CHUNK = registerItem("raw_iron_chunk", Item::new, new Item.Properties());
     public static final Item RAW_GOLD_CHUNK = registerItem("raw_gold_chunk", Item::new, new Item.Properties());
@@ -58,7 +58,7 @@ public class ModItems {
 
     public static final Item COPPER_AXE = registerItem("copper_axe", properties -> new AxeItem(COPPER, 5.0F, -3.0F, properties), new Item.Properties());
     public static final Item COPPER_PICKAXE = registerItem("copper_pickaxe", Item::new, new Item.Properties().pickaxe(COPPER, 3.0F, -3.0F));
-    public static final Item COPPER_SCYTHE = registerItem("copper_scythe", properties -> new HoeItem(COPPER, 2.0F, -2.0F, properties), new Item.Properties());
+    public static final Item COPPER_SCYTHE = registerItem("copper_hoe", properties -> new HoeItem(COPPER, 2.0F, -2.0F, properties), new Item.Properties());
     public static final Item COPPER_SHOVEL = registerItem("copper_shovel", properties -> new ShovelItem(COPPER, 2.5F, -2.5F, properties), new Item.Properties());
     public static final Item COPPER_SWORD = registerItem("copper_sword", Item::new, new Item.Properties().sword(COPPER, 3.0F, -2.4F));
 

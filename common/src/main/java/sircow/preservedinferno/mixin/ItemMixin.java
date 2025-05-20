@@ -21,17 +21,17 @@ public class ItemMixin {
 
     static {
         Map<ArmorType, Integer> leatherDurability = new HashMap<>();
-        leatherDurability.put(ArmorType.HELMET, 53);
-        leatherDurability.put(ArmorType.CHESTPLATE, 85);
-        leatherDurability.put(ArmorType.LEGGINGS, 74);
-        leatherDurability.put(ArmorType.BOOTS, 43);
+        leatherDurability.put(ArmorType.HELMET, 106);
+        leatherDurability.put(ArmorType.CHESTPLATE, 170);
+        leatherDurability.put(ArmorType.LEGGINGS, 150);
+        leatherDurability.put(ArmorType.BOOTS, 86);
         DURABILITY_MAP.put(ArmorMaterials.LEATHER, leatherDurability);
 
         Map<ArmorType, Integer> goldDurability = new HashMap<>();
-        goldDurability.put(ArmorType.HELMET, 53);
-        goldDurability.put(ArmorType.CHESTPLATE, 85);
-        goldDurability.put(ArmorType.LEGGINGS, 74);
-        goldDurability.put(ArmorType.BOOTS, 43);
+        goldDurability.put(ArmorType.HELMET, 106);
+        goldDurability.put(ArmorType.CHESTPLATE, 170);
+        goldDurability.put(ArmorType.LEGGINGS, 150);
+        goldDurability.put(ArmorType.BOOTS, 86);
         DURABILITY_MAP.put(ArmorMaterials.GOLD, goldDurability);
 
         Map<ArmorType, Integer> chainmailDurability = new HashMap<>();
