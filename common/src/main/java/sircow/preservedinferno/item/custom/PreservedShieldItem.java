@@ -35,6 +35,10 @@ public class PreservedShieldItem extends ShieldItem {
 
     @Override
     public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
+        if (player.containerMenu != player.inventoryMenu) {
+            return InteractionResult.PASS;
+        }
+
         if (hand == InteractionHand.OFF_HAND && player.getOffhandItem().is(this)) {
             if (!ShieldStaminaHandler.isOnCooldown(player)) {
                 player.startUsingItem(hand);

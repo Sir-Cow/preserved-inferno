@@ -47,7 +47,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             // shields
             Integer maxStamina = stack.get(ModComponents.SHIELD_MAX_STAMINA_COMPONENT);
             Float staminaRegenRate = stack.get(ModComponents.SHIELD_REGEN_RATE_COMPONENT);
-            DecimalFormat df = new DecimalFormat("#.####");
+            DecimalFormat df = new DecimalFormat("#.##");
             if (maxStamina != null) {
                 int insertIndex = lines.size();
                 for (int i = 0; i < lines.size(); i++) {

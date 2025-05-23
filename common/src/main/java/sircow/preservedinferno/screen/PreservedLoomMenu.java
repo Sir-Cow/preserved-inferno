@@ -135,10 +135,10 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
                     }
                 }
 
-                access.execute((p_39952_, p_39953_) -> {
-                    long i = p_39952_.getGameTime();
+                access.execute((level, blockPos) -> {
+                    long i = level.getGameTime();
                     if (PreservedLoomMenu.this.lastSoundTime != i) {
-                        p_39952_.playSound(null, p_39953_, SoundEvents.UI_LOOM_TAKE_RESULT, SoundSource.BLOCKS, 1.0F, 1.0F);
+                        level.playSound(null, blockPos, SoundEvents.UI_LOOM_TAKE_RESULT, SoundSource.BLOCKS, 1.0F, 1.0F);
                         PreservedLoomMenu.this.lastSoundTime = i;
                     }
                 });

@@ -14,9 +14,7 @@
     "LoomBlockMixin",
     "PlayerMixin"
   ],
-  "client": [
-    "FabricGuiMixin"
-  ],
+  "client": [],
   "server": [],
   "injectors": {
     "defaultRequire": 1

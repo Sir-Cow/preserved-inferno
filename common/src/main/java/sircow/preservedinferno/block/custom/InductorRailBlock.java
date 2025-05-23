@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.RailShape;
+import org.jetbrains.annotations.NotNull;
 
 public class InductorRailBlock extends BaseRailBlock {
         public static final MapCodec<InductorRailBlock> CODEC = simpleCodec(InductorRailBlock::new);
@@ -23,17 +24,17 @@ public class InductorRailBlock extends BaseRailBlock {
     }
 
     @Override
-    public MapCodec<? extends InductorRailBlock> codec() {
+    public @NotNull MapCodec<? extends InductorRailBlock> codec() {
         return CODEC;
     }
 
     @Override
-    public Property<RailShape> getShapeProperty() {
+    public @NotNull Property<RailShape> getShapeProperty() {
         return SHAPE;
     }
 
     @Override
-    protected BlockState rotate(BlockState state, Rotation rot) {
+    protected @NotNull BlockState rotate(@NotNull BlockState state, Rotation rot) {
         switch (rot) {
             case CLOCKWISE_180:
                 switch (state.getValue(SHAPE)) {
@@ -86,7 +87,7 @@ public class InductorRailBlock extends BaseRailBlock {
     }
 
     @Override
-    protected BlockState mirror(BlockState state, Mirror mirror) {
+    protected @NotNull BlockState mirror(BlockState state, Mirror mirror) {
         RailShape railshape = state.getValue(SHAPE);
         switch (mirror) {
             case LEFT_RIGHT:

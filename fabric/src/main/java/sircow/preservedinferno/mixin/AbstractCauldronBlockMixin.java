@@ -39,9 +39,13 @@ public class AbstractCauldronBlockMixin {
             if (blockEntity instanceof PreservedCauldronBlockEntity menuProvider) {
                 player.openMenu(menuProvider);
                 cir.setReturnValue(InteractionResult.SUCCESS);
-            } else {
-                // do nothing!
             }
+            else {
+                cir.setReturnValue(InteractionResult.FAIL);
+            }
+        }
+        else {
+            cir.setReturnValue(InteractionResult.CONSUME);
         }
     }
 }

@@ -1,9 +1,15 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.stats.Stat;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -27,13 +33,16 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.other.HeatAccessor;
 import sircow.preservedinferno.other.ModDamageTypes;
 import sircow.preservedinferno.other.ModEntityData;
 import sircow.preservedinferno.other.ShieldStaminaHandler;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
@@ -51,6 +60,12 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     @Unique DamageSource damageSource = ModDamageTypes.of(this.level(), ModDamageTypes.HEAT, this);
 
     @Shadow @Nullable public abstract GameType gameMode();
+
+    @Shadow public abstract void awardStat(Stat<?> stat);
+
+    @Shadow public abstract void resetStat(Stat<?> stat);
+
+    @Shadow public abstract void setLastDeathLocation(Optional<GlobalPos> lastDeathLocation);
 
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, Level world) {
         super(entityType, world);
@@ -127,12 +142,35 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     private void preserved_inferno$cancelTurtleHelmetTick(CallbackInfo ci) {
         ci.cancel();
     }
-
-    @Inject(method = "die", at = @At("TAIL"))
-    private void preserved_inferno$resetThingsOnDeath(DamageSource cause, CallbackInfo ci) {
+    
+    @Inject(method = "die", at = @At(value = "HEAD"), cancellable = true)
+    private void preserved_inferno$handleDie(DamageSource damageSource, CallbackInfo ci) {
         Player player = (Player)(Object)this;
+        super.die(damageSource);
+        this.reapplyPosition();
+        if (!this.isSpectator() && this.level() instanceof ServerLevel serverLevel) {
+            this.dropAllDeathLoot(serverLevel, damageSource);
+        }
+
+        if (damageSource != null) {
+            this.setDeltaMovement(
+                    -Mth.cos((this.getHurtDir() + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F,
+                    0.1F,
+                    -Mth.sin((this.getHurtDir() + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F
+            );
+        } else {
+            this.setDeltaMovement(0.0, 0.1, 0.0);
+        }
+
         preserved_inferno$setHeat(0);
         ShieldStaminaHandler.onPlayerDeath(player);
+
+        this.awardStat(Stats.CUSTOM.get(Stats.DEATHS));
+        this.resetStat(Stats.CUSTOM.get(Stats.TIME_SINCE_DEATH));
+        this.clearFire();
+        this.setSharedFlagOnFire(false);
+        this.setLastDeathLocation(Optional.of(GlobalPos.of(this.level().dimension(), this.blockPosition())));
+        ci.cancel();
     }
 
     @Inject(method = "defineSynchedData", at = @At("TAIL"))

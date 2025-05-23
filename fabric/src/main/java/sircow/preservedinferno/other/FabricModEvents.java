@@ -6,14 +6,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TridentItem;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.events.ModEvents;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
 
@@ -49,28 +47,23 @@ public class FabricModEvents {
         });
     }
 
-    public static void damageThing() {
+    public static void modifiedShieldDamage() {
+        // modify incoming damage while using a shield
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> {
             if (entity instanceof ServerPlayer player) {
-                float modifiedAmount = ModEvents.onPlayerDamage(player, source, amount);
-                return true;
+                ItemStack blockingStack = player.getUseItem();
+                if (player.isBlocking() && blockingStack.getItem() instanceof PreservedShieldItem) {
+                    return ShieldStaminaHandler.onPlayerDamagedWhileBlocking(player, blockingStack, amount, source);
+                }
             }
             return true;
         });
-    }
-
-    public static float onPlayerDamageWhileBlocking(ServerPlayer player, DamageSource source, float amount) {
-        ItemStack blockingStack = player.getUseItem();
-        if (player.isBlocking() && blockingStack.getItem() instanceof PreservedShieldItem) {
-            ShieldStaminaHandler.onPlayerDamagedWhileBlocking(player, blockingStack, amount, source);
-        }
-        return amount;
     }
 
     public static void registerModEvents() {
         Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
         modifySleeping();
         handleEntityDeath();
-        damageThing();
+        modifiedShieldDamage();
     }
 }

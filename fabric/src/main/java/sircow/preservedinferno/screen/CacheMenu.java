@@ -49,11 +49,11 @@ public class CacheMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
 
@@ -66,12 +66,12 @@ public class CacheMenu extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
             }
-            else if (index >= 9 && index < 36) {
+            else if (index < 36) {
                 if (!this.moveItemStackTo(itemstack1, 0, 9, false) && !this.moveItemStackTo(itemstack1, 36, this.slots.size(), false)) {
                     return ItemStack.EMPTY;
                 }
             }
-            else if (index >= 36 && index < this.slots.size()) {
+            else if (index < this.slots.size()) {
                 if (!this.moveItemStackTo(itemstack1, 0, 9, false) && !this.moveItemStackTo(itemstack1, 9, 36, false)) {
                     return ItemStack.EMPTY;
                 }

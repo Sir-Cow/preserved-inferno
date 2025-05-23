@@ -48,6 +48,7 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     public static final Map<Item, Item> conversionMap = new HashMap<>();
     static {
         conversionMap.put(ModItems.RAW_HIDE, Items.LEATHER);
+        conversionMap.put(Items.RABBIT_HIDE, Items.LEATHER);
         conversionMap.put(Items.DIRT, Items.MUD);
         conversionMap.put(Items.COARSE_DIRT, Items.MUD);
         conversionMap.put(Items.ROOTED_DIRT, Items.MUD);

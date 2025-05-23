@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import sircow.preservedinferno.block.FabricModBlocks;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockData;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
-import sircow.preservedinferno.events.ModEvents;
 import sircow.preservedinferno.item.FabricModItemGroups;
 import sircow.preservedinferno.item.FabricModItems;
 import sircow.preservedinferno.other.DelayedBlockTransformationTask;
@@ -131,6 +130,5 @@ public class PreservedInferno implements ModInitializer {
         FabricModBlocks.registerBlocks();
         FabricModItemGroups.registerItemGroups();
         ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
-        ModEvents.register(FabricModEvents::onPlayerDamageWhileBlocking);
     }
 }
