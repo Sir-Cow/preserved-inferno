@@ -1,17 +1,13 @@
 package sircow.preservedinferno.other;
 
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.BlocksAttacks;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 public class ShieldStaminaHandler {
@@ -19,49 +15,6 @@ public class ShieldStaminaHandler {
     private static final int COOLDOWN_TICKS = 20 * 10;
     private static final float STAMINA_LOSS = 0.05F;
     public static DamageSource lastBypassingSource = null;
-
-    public static boolean onPlayerDamagedWhileBlocking(ServerPlayer player, ItemStack blockingStack, float amount, DamageSource source) {
-        Optional<BlocksAttacks> blocksAttacks = Optional.ofNullable(blockingStack.get(DataComponents.BLOCKS_ATTACKS));
-        float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
-        float damageTaken = Math.max(0, amount - currentStamina);
-        float newStamina = Math.max(0, currentStamina - amount);
-        float overflowDamage = 0.0F;
-
-        if (damageTaken > currentStamina) {
-            overflowDamage = currentStamina;
-        }
-        if (newStamina != currentStamina) {
-            player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
-        }
-        if (newStamina <= 0) {
-            triggerCooldown(player, blockingStack);
-        }
-
-        if (source.is(DamageTypeTags.BYPASSES_SHIELD)) {
-            lastBypassingSource = source;
-            if (blocksAttacks.isPresent()) {
-                blocksAttacks.get().onBlocked(player.serverLevel(), player);
-                blocksAttacks.get().hurtBlockingItem(player.serverLevel(), blockingStack, player, player.getUsedItemHand(), amount);
-            }
-            return true;
-        }
-        else {
-            lastBypassingSource = null;
-            if (blocksAttacks.isPresent()) {
-                blocksAttacks.get().onBlocked(player.serverLevel(), player);
-                blocksAttacks.get().hurtBlockingItem(player.serverLevel(), blockingStack, player, player.getUsedItemHand(), amount);
-            }
-            if (damageTaken > 0) {
-                if (overflowDamage > 0.0F) {
-                    player.hurt(source, amount - overflowDamage);
-                }
-                else {
-                    player.hurt(source, damageTaken);
-                }
-            }
-            return false;
-        }
-    }
 
     public static void onServerTick(ServerPlayer player) {
         handleShieldUsage(player);

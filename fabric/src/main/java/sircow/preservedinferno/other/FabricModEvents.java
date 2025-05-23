@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.monster.Drowned;
@@ -13,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TridentItem;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.item.ModItems;
-import sircow.preservedinferno.item.custom.PreservedShieldItem;
 
 public class FabricModEvents {
     public static void modifySleeping() {
@@ -47,23 +45,9 @@ public class FabricModEvents {
         });
     }
 
-    public static void modifiedShieldDamage() {
-        // modify incoming damage while using a shield
-        ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> {
-            if (entity instanceof ServerPlayer player) {
-                ItemStack blockingStack = player.getUseItem();
-                if (player.isBlocking() && blockingStack.getItem() instanceof PreservedShieldItem) {
-                    return ShieldStaminaHandler.onPlayerDamagedWhileBlocking(player, blockingStack, amount, source);
-                }
-            }
-            return true;
-        });
-    }
-
     public static void registerModEvents() {
         Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
         modifySleeping();
         handleEntityDeath();
-        modifiedShieldDamage();
     }
 }

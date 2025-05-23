@@ -2,12 +2,13 @@ package sircow.preservedinferno.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stat;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.GameType;
@@ -33,9 +35,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import sircow.preservedinferno.Constants;
+import sircow.preservedinferno.item.custom.PreservedShieldItem;
 import sircow.preservedinferno.other.HeatAccessor;
 import sircow.preservedinferno.other.ModDamageTypes;
 import sircow.preservedinferno.other.ModEntityData;
@@ -69,6 +71,59 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
 
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, Level world) {
         super(entityType, world);
+    }
+
+    @ModifyVariable(method = "hurtServer", at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z",
+            shift = At.Shift.BEFORE
+    ), argsOnly = true)
+    private float modifyDamageAmount_PlayerHurtServer(float originalAmount, ServerLevel level, DamageSource damageSource) {
+        Player player = (Player)(Object)this;
+        ItemStack blockingStack = player.getUseItem();
+
+        if (player.isBlocking() && blockingStack.getItem() instanceof PreservedShieldItem) {
+            float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
+
+            if (damageSource.is(DamageTypeTags.BYPASSES_SHIELD)) {
+                ShieldStaminaHandler.lastBypassingSource = damageSource;
+
+                float newStamina = Math.max(0, currentStamina - originalAmount);
+                if (newStamina != currentStamina) {
+                    player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
+                }
+                if (newStamina <= 0) {
+                    ShieldStaminaHandler.triggerCooldown(player, blockingStack);
+                }
+
+                Optional<BlocksAttacks> blocksAttacks = Optional.ofNullable(blockingStack.get(DataComponents.BLOCKS_ATTACKS));
+                if (blocksAttacks.isPresent()) {
+                    blocksAttacks.get().onBlocked(level, player);
+                    blocksAttacks.get().hurtBlockingItem(level, blockingStack, player, player.getUsedItemHand(), originalAmount);
+                }
+                return originalAmount;
+            }
+            else {
+                ShieldStaminaHandler.lastBypassingSource = null;
+                float finalDamageToApply = Math.max(0, originalAmount - currentStamina);
+                float newStamina = Math.max(0, currentStamina - originalAmount);
+
+                if (newStamina != currentStamina) {
+                    player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
+                }
+
+                if (newStamina <= 0) {
+                    ShieldStaminaHandler.triggerCooldown(player, blockingStack);
+                }
+
+                Optional<BlocksAttacks> blocksAttacks = Optional.ofNullable(blockingStack.get(DataComponents.BLOCKS_ATTACKS));
+                if (blocksAttacks.isPresent()) {
+                    blocksAttacks.get().onBlocked(level, player);
+                    blocksAttacks.get().hurtBlockingItem(level, blockingStack, player, player.getUsedItemHand(), originalAmount);
+                }
+                return finalDamageToApply;
+            }
+        }
+        return originalAmount;
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
