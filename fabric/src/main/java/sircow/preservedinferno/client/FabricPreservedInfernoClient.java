@@ -7,6 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.MenuTypes;
 import sircow.preservedinferno.block.ModBlocks;
@@ -17,100 +18,114 @@ import sircow.preservedinferno.screen.CacheScreen;
 import sircow.preservedinferno.screen.PreservedCauldronScreen;
 
 import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Map;
 
 public class FabricPreservedInfernoClient implements ClientModInitializer {
+    DecimalFormat df = new DecimalFormat("#.##");
+
     @Override
     public void onInitializeClient() {
-        // menus
+        registerMenuScreens();
+        configureRailRenderLayers();
+        registerCustomTooltip();
+    }
+
+    private void registerMenuScreens() {
         MenuScreens.register(Constants.ANGLING_TABLE_MENU_TYPE.get(), AnglingTableScreen::new);
         MenuScreens.register(MenuTypes.CACHE_MENU_TYPE.get(), CacheScreen::new);
         MenuScreens.register(Constants.PRESERVED_ENCHANT_MENU_TYPE.get(), PreservedEnchantingTableScreen::new);
         MenuScreens.register(Constants.PRESERVED_FLETCHING_TABLE_MENU_TYPE.get(), PreservedFletchingTableScreen::new);
         MenuScreens.register(Constants.PRESERVED_LOOM_MENU_TYPE.get(), PreservedLoomScreen::new);
         MenuScreens.register(MenuTypes.PRESERVED_CAULDRON_MENU_TYPE.get(), PreservedCauldronScreen::new);
+    }
 
-        // enable rail textures to be transparent
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.INDUCTOR_RAIL, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.EXPOSED_INDUCTOR_RAIL, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WEATHERED_INDUCTOR_RAIL, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.OXIDIZED_INDUCTOR_RAIL, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WAXED_INDUCTOR_RAIL, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WAXED_EXPOSED_INDUCTOR_RAIL, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL, RenderType.cutout());
+    private void configureRailRenderLayers() {
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(),
+                ModBlocks.INDUCTOR_RAIL,
+                ModBlocks.EXPOSED_INDUCTOR_RAIL,
+                ModBlocks.WEATHERED_INDUCTOR_RAIL,
+                ModBlocks.OXIDIZED_INDUCTOR_RAIL,
+                ModBlocks.WAXED_INDUCTOR_RAIL,
+                ModBlocks.WAXED_EXPOSED_INDUCTOR_RAIL,
+                ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL,
+                ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL
+        );
+    }
 
-        // custom tooltip
+    private void registerCustomTooltip() {
         ItemTooltipCallback.EVENT.register((stack, context, tooltipType, lines) -> {
             String durabilityTranslatable = Component.translatable("item.durability").getString();
             String textBeforeSplit = durabilityTranslatable.substring(0, durabilityTranslatable.indexOf(':')).trim();
-
-            // shields
+            int insertIndex = findTooltipInsertIndex(lines, textBeforeSplit);
             Integer maxStamina = stack.get(ModComponents.SHIELD_MAX_STAMINA_COMPONENT);
             Float staminaRegenRate = stack.get(ModComponents.SHIELD_REGEN_RATE_COMPONENT);
-            DecimalFormat df = new DecimalFormat("#.##");
+
             if (maxStamina != null) {
-                int insertIndex = lines.size();
-                for (int i = 0; i < lines.size(); i++) {
-                    if (lines.get(i).getString().contains(textBeforeSplit) || (!lines.get(i).getString().contains(textBeforeSplit) && lines.get(i).getString().contains("pinferno"))) {
-                        insertIndex = i;
-                        break;
-                    }
-                }
-                lines.add(insertIndex++, Component.empty());
-                lines.add(insertIndex++, Component.translatable("item.modifiers.offhand").withStyle(ChatFormatting.GRAY));
-                lines.add(insertIndex++, Component.translatable("item.pinferno.shield_max_stamina", maxStamina).withStyle(ChatFormatting.DARK_GREEN));
-                lines.add(insertIndex++, Component.empty());
-                lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.not_active").withStyle(ChatFormatting.GRAY));
-                lines.add(insertIndex, Component.translatable("item.pinferno.shield_regen_rate", df.format(staminaRegenRate * 20)).withStyle(ChatFormatting.BLUE));
+                addShieldTooltip(lines, insertIndex, maxStamina, staminaRegenRate);
             }
-            // fishing upgrades
             if (stack.is(ModTags.ROD_UPGRADES)) {
-                int insertIndex = lines.size();
-                for (int i = 0; i < lines.size(); i++) {
-                    if (lines.get(i).getString().contains(textBeforeSplit) || (!lines.get(i).getString().contains(textBeforeSplit) && lines.get(i).getString().contains("pinferno"))) {
-                        insertIndex = i;
-                        break;
-                    }
-                }
-                lines.add(insertIndex++, Component.empty());
-                lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.on_rod").withStyle(ChatFormatting.GRAY));
-                if (stack.is(ModItems.COPPER_FISHING_HOOK)) {
-                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fishing_speed", 1).withStyle(ChatFormatting.BLUE));
-                }
-                if (stack.is(ModItems.IRON_FISHING_HOOK)) {
-                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fishing_speed", 2).withStyle(ChatFormatting.BLUE));
-                }
-                if (stack.is(ModItems.DIAMOND_FISHING_HOOK)) {
-                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fishing_speed", 3).withStyle(ChatFormatting.BLUE));
-                }
-                if (stack.is(ModItems.NETHERITE_FISHING_HOOK)) {
-                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fishing_speed", 4).withStyle(ChatFormatting.BLUE));
-                }
-                if (stack.is(ModItems.COPPER_LACED_FISHING_LINE)) {
-                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fortune", 1).withStyle(ChatFormatting.BLUE));
-                }
-                if (stack.is(ModItems.IRON_LACED_FISHING_LINE)) {
-                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fortune", 2).withStyle(ChatFormatting.BLUE));
-                }
-                if (stack.is(ModItems.DIAMOND_LACED_FISHING_LINE)) {
-                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fortune", 3).withStyle(ChatFormatting.BLUE));
-                }
-                if (stack.is(ModItems.NETHERITE_LACED_FISHING_LINE)) {
-                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.fortune", 4).withStyle(ChatFormatting.BLUE));
-                }
-                if (stack.is(ModItems.COPPER_SINKER)) {
-                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", 1).withStyle(ChatFormatting.BLUE));
-                }
-                if (stack.is(ModItems.IRON_SINKER)) {
-                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", 2).withStyle(ChatFormatting.BLUE));
-                }
-                if (stack.is(ModItems.DIAMOND_SINKER)) {
-                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", 3).withStyle(ChatFormatting.BLUE));
-                }
-                if (stack.is(ModItems.NETHERITE_SINKER)) {
-                    lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", 4).withStyle(ChatFormatting.BLUE));
-                }
+                addFishingUpgradeTooltip(lines, insertIndex, stack.getItem());
             }
         });
+    }
+
+    private int findTooltipInsertIndex(List<Component> lines, String textBeforeSplit) {
+        for (int i = 0; i < lines.size(); i++) {
+            String lineString = lines.get(i).getString();
+            if (lineString.contains(textBeforeSplit) || (!lineString.contains(textBeforeSplit) && lineString.contains("pinferno"))) {
+                return i;
+            }
+        }
+        return lines.size();
+    }
+
+    private void addShieldTooltip(List<Component> lines, int insertIndex, Integer maxStamina, Float staminaRegenRate) {
+        lines.add(insertIndex++, Component.empty());
+        lines.add(insertIndex++, Component.translatable("item.modifiers.offhand").withStyle(ChatFormatting.GRAY));
+        lines.add(insertIndex++, Component.translatable("item.pinferno.shield_max_stamina", maxStamina).withStyle(ChatFormatting.DARK_GREEN));
+        lines.add(insertIndex++, Component.empty());
+        lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.not_active").withStyle(ChatFormatting.GRAY));
+        lines.add(insertIndex, Component.translatable("item.pinferno.shield_regen_rate", df.format(staminaRegenRate * 20)).withStyle(ChatFormatting.BLUE));
+    }
+
+    private void addFishingUpgradeTooltip(List<Component> lines, int insertIndex, Item item) {
+        lines.add(insertIndex++, Component.empty());
+        lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.on_rod").withStyle(ChatFormatting.GRAY));
+
+        Map<Item, Double> fishingSpeedMap = Map.of(
+                ModItems.COPPER_FISHING_HOOK, 0.5,
+                ModItems.PRISMARINE_FISHING_HOOK, 1.5,
+                ModItems.IRON_FISHING_HOOK, 1.0,
+                ModItems.GOLDEN_FISHING_HOOK, 3.0,
+                ModItems.DIAMOND_FISHING_HOOK, 2.0,
+                ModItems.NETHERITE_FISHING_HOOK, 3.0
+        );
+        Map<Item, Double> fortuneMap = Map.of(
+                ModItems.COPPER_LACED_FISHING_LINE, 0.5,
+                ModItems.PRISMARINE_LACED_FISHING_LINE, 1.5,
+                ModItems.IRON_LACED_FISHING_LINE, 1.0,
+                ModItems.GOLDEN_LACED_FISHING_LINE, 3.0,
+                ModItems.DIAMOND_LACED_FISHING_LINE, 2.0,
+                ModItems.NETHERITE_LACED_FISHING_LINE, 3.0
+        );
+        Map<Item, Double> luckMap = Map.of(
+                ModItems.COPPER_SINKER, 0.5,
+                ModItems.PRISMARINE_SINKER, 1.5,
+                ModItems.IRON_SINKER, 1.0,
+                ModItems.GOLDEN_SINKER, 3.0,
+                ModItems.DIAMOND_SINKER, 2.0,
+                ModItems.NETHERITE_SINKER, 3.0
+        );
+
+        addIfPresent(lines, insertIndex, item, fishingSpeedMap, "item.pinferno.modifiers.fishing_speed");
+        addIfPresent(lines, insertIndex, item, fortuneMap, "item.pinferno.modifiers.fortune");
+        addIfPresent(lines, insertIndex, item, luckMap, "item.pinferno.modifiers.luck");
+    }
+
+    private void addIfPresent(List<Component> lines, int insertIndex, Item item, Map<Item, Double> map, String translationKey) {
+        if (map.containsKey(item)) {
+            lines.add(insertIndex, Component.translatable(translationKey, map.get(item)).withStyle(ChatFormatting.BLUE));
+        }
     }
 }

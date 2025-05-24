@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "F": "pinferno:aquatic_fiber",
+    "X": "minecraft:prismarine_shard"
+  },
+  "pattern": [
+    "F",
+    "X",
+    "X"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:prismarine_sinker"
+  }
+}

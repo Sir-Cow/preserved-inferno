@@ -43,6 +43,7 @@
     "ItemsMixin",
     "ItemStackMixin",
     "LightningBoltMixin",
+    "LivingEntityMixin",
     "MaceItemMixin",
     "MagmaCubeMixin",
     "PhantomMixin",

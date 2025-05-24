@@ -77,7 +77,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
                     target = "Lnet/minecraft/world/entity/LivingEntity;hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z",
             shift = At.Shift.BEFORE
     ), argsOnly = true)
-    private float modifyDamageAmount_PlayerHurtServer(float originalAmount, ServerLevel level, DamageSource damageSource) {
+    private float preserved_inferno$shieldDamageIntercept(float originalAmount, ServerLevel level, DamageSource damageSource) {
         Player player = (Player)(Object)this;
         ItemStack blockingStack = player.getUseItem();
 

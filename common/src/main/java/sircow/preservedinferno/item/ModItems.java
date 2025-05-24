@@ -202,10 +202,19 @@ public class ModItems {
             .stacksTo(1)
             .repairable(ItemTags.IRON_TOOL_MATERIALS)
     );
+    public static final Item PRISMARINE_FISHING_HOOK = registerItem("prismarine_fishing_hook", Item::new, new Item.Properties()
+            .durability(512)
+            .stacksTo(1)
+    );
     public static final Item IRON_FISHING_HOOK = registerItem("iron_fishing_hook", Item::new, new Item.Properties()
             .durability(256)
             .stacksTo(1)
             .repairable(ItemTags.IRON_TOOL_MATERIALS)
+    );
+    public static final Item GOLDEN_FISHING_HOOK = registerItem("golden_fishing_hook", Item::new, new Item.Properties()
+            .durability(64)
+            .stacksTo(1)
+            .repairable(ItemTags.GOLD_TOOL_MATERIALS)
     );
     public static final Item DIAMOND_FISHING_HOOK = registerItem("diamond_fishing_hook", Item::new, new Item.Properties()
             .durability(1024)
@@ -223,10 +232,19 @@ public class ModItems {
             .stacksTo(1)
             .repairable(ItemTags.IRON_TOOL_MATERIALS)
     );
+    public static final Item PRISMARINE_LACED_FISHING_LINE = registerItem("prismarine_laced_fishing_line", Item::new, new Item.Properties()
+            .durability(512)
+            .stacksTo(1)
+    );
     public static final Item IRON_LACED_FISHING_LINE = registerItem("iron_laced_fishing_line", Item::new, new Item.Properties()
             .durability(256)
             .stacksTo(1)
             .repairable(ItemTags.IRON_TOOL_MATERIALS)
+    );
+    public static final Item GOLDEN_LACED_FISHING_LINE = registerItem("golden_laced_fishing_line", Item::new, new Item.Properties()
+            .durability(64)
+            .stacksTo(1)
+            .repairable(ItemTags.GOLD_TOOL_MATERIALS)
     );
     public static final Item DIAMOND_LACED_FISHING_LINE = registerItem("diamond_laced_fishing_line", Item::new, new Item.Properties()
             .durability(1024)
@@ -244,10 +262,19 @@ public class ModItems {
             .stacksTo(1)
             .repairable(ItemTags.IRON_TOOL_MATERIALS)
     );
+    public static final Item PRISMARINE_SINKER = registerItem("prismarine_sinker", Item::new, new Item.Properties()
+            .durability(512)
+            .stacksTo(1)
+    );
     public static final Item IRON_SINKER = registerItem("iron_sinker", Item::new, new Item.Properties()
             .durability(256)
             .stacksTo(1)
             .repairable(ItemTags.IRON_TOOL_MATERIALS)
+    );
+    public static final Item GOLDEN_SINKER = registerItem("golden_sinker", Item::new, new Item.Properties()
+            .durability(64)
+            .stacksTo(1)
+            .repairable(ItemTags.GOLD_TOOL_MATERIALS)
     );
     public static final Item DIAMOND_SINKER = registerItem("diamond_sinker", Item::new, new Item.Properties()
             .durability(1024)

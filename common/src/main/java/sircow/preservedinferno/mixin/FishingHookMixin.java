@@ -9,30 +9,37 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.other.ModTags;
 
 import java.util.Objects;
 import java.util.Random;
 
+@SuppressWarnings("FieldCanBeLocal")
 @Mixin(FishingHook.class)
 public abstract class FishingHookMixin {
-    @Unique private final int HOOK_SPEED_COPPER = 100;
-    @Unique private final int HOOK_SPEED_IRON = 200;
-    @Unique private final int HOOK_SPEED_DIAMOND = 300;
-    @Unique private final int HOOK_SPEED_NETHERITE = 400;
-    @Unique private final double LINE_FORTUNE_COPPER = 1.0;
-    @Unique private final double LINE_FORTUNE_IRON = 2.0;
-    @Unique private final double LINE_FORTUNE_DIAMOND = 3.0;
-    @Unique private final double LINE_FORTUNE_NETHERITE = 4.0;
-    @Unique private final int SINKER_LUCK_COPPER = 1;
-    @Unique private final int SINKER_LUCK_IRON = 2;
-    @Unique private final int SINKER_LUCK_DIAMOND = 3;
-    @Unique private final int SINKER_LUCK_NETHERITE = 4;
+    @Unique private final int HOOK_SPEED_COPPER = 50;
+    @Unique private final int HOOK_SPEED_PRISMARINE = 150;
+    @Unique private final int HOOK_SPEED_IRON = 100;
+    @Unique private final int HOOK_SPEED_GOLDEN = 300;
+    @Unique private final int HOOK_SPEED_DIAMOND = 200;
+    @Unique private final int HOOK_SPEED_NETHERITE = 300;
+    @Unique private final double LINE_FORTUNE_COPPER = 0.5;
+    @Unique private final double LINE_FORTUNE_PRISMARINE = 1.5;
+    @Unique private final double LINE_FORTUNE_IRON = 1.0;
+    @Unique private final double LINE_FORTUNE_GOLDEN = 3.0;
+    @Unique private final double LINE_FORTUNE_DIAMOND = 2.0;
+    @Unique private final double LINE_FORTUNE_NETHERITE = 3.0;
+    @Unique private final float SINKER_LUCK_COPPER = 0.5F;
+    @Unique private final float SINKER_LUCK_PRISMARINE = 1.5F;
+    @Unique private final float SINKER_LUCK_IRON = 1.0F;
+    @Unique private final float SINKER_LUCK_GOLDEN = 3.0F;
+    @Unique private final float SINKER_LUCK_DIAMOND = 2.0F;
+    @Unique private final float SINKER_LUCK_NETHERITE = 3.0F;
 
-    @Shadow @Mutable @Final private int luck;
     @Shadow @Mutable @Final private int lureSpeed;
     @Unique private boolean lureSpeedModified = false;
     @Unique private ItemStack fishingWithStack = null;
@@ -60,8 +67,16 @@ public abstract class FishingHookMixin {
                         this.lureSpeed += HOOK_SPEED_COPPER;
                         lureSpeedModified = true;
                     }
+                    if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "prismarine")) {
+                        this.lureSpeed += HOOK_SPEED_PRISMARINE;
+                        lureSpeedModified = true;
+                    }
                     if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "iron")) {
                         this.lureSpeed += HOOK_SPEED_IRON;
+                        lureSpeedModified = true;
+                    }
+                    if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "golden")) {
+                        this.lureSpeed += HOOK_SPEED_GOLDEN;
                         lureSpeedModified = true;
                     }
                     if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "diamond")) {
@@ -88,7 +103,6 @@ public abstract class FishingHookMixin {
         double randomNum = new Random().nextDouble();
         double randomNum2 = new Random().nextDouble();
         double randomNum3 = new Random().nextDouble();
-        double randomNum4 = new Random().nextDouble();
         int fortuneCounter = 0;
         Player owner = this.getPlayerOwner();
 
@@ -102,13 +116,35 @@ public abstract class FishingHookMixin {
                             doFortune = true;
                         }
                     }
+                    if (Objects.equals(fishingWithStack.get(ModComponents.LINE_COMPONENT), "prismarine")) {
+                        double chance = 1.0 - (2.0 / (LINE_FORTUNE_PRISMARINE + 2.0));
+                        if (randomNum < chance) {
+                            fortuneCounter += 1;
+                            doFortune = true;
+                        }
+                        if (randomNum2 < chance) {
+                            fortuneCounter += 1;
+                            doFortune = true;
+                        }
+                    }
                     if (Objects.equals(fishingWithStack.get(ModComponents.LINE_COMPONENT), "iron")) {
                         double chance = 1.0 - (2.0 / (LINE_FORTUNE_IRON + 2.0));
                         if (randomNum < chance) {
                             fortuneCounter += 1;
                             doFortune = true;
                         }
+                    }
+                    if (Objects.equals(fishingWithStack.get(ModComponents.LINE_COMPONENT), "golden")) {
+                        double chance = 1.0 - (2.0 / (LINE_FORTUNE_GOLDEN + 2.0));
+                        if (randomNum < chance) {
+                            fortuneCounter += 1;
+                            doFortune = true;
+                        }
                         if (randomNum2 < chance) {
+                            fortuneCounter += 1;
+                            doFortune = true;
+                        }
+                        if (randomNum3 < chance) {
                             fortuneCounter += 1;
                             doFortune = true;
                         }
@@ -120,10 +156,6 @@ public abstract class FishingHookMixin {
                             doFortune = true;
                         }
                         if (randomNum2 < chance) {
-                            fortuneCounter += 1;
-                            doFortune = true;
-                        }
-                        if (randomNum3 < chance) {
                             fortuneCounter += 1;
                             doFortune = true;
                         }
@@ -142,10 +174,6 @@ public abstract class FishingHookMixin {
                             fortuneCounter += 1;
                             doFortune = true;
                         }
-                        if (randomNum4 < chance) {
-                            fortuneCounter += 1;
-                            doFortune = true;
-                        }
                     }
                 }
                 if (!originalStack.isEmpty() && doFortune) {
@@ -158,25 +186,35 @@ public abstract class FishingHookMixin {
         return originalStack;
     }
     // sinker effect
-    @Inject(method = "retrieve", at = @At("HEAD"))
-    public void preserved_inferno$addLuck(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+    @ModifyArgs(
+            method = "retrieve(Lnet/minecraft/world/item/ItemStack;)I", at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/storage/loot/LootParams$Builder;withLuck(F)Lnet/minecraft/world/level/storage/loot/LootParams$Builder;"))
+    private void addCustomLuckToFishing(Args args) {
+        float originalLuck = args.get(0);
+        float newLuck = originalLuck;
         Player owner = this.getPlayerOwner();
-
         if (owner != null) {
             if (fishingWithStack != null) {
                 if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "copper")) {
-                    this.luck += SINKER_LUCK_COPPER;
+                    newLuck = originalLuck + SINKER_LUCK_COPPER;
+                }
+                if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "prismarine")) {
+                    newLuck = originalLuck + SINKER_LUCK_PRISMARINE;
                 }
                 if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "iron")) {
-                    this.luck += SINKER_LUCK_IRON;
+                    newLuck = originalLuck + SINKER_LUCK_IRON;
+                }
+                if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "golden")) {
+                    newLuck = originalLuck + SINKER_LUCK_GOLDEN;
                 }
                 if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "diamond")) {
-                    this.luck += SINKER_LUCK_DIAMOND;
+                    newLuck = originalLuck + SINKER_LUCK_DIAMOND;
                 }
                 if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "netherite")) {
-                    this.luck += SINKER_LUCK_NETHERITE;
+                    newLuck = originalLuck + SINKER_LUCK_NETHERITE;
                 }
             }
         }
+        args.set(0, newLuck);
     }
 }

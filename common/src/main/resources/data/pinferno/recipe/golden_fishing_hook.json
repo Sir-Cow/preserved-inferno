@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "F": "pinferno:aquatic_fiber",
+    "X": "minecraft:gold_ingot"
+  },
+  "pattern": [
+    "  F",
+    "X X",
+    " X "
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:golden_fishing_hook"
+  }
+}

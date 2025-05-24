@@ -74,37 +74,64 @@ public class FishingRodItemMixin {
             ItemStack fishingRod = player.getItemInHand(hand);
 
             if (!Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "none")) {
+                if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "copper")) {
+                    updateComponentDurability(fishingRod, "hook", "copper", ModItems.COPPER_FISHING_HOOK);
+                }
+                if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "prismarine")) {
+                    updateComponentDurability(fishingRod, "hook", "prismarine", ModItems.PRISMARINE_FISHING_HOOK);
+                }
                 if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "iron")) {
                     updateComponentDurability(fishingRod, "hook", "iron", ModItems.IRON_FISHING_HOOK);
                 }
-                else if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "diamond")) {
+                if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "golden")) {
+                    updateComponentDurability(fishingRod, "hook", "golden", ModItems.GOLDEN_FISHING_HOOK);
+                }
+                if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "diamond")) {
                     updateComponentDurability(fishingRod, "hook", "diamond", ModItems.DIAMOND_FISHING_HOOK);
                 }
-                else if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "netherite")) {
+                if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "netherite")) {
                     updateComponentDurability(fishingRod, "hook", "netherite", ModItems.NETHERITE_FISHING_HOOK);
                 }
             }
 
             if (!Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "none")) {
+                if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "copper")) {
+                    updateComponentDurability(fishingRod, "line", "copper", ModItems.COPPER_LACED_FISHING_LINE);
+                }
+                if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "prismarine")) {
+                    updateComponentDurability(fishingRod, "line", "prismarine", ModItems.PRISMARINE_LACED_FISHING_LINE);
+                }
                 if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "iron")) {
                     updateComponentDurability(fishingRod, "line", "iron", ModItems.IRON_LACED_FISHING_LINE);
                 }
-                else if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "diamond")) {
+                if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "golden")) {
+                    updateComponentDurability(fishingRod, "line", "golden", ModItems.GOLDEN_LACED_FISHING_LINE);
+                }
+                if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "diamond")) {
                     updateComponentDurability(fishingRod, "line", "diamond", ModItems.DIAMOND_LACED_FISHING_LINE);
                 }
-                else if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "netherite")) {
+                if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "netherite")) {
                     updateComponentDurability(fishingRod, "line", "netherite", ModItems.NETHERITE_LACED_FISHING_LINE);
                 }
             }
 
             if (!Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "none")) {
+                if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "copper")) {
+                    updateComponentDurability(fishingRod, "sinker", "copper", ModItems.COPPER_SINKER);
+                }
+                if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "prismarine")) {
+                    updateComponentDurability(fishingRod, "sinker", "prismarine", ModItems.PRISMARINE_SINKER);
+                }
                 if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "iron")) {
                     updateComponentDurability(fishingRod, "sinker", "iron", ModItems.IRON_SINKER);
                 }
-                else if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "diamond")) {
+                if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "golden")) {
+                    updateComponentDurability(fishingRod, "sinker", "golden", ModItems.GOLDEN_SINKER);
+                }
+                if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "diamond")) {
                     updateComponentDurability(fishingRod, "sinker", "diamond", ModItems.DIAMOND_SINKER);
                 }
-                else if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "netherite")) {
+                if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "netherite")) {
                     updateComponentDurability(fishingRod, "sinker", "netherite", ModItems.NETHERITE_SINKER);
                 }
             }

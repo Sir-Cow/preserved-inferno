@@ -1,7 +1,9 @@
 {
   "values": [
     "pinferno:copper_sinker",
+    "pinferno:prismarine_sinker",
     "pinferno:iron_sinker",
+    "pinferno:golden_sinker",
     "pinferno:diamond_sinker",
     "pinferno:netherite_sinker"
   ]
