@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_magenta_cloth": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:magenta_cloth"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:magenta_carpet"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_magenta_cloth"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:magenta_carpet"
+    ]
+  }
+}

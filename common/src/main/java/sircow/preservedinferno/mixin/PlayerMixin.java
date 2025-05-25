@@ -150,7 +150,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
                 BlockPos blockBelow = this.blockPosition().below();
                 boolean onColdBlock = false;
 
-                if (standingOnBlock(this)) {
+                if (preserved_inferno$standingOnBlock(this)) {
                     BlockState stateAtFeet = this.level().getBlockState(this.blockPosition().below());
                     if (stateAtFeet.getBlock() instanceof IceBlock ||
                             stateAtFeet.getBlock() instanceof SnowLayerBlock ||
@@ -188,7 +188,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     }
 
     @Unique
-    private boolean standingOnBlock(Entity entity) {
+    private boolean preserved_inferno$standingOnBlock(Entity entity) {
         AABB box = new AABB(entity.blockPosition());
         Vec3 pos = entity.position();
         float expand = entity.getBbWidth() / 2;
@@ -298,16 +298,16 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
                 tickCap += FIRE_RES_INCREASE;
             }
 
-            if (fireProtCheck() == 1) {
+            if (preserved_inferno$fireProtCheck() == 1) {
                 tickCap += FIRE_PROT_INCREASE;
             }
-            if (fireProtCheck() == 2) {
+            if (preserved_inferno$fireProtCheck() == 2) {
                 tickCap += (FIRE_PROT_INCREASE * 2);
             }
-            if (fireProtCheck() == 3) {
+            if (preserved_inferno$fireProtCheck() == 3) {
                 tickCap += (FIRE_PROT_INCREASE * 3);
             }
-            if (fireProtCheck() == 4) {
+            if (preserved_inferno$fireProtCheck() == 4) {
                 tickCap += (FIRE_PROT_INCREASE * 4);
             }
 
@@ -415,7 +415,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     }
 
     @Unique
-    public int fireProtCheck() {
+    public int preserved_inferno$fireProtCheck() {
         int totalLevel = 0;
 
         for (EquipmentSlot slot : new EquipmentSlot[]{

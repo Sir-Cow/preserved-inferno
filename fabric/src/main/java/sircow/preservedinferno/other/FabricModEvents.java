@@ -3,16 +3,23 @@ package sircow.preservedinferno.other;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SnowLayerBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import sircow.preservedinferno.Constants;
+import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.item.ModItems;
 
 public class FabricModEvents {
@@ -60,9 +67,44 @@ public class FabricModEvents {
         });
     }
 
+    public static void handleBlockPlace() {
+        UseBlockCallback.EVENT.register((player, level, hand, hitResult) -> {
+            // check snow layer melting
+            if (level.isClientSide()) {
+                return InteractionResult.PASS;
+            }
+
+            ItemStack itemInHand = player.getItemInHand(hand);
+            BlockPos targetPos = hitResult.getBlockPos();
+            BlockState stateAtTargetPos = level.getBlockState(targetPos);
+
+            if (itemInHand.is(Blocks.SNOW.asItem()) && stateAtTargetPos.is(Blocks.SNOW) && level.dimension() == Level.NETHER) {
+                int currentLayers = stateAtTargetPos.getValue(SnowLayerBlock.LAYERS);
+                int maxLayers = 8;
+
+                if (currentLayers < maxLayers) {
+                    PreservedInferno.cancelTaskAt(targetPos);
+                    PreservedInferno.scheduleDelayedTask(
+                            new SimpleBlockTransformationTask(
+                                    PreservedInferno.INSTANCE,
+                                    (ServerLevel) level,
+                                    targetPos,
+                                    Blocks.AIR.defaultBlockState(),
+                                    Blocks.SNOW,
+                                    200
+                            )
+                    );
+                }
+                return InteractionResult.PASS;
+            }
+            return InteractionResult.PASS;
+        });
+    }
+
     public static void registerModEvents() {
         Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
         modifySleeping();
         handleEntityDeath();
+        handleBlockPlace();
     }
 }

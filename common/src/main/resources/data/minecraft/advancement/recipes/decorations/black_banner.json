@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_black_cloth": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:black_cloth"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:black_banner"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_black_cloth"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:black_banner"
+    ]
+  }
+}

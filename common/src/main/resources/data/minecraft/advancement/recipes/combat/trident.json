@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_elder_guardian_spine": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:elder_guardian_spine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:trident"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_elder_guardian_spine"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:trident"
+    ]
+  }
+}

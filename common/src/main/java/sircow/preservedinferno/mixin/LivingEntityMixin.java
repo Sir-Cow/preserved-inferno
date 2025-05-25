@@ -1,14 +1,18 @@
 package sircow.preservedinferno.mixin;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import sircow.preservedinferno.item.custom.PreservedShieldItem;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
@@ -18,6 +22,19 @@ public abstract class LivingEntityMixin {
             if (player.isBlocking()) {
                 if (source instanceof Monster) {
                     cir.setReturnValue(false);
+                }
+            }
+        }
+    }
+
+    @Inject(method = "hurtServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;knockback(DDD)V",
+                    shift = At.Shift.BEFORE), cancellable = true)
+    private void preserved_inferno$cancelKnockbackIfBlockingWithCustomShield(ServerLevel level, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if ((Object)this instanceof Player player) {
+            if (player.isBlocking()) {
+                ItemStack blockingItem = player.getUseItem();
+                if (blockingItem.getItem() instanceof PreservedShieldItem) {
+                    cir.setReturnValue(true);
                 }
             }
         }

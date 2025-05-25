@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -95,6 +96,11 @@ public class PreservedInferno implements ModInitializer {
 
     public static void scheduleDelayedTask(DelayedBlockTransformationTask task) {
         scheduledTasks.add(task);
+    }
+
+    // cancel snow layer melt
+    public static void cancelTaskAt(BlockPos pos) {
+        scheduledTasks.removeIf(task -> task.getPos().equals(pos));
     }
 
     // server tick

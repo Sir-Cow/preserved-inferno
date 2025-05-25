@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_raw_copper_chunk": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:raw_copper_chunk"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "pinferno:copper_nugget_from_blasting_chunks"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_raw_copper_chunk"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "pinferno:copper_nugget_from_blasting_chunks"
+    ]
+  }
+}
