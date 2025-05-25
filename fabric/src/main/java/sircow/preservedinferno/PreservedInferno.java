@@ -105,11 +105,20 @@ public class PreservedInferno implements ModInitializer {
         for (DelayedBlockTransformationTask task : scheduledTasks) {
             task.tick();
             if (task.isFinished()) {
-                DelayedBlockTransformationTask nextTask = task.transformBlock();
-                if (nextTask != null) {
-                    tasksToSchedule.add(nextTask);
+                if (task.getServerLevel().getBlockState(task.getPos()).is(task.expectedInitialBlock)) {
+                    DelayedBlockTransformationTask nextTask = task.transformBlock();
+                    if (nextTask != null) {
+                        tasksToSchedule.add(nextTask);
+                    }
+                }
+                else {
+                    task.removeBreakingAnimation();
                 }
                 tasksToRemove.add(task);
+            }
+            else if (!task.getServerLevel().getBlockState(task.getPos()).is(task.expectedInitialBlock)) {
+                tasksToRemove.add(task);
+                task.removeBreakingAnimation();
             }
         }
         scheduledTasks.removeAll(tasksToRemove);

@@ -7,10 +7,17 @@ import sircow.preservedinferno.PreservedInferno;
 
 public class PackedIceSequenceTask extends DelayedBlockTransformationTask {
     private final int iceToAirDelay;
+    private final int initialPackedToIceDelay;
 
     public PackedIceSequenceTask(PreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, int packedToIceDelay, int iceToAirDelay) {
-        super(modInstance, serverLevel, pos, Blocks.PACKED_ICE.defaultBlockState(), packedToIceDelay);
+        super(modInstance, serverLevel, pos, Blocks.PACKED_ICE.defaultBlockState(), Blocks.PACKED_ICE, packedToIceDelay);
         this.iceToAirDelay = iceToAirDelay;
+        this.initialPackedToIceDelay = packedToIceDelay;
+    }
+
+    @Override
+    protected int getMaxDelayTicks() {
+        return initialPackedToIceDelay;
     }
 
     @Override

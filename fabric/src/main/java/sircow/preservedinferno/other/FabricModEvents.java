@@ -2,6 +2,7 @@ package sircow.preservedinferno.other;
 
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -10,6 +11,7 @@ import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TridentItem;
+import net.minecraft.world.level.Level;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.item.ModItems;
 
@@ -41,6 +43,19 @@ public class FabricModEvents {
             // reset shield cooldown
             if (livingEntity instanceof Player player) {
                 ShieldStaminaHandler.playerShieldCooldownMap.remove(player.getUUID());
+            }
+        });
+
+        ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
+            // don't reset heat on death unless used respawn anchor
+            if (oldPlayer.getEntityData().get(ModEntityData.PLAYER_HEAT) >= 100 && newPlayer.level().dimension() != Level.NETHER) {
+                newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, 99);
+            }
+            else if (newPlayer.level().dimension() == Level.NETHER) {
+                newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, 0);
+            }
+            else {
+                newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, oldPlayer.getEntityData().get(ModEntityData.PLAYER_HEAT));
             }
         });
     }

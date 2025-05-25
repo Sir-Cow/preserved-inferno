@@ -8,6 +8,7 @@
     "AbstractCauldronBlockMixin",
     "AnglingTableBlockMixin",
     "BlockItemMixin",
+    "BlockMixin",
     "CauldronBlockMixin",
     "CraftingTableBlockMixin",
     "EnchantingTableBlockMixin",

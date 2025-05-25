@@ -52,12 +52,11 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     @Unique private int heatIncreaseTickCounter = 0;
     @Unique private int heatDecreaseTickCounter = 0;
     @Unique private int heatDamageTickCounter = 0;
-    @Unique private static final int INCREASE_CAP = 60;
+    @Unique private static final int INCREASE_CAP = 96;
     @Unique private static final int DECREASE_CAP = 80;
     @Unique private static final int IN_WATER_CAP_REDUCTION = 10;
-    @Unique private static final int IN_POWDER_SNOW_CAP_REDUCTION = 30;
-    @Unique private static final int FIRE_RES_INCREASE = 80;
-    @Unique private static final int FIRE_PROT_INCREASE = 10;
+    @Unique private static final int FIRE_RES_INCREASE = 48;
+    @Unique private static final int FIRE_PROT_INCREASE = 9;
     @Unique private @Nullable BlockPos lastSteppedOnIcePos = null;
     @Unique DamageSource damageSource = ModDamageTypes.of(this.level(), ModDamageTypes.HEAT, this);
 
@@ -146,19 +145,19 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         }
 
         // nether heat
-        if (!this.level().isClientSide() && Objects.requireNonNull(this.gameMode()).isSurvival()) {
+        if (!this.level().isClientSide() && Objects.requireNonNull(this.gameMode()).isSurvival() && !this.isDeadOrDying()) {
             if (this.level().dimension() == Level.NETHER) {
                 BlockPos blockBelow = this.blockPosition().below();
-
                 boolean onColdBlock = false;
-                if (standingOnBlock(this) && !this.isInPowderSnow) {
+
+                if (standingOnBlock(this)) {
                     BlockState stateAtFeet = this.level().getBlockState(this.blockPosition().below());
                     if (stateAtFeet.getBlock() instanceof IceBlock ||
                             stateAtFeet.getBlock() instanceof SnowLayerBlock ||
                             stateAtFeet.getBlock() == Blocks.SNOW_BLOCK ||
                             stateAtFeet.getBlock() == Blocks.PACKED_ICE ||
                             stateAtFeet.getBlock() == Blocks.BLUE_ICE
-                    ){
+                    ) {
                         onColdBlock = true;
                     }
                 }
@@ -178,6 +177,9 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
                     preserved_inferno$setCanDoHeatChange(true);
                 }
             }
+            else {
+                preserved_inferno$setCanDoHeatChange(true);
+            }
 
             if (preserved_inferno$canDoHeatChange()) {
                 preserved_inferno$doHeatChange();
@@ -190,6 +192,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         AABB box = new AABB(entity.blockPosition());
         Vec3 pos = entity.position();
         float expand = entity.getBbWidth() / 2;
+
         return !box.intersect(new AABB(pos, pos).inflate(expand, 0, expand)).equals(box);
     }
 
@@ -213,12 +216,10 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
                     0.1F,
                     -Mth.sin((this.getHurtDir() + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F
             );
-        } else {
+        }
+        else {
             this.setDeltaMovement(0.0, 0.1, 0.0);
         }
-
-        preserved_inferno$setHeat(0);
-        ShieldStaminaHandler.onPlayerDeath(player);
 
         this.awardStat(Stats.CUSTOM.get(Stats.DEATHS));
         this.resetStat(Stats.CUSTOM.get(Stats.TIME_SINCE_DEATH));
@@ -274,14 +275,14 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     public void preserved_inferno$increaseHeat(int heat) {
         int i = this.preserved_inferno$getHeat();
         this.entityData.set(ModEntityData.PLAYER_HEAT, i + heat);
-        //Constants.LOG.info("heat increase: {}", preserved_inferno$getHeat());
+//        Constants.LOG.info("heat increase: {}", preserved_inferno$getHeat());
     }
 
     @Unique
     public void preserved_inferno$decreaseHeat(int heat) {
         int i = this.preserved_inferno$getHeat();
         this.entityData.set(ModEntityData.PLAYER_HEAT, i - heat);
-        //Constants.LOG.info("heat decrease: {}", preserved_inferno$getHeat());
+//        Constants.LOG.info("heat decrease: {}", preserved_inferno$getHeat());
     }
 
     @Unique
@@ -290,7 +291,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
 
         // heat increase
         int tickCap;
-        if (this.level().dimension() == Level.NETHER && !this.isInPowderSnow) {
+        if (this.level().dimension() == Level.NETHER) {
             tickCap = INCREASE_CAP;
 
             if (this.hasEffect(MobEffects.FIRE_RESISTANCE)) {
@@ -322,32 +323,12 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
                 }
             }
         }
-        else if (this.level().dimension() == Level.NETHER && this.isInPowderSnow) {
-            tickCap = 20;
-            if (currentHeat > 4) {
-                this.heatDecreaseTickCounter += 1;
-                if (this.heatDecreaseTickCounter >= tickCap) {
-                    preserved_inferno$decreaseHeat(5);
-                    this.heatDecreaseTickCounter = 0;
-                }
-            }
-            if (currentHeat <= 4 && currentHeat > 0) {
-                this.heatDecreaseTickCounter += 1;
-                if (this.heatDecreaseTickCounter >= tickCap) {
-                    preserved_inferno$decreaseHeat(0);
-                    this.heatDecreaseTickCounter = 0;
-                }
-            }
-        }
         // heat decrease
         if (this.level().dimension() != Level.NETHER) {
             tickCap = DECREASE_CAP;
             if (currentHeat > 0) {
                 if (this.isInWater()) {
                     tickCap -= IN_WATER_CAP_REDUCTION;
-                }
-                if (this.isInPowderSnow) {
-                    tickCap -= IN_POWDER_SNOW_CAP_REDUCTION;
                 }
                 this.heatDecreaseTickCounter += 1;
                 if (this.heatDecreaseTickCounter >= tickCap) {

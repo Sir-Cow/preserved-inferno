@@ -83,10 +83,6 @@ public class ShieldStaminaHandler {
         }
     }
 
-    public static void onPlayerDeath(Player player) {
-        playerShieldCooldownMap.remove(player.getUUID());
-    }
-
     private static void stopBlocking(Player player) {
         player.stopUsingItem();
     }
