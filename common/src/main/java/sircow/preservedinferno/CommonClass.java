@@ -2,11 +2,13 @@ package sircow.preservedinferno;
 
 import sircow.preservedinferno.block.ModBlocks;
 import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.other.ModDamageTypes;
 import sircow.preservedinferno.other.ModEntityData;
 import sircow.preservedinferno.other.ModTags;
 import sircow.preservedinferno.platform.Services;
+import sircow.preservedinferno.recipe.ModRecipes;
 import sircow.preservedinferno.sound.ModSounds;
 
 public class CommonClass {
@@ -21,6 +23,8 @@ public class CommonClass {
             ModSounds.registerSounds();
             ModComponents.registerModComponents();
             ModEntityData.registerModEntityData();
+            ModEntities.registerModEntities();
+            ModRecipes.registerModRecipes();
         }
     }
 }

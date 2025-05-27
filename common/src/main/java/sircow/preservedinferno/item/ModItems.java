@@ -5,9 +5,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -20,6 +18,7 @@ import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.item.custom.PreservedFlareGunItem;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
 import sircow.preservedinferno.other.ModTags;
 
@@ -200,7 +199,7 @@ public class ModItems {
     public static final Item COPPER_FISHING_HOOK = registerItem("copper_fishing_hook", Item::new, new Item.Properties()
             .durability(128)
             .stacksTo(1)
-            .repairable(ItemTags.IRON_TOOL_MATERIALS)
+            .repairable(ModTags.COPPER_TOOL_MATERIALS)
     );
     public static final Item PRISMARINE_FISHING_HOOK = registerItem("prismarine_fishing_hook", Item::new, new Item.Properties()
             .durability(512)
@@ -230,7 +229,7 @@ public class ModItems {
     public static final Item COPPER_LACED_FISHING_LINE = registerItem("copper_laced_fishing_line", Item::new, new Item.Properties()
             .durability(128)
             .stacksTo(1)
-            .repairable(ItemTags.IRON_TOOL_MATERIALS)
+            .repairable(ModTags.COPPER_TOOL_MATERIALS)
     );
     public static final Item PRISMARINE_LACED_FISHING_LINE = registerItem("prismarine_laced_fishing_line", Item::new, new Item.Properties()
             .durability(512)
@@ -260,7 +259,7 @@ public class ModItems {
     public static final Item COPPER_SINKER = registerItem("copper_sinker", Item::new, new Item.Properties()
             .durability(128)
             .stacksTo(1)
-            .repairable(ItemTags.IRON_TOOL_MATERIALS)
+            .repairable(ModTags.COPPER_TOOL_MATERIALS)
     );
     public static final Item PRISMARINE_SINKER = registerItem("prismarine_sinker", Item::new, new Item.Properties()
             .durability(512)
@@ -288,6 +287,15 @@ public class ModItems {
             .fireResistant()
     );
     public static final Item MUSIC_DISC_AQUA = registerItem("music_disc_aqua", Item::new, new Item.Properties().stacksTo(1));
+
+    public static final Item FLARE_GUN = registerItem("flare_gun", PreservedFlareGunItem::new, new Item.Properties()
+            .durability(64)
+            .stacksTo(1)
+            .useCooldown(1.0F)
+            .repairable(ModTags.COPPER_TOOL_MATERIALS)
+            .component(ModComponents.FLARE_PARTICLE_COMPONENT, "0xFFFFFF")
+            .component(ModComponents.ON_COOLDOWN, true)
+    );
 
     // registering
     public static Item registerItem(String name, Function<Item.Properties, Item> itemFactory, Item.Properties properties) {

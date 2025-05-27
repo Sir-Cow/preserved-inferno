@@ -18,6 +18,13 @@
         },
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": 3.0,
+              "function": "minecraft:set_count"
+            }
+          ],
           "name": "minecraft:golden_carrot",
           "weight": 10
         },
@@ -56,7 +63,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:diamond",
-          "weight": 5
+          "weight": 10
         },
         {
           "type": "minecraft:item",

@@ -52,7 +52,7 @@ public class ConsumablesMixin {
                 .onConsume(
                         new ApplyStatusEffectsConsumeEffect(
                                 List.of(
-                                        new MobEffectInstance(MobEffects.REGENERATION, 400, 1),
+                                        new MobEffectInstance(MobEffects.REGENERATION, 600, 1),
                                         new MobEffectInstance(MobEffects.RESISTANCE, 6000, 0),
                                         new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 6000, 0),
                                         new MobEffectInstance(MobEffects.ABSORPTION, 12000, 3)

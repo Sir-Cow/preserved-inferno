@@ -3,15 +3,18 @@ package sircow.preservedinferno.client;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.MenuTypes;
 import sircow.preservedinferno.block.ModBlocks;
 import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.other.ModTags;
 import sircow.preservedinferno.screen.CacheScreen;
@@ -27,6 +30,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         registerMenuScreens();
+        registerEntities();
         configureRailRenderLayers();
         registerCustomTooltip();
     }
@@ -38,6 +42,10 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         MenuScreens.register(Constants.PRESERVED_FLETCHING_TABLE_MENU_TYPE.get(), PreservedFletchingTableScreen::new);
         MenuScreens.register(Constants.PRESERVED_LOOM_MENU_TYPE.get(), PreservedLoomScreen::new);
         MenuScreens.register(MenuTypes.PRESERVED_CAULDRON_MENU_TYPE.get(), PreservedCauldronScreen::new);
+    }
+
+    private void registerEntities() {
+        EntityRendererRegistry.register(ModEntities.FLARE_GUN_PROJECTILE, (ThrownItemRenderer::new));
     }
 
     private void configureRailRenderLayers() {
@@ -60,12 +68,18 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             int insertIndex = findTooltipInsertIndex(lines, textBeforeSplit);
             Integer maxStamina = stack.get(ModComponents.SHIELD_MAX_STAMINA_COMPONENT);
             Float staminaRegenRate = stack.get(ModComponents.SHIELD_REGEN_RATE_COMPONENT);
+            String particleVal = stack.get(ModComponents.FLARE_PARTICLE_COMPONENT);
 
             if (maxStamina != null) {
                 addShieldTooltip(lines, insertIndex, maxStamina, staminaRegenRate);
             }
             if (stack.is(ModTags.ROD_UPGRADES)) {
                 addFishingUpgradeTooltip(lines, insertIndex, stack.getItem());
+            }
+            if (stack.is(ModItems.FLARE_GUN)) {
+                if (particleVal != null) {
+                    lines.add(insertIndex, Component.literal(particleVal).withStyle(ChatFormatting.GRAY));
+                }
             }
         });
     }

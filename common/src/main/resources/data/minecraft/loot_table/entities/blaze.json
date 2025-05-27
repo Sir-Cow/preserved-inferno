@@ -31,11 +31,11 @@
               "function": "minecraft:enchanted_count_increase"
             }
           ],
-          "name": "pinferno:phantom_sinew"
+          "name": "minecraft:blaze_rod"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "minecraft:entities/phantom"
+  "random_sequence": "minecraft:entities/blaze"
 }

@@ -90,6 +90,8 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.NETHERITE_SINKER);
                     entries.accept(ModItems.MUSIC_DISC_AQUA);
 
+                    entries.accept(ModItems.FLARE_GUN);
+
                     entries.accept(ModBlocks.INDUCTOR_RAIL.asItem());
                     entries.accept(ModBlocks.EXPOSED_INDUCTOR_RAIL.asItem());
                     entries.accept(ModBlocks.WEATHERED_INDUCTOR_RAIL.asItem());

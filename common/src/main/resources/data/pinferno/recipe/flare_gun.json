@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": "minecraft:copper_ingot",
+    "X": "minecraft:firework_rocket",
+    "Y": "minecraft:iron_ingot"
+  },
+  "pattern": [
+    "  X",
+    " # ",
+    "#Y "
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:flare_gun"
+  }
+}

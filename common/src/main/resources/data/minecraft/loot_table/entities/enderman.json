@@ -3,11 +3,6 @@
   "pools": [
     {
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:killed_by_player"
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
@@ -31,11 +26,11 @@
               "function": "minecraft:enchanted_count_increase"
             }
           ],
-          "name": "pinferno:phantom_sinew"
+          "name": "minecraft:ender_pearl"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "minecraft:entities/phantom"
+  "random_sequence": "minecraft:entities/enderman"
 }

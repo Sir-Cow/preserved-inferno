@@ -28,6 +28,7 @@
     "CrossbowMixin",
     "DrownedMixin",
     "ElderGuardianMixin",
+    "EnderDragonMixin",
     "EndermanMixin",
     "EvokerMixin",
     "FishingHookMixin",

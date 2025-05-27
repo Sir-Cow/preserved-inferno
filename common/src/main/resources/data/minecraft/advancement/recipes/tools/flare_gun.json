@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_raw_iron_chunk": {
+    "has_copper_ingot": {
       "conditions": {
         "items": [
           {
-            "items": "pinferno:raw_iron_chunk"
+            "items": "#pinferno:copper_tool_materials"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "pinferno:iron_nugget_from_smelting_chunks"
+        "recipe": "pinferno:flare_gun"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_raw_iron_chunk"
+      "has_copper_ingot"
     ]
   ],
   "rewards": {
     "recipes": [
-      "pinferno:iron_nugget_from_smelting_chunks"
+      "pinferno:flare_gun"
     ]
   }
 }
