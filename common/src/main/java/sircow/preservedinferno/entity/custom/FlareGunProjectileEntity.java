@@ -1,7 +1,12 @@
 package sircow.preservedinferno.entity.custom;
 
+import com.mojang.serialization.DataResult;
 import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -27,10 +32,12 @@ import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.item.ModItems;
 
 public class FlareGunProjectileEntity extends ThrowableItemProjectile {
+    private static final String TAG_FIRED_FROM = "FiredFromItem";
     private ItemStack firedFrom;
 
     public FlareGunProjectileEntity(EntityType<? extends FlareGunProjectileEntity> entityType, Level level) {
         super(entityType, level);
+        this.firedFrom = ItemStack.EMPTY;
     }
 
     public FlareGunProjectileEntity(Level level, LivingEntity owner, ItemStack item) {
@@ -39,8 +46,11 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
         if (owner.getItemInHand(InteractionHand.MAIN_HAND).getItem() == ModItems.FLARE_GUN) {
             firedFrom = owner.getItemInHand(InteractionHand.MAIN_HAND);
         }
-        if (owner.getItemInHand(InteractionHand.OFF_HAND).getItem() == ModItems.FLARE_GUN) {
+        else if (owner.getItemInHand(InteractionHand.OFF_HAND).getItem() == ModItems.FLARE_GUN) {
             firedFrom = owner.getItemInHand(InteractionHand.OFF_HAND);
+        }
+        else {
+            firedFrom = ItemStack.EMPTY;
         }
     }
 
@@ -80,6 +90,11 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
     public void tick() {
         super.tick();
         if (!this.level().isClientSide) {
+            if (this.firedFrom.isEmpty()) {
+                System.err.println("FlareGunProjectileEntity ticked with null or empty firedFrom ItemStack. Discarding.");
+                this.discard();
+                return;
+            }
             if (this.level() instanceof ServerLevel serverLevel) {
                 String colourString = firedFrom.get(ModComponents.FLARE_PARTICLE_COMPONENT);
                 int particleColour = 0xFFFFFF;
@@ -156,11 +171,21 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
                 if (livingEntity.isOnFire()) {
                     livingEntity.clearFire();
                     livingEntity.igniteForTicks(60);
-                    result.getEntity().hurt(this.damageSources().playerAttack((Player) this.getOwner()), 6.0F);
+                    if (this.getOwner() instanceof Player) {
+                        result.getEntity().hurt(this.damageSources().playerAttack((Player) this.getOwner()), 6.0F);
+                    }
+                    else {
+                        result.getEntity().hurt(this.damageSources().generic(), 6.0F);
+                    }
                 }
                 else {
                     livingEntity.igniteForTicks(60);
-                    result.getEntity().hurt(this.damageSources().playerAttack((Player) this.getOwner()), 2.0F);
+                    if (this.getOwner() instanceof Player) {
+                        result.getEntity().hurt(this.damageSources().playerAttack((Player) this.getOwner()), 2.0F);
+                    }
+                    else {
+                        result.getEntity().hurt(this.damageSources().generic(), 2.0F);
+                    }
                 }
             }
             this.discard();
@@ -184,5 +209,39 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
     @Override
     public boolean shouldRenderAtSqrDistance(double distance) {
         return distance < (128 * 128);
+    }
+
+    @Override
+    public void addAdditionalSaveData(@NotNull CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        if (this.firedFrom != null && !this.firedFrom.isEmpty()) {
+            RegistryOps<Tag> registryOps = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
+            DataResult<Tag> result = ItemStack.CODEC.encodeStart(registryOps, this.firedFrom);
+            result.resultOrPartial(error -> System.err.println("Failed to encode firedFrom ItemStack: " + error))
+                    .ifPresent(tag -> compound.put(TAG_FIRED_FROM, tag));
+        }
+    }
+
+    @Override
+    public void readAdditionalSaveData(@NotNull CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        RegistryOps<Tag> registryOps = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
+
+        if (compound.contains(TAG_FIRED_FROM)) {
+            Tag tag = compound.get(TAG_FIRED_FROM);
+
+            if (tag != null && tag.getId() == Tag.TAG_COMPOUND) {
+                this.firedFrom = ItemStack.CODEC.parse(registryOps, tag)
+                        .resultOrPartial(error -> System.err.println("Failed to decode firedFrom ItemStack: " + error))
+                        .orElse(ItemStack.EMPTY);
+            }
+            else {
+                System.err.println("Found tag '" + TAG_FIRED_FROM + "' but it's not a CompoundTag or is null. Setting to empty ItemStack.");
+                this.firedFrom = ItemStack.EMPTY;
+            }
+        }
+        else {
+            this.firedFrom = ItemStack.EMPTY;
+        }
     }
 }
