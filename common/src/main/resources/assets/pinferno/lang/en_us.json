@@ -106,5 +106,8 @@
   "item.pinferno.modifiers.fishing_speed": " +%s Fishing Speed",
   "item.pinferno.modifiers.fortune": " +%s Fortune",
   "item.pinferno.modifiers.luck": " +%s Luck",
-  "item.pinferno.modifiers.on_rod": "When on Rod:"
+  "item.pinferno.modifiers.on_rod": "When on Rod:",
+
+  "effect.pinferno.well_rested": "Well Rested",
+  "effect.pinferno.well_rested_consume": "You awaken feeling well rested."
 }

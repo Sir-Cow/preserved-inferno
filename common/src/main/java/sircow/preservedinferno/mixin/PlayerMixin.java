@@ -33,10 +33,10 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
 import sircow.preservedinferno.other.HeatAccessor;
 import sircow.preservedinferno.other.ModDamageTypes;
@@ -61,11 +61,8 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     @Unique DamageSource damageSource = ModDamageTypes.of(this.level(), ModDamageTypes.HEAT, this);
 
     @Shadow @Nullable public abstract GameType gameMode();
-
     @Shadow public abstract void awardStat(Stat<?> stat);
-
     @Shadow public abstract void resetStat(Stat<?> stat);
-
     @Shadow public abstract void setLastDeathLocation(Optional<GlobalPos> lastDeathLocation);
 
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, Level world) {
@@ -123,6 +120,24 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
             }
         }
         return originalAmount;
+    }
+
+    // modify bed sleeping
+    @ModifyConstant(method = "tick", constant = @Constant(intValue = 100))
+    private int preserved_inferno$modifyIntValue(int original) {
+        return 200;
+    }
+    @ModifyConstant(method = "tick", constant = @Constant(intValue = 110))
+    private int preserved_inferno$modifyIntValue2(int original) {
+        return 210;
+    }
+    @ModifyConstant(method = "stopSleepInBed", constant = @Constant(intValue = 100))
+    private int preserved_inferno$modifyIntValue3(int original) {
+        return 200;
+    }
+    @ModifyConstant(method = "isSleepingLongEnough", constant = @Constant(intValue = 100))
+    private int preserved_inferno$modifyIntValue4(int original) {
+        return 200;
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
@@ -206,7 +221,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         Player player = (Player)(Object)this;
         super.die(damageSource);
         this.reapplyPosition();
-        if (!this.isSpectator() && this.level() instanceof ServerLevel serverLevel) {
+        if (!this.isSpectator() && this.level() instanceof ServerLevel serverLevel && !this.hasEffect(ModEffects.WELL_RESTED)) {
             this.dropAllDeathLoot(serverLevel, damageSource);
         }
 
@@ -432,5 +447,22 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         }
 
         return totalLevel;
+    }
+
+    @Inject(method = "dropEquipment", at = @At("HEAD"), cancellable = true)
+    public void preserved_inferno$preventInvDrop(ServerLevel level, CallbackInfo ci) {
+        Player player = (Player)(Object)this;
+        if (player.hasEffect(ModEffects.WELL_RESTED)) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "getBaseExperienceReward", at = @At("HEAD"), cancellable = true)
+    public void preserved_inferno$preventExpDrop(ServerLevel level, CallbackInfoReturnable<Integer> cir) {
+        Player player = (Player)(Object)this;
+        if (player.hasEffect(ModEffects.WELL_RESTED) || player.isSpectator()) {
+            cir.setReturnValue(0);
+            cir.cancel();
+        }
     }
 }

@@ -11,7 +11,9 @@ import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
@@ -149,5 +151,11 @@ public class GuiMixin {
                 }
             }
         }
+    }
+
+    // extend sleep overlay time
+    @ModifyConstant(method = "renderSleepOverlay", constant = @Constant(floatValue = 100.0F))
+    private float preserved_inferno$modifyFloatValue(float original) {
+        return 200.0F;
     }
 }

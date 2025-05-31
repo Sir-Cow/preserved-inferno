@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.Item;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.MenuTypes;
@@ -78,7 +79,11 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             }
             if (stack.is(ModItems.FLARE_GUN)) {
                 if (particleVal != null) {
-                    lines.add(insertIndex, Component.literal(particleVal).withStyle(ChatFormatting.GRAY));
+                    if (particleVal.equals("0xFFFFFF")) {
+                        particleVal = "#FFFFFF";
+                    }
+                    int parsedParticleVal = Integer.parseInt(particleVal.replace("#", ""), 16);
+                    lines.add(insertIndex, Component.literal(particleVal).withStyle(Style.EMPTY.withColor(parsedParticleVal)));
                 }
             }
         });

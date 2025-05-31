@@ -40,7 +40,10 @@ public class ModItems {
     static float GOLD_REGEN = 2F / 25F;
 
     // items
-    public static final Item DREAMCATCHER = registerItem("dreamcatcher", Item::new, new Item.Properties().stacksTo(1));
+    public static final Item DREAMCATCHER = registerItem("dreamcatcher", Item::new, new Item.Properties()
+            .durability(0)
+            .stacksTo(1)
+    );
     public static final Item ELDER_GUARDIAN_SPINE = registerItem("elder_guardian_spine", Item::new, new Item.Properties().rarity(Rarity.EPIC));
     public static final Item HOLLOW_TWINE = registerItem("hollow_twine", Item::new, new Item.Properties());
     public static final Item PHANTOM_SINEW = registerItem("phantom_sinew", Item::new, new Item.Properties());

@@ -2,6 +2,7 @@ package sircow.preservedinferno;
 
 import sircow.preservedinferno.block.ModBlocks;
 import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.other.ModDamageTypes;
@@ -25,6 +26,7 @@ public class CommonClass {
             ModEntityData.registerModEntityData();
             ModEntities.registerModEntities();
             ModRecipes.registerModRecipes();
+            ModEffects.registerModEffects();
         }
     }
 }
