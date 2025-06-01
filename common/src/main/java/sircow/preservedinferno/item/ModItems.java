@@ -32,12 +32,13 @@ public class ModItems {
 
     // shield stuff
     static DecimalFormat df = new DecimalFormat("0.000");
-    static double IRON_REGEN_PARSE = 1F / 28F;
-    static float COPPER_REGEN = 1F / 64F;
-    static float IRON_REGEN = Float.parseFloat(df.format(IRON_REGEN_PARSE));
-    static float DIAMOND_REGEN = 1F / 16F;
-    static float NETHERITE_REGEN = 1F / 10F;
-    static float GOLD_REGEN = 2F / 25F;
+    static double COPPER_REGEN_PARSE = 2F / 75F;
+    static double NETHERITE_REGEN_PARSE = 2F / 15F;
+    static float COPPER_REGEN = Float.parseFloat(df.format(COPPER_REGEN_PARSE));
+    static float IRON_REGEN = 6F / 125F;
+    static float DIAMOND_REGEN = 2F / 25F;
+    static float NETHERITE_REGEN = Float.parseFloat(df.format(NETHERITE_REGEN_PARSE));
+    static float GOLD_REGEN = 1F / 10F;
 
     // items
     public static final Item DREAMCATCHER = registerItem("dreamcatcher", Item::new, new Item.Properties()
@@ -100,7 +101,7 @@ public class ModItems {
                             )
                     )
                     .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
-                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 5)
+                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 8)
                     .component(ModComponents.SHIELD_REGEN_RATE_COMPONENT, COPPER_REGEN)
     );
     public static final Item IRON_SHIELD = registerItem("iron_shield", PreservedShieldItem::new,
@@ -122,7 +123,7 @@ public class ModItems {
                             )
                     )
                     .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
-                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 10)
+                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 12)
                     .component(ModComponents.SHIELD_REGEN_RATE_COMPONENT, IRON_REGEN)
     );
     public static final Item DIAMOND_SHIELD = registerItem("diamond_shield", PreservedShieldItem::new,
@@ -144,7 +145,7 @@ public class ModItems {
                     )
             )
             .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
-                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 15)
+                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 16)
                     .component(ModComponents.SHIELD_REGEN_RATE_COMPONENT, DIAMOND_REGEN)
     );
     public static final Item NETHERITE_SHIELD = registerItem("netherite_shield", PreservedShieldItem::new,
@@ -189,7 +190,7 @@ public class ModItems {
                             )
                     )
                     .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
-                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 8)
+                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 10)
                     .component(ModComponents.SHIELD_REGEN_RATE_COMPONENT, GOLD_REGEN)
     );
 

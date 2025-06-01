@@ -13,7 +13,7 @@ import java.util.UUID;
 public class ShieldStaminaHandler {
     public static final Map<UUID, Integer> playerShieldCooldownMap = new HashMap<>();
     private static final int COOLDOWN_TICKS = 20 * 10;
-    private static final float STAMINA_LOSS = 0.05F;
+    private static final float STAMINA_LOSS = 0.1F;
     public static DamageSource lastBypassingSource = null;
 
     public static void onServerTick(ServerPlayer player) {

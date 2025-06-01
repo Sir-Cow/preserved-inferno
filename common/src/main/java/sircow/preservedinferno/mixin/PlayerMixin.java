@@ -12,6 +12,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -80,17 +81,13 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         if (player.isBlocking() && blockingStack.getItem() instanceof PreservedShieldItem) {
             float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
 
+            if (damageSource.is(DamageTypeTags.IS_FIRE) || damageSource.is(DamageTypes.ON_FIRE)) {
+                player.clearFire();
+                player.setSharedFlagOnFire(false);
+            }
+
             if (damageSource.is(DamageTypeTags.BYPASSES_SHIELD)) {
                 ShieldStaminaHandler.lastBypassingSource = damageSource;
-
-                float newStamina = Math.max(0, currentStamina - originalAmount);
-                if (newStamina != currentStamina) {
-                    player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
-                }
-                if (newStamina <= 0) {
-                    ShieldStaminaHandler.triggerCooldown(player, blockingStack);
-                }
-
                 Optional<BlocksAttacks> blocksAttacks = Optional.ofNullable(blockingStack.get(DataComponents.BLOCKS_ATTACKS));
                 if (blocksAttacks.isPresent()) {
                     blocksAttacks.get().onBlocked(level, player);
