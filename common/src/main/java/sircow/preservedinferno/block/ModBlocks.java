@@ -6,20 +6,38 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.WeatheringCopper;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.block.custom.AnglingTableBlock;
 import sircow.preservedinferno.block.custom.InductorRailBlock;
+import sircow.preservedinferno.block.custom.PreservedStairBlock;
 import sircow.preservedinferno.block.custom.WeatheringInductorRailBlock;
 
 import java.util.function.Function;
 
 public class ModBlocks {
+    public static final Block RHYOLITE = register("rhyolite",
+            Block::new, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F), true);
+    public static final Block POLISHED_RHYOLITE = register("polished_rhyolite",
+            Block::new, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F), true);
+    public static final Block RHYOLITE_STAIRS = registerStair("rhyolite_stairs", RHYOLITE);
+    public static final Block POLISHED_RHYOLITE_STAIRS = registerStair("polished_rhyolite_stairs", POLISHED_RHYOLITE);
+    public static final Block RHYOLITE_SLAB = register("rhyolite_slab", SlabBlock::new, BlockBehaviour.Properties.ofFullCopy(RHYOLITE), true);
+    public static final Block POLISHED_RHYOLITE_SLAB = register("polished_rhyolite_slab", SlabBlock::new, BlockBehaviour.Properties.ofFullCopy(POLISHED_RHYOLITE), true);
+    public static final Block RHYOLITE_WALL = register("rhyolite_wall", WallBlock::new, BlockBehaviour.Properties.ofFullCopy(RHYOLITE).forceSolidOn(), true);
+
     public static final Block ANGLING_TABLE = register("angling_table",
             AnglingTableBlock::new, BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
@@ -71,6 +89,11 @@ public class ModBlocks {
 
     private static ResourceKey<Item> keyOfItem(String name) {
         return ResourceKey.create(Registries.ITEM, Constants.id(name));
+    }
+
+    private static Block registerStair(String name, Block baseBlock) {
+        BlockState baseBlockState = baseBlock.defaultBlockState();
+        return register(name, (properties) -> new PreservedStairBlock(baseBlockState, properties), BlockBehaviour.Properties.ofFullCopy(baseBlock), true);
     }
 
     public static void registerModBlocks() {

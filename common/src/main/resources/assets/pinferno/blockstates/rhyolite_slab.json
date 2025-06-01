@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pinferno:block/rhyolite_slab"
+    },
+    "type=double": {
+      "model": "pinferno:block/rhyolite"
+    },
+    "type=top": {
+      "model": "pinferno:block/rhyolite_slab_top"
+    }
+  }
+}

@@ -83,7 +83,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                         particleVal = "#FFFFFF";
                     }
                     int parsedParticleVal = Integer.parseInt(particleVal.replace("#", ""), 16);
-                    lines.add(insertIndex, Component.literal(particleVal).withStyle(Style.EMPTY.withColor(parsedParticleVal)));
+                    lines.add(insertIndex, Component.translatable("item.color", Component.literal(particleVal).withStyle(Style.EMPTY.withColor(parsedParticleVal))).withStyle(ChatFormatting.GRAY));
                 }
             }
         });

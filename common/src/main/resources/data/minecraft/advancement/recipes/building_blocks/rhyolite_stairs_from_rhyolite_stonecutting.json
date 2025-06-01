@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_copper_nugget": {
+    "has_rhyolite": {
       "conditions": {
         "items": [
           {
-            "items": "pinferno:copper_nugget"
+            "items": "pinferno:rhyolite"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "pinferno:copper_ingot_from_nuggets"
+        "recipe": "minecraft:rhyolite_stairs_from_rhyolite_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_copper_nugget"
+      "has_rhyolite"
     ]
   ],
   "rewards": {
     "recipes": [
-      "pinferno:copper_ingot_from_nuggets"
+      "minecraft:rhyolite_stairs_from_rhyolite_stonecutting"
     ]
   }
 }

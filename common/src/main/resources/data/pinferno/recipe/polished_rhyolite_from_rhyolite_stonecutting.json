@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "pinferno:rhyolite",
+  "result": {
+    "count": 1,
+    "id": "pinferno:polished_rhyolite"
+  }
+}

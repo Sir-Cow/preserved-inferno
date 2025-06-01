@@ -21,6 +21,14 @@ public class FabricModItemGroups {
                 .title(Component.translatable("itemgroup.pinferno.items"))
                 .icon(() -> new ItemStack(ModItems.DREAMCATCHER))
                 .displayItems((displayContext, entries) -> {
+                    entries.accept(ModBlocks.RHYOLITE.asItem());
+                    entries.accept(ModBlocks.POLISHED_RHYOLITE.asItem());
+                    entries.accept(ModBlocks.RHYOLITE_WALL.asItem());
+                    entries.accept(ModBlocks.RHYOLITE_STAIRS.asItem());
+                    entries.accept(ModBlocks.POLISHED_RHYOLITE_STAIRS.asItem());
+                    entries.accept(ModBlocks.RHYOLITE_SLAB.asItem());
+                    entries.accept(ModBlocks.POLISHED_RHYOLITE_SLAB.asItem());
+
                     entries.accept(ModItems.DREAMCATCHER);
                     entries.accept(ModItems.ELDER_GUARDIAN_SPINE);
                     entries.accept(ModItems.HOLLOW_TWINE);

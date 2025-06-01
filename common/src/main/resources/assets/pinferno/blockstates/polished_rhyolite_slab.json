@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pinferno:block/polished_rhyolite_slab"
+    },
+    "type=double": {
+      "model": "pinferno:block/polished_rhyolite"
+    },
+    "type=top": {
+      "model": "pinferno:block/polished_rhyolite_slab_top"
+    }
+  }
+}

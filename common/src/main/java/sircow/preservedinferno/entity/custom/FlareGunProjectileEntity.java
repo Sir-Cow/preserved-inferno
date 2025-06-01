@@ -27,6 +27,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.item.ModItems;
@@ -91,7 +92,7 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
         super.tick();
         if (!this.level().isClientSide) {
             if (this.firedFrom.isEmpty()) {
-                System.err.println("FlareGunProjectileEntity ticked with null or empty firedFrom ItemStack. Discarding.");
+                Constants.LOG.error("FlareGunProjectileEntity ticked with null or empty firedFrom ItemStack. Discarding.");
                 this.discard();
                 return;
             }
@@ -104,35 +105,39 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
                         particleColour = Integer.parseInt(colourString.substring(1), 16);
                     }
                     catch (NumberFormatException e) {
-                        System.err.println("Invalid flare particle colour format: " + colourString + " Please report this!");
+                        Constants.LOG.error("Invalid flare particle colour format: {} Please report this!", colourString);
                     }
                 }
 
-                DustParticleOptions whiteDust = new DustParticleOptions(particleColour, 4.0F);
-
-                ClientboundLevelParticlesPacket packet = new ClientboundLevelParticlesPacket(
-                        whiteDust,
-                        true,
-                        true,
-                        this.getX(),
-                        this.getY(),
-                        this.getZ(),
-                        0.0F,
-                        0.0F,
-                        0.0F,
-                        0.0F,
-                        10
-                );
-
+                ClientboundLevelParticlesPacket packet = getClientboundLevelParticlesPacket(particleColour);
                 for (ServerPlayer player : serverLevel.players()) {
                     player.connection.send(packet);
                 }
             }
 
-            if (this.tickCount >= 60) {
+            if (this.tickCount >= 80) {
                 this.discard();
             }
         }
+    }
+
+    private @NotNull ClientboundLevelParticlesPacket getClientboundLevelParticlesPacket(int particleColour) {
+        float particleScale = (float) this.tickCount / 5;
+        DustParticleOptions whiteDust = new DustParticleOptions(particleColour, particleScale);
+
+        return new ClientboundLevelParticlesPacket(
+                whiteDust,
+                true,
+                true,
+                this.getX(),
+                this.getY(),
+                this.getZ(),
+                0.0F,
+                0.0F,
+                0.0F,
+                0.0F,
+                10
+        );
     }
 
     @Override

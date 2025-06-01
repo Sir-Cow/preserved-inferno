@@ -1,6 +1,13 @@
 {
   "replace": false,
   "values": [
+    "pinferno:rhyolite",
+    "pinferno:polished_rhyolite",
+    "pinferno:rhyolite_wall",
+    "pinferno:rhyolite_stairs",
+    "pinferno:polished_rhyolite_stairs",
+    "pinferno:rhyolite_slab",
+    "pinferno:polished_rhyolite_slab",
     "pinferno:inductor_rail",
     "pinferno:exposed_inductor_rail",
     "pinferno:weathered_inductor_rail",

@@ -1,4 +1,12 @@
 {
+  "item.pinferno.rhyolite": "Rhyolite",
+  "item.pinferno.polished_rhyolite": "Polished Rhyolite",
+  "item.pinferno.rhyolite_wall": "Rhyolite Wall",
+  "item.pinferno.rhyolite_stairs": "Rhyolite Stairs",
+  "item.pinferno.polished_rhyolite_stairs": "Polished Rhyolite Stairs",
+  "item.pinferno.rhyolite_slab": "Rhyolite Slab",
+  "item.pinferno.polished_rhyolite_slab": "Polished Rhyolite Slab",
+
   "item.pinferno.dreamcatcher": "Dreamcatcher",
   "item.pinferno.elder_guardian_spine": "Elder Guardian Spine",
   "item.pinferno.hollow_twine": "Hollow Twine",
@@ -109,5 +117,6 @@
   "item.pinferno.modifiers.on_rod": "When on Rod:",
 
   "effect.pinferno.well_rested": "Well Rested",
-  "effect.pinferno.well_rested_consume": "You awaken feeling well rested."
+  "effect.pinferno.well_rested_awake": "You awaken feeling well rested.",
+  "effect.pinferno.well_rested_consume": "Maybe that was just a bad dream..."
 }
