@@ -132,10 +132,10 @@ public class ArmorMaterialMixin {
         else if (assetId.toString().contains("netherite")) {
             toughVal = NETHERITE_TOUGHNESS.getOrDefault(armorType, 0.0F);
             defenseVal = switch (armorType) {
-                case HELMET -> 15;
-                case CHESTPLATE -> 28;
-                case LEGGINGS -> 24;
-                case BOOTS -> 13;
+                case HELMET -> 20;
+                case CHESTPLATE -> 30;
+                case LEGGINGS -> 25;
+                case BOOTS -> 15;
                 case BODY -> 11;
             };
         }

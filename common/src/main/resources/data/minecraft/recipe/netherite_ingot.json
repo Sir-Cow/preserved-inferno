@@ -1,16 +1,14 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "netherite_ingot",
-  "ingredients": [
-    "minecraft:netherite_scrap",
-    "minecraft:netherite_scrap",
-    "minecraft:netherite_scrap",
-    "minecraft:netherite_scrap",
-    "pinferno:nether_alloy_ingot",
-    "pinferno:nether_alloy_ingot",
-    "pinferno:nether_alloy_ingot",
-    "pinferno:nether_alloy_ingot"
+  "key": {
+    "#": "pinferno:nether_alloy_ingot",
+    "S": "minecraft:netherite_scrap"
+  },
+  "pattern": [
+    "SSS",
+    "S#S",
+    "SSS"
   ],
   "result": {
     "count": 1,

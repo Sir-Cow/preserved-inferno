@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "pinferno:nether_alloy_ingot",
+  "base": "minecraft:golden_helmet",
+  "result": {
+    "id": "minecraft:golden_helmet",
+    "components": {
+      "minecraft:item_name": {
+        "translate": "♦ ",
+        "extra": [
+          {
+            "translate": "item.minecraft.golden_helmet",
+            "color": "#ffffff"
+          }
+        ],
+        "color": "#f3b6b6"
+      },
+      "minecraft:attribute_modifiers": [
+        {
+          "type": "minecraft:armor",
+          "id": "minecraft:",
+          "amount": 18,
+          "operation": "add_value"
+        }
+      ],
+      "minecraft:custom_data": {
+        "pinferno": {
+          "upgraded_nether_alloy": true
+        }
+      }
+    }
+  },
+  "template": "pinferno:nether_alloy_upgrade_smithing_template"
+}

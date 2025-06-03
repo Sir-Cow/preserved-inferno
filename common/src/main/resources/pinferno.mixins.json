@@ -58,6 +58,7 @@
     "ShovelItemMixin",
     "ShulkerMixin",
     "SkeletonHorseMixin",
+    "SmithingMenuMixin",
     "SnifferMixin",
     "SnowGolemMixin",
     "ThrownTridentMixin",
