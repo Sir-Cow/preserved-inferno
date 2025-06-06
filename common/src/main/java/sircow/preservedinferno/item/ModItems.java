@@ -198,7 +198,9 @@ public class ModItems {
 
     public static final Item NETHER_GOLD_PLATE = registerItem("nether_gold_plate", Item::new, new Item.Properties());
     public static final Item NETHER_ALLOY_INGOT = registerItem("nether_alloy_ingot", Item::new, new Item.Properties());
-    public static final Item NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE = registerItem("nether_alloy_upgrade_smithing_template", Item::new, new Item.Properties());
+    public static final Item NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE = registerItem("nether_alloy_upgrade_smithing_template", Item::new, new Item.Properties()
+            .rarity(Rarity.UNCOMMON)
+    );
 
     public static final Item COPPER_FISHING_HOOK = registerItem("copper_fishing_hook", Item::new, new Item.Properties()
             .durability(128)
@@ -290,7 +292,10 @@ public class ModItems {
             .repairable(ItemTags.NETHERITE_TOOL_MATERIALS)
             .fireResistant()
     );
-    public static final Item MUSIC_DISC_AQUA = registerItem("music_disc_aqua", Item::new, new Item.Properties().stacksTo(1));
+    public static final Item MUSIC_DISC_AQUA = registerItem("music_disc_aqua", Item::new, new Item.Properties()
+            .rarity(Rarity.UNCOMMON)
+            .stacksTo(1)
+    );
 
     public static final Item FLARE_GUN = registerItem("flare_gun", PreservedFlareGunItem::new, new Item.Properties()
             .durability(64)

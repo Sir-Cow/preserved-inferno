@@ -5,9 +5,8 @@
     "#": "pinferno:nether_gold_plate"
   },
   "pattern": [
-    "###",
-    "###",
-    "###"
+    "##",
+    "##"
   ],
   "result": {
     "count": 1,

@@ -5,34 +5,27 @@
   "result": {
     "id": "minecraft:netherite_helmet",
     "components": {
-      "minecraft:item_name": {
-        "translate": "♦ ",
-        "extra": [
-          {
-            "translate": "item.minecraft.netherite_helmet",
-            "color": "#ffffff"
-          }
-        ],
-        "color": "#f3b6b6"
-      },
       "minecraft:attribute_modifiers": [
         {
           "type": "minecraft:armor",
           "id": "minecraft:",
           "amount": 30,
-          "operation": "add_value"
+          "operation": "add_value",
+          "slot": "head"
         },
         {
           "type": "minecraft:armor_toughness",
           "id": "minecraft:",
           "amount": 2,
-          "operation": "add_value"
+          "operation": "add_value",
+          "slot": "head"
         },
         {
           "type": "minecraft:knockback_resistance",
           "id": "minecraft:",
           "amount": 0.1,
-          "operation": "add_value"
+          "operation": "add_value",
+          "slot": "head"
         }
       ],
       "minecraft:custom_data": {

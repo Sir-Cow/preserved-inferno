@@ -7,6 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.ItemContainerContents;
 import sircow.preservedinferno.item.custom.CacheItem;
 import sircow.preservedinferno.Constants;
@@ -17,6 +18,7 @@ public class FabricModItems {
     public static final Item CACHE = registerItem("cache", properties ->
             new CacheItem(properties, 9), new Item.Properties()
             .component(DataComponents.CONTAINER, ItemContainerContents.EMPTY)
+            .rarity(Rarity.UNCOMMON)
             .stacksTo(1)
     );
 

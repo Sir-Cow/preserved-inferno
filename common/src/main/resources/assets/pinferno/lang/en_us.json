@@ -51,7 +51,7 @@
 
   "item.pinferno.nether_alloy_ingot": "Nether Alloy Ingot",
   "item.pinferno.nether_gold_plate": "Nether Gold Plate",
-  "item.pinferno.nether_alloy_upgrade_smithing_template": "Nether Alloy Smithing Template",
+  "item.pinferno.nether_alloy_upgrade_smithing_template": "Nether Alloy Upgrade",
 
   "item.pinferno.aquatic_fiber": "Aquatic Fiber",
   "item.pinferno.cache": "Cache",
@@ -107,14 +107,16 @@
   "container.pinferno.angling_table": "Angling Table",
   "container.pinferno.cache": "Cache",
 
-  "item.pinferno.shield_max_stamina": " +%s Stamina",
-  "item.pinferno.shield_regen_rate": " +%s Stamina Recovery",
+  "item.pinferno.shield_max_stamina": "+%s Stamina",
+  "item.pinferno.shield_regen_rate": "+%s Stamina Recovery",
   "item.pinferno.modifiers.not_active": "When not active:",
 
-  "item.pinferno.modifiers.fishing_speed": " +%s Fishing Speed",
-  "item.pinferno.modifiers.fortune": " +%s Fortune",
-  "item.pinferno.modifiers.luck": " +%s Luck",
+  "item.pinferno.modifiers.fishing_speed": "+%s Fishing Speed",
+  "item.pinferno.modifiers.fortune": "+%s Fortune",
+  "item.pinferno.modifiers.luck": "+%s Luck",
   "item.pinferno.modifiers.on_rod": "When on Rod:",
+
+  "item.pinferno.helmets": "Helmets",
 
   "effect.pinferno.well_rested": "Well Rested",
   "effect.pinferno.well_rested_awake": "You awaken feeling well rested.",

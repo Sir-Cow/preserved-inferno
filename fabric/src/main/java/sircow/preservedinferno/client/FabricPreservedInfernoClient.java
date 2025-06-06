@@ -86,6 +86,14 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                     lines.add(insertIndex, Component.translatable("item.color", Component.literal(particleVal).withStyle(Style.EMPTY.withColor(parsedParticleVal))).withStyle(ChatFormatting.GRAY));
                 }
             }
+            if (stack.is(ModItems.NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE)) {
+                lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template").withStyle(ChatFormatting.GRAY));
+                lines.add(insertIndex++, Component.empty());
+                lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.applies_to").withStyle(ChatFormatting.GRAY));
+                lines.add(insertIndex++, Component.literal(" ").append(Component.translatable("item.pinferno.helmets").withStyle(ChatFormatting.BLUE)));
+                lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.ingredients").withStyle(ChatFormatting.GRAY));
+                lines.add(insertIndex, Component.literal(" ").append(Component.translatable("item.pinferno.nether_alloy_ingot").withStyle(ChatFormatting.BLUE)));
+            }
         });
     }
 
@@ -102,10 +110,10 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     private void addShieldTooltip(List<Component> lines, int insertIndex, Integer maxStamina, Float staminaRegenRate) {
         lines.add(insertIndex++, Component.empty());
         lines.add(insertIndex++, Component.translatable("item.modifiers.offhand").withStyle(ChatFormatting.GRAY));
-        lines.add(insertIndex++, Component.translatable("item.pinferno.shield_max_stamina", maxStamina).withStyle(ChatFormatting.DARK_GREEN));
+        lines.add(insertIndex++, Component.literal(" ").append(Component.translatable("item.pinferno.shield_max_stamina", maxStamina).withStyle(ChatFormatting.DARK_GREEN)));
         lines.add(insertIndex++, Component.empty());
         lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.not_active").withStyle(ChatFormatting.GRAY));
-        lines.add(insertIndex, Component.translatable("item.pinferno.shield_regen_rate", df.format(staminaRegenRate * 20)).withStyle(ChatFormatting.BLUE));
+        lines.add(insertIndex, Component.literal(" ").append(Component.translatable("item.pinferno.shield_regen_rate", df.format(staminaRegenRate * 20)).withStyle(ChatFormatting.BLUE)));
     }
 
     private void addFishingUpgradeTooltip(List<Component> lines, int insertIndex, Item item) {
@@ -144,7 +152,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
 
     private void addIfPresent(List<Component> lines, int insertIndex, Item item, Map<Item, Double> map, String translationKey) {
         if (map.containsKey(item)) {
-            lines.add(insertIndex, Component.translatable(translationKey, map.get(item)).withStyle(ChatFormatting.BLUE));
+            lines.add(insertIndex, Component.literal(" ").append(Component.translatable(translationKey, map.get(item)).withStyle(ChatFormatting.BLUE)));
         }
     }
 }

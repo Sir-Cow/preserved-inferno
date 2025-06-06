@@ -5,22 +5,13 @@
   "result": {
     "id": "minecraft:leather_helmet",
     "components": {
-      "minecraft:item_name": {
-        "translate": "♦ ",
-        "extra": [
-          {
-            "translate": "item.minecraft.leather_helmet",
-            "color": "#ffffff"
-          }
-        ],
-        "color": "#f3b6b6"
-      },
       "minecraft:attribute_modifiers": [
         {
           "type": "minecraft:armor",
           "id": "minecraft:",
           "amount": 18,
-          "operation": "add_value"
+          "operation": "add_value",
+          "slot": "head"
         }
       ],
       "minecraft:custom_data": {

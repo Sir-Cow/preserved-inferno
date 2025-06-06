@@ -5,28 +5,20 @@
   "result": {
     "id": "minecraft:iron_helmet",
     "components": {
-      "minecraft:item_name": {
-        "translate": "♦ ",
-        "extra": [
-          {
-            "translate": "item.minecraft.iron_helmet",
-            "color": "#ffffff"
-          }
-        ],
-        "color": "#f3b6b6"
-      },
       "minecraft:attribute_modifiers": [
         {
           "type": "minecraft:armor",
           "id": "minecraft:",
           "amount": 22,
-          "operation": "add_value"
+          "operation": "add_value",
+          "slot": "head"
         },
         {
           "type": "minecraft:armor_toughness",
           "id": "minecraft:",
           "amount": 1,
-          "operation": "add_value"
+          "operation": "add_value",
+          "slot": "head"
         }
       ],
       "minecraft:custom_data": {
