@@ -54,7 +54,9 @@ public class ModItems {
             new FoodProperties.Builder().nutrition(4).saturationModifier(1.2F).alwaysEdible().build(),
             defaultFood().consumeSeconds(0.8F).onConsume(new ApplyStatusEffectsConsumeEffect(List.of(new MobEffectInstance(MobEffects.REGENERATION, 120, 0)))).build()));
 
-    public static final Item ECHOING_PRISM = registerItem("echoing_prism", Item::new, new Item.Properties());
+    public static final Item ECHOING_PRISM = registerItem("echoing_prism", Item::new, new Item.Properties()
+            .rarity(Rarity.UNCOMMON)
+    );
     public static final Item ECHOING_PRISM_UPGRADE_SMITHING_TEMPLATE = registerItem("echoing_prism_upgrade_smithing_template", Item::new, new Item.Properties()
             .rarity(Rarity.UNCOMMON)
     );

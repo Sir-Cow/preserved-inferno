@@ -40,17 +40,28 @@ public abstract class SmithingMenuMixin extends ItemCombinerMenu {
     private void preserved_inferno$dynamicHelmetNameAtTail(CallbackInfo ci) {
         ItemStack resultStack = this.resultSlots.getItem(0);
         CustomData customData = resultStack.get(DataComponents.CUSTOM_DATA);
+        int prefixColour = 0;
+        boolean hasUpgrade = false;
 
         if (customData != null) {
-            if (Objects.requireNonNull(resultStack.get(DataComponents.CUSTOM_DATA)).toString().contains("upgraded_nether_alloy") ||
-                    Objects.requireNonNull(resultStack.get(DataComponents.CUSTOM_DATA)).toString().contains("upgraded_echoing_prism")) {
+            if (Objects.requireNonNull(resultStack.get(DataComponents.CUSTOM_DATA)).toString().contains("upgraded_nether_alloy")) {
+                prefixColour = 0xF3B6B6;
+                hasUpgrade = true;
+            }
+            if (Objects.requireNonNull(resultStack.get(DataComponents.CUSTOM_DATA)).toString().contains("upgraded_echoing_prism"))
+            {
+                prefixColour = 0x009295;
+                hasUpgrade = true;
+            }
+
+            if (hasUpgrade) {
                 ItemStack baseStack = this.inputSlots.getItem(SmithingMenu.BASE_SLOT);
                 Component originalName = baseStack.get(DataComponents.CUSTOM_NAME);
                 if (originalName == null) {
                     originalName = baseStack.getHoverName();
                 }
 
-                MutableComponent coloredPrefix = Component.literal("♦ ").withColor(0xF3B6B6);
+                MutableComponent coloredPrefix = Component.literal("♦ ").withColor(prefixColour);
                 MutableComponent combinedText = Component.empty().append(coloredPrefix).append(originalName);
                 MutableComponent finalName = combinedText.withStyle(combinedText.getStyle().withItalic(originalName.getStyle().isItalic()));
                 resultStack.set(DataComponents.CUSTOM_NAME, finalName);

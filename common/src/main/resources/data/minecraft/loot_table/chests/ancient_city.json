@@ -414,7 +414,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:ward_armor_trim_smithing_template",
+          "name": "pinferno:echoing_prism_upgrade_smithing_template",
           "weight": 5
         },
         {
