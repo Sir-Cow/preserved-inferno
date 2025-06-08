@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.MenuTypes;
 import sircow.preservedinferno.block.ModBlocks;
@@ -86,14 +87,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                     lines.add(insertIndex, Component.translatable("item.color", Component.literal(particleVal).withStyle(Style.EMPTY.withColor(parsedParticleVal))).withStyle(ChatFormatting.GRAY));
                 }
             }
-            if (stack.is(ModItems.NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE)) {
-                lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template").withStyle(ChatFormatting.GRAY));
-                lines.add(insertIndex++, Component.empty());
-                lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.applies_to").withStyle(ChatFormatting.GRAY));
-                lines.add(insertIndex++, Component.literal(" ").append(Component.translatable("item.pinferno.helmets").withStyle(ChatFormatting.BLUE)));
-                lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.ingredients").withStyle(ChatFormatting.GRAY));
-                lines.add(insertIndex, Component.literal(" ").append(Component.translatable("item.pinferno.nether_alloy_ingot").withStyle(ChatFormatting.BLUE)));
-            }
+            addSmithingTemplateTooltip(lines, insertIndex, stack);
         });
     }
 
@@ -114,6 +108,25 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         lines.add(insertIndex++, Component.empty());
         lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.not_active").withStyle(ChatFormatting.GRAY));
         lines.add(insertIndex, Component.literal(" ").append(Component.translatable("item.pinferno.shield_regen_rate", df.format(staminaRegenRate * 20)).withStyle(ChatFormatting.BLUE)));
+    }
+
+    private void addSmithingTemplateTooltip(List<Component> lines, int insertIndex, ItemStack stack) {
+        if (stack.is(ModItems.NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE)) {
+            lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template").withStyle(ChatFormatting.GRAY));
+            lines.add(insertIndex++, Component.empty());
+            lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.applies_to").withStyle(ChatFormatting.GRAY));
+            lines.add(insertIndex++, Component.literal(" ").append(Component.translatable("item.pinferno.helmets").withStyle(ChatFormatting.BLUE)));
+            lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.ingredients").withStyle(ChatFormatting.GRAY));
+            lines.add(insertIndex, Component.literal(" ").append(Component.translatable("item.pinferno.nether_alloy_ingot").withStyle(ChatFormatting.BLUE)));
+        }
+        if (stack.is(ModItems.ECHOING_PRISM_UPGRADE_SMITHING_TEMPLATE)) {
+            lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template").withStyle(ChatFormatting.GRAY));
+            lines.add(insertIndex++, Component.empty());
+            lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.applies_to").withStyle(ChatFormatting.GRAY));
+            lines.add(insertIndex++, Component.literal(" ").append(Component.translatable("item.pinferno.leggings").withStyle(ChatFormatting.BLUE)));
+            lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.ingredients").withStyle(ChatFormatting.GRAY));
+            lines.add(insertIndex, Component.literal(" ").append(Component.translatable("item.pinferno.echoing_prism").withStyle(ChatFormatting.BLUE)));
+        }
     }
 
     private void addFishingUpgradeTooltip(List<Component> lines, int insertIndex, Item item) {

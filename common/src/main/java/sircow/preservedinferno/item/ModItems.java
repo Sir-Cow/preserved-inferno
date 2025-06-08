@@ -54,6 +54,11 @@ public class ModItems {
             new FoodProperties.Builder().nutrition(4).saturationModifier(1.2F).alwaysEdible().build(),
             defaultFood().consumeSeconds(0.8F).onConsume(new ApplyStatusEffectsConsumeEffect(List.of(new MobEffectInstance(MobEffects.REGENERATION, 120, 0)))).build()));
 
+    public static final Item ECHOING_PRISM = registerItem("echoing_prism", Item::new, new Item.Properties());
+    public static final Item ECHOING_PRISM_UPGRADE_SMITHING_TEMPLATE = registerItem("echoing_prism_upgrade_smithing_template", Item::new, new Item.Properties()
+            .rarity(Rarity.UNCOMMON)
+    );
+
     public static final Item RAW_IRON_CHUNK = registerItem("raw_iron_chunk", Item::new, new Item.Properties());
     public static final Item RAW_GOLD_CHUNK = registerItem("raw_gold_chunk", Item::new, new Item.Properties());
     public static final Item RAW_COPPER_CHUNK = registerItem("raw_copper_chunk", Item::new, new Item.Properties());
@@ -152,7 +157,7 @@ public class ModItems {
             new Item.Properties()
             .durability(2048)
             .stacksTo(1)
-            .repairable(ItemTags.NETHERITE_TOOL_MATERIALS)
+            .repairable(ModTags.REPAIRS_NETHERITE_TOOL)
             .equippableUnswappable(EquipmentSlot.OFFHAND)
             .fireResistant()
             .component(
@@ -229,7 +234,7 @@ public class ModItems {
     public static final Item NETHERITE_FISHING_HOOK = registerItem("netherite_fishing_hook", Item::new, new Item.Properties()
             .durability(2048)
             .stacksTo(1)
-            .repairable(ItemTags.NETHERITE_TOOL_MATERIALS)
+            .repairable(ModTags.REPAIRS_NETHERITE_TOOL)
             .fireResistant()
     );
     public static final Item COPPER_LACED_FISHING_LINE = registerItem("copper_laced_fishing_line", Item::new, new Item.Properties()
@@ -259,7 +264,7 @@ public class ModItems {
     public static final Item NETHERITE_LACED_FISHING_LINE = registerItem("netherite_laced_fishing_line", Item::new, new Item.Properties()
             .durability(2048)
             .stacksTo(1)
-            .repairable(ItemTags.NETHERITE_TOOL_MATERIALS)
+            .repairable(ModTags.REPAIRS_NETHERITE_TOOL)
             .fireResistant()
     );
     public static final Item COPPER_SINKER = registerItem("copper_sinker", Item::new, new Item.Properties()
@@ -289,7 +294,7 @@ public class ModItems {
     public static final Item NETHERITE_SINKER = registerItem("netherite_sinker", Item::new, new Item.Properties()
             .durability(2048)
             .stacksTo(1)
-            .repairable(ItemTags.NETHERITE_TOOL_MATERIALS)
+            .repairable(ModTags.REPAIRS_NETHERITE_TOOL)
             .fireResistant()
     );
     public static final Item MUSIC_DISC_AQUA = registerItem("music_disc_aqua", Item::new, new Item.Properties()

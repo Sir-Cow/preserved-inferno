@@ -27,7 +27,8 @@ public abstract class SmithingMenuMixin extends ItemCombinerMenu {
         CustomData customData = baseStack.get(DataComponents.CUSTOM_DATA);
 
         if (customData != null) {
-            if (Objects.requireNonNull(baseStack.get(DataComponents.CUSTOM_DATA)).toString().contains("upgraded_nether_alloy")) {
+            if (Objects.requireNonNull(baseStack.get(DataComponents.CUSTOM_DATA)).toString().contains("upgraded_nether_alloy") ||
+                    Objects.requireNonNull(baseStack.get(DataComponents.CUSTOM_DATA)).toString().contains("upgraded_echoing_prism")) {
                 this.resultSlots.setItem(0, ItemStack.EMPTY);
                 this.resultSlots.setRecipeUsed(null);
                 ci.cancel();
@@ -41,7 +42,8 @@ public abstract class SmithingMenuMixin extends ItemCombinerMenu {
         CustomData customData = resultStack.get(DataComponents.CUSTOM_DATA);
 
         if (customData != null) {
-            if (Objects.requireNonNull(resultStack.get(DataComponents.CUSTOM_DATA)).toString().contains("upgraded_nether_alloy")) {
+            if (Objects.requireNonNull(resultStack.get(DataComponents.CUSTOM_DATA)).toString().contains("upgraded_nether_alloy") ||
+                    Objects.requireNonNull(resultStack.get(DataComponents.CUSTOM_DATA)).toString().contains("upgraded_echoing_prism")) {
                 ItemStack baseStack = this.inputSlots.getItem(SmithingMenu.BASE_SLOT);
                 Component originalName = baseStack.get(DataComponents.CUSTOM_NAME);
                 if (originalName == null) {

@@ -15,6 +15,9 @@
   "item.pinferno.leather_fabric": "Leather Fabric",
   "item.pinferno.gilden_berries": "Gilden Berries",
 
+  "item.pinferno.echoing_prism": "Echoing Prism",
+  "item.pinferno.echoing_prism_upgrade_smithing_template": "Echoing Upgrade",
+
   "item.pinferno.copper_nugget": "Copper Nugget",
   "item.pinferno.raw_copper_chunk": "Raw Copper Chunk",
   "item.pinferno.raw_iron_chunk": "Raw Iron Chunk",
@@ -117,6 +120,7 @@
   "item.pinferno.modifiers.on_rod": "When on Rod:",
 
   "item.pinferno.helmets": "Helmets",
+  "item.pinferno.leggings": "Leggings",
 
   "effect.pinferno.well_rested": "Well Rested",
   "effect.pinferno.well_rested_awake": "You awaken feeling well rested.",

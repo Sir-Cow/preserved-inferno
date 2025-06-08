@@ -37,6 +37,9 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.LEATHER_FABRIC);
                     entries.accept(ModItems.GILDEN_BERRIES);
 
+                    entries.accept(ModItems.ECHOING_PRISM);
+                    entries.accept(ModItems.ECHOING_PRISM_UPGRADE_SMITHING_TEMPLATE);
+
                     entries.accept(ModItems.COPPER_NUGGET);
                     entries.accept(ModItems.RAW_COPPER_CHUNK);
                     entries.accept(ModItems.RAW_IRON_CHUNK);

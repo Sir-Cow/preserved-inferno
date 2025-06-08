@@ -1,6 +1,6 @@
 {
   "replace": true,
   "values": [
-    "pinferno:nether_alloy_ingot"
+    "minecraft:netherite_ingot"
   ]
 }

@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import sircow.preservedinferno.other.ModTags;
 
 @Mixin(ToolMaterial.class)
 public class ToolMaterialMixin {
@@ -23,7 +24,7 @@ public class ToolMaterialMixin {
         IRON = new ToolMaterial(IRON.incorrectBlocksForDrops(), 256, 5.0F, IRON.attackDamageBonus(), IRON.enchantmentValue(), IRON.repairItems());
         GOLD = new ToolMaterial(GOLD.incorrectBlocksForDrops(), GOLD.durability(), 21.0F, GOLD.attackDamageBonus(), GOLD.enchantmentValue(), GOLD.repairItems());
         DIAMOND = new ToolMaterial(DIAMOND.incorrectBlocksForDrops(), 1024, 9.0F, DIAMOND.attackDamageBonus(), DIAMOND.enchantmentValue(), DIAMOND.repairItems());
-        NETHERITE = new ToolMaterial(NETHERITE.incorrectBlocksForDrops(), 2048, 15.0F, NETHERITE.attackDamageBonus(), NETHERITE.enchantmentValue(), NETHERITE.repairItems());
+        NETHERITE = new ToolMaterial(NETHERITE.incorrectBlocksForDrops(), 2048, 15.0F, NETHERITE.attackDamageBonus(), NETHERITE.enchantmentValue(), ModTags.REPAIRS_NETHERITE_TOOL);
     }
 
     // lose 1 durability instead of 2 when hitting mob

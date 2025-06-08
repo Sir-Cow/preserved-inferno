@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "pinferno:echoing_prism",
+  "base": "minecraft:netherite_leggings",
+  "result": {
+    "id": "minecraft:netherite_leggings",
+    "components": {
+      "minecraft:attribute_modifiers": [
+        {
+          "type": "minecraft:armor",
+          "id": "minecraft:",
+          "amount": 35,
+          "operation": "add_value",
+          "slot": "legs"
+        },
+        {
+          "type": "minecraft:armor_toughness",
+          "id": "minecraft:",
+          "amount": 2,
+          "operation": "add_value",
+          "slot": "legs"
+        },
+        {
+          "type": "minecraft:knockback_resistance",
+          "id": "minecraft:",
+          "amount": 0.1,
+          "operation": "add_value",
+          "slot": "legs"
+        }
+      ],
+      "minecraft:custom_data": {
+        "pinferno": {
+          "upgraded_echoing_prism": true
+        }
+      }
+    }
+  },
+  "template": "pinferno:echoing_prism_upgrade_smithing_template"
+}
