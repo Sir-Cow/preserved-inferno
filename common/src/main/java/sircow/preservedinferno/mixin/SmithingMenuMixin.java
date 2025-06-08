@@ -60,11 +60,15 @@ public abstract class SmithingMenuMixin extends ItemCombinerMenu {
                 if (originalName == null) {
                     originalName = baseStack.getHoverName();
                 }
-
-                MutableComponent colouredPrefix = Component.literal("♦ ").withColor(prefixColour);
-                MutableComponent combinedText = Component.empty().append(colouredPrefix).append(originalName);
-                MutableComponent finalName = combinedText.withStyle(combinedText.getStyle().withItalic(originalName.getStyle().isItalic()));
-                resultStack.set(DataComponents.CUSTOM_NAME, finalName);
+                MutableComponent colouredPrefix;
+                MutableComponent combinedText;
+                MutableComponent finalName;
+                if (!originalName.getSiblings().getFirst().getString().contains("♦")) {
+                    colouredPrefix = Component.literal("♦ ").withColor(prefixColour);
+                    combinedText = Component.empty().append(colouredPrefix).append(originalName);
+                    finalName = combinedText.withStyle(combinedText.getStyle().withItalic(originalName.getStyle().isItalic()));
+                    resultStack.set(DataComponents.CUSTOM_NAME, finalName);
+                }
             }
         }
     }
