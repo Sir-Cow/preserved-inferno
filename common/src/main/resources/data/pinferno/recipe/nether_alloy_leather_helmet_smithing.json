@@ -8,7 +8,7 @@
       "minecraft:attribute_modifiers": [
         {
           "type": "minecraft:armor",
-          "id": "minecraft:",
+          "id": "pinferno:nether_alloy_helmet_modifier_armor",
           "amount": 18,
           "operation": "add_value",
           "slot": "head"

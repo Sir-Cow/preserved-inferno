@@ -8,14 +8,14 @@
       "minecraft:attribute_modifiers": [
         {
           "type": "minecraft:armor",
-          "id": "minecraft:",
+          "id": "pinferno:echoing_prism_leggings_modifier_armor",
           "amount": 30,
           "operation": "add_value",
           "slot": "legs"
         },
         {
           "type": "minecraft:armor_toughness",
-          "id": "minecraft:",
+          "id": "pinferno:echoing_prism_leggings_modifier_toughness",
           "amount": 2,
           "operation": "add_value",
           "slot": "legs"
