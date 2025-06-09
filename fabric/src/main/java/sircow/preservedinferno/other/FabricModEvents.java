@@ -69,7 +69,7 @@ public class FabricModEvents {
         EntitySleepEvents.STOP_SLEEPING.register((entity, sleepingPos) -> {
             if (entity instanceof Player player) {
                 if (player.getSleepTimer() > 20 && !player.level().isMoonVisible()) {
-                    player.addEffect(new MobEffectInstance(ModEffects.WELL_RESTED, 12000, 0, false, false, true));
+                    player.addEffect(new MobEffectInstance(ModEffects.WELL_RESTED, 24000, 0, false, false, true));
                     player.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake"), true);
                 }
             }
