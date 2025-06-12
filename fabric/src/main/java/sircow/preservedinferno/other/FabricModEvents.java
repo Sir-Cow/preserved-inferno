@@ -29,6 +29,7 @@ import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.item.ModItems;
+import sircow.preservedinferno.platform.Services;
 
 import java.util.List;
 
@@ -67,10 +68,12 @@ public class FabricModEvents {
         });
 
         EntitySleepEvents.STOP_SLEEPING.register((entity, sleepingPos) -> {
-            if (entity instanceof Player player) {
-                if (player.getSleepTimer() > 20 && !player.level().isMoonVisible()) {
-                    player.addEffect(new MobEffectInstance(ModEffects.WELL_RESTED, 24000, 0, false, false, true));
-                    player.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake"), true);
+            if (!Services.PLATFORM.isModLoaded("pblizzard")) {
+                if (entity instanceof Player player) {
+                    if (player.getSleepTimer() > 20 && !player.level().isMoonVisible()) {
+                        player.addEffect(new MobEffectInstance(ModEffects.WELL_RESTED, 24000, 0, false, false, true));
+                        player.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake"), true);
+                    }
                 }
             }
         });
@@ -111,10 +114,8 @@ public class FabricModEvents {
             }
 
             // display message if player had well rested effect
-            if (hadWellRestedEffectOnDeath) {
-                newPlayer.server.execute(() -> {
-                    newPlayer.sendSystemMessage(Component.translatable("effect.pinferno.well_rested_consume"), true);
-                });
+            if (hadWellRestedEffectOnDeath && !Services.PLATFORM.isModLoaded("pblizzard")) {
+                newPlayer.server.execute(() -> newPlayer.sendSystemMessage(Component.translatable("effect.pinferno.well_rested_consume"), true));
             }
 
             newPlayer.setHealth(10.0F);

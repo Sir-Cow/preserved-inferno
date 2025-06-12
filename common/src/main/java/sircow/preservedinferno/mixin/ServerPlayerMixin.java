@@ -36,13 +36,7 @@ public class ServerPlayerMixin {
         return 3.0;
     }
 
-    @WrapOperation(
-            method = "restoreFrom",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"
-            )
-    )
+    @WrapOperation(method = "restoreFrom", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"))
     private boolean preserved_inferno$modifyKeepInventoryRule(GameRules instance, GameRules.Key<GameRules.BooleanValue> key, Operation<Boolean> original) {
         ServerPlayer self = (ServerPlayer)(Object)this;
         if (key == GameRules.RULE_KEEPINVENTORY) {
