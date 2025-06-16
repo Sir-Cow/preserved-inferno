@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sircow.preservedinferno.item.ModItems;
+import sircow.preservedinferno.potion.ModPotions;
 
 @Mixin(PotionBrewing.class)
 public class PotionBrewingMixin {
@@ -17,7 +18,7 @@ public class PotionBrewingMixin {
         builder.addContainer(Items.SPLASH_POTION);
         builder.addContainer(Items.LINGERING_POTION);
         builder.addContainerRecipe(Items.POTION, Items.GUNPOWDER, Items.SPLASH_POTION);
-        builder.addContainerRecipe(Items.SPLASH_POTION, Items.DRAGON_BREATH, Items.LINGERING_POTION);
+        builder.addContainerRecipe(Items.POTION, Items.FIRE_CHARGE, Items.LINGERING_POTION);
         builder.addMix(Potions.WATER, Items.BREEZE_ROD, Potions.WIND_CHARGED);
         builder.addMix(Potions.WATER, Items.SLIME_BLOCK, Potions.OOZING);
         builder.addMix(Potions.WATER, Items.STONE, Potions.INFESTED);
@@ -29,14 +30,14 @@ public class PotionBrewingMixin {
         builder.addMix(Potions.INVISIBILITY, Items.REDSTONE, Potions.LONG_INVISIBILITY);
         builder.addMix(Potions.WATER, Items.MAGMA_CREAM, Potions.FIRE_RESISTANCE);
         builder.addMix(Potions.FIRE_RESISTANCE, Items.REDSTONE, Potions.LONG_FIRE_RESISTANCE);
-        builder.addMix(Potions.WATER, Items.RABBIT_FOOT, Potions.LEAPING);
+        builder.addMix(Potions.WATER, Items.RABBIT_HIDE, Potions.LEAPING);
         builder.addMix(Potions.LEAPING, Items.REDSTONE, Potions.LONG_LEAPING);
         builder.addMix(Potions.LEAPING, Items.GLOWSTONE_DUST, Potions.STRONG_LEAPING);
         builder.addMix(Potions.LEAPING, Items.FERMENTED_SPIDER_EYE, Potions.SLOWNESS);
         builder.addMix(Potions.LONG_LEAPING, Items.FERMENTED_SPIDER_EYE, Potions.LONG_SLOWNESS);
         builder.addMix(Potions.SLOWNESS, Items.REDSTONE, Potions.LONG_SLOWNESS);
         builder.addMix(Potions.SLOWNESS, Items.GLOWSTONE_DUST, Potions.STRONG_SLOWNESS);
-        builder.addMix(Potions.WATER, Items.TURTLE_HELMET, Potions.TURTLE_MASTER);
+        builder.addMix(Potions.WATER, Items.TURTLE_SCUTE, Potions.TURTLE_MASTER);
         builder.addMix(Potions.TURTLE_MASTER, Items.REDSTONE, Potions.LONG_TURTLE_MASTER);
         builder.addMix(Potions.TURTLE_MASTER, Items.GLOWSTONE_DUST, Potions.STRONG_TURTLE_MASTER);
         builder.addMix(Potions.SWIFTNESS, Items.FERMENTED_SPIDER_EYE, Potions.SLOWNESS);
@@ -63,10 +64,22 @@ public class PotionBrewingMixin {
         builder.addMix(Potions.WATER, Items.BLAZE_POWDER, Potions.STRENGTH);
         builder.addMix(Potions.STRENGTH, Items.REDSTONE, Potions.LONG_STRENGTH);
         builder.addMix(Potions.STRENGTH, Items.GLOWSTONE_DUST, Potions.STRONG_STRENGTH);
-        builder.addMix(Potions.WATER, Items.FERMENTED_SPIDER_EYE, Potions.WEAKNESS);
+        builder.addMix(Potions.STRENGTH, Items.FERMENTED_SPIDER_EYE, Potions.WEAKNESS);
         builder.addMix(Potions.WEAKNESS, Items.REDSTONE, Potions.LONG_WEAKNESS);
         builder.addMix(Potions.WATER, ModItems.PHANTOM_SINEW, Potions.SLOW_FALLING);
         builder.addMix(Potions.SLOW_FALLING, Items.REDSTONE, Potions.LONG_SLOW_FALLING);
+
+        builder.addMix(Potions.WATER, Items.AMETHYST_SHARD, ModPotions.HASTE);
+        builder.addMix(ModPotions.HASTE, Items.REDSTONE, ModPotions.LONG_HASTE);
+        builder.addMix(ModPotions.HASTE, Items.GLOWSTONE_DUST, ModPotions.STRONG_HASTE);
+        builder.addMix(ModPotions.HASTE, Items.FERMENTED_SPIDER_EYE, ModPotions.MINING_FATIGUE);
+        builder.addMix(ModPotions.MINING_FATIGUE, Items.REDSTONE, ModPotions.LONG_MINING_FATIGUE);
+        builder.addMix(ModPotions.MINING_FATIGUE, Items.GLOWSTONE_DUST, ModPotions.STRONG_MINING_FATIGUE);
+        builder.addMix(Potions.WATER, Items.INK_SAC, ModPotions.BLINDNESS);
+        builder.addMix(ModPotions.BLINDNESS, Items.REDSTONE, ModPotions.LONG_BLINDNESS);
+        builder.addMix(Potions.WATER, Items.RABBIT_FOOT, ModPotions.LUCK);
+        builder.addMix(ModPotions.LUCK, Items.REDSTONE, ModPotions.LONG_LUCK);
+        builder.addMix(ModPotions.LUCK, Items.GLOWSTONE_DUST, ModPotions.STRONG_LUCK);
         ci.cancel();
     }
 }

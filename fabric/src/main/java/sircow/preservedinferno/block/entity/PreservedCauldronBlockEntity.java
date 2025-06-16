@@ -7,6 +7,9 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -41,8 +44,8 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     protected final ContainerData propertyDelegateTwo;
     private int progress = 0;
     private int maxProgress = 100;
-    private int progressWater = 0;
-    private int maxWaterProgress = 64;
+    public int progressWater = 0;
+    public int maxWaterProgress = 64;
 
     // define recipes - TURN THIS INTO DATA DRIVEN
     public static final Map<Item, Item> conversionMap = new HashMap<>();
@@ -182,6 +185,18 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     @Override
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag nbt = super.getUpdateTag(registries);
+        nbt.putInt("newCauldronWaterProgress", this.progressWater);
+        return nbt;
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
     public @NotNull Component getDefaultName() {
         return Component.translatable("block.minecraft.cauldron");
     }
@@ -191,26 +206,28 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         return new PreservedCauldronMenu(syncId, playerInventory, this.propertyDelegate, this.propertyDelegateTwo, this);
     }
 
-    public static void tick(ServerLevel world, BlockPos pos, BlockState state, PreservedCauldronBlockEntity cauldron) {
-        if (world.isClientSide()) {
+    public static void tick(ServerLevel level, BlockPos pos, BlockState state, PreservedCauldronBlockEntity cauldron) {
+        if (level.isClientSide()) {
             return;
         }
 
         if (cauldron.isOutputSlotEmptyOrReceivable()) {
             if (cauldron.hasRecipe() && cauldron.progressWater > 0) {
                 cauldron.increaseCraftProgress();
-                setChanged(world, pos, state);
+                setChanged(level, pos, state);
 
                 if (cauldron.hasCraftingFinished()) {
                     cauldron.craftItem();
                     cauldron.resetProgress();
                 }
-            } else {
+            }
+            else {
                 cauldron.resetProgress();
             }
-        } else {
+        }
+        else {
             cauldron.resetProgress();
-            setChanged(world, pos, state);
+            setChanged(level, pos, state);
         }
 
         cauldron.insertWater();
@@ -239,6 +256,9 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         this.removeItem(INPUT_SLOT, 1);
         this.progressWater -= 1;
         setChanged();
+        if (level != null && !level.isClientSide()) {
+            level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+        }
     }
 
     private boolean hasCraftingFinished() {
@@ -250,6 +270,8 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     private void insertWater() {
+        boolean waterProgressChanged = false;
+
         PotionContents potionContentsComponent = getItem(INPUT_SLOT_TWO).get(DataComponents.POTION_CONTENTS);
         // water bucket
         if ((getItem(INPUT_SLOT_TWO).getItem() == Items.WATER_BUCKET)
@@ -262,6 +284,7 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
             if (level != null) {
                 level.playSound(null, getBlockPos(), SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
             }
+            waterProgressChanged = true;
         }
         // water bottle
         else if ((getItem(INPUT_SLOT_TWO).getItem() == Items.POTION && (potionContentsComponent != null && potionContentsComponent.is(Potions.WATER)))
@@ -275,13 +298,19 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
             if (level != null) {
                 level.playSound(null, getBlockPos(), SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
             }
+            waterProgressChanged = true;
         }
         // cap water limit at 64
         if (this.progressWater > this.maxWaterProgress) {
             this.progressWater = 64;
         }
 
-        setChanged();
+        if (waterProgressChanged) {
+            setChanged();
+            if (level != null && !level.isClientSide()) {
+                level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+            }
+        }
     }
 
     private boolean hasRecipe() {

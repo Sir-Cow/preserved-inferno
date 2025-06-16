@@ -11,4 +11,9 @@ public class BrewingStandBlockEntityMixin {
     private static int preserved_inferno$modifyBrewTime(int original) {
         return 160;
     }
+
+    @ModifyConstant(method = "serverTick", constant = @Constant(intValue = 20))
+    private static int preserved_inferno$modifyFuelIncrease(int original) {
+        return 3;
+    }
 }

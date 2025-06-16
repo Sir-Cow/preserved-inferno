@@ -1,6 +1,8 @@
 package sircow.preservedinferno.other;
 
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +27,7 @@ public class ShieldStaminaHandler {
 
     private static void handleShieldUsage(ServerPlayer player) {
         ItemStack heldStack = player.getOffhandItem();
-        if (heldStack.getItem() instanceof PreservedShieldItem && player.isBlocking() && !isOnCooldown(player)) {
+        if (heldStack.getItem() instanceof PreservedShieldItem && player.isBlocking() && !isOnCooldown(player) && !player.isCreative()) {
             float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
             float drainRate = STAMINA_LOSS;
 
@@ -40,6 +42,18 @@ public class ShieldStaminaHandler {
 
             if (newStamina <= 0 && currentStamina > 0) {
                 triggerCooldown(player, heldStack);
+                if (player instanceof ServerPlayer serverPlayer) {
+                    serverPlayer.level().playSound(
+                            null,
+                            serverPlayer.getX(),
+                            serverPlayer.getY(),
+                            serverPlayer.getZ(),
+                            SoundEvents.ITEM_BREAK,
+                            SoundSource.PLAYERS,
+                            1.0F,
+                            1.0F
+                    );
+                }
             }
         }
     }

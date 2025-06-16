@@ -54,6 +54,7 @@
     "PiglinMixin",
     "PlayerMixin",
     "PotionBrewingMixin",
+    "PotionsMixin",
     "RabbitMixin",
     "ServerPlayerMixin",
     "SheepMixin",

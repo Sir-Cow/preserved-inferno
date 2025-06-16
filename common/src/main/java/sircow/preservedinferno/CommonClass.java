@@ -9,6 +9,7 @@ import sircow.preservedinferno.other.ModDamageTypes;
 import sircow.preservedinferno.other.ModEntityData;
 import sircow.preservedinferno.other.ModTags;
 import sircow.preservedinferno.platform.Services;
+import sircow.preservedinferno.potion.ModPotions;
 import sircow.preservedinferno.recipe.ModRecipes;
 import sircow.preservedinferno.sound.ModSounds;
 
@@ -27,6 +28,7 @@ public class CommonClass {
             ModEntities.registerModEntities();
             ModRecipes.registerModRecipes();
             ModEffects.registerModEffects();
+            ModPotions.registerModPotions();
         }
     }
 }
