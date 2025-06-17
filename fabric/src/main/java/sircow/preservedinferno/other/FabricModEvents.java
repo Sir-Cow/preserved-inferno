@@ -118,9 +118,11 @@ public class FabricModEvents {
                 newPlayer.server.execute(() -> newPlayer.sendSystemMessage(Component.translatable("effect.pinferno.well_rested_consume"), true));
             }
 
-            newPlayer.setHealth(10.0F);
-            newPlayer.getFoodData().setFoodLevel(10);
-            newPlayer.getFoodData().setSaturation(10.0F);
+            if (!alive) {
+                newPlayer.setHealth(10.0F);
+                newPlayer.getFoodData().setFoodLevel(10);
+                newPlayer.getFoodData().setSaturation(10.0F);
+            }
         });
     }
 

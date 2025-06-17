@@ -129,14 +129,17 @@
   "item.minecraft.potion.effect.haste": "Potion of Haste",
   "item.minecraft.splash_potion.effect.haste": "Splash Potion of Haste",
   "item.minecraft.lingering_potion.effect.haste": "Lingering Potion of Haste",
+  "item.minecraft.tipped_arrow.effect.haste": "Arrow of Haste",
 
   "item.minecraft.potion.effect.mining_fatigue": "Potion of Mining Fatigue",
   "item.minecraft.splash_potion.effect.mining_fatigue": "Splash Potion of Mining Fatigue",
   "item.minecraft.lingering_potion.effect.mining_fatigue": "Lingering Potion of Mining Fatigue",
+  "item.minecraft.tipped_arrow.effect.mining_fatigue": "Arrow of Mining Fatigue",
 
   "item.minecraft.potion.effect.blindness": "Potion of Blindness",
   "item.minecraft.splash_potion.effect.blindness": "Splash Potion of Blindness",
   "item.minecraft.lingering_potion.effect.blindness": "Lingering Potion of Blindness",
+  "item.minecraft.tipped_arrow.effect.blindness": "Arrow of Blindness",
 
   "item.minecraft.potion.effect.luck": "Potion of Luck",
   "item.minecraft.splash_potion.effect.luck": "Splash Potion of Luck",

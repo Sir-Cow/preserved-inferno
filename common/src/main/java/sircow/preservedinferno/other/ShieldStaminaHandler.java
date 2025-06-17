@@ -42,18 +42,6 @@ public class ShieldStaminaHandler {
 
             if (newStamina <= 0 && currentStamina > 0) {
                 triggerCooldown(player, heldStack);
-                if (player instanceof ServerPlayer serverPlayer) {
-                    serverPlayer.level().playSound(
-                            null,
-                            serverPlayer.getX(),
-                            serverPlayer.getY(),
-                            serverPlayer.getZ(),
-                            SoundEvents.ITEM_BREAK,
-                            SoundSource.PLAYERS,
-                            1.0F,
-                            1.0F
-                    );
-                }
             }
         }
     }
@@ -93,6 +81,18 @@ public class ShieldStaminaHandler {
                 if (itemStack.getItem() instanceof PreservedShieldItem) {
                     player.getCooldowns().addCooldown(itemStack, COOLDOWN_TICKS);
                 }
+            }
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.level().playSound(
+                        null,
+                        serverPlayer.getX(),
+                        serverPlayer.getY(),
+                        serverPlayer.getZ(),
+                        SoundEvents.ITEM_BREAK,
+                        SoundSource.PLAYERS,
+                        1.0F,
+                        1.0F
+                );
             }
         }
     }

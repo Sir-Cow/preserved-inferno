@@ -52,15 +52,19 @@ public class AbstractCauldronBlockMixin {
                 if (cauldron.progressWater < cauldron.maxWaterProgress) {
                     if (heldItem.getItem() == Items.WATER_BUCKET) {
                         cauldron.progressWater = Math.min(cauldron.maxWaterProgress, cauldron.progressWater + 8);
-                        player.getItemInHand(hand).setCount(player.getItemInHand(hand).getCount() - 1);
-                        player.addItem(new ItemStack(Items.BUCKET));
+                        if (!player.isCreative()) {
+                            player.getItemInHand(hand).setCount(player.getItemInHand(hand).getCount() - 1);
+                            player.addItem(new ItemStack(Items.BUCKET));
+                        }
                         level.playSound(null, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
                         interactionHandled = true;
                     }
                     else if (heldItem.getItem() == Items.POTION && (potionContentsComponent != null && potionContentsComponent.is(Potions.WATER))) {
                         cauldron.progressWater = Math.min(cauldron.maxWaterProgress, cauldron.progressWater + 2);
-                        player.getItemInHand(hand).setCount(player.getItemInHand(hand).getCount() - 1);
-                        player.addItem(new ItemStack(Items.GLASS_BOTTLE));
+                        if (!player.isCreative()) {
+                            player.getItemInHand(hand).setCount(player.getItemInHand(hand).getCount() - 1);
+                            player.addItem(new ItemStack(Items.GLASS_BOTTLE));
+                        }
                         level.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
                         interactionHandled = true;
                     }
@@ -70,8 +74,10 @@ public class AbstractCauldronBlockMixin {
                     if (heldItem.getItem() == Items.BUCKET) {
                         if (cauldron.progressWater >= 8) {
                             cauldron.progressWater = Math.max(0, cauldron.progressWater - 8);
-                            player.getItemInHand(hand).setCount(player.getItemInHand(hand).getCount() - 1);
-                            player.addItem(new ItemStack(Items.WATER_BUCKET));
+                            if (!player.isCreative()) {
+                                player.getItemInHand(hand).setCount(player.getItemInHand(hand).getCount() - 1);
+                                player.addItem(new ItemStack(Items.WATER_BUCKET));
+                            }
                             level.playSound(null, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                             interactionHandled = true;
                         }
@@ -79,10 +85,12 @@ public class AbstractCauldronBlockMixin {
                     else if (heldItem.getItem() == Items.GLASS_BOTTLE) {
                         if (cauldron.progressWater >= 2) {
                             cauldron.progressWater = Math.max(0, cauldron.progressWater - 2);
-                            ItemStack newWaterStack = new ItemStack(Items.POTION);
-                            newWaterStack.set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.WATER));
-                            player.getItemInHand(hand).setCount(player.getItemInHand(hand).getCount() - 1);
-                            player.addItem(newWaterStack);
+                            if (!player.isCreative()) {
+                                ItemStack newWaterStack = new ItemStack(Items.POTION);
+                                newWaterStack.set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.WATER));
+                                player.getItemInHand(hand).setCount(player.getItemInHand(hand).getCount() - 1);
+                                player.addItem(newWaterStack);
+                            }
                             level.playSound(null, pos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                             interactionHandled = true;
                         }

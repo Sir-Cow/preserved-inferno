@@ -38,7 +38,6 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         registerEntities();
         configureRailRenderLayers();
         registerCustomTooltip();
-        BlockEntityRenderers.register(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, PreservedCauldronBlockEntityRenderer::new);
     }
 
     private void registerMenuScreens() {
@@ -52,6 +51,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
 
     private void registerEntities() {
         EntityRendererRegistry.register(ModEntities.FLARE_GUN_PROJECTILE, (ThrownItemRenderer::new));
+        BlockEntityRenderers.register(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, PreservedCauldronBlockEntityRenderer::new);
     }
 
     private void configureRailRenderLayers() {

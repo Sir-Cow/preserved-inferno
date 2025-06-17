@@ -14,12 +14,12 @@ public class WitherBossMixin {
     @Inject(method = "createAttributes", at = @At("RETURN"), cancellable = true)
     private static void preserved_inferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.setReturnValue(Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 600.0)
+                .add(Attributes.MAX_HEALTH, 300.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.6F)
                 .add(Attributes.FLYING_SPEED, 0.6F)
                 .add(Attributes.FOLLOW_RANGE, 40.0)
-                .add(Attributes.ARMOR, 60.0)
-                .add(Attributes.ARMOR_TOUGHNESS, 6.0)
+                .add(Attributes.ARMOR, 30.0)
+                .add(Attributes.ARMOR_TOUGHNESS, 3.0)
         );
     }
 }

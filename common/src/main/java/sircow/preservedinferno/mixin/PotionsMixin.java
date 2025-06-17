@@ -60,7 +60,7 @@ public class PotionsMixin {
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=strong_slowness")),
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/alchemy/Potions;register(Ljava/lang/String;Lnet/minecraft/world/item/alchemy/Potion;)Lnet/minecraft/core/Holder;", ordinal = 0), index = 1)
     private static Potion preserved_inferno$modifyStrongSlowness(Potion potion) {
-        return new Potion("slowness", new MobEffectInstance(MobEffects.SLOWNESS, 6000, 3));
+        return new Potion("slowness", new MobEffectInstance(MobEffects.SLOWNESS, 6000, 1));
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=strong_regeneration")),
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/alchemy/Potions;register(Ljava/lang/String;Lnet/minecraft/world/item/alchemy/Potion;)Lnet/minecraft/core/Holder;", ordinal = 0), index = 1)
@@ -70,7 +70,7 @@ public class PotionsMixin {
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=strong_strength")),
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/alchemy/Potions;register(Ljava/lang/String;Lnet/minecraft/world/item/alchemy/Potion;)Lnet/minecraft/core/Holder;", ordinal = 0), index = 1)
     private static Potion preserved_inferno$modifyStrongStrength(Potion potion) {
-        return new Potion("strength", new MobEffectInstance(MobEffects.STRENGTH, 600, 1));
+        return new Potion("strength", new MobEffectInstance(MobEffects.STRENGTH, 6000, 1));
     }
     // long
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=long_regeneration")),
