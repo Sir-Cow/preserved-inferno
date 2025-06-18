@@ -2,7 +2,7 @@
     "schemaVersion": 1,
     "id": "${mod_id}",
     "version": "${version}",
-    "name": "${mod_name}",
+    "name": "Preserved: Inferno",
     "description": "${description}",
     "authors": [
         "${mod_author}"
