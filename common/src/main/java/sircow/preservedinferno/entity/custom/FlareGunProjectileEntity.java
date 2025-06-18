@@ -1,12 +1,7 @@
 package sircow.preservedinferno.entity.custom;
 
-import com.mojang.serialization.DataResult;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
-import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -23,6 +18,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -217,36 +214,14 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
     }
 
     @Override
-    public void addAdditionalSaveData(@NotNull CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
-        if (this.firedFrom != null && !this.firedFrom.isEmpty()) {
-            RegistryOps<Tag> registryOps = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
-            DataResult<Tag> result = ItemStack.CODEC.encodeStart(registryOps, this.firedFrom);
-            result.resultOrPartial(error -> System.err.println("Failed to encode firedFrom ItemStack: " + error))
-                    .ifPresent(tag -> compound.put(TAG_FIRED_FROM, tag));
-        }
+    protected void addAdditionalSaveData(@NotNull ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.store(TAG_FIRED_FROM, ItemStack.CODEC, this.firedFrom);
     }
 
     @Override
-    public void readAdditionalSaveData(@NotNull CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        RegistryOps<Tag> registryOps = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
-
-        if (compound.contains(TAG_FIRED_FROM)) {
-            Tag tag = compound.get(TAG_FIRED_FROM);
-
-            if (tag != null && tag.getId() == Tag.TAG_COMPOUND) {
-                this.firedFrom = ItemStack.CODEC.parse(registryOps, tag)
-                        .resultOrPartial(error -> System.err.println("Failed to decode firedFrom ItemStack: " + error))
-                        .orElse(ItemStack.EMPTY);
-            }
-            else {
-                System.err.println("Found tag '" + TAG_FIRED_FROM + "' but it's not a CompoundTag or is null. Setting to empty ItemStack.");
-                this.firedFrom = ItemStack.EMPTY;
-            }
-        }
-        else {
-            this.firedFrom = ItemStack.EMPTY;
-        }
+    protected void readAdditionalSaveData(@NotNull ValueInput input) {
+        super.readAdditionalSaveData(input);
+        this.firedFrom = input.read(TAG_FIRED_FROM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
     }
 }

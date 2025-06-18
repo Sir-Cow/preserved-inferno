@@ -9,7 +9,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.ConduitBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
@@ -19,7 +18,7 @@ import sircow.preservedinferno.other.ModDamageTypes;
 import java.util.List;
 
 @Mixin(ConduitBlockEntity.class)
-public class ConduitMixin {
+public class ConduitBlockEntityMixin {
     // extend conduit radius
     @ModifyConstant(method = "updateDestroyTarget", constant = @Constant(doubleValue = 8.0F))
     private static double preserved_inferno$modifyDoubleValue(double original) {
@@ -61,20 +60,11 @@ public class ConduitMixin {
         ci.cancel();
     }
     // change magic damage to custom damage type which makes player-killed loot drop
-    @Inject(method = "updateDestroyTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)V"), cancellable = true)
-    private static void preserved_inferno$changeDamageSource(Level level, BlockPos pos, BlockState state, List<BlockPos> positions, ConduitBlockEntity blockEntity, CallbackInfo ci) {
-        ConduitBlockEntityAccessor accessor = (ConduitBlockEntityAccessor) blockEntity;
-        LivingEntity targetEntity = accessor.getTargetEntity();
-
-        if (targetEntity != null) {
-            Player player = level.players().getFirst();
-            if (player != null) {
-                DamageSource damageSource = ModDamageTypes.of(level, ModDamageTypes.CONDUIT, player);
-                if (level instanceof ServerLevel serverWorld) {
-                    targetEntity.hurtServer(serverWorld, damageSource, 4.0F);
-                }
-            }
-        }
-        ci.cancel();
+    @Redirect(method = "updateAndAttackTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
+    private static boolean preserved_inferno$customConduitDamage(LivingEntity target, ServerLevel level, DamageSource originalSource, float amount) {
+        Player player = level.players().getFirst();
+        DamageSource customSource = ModDamageTypes.of(level, ModDamageTypes.CONDUIT, player);
+        target.hurtServer(level, customSource, amount);
+        return false;
     }
 }

@@ -4,6 +4,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -74,21 +75,21 @@ public class GuiMixin {
         double percentageMultiplier;
 
         if (heatVal > 0) {
-            guiGraphics.blit(RenderType::guiTextured, HEAT_EMPTY_SPRITE, x - barWidth, y, 0, 0, barWidth, barHeight, barWidth, barHeight);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, HEAT_EMPTY_SPRITE, x - barWidth, y, 0, 0, barWidth, barHeight, barWidth, barHeight);
 
             if (heatVal >= 100) {
                 barWidth = 83;
-                guiGraphics.blit(RenderType::guiTextured, HEAT_100_SPRITE, (x - barWidth) + 1, y, 0, 0, barWidth, barHeight, barWidth, barHeight);
+                guiGraphics.blit(RenderPipelines.GUI_TEXTURED, HEAT_100_SPRITE, (x - barWidth) + 1, y, 0, 0, barWidth, barHeight, barWidth, barHeight);
                 if (heatVal > 100) {
                     percentageMultiplier = (heatVal - 100) / maxHeatVal;
                     int filledWidth = (int)(percentageMultiplier * barWidth);
-                    guiGraphics.blit(RenderType::guiTextured, HEAT_OVER_100_SPRITE, ((x - barWidth) + (barWidth - filledWidth)) + 1, y, barWidth - filledWidth, 0, filledWidth, barHeight, barWidth, barHeight);
+                    guiGraphics.blit(RenderPipelines.GUI_TEXTURED, HEAT_OVER_100_SPRITE, ((x - barWidth) + (barWidth - filledWidth)) + 1, y, barWidth - filledWidth, 0, filledWidth, barHeight, barWidth, barHeight);
                 }
             }
             else {
                 percentageMultiplier = heatVal / maxHeatVal;
                 int filledWidth = (int)(percentageMultiplier * barWidth);
-                guiGraphics.blit(RenderType::guiTextured, HEAT_FILLED_SPRITE, x - barWidth, y, 0, 0, filledWidth, barHeight, barWidth, barHeight);
+                guiGraphics.blit(RenderPipelines.GUI_TEXTURED, HEAT_FILLED_SPRITE, x - barWidth, y, 0, 0, filledWidth, barHeight, barWidth, barHeight);
             }
         }
     }
@@ -105,7 +106,7 @@ public class GuiMixin {
         int j = y - (heartRows - 1) * height - 10;
 
         if (armourVal > 0) {
-            guiGraphics.blitSprite(RenderType::guiTextured, NEW_ARMOUR_BAR_EMPTY, x, j, barWidth, barHeight);
+            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, NEW_ARMOUR_BAR_EMPTY, x, j, barWidth, barHeight);
 
             if (armourVal >= 100) {
                 percentageMultiplier = 1.0F;
@@ -114,14 +115,16 @@ public class GuiMixin {
                 percentageMultiplier = armourVal / maxArmourVal;
             }
 
-            guiGraphics.blitSprite(RenderType::guiTextured, NEW_ARMOUR_BAR_FILLED, barWidth, barHeight, 0, 0, x, j, (int)(percentageMultiplier * barWidth), barHeight);
+            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, NEW_ARMOUR_BAR_FILLED, barWidth, barHeight, 0, 0, x, j, (int)(percentageMultiplier * barWidth), barHeight);
         }
         ci.cancel();
     }
 
     // shield stamina
-    @Inject(method = "renderExperienceBar", at = @At("TAIL"))
-    private void preserved_inferno$renderShield(GuiGraphics guiGraphics, int x, CallbackInfo ci) {
+    @Inject(method = "renderHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/contextualbar/ContextualBarRenderer;render(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V",
+            shift = At.Shift.AFTER)
+    )
+    private void preserved_inferno$renderShieldBar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         int barWidth = 182;
         int barHeight = 5;
         double percentageMultiplier;
@@ -129,11 +132,11 @@ public class GuiMixin {
         Minecraft client = Minecraft.getInstance();
         if (client.player != null) {
             ItemStack heldStack = client.player.getOffhandItem();
-            x = client.getWindow().getGuiScaledWidth() / 2 - 91;
+            int x = client.getWindow().getGuiScaledWidth() / 2 - 91;
             int y = client.getWindow().getGuiScaledHeight() - 32 + 3;
 
             if (!heldStack.isEmpty() && heldStack.getItem() instanceof PreservedShieldItem) {
-                guiGraphics.blit(RenderType::guiTextured, SHIELD_BAR_BACKGROUND_SPRITE, x, y, 0, 0, barWidth, barHeight, barWidth, barHeight);
+                guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SHIELD_BAR_BACKGROUND_SPRITE, x, y, 0, 0, barWidth, barHeight, barWidth, barHeight);
 
                 float currentStamina = ShieldStaminaHandler.getShieldStamina(heldStack, client.player);
                 int maxStamina = ShieldStaminaHandler.getShieldMaxStamina(heldStack);
@@ -142,16 +145,17 @@ public class GuiMixin {
                     percentageMultiplier = (double) currentStamina / maxStamina;
                     int filledWidth = (int) (percentageMultiplier * barWidth);
                     if (currentStamina <= maxStamina) {
-                        guiGraphics.blit(RenderType::guiTextured, SHIELD_BAR_PROGRESS_SPRITE, x, y, 0, 0, filledWidth, barHeight, barWidth, barHeight);
+                        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SHIELD_BAR_PROGRESS_SPRITE, x, y, 0, 0, filledWidth, barHeight, barWidth, barHeight);
                     }
                 }
 
                 if (ShieldStaminaHandler.isOnCooldown(client.player)) {
-                    guiGraphics.blit(RenderType::guiTextured, SHIELD_BAR_COOLDOWN_SPRITE, x, y, 0, 0, barWidth, barHeight, barWidth, barHeight);
+                    guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SHIELD_BAR_COOLDOWN_SPRITE, x, y, 0, 0, barWidth, barHeight, barWidth, barHeight);
                 }
             }
         }
     }
+
 
     // extend sleep overlay time
     @ModifyConstant(method = "renderSleepOverlay", constant = @Constant(floatValue = 100.0F))

@@ -3,7 +3,7 @@ package sircow.preservedinferno.mixin;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.BrewingStandScreen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -33,7 +33,7 @@ public abstract class BrewingStandScreenMixin extends AbstractContainerScreen<Br
 
     @Inject(method = "renderBg", at = @At("TAIL"))
     private void preserved_inferno$addBrewingGUIs(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY, CallbackInfo ci) {
-        guiGraphics.blitSprite(RenderType::guiTextured, BREWING_GUIDE_LEFT, this.leftPos - 112, this.topPos, 112, 176);
-        guiGraphics.blitSprite(RenderType::guiTextured, BREWING_MODIFIERS_RIGHT, this.leftPos + 180, this.topPos, 112, 64);
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, BREWING_GUIDE_LEFT, this.leftPos - 112, this.topPos, 112, 176);
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, BREWING_MODIFIERS_RIGHT, this.leftPos + 180, this.topPos, 112, 64);
     }
 }

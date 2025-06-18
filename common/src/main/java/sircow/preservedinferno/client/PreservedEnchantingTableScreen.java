@@ -1,16 +1,12 @@
 package sircow.preservedinferno.client;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.model.BookModel;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -86,14 +82,14 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
     private static final ResourceLocation SCROLLER_TEXTURE = Constants.id("container/enchanting_table/scroller");
     private static final ResourceLocation SCROLLER_DISABLED_TEXTURE = Constants.id("container/enchanting_table/scroller_disabled");
     private final RandomSource random = RandomSource.create();
-    private BookModel BOOK_MODEL;
-    public float nextPageAngle;
-    public float pageAngle;
-    public float approximatePageAngle;
-    public float pageRotationSpeed;
-    public float nextPageTurningSpeed;
-    public float pageTurningSpeed;
-    private ItemStack stack = ItemStack.EMPTY;
+    private BookModel bookModel;
+    public float flip;
+    public float oFlip;
+    public float flipT;
+    public float flipA;
+    public float open;
+    public float oOpen;
+    private ItemStack last = ItemStack.EMPTY;
     private boolean itemInEnchantSlot;
     private float scrollAmount;
     private boolean mouseClicked;
@@ -178,49 +174,8 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         ));
     }
 
-    /*
-    public String[] enchantmentDescriptions = {
-            "Mining speed is no longer affected while submerged.",
-            "Deal 3.5 more damage to arthropods.",
-            "Decrease damage taken from explosions by 4%.",
-            "Reduces the effectiveness of armor by 20%.",
-            "Summon a lightning bolt upon hitting a target.",
-            "Increase the damage dealt per block fallen by 0.75.",
-            "Decrease the slowing effect of water by 33%.",
-            "Gain +4 Mining Speed.",
-            "Decrease damage taken from falling by 10%.",
-            "Ignite targets for 3 seconds.",
-            "Decrease damage taken from fire by 4%.",
-            "Ignite targets for 3 seconds.",
-            "Increase the chance for double drops by +50%.",
-            "Deal 3.5 more damage to soaked enemies.",
-            "The bow no longer consumes arrows.",
-            "Increase knockback dealt by 2.5 blocks.",
-            "Increase the chance for a common drop by 1.",
-            "Returns the trident to the user",
-            "Increases the weight of obtaining treasure by 1.",
-            "Decreases the wait time of a catch by 5 seconds.",
-            "Shoot 2 extra arrows but with 75%",
-            "Arrows can pierce 2 enemies and reduces",
-            "Deal 0.5 more damage with arrows.",
-            "Decrease damage taken from projectiles by 4%.",
-            "Decrease damage taken by 1%.",
-            "Increase the knockback dealt with arrows.",
-            "Decrease the loading time by 0.25 seconds.",
-            "Increases your underwater breathing",
-            "Propels you 6 blocks ahead while soaked.",
-            "Deal 1 more damage.",
-            "Mined blocks drop themselves.",
-            "Deal 3.5 more damage to undead mobs.",
-            "Increases the damage of your sweeping attack",
-            "Gain a 15% chance to deal damage",
-            "Decrease the chance for your tool"
-    };
-    */
-
     public PreservedEnchantingTableScreen(PreservedEnchantmentMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
-        this.stack = ItemStack.EMPTY;
         world = inventory.player.level();
     }
 
@@ -228,7 +183,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
     protected void init() {
         super.init();
         if (this.minecraft != null) {
-            this.BOOK_MODEL = new BookModel(this.minecraft.getEntityModels().bakeLayer(ModelLayers.BOOK));
+            this.bookModel = new BookModel(this.minecraft.getEntityModels().bakeLayer(ModelLayers.BOOK));
         }
         this.tenTextureActive = false;
         this.twentyTextureActive = false;
@@ -242,50 +197,37 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
     }
 
     @Override
-    protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
+    protected void renderBg(GuiGraphics guiGraphics, float delta, int mouseX, int mouseY) {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
-        context.blit(RenderType::guiTextured, TEXTURE, i, j, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
-        this.drawBook(context, i, j, delta);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, i, j, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
+        this.drawBook(guiGraphics, i, j);
 
         int k = (int)(41.0F * this.scrollAmount);
         ResourceLocation identifier = this.shouldScroll() ? SCROLLER_TEXTURE : SCROLLER_DISABLED_TEXTURE;
-        context.blitSprite(RenderType::guiTextured, identifier, i + 156, j + 13 + k, 12, 15);
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, identifier, i + 156, j + 13 + k, 12, 15);
         int l = this.leftPos + 97;
         int m = this.topPos + 11;
         int n = this.scrollOffset + 16;
-        this.renderIcons(context, l, m, n);
-        this.renderEXPIcons(context, this.leftPos + 71, this.topPos + 13);
+        this.renderIcons(guiGraphics, l, m, n);
+        this.renderEXPIcons(guiGraphics, this.leftPos + 71, this.topPos + 13);
     }
 
-    private void drawBook(GuiGraphics context, int x, int y, float delta) {
-        float f = Mth.lerp(delta, this.pageTurningSpeed, this.nextPageTurningSpeed);
-        float g = Mth.lerp(delta, this.pageAngle, this.nextPageAngle);
-        context.flush();
-        Lighting.setupForEntityInInventory();
-        context.pose().pushPose();
-        context.pose().translate((float)x + 43.0F, (float)y + 31.0F, 100.0F);
-        float h = 40.0F;
-        context.pose().scale(-40.0F, 40.0F, 40.0F);
-        context.pose().mulPose(Axis.XP.rotationDegrees(25.0F));
-        context.pose().translate((1.0F - f) * 0.2F, (1.0F - f) * 0.1F, (1.0F - f) * 0.25F);
-        float i = -(1.0F - f) * 90.0F - 90.0F;
-        context.pose().mulPose(Axis.YP.rotationDegrees(i));
-        context.pose().mulPose(Axis.XP.rotationDegrees(180.0F));
-        float j = Mth.clamp(Mth.frac(g + 0.25F) * 1.6F - 0.3F, 0.0F, 1.0F);
-        float k = Mth.clamp(Mth.frac(g + 0.75F) * 1.6F - 0.3F, 0.0F, 1.0F);
-        this.BOOK_MODEL.setupAnim(0.0F, j, k, f);
-        context.drawSpecial((vertexConsumers) -> {
-            VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.BOOK_MODEL.renderType(BOOK_TEXTURE));
-            this.BOOK_MODEL.renderToBuffer(context.pose(), vertexConsumer, 15728880, OverlayTexture.NO_OVERLAY);
-        });
-        context.flush();
-        context.pose().popPose();
-        Lighting.setupFor3DItems();
+    private void drawBook(GuiGraphics guiGraphics, int i, int j) {
+        if (this.minecraft != null) {
+            float f = this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false);
+            float g = Mth.lerp(f, this.oOpen, this.open);
+            float h = Mth.lerp(f, this.oFlip, this.flip);
+            int k = i + 14;
+            int l = j + 14;
+            int m = k + 38;
+            int n = l + 31;
+            guiGraphics.submitBookModelRenderState(this.bookModel, BOOK_TEXTURE, 40.0F, g, h, k, l, m, n);
+        }
     }
 
     public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        if (this.minecraft != null){
+        if (this.minecraft != null) {
             float f = this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false);
             super.render(context, mouseX, mouseY, f);
             this.renderTooltip(context, mouseX, mouseY);
@@ -304,18 +246,18 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 this.twentyTextureActive = false;
                 this.thirtyTextureActive = false;
                 this.menu.enchantSelected = false;
-                context.blitSprite(RenderType::guiTextured, ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
+                context.blitSprite(RenderPipelines.GUI_TEXTURED, ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
             }
             Set<Integer> slots = itemCategorySlots.get(this.itemCategory);
             if (!this.menu.enchantSelected) {
-                context.blitSprite(RenderType::guiTextured, slots != null && slots.contains(i) ? ENCHANTMENT_SLOT_TEXTURE : ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
+                context.blitSprite(RenderPipelines.GUI_TEXTURED, slots != null && slots.contains(i) ? ENCHANTMENT_SLOT_TEXTURE : ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
             }
             else {
                 if (i != this.menu.getSelectedEnchantID()) {
-                    context.blitSprite(RenderType::guiTextured, slots != null && slots.contains(i) ? ENCHANTMENT_SLOT_TEXTURE : ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
+                    context.blitSprite(RenderPipelines.GUI_TEXTURED, slots != null && slots.contains(i) ? ENCHANTMENT_SLOT_TEXTURE : ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
                 }
                 else {
-                    context.blitSprite(RenderType::guiTextured, ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE, k, m, 14, 14);
+                    context.blitSprite(RenderPipelines.GUI_TEXTURED, ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE, k, m, 14, 14);
                     if (Objects.equals(PreservedEnchantmentMenu.ENCHANTMENT_DATA.get(i).levelCost(), "10")) {
                         this.tenTextureActive = true;
                         this.twentyTextureActive = false;
@@ -333,19 +275,19 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                     }
                 }
             }
-            context.blitSprite(RenderType::guiTextured, ENCHANTMENT_ICON_TEXTURES[i], k, m, 14, 14);
+            context.blitSprite(RenderPipelines.GUI_TEXTURED, ENCHANTMENT_ICON_TEXTURES[i], k, m, 14, 14);
         }
     }
 
     private void renderEXPIcons(GuiGraphics context, int x, int y) {
-        context.blitSprite(RenderType::guiTextured, !tenTextureActive ? LEVEL_DISABLED_TEXTURES[0] : LEVEL_TEXTURES[0], x, y, 16, 16);
-        context.blitSprite(RenderType::guiTextured, !twentyTextureActive ? LEVEL_DISABLED_TEXTURES[1] : LEVEL_TEXTURES[1], x, y + 20, 16, 16);
-        context.blitSprite(RenderType::guiTextured, !thirtyTextureActive ? LEVEL_DISABLED_TEXTURES[2] : LEVEL_TEXTURES[2], x, y + 40, 16, 16);
+        context.blitSprite(RenderPipelines.GUI_TEXTURED, !tenTextureActive ? LEVEL_DISABLED_TEXTURES[0] : LEVEL_TEXTURES[0], x, y, 16, 16);
+        context.blitSprite(RenderPipelines.GUI_TEXTURED, !twentyTextureActive ? LEVEL_DISABLED_TEXTURES[1] : LEVEL_TEXTURES[1], x, y + 20, 16, 16);
+        context.blitSprite(RenderPipelines.GUI_TEXTURED, !thirtyTextureActive ? LEVEL_DISABLED_TEXTURES[2] : LEVEL_TEXTURES[2], x, y + 40, 16, 16);
     }
 
     @Override
-    protected void renderTooltip(@NotNull GuiGraphics context, int x, int y) {
-        super.renderTooltip(context, x, y);
+    protected void renderTooltip(@NotNull GuiGraphics guiGraphics, int x, int y) {
+        super.renderTooltip(guiGraphics, x, y);
         int scrollOffset = this.scrollOffset + 16;
         Set<Integer> slots = itemCategorySlots.get(this.itemCategory);
 
@@ -356,31 +298,18 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 int l = j / 4;
                 int m = 11 + l * 14 + 2;
                 if (this.isHovering(k, m, 14, 14, x, y) && slots != null && slots.contains(i)) {
-                    List<Component> list = Lists.<Component>newArrayList();
+                    List<Component> list = Lists.newArrayList();
                     list.add(Component.literal(PreservedEnchantmentMenu.ENCHANTMENT_DATA.get(i).name() + " I"));
-                    /*
-                    list.add(Text.literal(this.enchantmentDescriptions[i]).formatted(Formatting.WHITE));
-                    // these are line breaks
-                    switch (i) {
-                        case 10 -> list.add(Text.literal("Also reduces burning time by 10%."));
-                        case 16 -> list.add(Text.literal("Also increases the chance of rare drops by 0.5%."));
-                        case 17 -> list.add(Text.literal("at 20 blocks per second."));
-                        case 20 -> list.add(Text.literal("of the original damage."));
-                        case 21 -> list.add(Text.literal("the effectiveness of armor by 20%."));
-                        case 27 -> list.add(Text.literal("time by 10 seconds."));
-                        case 32 -> list.add(Text.literal("by 50% of your weapon's attack damage."));
-                        case 33 -> list.add(Text.literal("when attacked by an enemy."));
-                        case 34 -> list.add(Text.literal("to consume durability by 20%."));
-                    }
-                    */
-                    context.renderTooltip(this.font, list, Optional.empty(), x, y);
+                    guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
                     break;
                 }
             }
 
             // hover over animated book
             if (this.isHovering(24, 18, 40, 24, x, y)) {
-                context.renderTooltip(this.font, Component.literal("Bookshelf Power: " + this.enchPower) , x, y);
+                List<Component> list = Lists.newArrayList();
+                list.add(Component.literal("Bookshelf Power: " + this.enchPower));
+                guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
             }
 
             // hover over 10 exp
@@ -403,7 +332,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                     list.add(Component.literal("Enchant for 10 Levels"));
                 }
 
-                context.renderTooltip(this.font, list, Optional.empty(), x, y);
+                guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
             }
 
             // hover over 20 exp
@@ -426,7 +355,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                     list.add(Component.literal("Enchant for 20 Levels"));
                 }
 
-                context.renderTooltip(this.font, list, Optional.empty(), x, y);
+                guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
             }
 
             // hover over 30 exp
@@ -449,7 +378,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                     list.add(Component.literal("Enchant for 30 Levels"));
                 }
 
-                context.renderTooltip(this.font, list, Optional.empty(), x, y);
+                guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
             }
         }
     }
@@ -803,28 +732,29 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         this.enchPower = this.menu.enchantmentPower.get();
         ItemStack itemStack = this.menu.getSlot(0).getItem();
 
-        if (!ItemStack.matches(itemStack, this.stack)) {
-            this.stack = itemStack;
+        if (!ItemStack.matches(itemStack, this.last)) {
+            this.last = itemStack;
+
             do {
-                this.approximatePageAngle = this.approximatePageAngle + (float)(this.random.nextInt(4) - this.random.nextInt(4));
-            } while (this.nextPageAngle <= this.approximatePageAngle + 1.0F && this.nextPageAngle >= this.approximatePageAngle - 1.0F);
+                this.flipT = this.flipT + (this.random.nextInt(4) - this.random.nextInt(4));
+            } while (this.flip <= this.flipT + 1.0F && this.flip >= this.flipT - 1.0F);
         }
 
-        this.pageAngle = this.nextPageAngle;
-        this.pageTurningSpeed = this.nextPageTurningSpeed;
+        this.oFlip = this.flip;
+        this.oOpen = this.open;
         boolean bl = this.menu.enchantmentPower.get() != 0;
 
         if (bl) {
-            this.nextPageTurningSpeed += 0.2F;
+            this.open += 0.2F;
         } else {
-            this.nextPageTurningSpeed -= 0.2F;
+            this.open -= 0.2F;
         }
 
-        this.nextPageTurningSpeed = Mth.clamp(this.nextPageTurningSpeed, 0.0F, 1.0F);
-        float f = (this.approximatePageAngle - this.nextPageAngle) * 0.4F;
+        this.open = Mth.clamp(this.open, 0.0F, 1.0F);
+        float f = (this.flipT - this.flip) * 0.4F;
         f = Mth.clamp(f, -0.2F, 0.2F);
-        this.pageRotationSpeed = this.pageRotationSpeed + (f - this.pageRotationSpeed) * 0.9F;
-        this.nextPageAngle = this.nextPageAngle + this.pageRotationSpeed;
+        this.flipA = this.flipA + (f - this.flipA) * 0.9F;
+        this.flip = this.flip + this.flipA;
 
         if (!this.menu.getSlot(0).getItem().isEmpty()) {
             this.itemInEnchantSlot = true;

@@ -2,6 +2,7 @@ package sircow.preservedinferno.screen;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +27,7 @@ public class PreservedCauldronScreen extends AbstractContainerScreen<PreservedCa
     protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
         int x = this.leftPos;
         int y = this.topPos;
-        context.blit(RenderType::guiTextured, BG_LOCATION, x, y, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, BG_LOCATION, x, y, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
         renderProgressArrow(context, x, y);
         renderProgressWater(context, x, y);
     }
@@ -36,7 +37,7 @@ public class PreservedCauldronScreen extends AbstractContainerScreen<PreservedCa
             int arrowX = x + 85;
             int arrowY = y + 34;
 
-            context.blit(RenderType::guiTextured, SOAK_PROGRESS_SPRITE,
+            context.blit(RenderPipelines.GUI_TEXTURED, SOAK_PROGRESS_SPRITE,
                     arrowX, arrowY,
                     0, 0,
                     8, menu.getScaledProgressArrow(),
@@ -49,7 +50,7 @@ public class PreservedCauldronScreen extends AbstractContainerScreen<PreservedCa
         int waterX = x + 152;
         int waterY = y + 15 + (32 - menu.getScaledProgressWater());
 
-        context.blit(RenderType::guiTextured, WATER_SPRITE,
+        context.blit(RenderPipelines.GUI_TEXTURED, WATER_SPRITE,
                 waterX, waterY,
                 0, 32 - menu.getScaledProgressWater(),
                 16, menu.getScaledProgressWater(),

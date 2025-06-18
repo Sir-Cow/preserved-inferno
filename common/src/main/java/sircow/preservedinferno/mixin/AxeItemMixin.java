@@ -4,7 +4,6 @@ import net.minecraft.world.item.AxeItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.RegisterItemChecker;
 
 import java.util.Objects;

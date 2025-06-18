@@ -32,6 +32,7 @@ import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.platform.Services;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FabricModEvents {
     private static final double MONSTER_DETECTION_RADIUS = 32.0;
@@ -115,7 +116,7 @@ public class FabricModEvents {
 
             // display message if player had well rested effect
             if (hadWellRestedEffectOnDeath && !Services.PLATFORM.isModLoaded("pblizzard")) {
-                newPlayer.server.execute(() -> newPlayer.sendSystemMessage(Component.translatable("effect.pinferno.well_rested_consume"), true));
+                Objects.requireNonNull(newPlayer.getServer()).execute(() -> newPlayer.sendSystemMessage(Component.translatable("effect.pinferno.well_rested_consume"), true));
             }
 
             if (!alive) {

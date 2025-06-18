@@ -8,14 +8,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(Zombie.class)
 public class ZombieMixin {
     // modify armour value
-    @ModifyArg(
-            method = "createAttributes",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;add(Lnet/minecraft/core/Holder;D)Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;",
-                    ordinal = 3),
-            index = 1
-    )
+    @ModifyArg(method = "createAttributes", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;add(Lnet/minecraft/core/Holder;D)Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;", ordinal = 3), index = 1)
     private static double preserved_inferno$modifyArmour(double baseValue) {
         baseValue = 10.0F;
         return baseValue;

@@ -1,13 +1,13 @@
 package sircow.preservedinferno.client;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -55,7 +55,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     }
 
     private void configureRailRenderLayers() {
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(),
+        BlockRenderLayerMap.putBlocks(ChunkSectionLayer.CUTOUT,
                 ModBlocks.INDUCTOR_RAIL,
                 ModBlocks.EXPOSED_INDUCTOR_RAIL,
                 ModBlocks.WEATHERED_INDUCTOR_RAIL,

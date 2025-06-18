@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Objects;
 
 @Mixin(Phantom.class)
-public class PhantomMixin extends FlyingMob {
-    protected PhantomMixin(EntityType<? extends FlyingMob> entityType, Level level) {
+public class PhantomMixin extends Mob {
+    protected PhantomMixin(EntityType<? extends Mob> entityType, Level level) {
         super(entityType, level);
     }
 

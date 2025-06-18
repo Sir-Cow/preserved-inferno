@@ -55,7 +55,7 @@ public abstract class AbstractThrownPotionMixin extends ThrowableItemProjectile 
     @Inject(
             method = "onHit",
             at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/projectile/AbstractThrownPotion;onHitAsPotion(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/Entity;)V",
+                    target = "Lnet/minecraft/world/entity/projectile/AbstractThrownPotion;onHitAsPotion(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/phys/HitResult;)V",
                     shift = At.Shift.BEFORE
             )
     )

@@ -3,7 +3,6 @@ package sircow.preservedinferno.mixin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stat;
@@ -28,6 +27,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.IceBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -249,17 +250,17 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
-    public void preserved_inferno$readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        this.entityData.set(ModEntityData.PLAYER_HEAT, tag.getIntOr("preserved_inferno$heat", 0));
-        this.entityData.set(ModEntityData.PLAYER_SHIELD_STAMINA, tag.getFloatOr("preserved_inferno$stamina", 0));
-        this.entityData.set(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE, tag.getBooleanOr("preserved_inferno$canDoHeatChange", false));
+    public void preserved_inferno$readAdditionalSaveData(ValueInput input, CallbackInfo ci) {
+        this.entityData.set(ModEntityData.PLAYER_HEAT, input.getIntOr("preserved_inferno$heat", 0));
+        this.entityData.set(ModEntityData.PLAYER_SHIELD_STAMINA, input.getFloatOr("preserved_inferno$stamina", 0));
+        this.entityData.set(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE, input.getBooleanOr("preserved_inferno$canDoHeatChange", false));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
-    public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        tag.putInt("preserved_inferno$heat", this.entityData.get(ModEntityData.PLAYER_HEAT));
-        tag.putFloat("preserved_inferno$stamina", this.entityData.get(ModEntityData.PLAYER_SHIELD_STAMINA));
-        tag.putBoolean("preserved_inferno$canDoHeatChange", this.entityData.get(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE));
+    public void preserved_inferno$addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
+        output.putInt("preserved_inferno$heat", this.entityData.get(ModEntityData.PLAYER_HEAT));
+        output.putFloat("preserved_inferno$stamina", this.entityData.get(ModEntityData.PLAYER_SHIELD_STAMINA));
+        output.putBoolean("preserved_inferno$canDoHeatChange", this.entityData.get(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE));
     }
 
     @Unique public int preserved_inferno$getHeat() {

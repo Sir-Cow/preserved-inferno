@@ -2,10 +2,8 @@ package sircow.preservedinferno.block.entity;
 
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -25,6 +23,8 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.item.ModItems;
@@ -169,26 +169,19 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     @Override
-    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.saveAdditional(nbt, registryLookup);
-        ContainerHelper.saveAllItems(nbt, this.inventory, false, registryLookup);
-        nbt.putInt("newCauldronProgress", this.progress);
-        nbt.putInt("newCauldronWaterProgress", this.progressWater);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        ContainerHelper.saveAllItems(output, this.inventory, false);
+        output.putInt("CauldronProgress", this.progress);
+        output.putInt("CauldronWaterProgress", this.progressWater);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.loadAdditional(nbt, registryLookup);
-        this.progress = nbt.getIntOr("newCauldronProgress", 0);
-        this.progressWater = nbt.getIntOr("newCauldronWaterProgress", 0);
-        ContainerHelper.loadAllItems(nbt, this.inventory, registryLookup);
-    }
-
-    @Override
-    public @NotNull CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        CompoundTag nbt = super.getUpdateTag(registries);
-        nbt.putInt("newCauldronWaterProgress", this.progressWater);
-        return nbt;
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        ContainerHelper.loadAllItems(input, this.inventory);
+        this.progress = input.getIntOr("CauldronProgress", 0);
+        this.progressWater = input.getIntOr("CauldronWaterProgress", 0);
     }
 
     @Override
