@@ -1,15 +1,18 @@
 package sircow.preservedinferno;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.MenuType;
@@ -18,11 +21,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import sircow.preservedinferno.block.FabricModBlocks;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockData;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
+import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntityRenderer;
 import sircow.preservedinferno.item.FabricModItemGroups;
 import sircow.preservedinferno.item.FabricModItems;
-import sircow.preservedinferno.other.DelayedBlockTransformationTask;
-import sircow.preservedinferno.other.FabricModEvents;
-import sircow.preservedinferno.other.ShieldStaminaHandler;
+import sircow.preservedinferno.other.*;
 import sircow.preservedinferno.screen.*;
 
 import java.util.ArrayList;
@@ -145,5 +147,6 @@ public class PreservedInferno implements ModInitializer {
         FabricModBlocks.registerBlocks();
         FabricModItemGroups.registerItemGroups();
         ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
+        BlockEntityRenderers.register(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, PreservedCauldronBlockEntityRenderer::new);
     }
 }

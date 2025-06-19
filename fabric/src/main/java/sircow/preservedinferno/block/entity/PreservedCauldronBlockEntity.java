@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -186,7 +187,16 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
 
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
+        CompoundTag tag = new CompoundTag();
+        tag.putInt("CauldronWaterProgress", this.progressWater);
+        tag.putInt("CauldronMaxWaterProgress", this.maxWaterProgress);
+        return ClientboundBlockEntityDataPacket.create(this, (blockEntity, registryAccess) -> tag);
+    }
+
+    public void onDataPacket(ClientboundBlockEntityDataPacket packet) {
+        CompoundTag tag = packet.getTag();
+        this.progressWater = tag.getIntOr("CauldronWaterProgress", 0);
+        this.maxWaterProgress = tag.getIntOr("CauldronMaxWaterProgress", 64);
     }
 
     @Override
