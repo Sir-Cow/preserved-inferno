@@ -71,12 +71,18 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             Integer maxStamina = stack.get(ModComponents.SHIELD_MAX_STAMINA_COMPONENT);
             Float staminaRegenRate = stack.get(ModComponents.SHIELD_REGEN_RATE_COMPONENT);
             String particleVal = stack.get(ModComponents.FLARE_PARTICLE_COMPONENT);
+            String hook = stack.get(ModComponents.HOOK_COMPONENT);
+            String line = stack.get(ModComponents.LINE_COMPONENT);
+            String sinker = stack.get(ModComponents.SINKER_COMPONENT);
 
             if (maxStamina != null) {
                 addShieldTooltip(lines, insertIndex, maxStamina, staminaRegenRate);
             }
             if (stack.is(ModTags.ROD_UPGRADES)) {
                 addFishingUpgradeTooltip(lines, insertIndex, stack.getItem());
+            }
+            if ((hook != null && !hook.equals("none")) || (line != null && !line.equals("none")) || (sinker != null && !sinker.equals("none"))) {
+                addFishingUpgradeTooltip(lines, insertIndex, hook, line, sinker);
             }
             if (stack.is(ModItems.FLARE_GUN)) {
                 if (particleVal != null) {
@@ -126,6 +132,30 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             lines.add(insertIndex++, Component.literal(" ").append(Component.translatable("item.pinferno.leggings").withStyle(ChatFormatting.BLUE)));
             lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.ingredients").withStyle(ChatFormatting.GRAY));
             lines.add(insertIndex, Component.literal(" ").append(Component.translatable("item.pinferno.echoing_prism").withStyle(ChatFormatting.BLUE)));
+        }
+    }
+
+    private void addFishingUpgradeTooltip(List<Component> lines, int insertIndex, String hook, String line, String sinker) {
+        lines.add(insertIndex++, Component.empty());
+        lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.rod_in_hand").withStyle(ChatFormatting.GRAY));
+
+        Map<String, Double> valuesMap = Map.of(
+                "copper", 0.5,
+                "prismarine", 1.5,
+                "iron", 1.0,
+                "golden", 3.0,
+                "diamond", 2.0,
+                "netherite", 3.0
+        );
+
+        if (valuesMap.containsKey(hook)) {
+            lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.fishing_speed", valuesMap.get(hook)).withStyle(ChatFormatting.BLUE));
+        }
+        if (valuesMap.containsKey(line)) {
+            lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.fortune", valuesMap.get(line)).withStyle(ChatFormatting.BLUE));
+        }
+        if (valuesMap.containsKey(sinker)) {
+            lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", valuesMap.get(sinker)).withStyle(ChatFormatting.BLUE));
         }
     }
 

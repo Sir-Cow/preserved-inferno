@@ -5,52 +5,59 @@
       "pinferno:click"
     ]
   },
-  "enchant_one": {
-    "subtitle": "sounds.pinferno.enchant_one",
+  "enchant": {
+    "subtitle": "sounds.pinferno.enchant",
     "sounds": [
-      "pinferno:enchant1"
+      "minecraft:block/enchantment_table/enchant1",
+      "minecraft:block/enchantment_table/enchant2",
+      "minecraft:block/enchantment_table/enchant3"
     ]
   },
-  "enchant_two": {
-    "subtitle": "sounds.pinferno.enchant_two",
+  "enchant_close": {
+    "subtitle": "sounds.pinferno.enchant_close",
     "sounds": [
-      "pinferno:enchant2"
+      "minecraft:item/book/close_put1",
+      "minecraft:item/book/close_put2"
     ]
   },
-  "enchant_three": {
-    "subtitle": "sounds.pinferno.enchant_three",
+  "shield_cooldown": {
+    "subtitle": "sounds.pinferno.shield_cooldown",
     "sounds": [
-      "pinferno:enchant3"
+      "minecraft:random/break"
     ]
   },
-  "enchant_open_flip_one": {
-    "subtitle": "sounds.pinferno.enchant_open_flip_one",
+  "heat_up": {
+    "subtitle": "sounds.pinferno.heat_up",
     "sounds": [
-      "pinferno:open_flip1"
+      "minecraft:block/furnace/fire_crackle1",
+      "minecraft:block/furnace/fire_crackle2",
+      "minecraft:block/furnace/fire_crackle3",
+      "minecraft:block/furnace/fire_crackle4",
+      "minecraft:block/furnace/fire_crackle5"
     ]
   },
-  "enchant_open_flip_two": {
-    "subtitle": "sounds.pinferno.enchant_open_flip_two",
+  "cauldron_bubble": {
+    "subtitle": "sounds.pinferno.cauldron_bubble",
     "sounds": [
-      "pinferno:open_flip2"
+      "minecraft:ambient/underwater/additions/bubbles1",
+      "minecraft:ambient/underwater/additions/bubbles2",
+      "minecraft:ambient/underwater/additions/bubbles3",
+      "minecraft:ambient/underwater/additions/bubbles4",
+      "minecraft:ambient/underwater/additions/bubbles5",
+      "minecraft:ambient/underwater/additions/bubbles6"
     ]
   },
-  "enchant_open_flip_three": {
-    "subtitle": "sounds.pinferno.enchant_open_flip_three",
+  "cache_open": {
+    "subtitle": "sounds.pinferno.cache_open",
     "sounds": [
-      "pinferno:open_flip3"
+      "minecraft:block/barrel/open1",
+      "minecraft:block/barrel/open2"
     ]
   },
-  "enchant_close_one": {
-    "subtitle": "sounds.pinferno.enchant_close_one",
+  "cache_close": {
+    "subtitle": "sounds.pinferno.cache_close",
     "sounds": [
-      "pinferno:close_put1"
-    ]
-  },
-  "enchant_close_two": {
-    "subtitle": "sounds.pinferno.enchant_close_two",
-    "sounds": [
-      "pinferno:close_put2"
+      "minecraft:block/barrel/close"
     ]
   }
 }

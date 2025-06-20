@@ -116,13 +116,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
         super.removed(player);
         this.access.execute((world, pos) -> {
             this.clearContainer(player, this.enchantSlots);
-            int randomNum = (int)(Math.random() * 1);
-            switch (randomNum) {
-                case 0 ->
-                        world.playSound(null, pos, ModSounds.ENCHANT_CLOSE_ONE, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
-                case 1 ->
-                        world.playSound(null, pos, ModSounds.ENCHANT_CLOSE_TWO, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
-            }
+            world.playSound(null, pos, ModSounds.ENCHANT_CLOSE, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
         });
         this.enchantSelected = false;
     }
@@ -201,7 +195,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                                 this.getSlot(1).getItem().shrink(1);
                                 this.enchantSlots.setChanged();
                                 this.slotsChanged(this.enchantSlots);
-                                world.playSound(null, pos, ModSounds.ENCHANT_ONE, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                                world.playSound(null, pos, ModSounds.ENCHANT, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
                             }
                         }
                     }
@@ -242,7 +236,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                                 this.getSlot(1).getItem().shrink(1);
                                 this.enchantSlots.setChanged();
                                 this.slotsChanged(this.enchantSlots);
-                                world.playSound(null, pos, ModSounds.ENCHANT_TWO, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                                world.playSound(null, pos, ModSounds.ENCHANT, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
                             }
                         }
                     }
@@ -283,7 +277,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                                 this.getSlot(1).getItem().shrink(1);
                                 this.enchantSlots.setChanged();
                                 this.slotsChanged(this.enchantSlots);
-                                world.playSound(null, pos, ModSounds.ENCHANT_THREE, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                                world.playSound(null, pos, ModSounds.ENCHANT, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
                             }
                         }
                     }

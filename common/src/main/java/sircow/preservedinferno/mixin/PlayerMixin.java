@@ -5,6 +5,7 @@ import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stat;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
@@ -44,6 +45,7 @@ import sircow.preservedinferno.other.HeatAccessor;
 import sircow.preservedinferno.other.ModDamageTypes;
 import sircow.preservedinferno.other.ModEntityData;
 import sircow.preservedinferno.other.ShieldStaminaHandler;
+import sircow.preservedinferno.sound.ModSounds;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -288,6 +290,10 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     public void preserved_inferno$increaseHeat(int heat) {
         int i = this.preserved_inferno$getHeat();
         this.entityData.set(ModEntityData.PLAYER_HEAT, i + heat);
+        double randomNum = random.nextDouble();
+        if (randomNum <= 0.2) {
+            this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.HEAT_UP, SoundSource.PLAYERS);
+        }
 //        Constants.LOG.info("heat increase: {}", preserved_inferno$getHeat());
     }
 

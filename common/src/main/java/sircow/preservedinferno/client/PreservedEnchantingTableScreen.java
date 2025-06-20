@@ -11,6 +11,7 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -398,18 +399,9 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 int m2 = 11 + l2 * 14 + 2;
                 if (this.minecraft != null) {
                     // slot click
-                    if (this.isHovering(k2, m2, 14, 14, mouseX, mouseY)
-                            && slots != null && slots.contains(i2)) {
+                    if (this.isHovering(k2, m2, 14, 14, mouseX, mouseY) && slots != null && slots.contains(i2)) {
                         Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_CLICK, 1.0F));
-                        int randomNum = (int)(Math.random() * 3);
-                        switch (randomNum) {
-                            case 0 ->
-                                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_OPEN_FLIP_ONE, 1.0F));
-                            case 1 ->
-                                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_OPEN_FLIP_TWO, 1.0F));
-                            case 2 ->
-                                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_OPEN_FLIP_THREE, 1.0F));
-                        }
+                        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.BOOK_PAGE_TURN, 1.0F));
                         this.menu.enchantSelected = true;
                         this.menu.selectedEnchantID = i2;
 

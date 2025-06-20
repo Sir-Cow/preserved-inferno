@@ -7,6 +7,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
+import sircow.preservedinferno.sound.ModSounds;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,12 +84,11 @@ public class ShieldStaminaHandler {
                 }
             }
             if (player instanceof ServerPlayer serverPlayer) {
-                serverPlayer.level().playSound(
-                        null,
+                serverPlayer.level().playSound(null,
                         serverPlayer.getX(),
                         serverPlayer.getY(),
                         serverPlayer.getZ(),
-                        SoundEvents.ITEM_BREAK,
+                        ModSounds.SHIELD_COOLDOWN,
                         SoundSource.PLAYERS,
                         1.0F,
                         1.0F

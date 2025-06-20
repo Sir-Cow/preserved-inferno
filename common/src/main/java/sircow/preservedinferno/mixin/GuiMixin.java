@@ -1,14 +1,25 @@
 package sircow.preservedinferno.mixin;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ScreenEffectRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Matrix4f;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,6 +43,7 @@ public class GuiMixin {
     @Unique private static final ResourceLocation SHIELD_BAR_BACKGROUND_SPRITE = Constants.id("textures/gui/sprites/hud/shield_bar_background.png");
     @Unique private static final ResourceLocation SHIELD_BAR_COOLDOWN_SPRITE = Constants.id("textures/gui/sprites/hud/shield_bar_cooldown.png");
     @Unique private static final ResourceLocation SHIELD_BAR_PROGRESS_SPRITE = Constants.id("textures/gui/sprites/hud/shield_bar_progress.png");
+    @Unique private static final ResourceLocation FIRE_OVERLAY = ResourceLocation.withDefaultNamespace("textures/block/fire_1.png");
 
     @Unique private int heat;
     @Unique private Player player;
@@ -135,7 +147,7 @@ public class GuiMixin {
             int x = client.getWindow().getGuiScaledWidth() / 2 - 91;
             int y = client.getWindow().getGuiScaledHeight() - 32 + 3;
 
-            if (!heldStack.isEmpty() && heldStack.getItem() instanceof PreservedShieldItem) {
+            if (!heldStack.isEmpty() && heldStack.getItem() instanceof PreservedShieldItem && !player.isCreative()) {
                 guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SHIELD_BAR_BACKGROUND_SPRITE, x, y, 0, 0, barWidth, barHeight, barWidth, barHeight);
 
                 float currentStamina = ShieldStaminaHandler.getShieldStamina(heldStack, client.player);
@@ -155,7 +167,49 @@ public class GuiMixin {
             }
         }
     }
+    
+    @Inject(method = "renderCameraOverlays", at = @At("TAIL"))
+    private void preserved_inferno$renderHeatOverlay(GuiGraphics graphics, DeltaTracker delta, CallbackInfo ci) {
+        Minecraft mc = Minecraft.getInstance();
+        LocalPlayer player = mc.player;
 
+        if (player instanceof HeatAccessor accessor
+                && accessor.preserved_inferno$getHeat() >= 100
+                && !player.isOnFire()
+                && !player.isCreative()
+                && mc.options.getCameraType().isFirstPerson()
+        ) {
+
+            PoseStack poseStack = new PoseStack();
+            MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
+
+            TextureAtlasSprite textureAtlasSprite = ModelBakery.FIRE_1.sprite();
+            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.fireScreenEffect(textureAtlasSprite.atlasLocation()));
+            float f = textureAtlasSprite.getU0();
+            float g = textureAtlasSprite.getU1();
+            float h = (f + g) / 2.0F;
+            float i = textureAtlasSprite.getV0();
+            float j = textureAtlasSprite.getV1();
+            float k = (i + j) / 2.0F;
+            float l = textureAtlasSprite.uvShrinkRatio();
+            float m = Mth.lerp(l, f, h);
+            float n = Mth.lerp(l, g, h);
+            float o = Mth.lerp(l, i, k);
+            float p = Mth.lerp(l, j, k);
+
+            for (int r = 0; r < 2; r++) {
+                poseStack.pushPose();
+                poseStack.translate(-(r * 2 - 1) * 0.24F, -0.3F, 0.0F);
+                poseStack.mulPose(Axis.YP.rotationDegrees((r * 2 - 1) * 10.0F));
+                Matrix4f matrix4f = poseStack.last().pose();
+                vertexConsumer.addVertex(matrix4f, -0.5F, -0.5F, -0.5F).setUv(n, p).setColor(1.0F, 1.0F, 1.0F, 0.9F);
+                vertexConsumer.addVertex(matrix4f, 0.5F, -0.5F, -0.5F).setUv(m, p).setColor(1.0F, 1.0F, 1.0F, 0.9F);
+                vertexConsumer.addVertex(matrix4f, 0.5F, 0.5F, -0.5F).setUv(m, o).setColor(1.0F, 1.0F, 1.0F, 0.9F);
+                vertexConsumer.addVertex(matrix4f, -0.5F, 0.5F, -0.5F).setUv(n, o).setColor(1.0F, 1.0F, 1.0F, 0.9F);
+                poseStack.popPose();
+            }
+        }
+    }
 
     // extend sleep overlay time
     @ModifyConstant(method = "renderSleepOverlay", constant = @Constant(floatValue = 100.0F))

@@ -9,14 +9,13 @@ import sircow.preservedinferno.Constants;
 public class ModSounds {
     // sounds
     public static final SoundEvent ENCHANT_CLICK = register("enchant_click");
-    public static final SoundEvent ENCHANT_ONE = register("enchant_one");
-    public static final SoundEvent ENCHANT_TWO = register("enchant_two");
-    public static final SoundEvent ENCHANT_THREE = register("enchant_three");
-    public static final SoundEvent ENCHANT_OPEN_FLIP_ONE = register("enchant_open_flip_one");
-    public static final SoundEvent ENCHANT_OPEN_FLIP_TWO = register("enchant_open_flip_two");
-    public static final SoundEvent ENCHANT_OPEN_FLIP_THREE = register("enchant_open_flip_three");
-    public static final SoundEvent ENCHANT_CLOSE_ONE = register("enchant_close_one");
-    public static final SoundEvent ENCHANT_CLOSE_TWO = register("enchant_close_two");
+    public static final SoundEvent ENCHANT = register("enchant");
+    public static final SoundEvent ENCHANT_CLOSE = register("enchant_close");
+    public static final SoundEvent SHIELD_COOLDOWN = register("shield_cooldown");
+    public static final SoundEvent HEAT_UP = register("heat_up");
+    public static final SoundEvent CAULDRON_BUBBLE = register("cauldron_bubble");
+    public static final SoundEvent CACHE_OPEN = register("cache_open");
+    public static final SoundEvent CACHE_CLOSE = register("cache_close");
 
     private static SoundEvent register(String name) {
         return register(Constants.id(name));

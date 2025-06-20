@@ -80,6 +80,7 @@
   ],
   "client": [
     "BrewingStandScreenMixin",
+    "EntityRenderDispatcherMixin",
     "GuiMixin",
     "ItemInHandRendererMixin"
   ],

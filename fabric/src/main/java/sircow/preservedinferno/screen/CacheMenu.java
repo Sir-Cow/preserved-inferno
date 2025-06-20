@@ -1,5 +1,7 @@
 package sircow.preservedinferno.screen;
 
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -12,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.MenuTypes;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.item.custom.CacheItem;
+import sircow.preservedinferno.sound.ModSounds;
 
 public class CacheMenu extends AbstractContainerMenu {
     private final Container container;
@@ -108,5 +111,16 @@ public class CacheMenu extends AbstractContainerMenu {
     public void removed(Player player) {
         super.removed(player);
         this.container.stopOpen(player);
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.level().playSound(null,
+                    serverPlayer.getX(),
+                    serverPlayer.getY(),
+                    serverPlayer.getZ(),
+                    ModSounds.CACHE_CLOSE,
+                    SoundSource.PLAYERS,
+                    1.0F,
+                    1.0F
+            );
+        }
     }
 }

@@ -30,10 +30,12 @@ import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.screen.PreservedCauldronMenu;
+import sircow.preservedinferno.sound.ModSounds;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("rawtypes")
 public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity implements ExtendedScreenHandlerFactory {
     private NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
 
@@ -259,8 +261,11 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         this.removeItem(INPUT_SLOT, 1);
         this.progressWater -= 1;
         setChanged();
-        if (level != null && !level.isClientSide()) {
-            level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+        if (level != null) {
+            if (!level.isClientSide()) {
+                level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+            }
+            level.playSound(null, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), ModSounds.CAULDRON_BUBBLE, SoundSource.BLOCKS);
         }
     }
 

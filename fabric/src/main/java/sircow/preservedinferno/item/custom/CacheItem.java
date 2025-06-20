@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.other.CacheContainer;
 import sircow.preservedinferno.screen.CacheMenu;
+import sircow.preservedinferno.sound.ModSounds;
 
 import java.util.Collections;
 
@@ -39,6 +41,17 @@ public class CacheItem extends Item {
             }
             CacheContainer cacheContainer = new CacheContainer(size, usedStack, container);
             player.openMenu(getMenuProvider(cacheContainer, usedStack));
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.level().playSound(null,
+                        serverPlayer.getX(),
+                        serverPlayer.getY(),
+                        serverPlayer.getZ(),
+                        ModSounds.CACHE_OPEN,
+                        SoundSource.PLAYERS,
+                        1.0F,
+                        1.0F
+                );
+            }
         }
         return InteractionResult.SUCCESS;
     }
