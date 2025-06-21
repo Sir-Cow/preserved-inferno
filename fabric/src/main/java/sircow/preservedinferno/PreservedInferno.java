@@ -1,8 +1,8 @@
 package sircow.preservedinferno;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -12,7 +12,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.MenuType;
@@ -140,6 +139,7 @@ public class PreservedInferno implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        PayloadTypeRegistry.playC2S().register(OpenAdvancementPayload.ID, OpenAdvancementPayload.CODEC);
         INSTANCE = this;
         CommonClass.init();
         FabricModEvents.registerModEvents();

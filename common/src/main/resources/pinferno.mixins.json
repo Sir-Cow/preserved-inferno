@@ -55,6 +55,7 @@
     "PotionBrewingMixin",
     "PotionsMixin",
     "RabbitMixin",
+    "ServerAdvancementManagerMixin",
     "ServerPlayerMixin",
     "SheepMixin",
     "ShovelItemMixin",
@@ -80,6 +81,7 @@
   ],
   "client": [
     "BrewingStandScreenMixin",
+    "ClientAdvancementsAccessor",
     "EntityRenderDispatcherMixin",
     "GuiMixin",
     "ItemInHandRendererMixin"

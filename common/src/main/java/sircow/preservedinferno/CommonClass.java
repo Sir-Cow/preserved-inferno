@@ -12,6 +12,7 @@ import sircow.preservedinferno.platform.Services;
 import sircow.preservedinferno.potion.ModPotions;
 import sircow.preservedinferno.recipe.ModRecipes;
 import sircow.preservedinferno.sound.ModSounds;
+import sircow.preservedinferno.trigger.ModTriggers;
 
 public class CommonClass {
     public static void init() {
@@ -29,6 +30,7 @@ public class CommonClass {
             ModRecipes.registerModRecipes();
             ModEffects.registerModEffects();
             ModPotions.registerModPotions();
+            ModTriggers.registerTriggers();
         }
     }
 }

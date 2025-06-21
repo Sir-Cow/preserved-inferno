@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -30,6 +31,7 @@ import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.platform.Services;
+import sircow.preservedinferno.trigger.ModTriggers;
 
 import java.util.List;
 import java.util.Objects;
@@ -190,10 +192,16 @@ public class FabricModEvents {
         return false;
     }
 
+    private static void keyPressForFirstAdvancement() {
+        ServerPlayNetworking.registerGlobalReceiver(OpenAdvancementPayload.ID, (payload, context) -> ModTriggers.OPENED_ADVANCEMENT_SCREEN.trigger(context.player())
+        );
+    }
+
     public static void registerModEvents() {
         Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
         modifySleeping();
         handleEntityDeath();
         handleBlockPlace();
+        keyPressForFirstAdvancement();
     }
 }

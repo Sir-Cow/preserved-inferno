@@ -1,0 +1,28 @@
+{
+  "criteria": {
+    "open_advancement_menu": {
+      "trigger": "pinferno:open_advancement_menu"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:gui/advancements/backgrounds/stone",
+    "description": {
+      "translate": "advancements.story.root.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:grass_block"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.story.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "open_advancement_menu"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,10 +1,13 @@
 package sircow.preservedinferno.client;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
@@ -18,6 +21,8 @@ import sircow.preservedinferno.block.ModBlocks;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.item.ModItems;
+import sircow.preservedinferno.mixin.ClientAdvancementsAccessor;
+import sircow.preservedinferno.other.IMinecraftMixin;
 import sircow.preservedinferno.other.ModTags;
 import sircow.preservedinferno.screen.CacheScreen;
 import sircow.preservedinferno.screen.PreservedCauldronScreen;
@@ -28,6 +33,11 @@ import java.util.Map;
 
 public class FabricPreservedInfernoClient implements ClientModInitializer {
     DecimalFormat df = new DecimalFormat("#.##");
+    public static boolean waitingForAdvancement = false;
+    public static boolean suppressNextOpen = false;
+    public static int advancementDelayTicks = -1;
+    public static boolean hasTriggeredOnce = false;
+    public static boolean advancementGranted = false;
 
     @Override
     public void onInitializeClient() {
@@ -35,6 +45,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         registerEntities();
         configureRailRenderLayers();
         registerCustomTooltip();
+        tickAdvancement();
     }
 
     private void registerMenuScreens() {
@@ -197,5 +208,34 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         if (map.containsKey(item)) {
             lines.add(insertIndex, Component.literal(" ").append(Component.translatable(translationKey, map.get(item)).withStyle(ChatFormatting.BLUE)));
         }
+    }
+
+    private void tickAdvancement() {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (FabricPreservedInfernoClient.advancementDelayTicks > 0) {
+                FabricPreservedInfernoClient.advancementDelayTicks--;
+            }
+            else if (FabricPreservedInfernoClient.advancementDelayTicks == 0) {
+                FabricPreservedInfernoClient.advancementDelayTicks = -1;
+                ((IMinecraftMixin) client).startWaitForAdvancement(client, 0);
+            }
+
+            if (!FabricPreservedInfernoClient.advancementGranted && client.player != null) {
+                var advancements = client.player.connection.getAdvancements();
+                var progressMap = ((ClientAdvancementsAccessor) advancements).getProgress();
+                KeyMapping key = Minecraft.getInstance().options.keyAdvancements;
+
+                boolean isDone = progressMap.entrySet().stream()
+                        .anyMatch(e -> e.getKey().id().toString().equals("pinferno:story/root")
+                                && e.getValue().isDone());
+
+                if (isDone) {
+                    FabricPreservedInfernoClient.advancementGranted = true;
+                }
+
+                Component actionbar = Component.translatable("advancement.pinferno.actionbar.open_advancements", Component.keybind(key.getName()));
+                client.gui.setOverlayMessage(actionbar, false);
+            }
+        });
     }
 }

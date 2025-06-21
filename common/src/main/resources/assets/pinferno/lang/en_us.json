@@ -143,5 +143,7 @@
 
   "item.minecraft.potion.effect.luck": "Potion of Luck",
   "item.minecraft.splash_potion.effect.luck": "Splash Potion of Luck",
-  "item.minecraft.lingering_potion.effect.luck": "Lingering Potion of Luck"
+  "item.minecraft.lingering_potion.effect.luck": "Lingering Potion of Luck",
+
+  "advancement.pinferno.actionbar.open_advancements": "Press %s to open your Advancements tab."
 }
