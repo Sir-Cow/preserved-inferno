@@ -1,0 +1,34 @@
+{
+  "parent": "pinferno:exploration/deflect_arrow",
+  "criteria": {
+    "netherite_shield": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:netherite_shield"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.netherite_shield.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pinferno:netherite_shield"
+    },
+    "title": {
+      "translate": "advancements.pinferno.exploration.netherite_shield.title"
+    }
+  },
+  "requirements": [
+    [
+      "netherite_shield"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

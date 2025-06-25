@@ -6,7 +6,7 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "minecraft:gui/advancements/backgrounds/stone",
+    "background": "pinferno:gui/advancements/backgrounds/oak_planks",
     "description": {
       "translate": "advancements.story.root.description"
     },

@@ -3,11 +3,14 @@ package sircow.preservedinferno.other;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -33,11 +36,29 @@ import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.platform.Services;
 import sircow.preservedinferno.trigger.ModTriggers;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class FabricModEvents {
     private static final double MONSTER_DETECTION_RADIUS = 32.0;
+
+    public static void checkInitialAdvancement() {
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                ServerLevel level = player.level();
+                UUID uuid = player.getUUID();
+
+                if (AdvancementDelayCache.hasCompleted(level, uuid)) continue;
+
+                var advancement = server.getAdvancements().get(ResourceLocation.withDefaultNamespace("story/root"));
+                if (advancement == null) continue;
+
+                var progress = player.getAdvancements().getOrStartProgress(advancement);
+                if (progress.isDone()) {
+                    AdvancementDelayCache.markCompleted(level, uuid);
+                }
+            }
+        });
+    }
 
     public static void modifySleeping() {
         // only allow sleeping if holding a dreamcatcher
@@ -199,6 +220,7 @@ public class FabricModEvents {
 
     public static void registerModEvents() {
         Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
+        checkInitialAdvancement();
         modifySleeping();
         handleEntityDeath();
         handleBlockPlace();

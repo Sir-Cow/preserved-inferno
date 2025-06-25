@@ -147,7 +147,7 @@ public class GuiMixin {
             int x = client.getWindow().getGuiScaledWidth() / 2 - 91;
             int y = client.getWindow().getGuiScaledHeight() - 32 + 3;
 
-            if (!heldStack.isEmpty() && heldStack.getItem() instanceof PreservedShieldItem && !player.isCreative()) {
+            if (!heldStack.isEmpty() && heldStack.getItem() instanceof PreservedShieldItem && !player.isCreative() && !player.isSpectator()) {
                 guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SHIELD_BAR_BACKGROUND_SPRITE, x, y, 0, 0, barWidth, barHeight, barWidth, barHeight);
 
                 float currentStamina = ShieldStaminaHandler.getShieldStamina(heldStack, client.player);

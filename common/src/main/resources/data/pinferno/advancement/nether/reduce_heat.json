@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:nether/root",
+  "criteria": {
+    "reduce_heat": {
+      "trigger": "pinferno:reduce_heat"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.nether.reduce_heat.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:potion"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.nether.reduce_heat.title"
+    }
+  },
+  "requirements": [
+    [
+      "reduce_heat"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

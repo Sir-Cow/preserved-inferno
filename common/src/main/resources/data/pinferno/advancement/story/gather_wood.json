@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:story/root",
+  "criteria": {
+    "gather_wood": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:logs"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.story.gather_wood.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:oak_log"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.story.gather_wood.title"
+    }
+  },
+  "requirements": [
+    [
+      "gather_wood"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

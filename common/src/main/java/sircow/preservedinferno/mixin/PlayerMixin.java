@@ -1,10 +1,12 @@
 package sircow.preservedinferno.mixin;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stat;
 import net.minecraft.stats.Stats;
@@ -46,6 +48,7 @@ import sircow.preservedinferno.other.ModDamageTypes;
 import sircow.preservedinferno.other.ModEntityData;
 import sircow.preservedinferno.other.ShieldStaminaHandler;
 import sircow.preservedinferno.sound.ModSounds;
+import sircow.preservedinferno.trigger.ModTriggers;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -116,6 +119,18 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
                     blocksAttacks.get().onBlocked(level, player);
                     blocksAttacks.get().hurtBlockingItem(level, blockingStack, player, player.getUsedItemHand(), originalAmount);
                 }
+
+                if (player instanceof ServerPlayer serverPlayer) {
+                    CriteriaTriggers.ENTITY_HURT_PLAYER.trigger(serverPlayer, damageSource, originalAmount, originalAmount, true);
+                    serverPlayer.awardStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(originalAmount * 10.0F));
+
+                    if (finalDamageToApply == 0.0F) {
+                        serverPlayer.hurtTime = 0;
+                        serverPlayer.hurtDuration = 0;
+                        serverPlayer.hurtMarked = false;
+                        serverPlayer.invulnerableTime = 0;
+                    }
+                }
                 return finalDamageToApply;
             }
         }
@@ -180,6 +195,10 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
                 if (onColdBlock) {
                     preserved_inferno$setCanDoHeatChange(false);
                     lastSteppedOnIcePos = blockBelow.immutable();
+
+                    if ((Player)(Object)this instanceof ServerPlayer serverPlayer) {
+                        ModTriggers.STAND_ON_ICE.trigger(serverPlayer);
+                    }
                 }
                 else if (lastSteppedOnIcePos != null && !lastSteppedOnIcePos.equals(blockBelow)) {
                     preserved_inferno$setCanDoHeatChange(true);

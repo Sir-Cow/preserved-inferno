@@ -3,6 +3,7 @@ package sircow.preservedinferno.client;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.minecraft.ChatFormatting;
@@ -13,6 +14,7 @@ import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import sircow.preservedinferno.Constants;
@@ -212,30 +214,41 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
 
     private void tickAdvancement() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (FabricPreservedInfernoClient.advancementDelayTicks > 0) {
-                FabricPreservedInfernoClient.advancementDelayTicks--;
+            if (advancementDelayTicks > 0) {
+                advancementDelayTicks--;
             }
-            else if (FabricPreservedInfernoClient.advancementDelayTicks == 0) {
-                FabricPreservedInfernoClient.advancementDelayTicks = -1;
+            else if (advancementDelayTicks == 0) {
+                advancementDelayTicks = -1;
                 ((IMinecraftMixin) client).startWaitForAdvancement(client, 0);
             }
 
-            if (!FabricPreservedInfernoClient.advancementGranted && client.player != null) {
-                var advancements = client.player.connection.getAdvancements();
-                var progressMap = ((ClientAdvancementsAccessor) advancements).getProgress();
+            if (!advancementGranted && client.player != null) {
                 KeyMapping key = Minecraft.getInstance().options.keyAdvancements;
-
-                boolean isDone = progressMap.entrySet().stream()
-                        .anyMatch(e -> e.getKey().id().toString().equals("pinferno:story/root")
-                                && e.getValue().isDone());
-
-                if (isDone) {
-                    FabricPreservedInfernoClient.advancementGranted = true;
-                }
-
                 Component actionbar = Component.translatable("advancement.pinferno.actionbar.open_advancements", Component.keybind(key.getName()));
                 client.gui.setOverlayMessage(actionbar, false);
             }
+        });
+
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+            advancementGranted = false;
+            hasTriggeredOnce = false;
+            suppressNextOpen = false;
+            waitingForAdvancement = false;
+            advancementDelayTicks = -1;
+
+            client.execute(() -> {
+                if (client.player != null) {
+                    var advancements = client.player.connection.getAdvancements();
+                    var holder = advancements.get(ResourceLocation.withDefaultNamespace("story/root"));
+                    if (holder != null) {
+                        var progressMap = ((ClientAdvancementsAccessor) advancements).getProgress();
+                        var progress = progressMap.get(holder);
+                        if (progress != null && progress.isDone()) {
+                            advancementGranted = true;
+                        }
+                    }
+                }
+            });
         });
     }
 }

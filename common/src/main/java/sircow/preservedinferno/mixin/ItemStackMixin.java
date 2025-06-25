@@ -1,5 +1,6 @@
 package sircow.preservedinferno.mixin;
 
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.other.HeatAccessor;
+import sircow.preservedinferno.trigger.ModTriggers;
 
 @Mixin(ItemStack.class)
 public class ItemStackMixin {
@@ -22,9 +24,15 @@ public class ItemStackMixin {
             if (stack.getItem() instanceof PotionItem && !(stack.getItem() == Items.SPLASH_POTION)) {
                 if (((HeatAccessor) player).preserved_inferno$getHeat() >= HEAT_MODIFIER) {
                     ((HeatAccessor) player).preserved_inferno$decreaseHeat(HEAT_MODIFIER);
+                    if (player instanceof ServerPlayer serverPlayer) {
+                        ModTriggers.DRINK_WATER.trigger(serverPlayer);
+                    }
                 }
                 else if (((HeatAccessor) player).preserved_inferno$getHeat() < HEAT_MODIFIER && ((HeatAccessor) player).preserved_inferno$getHeat() > 0) {
                     ((HeatAccessor) player).preserved_inferno$setHeat(0);
+                    if (player instanceof ServerPlayer serverPlayer) {
+                        ModTriggers.DRINK_WATER.trigger(serverPlayer);
+                    }
                 }
             }
         }

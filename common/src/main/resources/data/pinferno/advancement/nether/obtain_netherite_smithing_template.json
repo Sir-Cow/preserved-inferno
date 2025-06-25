@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:nether/loot_bastion",
+  "criteria": {
+    "netherite_upgrade_smithing_template": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:netherite_upgrade_smithing_template"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.nether.netherite_upgrade_smithing_template.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:netherite_upgrade_smithing_template"
+    },
+    "title": {
+      "translate": "advancements.pinferno.nether.netherite_upgrade_smithing_template.title"
+    }
+  },
+  "requirements": [
+    [
+      "netherite_upgrade_smithing_template"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

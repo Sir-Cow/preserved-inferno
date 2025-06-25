@@ -1,0 +1,34 @@
+{
+  "parent": "pinferno:exploration/smelt_copper",
+  "criteria": {
+    "copper_pickaxe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:copper_pickaxe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.copper_pickaxe.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "pinferno:copper_pickaxe"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.copper_pickaxe.title"
+    }
+  },
+  "requirements": [
+    [
+      "copper_pickaxe"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

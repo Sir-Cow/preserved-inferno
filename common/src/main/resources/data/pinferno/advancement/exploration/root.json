@@ -1,0 +1,35 @@
+{
+  "criteria": {
+    "get_stone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:stone_tool_materials"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "pinferno:gui/advancements/backgrounds/deepslate",
+    "description": {
+      "translate": "advancements.pinferno.exploration.mine_stone.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:iron_shovel"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.mine_stone.title"
+    }
+  },
+  "requirements": [
+    [
+      "get_stone"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

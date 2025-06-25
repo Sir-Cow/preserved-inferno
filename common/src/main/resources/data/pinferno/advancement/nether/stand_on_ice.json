@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:nether/reduce_heat",
+  "criteria": {
+    "stand_on_ice": {
+      "trigger": "pinferno:stand_on_ice"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.nether.stand_on_ice.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:blue_ice"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.nether.stand_on_ice.title"
+    }
+  },
+  "requirements": [
+    [
+      "stand_on_ice"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

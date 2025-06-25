@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:exploration/smelt_iron",
+  "criteria": {
+    "used_anvil_repair": {
+      "trigger": "pinferno:used_anvil_repair"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.used_anvil_repair.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:anvil"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.used_anvil_repair.title"
+    }
+  },
+  "requirements": [
+    [
+      "used_anvil_repair"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
