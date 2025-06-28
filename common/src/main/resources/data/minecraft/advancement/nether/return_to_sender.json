@@ -31,7 +31,6 @@
     "description": {
       "translate": "advancements.nether.return_to_sender.description"
     },
-    "frame": "challenge",
     "icon": {
       "count": 1,
       "id": "minecraft:fire_charge"
@@ -45,8 +44,5 @@
       "killed_ghast"
     ]
   ],
-  "rewards": {
-    "experience": 50
-  },
   "sends_telemetry_event": true
 }

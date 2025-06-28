@@ -1,6 +1,8 @@
 package sircow.preservedinferno.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
@@ -11,10 +13,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.other.ModTags;
+import sircow.preservedinferno.trigger.ModTriggers;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -186,8 +191,7 @@ public abstract class FishingHookMixin {
         return originalStack;
     }
     // sinker effect
-    @ModifyArgs(
-            method = "retrieve(Lnet/minecraft/world/item/ItemStack;)I", at = @At(value = "INVOKE",
+    @ModifyArgs(method = "retrieve(Lnet/minecraft/world/item/ItemStack;)I", at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/level/storage/loot/LootParams$Builder;withLuck(F)Lnet/minecraft/world/level/storage/loot/LootParams$Builder;"))
     private void addCustomLuckToFishing(Args args) {
         float originalLuck = args.get(0);
@@ -216,5 +220,18 @@ public abstract class FishingHookMixin {
             }
         }
         args.set(0, newLuck);
+    }
+
+    // trigger fish treasure advancement
+    @Inject(method = "retrieve", at = @At(value = "INVOKE", target = "Ljava/util/List;iterator()Ljava/util/Iterator;"))
+    private void onEachFishedItem(ItemStack stack, CallbackInfoReturnable<Integer> cir, @Local(ordinal = 0) List<ItemStack> list) {
+        Player owner = this.getPlayerOwner();
+        if (owner != null) {
+            for (ItemStack itemStack : list) {
+                if (itemStack.is(ModTags.FISHING_LOOT_TREASURE) && owner instanceof ServerPlayer serverPlayer) {
+                    ModTriggers.FISH_TREASURE.trigger(serverPlayer);
+                }
+            }
+        }
     }
 }

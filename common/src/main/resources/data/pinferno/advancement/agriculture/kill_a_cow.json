@@ -1,0 +1,52 @@
+{
+  "parent": "pinferno:agriculture/root",
+  "criteria": {
+    "minecraft:cow": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:cow"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "minecraft:mooshroom": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:mooshroom"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.kill_a_cow.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "pinferno:raw_hide"
+    },
+    "title": {
+      "translate": "advancements.pinferno.agriculture.kill_a_cow.title"
+    }
+  },
+  "requirements": [
+    [
+      "minecraft:cow",
+      "minecraft:mooshroom"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

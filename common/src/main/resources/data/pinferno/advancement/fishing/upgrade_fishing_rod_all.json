@@ -1,0 +1,3478 @@
+{
+  "parent": "pinferno:fishing/upgrade_fishing_rod",
+  "criteria": {
+    "combo_0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_2": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_3": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_4": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_5": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_6": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_7": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_8": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_9": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_10": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_11": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_12": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_13": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_14": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_15": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_16": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_17": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_18": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_19": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_20": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_21": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_22": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_23": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_24": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_25": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_26": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_27": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_28": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_29": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_30": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_31": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_32": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_33": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_34": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_35": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "copper",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_36": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_37": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_38": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_39": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_40": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_41": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_42": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_43": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_44": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_45": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_46": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_47": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_48": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_49": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_50": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_51": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_52": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_53": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_54": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_55": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_56": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_57": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_58": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_59": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_60": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_61": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_62": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_63": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_64": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_65": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_66": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_67": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_68": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_69": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_70": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_71": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "iron",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_72": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_73": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_74": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_75": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_76": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_77": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_78": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_79": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_80": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_81": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_82": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_83": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_84": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_85": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_86": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_87": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_88": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_89": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_90": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_91": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_92": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_93": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_94": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_95": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_96": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_97": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_98": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_99": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_100": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_101": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_102": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_103": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_104": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_105": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_106": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_107": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "prismarine",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_108": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_109": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_110": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_111": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_112": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_113": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_114": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_115": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_116": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_117": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_118": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_119": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_120": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_121": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_122": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_123": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_124": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_125": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_126": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_127": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_128": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_129": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_130": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_131": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_132": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_133": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_134": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_135": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_136": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_137": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_138": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_139": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_140": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_141": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_142": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_143": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "golden",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_144": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_145": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_146": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_147": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_148": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_149": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_150": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_151": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_152": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_153": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_154": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_155": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_156": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_157": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_158": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_159": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_160": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_161": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_162": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_163": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_164": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_165": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_166": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_167": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_168": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_169": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_170": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_171": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_172": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_173": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_174": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_175": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_176": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_177": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_178": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_179": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "diamond",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_180": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_181": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_182": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_183": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_184": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_185": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "copper",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_186": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_187": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_188": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_189": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_190": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_191": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "iron",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_192": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_193": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_194": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_195": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_196": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_197": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "prismarine",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_198": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_199": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_200": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_201": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_202": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_203": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "golden",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_204": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_205": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_206": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_207": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_208": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_209": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "diamond",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    },
+    "combo_210": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "copper"
+            }
+          }
+        ]
+      }
+    },
+    "combo_211": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "iron"
+            }
+          }
+        ]
+      }
+    },
+    "combo_212": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "prismarine"
+            }
+          }
+        ]
+      }
+    },
+    "combo_213": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "golden"
+            }
+          }
+        ]
+      }
+    },
+    "combo_214": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "diamond"
+            }
+          }
+        ]
+      }
+    },
+    "combo_215": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "combo_0",
+      "combo_1",
+      "combo_2",
+      "combo_3",
+      "combo_4",
+      "combo_5",
+      "combo_6",
+      "combo_7",
+      "combo_8",
+      "combo_9",
+      "combo_10",
+      "combo_11",
+      "combo_12",
+      "combo_13",
+      "combo_14",
+      "combo_15",
+      "combo_16",
+      "combo_17",
+      "combo_18",
+      "combo_19",
+      "combo_20",
+      "combo_21",
+      "combo_22",
+      "combo_23",
+      "combo_24",
+      "combo_25",
+      "combo_26",
+      "combo_27",
+      "combo_28",
+      "combo_29",
+      "combo_30",
+      "combo_31",
+      "combo_32",
+      "combo_33",
+      "combo_34",
+      "combo_35",
+      "combo_36",
+      "combo_37",
+      "combo_38",
+      "combo_39",
+      "combo_40",
+      "combo_41",
+      "combo_42",
+      "combo_43",
+      "combo_44",
+      "combo_45",
+      "combo_46",
+      "combo_47",
+      "combo_48",
+      "combo_49",
+      "combo_50",
+      "combo_51",
+      "combo_52",
+      "combo_53",
+      "combo_54",
+      "combo_55",
+      "combo_56",
+      "combo_57",
+      "combo_58",
+      "combo_59",
+      "combo_60",
+      "combo_61",
+      "combo_62",
+      "combo_63",
+      "combo_64",
+      "combo_65",
+      "combo_66",
+      "combo_67",
+      "combo_68",
+      "combo_69",
+      "combo_70",
+      "combo_71",
+      "combo_72",
+      "combo_73",
+      "combo_74",
+      "combo_75",
+      "combo_76",
+      "combo_77",
+      "combo_78",
+      "combo_79",
+      "combo_80",
+      "combo_81",
+      "combo_82",
+      "combo_83",
+      "combo_84",
+      "combo_85",
+      "combo_86",
+      "combo_87",
+      "combo_88",
+      "combo_89",
+      "combo_90",
+      "combo_91",
+      "combo_92",
+      "combo_93",
+      "combo_94",
+      "combo_95",
+      "combo_96",
+      "combo_97",
+      "combo_98",
+      "combo_99",
+      "combo_100",
+      "combo_101",
+      "combo_102",
+      "combo_103",
+      "combo_104",
+      "combo_105",
+      "combo_106",
+      "combo_107",
+      "combo_108",
+      "combo_109",
+      "combo_110",
+      "combo_111",
+      "combo_112",
+      "combo_113",
+      "combo_114",
+      "combo_115",
+      "combo_116",
+      "combo_117",
+      "combo_118",
+      "combo_119",
+      "combo_120",
+      "combo_121",
+      "combo_122",
+      "combo_123",
+      "combo_124",
+      "combo_125",
+      "combo_126",
+      "combo_127",
+      "combo_128",
+      "combo_129",
+      "combo_130",
+      "combo_131",
+      "combo_132",
+      "combo_133",
+      "combo_134",
+      "combo_135",
+      "combo_136",
+      "combo_137",
+      "combo_138",
+      "combo_139",
+      "combo_140",
+      "combo_141",
+      "combo_142",
+      "combo_143",
+      "combo_144",
+      "combo_145",
+      "combo_146",
+      "combo_147",
+      "combo_148",
+      "combo_149",
+      "combo_150",
+      "combo_151",
+      "combo_152",
+      "combo_153",
+      "combo_154",
+      "combo_155",
+      "combo_156",
+      "combo_157",
+      "combo_158",
+      "combo_159",
+      "combo_160",
+      "combo_161",
+      "combo_162",
+      "combo_163",
+      "combo_164",
+      "combo_165",
+      "combo_166",
+      "combo_167",
+      "combo_168",
+      "combo_169",
+      "combo_170",
+      "combo_171",
+      "combo_172",
+      "combo_173",
+      "combo_174",
+      "combo_175",
+      "combo_176",
+      "combo_177",
+      "combo_178",
+      "combo_179",
+      "combo_180",
+      "combo_181",
+      "combo_182",
+      "combo_183",
+      "combo_184",
+      "combo_185",
+      "combo_186",
+      "combo_187",
+      "combo_188",
+      "combo_189",
+      "combo_190",
+      "combo_191",
+      "combo_192",
+      "combo_193",
+      "combo_194",
+      "combo_195",
+      "combo_196",
+      "combo_197",
+      "combo_198",
+      "combo_199",
+      "combo_200",
+      "combo_201",
+      "combo_202",
+      "combo_203",
+      "combo_204",
+      "combo_205",
+      "combo_206",
+      "combo_207",
+      "combo_208",
+      "combo_209",
+      "combo_210",
+      "combo_211",
+      "combo_212",
+      "combo_213",
+      "combo_214",
+      "combo_215"
+    ]
+  ],
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.fishing.upgrade_fishing_rod_all.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "pinferno:iron_fishing_hook"
+    },
+    "title": {
+      "translate": "advancements.pinferno.fishing.upgrade_fishing_rod_all.title"
+    }
+  },
+  "sends_telemetry_event": true
+}

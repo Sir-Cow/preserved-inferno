@@ -1,0 +1,33 @@
+{
+  "parent": "pinferno:agriculture/obtain_book",
+  "criteria": {
+    "enchanting_table": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:enchanting_table"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.obtain_enchanting_table.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:enchanting_table"
+    },
+    "title": {
+      "translate": "advancements.pinferno.agriculture.obtain_enchanting_table.title"
+    }
+  },
+  "requirements": [
+    [
+      "enchanting_table"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

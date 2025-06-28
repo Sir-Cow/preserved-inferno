@@ -1,0 +1,37 @@
+{
+  "parent": "pinferno:agriculture/bed_spawn_point",
+  "criteria": {
+    "minecraft:phantom": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:phantom"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.kill_a_phantom.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "pinferno:phantom_sinew"
+    },
+    "title": {
+      "translate": "advancements.pinferno.agriculture.kill_a_phantom.title"
+    }
+  },
+  "requirements": [
+    [
+      "minecraft:phantom"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

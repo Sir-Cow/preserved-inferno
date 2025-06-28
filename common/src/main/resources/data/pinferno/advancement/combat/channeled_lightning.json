@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:combat/throw_trident",
+  "criteria": {
+    "lightning_strike": {
+      "trigger": "pinferno:channeling"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.combat.channeled_lightning.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:lightning_rod"
+    },
+    "title": {
+      "translate": "advancements.pinferno.combat.channeled_lightning.title"
+    }
+  },
+  "requirements": [
+    [
+      "lightning_strike"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

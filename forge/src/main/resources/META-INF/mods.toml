@@ -1,14 +1,14 @@
 modLoader = "javafml"
 loaderVersion = "${forge_loader_version_range}"
 license = "${license}"
-#issueTrackerURL=
+issueTrackerURL="https://github.com/Sir-Cow/preserved-inferno/issues"
 #clientSideOnly=
 [[mods]]
 modId = "${mod_id}"
 version = "${version}"
 displayName = "Preserved: Inferno"
 #updateJSONURL=
-#displayURL=
+displayURL="https://github.com/Sir-Cow/preserved-inferno"
 logoFile = "icon.png"
 credits = "${credits}"
 authors = "${mod_author}"

@@ -1,0 +1,55 @@
+{
+  "parent": "pinferno:fishing/leash_all_frog_variants",
+  "criteria": {
+    "ochre_froglight": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:ochre_froglight"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "pearlescent_froglight": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:pearlescent_froglight"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "verdant_froglight": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:verdant_froglight"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.fishing.froglight.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:magma_cream"
+    },
+    "title": {
+      "translate": "advancements.pinferno.fishing.froglight.title"
+    }
+  },
+  "requirements": [
+    [
+      "ochre_froglight",
+      "pearlescent_froglight",
+      "verdant_froglight"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

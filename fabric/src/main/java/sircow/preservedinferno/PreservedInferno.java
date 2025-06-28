@@ -147,6 +147,5 @@ public class PreservedInferno implements ModInitializer {
         FabricModBlocks.registerBlocks();
         FabricModItemGroups.registerItemGroups();
         ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
-        BlockEntityRenderers.register(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, PreservedCauldronBlockEntityRenderer::new);
     }
 }

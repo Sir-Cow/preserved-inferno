@@ -1,0 +1,33 @@
+{
+  "parent": "pinferno:agriculture/obtain_leather",
+  "criteria": {
+    "book": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:book"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.obtain_book.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:book"
+    },
+    "title": {
+      "translate": "advancements.pinferno.agriculture.obtain_book.title"
+    }
+  },
+  "requirements": [
+    [
+      "book"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

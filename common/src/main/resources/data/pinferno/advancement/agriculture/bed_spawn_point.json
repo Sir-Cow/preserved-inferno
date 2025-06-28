@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:agriculture/shear_sheep",
+  "criteria": {
+    "bed_spawn_point": {
+      "trigger": "pinferno:bed_spawn_point"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.bed_spawn_point.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:red_bed"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.bed_spawn_point.title"
+    }
+  },
+  "requirements": [
+    [
+      "bed_spawn_point"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,33 @@
+{
+  "parent": "pinferno:fishing/fish_treasure",
+  "criteria": {
+    "cache": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:cache"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.fishing.obtain_cache.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "pinferno:cache"
+    },
+    "title": {
+      "translate": "advancements.pinferno.fishing.obtain_cache.title"
+    }
+  },
+  "requirements": [
+    [
+      "cache"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

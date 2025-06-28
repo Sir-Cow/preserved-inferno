@@ -1,0 +1,33 @@
+{
+  "parent": "pinferno:agriculture/shear_sheep",
+  "criteria": {
+    "cloth": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#pinferno:cloth"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.obtain_cloth.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:loom"
+    },
+    "title": {
+      "translate": "advancements.pinferno.agriculture.obtain_cloth.title"
+    }
+  },
+  "requirements": [
+    [
+      "cloth"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

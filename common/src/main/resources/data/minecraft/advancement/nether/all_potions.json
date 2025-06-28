@@ -35,7 +35,7 @@
     "description": {
       "translate": "advancements.nether.all_potions.description"
     },
-    "frame": "challenge",
+    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "minecraft:milk_bucket"

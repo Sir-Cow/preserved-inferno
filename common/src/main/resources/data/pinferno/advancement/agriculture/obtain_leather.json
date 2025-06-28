@@ -1,0 +1,33 @@
+{
+  "parent": "pinferno:agriculture/kill_a_cow",
+  "criteria": {
+    "leather": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:leather"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.obtain_leather.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:cauldron"
+    },
+    "title": {
+      "translate": "advancements.pinferno.agriculture.obtain_leather.title"
+    }
+  },
+  "requirements": [
+    [
+      "leather"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:nether/obtain_ancient_debris",
+  "parent": "minecraft:nether/loot_bastion",
   "criteria": {
     "ancient_debris": {
       "conditions": {
@@ -16,6 +16,7 @@
     "description": {
       "translate": "advancements.nether.obtain_ancient_debris.description"
     },
+    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "minecraft:ancient_debris"

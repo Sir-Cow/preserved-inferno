@@ -1,16 +1,33 @@
 {
   "replace": true,
-  "block.minecraft.bed.no_sleep": "",
+
   "item.minecraft.wooden_hoe": "Wooden Scythe",
   "item.minecraft.stone_hoe": "Stone Scythe",
   "item.minecraft.iron_hoe": "Iron Scythe",
   "item.minecraft.diamond_hoe": "Diamond Scythe",
   "item.minecraft.netherite_hoe": "Netherite Scythe",
   "item.minecraft.golden_hoe": "Golden Scythe",
-  "advancements.story.follow_ender_eye.description": "Follow an Awakened Eye",
-  "entity.minecraft.eye_of_ender": "Awakened Eye",
   "item.minecraft.ender_eye": "Awakened Eye",
+
+  "block.minecraft.bed.no_sleep": "",
+
+  "entity.minecraft.eye_of_ender": "Awakened Eye",
+
   "subtitles.block.end_portal_frame.fill": "Awakened Eye attaches",
   "subtitles.entity.ender_eye.death": "Awakened Eye falls",
-  "subtitles.entity.ender_eye.launch": "Awakened Eye shoots"
+  "subtitles.entity.ender_eye.launch": "Awakened Eye shoots",
+
+  "advancements.adventure.sleep_in_bed.description": "Use a Dreamcatcher to skip the night",
+  "advancements.adventure.summon_iron_golem.description": "Summon an Iron Golem",
+  "advancements.husbandry.fishy_business.title": "Fishing",
+  "advancements.husbandry.fishy_business.description": "Gone Fishing",
+  "advancements.husbandry.kill_axolotl_target.title": "The Power of Friendship",
+  "advancements.husbandry.kill_axolotl_target.description": "Have the Regeneration effect applied from assisting an Axolotl or it killing a Mob",
+  "advancements.husbandry.netherite_hoe.description": "Use a Netherite Ingot to upgrade a Scythe, and then reevaluate your life choices",
+  "advancements.husbandry.obtain_sniffer_egg.description": "Uncover a Sniffer Egg",
+  "advancements.nether.obtain_ancient_debris.title": "Hidden in the Heights",
+  "advancements.story.follow_ender_eye.description": "Follow an Awakened Eye",
+  "advancements.story.iron_tools.description": "Use Iron Ingots to upgrade your Pickaxe",
+  "advancements.story.smelt_iron.description": "Forge an Iron Ingot",
+  "advancements.story.upgrade_tools.description": "Construct a better Pickaxe using Stone"
 }

@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:agriculture/obtain_enchanting_table",
+  "criteria": {
+    "place_bookshelf": {
+      "trigger": "pinferno:place_bookshelf"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.place_bookshelf.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:bookshelf"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.place_bookshelf.title"
+    }
+  },
+  "requirements": [
+    [
+      "place_bookshelf"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

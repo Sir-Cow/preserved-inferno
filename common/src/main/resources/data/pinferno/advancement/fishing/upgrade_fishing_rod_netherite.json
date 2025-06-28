@@ -1,0 +1,40 @@
+{
+  "parent": "pinferno:fishing/upgrade_fishing_rod_all",
+  "criteria": {
+    "netherite_rod": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:fishing_rod",
+            "components": {
+              "pinferno:hook_component": "netherite",
+              "pinferno:line_component": "netherite",
+              "pinferno:sinker_component": "netherite"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "netherite_rod"
+    ]
+  ],
+
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.fishing.upgrade_fishing_rod_netherite.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "pinferno:netherite_fishing_hook"
+    },
+    "title": {
+      "translate": "advancements.pinferno.fishing.upgrade_fishing_rod_netherite.title"
+    }
+  },
+  "sends_telemetry_event": true
+}

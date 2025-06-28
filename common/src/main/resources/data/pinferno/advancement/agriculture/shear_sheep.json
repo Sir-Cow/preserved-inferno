@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:agriculture/root",
+  "criteria": {
+    "shear_sheep": {
+      "trigger": "pinferno:shear_sheep"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.shear_sheep.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:white_wool"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.shear_sheep.title"
+    }
+  },
+  "requirements": [
+    [
+      "shear_sheep"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

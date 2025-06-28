@@ -1,0 +1,33 @@
+{
+  "parent": "pinferno:agriculture/root",
+  "criteria": {
+    "bread": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:bread"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.obtain_bread.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:bread"
+    },
+    "title": {
+      "translate": "advancements.pinferno.agriculture.obtain_bread.title"
+    }
+  },
+  "requirements": [
+    [
+      "bread"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

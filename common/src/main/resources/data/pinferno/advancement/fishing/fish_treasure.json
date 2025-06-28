@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:fishing/root",
+  "criteria": {
+    "fish_treasure": {
+      "trigger": "pinferno:fish_treasure"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.fishing.fish_treasure.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:gold_nugget"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.fishing.fish_treasure.title"
+    }
+  },
+  "requirements": [
+    [
+      "fish_treasure"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
