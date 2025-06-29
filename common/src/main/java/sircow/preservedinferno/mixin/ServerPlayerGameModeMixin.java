@@ -20,7 +20,7 @@ import sircow.preservedinferno.trigger.ModTriggers;
 public class ServerPlayerGameModeMixin {
     // bookshelf next to enchanting table advancement trigger
     @Inject(method = "useItemOn", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;useOn(Lnet/minecraft/world/item/context/UseOnContext;)Lnet/minecraft/world/InteractionResult;"))
-    private void onUseItemOnBlock(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
+    private void preserved_inferno$onUseItemOnBlock(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if (stack.getItem() == Blocks.BOOKSHELF.asItem()) {
             BlockPos placedPos = hitResult.getBlockPos().relative(hitResult.getDirection());
             if (isBookshelfInValidEnchantmentSpot(level, placedPos)) {

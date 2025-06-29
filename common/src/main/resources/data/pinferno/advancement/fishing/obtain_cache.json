@@ -16,6 +16,7 @@
     "description": {
       "translate": "advancements.pinferno.fishing.obtain_cache.description"
     },
+    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "pinferno:cache"

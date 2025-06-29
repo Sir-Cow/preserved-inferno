@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:agriculture/shear_sheep",
+  "parent": "pinferno:agriculture/obtain_cloth",
   "criteria": {
     "bed_spawn_point": {
       "trigger": "pinferno:bed_spawn_point"

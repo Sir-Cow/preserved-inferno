@@ -9,6 +9,7 @@
     "description": {
       "translate": "advancements.pinferno.nether.stand_on_ice.description"
     },
+    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "minecraft:blue_ice"

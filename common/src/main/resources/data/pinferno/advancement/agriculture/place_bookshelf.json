@@ -9,6 +9,7 @@
     "description": {
       "translate": "advancements.pinferno.agriculture.place_bookshelf.description"
     },
+    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "minecraft:bookshelf"

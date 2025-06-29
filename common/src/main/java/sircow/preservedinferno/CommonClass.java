@@ -19,6 +19,9 @@ import sircow.preservedinferno.recipe.ModRecipes;
 import sircow.preservedinferno.sound.ModSounds;
 import sircow.preservedinferno.trigger.ModTriggers;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CommonClass {
     public static void init() {
         if (Services.PLATFORM.isModLoaded("pinferno")) {
@@ -37,18 +40,30 @@ public class CommonClass {
             ModPotions.registerModPotions();
             ModTriggers.registerTriggers();
             // other
-            suppressSpecificLogLine();
+            suppressSpecificLogLines();
         }
     }
 
-    public static void suppressSpecificLogLine() {
+    public static void suppressSpecificLogLines() {
         Logger rootLogger = (Logger) LogManager.getRootLogger();
+        final List<String> suppressedMessages = Arrays.asList(
+                "Couldn't parse data file 'pinferno:nether/all_effects'",
+                "Couldn't parse data file 'minecraft:netherite_upgrade_smithing_template'",
+                "Couldn't parse data file 'minecraft:repair_item'",
+                "Couldn't parse data file 'minecraft:shield'",
+                "Couldn't parse data file 'minecraft:white_wool_from_string'"
+        );
+
         rootLogger.addFilter(new AbstractFilter() {
             @Override
             public Result filter(LogEvent event) {
                 String msg = event.getMessage().getFormattedMessage();
-                if (msg != null && msg.contains("Couldn't parse data file 'pinferno:nether/all_effects'")) {
-                    return Result.DENY;
+                if (msg != null) {
+                    for (String suppressedMsgPart : suppressedMessages) {
+                        if (msg.contains(suppressedMsgPart)) {
+                            return Result.DENY;
+                        }
+                    }
                 }
                 return Filter.Result.NEUTRAL;
             }

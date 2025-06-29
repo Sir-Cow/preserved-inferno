@@ -9,7 +9,7 @@
     "description": {
       "translate": "advancements.adventure.kill_mob_near_sculk_catalyst.description"
     },
-    "frame": "challenge",
+    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "minecraft:sculk_catalyst"
