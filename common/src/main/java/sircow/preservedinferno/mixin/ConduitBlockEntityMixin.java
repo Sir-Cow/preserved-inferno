@@ -2,9 +2,12 @@ package sircow.preservedinferno.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -66,5 +69,12 @@ public class ConduitBlockEntityMixin {
         DamageSource customSource = ModDamageTypes.of(level, ModDamageTypes.CONDUIT, player);
         target.hurtServer(level, customSource, amount);
         return false;
+    }
+    // prevent sound spamming
+    @Redirect(method = "updateAndAttackTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;playSound(Lnet/minecraft/world/entity/Entity;DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"))
+    private static void preserved_inferno$preventConduitAttackSoundEveryTick(ServerLevel level, Entity entity, double x, double y, double z, SoundEvent soundEvent, SoundSource soundSource, float volume, float pitch) {
+        if (level.getGameTime() % 20L == 0L) {
+            level.playSound(null, x, y, z, soundEvent, soundSource, volume, pitch);
+        }
     }
 }

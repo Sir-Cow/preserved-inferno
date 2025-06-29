@@ -63,7 +63,13 @@ public abstract class SmithingMenuMixin extends ItemCombinerMenu {
                 MutableComponent colouredPrefix;
                 MutableComponent combinedText;
                 MutableComponent finalName;
-                if (!originalName.getSiblings().getFirst().getString().contains("♦")) {
+                if (!originalName.getSiblings().isEmpty() && !originalName.getSiblings().getFirst().getString().contains("♦")) {
+                    colouredPrefix = Component.literal("♦ ").withColor(prefixColour);
+                    combinedText = Component.empty().append(colouredPrefix).append(originalName);
+                    finalName = combinedText.withStyle(combinedText.getStyle().withItalic(originalName.getStyle().isItalic()));
+                    resultStack.set(DataComponents.CUSTOM_NAME, finalName);
+                }
+                else if (originalName.getSiblings().isEmpty() && !originalName.getString().contains("♦")) {
                     colouredPrefix = Component.literal("♦ ").withColor(prefixColour);
                     combinedText = Component.empty().append(colouredPrefix).append(originalName);
                     finalName = combinedText.withStyle(combinedText.getStyle().withItalic(originalName.getStyle().isItalic()));
