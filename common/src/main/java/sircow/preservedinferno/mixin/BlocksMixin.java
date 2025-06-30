@@ -1,6 +1,7 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -206,6 +207,73 @@ public class BlocksMixin {
         return BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_ORE).mapColor(MapColor.DEEPSLATE)
                 .strength(12.0F, 3.0F)
                 .sound(SoundType.DEEPSLATE);
+    }
+
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=wheat")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyCrop(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(blockStatex -> blockStatex.getValue(CropBlock.AGE) >= 6 ? MapColor.COLOR_YELLOW : MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .strength(0.1F, 0.0F)
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=beetroots")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyCrop2(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .strength(0.1F, 0.0F)
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=carrots")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyCrop3(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .strength(0.1F, 0.0F)
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=potatoes")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyCrop4(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .strength(0.1F, 0.0F)
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY);
+    }
+
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=nether_wart")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyCrop5(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_RED)
+                .noCollission()
+                .strength(0.1F, 0.0F)
+                .sound(SoundType.NETHER_WART)
+                .pushReaction(PushReaction.DESTROY);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=sugar_cane")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyCrop6(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollission()
+                .randomTicks()
+                .strength(0.1F, 0.0F)
+                .sound(SoundType.GRASS)
+                .pushReaction(PushReaction.DESTROY);
     }
 
     @Shadow

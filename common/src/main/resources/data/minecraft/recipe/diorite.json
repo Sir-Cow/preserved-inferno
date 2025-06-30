@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "minecraft:cobblestone",
+    "minecraft:cobblestone",
+    "minecraft:quartz",
+    "minecraft:quartz"
+  ],
+  "result": {
+    "count": 4,
+    "id": "minecraft:diorite"
+  }
+}

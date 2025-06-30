@@ -24,6 +24,7 @@
     "CarversMixin",
     "ChickenMixin",
     "CombatRulesMixin",
+    "ComposterBlockMixin",
     "ConduitBlockEntityMixin",
     "ConsumablesMixin",
     "CrossbowMixin",
@@ -37,6 +38,7 @@
     "FletchingTableBlockMixin",
     "FoodDataMixin",
     "FoodsMixin",
+    "GameRulesMixin",
     "GhastMixin",
     "GiantMixin",
     "GuardianMixin",
@@ -93,4 +95,3 @@
     "defaultRequire": 1
   }
 }
-

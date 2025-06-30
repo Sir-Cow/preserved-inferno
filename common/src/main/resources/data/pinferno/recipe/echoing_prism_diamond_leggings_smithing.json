@@ -9,7 +9,7 @@
         {
           "type": "minecraft:armor",
           "id": "pinferno:echoing_prism_leggings_modifier_armor",
-          "amount": 30,
+          "amount": 25,
           "operation": "add_value",
           "slot": "legs"
         },

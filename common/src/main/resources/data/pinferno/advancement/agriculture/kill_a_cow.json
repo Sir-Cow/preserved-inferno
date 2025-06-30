@@ -28,6 +28,16 @@
         ]
       },
       "trigger": "minecraft:player_killed_entity"
+    },
+    "raw_hide": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:raw_hide"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "display": {
@@ -46,6 +56,9 @@
     [
       "minecraft:cow",
       "minecraft:mooshroom"
+    ],
+    [
+      "raw_hide"
     ]
   ],
   "sends_telemetry_event": true

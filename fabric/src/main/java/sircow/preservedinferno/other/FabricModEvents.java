@@ -5,12 +5,14 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -26,6 +28,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -55,6 +58,39 @@ public class FabricModEvents {
                 var progress = player.getAdvancements().getOrStartProgress(advancement);
                 if (progress.isDone()) {
                     AdvancementDelayCache.markCompleted(level, uuid);
+                }
+            }
+        });
+    }
+
+    public static void limitCropBreak() {
+        LootTableEvents.MODIFY_DROPS.register((entry, context, drops) -> {
+            if (context.hasParameter(LootContextParams.BLOCK_STATE) &&
+                    context.hasParameter(LootContextParams.TOOL) &&
+                    context.hasParameter(LootContextParams.THIS_ENTITY)) {
+
+                BlockState brokenState = context.getParameter(LootContextParams.BLOCK_STATE);
+                ItemStack toolUsed = context.getParameter(LootContextParams.TOOL);
+                Player playerEntity = null;
+
+                if (context.getOptionalParameter(LootContextParams.THIS_ENTITY) instanceof Player) {
+                    playerEntity = (Player) context.getOptionalParameter(LootContextParams.THIS_ENTITY);
+                }
+
+                if (playerEntity != null) {
+                    if (brokenState.is(Blocks.WHEAT) ||
+                            brokenState.is(Blocks.CARROTS) ||
+                            brokenState.is(Blocks.POTATOES) ||
+                            brokenState.is(Blocks.BEETROOTS) ||
+                            brokenState.is(Blocks.PUMPKIN_STEM) ||
+                            brokenState.is(Blocks.MELON_STEM) ||
+                            brokenState.is(Blocks.SUGAR_CANE) ||
+                            brokenState.is(Blocks.NETHER_WART)) {
+
+                        if (!toolUsed.is(ItemTags.HOES)) {
+                            drops.clear();
+                        }
+                    }
                 }
             }
         });
@@ -221,6 +257,7 @@ public class FabricModEvents {
     public static void registerModEvents() {
         Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
         checkInitialAdvancement();
+        limitCropBreak();
         modifySleeping();
         handleEntityDeath();
         handleBlockPlace();
