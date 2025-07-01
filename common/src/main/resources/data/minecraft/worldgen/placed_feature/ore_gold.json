@@ -1,5 +1,5 @@
 {
-  "feature": "minecraft:ore_iron_small",
+  "feature": "minecraft:ore_gold_buried",
   "placement": [
     {
       "type": "minecraft:count",
@@ -11,12 +11,12 @@
     {
       "type": "minecraft:height_range",
       "height": {
-        "type": "minecraft:uniform",
+        "type": "minecraft:trapezoid",
         "max_inclusive": {
-          "absolute": 48
+          "absolute": 16
         },
         "min_inclusive": {
-          "absolute": 16
+          "absolute": -64
         }
       }
     },
