@@ -203,6 +203,8 @@
   "advancements.pinferno.fishing.froglight.description": "Obtain a Froglight by feeding a Frog a Magma Cube",
   "advancements.pinferno.agriculture.root.title": "Agriculture",
   "advancements.pinferno.agriculture.root.description": "",
+  "advancements.pinferno.agriculture.break_grown_crop.title": "First Harvest",
+  "advancements.pinferno.agriculture.break_grown_crop.description": "Use a Scythe to harvest a fully developed crop",
   "advancements.pinferno.agriculture.kill_a_cow.title": "Cow Tipper",
   "advancements.pinferno.agriculture.kill_a_cow.description": "Slaughter a Cow in cold blood",
   "advancements.pinferno.agriculture.shear_sheep.title": "Shear Brilliance",

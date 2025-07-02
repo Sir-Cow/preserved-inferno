@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:agriculture/root",
+  "criteria": {
+    "break_grown_crop": {
+      "trigger": "pinferno:break_grown_crop"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.break_grown_crop.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:wheat"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.break_grown_crop.title"
+    }
+  },
+  "requirements": [
+    [
+      "break_grown_crop"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

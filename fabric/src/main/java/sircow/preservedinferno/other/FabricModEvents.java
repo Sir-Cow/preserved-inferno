@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -25,8 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SnowLayerBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
@@ -84,7 +84,6 @@ public class FabricModEvents {
                             brokenState.is(Blocks.BEETROOTS) ||
                             brokenState.is(Blocks.PUMPKIN_STEM) ||
                             brokenState.is(Blocks.MELON_STEM) ||
-                            brokenState.is(Blocks.SUGAR_CANE) ||
                             brokenState.is(Blocks.NETHER_WART)) {
 
                         if (!toolUsed.is(ItemTags.HOES)) {
@@ -249,6 +248,36 @@ public class FabricModEvents {
         return false;
     }
 
+    public static void checkBreakFullyGrownCrop() {
+        PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
+            if (level.isClientSide()) {
+                return;
+            }
+
+            boolean isCrop = state.is(Blocks.WHEAT) ||
+                    state.is(Blocks.CARROTS) ||
+                    state.is(Blocks.POTATOES) ||
+                    state.is(Blocks.BEETROOTS) ||
+                    state.is(Blocks.NETHER_WART);
+
+            if (isCrop) {
+                boolean isFullyGrown = false;
+                ItemStack mainHandItem = player.getMainHandItem();
+
+                if (state.getBlock() instanceof CropBlock cropBlock) {
+                    isFullyGrown = cropBlock.isMaxAge(state);
+                }
+                else if (state.getBlock() instanceof NetherWartBlock) {
+                    isFullyGrown = state.hasProperty(NetherWartBlock.AGE) && state.getValue(NetherWartBlock.AGE) == NetherWartBlock.MAX_AGE;
+                }
+
+                if (isFullyGrown && mainHandItem.is(ItemTags.HOES)) {
+                    ModTriggers.BREAK_GROWN_CROP.trigger((ServerPlayer) player);
+                }
+            }
+        });
+    }
+
     private static void keyPressForFirstAdvancement() {
         ServerPlayNetworking.registerGlobalReceiver(OpenAdvancementPayload.ID, (payload, context) -> ModTriggers.OPENED_ADVANCEMENT_SCREEN.trigger(context.player())
         );
@@ -261,6 +290,7 @@ public class FabricModEvents {
         modifySleeping();
         handleEntityDeath();
         handleBlockPlace();
+        checkBreakFullyGrownCrop();
         keyPressForFirstAdvancement();
     }
 }

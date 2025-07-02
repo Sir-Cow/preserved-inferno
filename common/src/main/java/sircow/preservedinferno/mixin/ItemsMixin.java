@@ -314,7 +314,7 @@ public abstract class ItemsMixin {
     private static Item.Properties preserved_inferno$modifyTrident(Item.Properties properties) {
         return new Item.Properties()
                 .rarity(Rarity.EPIC)
-                .durability(2031)
+                .durability(2048)
                 .attributes(TridentItem.createAttributes())
                 .component(DataComponents.TOOL, TridentItem.createToolProperties())
                 .enchantable(1)
@@ -329,7 +329,7 @@ public abstract class ItemsMixin {
     private static Item.Properties preserved_inferno$modifyMace(Item.Properties properties) {
         return new Item.Properties()
                 .rarity(Rarity.EPIC)
-                .durability(2031)
+                .durability(2048)
                 .component(DataComponents.TOOL, MaceItem.createToolProperties())
                 .repairable(Items.BREEZE_ROD)
                 .attributes(MaceItem.createAttributes())

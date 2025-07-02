@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:agriculture/root",
+  "parent": "pinferno:agriculture/break_grown_crop",
   "criteria": {
     "bread": {
       "conditions": {

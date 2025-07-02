@@ -43,6 +43,8 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     public static int advancementDelayTicks = -1;
     public static boolean hasTriggeredOnce = false;
     public static boolean advancementGranted = false;
+    private static int initialMessageDelay = 20;
+    private static boolean shouldCheckAdvancementOnNextTick = false;
 
     @Override
     public void onInitializeClient() {
@@ -117,7 +119,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     private int findTooltipInsertIndex(List<Component> lines, String textBeforeSplit) {
         for (int i = 0; i < lines.size(); i++) {
             String lineString = lines.get(i).getString();
-            if (lineString.contains(textBeforeSplit) || (!lineString.contains(textBeforeSplit) && lineString.contains("pinferno"))) {
+            if (lineString.contains(textBeforeSplit) || (!lineString.contains(textBeforeSplit) && (lineString.contains("minecraft") || lineString.contains("pinferno")))) {
                 return i;
             }
         }
@@ -226,10 +228,28 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                 ((IMinecraftMixin) client).startWaitForAdvancement(client, 0);
             }
 
-            if (!advancementGranted && client.player != null) {
+            if (shouldCheckAdvancementOnNextTick && client.player != null) {
+                shouldCheckAdvancementOnNextTick = false;
+                var advancements = client.player.connection.getAdvancements();
+                var rootAdvancementHolder = advancements.get(ResourceLocation.withDefaultNamespace("story/root"));
+                if (rootAdvancementHolder != null) {
+                    var progressMap = ((ClientAdvancementsAccessor) advancements).getProgress();
+                    var rootProgress = progressMap.get(rootAdvancementHolder);
+                    advancementGranted = rootProgress != null && rootProgress.isDone();
+                }
+                else {
+                    advancementGranted = false;
+                }
+            }
+
+            if (!advancementGranted && client.player != null && initialMessageDelay <= 0) {
                 KeyMapping key = Minecraft.getInstance().options.keyAdvancements;
                 Component actionbar = Component.translatable("advancement.pinferno.actionbar.open_advancements", Component.keybind(key.getName()));
                 client.gui.setOverlayMessage(actionbar, false);
+            }
+
+            if (initialMessageDelay > 0) {
+                initialMessageDelay--;
             }
         });
 
@@ -240,19 +260,8 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             waitingForAdvancement = false;
             advancementDelayTicks = -1;
 
-            client.execute(() -> {
-                if (client.player != null) {
-                    var advancements = client.player.connection.getAdvancements();
-                    var holder = advancements.get(ResourceLocation.withDefaultNamespace("story/root"));
-                    if (holder != null) {
-                        var progressMap = ((ClientAdvancementsAccessor) advancements).getProgress();
-                        var progress = progressMap.get(holder);
-                        if (progress != null && progress.isDone()) {
-                            advancementGranted = true;
-                        }
-                    }
-                }
-            });
+            initialMessageDelay = 40;
+            shouldCheckAdvancementOnNextTick = true;
         });
     }
 }

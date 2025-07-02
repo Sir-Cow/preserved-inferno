@@ -24,6 +24,9 @@ public class ShovelItemMixin {
                         || Objects.equals(RegisterItemChecker.itemName, "stone_shovel")) {
                     attackDamage = 0.5F;
                 }
+                else if (Objects.equals(RegisterItemChecker.itemName, "diamond_shovel")) {
+                    attackDamage = 2.5F;
+                }
                 else {
                     return attackDamage;
                 }

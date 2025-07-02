@@ -8,6 +8,7 @@ import sircow.preservedinferno.trigger.custom.*;
 
 public class ModTriggers {
     public static final BedSpawnPointTrigger BED_SPAWN_POINT = register("bed_spawn_point", new BedSpawnPointTrigger());
+    public static final BreakGrownCropTrigger BREAK_GROWN_CROP = register("break_grown_crop", new BreakGrownCropTrigger());
     public static final ChannelingTrigger CHANNELING = register("channeling", new ChannelingTrigger());
     public static final DrinkWaterTrigger DRINK_WATER = register("reduce_heat", new DrinkWaterTrigger());
     public static final FishTreasureTrigger FISH_TREASURE = register("fish_treasure", new FishTreasureTrigger());

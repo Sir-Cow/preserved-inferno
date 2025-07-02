@@ -1,5 +1,8 @@
 package sircow.preservedinferno.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -11,9 +14,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Slice;
+import org.spongepowered.asm.mixin.injection.*;
 
 import java.util.function.ToIntFunction;
 
@@ -274,6 +275,31 @@ public class BlocksMixin {
                 .strength(0.1F, 0.0F)
                 .sound(SoundType.GRASS)
                 .pushReaction(PushReaction.DESTROY);
+    }
+
+    @ModifyVariable(method = "register(Lnet/minecraft/resources/ResourceKey;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", at = @At("HEAD"), index = 2, argsOnly = true)
+    private static BlockBehaviour.Properties preserved_inferno$modifyCrop7(BlockBehaviour.Properties properties, @Local(argsOnly = true, ordinal = 0) ResourceKey<Block> resourceKey) {
+        String blockId = resourceKey.location().getPath();
+
+        if ("attached_pumpkin_stem".equals(blockId) || "attached_melon_stem".equals(blockId)) {
+            return properties
+                    .mapColor(MapColor.PLANT)
+                    .noCollission()
+                    .strength(0.1F, 0.0F)
+                    .sound(SoundType.WOOD)
+                    .pushReaction(PushReaction.DESTROY);
+        }
+        else if ("pumpkin_stem".equals(blockId) || "melon_stem".equals(blockId)) {
+            return properties
+                    .mapColor(MapColor.PLANT)
+                    .noCollission()
+                    .randomTicks()
+                    .strength(0.1F, 0.0F)
+                    .sound(SoundType.HARD_CROP)
+                    .pushReaction(PushReaction.DESTROY);
+        }
+
+        return properties;
     }
 
     @Shadow
