@@ -45,6 +45,7 @@
     "HoneycombItemMixin",
     "ItemCombinerMenuAccessor",
     "ItemMixin",
+    "ItemPropertiesMixin",
     "ItemsMixin",
     "ItemStackMixin",
     "LightningBoltMixin",

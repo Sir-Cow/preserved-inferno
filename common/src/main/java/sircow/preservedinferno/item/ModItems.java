@@ -28,7 +28,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class ModItems {
-    public static final ToolMaterial COPPER = new ToolMaterial(ModTags.INCORRECT_FOR_COPPER_TOOL, 128, 4.0F, 0.0F, 5, ModTags.COPPER_TOOL_MATERIALS);
+    public static final ToolMaterial COPPER = new ToolMaterial(ModTags.INCORRECT_FOR_COPPER_TOOL, 256, 4.0F, 0.0F, 5, ModTags.COPPER_TOOL_MATERIALS);
 
     // shield stuff
     static DecimalFormat df = new DecimalFormat("0.000");

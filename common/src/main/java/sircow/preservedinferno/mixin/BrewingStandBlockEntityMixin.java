@@ -40,7 +40,7 @@ public abstract class BrewingStandBlockEntityMixin extends BaseContainerBlockEnt
             ItemStack fuelStack = self.getItem(4);
 
             if (!fuelStack.isEmpty() && fuelStack.is(ItemTags.BREWING_FUEL)) {
-                int maxFuel = 20;
+                int maxFuel = 21;
                 int fuelPerItem = 3;
 
                 while (self.fuel <= maxFuel - fuelPerItem && !fuelStack.isEmpty()) {

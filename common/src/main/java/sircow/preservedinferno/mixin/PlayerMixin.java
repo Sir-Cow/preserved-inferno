@@ -287,14 +287,8 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     @Unique public int preserved_inferno$getHeat() {
         return this.entityData.get(ModEntityData.PLAYER_HEAT);
     }
-    @Unique public float preserved_inferno$getStamina() {
-        return this.entityData.get(ModEntityData.PLAYER_SHIELD_STAMINA);
-    }
     @Unique public void preserved_inferno$setHeat(int heat) {
         this.entityData.set(ModEntityData.PLAYER_HEAT, heat);
-    }
-    @Unique public void preserved_inferno$setStamina(float stamina) {
-        this.entityData.set(ModEntityData.PLAYER_SHIELD_STAMINA, stamina);
     }
     @Unique
     public boolean preserved_inferno$canDoHeatChange() {
@@ -310,7 +304,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         int i = this.preserved_inferno$getHeat();
         this.entityData.set(ModEntityData.PLAYER_HEAT, i + heat);
         double randomNum = random.nextDouble();
-        if (randomNum <= 0.2) {
+        if (randomNum <= 0.4) {
             this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.HEAT_UP, SoundSource.PLAYERS);
         }
 //        Constants.LOG.info("heat increase: {}", preserved_inferno$getHeat());

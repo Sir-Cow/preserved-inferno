@@ -92,7 +92,7 @@ public class BlocksMixin {
         return original.mapColor(MapColor.STONE)
                 .instrument(NoteBlockInstrument.BASEDRUM)
                 .requiresCorrectToolForDrops()
-                .strength(6.0F, 3.0F);
+                .strength(7.0F, 3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=iron_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
@@ -108,7 +108,7 @@ public class BlocksMixin {
         return original.mapColor(MapColor.STONE)
                 .instrument(NoteBlockInstrument.BASEDRUM)
                 .requiresCorrectToolForDrops()
-                .strength(6.0F, 3.0F);
+                .strength(4.0F, 3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=lapis_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
@@ -116,7 +116,7 @@ public class BlocksMixin {
         return original.mapColor(MapColor.STONE)
                 .instrument(NoteBlockInstrument.BASEDRUM)
                 .requiresCorrectToolForDrops()
-                .strength(6.0F, 3.0F);
+                .strength(5.0F, 3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=diamond_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
@@ -124,7 +124,7 @@ public class BlocksMixin {
         return original.mapColor(MapColor.STONE)
                 .instrument(NoteBlockInstrument.BASEDRUM)
                 .requiresCorrectToolForDrops()
-                .strength(6.0F, 3.0F);
+                .strength(7.5F, 3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=redstone_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
@@ -134,7 +134,7 @@ public class BlocksMixin {
                 .requiresCorrectToolForDrops()
                 .randomTicks()
                 .lightLevel(litBlockEmission(9))
-                .strength(6.0F, 3.0F);
+                .strength(7.0F, 3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=emerald_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
@@ -142,7 +142,7 @@ public class BlocksMixin {
         return original.mapColor(MapColor.STONE)
                 .instrument(NoteBlockInstrument.BASEDRUM)
                 .requiresCorrectToolForDrops()
-                .strength(6.0F, 3.0F);
+                .strength(7.5F, 3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=copper_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
@@ -150,14 +150,14 @@ public class BlocksMixin {
         return BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE).mapColor(MapColor.STONE)
                 .instrument(NoteBlockInstrument.BASEDRUM)
                 .requiresCorrectToolForDrops()
-                .strength(6.0F, 3.0F);
+                .strength(4.0F, 3.0F);
     }
     // deepslate ores
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=deepslate_gold_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
     private static BlockBehaviour.Properties preserved_inferno$modifyDeepGoldOre(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.ofFullCopy(Blocks.GOLD_ORE).mapColor(MapColor.DEEPSLATE)
-                .strength(12.0F, 3.0F)
+                .strength(14.0F, 3.0F)
                 .sound(SoundType.DEEPSLATE);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=deepslate_iron_ore")), at = @At(value = "INVOKE",
@@ -171,43 +171,69 @@ public class BlocksMixin {
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
     private static BlockBehaviour.Properties preserved_inferno$modifyDeepCoalOre(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.ofFullCopy(Blocks.COAL_ORE).mapColor(MapColor.DEEPSLATE)
-                .strength(12.0F, 3.0F)
+                .strength(8.0F, 3.0F)
                 .sound(SoundType.DEEPSLATE);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=deepslate_lapis_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
     private static BlockBehaviour.Properties preserved_inferno$modifyDeepLapisOre(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.ofFullCopy(Blocks.LAPIS_ORE).mapColor(MapColor.DEEPSLATE)
-                .strength(12.0F, 3.0F)
+                .strength(10.0F, 3.0F)
                 .sound(SoundType.DEEPSLATE);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=deepslate_diamond_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
     private static BlockBehaviour.Properties preserved_inferno$modifyDeepDiamondOre(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.ofFullCopy(Blocks.DIAMOND_ORE).mapColor(MapColor.DEEPSLATE)
-                .strength(12.0F, 3.0F)
+                .strength(15.0F, 3.0F)
                 .sound(SoundType.DEEPSLATE);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=deepslate_redstone_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
     private static BlockBehaviour.Properties preserved_inferno$modifyDeepRedstoneOre(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.ofFullCopy(Blocks.REDSTONE_ORE).mapColor(MapColor.DEEPSLATE)
-                .strength(12.0F, 3.0F)
+                .strength(14.0F, 3.0F)
                 .sound(SoundType.DEEPSLATE);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=deepslate_emerald_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
     private static BlockBehaviour.Properties preserved_inferno$modifyDeepEmeraldOre(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.ofFullCopy(Blocks.EMERALD_ORE).mapColor(MapColor.DEEPSLATE)
-                .strength(12.0F, 3.0F)
+                .strength(15.0F, 3.0F)
                 .sound(SoundType.DEEPSLATE);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=deepslate_copper_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
     private static BlockBehaviour.Properties preserved_inferno$modifyDeepCopperOre(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_ORE).mapColor(MapColor.DEEPSLATE)
-                .strength(12.0F, 3.0F)
+                .strength(8.0F, 3.0F)
                 .sound(SoundType.DEEPSLATE);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=nether_gold_ore")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyNetherGoldOre(BlockBehaviour.Properties original) {
+        return original.mapColor(MapColor.NETHER)
+                .instrument(NoteBlockInstrument.BASEDRUM)
+                .requiresCorrectToolForDrops()
+                .strength(8.0F, 3.0F)
+                .sound(SoundType.NETHER_GOLD_ORE);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=nether_quartz_ore")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyNetherQuartzOre(BlockBehaviour.Properties original) {
+        return original.mapColor(MapColor.NETHER)
+                .instrument(NoteBlockInstrument.BASEDRUM)
+                .requiresCorrectToolForDrops()
+                .strength(8.0F, 3.0F)
+                .sound(SoundType.NETHER_ORE);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=ancient_debris")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 1)
+    private static BlockBehaviour.Properties preserved_inferno$modifyAncientDebris(BlockBehaviour.Properties original) {
+        return original.mapColor(MapColor.COLOR_BLACK)
+                .requiresCorrectToolForDrops()
+                .strength(20.0F, 1200.0F)
+                .sound(SoundType.ANCIENT_DEBRIS);
     }
 
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=wheat")), at = @At(value = "INVOKE",
