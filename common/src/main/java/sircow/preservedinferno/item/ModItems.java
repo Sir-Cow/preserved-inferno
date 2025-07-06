@@ -326,6 +326,6 @@ public class ModItems {
     }
 
     public static void registerModItems() {
-        Constants.LOG.info("Registering Mod Items for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Mod Items for " + Constants.MOD_ID);
     }
 }

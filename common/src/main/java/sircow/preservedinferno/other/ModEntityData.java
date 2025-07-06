@@ -15,6 +15,6 @@ public abstract class ModEntityData {
             SynchedEntityData.defineId(Player.class, EntityDataSerializers.BOOLEAN);
 
     public static void registerModEntityData() {
-        Constants.LOG.info("Registering Mod Entity Data for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Mod Entity Data for " + Constants.MOD_ID);
     }
 }

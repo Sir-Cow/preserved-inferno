@@ -284,7 +284,7 @@ public class FabricModEvents {
     }
 
     public static void registerModEvents() {
-        Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
         checkInitialAdvancement();
         limitCropBreak();
         modifySleeping();

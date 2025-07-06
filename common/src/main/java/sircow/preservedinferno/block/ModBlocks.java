@@ -97,6 +97,6 @@ public class ModBlocks {
     }
 
     public static void registerModBlocks() {
-        Constants.LOG.info("Registering Mod Blocks for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Mod Blocks for " + Constants.MOD_ID);
     }
 }

@@ -35,6 +35,6 @@ public class ModComponents {
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("is_fishing"), IS_FISHING);
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("flare_particle_component"), FLARE_PARTICLE_COMPONENT);
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("on_cooldown"), ON_COOLDOWN);
-        Constants.LOG.info("Registering Mod Components for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Mod Components for " + Constants.MOD_ID);
     }
 }

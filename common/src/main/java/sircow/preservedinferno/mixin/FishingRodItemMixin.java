@@ -85,13 +85,8 @@ public class FishingRodItemMixin {
                 fishingRod.set(ModComponents.IS_FISHING, false);
             }
         }
-    }
 
-    @Inject(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/FishingHook;retrieve(Lnet/minecraft/world/item/ItemStack;)I"))
-    private void preserved_inferno$onUseRetrieve(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-        if (!level.isClientSide && player.fishing != null && player.gameMode() != GameType.CREATIVE) {
-            ItemStack fishingRod = player.getItemInHand(hand);
-
+        if (!level.isClientSide && player.gameMode() != GameType.CREATIVE) {
             if (!Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "none")) {
                 if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "copper")) {
                     updateComponentDurability(fishingRod, "hook", "copper", ModItems.COPPER_FISHING_HOOK, player, hand);

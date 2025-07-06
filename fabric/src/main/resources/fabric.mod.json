@@ -8,7 +8,7 @@
         "${mod_author}"
     ],
     "contact": {
-        "homepage": "",
+        "homepage": "https://modrinth.com/mod/preserved-inferno",
         "sources": "https://github.com/Sir-Cow/preserved-inferno",
         "issues": "https://github.com/Sir-Cow/preserved-inferno/issues"
     },
@@ -38,7 +38,7 @@
     },
     "custom": {
         "modmenu": {
-            "update_checker": false
+            "update_checker": true
         }
     }
 }

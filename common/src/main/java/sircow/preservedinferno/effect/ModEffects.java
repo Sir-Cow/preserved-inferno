@@ -16,6 +16,6 @@ public class ModEffects {
     }
 
     public static void registerModEffects() {
-        Constants.LOG.info("Registering Mod Effects for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Mod Effects for " + Constants.MOD_ID);
     }
 }

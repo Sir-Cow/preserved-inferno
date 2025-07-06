@@ -23,6 +23,6 @@ public class ModTags {
     public static final TagKey<Block> INCORRECT_FOR_COPPER_TOOL = TagKey.create(Registries.BLOCK, Constants.id("incorrect_for_copper_tool"));
 
     public static void registerModTags() {
-        Constants.LOG.info("Registering Mod Tags for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Mod Tags for " + Constants.MOD_ID);
     }
 }

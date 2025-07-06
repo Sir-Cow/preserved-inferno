@@ -26,6 +26,6 @@ public class ModPotions {
     }
 
     public static void registerModPotions() {
-        Constants.LOG.info("Registering Mod Potions for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Mod Potions for " + Constants.MOD_ID);
     }
 }

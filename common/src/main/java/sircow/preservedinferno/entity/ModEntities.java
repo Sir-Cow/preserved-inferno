@@ -25,6 +25,6 @@ public class ModEntities {
 
     public static void registerModEntities() {
         Registry.register(BuiltInRegistries.ENTITY_TYPE, Constants.id("flare_gun_projectile"), FLARE_GUN_PROJECTILE);
-        Constants.LOG.info("Registering Mod Entities for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Mod Entities for " + Constants.MOD_ID);
     }
 }

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_phantom_sinew": {
+    "has_echo_shard": {
       "conditions": {
         "items": [
           {
-            "items": "pinferno:phantom_sinew"
+            "items": "minecraft:echo_shard"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "pinferno:dreamcatcher"
+        "recipe": "pinferno:echoing_prism"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_phantom_sinew"
+      "has_echo_shard"
     ]
   ],
   "rewards": {
     "recipes": [
-      "pinferno:dreamcatcher"
+      "pinferno:echoing_prism"
     ]
   }
 }

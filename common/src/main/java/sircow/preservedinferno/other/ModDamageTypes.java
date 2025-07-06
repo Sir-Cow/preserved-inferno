@@ -18,6 +18,6 @@ public class ModDamageTypes {
     }
 
     public static void registerModDamageTypes() {
-        Constants.LOG.info("Registering Mod Damage Types for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Mod Damage Types for " + Constants.MOD_ID);
     }
 }

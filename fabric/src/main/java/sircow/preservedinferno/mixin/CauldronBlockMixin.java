@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CauldronBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -21,7 +22,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
 
 @Mixin(CauldronBlock.class)
-public class CauldronBlockMixin implements EntityBlock {
+public abstract class CauldronBlockMixin extends Block implements EntityBlock {
+    public CauldronBlockMixin(Properties properties) {
+        super(properties);
+    }
+
     @Unique
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
@@ -74,5 +79,20 @@ public class CauldronBlockMixin implements EntityBlock {
     @Inject(method = "handlePrecipitation", at = @At("HEAD"), cancellable = true)
     public void preserved_inferno$cancel4(BlockState state, Level level, BlockPos pos, Biome.Precipitation precipitation, CallbackInfo ci) {
         ci.cancel();
+    }
+
+    @Unique
+    @Override
+    public boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
+
+    @Unique
+    @Override
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        if (level.getBlockEntity(pos) instanceof PreservedCauldronBlockEntity cauldron) {
+            return (int) Math.floor((double) cauldron.progressWater / cauldron.maxWaterProgress * 15.0);
+        }
+        return 0;
     }
 }

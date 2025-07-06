@@ -1,15 +1,15 @@
 modLoader = "javafml"
 loaderVersion = "${neoforge_loader_version_range}"
 license = "${license}"
-issueTrackerURL="https://github.com/Sir-Cow/preserved-inferno/issues"
+issueTrackerURL = "https://github.com/Sir-Cow/preserved-inferno/issues"
 [[mods]]
 modId = "${mod_id}"
 version = "${version}"
 displayName = "Preserved: Inferno"
-#updateJSONURL=
-displayURL="https://github.com/Sir-Cow/preserved-inferno"
-logoFile="icon.png"
-credits="${credits}"
+updateJSONURL = "https://github.com/Sir-Cow/preserved-inferno/tree/main/common/src/main/resources/update_json.json"
+displayURL = "https://github.com/Sir-Cow/preserved-inferno"
+logoFile = "icon.png"
+credits = "${credits}"
 authors = "${mod_author}"
 description = '''${description}'''
 [[mixins]]
@@ -18,13 +18,13 @@ config = "${mod_id}.mixins.json"
 config = "${mod_id}.neoforge.mixins.json"
 [[dependencies.${mod_id}]]
 modId = "neoforge"
-type="required"
+type = "required"
 versionRange = "[${neoforge_version},)"
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.${mod_id}]]
 modId = "minecraft"
-type="required"
+type = "required"
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"

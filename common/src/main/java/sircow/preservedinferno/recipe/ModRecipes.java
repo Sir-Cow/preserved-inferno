@@ -21,6 +21,6 @@ public class ModRecipes {
             });
 
     public static void registerModRecipes() {
-        Constants.LOG.info("Registering Custom Recipes for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Custom Recipes for " + Constants.MOD_ID);
     }
 }

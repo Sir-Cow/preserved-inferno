@@ -47,6 +47,6 @@ public class FabricModItems {
     }
 
     public static void registerModItems() {
-        Constants.LOG.info("Registering Fabric Mod Items for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Fabric Mod Items for " + Constants.MOD_ID);
     }
 }

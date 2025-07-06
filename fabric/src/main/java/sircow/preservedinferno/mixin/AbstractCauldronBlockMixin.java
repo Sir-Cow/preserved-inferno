@@ -33,11 +33,6 @@ public class AbstractCauldronBlockMixin {
         ci.cancel();
     }
 
-    @Inject(method = "hasAnalogOutputSignal", at = @At("HEAD"), cancellable = true)
-    public void preserved_inferno$cancel2(BlockState state, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(false);
-    }
-
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
     public void preserved_inferno$useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         BlockEntity blockEntity = level.getBlockEntity(pos);

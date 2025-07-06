@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:fishing/conduit_power",
+  "criteria": {
+    "conduit_power_full": {
+      "trigger": "pinferno:conduit_power_full"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.fishing.conduit_power_full.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:prismarine"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.fishing.conduit_power_full.title"
+    }
+  },
+  "requirements": [
+    [
+      "conduit_power_full"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

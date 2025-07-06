@@ -10,6 +10,8 @@ public class ModTriggers {
     public static final BedSpawnPointTrigger BED_SPAWN_POINT = register("bed_spawn_point", new BedSpawnPointTrigger());
     public static final BreakGrownCropTrigger BREAK_GROWN_CROP = register("break_grown_crop", new BreakGrownCropTrigger());
     public static final ChannelingTrigger CHANNELING = register("channeling", new ChannelingTrigger());
+    public static final ConduitPowerTrigger CONDUIT_POWER = register("conduit_power", new ConduitPowerTrigger());
+    public static final ConduitFullPowerTrigger CONDUIT_POWER_FULL = register("conduit_power_full", new ConduitFullPowerTrigger());
     public static final DrinkWaterTrigger DRINK_WATER = register("reduce_heat", new DrinkWaterTrigger());
     public static final FishTreasureTrigger FISH_TREASURE = register("fish_treasure", new FishTreasureTrigger());
     public static final OpenAdvancementsTrigger OPENED_ADVANCEMENT_SCREEN = register("open_advancement_menu", new OpenAdvancementsTrigger());
@@ -23,6 +25,6 @@ public class ModTriggers {
     }
 
     public static void registerTriggers() {
-        Constants.LOG.info("Registering Mod Triggers for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Mod Triggers for " + Constants.MOD_ID);
     }
 }

@@ -30,6 +30,6 @@ public class ModSounds {
     }
 
     public static void registerSounds() {
-        Constants.LOG.info("Registering Mod Sounds for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Mod Sounds for " + Constants.MOD_ID);
     }
 }

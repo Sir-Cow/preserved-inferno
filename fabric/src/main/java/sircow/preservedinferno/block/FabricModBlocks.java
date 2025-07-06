@@ -13,6 +13,6 @@ public class FabricModBlocks {
         OxidizableBlocksRegistry.registerWaxableBlockPair(ModBlocks.WEATHERED_INDUCTOR_RAIL, ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL);
         OxidizableBlocksRegistry.registerWaxableBlockPair(ModBlocks.OXIDIZED_INDUCTOR_RAIL, ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL);
 
-        Constants.LOG.info("Registering Fabric Mod Blocks for " + Constants.MOD_ID);
+        // Constants.LOG.info("Registering Fabric Mod Blocks for " + Constants.MOD_ID);
     }
 }

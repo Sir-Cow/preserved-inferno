@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:fishing/obtain_cache",
+  "criteria": {
+    "conduit_power": {
+      "trigger": "pinferno:conduit_power"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.fishing.conduit_power.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:conduit"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.fishing.conduit_power.title"
+    }
+  },
+  "requirements": [
+    [
+      "conduit_power"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
