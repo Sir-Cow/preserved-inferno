@@ -75,7 +75,7 @@ public abstract class ItemsMixin {
     // modify shears durability
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=shears")),
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;durability(I)Lnet/minecraft/world/item/Item$Properties;", ordinal = 0))
-    private static int preserved_inferno$modifyShearsDurability(int old) { return 64; }
+    private static int preserved_inferno$modifyShearsDurability(int old) { return 128; }
 
     // modify food (mainly to speed up eating time or modify status effects)
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=apple")), at = @At(value = "INVOKE",

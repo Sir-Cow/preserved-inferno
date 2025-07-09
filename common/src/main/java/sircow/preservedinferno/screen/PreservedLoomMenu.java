@@ -1,8 +1,10 @@
 package sircow.preservedinferno.screen;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -20,6 +22,7 @@ import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.item.ModItems;
+import sircow.preservedinferno.trigger.ModTriggers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -132,6 +135,13 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
                         if (shearsItemStack.getDamageValue() >= shearsItemStack.getMaxDamage()) {
                             shearsItemStack.setDamageValue(shearsItemStack.getDamageValue() + 1);
                         }
+                    }
+                }
+
+                // award advancement
+                if (stack.is(ItemTags.WOOL)) {
+                    if (player instanceof ServerPlayer serverPlayer) {
+                        ModTriggers.WOOL_FROM_LOOM.trigger(serverPlayer);
                     }
                 }
 

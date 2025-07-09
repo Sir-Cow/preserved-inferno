@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:combat/root",
+  "parent": "pinferno:combat/obtain_elder_guardian_spine",
   "criteria": {
     "shot_trident": {
       "conditions": {
@@ -24,6 +24,7 @@
     "description": {
       "translate": "advancements.adventure.throw_trident.description"
     },
+    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "minecraft:trident"

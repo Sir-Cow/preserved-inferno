@@ -1,0 +1,33 @@
+{
+  "parent": "pinferno:agriculture/kill_a_cow",
+  "criteria": {
+    "bundle": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:bundles"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.obtain_bundle.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:bundle"
+    },
+    "title": {
+      "translate": "advancements.pinferno.agriculture.obtain_bundle.title"
+    }
+  },
+  "requirements": [
+    [
+      "bundle"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

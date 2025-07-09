@@ -62,6 +62,7 @@
     "PotionsMixin",
     "RabbitMixin",
     "ServerAdvancementManagerMixin",
+    "ServerLevelMixin",
     "ServerPlayerGameModeMixin",
     "ServerPlayerMixin",
     "SheepMixin",

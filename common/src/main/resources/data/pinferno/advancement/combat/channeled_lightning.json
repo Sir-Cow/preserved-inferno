@@ -9,7 +9,7 @@
     "description": {
       "translate": "advancements.pinferno.combat.channeled_lightning.description"
     },
-    "frame": "goal",
+    "frame": "challenge",
     "icon": {
       "count": 1,
       "id": "minecraft:lightning_rod"

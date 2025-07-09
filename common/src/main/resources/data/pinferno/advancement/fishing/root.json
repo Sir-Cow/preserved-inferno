@@ -36,14 +36,14 @@
   "display": {
     "background": "pinferno:gui/advancements/backgrounds/prismarine_bricks",
     "description": {
-      "translate": "advancements.husbandry.fishy_business.description"
+      "translate": "advancements.pinferno.story.fishing.description"
     },
     "icon": {
       "count": 1,
       "id": "minecraft:fishing_rod"
     },
     "title": {
-      "translate": "advancements.husbandry.fishy_business.title"
+      "translate": "advancements.pinferno.story.fishing.title"
     }
   },
   "requirements": [

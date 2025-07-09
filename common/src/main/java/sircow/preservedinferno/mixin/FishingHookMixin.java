@@ -3,6 +3,7 @@ package sircow.preservedinferno.mixin;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
@@ -29,19 +30,19 @@ public abstract class FishingHookMixin {
     @Unique private final int HOOK_SPEED_COPPER = 50;
     @Unique private final int HOOK_SPEED_PRISMARINE = 150;
     @Unique private final int HOOK_SPEED_IRON = 100;
-    @Unique private final int HOOK_SPEED_GOLDEN = 300;
+    @Unique private final int HOOK_SPEED_GOLDEN = 250;
     @Unique private final int HOOK_SPEED_DIAMOND = 200;
     @Unique private final int HOOK_SPEED_NETHERITE = 300;
     @Unique private final double LINE_FORTUNE_COPPER = 0.5;
     @Unique private final double LINE_FORTUNE_PRISMARINE = 1.5;
     @Unique private final double LINE_FORTUNE_IRON = 1.0;
-    @Unique private final double LINE_FORTUNE_GOLDEN = 3.0;
+    @Unique private final double LINE_FORTUNE_GOLDEN = 2.5;
     @Unique private final double LINE_FORTUNE_DIAMOND = 2.0;
     @Unique private final double LINE_FORTUNE_NETHERITE = 3.0;
     @Unique private final float SINKER_LUCK_COPPER = 0.5F;
     @Unique private final float SINKER_LUCK_PRISMARINE = 1.5F;
     @Unique private final float SINKER_LUCK_IRON = 1.0F;
-    @Unique private final float SINKER_LUCK_GOLDEN = 3.0F;
+    @Unique private final float SINKER_LUCK_GOLDEN = 2.5F;
     @Unique private final float SINKER_LUCK_DIAMOND = 2.0F;
     @Unique private final float SINKER_LUCK_NETHERITE = 3.0F;
 
@@ -68,6 +69,9 @@ public abstract class FishingHookMixin {
                 }
 
                 if (fishingWithStack != null) {
+                    if (owner.hasEffect(MobEffects.CONDUIT_POWER)) {
+                        this.lureSpeed += 100;
+                    }
                     if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "copper")) {
                         this.lureSpeed += HOOK_SPEED_COPPER;
                         lureSpeedModified = true;
@@ -191,14 +195,16 @@ public abstract class FishingHookMixin {
         return originalStack;
     }
     // sinker effect
-    @ModifyArgs(method = "retrieve(Lnet/minecraft/world/item/ItemStack;)I", at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/world/level/storage/loot/LootParams$Builder;withLuck(F)Lnet/minecraft/world/level/storage/loot/LootParams$Builder;"))
-    private void addCustomLuckToFishing(Args args) {
+    @ModifyArgs(method = "retrieve(Lnet/minecraft/world/item/ItemStack;)I", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/storage/loot/LootParams$Builder;withLuck(F)Lnet/minecraft/world/level/storage/loot/LootParams$Builder;"))
+    private void preserved_inferno$addLuck(Args args) {
         float originalLuck = args.get(0);
         float newLuck = originalLuck;
         Player owner = this.getPlayerOwner();
         if (owner != null) {
             if (fishingWithStack != null) {
+                if (owner.hasEffect(MobEffects.CONDUIT_POWER)) {
+                    newLuck += 1;
+                }
                 if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "copper")) {
                     newLuck = originalLuck + SINKER_LUCK_COPPER;
                 }
@@ -224,7 +230,7 @@ public abstract class FishingHookMixin {
 
     // trigger fish treasure advancement
     @Inject(method = "retrieve", at = @At(value = "INVOKE", target = "Ljava/util/List;iterator()Ljava/util/Iterator;"))
-    private void onEachFishedItem(ItemStack stack, CallbackInfoReturnable<Integer> cir, @Local(ordinal = 0) List<ItemStack> list) {
+    private void preserved_inferno$onEachFishedItem(ItemStack stack, CallbackInfoReturnable<Integer> cir, @Local(ordinal = 0) List<ItemStack> list) {
         Player owner = this.getPlayerOwner();
         if (owner != null) {
             for (ItemStack itemStack : list) {

@@ -25,7 +25,7 @@ public class CacheMenu extends AbstractContainerMenu {
         this.container = container;
         this.stackContext = stackContext;
         container.startOpen(playerInventory.player);
-        checkContainerSize(container, 9);
+        checkContainerSize(container, 15);
         setupSlots(playerInventory);
     }
 
@@ -38,13 +38,13 @@ public class CacheMenu extends AbstractContainerMenu {
     }
 
     private void setupSlots(Inventory playerInventory) {
-        int startX = 62;
+        int startX = 44;
         int startY = 17;
         int slotSize = 18;
 
         for (int row = 0; row < 3; ++row) {
-            for (int col = 0; col < 3; ++col) {
-                this.addSlot(new CacheSlot(this.container, col + row * 3, startX + col * slotSize, startY + row * slotSize));
+            for (int col = 0; col < 5; ++col) {
+                this.addSlot(new CacheSlot(this.container, col + row * 5, startX + col * slotSize, startY + row * slotSize));
             }
         }
 
@@ -64,18 +64,18 @@ public class CacheMenu extends AbstractContainerMenu {
                 return ItemStack.EMPTY;
             }
 
-            if (index < 9) {
-                if (!this.moveItemStackTo(itemstack1, 9, this.slots.size(), true)) {
+            if (index < 15) {
+                if (!this.moveItemStackTo(itemstack1, 15, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             }
-            else if (index < 36) {
-                if (!this.moveItemStackTo(itemstack1, 0, 9, false) && !this.moveItemStackTo(itemstack1, 36, this.slots.size(), false)) {
+            else if (index < 42) {
+                if (!this.moveItemStackTo(itemstack1, 0, 15, false) && !this.moveItemStackTo(itemstack1, 42, this.slots.size(), false)) {
                     return ItemStack.EMPTY;
                 }
             }
             else if (index < this.slots.size()) {
-                if (!this.moveItemStackTo(itemstack1, 0, 9, false) && !this.moveItemStackTo(itemstack1, 9, 36, false)) {
+                if (!this.moveItemStackTo(itemstack1, 0, 15, false) && !this.moveItemStackTo(itemstack1, 15, 42, false)) {
                     return ItemStack.EMPTY;
                 }
             }

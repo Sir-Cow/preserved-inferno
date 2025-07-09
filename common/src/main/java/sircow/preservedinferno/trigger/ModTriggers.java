@@ -19,6 +19,7 @@ public class ModTriggers {
     public static final ShearSheepTrigger SHEAR_SHEEP = register("shear_sheep", new ShearSheepTrigger());
     public static final StandOnIceTrigger STAND_ON_ICE = register("stand_on_ice", new StandOnIceTrigger());
     public static final UseAnvilRepairTrigger USED_ANVIL_REPAIR = register("used_anvil_repair", new UseAnvilRepairTrigger());
+    public static final WoolFromLoomTrigger WOOL_FROM_LOOM = register("wool_from_loom", new WoolFromLoomTrigger());
 
     public static <T extends CriterionTrigger<?>> T register(String name, T trigger) {
         return Registry.register(BuiltInRegistries.TRIGGER_TYPES, Constants.id(name), trigger);

@@ -3,6 +3,9 @@
   "criteria": {
     "shear_sheep": {
       "trigger": "pinferno:shear_sheep"
+    },
+    "wool_from_loom": {
+      "trigger": "pinferno:wool_from_loom"
     }
   },
   "display": {
@@ -20,7 +23,8 @@
   },
   "requirements": [
     [
-      "shear_sheep"
+      "shear_sheep",
+      "wool_from_loom"
     ]
   ],
   "sends_telemetry_event": true

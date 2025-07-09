@@ -32,7 +32,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.item.ModItems;
@@ -96,7 +95,7 @@ public class FabricModEvents {
     }
 
     public static void modifySleeping() {
-        // only allow sleeping if holding a dreamcatcher
+        // only allow sleeping if holding a dreamcatcher & no mobs in line of sight of bed
         EntitySleepEvents.ALLOW_SLEEPING.register((Player player, BlockPos pos) -> {
             ItemStack mainHandItem = player.getItemInHand(InteractionHand.MAIN_HAND);
             ItemStack offHandItem = player.getItemInHand(InteractionHand.OFF_HAND);
@@ -104,18 +103,18 @@ public class FabricModEvents {
             boolean holdingDreamcatcherInOffHand = offHandItem.getItem() == ModItems.DREAMCATCHER;
 
             if (holdingDreamcatcherInMainHand || holdingDreamcatcherInOffHand) {
-                if (holdingDreamcatcherInMainHand) {
-                    mainHandItem.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
-                }
-                else {
-                    offHandItem.hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
-                }
-
                 if (hasMonsterLineOfSight(player.level(), pos)) {
                     player.displayClientMessage(Component.translatable("block.minecraft.bed.not_safe"), true);
                     return Player.BedSleepingProblem.OTHER_PROBLEM;
                 }
-
+                else {
+                    if (holdingDreamcatcherInMainHand) {
+                        mainHandItem.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+                    }
+                    else {
+                        offHandItem.hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
+                    }
+                }
                 return null;
             }
             else {
@@ -153,8 +152,10 @@ public class FabricModEvents {
             }
         });
 
-        ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
-            TempInventoryStorage.savePlayerInventory(player);
+        ServerLivingEntityEvents.ALLOW_DEATH.register((livingEntity, damageSource, damageAmount) -> {
+            if (livingEntity instanceof Player player) {
+                TempInventoryStorage.savePlayerInventory(player);
+            }
             return true;
         });
 

@@ -210,21 +210,21 @@ public class ModItems {
     );
 
     public static final Item COPPER_FISHING_HOOK = registerItem("copper_fishing_hook", Item::new, new Item.Properties()
-            .durability(128)
+            .durability(256)
             .stacksTo(1)
             .repairable(ModTags.COPPER_TOOL_MATERIALS)
     );
     public static final Item PRISMARINE_FISHING_HOOK = registerItem("prismarine_fishing_hook", Item::new, new Item.Properties()
-            .durability(512)
+            .durability(768)
             .stacksTo(1)
     );
     public static final Item IRON_FISHING_HOOK = registerItem("iron_fishing_hook", Item::new, new Item.Properties()
-            .durability(256)
+            .durability(512)
             .stacksTo(1)
             .repairable(ItemTags.IRON_TOOL_MATERIALS)
     );
     public static final Item GOLDEN_FISHING_HOOK = registerItem("golden_fishing_hook", Item::new, new Item.Properties()
-            .durability(64)
+            .durability(256)
             .stacksTo(1)
             .repairable(ItemTags.GOLD_TOOL_MATERIALS)
     );
@@ -240,21 +240,21 @@ public class ModItems {
             .fireResistant()
     );
     public static final Item COPPER_LACED_FISHING_LINE = registerItem("copper_laced_fishing_line", Item::new, new Item.Properties()
-            .durability(128)
+            .durability(256)
             .stacksTo(1)
             .repairable(ModTags.COPPER_TOOL_MATERIALS)
     );
     public static final Item PRISMARINE_LACED_FISHING_LINE = registerItem("prismarine_laced_fishing_line", Item::new, new Item.Properties()
-            .durability(512)
+            .durability(768)
             .stacksTo(1)
     );
     public static final Item IRON_LACED_FISHING_LINE = registerItem("iron_laced_fishing_line", Item::new, new Item.Properties()
-            .durability(256)
+            .durability(512)
             .stacksTo(1)
             .repairable(ItemTags.IRON_TOOL_MATERIALS)
     );
     public static final Item GOLDEN_LACED_FISHING_LINE = registerItem("golden_laced_fishing_line", Item::new, new Item.Properties()
-            .durability(64)
+            .durability(256)
             .stacksTo(1)
             .repairable(ItemTags.GOLD_TOOL_MATERIALS)
     );
@@ -270,21 +270,21 @@ public class ModItems {
             .fireResistant()
     );
     public static final Item COPPER_SINKER = registerItem("copper_sinker", Item::new, new Item.Properties()
-            .durability(128)
+            .durability(256)
             .stacksTo(1)
             .repairable(ModTags.COPPER_TOOL_MATERIALS)
     );
     public static final Item PRISMARINE_SINKER = registerItem("prismarine_sinker", Item::new, new Item.Properties()
-            .durability(512)
+            .durability(768)
             .stacksTo(1)
     );
     public static final Item IRON_SINKER = registerItem("iron_sinker", Item::new, new Item.Properties()
-            .durability(256)
+            .durability(512)
             .stacksTo(1)
             .repairable(ItemTags.IRON_TOOL_MATERIALS)
     );
     public static final Item GOLDEN_SINKER = registerItem("golden_sinker", Item::new, new Item.Properties()
-            .durability(64)
+            .durability(256)
             .stacksTo(1)
             .repairable(ItemTags.GOLD_TOOL_MATERIALS)
     );
@@ -305,7 +305,7 @@ public class ModItems {
     );
 
     public static final Item FLARE_GUN = registerItem("flare_gun", PreservedFlareGunItem::new, new Item.Properties()
-            .durability(64)
+            .durability(128)
             .stacksTo(1)
             .useCooldown(1.0F)
             .repairable(ModTags.COPPER_TOOL_MATERIALS)

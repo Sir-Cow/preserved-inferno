@@ -70,7 +70,7 @@ public class ArmorMaterialMixin {
         TURTLE_TOUGHNESS.put(ArmorType.LEGGINGS, 0.0f); TURTLE_TOUGHNESS.put(ArmorType.BOOTS, 0.0f);
     }
 
-    // modify toughness values for individual armour pieces
+    // modify toughness and defense values for individual armour pieces
     @Inject(method = "createAttributes", at = @At("HEAD"), cancellable = true)
     private void preserved_inferno$modifyValues(ArmorType armorType, CallbackInfoReturnable<ItemAttributeModifiers> cir) {
         int defenseVal;
@@ -112,9 +112,9 @@ public class ArmorMaterialMixin {
         else if (assetId.toString().contains("gold")) {
             toughVal = GOLD_TOUGHNESS.getOrDefault(armorType, 0.0F);
             defenseVal = switch (armorType) {
-                case HELMET -> 8;
-                case CHESTPLATE -> 14;
-                case LEGGINGS -> 12;
+                case HELMET -> 9;
+                case CHESTPLATE -> 20;
+                case LEGGINGS -> 15;
                 case BOOTS -> 6;
                 case BODY -> 40;
             };

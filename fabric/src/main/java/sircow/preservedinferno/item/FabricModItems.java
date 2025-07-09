@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 public class FabricModItems {
     public static final Item CACHE = registerItem("cache", properties ->
-            new CacheItem(properties, 9), new Item.Properties()
+            new CacheItem(properties, 15), new Item.Properties()
             .component(DataComponents.CONTAINER, ItemContainerContents.EMPTY)
             .rarity(Rarity.UNCOMMON)
             .stacksTo(1)

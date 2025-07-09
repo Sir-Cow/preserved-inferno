@@ -124,7 +124,7 @@
               "entries": [
                 {
                   "type": "minecraft:loot_table",
-                  "value": "minecraft:chests/buried_treasure"
+                  "value": "pinferno:chests/cache"
                 }
               ]
             }
