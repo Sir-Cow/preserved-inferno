@@ -79,6 +79,7 @@
     }
   },
   "display": {
+    "announce_to_chat": false,
     "background": "pinferno:gui/advancements/backgrounds/dirt",
     "description": {
       "translate": "advancements.pinferno.agriculture.root.description"
@@ -87,6 +88,7 @@
       "count": 1,
       "id": "minecraft:iron_hoe"
     },
+    "show_toast": false,
     "title": {
       "translate": "advancements.pinferno.agriculture.root.title"
     }

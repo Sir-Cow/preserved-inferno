@@ -34,6 +34,7 @@
     }
   },
   "display": {
+    "announce_to_chat": false,
     "background": "pinferno:gui/advancements/backgrounds/prismarine_bricks",
     "description": {
       "translate": "advancements.pinferno.story.fishing.description"
@@ -42,6 +43,7 @@
       "count": 1,
       "id": "minecraft:fishing_rod"
     },
+    "show_toast": false,
     "title": {
       "translate": "advancements.pinferno.story.fishing.title"
     }

@@ -8,6 +8,7 @@
     }
   },
   "display": {
+    "announce_to_chat": false,
     "background": "pinferno:gui/advancements/backgrounds/netherrack",
     "description": {
       "translate": "advancements.pinferno.nether.enter_the_nether.description"
@@ -16,6 +17,7 @@
       "count": 1,
       "id": "minecraft:netherrack"
     },
+    "show_toast": false,
     "title": {
       "translate": "advancements.pinferno.nether.enter_the_nether.title"
     }

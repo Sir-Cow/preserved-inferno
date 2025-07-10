@@ -34,6 +34,7 @@ public class ArmorMaterialMixin {
     @Unique private static final Map<ArmorType, Float> DIAMOND_TOUGHNESS = new HashMap<>();
     @Unique private static final Map<ArmorType, Float> NETHERITE_TOUGHNESS = new HashMap<>();
     @Unique private static final Map<ArmorType, Float> TURTLE_TOUGHNESS = new HashMap<>();
+    @Unique private static final Map<ArmorType, Float> COPPER_TOUGHNESS = new HashMap<>();
 
     static {
         LEATHER_TOUGHNESS.put(ArmorType.HELMET, 0.0f); LEATHER_TOUGHNESS.put(ArmorType.CHESTPLATE, 1.0f);
@@ -51,8 +52,8 @@ public class ArmorMaterialMixin {
     }
 
     static {
-        GOLD_TOUGHNESS.put(ArmorType.HELMET, 0.0f); GOLD_TOUGHNESS.put(ArmorType.CHESTPLATE, 2.0f);
-        GOLD_TOUGHNESS.put(ArmorType.LEGGINGS, 1.0f); GOLD_TOUGHNESS.put(ArmorType.BOOTS, 0.0f);
+        GOLD_TOUGHNESS.put(ArmorType.HELMET, 1.0f); GOLD_TOUGHNESS.put(ArmorType.CHESTPLATE, 2.0f);
+        GOLD_TOUGHNESS.put(ArmorType.LEGGINGS, 1.0f); GOLD_TOUGHNESS.put(ArmorType.BOOTS, 1.0f);
     }
 
     static {
@@ -68,6 +69,11 @@ public class ArmorMaterialMixin {
     static {
         TURTLE_TOUGHNESS.put(ArmorType.HELMET, 0.0f); TURTLE_TOUGHNESS.put(ArmorType.CHESTPLATE, 0.0f);
         TURTLE_TOUGHNESS.put(ArmorType.LEGGINGS, 0.0f); TURTLE_TOUGHNESS.put(ArmorType.BOOTS, 0.0f);
+    }
+
+    static {
+        COPPER_TOUGHNESS.put(ArmorType.HELMET, 0.0f); COPPER_TOUGHNESS.put(ArmorType.CHESTPLATE, 1.0f);
+        COPPER_TOUGHNESS.put(ArmorType.LEGGINGS, 1.0f); COPPER_TOUGHNESS.put(ArmorType.BOOTS, 0.0f);
     }
 
     // modify toughness and defense values for individual armour pieces
@@ -146,6 +152,16 @@ public class ArmorMaterialMixin {
                 case CHESTPLATE -> 6;
                 case LEGGINGS, BODY -> 5;
                 case BOOTS -> 2;
+            };
+        }
+        else if (assetId.toString().contains("copper")) {
+            toughVal = COPPER_TOUGHNESS.getOrDefault(armorType, 0.0F);
+            defenseVal = switch (armorType) {
+                case HELMET -> 9;
+                case CHESTPLATE -> 15;
+                case LEGGINGS -> 13;
+                case BOOTS -> 8;
+                case BODY -> 25;
             };
         }
         else {

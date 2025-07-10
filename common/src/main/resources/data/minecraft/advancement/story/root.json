@@ -14,7 +14,7 @@
       "count": 1,
       "id": "minecraft:grass_block"
     },
-    "show_toast": true,
+    "show_toast": false,
     "title": {
       "translate": "advancements.story.root.title"
     }

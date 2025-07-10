@@ -52,7 +52,8 @@ public class CommonClass {
                 "Couldn't parse data file 'minecraft:repair_item'",
                 "Couldn't parse data file 'minecraft:shield'",
                 "Couldn't parse data file 'minecraft:white_wool_from_string'",
-                "Tried to add entity minecraft:enderman but it was marked as removed already"
+                "Tried to add entity minecraft:enderman but it was marked as removed already",
+                "Tried to add entity minecraft:zombie_villager but it was marked as removed already"
         );
 
         rootLogger.addFilter(new AbstractFilter() {

@@ -21,7 +21,7 @@
       "count": 1,
       "id": "minecraft:iron_shovel"
     },
-    "show_toast": true,
+    "show_toast": false,
     "title": {
       "translate": "advancements.pinferno.exploration.mine_stone.title"
     }

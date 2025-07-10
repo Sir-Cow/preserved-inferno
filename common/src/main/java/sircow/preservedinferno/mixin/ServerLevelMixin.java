@@ -16,5 +16,8 @@ public abstract class ServerLevelMixin {
         if (entity.getType() == EntityType.ENDERMAN && entity.level().dimension() == Level.OVERWORLD) {
             entity.setRemoved(Entity.RemovalReason.DISCARDED);
         }
+        if (entity.getType() == EntityType.ZOMBIE_VILLAGER) {
+            entity.setRemoved(Entity.RemovalReason.DISCARDED);
+        }
     }
 }

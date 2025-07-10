@@ -181,7 +181,7 @@ public class FabricModEvents {
             if (!alive) {
                 newPlayer.setHealth(10.0F);
                 newPlayer.getFoodData().setFoodLevel(10);
-                newPlayer.getFoodData().setSaturation(10.0F);
+                newPlayer.getFoodData().setSaturation(5.0F);
             }
         });
     }

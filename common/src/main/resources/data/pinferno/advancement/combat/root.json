@@ -520,6 +520,7 @@
     }
   },
   "display": {
+    "announce_to_chat": false,
     "background": "pinferno:gui/advancements/backgrounds/stone",
     "description": {
       "translate": "advancements.pinferno.combat.root.description"
@@ -528,6 +529,7 @@
       "count": 1,
       "id": "minecraft:iron_sword"
     },
+    "show_toast": false,
     "title": {
       "translate": "advancements.pinferno.combat.root.title"
     }
