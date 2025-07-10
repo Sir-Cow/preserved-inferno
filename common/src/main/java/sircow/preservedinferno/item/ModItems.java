@@ -16,6 +16,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.item.equipment.ArmorType;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.item.custom.PreservedFlareGunItem;
@@ -28,7 +29,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class ModItems {
-    public static final ToolMaterial COPPER = new ToolMaterial(ModTags.INCORRECT_FOR_COPPER_TOOL, 256, 4.0F, 0.0F, 5, ModTags.COPPER_TOOL_MATERIALS);
+    public static final ToolMaterial COPPER_TOOL = new ToolMaterial(ModTags.INCORRECT_FOR_COPPER_TOOL, 256, 4.0F, 0.0F, 5, ModTags.COPPER_TOOL_MATERIALS);
 
     // shield stuff
     static DecimalFormat df = new DecimalFormat("0.000");
@@ -51,8 +52,8 @@ public class ModItems {
     public static final Item RAW_HIDE = registerItem("raw_hide", Item::new, new Item.Properties());
     public static final Item LEATHER_FABRIC = registerItem("leather_fabric", Item::new, new Item.Properties());
     public static final Item GILDEN_BERRIES = registerItem("gilden_berries", Item::new, new Item.Properties().food(
-            new FoodProperties.Builder().nutrition(4).saturationModifier(1.2F).alwaysEdible().build(),
-            defaultFood().consumeSeconds(0.8F).onConsume(new ApplyStatusEffectsConsumeEffect(List.of(new MobEffectInstance(MobEffects.REGENERATION, 120, 0)))).build()));
+            new FoodProperties.Builder().nutrition(6).saturationModifier(1.2F).alwaysEdible().build(),
+            defaultFood().consumeSeconds(0.8F).onConsume(new ApplyStatusEffectsConsumeEffect(List.of(new MobEffectInstance(MobEffects.REGENERATION, 100, 0)))).build()));
 
     public static final Item ECHOING_PRISM = registerItem("echoing_prism", Item::new, new Item.Properties()
             .rarity(Rarity.UNCOMMON)
@@ -66,11 +67,16 @@ public class ModItems {
     public static final Item RAW_COPPER_CHUNK = registerItem("raw_copper_chunk", Item::new, new Item.Properties());
     public static final Item COPPER_NUGGET = registerItem("copper_nugget", Item::new, new Item.Properties());
 
-    public static final Item COPPER_AXE = registerItem("copper_axe", properties -> new AxeItem(COPPER, 5.0F, -3.0F, properties), new Item.Properties());
-    public static final Item COPPER_PICKAXE = registerItem("copper_pickaxe", Item::new, new Item.Properties().pickaxe(COPPER, 3.0F, -3.0F));
-    public static final Item COPPER_SCYTHE = registerItem("copper_hoe", properties -> new HoeItem(COPPER, 2.0F, -2.0F, properties), new Item.Properties());
-    public static final Item COPPER_SHOVEL = registerItem("copper_shovel", properties -> new ShovelItem(COPPER, 2.5F, -2.5F, properties), new Item.Properties());
-    public static final Item COPPER_SWORD = registerItem("copper_sword", Item::new, new Item.Properties().sword(COPPER, 3.0F, -2.4F));
+    public static final Item COPPER_AXE = registerItem("copper_axe", properties -> new AxeItem(COPPER_TOOL, 5.0F, -3.0F, properties), new Item.Properties());
+    public static final Item COPPER_PICKAXE = registerItem("copper_pickaxe", Item::new, new Item.Properties().pickaxe(COPPER_TOOL, 3.0F, -3.0F));
+    public static final Item COPPER_SCYTHE = registerItem("copper_hoe", properties -> new HoeItem(COPPER_TOOL, 2.0F, -2.0F, properties), new Item.Properties());
+    public static final Item COPPER_SHOVEL = registerItem("copper_shovel", properties -> new ShovelItem(COPPER_TOOL, 2.5F, -2.5F, properties), new Item.Properties());
+    public static final Item COPPER_SWORD = registerItem("copper_sword", Item::new, new Item.Properties().sword(COPPER_TOOL, 3.0F, -2.4F));
+
+    public static final Item COPPER_HELMET = registerItem("copper_helmet", Item::new, new Item.Properties().humanoidArmor(ModArmourMaterials.COPPER, ArmorType.HELMET));
+    public static final Item COPPER_CHESTPLATE = registerItem("copper_chestplate", Item::new, new Item.Properties().humanoidArmor(ModArmourMaterials.COPPER, ArmorType.CHESTPLATE));
+    public static final Item COPPER_LEGGINGS = registerItem("copper_leggings", Item::new, new Item.Properties().humanoidArmor(ModArmourMaterials.COPPER, ArmorType.LEGGINGS));
+    public static final Item COPPER_BOOTS = registerItem("copper_boots", Item::new, new Item.Properties().humanoidArmor(ModArmourMaterials.COPPER, ArmorType.BOOTS));
 
     public static final Item BLACK_CLOTH = registerItem("black_cloth", Item::new, new Item.Properties());
     public static final Item BLUE_CLOTH = registerItem("blue_cloth", Item::new, new Item.Properties());

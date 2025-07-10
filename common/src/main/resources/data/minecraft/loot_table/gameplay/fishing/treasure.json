@@ -14,7 +14,7 @@
           "type": "minecraft:item",
           "name": "minecraft:music_disc_otherside",
           "expand": true,
-          "weight": 10
+          "weight": 5
         },
         {
           "type": "minecraft:item",
@@ -41,7 +41,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:nautilus_shell",
-          "weight": 10
+          "weight": 15
         },
         {
           "type": "minecraft:item",
@@ -73,7 +73,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:crossbow",
-          "weight": 10,
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:enchant_with_levels",
@@ -95,7 +95,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:bow",
-          "weight": 10,
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:enchant_with_levels",
@@ -116,7 +116,7 @@
         {
           "type": "minecraft:item",
           "name": "pinferno:cache",
-          "weight": 5,
+          "weight": 10,
           "functions": [
             {
               "function": "minecraft:set_contents",

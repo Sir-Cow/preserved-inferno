@@ -21,7 +21,7 @@ public class ToolMaterialMixin {
         STONE = new ToolMaterial(STONE.incorrectBlocksForDrops(), 128, 2.0F, STONE.attackDamageBonus(), STONE.enchantmentValue(), STONE.repairItems());
         IRON = new ToolMaterial(IRON.incorrectBlocksForDrops(), 512, 6.0F, IRON.attackDamageBonus(), IRON.enchantmentValue(), IRON.repairItems());
         GOLD = new ToolMaterial(GOLD.incorrectBlocksForDrops(), 256, 12.0F, GOLD.attackDamageBonus(), GOLD.enchantmentValue(), GOLD.repairItems());
-        DIAMOND = new ToolMaterial(DIAMOND.incorrectBlocksForDrops(), 1024, 10.0F, DIAMOND.attackDamageBonus(), DIAMOND.enchantmentValue(), DIAMOND.repairItems());
-        NETHERITE = new ToolMaterial(NETHERITE.incorrectBlocksForDrops(), 2048, 15.0F, NETHERITE.attackDamageBonus(), NETHERITE.enchantmentValue(), ModTags.REPAIRS_NETHERITE_TOOL);
+        DIAMOND = new ToolMaterial(DIAMOND.incorrectBlocksForDrops(), 2048, 10.0F, DIAMOND.attackDamageBonus(), DIAMOND.enchantmentValue(), DIAMOND.repairItems());
+        NETHERITE = new ToolMaterial(NETHERITE.incorrectBlocksForDrops(), 4096, 15.0F, NETHERITE.attackDamageBonus(), NETHERITE.enchantmentValue(), ModTags.REPAIRS_NETHERITE_TOOL);
     }
 }

@@ -50,6 +50,10 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.COPPER_AXE);
                     entries.accept(ModItems.COPPER_SCYTHE);
                     entries.accept(ModItems.COPPER_SWORD);
+                    entries.accept(ModItems.COPPER_HELMET);
+                    entries.accept(ModItems.COPPER_CHESTPLATE);
+                    entries.accept(ModItems.COPPER_LEGGINGS);
+                    entries.accept(ModItems.COPPER_BOOTS);
 
                     entries.accept(ModItems.BLACK_CLOTH);
                     entries.accept(ModItems.BLUE_CLOTH);

@@ -96,7 +96,7 @@ public class ArmorMaterialMixin {
                 case CHESTPLATE -> 20;
                 case LEGGINGS -> 15;
                 case BOOTS -> 6;
-                case BODY -> 4;
+                case BODY -> 30;
             };
         }
         else if (assetId.toString().contains("iron")) {
@@ -112,10 +112,10 @@ public class ArmorMaterialMixin {
         else if (assetId.toString().contains("gold")) {
             toughVal = GOLD_TOUGHNESS.getOrDefault(armorType, 0.0F);
             defenseVal = switch (armorType) {
-                case HELMET -> 9;
+                case HELMET -> 12;
                 case CHESTPLATE -> 20;
                 case LEGGINGS -> 15;
-                case BOOTS -> 6;
+                case BOOTS -> 10;
                 case BODY -> 40;
             };
         }
