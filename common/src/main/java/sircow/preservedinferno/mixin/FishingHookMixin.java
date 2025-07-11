@@ -30,19 +30,19 @@ public abstract class FishingHookMixin {
     @Unique private final int HOOK_SPEED_COPPER = 50;
     @Unique private final int HOOK_SPEED_PRISMARINE = 150;
     @Unique private final int HOOK_SPEED_IRON = 100;
-    @Unique private final int HOOK_SPEED_GOLDEN = 250;
+    @Unique private final int HOOK_SPEED_GOLDEN = 150;
     @Unique private final int HOOK_SPEED_DIAMOND = 200;
     @Unique private final int HOOK_SPEED_NETHERITE = 300;
     @Unique private final double LINE_FORTUNE_COPPER = 0.5;
     @Unique private final double LINE_FORTUNE_PRISMARINE = 1.5;
     @Unique private final double LINE_FORTUNE_IRON = 1.0;
-    @Unique private final double LINE_FORTUNE_GOLDEN = 2.5;
+    @Unique private final double LINE_FORTUNE_GOLDEN = 1.5;
     @Unique private final double LINE_FORTUNE_DIAMOND = 2.0;
     @Unique private final double LINE_FORTUNE_NETHERITE = 3.0;
     @Unique private final float SINKER_LUCK_COPPER = 0.5F;
     @Unique private final float SINKER_LUCK_PRISMARINE = 1.5F;
     @Unique private final float SINKER_LUCK_IRON = 1.0F;
-    @Unique private final float SINKER_LUCK_GOLDEN = 2.5F;
+    @Unique private final float SINKER_LUCK_GOLDEN = 1.5F;
     @Unique private final float SINKER_LUCK_DIAMOND = 2.0F;
     @Unique private final float SINKER_LUCK_NETHERITE = 3.0F;
 

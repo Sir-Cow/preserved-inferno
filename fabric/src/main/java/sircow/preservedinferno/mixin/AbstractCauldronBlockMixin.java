@@ -49,7 +49,7 @@ public class AbstractCauldronBlockMixin {
                         cauldron.progressWater = Math.min(cauldron.maxWaterProgress, cauldron.progressWater + 8);
                         if (!player.isCreative()) {
                             player.getItemInHand(hand).setCount(player.getItemInHand(hand).getCount() - 1);
-                            player.addItem(new ItemStack(Items.BUCKET));
+                            player.setItemInHand(hand, new ItemStack(Items.BUCKET));
                         }
                         level.playSound(null, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
                         interactionHandled = true;
@@ -71,7 +71,7 @@ public class AbstractCauldronBlockMixin {
                             cauldron.progressWater = Math.max(0, cauldron.progressWater - 8);
                             if (!player.isCreative()) {
                                 player.getItemInHand(hand).setCount(player.getItemInHand(hand).getCount() - 1);
-                                player.addItem(new ItemStack(Items.WATER_BUCKET));
+                                player.setItemInHand(hand, new ItemStack(Items.WATER_BUCKET));
                             }
                             level.playSound(null, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                             interactionHandled = true;

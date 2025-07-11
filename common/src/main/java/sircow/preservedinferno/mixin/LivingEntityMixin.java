@@ -27,8 +27,7 @@ public abstract class LivingEntityMixin {
         }
     }
 
-    @Inject(method = "hurtServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;knockback(DDD)V",
-                    shift = At.Shift.BEFORE), cancellable = true)
+    @Inject(method = "hurtServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;knockback(DDD)V", shift = At.Shift.BEFORE), cancellable = true)
     private void preserved_inferno$cancelKnockbackIfBlockingWithCustomShield(ServerLevel level, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
         if ((Object)this instanceof Player player) {
             if (player.isBlocking()) {

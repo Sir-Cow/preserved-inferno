@@ -311,6 +311,7 @@ public abstract class ItemsMixin {
                 .attributes(TridentItem.createAttributes())
                 .component(DataComponents.TOOL, TridentItem.createToolProperties())
                 .enchantable(1)
+                .component(DataComponents.WEAPON, new Weapon(1))
                 .repairable(Items.PRISMARINE_CRYSTALS);
     }
 

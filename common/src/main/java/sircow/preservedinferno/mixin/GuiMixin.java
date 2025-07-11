@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -14,6 +15,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ScreenEffectRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -22,10 +24,7 @@ import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
@@ -215,5 +214,18 @@ public class GuiMixin {
     @ModifyConstant(method = "renderSleepOverlay", constant = @Constant(floatValue = 100.0F))
     private float preserved_inferno$modifyFloatValue(float original) {
         return 200.0F;
+    }
+
+    @Redirect(method = "renderHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/contextualbar/ContextualBarRenderer;renderExperienceLevel(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/gui/Font;I)V"))
+    private void preserved_inferno$moveXPNumber(GuiGraphics guiGraphics, Font font, int level) {
+        Component component = Component.translatable("gui.experience.level", level);
+        int i = (guiGraphics.guiWidth() - font.width(component)) / 2;
+        int j = guiGraphics.guiHeight() - 24 - 9 - 5;
+
+        guiGraphics.drawString(font, component, i + 1, j, -16777216, false);
+        guiGraphics.drawString(font, component, i - 1, j, -16777216, false);
+        guiGraphics.drawString(font, component, i, j + 1, -16777216, false);
+        guiGraphics.drawString(font, component, i, j - 1, -16777216, false);
+        guiGraphics.drawString(font, component, i, j, -8323296, false);
     }
 }

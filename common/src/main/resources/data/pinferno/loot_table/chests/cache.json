@@ -6,16 +6,6 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:acacia_slab"
-        }
-      ],
-      "rolls": 1
-    },
-    {
-      "bonus_rolls": 0,
-      "entries": [
-        {
-          "type": "minecraft:item",
           "functions": [
             {
               "add": false,
