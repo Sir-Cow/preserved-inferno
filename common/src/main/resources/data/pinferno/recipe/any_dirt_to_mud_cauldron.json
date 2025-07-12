@@ -1,0 +1,8 @@
+{
+  "type": "pinferno:cauldron",
+  "ingredient": "#pinferno:cauldron_mud",
+  "result": {
+    "count": 1,
+    "id": "minecraft:mud"
+  }
+}

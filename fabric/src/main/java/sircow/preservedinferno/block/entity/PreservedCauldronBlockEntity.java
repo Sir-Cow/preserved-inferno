@@ -22,18 +22,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.PreservedInferno;
-import sircow.preservedinferno.item.ModItems;
+import sircow.preservedinferno.recipe.CauldronRecipe;
+import sircow.preservedinferno.recipe.CauldronRecipeInput;
+import sircow.preservedinferno.recipe.ModRecipes;
 import sircow.preservedinferno.screen.PreservedCauldronMenu;
 import sircow.preservedinferno.sound.ModSounds;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 @SuppressWarnings("rawtypes")
 public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity implements ExtendedScreenHandlerFactory {
@@ -49,67 +51,6 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     private int maxProgress = 100;
     public int progressWater = 0;
     public int maxWaterProgress = 64;
-
-    // define recipes - TURN THIS INTO DATA DRIVEN
-    public static final Map<Item, Item> conversionMap = new HashMap<>();
-    static {
-        conversionMap.put(ModItems.RAW_HIDE, Items.LEATHER);
-        conversionMap.put(Items.RABBIT_HIDE, Items.LEATHER);
-        conversionMap.put(Items.DIRT, Items.MUD);
-        conversionMap.put(Items.COARSE_DIRT, Items.MUD);
-        conversionMap.put(Items.ROOTED_DIRT, Items.MUD);
-        // concrete
-        conversionMap.put(Items.BLACK_CONCRETE_POWDER, Items.BLACK_CONCRETE);
-        conversionMap.put(Items.BLUE_CONCRETE_POWDER, Items.BLUE_CONCRETE);
-        conversionMap.put(Items.BROWN_CONCRETE_POWDER, Items.BROWN_CONCRETE);
-        conversionMap.put(Items.CYAN_CONCRETE_POWDER, Items.CYAN_CONCRETE);
-        conversionMap.put(Items.GRAY_CONCRETE_POWDER, Items.GRAY_CONCRETE);
-        conversionMap.put(Items.GREEN_CONCRETE_POWDER, Items.GREEN_CONCRETE);
-        conversionMap.put(Items.LIGHT_BLUE_CONCRETE_POWDER, Items.LIGHT_BLUE_CONCRETE);
-        conversionMap.put(Items.LIGHT_GRAY_CONCRETE_POWDER, Items.LIGHT_GRAY_CONCRETE);
-        conversionMap.put(Items.LIME_CONCRETE_POWDER, Items.LIME_CONCRETE);
-        conversionMap.put(Items.MAGENTA_CONCRETE_POWDER, Items.MAGENTA_CONCRETE);
-        conversionMap.put(Items.ORANGE_CONCRETE_POWDER, Items.ORANGE_CONCRETE);
-        conversionMap.put(Items.PINK_CONCRETE_POWDER, Items.PINK_CONCRETE);
-        conversionMap.put(Items.PURPLE_CONCRETE_POWDER, Items.PURPLE_CONCRETE);
-        conversionMap.put(Items.RED_CONCRETE_POWDER, Items.RED_CONCRETE);
-        conversionMap.put(Items.WHITE_CONCRETE_POWDER, Items.WHITE_CONCRETE);
-        conversionMap.put(Items.YELLOW_CONCRETE_POWDER, Items.YELLOW_CONCRETE);
-        // terracotta
-        conversionMap.put(Items.TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.BLACK_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.BLUE_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.BROWN_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.CYAN_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.GRAY_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.GREEN_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.LIGHT_BLUE_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.LIGHT_GRAY_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.LIME_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.MAGENTA_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.ORANGE_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.PINK_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.PURPLE_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.RED_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.WHITE_TERRACOTTA, Items.CLAY);
-        conversionMap.put(Items.YELLOW_TERRACOTTA, Items.CLAY);
-        // wool
-        conversionMap.put(Items.BLACK_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.BLUE_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.BROWN_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.CYAN_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.GRAY_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.GREEN_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.LIGHT_BLUE_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.LIGHT_GRAY_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.LIME_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.MAGENTA_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.ORANGE_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.PINK_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.PURPLE_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.RED_WOOL, Items.WHITE_WOOL);
-        conversionMap.put(Items.YELLOW_WOOL, Items.WHITE_WOOL);
-    }
 
     public PreservedCauldronBlockEntity(BlockPos pos, BlockState state) {
         super(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, pos, state);
@@ -243,24 +184,27 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     private void craftItem() {
-        Item inputItem = this.getItem(INPUT_SLOT).getItem();
-        Item outputItem = conversionMap.get(inputItem);
+        Optional<RecipeHolder<CauldronRecipe>> recipe = getCurrentRecipe();
+        if (recipe.isEmpty()) return;
 
-        // start crafting process if recipe is successful
-        // dyed items
-        if (this.getItem(INPUT_SLOT).has(DataComponents.DYED_COLOR)) {
-            ItemStack result = this.getItem(INPUT_SLOT).copy();
+        ItemStack output = recipe.get().value().output();
+        ItemStack inputStack = this.getItem(INPUT_SLOT);
+
+        if (inputStack.has(DataComponents.DYED_COLOR)) {
+            ItemStack result = inputStack.copy();
             result.remove(DataComponents.DYED_COLOR);
+
             this.setItem(OUTPUT_SLOT, result);
         }
-        // everything else
-        else if (outputItem != null) {
-            ItemStack result = new ItemStack(outputItem);
-            this.setItem(OUTPUT_SLOT, new ItemStack(result.getItem(), getItem(OUTPUT_SLOT).getCount() + result.getCount()));
+        else if (output != null) {
+            this.setItem(OUTPUT_SLOT, new ItemStack(output.getItem(), getItem(OUTPUT_SLOT).getCount() + output.getCount()));
         }
+
         this.removeItem(INPUT_SLOT, 1);
+
         this.progressWater -= 1;
         setChanged();
+
         if (level != null) {
             if (!level.isClientSide()) {
                 level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
@@ -322,20 +266,49 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     private boolean hasRecipe() {
-        // check if inserted item has recipe
-        Item inputItem = this.getItem(INPUT_SLOT).getItem();
-        Item outputItem = conversionMap.get(inputItem);
-
-        if (outputItem != null) {
-            ItemStack result = new ItemStack(outputItem);
-            boolean hasInput = getItem(INPUT_SLOT).getItem() == inputItem;
-            return hasInput && this.progressWater >= 1 && canInsertAmountIntoOutputSlot(result) && canInsertItemIntoOutputSlot(result.getItem());
+        ItemStack input = inventory.getFirst();
+        if (isLeatherArmor(input) && !input.has(DataComponents.DYED_COLOR)) {
+            return false;
         }
-        else return this.getItem(INPUT_SLOT).has(DataComponents.DYED_COLOR);
+
+        Optional<RecipeHolder<CauldronRecipe>> recipe = getCurrentRecipe();
+        if (recipe.isEmpty()) return false;
+
+        ItemStack output = recipe.get().value().output();
+        return this.progressWater >= 1 && canInsertAmountIntoOutputSlot(output) && canInsertItemIntoOutputSlot(output);
     }
 
-    private boolean canInsertItemIntoOutputSlot(Item item) {
-        return this.getItem(OUTPUT_SLOT).getItem() == item || this.getItem(OUTPUT_SLOT).isEmpty();
+    private Optional<RecipeHolder<CauldronRecipe>> getCurrentRecipe() {
+        if (!(this.getLevel() instanceof ServerLevel serverLevel)) return Optional.empty();
+
+        ItemStack original = inventory.getFirst();
+
+        if (original.has(DataComponents.DYED_COLOR) && original.getItem().getDescriptionId().contains("leather_")) {
+            ItemStack normalized = original.copy();
+            normalized.remove(DataComponents.DYED_COLOR);
+
+            return serverLevel.recipeAccess().getRecipeFor(
+                    ModRecipes.CAULDRON_TYPE,
+                    new CauldronRecipeInput(normalized),
+                    serverLevel
+            );
+        }
+
+        return serverLevel.recipeAccess().getRecipeFor(
+                ModRecipes.CAULDRON_TYPE,
+                new CauldronRecipeInput(original),
+                serverLevel
+        );
+    }
+
+    private boolean isLeatherArmor(ItemStack stack) {
+        Item item = stack.getItem();
+        String id = item.getDescriptionId();
+        return id.contains("leather_helmet") || id.contains("leather_chestplate") || id.contains("leather_leggings") || id.contains("leather_boots");
+    }
+
+    private boolean canInsertItemIntoOutputSlot(ItemStack item) {
+        return this.getItem(OUTPUT_SLOT).getItem() == item.getItem() || this.getItem(OUTPUT_SLOT).isEmpty();
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {

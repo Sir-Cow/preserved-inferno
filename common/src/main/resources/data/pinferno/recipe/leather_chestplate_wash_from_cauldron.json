@@ -1,0 +1,7 @@
+{
+  "type": "pinferno:cauldron",
+  "ingredient": "minecraft:leather_chestplate",
+  "result": {
+    "id": "minecraft:leather_chestplate"
+  }
+}

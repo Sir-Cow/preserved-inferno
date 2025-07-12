@@ -1,0 +1,8 @@
+{
+  "type": "pinferno:cauldron",
+  "ingredient": "pinferno:raw_hide",
+  "result": {
+    "count": 1,
+    "id": "minecraft:leather"
+  }
+}

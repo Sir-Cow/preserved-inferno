@@ -1,0 +1,7 @@
+{
+  "type": "pinferno:cauldron",
+  "ingredient": "minecraft:leather_helmet",
+  "result": {
+    "id": "minecraft:leather_helmet"
+  }
+}

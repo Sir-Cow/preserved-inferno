@@ -9,9 +9,20 @@ import sircow.preservedinferno.item.FlareParticleDyeRecipe;
 import sircow.preservedinferno.other.FlareParticleDyeRecipeSerializer;
 
 public class ModRecipes {
+    public static final RecipeSerializer<CauldronRecipe> CAULDRON_SERIALIZER = Registry.register(
+            BuiltInRegistries.RECIPE_SERIALIZER, Constants.id("cauldron"),
+            new CauldronRecipe.Serializer());
     public static final RecipeSerializer<FlareParticleDyeRecipe> FLARE_GUN_SERIALIZER = Registry.register(
             BuiltInRegistries.RECIPE_SERIALIZER, Constants.id("flare_gun"),
             new FlareParticleDyeRecipeSerializer());
+
+    public static final RecipeType<CauldronRecipe> CAULDRON_TYPE = Registry.register(
+            BuiltInRegistries.RECIPE_TYPE, Constants.id("cauldron"), new RecipeType<CauldronRecipe>() {
+                @Override
+                public String toString() {
+                    return "cauldron";
+                }
+            });
     public static final RecipeType<FlareParticleDyeRecipe> FLARE_GUN_TYPE = Registry.register(
             BuiltInRegistries.RECIPE_TYPE, Constants.id("flare_gun"), new RecipeType<FlareParticleDyeRecipe>() {
                 @Override

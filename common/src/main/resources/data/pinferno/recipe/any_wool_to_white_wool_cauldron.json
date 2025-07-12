@@ -1,0 +1,8 @@
+{
+  "type": "pinferno:cauldron",
+  "ingredient": "#pinferno:cauldron_wool",
+  "result": {
+    "count": 1,
+    "id": "minecraft:white_wool"
+  }
+}

@@ -1,6 +1,7 @@
 package sircow.preservedinferno.screen;
 
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -9,16 +10,19 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockData;
+import sircow.preservedinferno.recipe.CauldronRecipe;
+import sircow.preservedinferno.recipe.CauldronRecipeInput;
+import sircow.preservedinferno.recipe.ModRecipes;
 
-import static sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity.conversionMap;
+import java.util.Optional;
 
 public class PreservedCauldronMenu extends AbstractContainerMenu {
     private final Container inventory;
@@ -30,8 +34,7 @@ public class PreservedCauldronMenu extends AbstractContainerMenu {
                 new SimpleContainerData(2), new SimpleContainerData(2), new SimpleContainer(3));
     }
 
-    public PreservedCauldronMenu(int syncId, Inventory playerInventory,
-                                 ContainerData arrayPropertyDelegate, ContainerData arrayPropertyDelegateTwo, Container inventory) {
+    public PreservedCauldronMenu(int syncId, Inventory playerInventory, ContainerData arrayPropertyDelegate, ContainerData arrayPropertyDelegateTwo, Container inventory) {
         super(PreservedInferno.PRESERVED_CAULDRON_MENU_TYPE, syncId);
         checkContainerSize(inventory, 3);
         checkContainerDataCount(arrayPropertyDelegate, 2);
@@ -43,7 +46,12 @@ public class PreservedCauldronMenu extends AbstractContainerMenu {
 
         this.addSlot(new Slot(inventory, 0, 80, 15)); // item input
         this.addSlot(new Slot(inventory, 1, 152, 52)); // water input
-        this.addSlot(new Slot(inventory, 2, 80, 52)); // item output
+        this.addSlot(new Slot(inventory, 2, 80, 52) { // item output
+            @Override
+            public boolean mayPlace(@NotNull ItemStack stack) {
+                return false;
+            }
+        });
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
@@ -58,7 +66,7 @@ public class PreservedCauldronMenu extends AbstractContainerMenu {
 
     public int getScaledProgressArrow() {
         int progress = this.propertyDelegate.get(0);
-        int maxProgress = this.propertyDelegate.get(1);  // Max Progress
+        int maxProgress = this.propertyDelegate.get(1); // Max Progress
         int progressArrowSize = 16;
 
         return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
@@ -66,7 +74,7 @@ public class PreservedCauldronMenu extends AbstractContainerMenu {
 
     public int getScaledProgressWater() {
         int waterProgress = this.propertyDelegateTwo.get(0);
-        int maxWaterProgress = this.propertyDelegateTwo.get(1);  // Max Progress
+        int maxWaterProgress = this.propertyDelegateTwo.get(1); // Max Progress
         int progressWaterSize = 32;
 
         return maxWaterProgress != 0 && waterProgress != 0 ? waterProgress * progressWaterSize / maxWaterProgress : 0;
@@ -80,7 +88,6 @@ public class PreservedCauldronMenu extends AbstractContainerMenu {
         if (slot.hasItem()) {
             ItemStack originalStack = slot.getItem();
             newStack = originalStack.copy();
-            Item inputCheck = conversionMap.get(originalStack.getItem());
 
             if (invSlot == 2) {
                 if (!this.moveItemStackTo(originalStack, 3, 39, true)) {
@@ -97,18 +104,30 @@ public class PreservedCauldronMenu extends AbstractContainerMenu {
                     }
                 }
                 // shift click into input slot
-                else if (inputCheck != null || originalStack.has(DataComponents.DYED_COLOR)) {
-                    if (!this.moveItemStackTo(originalStack, 0, 1, false)) {
-                        return ItemStack.EMPTY;
+                else {
+                    ItemStack checkStack = originalStack.copy();
+                    checkStack.remove(DataComponents.DYED_COLOR);
+
+                    if (player.level() instanceof ServerLevel serverLevel) {
+                        Optional<RecipeHolder<CauldronRecipe>> recipeMatch =
+                                serverLevel.recipeAccess().getRecipeFor(
+                                        ModRecipes.CAULDRON_TYPE,
+                                        new CauldronRecipeInput(checkStack),
+                                        serverLevel
+                                );
+
+                        if (recipeMatch.isPresent()) {
+                            if (!this.moveItemStackTo(originalStack, 0, 1, false)) {
+                                return ItemStack.EMPTY;
+                            }
+                        } else if (invSlot >= 3 && invSlot < 30) {
+                            if (!this.moveItemStackTo(originalStack, 30, 39, false)) {
+                                return ItemStack.EMPTY;
+                            }
+                        } else if (invSlot >= 30 && invSlot < 39 && !this.moveItemStackTo(originalStack, 3, 30, false)) {
+                            return ItemStack.EMPTY;
+                        }
                     }
-                }
-                else if (invSlot >= 3 && invSlot < 30) {
-                    if (!this.moveItemStackTo(originalStack, 30, 39, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                }
-                else if (invSlot >= 30 && invSlot < 39 && !this.moveItemStackTo(originalStack, 3, 30, false)) {
-                    return ItemStack.EMPTY;
                 }
             }
             else if (!this.moveItemStackTo(originalStack, 3, 39, false)) {

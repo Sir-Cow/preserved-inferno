@@ -1,0 +1,7 @@
+{
+  "type": "pinferno:cauldron",
+  "ingredient": "minecraft:leather_leggings",
+  "result": {
+    "id": "minecraft:leather_leggings"
+  }
+}
