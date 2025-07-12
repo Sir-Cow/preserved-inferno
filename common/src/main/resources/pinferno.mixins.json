@@ -28,6 +28,7 @@
     "ConduitBlockEntityAccessor",
     "ConduitBlockEntityMixin",
     "ConsumablesMixin",
+    "CowMixin",
     "CrossbowMixin",
     "DoorBlockMixin",
     "DrownedMixin",

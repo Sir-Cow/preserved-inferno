@@ -1,0 +1,12 @@
+{
+  "asset_id": "pinferno:entity/cow/sir_cow",
+  "spawn_conditions": [
+    {
+      "condition": {
+        "type": "minecraft:biome",
+        "biomes": "#pinferno:spawns_sir_cows"
+      },
+      "priority": 1
+    }
+  ]
+}
