@@ -243,7 +243,7 @@ public class BlocksMixin {
                 .mapColor(blockStatex -> blockStatex.getValue(CropBlock.AGE) >= 6 ? MapColor.COLOR_YELLOW : MapColor.PLANT)
                 .noCollission()
                 .randomTicks()
-                .strength(0.1F, 0.0F)
+                .strength(0.25F, 0.0F)
                 .sound(SoundType.CROP)
                 .pushReaction(PushReaction.DESTROY);
     }
@@ -254,7 +254,7 @@ public class BlocksMixin {
                 .mapColor(MapColor.PLANT)
                 .noCollission()
                 .randomTicks()
-                .strength(0.1F, 0.0F)
+                .strength(0.25F, 0.0F)
                 .sound(SoundType.CROP)
                 .pushReaction(PushReaction.DESTROY);
     }
@@ -265,7 +265,7 @@ public class BlocksMixin {
                 .mapColor(MapColor.PLANT)
                 .noCollission()
                 .randomTicks()
-                .strength(0.1F, 0.0F)
+                .strength(0.25F, 0.0F)
                 .sound(SoundType.CROP)
                 .pushReaction(PushReaction.DESTROY);
     }
@@ -276,7 +276,7 @@ public class BlocksMixin {
                 .mapColor(MapColor.PLANT)
                 .noCollission()
                 .randomTicks()
-                .strength(0.1F, 0.0F)
+                .strength(0.25F, 0.0F)
                 .sound(SoundType.CROP)
                 .pushReaction(PushReaction.DESTROY);
     }
@@ -287,7 +287,7 @@ public class BlocksMixin {
         return BlockBehaviour.Properties.of()
                 .mapColor(MapColor.COLOR_RED)
                 .noCollission()
-                .strength(0.1F, 0.0F)
+                .strength(0.25F, 0.0F)
                 .sound(SoundType.NETHER_WART)
                 .pushReaction(PushReaction.DESTROY);
     }
@@ -298,7 +298,7 @@ public class BlocksMixin {
                 .mapColor(MapColor.PLANT)
                 .noCollission()
                 .randomTicks()
-                .strength(0.1F, 0.0F)
+                .strength(0.25F, 0.0F)
                 .sound(SoundType.GRASS)
                 .pushReaction(PushReaction.DESTROY);
     }
@@ -311,7 +311,7 @@ public class BlocksMixin {
             return properties
                     .mapColor(MapColor.PLANT)
                     .noCollission()
-                    .strength(0.1F, 0.0F)
+                    .strength(0.25F, 0.0F)
                     .sound(SoundType.WOOD)
                     .pushReaction(PushReaction.DESTROY);
         }
@@ -320,7 +320,7 @@ public class BlocksMixin {
                     .mapColor(MapColor.PLANT)
                     .noCollission()
                     .randomTicks()
-                    .strength(0.1F, 0.0F)
+                    .strength(0.25F, 0.0F)
                     .sound(SoundType.HARD_CROP)
                     .pushReaction(PushReaction.DESTROY);
         }

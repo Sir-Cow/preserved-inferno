@@ -11,8 +11,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
-                "min": 6.0
+                "max": 6.0,
+                "min": 4.0
               },
               "function": "minecraft:set_count"
             },
@@ -20,7 +20,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "max": 3.0,
-                "min": 0.0
+                "min": 1.0
               },
               "enchantment": "minecraft:looting",
               "function": "minecraft:enchanted_count_increase"
@@ -84,7 +84,7 @@
             }
           ],
           "name": "minecraft:cod",
-          "weight": 3
+          "weight": 2
         },
         {
           "type": "minecraft:item",
@@ -92,8 +92,8 @@
             {
               "count": {
                 "type": "minecraft:uniform",
-                "max": 6.0,
-                "min": 3.0
+                "max": 1.0,
+                "min": 0.0
               },
               "enchantment": "minecraft:looting",
               "function": "minecraft:enchanted_count_increase"
@@ -104,21 +104,6 @@
         },
         {
           "type": "minecraft:empty"
-        }
-      ],
-      "rolls": 1.0
-    },
-    {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:killed_by_player"
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "pinferno:elder_guardian_spine"
         }
       ],
       "rolls": 1.0
@@ -185,21 +170,7 @@
         }
       ],
       "rolls": 1.0
-    },
-    {
-      "bonus_rolls": 0.0,
-      "entries": [
-        {
-          "type": "minecraft:empty",
-          "weight": 4
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:tide_armor_trim_smithing_template"
-        }
-      ],
-      "rolls": 1.0
     }
   ],
-  "random_sequence": "minecraft:entities/elder_guardian"
+  "random_sequence": "minecraft:entities/guardian"
 }

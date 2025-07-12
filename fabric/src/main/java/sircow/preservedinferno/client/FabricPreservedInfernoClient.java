@@ -42,9 +42,9 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     public static boolean suppressNextOpen = false;
     public static int advancementDelayTicks = -1;
     public static boolean hasTriggeredOnce = false;
+    public static boolean advancementsSynced = false;
     public static boolean advancementGranted = false;
-    private static int initialMessageDelay = 20;
-    private static boolean shouldCheckAdvancementOnNextTick = false;
+    private static int initialMessageDelay = 40;
 
     @Override
     public void onInitializeClient() {
@@ -228,8 +228,11 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                 ((IMinecraftMixin) client).startWaitForAdvancement(client, 0);
             }
 
-            if (shouldCheckAdvancementOnNextTick && client.player != null) {
-                shouldCheckAdvancementOnNextTick = false;
+            if (initialMessageDelay > 0) {
+                initialMessageDelay--;
+                return;
+            }
+            else if (advancementsSynced && client.player != null) {
                 var advancements = client.player.connection.getAdvancements();
                 var rootAdvancementHolder = advancements.get(ResourceLocation.withDefaultNamespace("story/root"));
                 if (rootAdvancementHolder != null) {
@@ -240,16 +243,19 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                 else {
                     advancementGranted = false;
                 }
+                advancementsSynced = false;
+            }
+            else {
+                return;
             }
 
-            if (!advancementGranted && client.player != null && initialMessageDelay <= 0) {
+            if (!advancementGranted) {
                 KeyMapping key = Minecraft.getInstance().options.keyAdvancements;
                 Component actionbar = Component.translatable("advancement.pinferno.actionbar.open_advancements", Component.keybind(key.getName()));
                 client.gui.setOverlayMessage(actionbar, false);
             }
-
-            if (initialMessageDelay > 0) {
-                initialMessageDelay--;
+            else {
+                client.gui.setOverlayMessage(Component.empty(), false);
             }
         });
 
@@ -259,9 +265,8 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             suppressNextOpen = false;
             waitingForAdvancement = false;
             advancementDelayTicks = -1;
-
+            advancementsSynced = false;
             initialMessageDelay = 40;
-            shouldCheckAdvancementOnNextTick = true;
         });
     }
 }
