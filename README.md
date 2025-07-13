@@ -1,6 +1,6 @@
 ![Preserved Banner](https://cdn.modrinth.com/data/cached_images/d1ca055434716b6fd679fc472efb193ff112edc1.png)
 ## 🖥️ Download 
-[Modrinth](https://modrinth.com/mod/preserved-inferno) | Curseforge (coming soon)
+[Modrinth](https://modrinth.com/mod/preserved-inferno) | [Curseforge](https://www.curseforge.com/minecraft/mc-mods/preserved-inferno)
   
 ## 🔥 About
 Inferno is the core mod of the Preserved mod set which aims to enhance various aspects of the Minecraft experience. Inferno aims to change and add to existing gameplay features to further enhance the survival portions of Minecraft's gameplay. With changes to core mechanics and the game's progression, this mod is perfect for those who want an elevated survival experience.
