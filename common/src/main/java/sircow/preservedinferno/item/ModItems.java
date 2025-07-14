@@ -141,7 +141,7 @@ public class ModItems {
     );
     public static final Item DIAMOND_SHIELD = registerItem("diamond_shield", PreservedShieldItem::new,
             new Item.Properties()
-            .durability(1024)
+            .durability(2048)
             .stacksTo(1)
             .repairable(ItemTags.DIAMOND_TOOL_MATERIALS)
             .equippableUnswappable(EquipmentSlot.OFFHAND)
@@ -163,7 +163,7 @@ public class ModItems {
     );
     public static final Item NETHERITE_SHIELD = registerItem("netherite_shield", PreservedShieldItem::new,
             new Item.Properties()
-            .durability(2048)
+            .durability(4096)
             .stacksTo(1)
             .repairable(ModTags.REPAIRS_NETHERITE_TOOL)
             .equippableUnswappable(EquipmentSlot.OFFHAND)
@@ -235,12 +235,12 @@ public class ModItems {
             .repairable(ItemTags.GOLD_TOOL_MATERIALS)
     );
     public static final Item DIAMOND_FISHING_HOOK = registerItem("diamond_fishing_hook", Item::new, new Item.Properties()
-            .durability(1024)
+            .durability(2048)
             .stacksTo(1)
             .repairable(ItemTags.DIAMOND_TOOL_MATERIALS)
     );
     public static final Item NETHERITE_FISHING_HOOK = registerItem("netherite_fishing_hook", Item::new, new Item.Properties()
-            .durability(2048)
+            .durability(4096)
             .stacksTo(1)
             .repairable(ModTags.REPAIRS_NETHERITE_TOOL)
             .fireResistant()
@@ -265,12 +265,12 @@ public class ModItems {
             .repairable(ItemTags.GOLD_TOOL_MATERIALS)
     );
     public static final Item DIAMOND_LACED_FISHING_LINE = registerItem("diamond_laced_fishing_line", Item::new, new Item.Properties()
-            .durability(1024)
+            .durability(2048)
             .stacksTo(1)
             .repairable(ItemTags.DIAMOND_TOOL_MATERIALS)
     );
     public static final Item NETHERITE_LACED_FISHING_LINE = registerItem("netherite_laced_fishing_line", Item::new, new Item.Properties()
-            .durability(2048)
+            .durability(4096)
             .stacksTo(1)
             .repairable(ModTags.REPAIRS_NETHERITE_TOOL)
             .fireResistant()
@@ -295,12 +295,12 @@ public class ModItems {
             .repairable(ItemTags.GOLD_TOOL_MATERIALS)
     );
     public static final Item DIAMOND_SINKER = registerItem("diamond_sinker", Item::new, new Item.Properties()
-            .durability(1024)
+            .durability(2048)
             .stacksTo(1)
             .repairable(ItemTags.DIAMOND_TOOL_MATERIALS)
     );
     public static final Item NETHERITE_SINKER = registerItem("netherite_sinker", Item::new, new Item.Properties()
-            .durability(2048)
+            .durability(4096)
             .stacksTo(1)
             .repairable(ModTags.REPAIRS_NETHERITE_TOOL)
             .fireResistant()
