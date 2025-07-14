@@ -56,7 +56,8 @@ public abstract class CowMixin extends AbstractCow {
                             return selector.condition()
                                     .map(cond -> cond.test(context))
                                     .orElse(false);
-                        } catch (Exception e) {
+                        }
+                        catch (Exception e) {
                             return false;
                         }
                     });

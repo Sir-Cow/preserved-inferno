@@ -1,0 +1,9 @@
+{
+  "type": "pinferno:loom",
+  "input": "minecraft:cyan_wool",
+  "shears": "minecraft:shears",
+  "result": {
+    "id": "pinferno:cyan_cloth",
+    "count": 1
+  }
+}

@@ -47,4 +47,3 @@ rootProject.name = 'preserved-inferno'
 include('common')
 include('fabric')
 include('neoforge')
-include('forge')

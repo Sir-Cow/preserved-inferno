@@ -15,6 +15,9 @@ public class ModRecipes {
     public static final RecipeSerializer<FlareParticleDyeRecipe> FLARE_GUN_SERIALIZER = Registry.register(
             BuiltInRegistries.RECIPE_SERIALIZER, Constants.id("flare_gun"),
             new FlareParticleDyeRecipeSerializer());
+    public static final RecipeSerializer<LoomRecipe> LOOM_SERIALIZER = Registry.register(
+            BuiltInRegistries.RECIPE_SERIALIZER, Constants.id("loom"),
+            new LoomRecipe.Serializer());
 
     public static final RecipeType<CauldronRecipe> CAULDRON_TYPE = Registry.register(
             BuiltInRegistries.RECIPE_TYPE, Constants.id("cauldron"), new RecipeType<CauldronRecipe>() {
@@ -28,6 +31,13 @@ public class ModRecipes {
                 @Override
                 public String toString() {
                     return "flare_gun";
+                }
+            });
+    public static final RecipeType<LoomRecipe> LOOM_TYPE = Registry.register(
+            BuiltInRegistries.RECIPE_TYPE, Constants.id("loom"), new RecipeType<LoomRecipe>() {
+                @Override
+                public String toString() {
+                    return "loom";
                 }
             });
 

@@ -2,7 +2,7 @@
   "parent": "pinferno:combat/throw_trident",
   "criteria": {
     "lightning_strike": {
-      "trigger": "pinferno:channeling"
+      "trigger": "minecraft:channeled_lightning"
     }
   },
   "display": {

@@ -1,0 +1,9 @@
+{
+  "type": "pinferno:loom",
+  "input": "pinferno:phantom_sinew",
+  "shears": "minecraft:shears",
+  "result": {
+    "id": "pinferno:hollow_twine",
+    "count": 1
+  }
+}
