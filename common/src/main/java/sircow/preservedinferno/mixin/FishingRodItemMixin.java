@@ -4,6 +4,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -67,9 +68,16 @@ public class FishingRodItemMixin {
                 stack.set(durabilityKey, 0);
             }
             else {
-                stack.set(durabilityKey, currentDurability + 1);
+                if (shouldIncreaseDamage(player.getRandom())) {
+                    stack.set(durabilityKey, currentDurability + 1);
+                }
             }
         }
+    }
+
+    @Unique
+    private boolean shouldIncreaseDamage(RandomSource random) {
+        return random.nextInt(1 + 1) == 0;
     }
 
     @Inject(method = "use", at = @At("HEAD"))

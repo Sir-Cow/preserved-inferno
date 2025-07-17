@@ -50,21 +50,21 @@ public class ItemPropertiesMixin {
         DURABILITY_MAP.put(ArmorMaterials.IRON, ironDurability);
 
         Map<ArmorType, Integer> diamondDurability = new HashMap<>();
-        diamondDurability.put(ArmorType.HELMET, 427);
-        diamondDurability.put(ArmorType.CHESTPLATE, 683);
-        diamondDurability.put(ArmorType.LEGGINGS, 597);
-        diamondDurability.put(ArmorType.BOOTS, 341);
+        diamondDurability.put(ArmorType.HELMET, 854);
+        diamondDurability.put(ArmorType.CHESTPLATE, 1366);
+        diamondDurability.put(ArmorType.LEGGINGS, 1194);
+        diamondDurability.put(ArmorType.BOOTS, 682);
         DURABILITY_MAP.put(ArmorMaterials.DIAMOND, diamondDurability);
 
         Map<ArmorType, Integer> netheriteDurability = new HashMap<>();
-        netheriteDurability.put(ArmorType.HELMET, 427);
-        netheriteDurability.put(ArmorType.CHESTPLATE, 683);
-        netheriteDurability.put(ArmorType.LEGGINGS, 597);
-        netheriteDurability.put(ArmorType.BOOTS, 341);
+        netheriteDurability.put(ArmorType.HELMET, 854);
+        netheriteDurability.put(ArmorType.CHESTPLATE, 1366);
+        netheriteDurability.put(ArmorType.LEGGINGS, 1194);
+        netheriteDurability.put(ArmorType.BOOTS, 682);
         DURABILITY_MAP.put(ArmorMaterials.NETHERITE, netheriteDurability);
 
         Map<ArmorType, Integer> turtleDurability = new HashMap<>();
-        turtleDurability.put(ArmorType.HELMET, 256);
+        turtleDurability.put(ArmorType.HELMET, 512);
         DURABILITY_MAP.put(ArmorMaterials.TURTLE_SCUTE, turtleDurability);
 
         Map<ArmorType, Integer> copperDurability = new HashMap<>();

@@ -41,6 +41,8 @@
     "FletchingTableBlockMixin",
     "FoodDataMixin",
     "FoodsMixin",
+    "FuelValuesAccessor",
+    "FuelValuesMixin",
     "GameRulesMixin",
     "GhastMixin",
     "GiantMixin",

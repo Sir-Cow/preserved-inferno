@@ -9,6 +9,9 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.block.ModBlocks;
@@ -26,6 +29,7 @@ public class AnglingTableMenu extends AbstractContainerMenu {
     private boolean hookPresent;
     private boolean linePresent;
     private boolean sinkerPresent;
+    private final Player player;
 
     Runnable slotUpdateListener = () -> {
     };
@@ -47,6 +51,7 @@ public class AnglingTableMenu extends AbstractContainerMenu {
     public AnglingTableMenu(int containerId, Inventory playerInventory, final ContainerLevelAccess access) {
         super(Constants.ANGLING_TABLE_MENU_TYPE.get(), containerId);
         this.access = access;
+        this.player = playerInventory.player;
         rodInputSlot = this.addSlot(new Slot(this.inputContainer, 0, 79, 17) {
             @Override
             public boolean mayPlace(@NotNull ItemStack stack) {
@@ -208,12 +213,12 @@ public class AnglingTableMenu extends AbstractContainerMenu {
         ItemStack itemstack = this.rodInputSlot.getItem();
 
         if (!itemstack.isEmpty()) {
-            this.handleUpgrades();
+            this.handleUpgrades(this.player);
         }
         this.broadcastChanges();
     }
 
-    public void handleUpgrades() {
+    public void handleUpgrades(Player player) {
         ItemStack rod = this.rodInputSlot.getItem();
         ItemStack hook = this.hookInputSlot.getItem();
         ItemStack line = this.lineInputSlot.getItem();
@@ -224,68 +229,105 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (hook.getItem() == ModItems.COPPER_FISHING_HOOK && !Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "copper")) {
                 rod.set(ModComponents.HOOK_COMPONENT, "copper");
                 rod.set(ModComponents.HOOK_DURABILITY, hook.getDamageValue());
+                rod.set(ModComponents.HOOK_UNBREAKING, getUnbreakingLevel(player.level(), hook));
             }
             if (hook.getItem() == ModItems.PRISMARINE_FISHING_HOOK && !Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "prismarine")) {
                 rod.set(ModComponents.HOOK_COMPONENT, "prismarine");
                 rod.set(ModComponents.HOOK_DURABILITY, hook.getDamageValue());
+                rod.set(ModComponents.HOOK_UNBREAKING, getUnbreakingLevel(player.level(),hook));
             }
             if (hook.getItem() == ModItems.IRON_FISHING_HOOK && !Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "iron")) {
                 rod.set(ModComponents.HOOK_COMPONENT, "iron");
                 rod.set(ModComponents.HOOK_DURABILITY, hook.getDamageValue());
+                rod.set(ModComponents.HOOK_UNBREAKING, getUnbreakingLevel(player.level(),hook));
             }
             if (hook.getItem() == ModItems.GOLDEN_FISHING_HOOK && !Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "golden")) {
                 rod.set(ModComponents.HOOK_COMPONENT, "golden");
                 rod.set(ModComponents.HOOK_DURABILITY, hook.getDamageValue());
+                rod.set(ModComponents.HOOK_UNBREAKING, getUnbreakingLevel(player.level(),hook));
             }
             if (hook.getItem() == ModItems.DIAMOND_FISHING_HOOK && !Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "diamond")) {
                 rod.set(ModComponents.HOOK_COMPONENT, "diamond");
                 rod.set(ModComponents.HOOK_DURABILITY, hook.getDamageValue());
+                rod.set(ModComponents.HOOK_UNBREAKING, getUnbreakingLevel(player.level(),hook));
             }
             if (hook.getItem() == ModItems.NETHERITE_FISHING_HOOK && !Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "netherite")) {
                 rod.set(ModComponents.HOOK_COMPONENT, "netherite");
                 rod.set(ModComponents.HOOK_DURABILITY, hook.getDamageValue());
+                rod.set(ModComponents.HOOK_UNBREAKING, getUnbreakingLevel(player.level(),hook));
             }
         }
         else {
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "copper")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.hookInputSlot.index, new ItemStack(ModItems.COPPER_FISHING_HOOK, 1));
-                    this.inputContainer.getItem(this.hookInputSlot.index).setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    ItemStack hookItem = new ItemStack(ModItems.COPPER_FISHING_HOOK, 1);
+                    hookItem.setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.HOOK_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        hookItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.hookInputSlot.index, hookItem);
                     hookPresent = true;
                 }
             }
+
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "prismarine")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.hookInputSlot.index, new ItemStack(ModItems.PRISMARINE_FISHING_HOOK, 1));
-                    this.inputContainer.getItem(this.hookInputSlot.index).setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    ItemStack hookItem = new ItemStack(ModItems.PRISMARINE_FISHING_HOOK, 1);
+                    hookItem.setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.HOOK_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        hookItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.hookInputSlot.index, hookItem);
                     hookPresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "iron")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.hookInputSlot.index, new ItemStack(ModItems.IRON_FISHING_HOOK, 1));
-                    this.inputContainer.getItem(this.hookInputSlot.index).setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    ItemStack hookItem = new ItemStack(ModItems.IRON_FISHING_HOOK, 1);
+                    hookItem.setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.HOOK_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        hookItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.hookInputSlot.index, hookItem);
                     hookPresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "golden")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.hookInputSlot.index, new ItemStack(ModItems.GOLDEN_FISHING_HOOK, 1));
-                    this.inputContainer.getItem(this.hookInputSlot.index).setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    ItemStack hookItem = new ItemStack(ModItems.GOLDEN_FISHING_HOOK, 1);
+                    hookItem.setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.HOOK_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        hookItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.hookInputSlot.index, hookItem);
                     hookPresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "diamond")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.hookInputSlot.index, new ItemStack(ModItems.DIAMOND_FISHING_HOOK, 1));
-                    this.inputContainer.getItem(this.hookInputSlot.index).setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    ItemStack hookItem = new ItemStack(ModItems.DIAMOND_FISHING_HOOK, 1);
+                    hookItem.setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.HOOK_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        hookItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.hookInputSlot.index, hookItem);
                     hookPresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "netherite")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.hookInputSlot.index, new ItemStack(ModItems.NETHERITE_FISHING_HOOK, 1));
-                    this.inputContainer.getItem(this.hookInputSlot.index).setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    ItemStack hookItem = new ItemStack(ModItems.NETHERITE_FISHING_HOOK, 1);
+                    hookItem.setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.HOOK_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        hookItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.hookInputSlot.index, hookItem);
                     hookPresent = true;
                 }
             }
@@ -298,68 +340,104 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (line.getItem() == ModItems.COPPER_LACED_FISHING_LINE && !Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "copper")) {
                 rod.set(ModComponents.LINE_COMPONENT, "copper");
                 rod.set(ModComponents.LINE_DURABILITY, line.getDamageValue());
+                rod.set(ModComponents.LINE_UNBREAKING, getUnbreakingLevel(player.level(),line));
             }
             if (line.getItem() == ModItems.PRISMARINE_LACED_FISHING_LINE && !Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "prismarine")) {
                 rod.set(ModComponents.LINE_COMPONENT, "prismarine");
                 rod.set(ModComponents.LINE_DURABILITY, line.getDamageValue());
+                rod.set(ModComponents.LINE_UNBREAKING, getUnbreakingLevel(player.level(),line));
             }
             if (line.getItem() == ModItems.IRON_LACED_FISHING_LINE && !Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "iron")) {
                 rod.set(ModComponents.LINE_COMPONENT, "iron");
                 rod.set(ModComponents.LINE_DURABILITY, line.getDamageValue());
+                rod.set(ModComponents.LINE_UNBREAKING, getUnbreakingLevel(player.level(),line));
             }
             if (line.getItem() == ModItems.GOLDEN_LACED_FISHING_LINE && !Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "golden")) {
                 rod.set(ModComponents.LINE_COMPONENT, "golden");
                 rod.set(ModComponents.LINE_DURABILITY, line.getDamageValue());
+                rod.set(ModComponents.LINE_UNBREAKING, getUnbreakingLevel(player.level(),line));
             }
             if (line.getItem() == ModItems.DIAMOND_LACED_FISHING_LINE && !Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "diamond")) {
                 rod.set(ModComponents.LINE_COMPONENT, "diamond");
                 rod.set(ModComponents.LINE_DURABILITY, line.getDamageValue());
+                rod.set(ModComponents.LINE_UNBREAKING, getUnbreakingLevel(player.level(),line));
             }
             if (line.getItem() == ModItems.NETHERITE_LACED_FISHING_LINE && !Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "netherite")) {
                 rod.set(ModComponents.LINE_COMPONENT, "netherite");
                 rod.set(ModComponents.LINE_DURABILITY, line.getDamageValue());
+                rod.set(ModComponents.LINE_UNBREAKING, getUnbreakingLevel(player.level(),line));
             }
         }
         else {
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "copper")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.lineInputSlot.index, new ItemStack(ModItems.COPPER_LACED_FISHING_LINE, 1));
-                    this.inputContainer.getItem(this.lineInputSlot.index).setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    ItemStack lineItem = new ItemStack(ModItems.COPPER_LACED_FISHING_LINE, 1);
+                    lineItem.setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.LINE_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        lineItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.lineInputSlot.index, lineItem);
                     linePresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "prismarine")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.lineInputSlot.index, new ItemStack(ModItems.PRISMARINE_LACED_FISHING_LINE, 1));
-                    this.inputContainer.getItem(this.lineInputSlot.index).setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    ItemStack lineItem = new ItemStack(ModItems.PRISMARINE_LACED_FISHING_LINE, 1);
+                    lineItem.setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.LINE_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        lineItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.lineInputSlot.index, lineItem);
                     linePresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "iron")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.lineInputSlot.index, new ItemStack(ModItems.IRON_LACED_FISHING_LINE, 1));
-                    this.inputContainer.getItem(this.lineInputSlot.index).setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    ItemStack lineItem = new ItemStack(ModItems.IRON_LACED_FISHING_LINE, 1);
+                    lineItem.setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.LINE_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        lineItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.lineInputSlot.index, lineItem);
                     linePresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "golden")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.lineInputSlot.index, new ItemStack(ModItems.GOLDEN_LACED_FISHING_LINE, 1));
-                    this.inputContainer.getItem(this.lineInputSlot.index).setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    ItemStack lineItem = new ItemStack(ModItems.GOLDEN_LACED_FISHING_LINE, 1);
+                    lineItem.setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.LINE_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        lineItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.lineInputSlot.index, lineItem);
                     linePresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "diamond")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.lineInputSlot.index, new ItemStack(ModItems.DIAMOND_LACED_FISHING_LINE, 1));
-                    this.inputContainer.getItem(this.lineInputSlot.index).setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    ItemStack lineItem = new ItemStack(ModItems.DIAMOND_LACED_FISHING_LINE, 1);
+                    lineItem.setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.LINE_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        lineItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.lineInputSlot.index, lineItem);
                     linePresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "netherite")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.lineInputSlot.index, new ItemStack(ModItems.NETHERITE_LACED_FISHING_LINE, 1));
-                    this.inputContainer.getItem(this.lineInputSlot.index).setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    ItemStack lineItem = new ItemStack(ModItems.NETHERITE_LACED_FISHING_LINE, 1);
+                    lineItem.setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.LINE_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        lineItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.lineInputSlot.index, lineItem);
                     linePresent = true;
                 }
             }
@@ -372,68 +450,104 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (sinker.getItem() == ModItems.COPPER_SINKER && !Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "copper")) {
                 rod.set(ModComponents.SINKER_COMPONENT, "copper");
                 rod.set(ModComponents.SINKER_DURABILITY, sinker.getDamageValue());
+                rod.set(ModComponents.SINKER_UNBREAKING, getUnbreakingLevel(player.level(),sinker));
             }
             if (sinker.getItem() == ModItems.PRISMARINE_SINKER && !Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "prismarine")) {
                 rod.set(ModComponents.SINKER_COMPONENT, "prismarine");
                 rod.set(ModComponents.SINKER_DURABILITY, sinker.getDamageValue());
+                rod.set(ModComponents.SINKER_UNBREAKING, getUnbreakingLevel(player.level(),sinker));
             }
             if (sinker.getItem() == ModItems.IRON_SINKER && !Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "iron")) {
                 rod.set(ModComponents.SINKER_COMPONENT, "iron");
                 rod.set(ModComponents.SINKER_DURABILITY, sinker.getDamageValue());
+                rod.set(ModComponents.SINKER_UNBREAKING, getUnbreakingLevel(player.level(),sinker));
             }
             if (sinker.getItem() == ModItems.GOLDEN_SINKER && !Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "golden")) {
                 rod.set(ModComponents.SINKER_COMPONENT, "golden");
                 rod.set(ModComponents.SINKER_DURABILITY, sinker.getDamageValue());
+                rod.set(ModComponents.SINKER_UNBREAKING, getUnbreakingLevel(player.level(),sinker));
             }
             if (sinker.getItem() == ModItems.DIAMOND_SINKER && !Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "diamond")) {
                 rod.set(ModComponents.SINKER_COMPONENT, "diamond");
                 rod.set(ModComponents.SINKER_DURABILITY, sinker.getDamageValue());
+                rod.set(ModComponents.SINKER_UNBREAKING, getUnbreakingLevel(player.level(),sinker));
             }
             if (sinker.getItem() == ModItems.NETHERITE_SINKER && !Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "netherite")) {
                 rod.set(ModComponents.SINKER_COMPONENT, "netherite");
                 rod.set(ModComponents.SINKER_DURABILITY, sinker.getDamageValue());
+                rod.set(ModComponents.SINKER_UNBREAKING, getUnbreakingLevel(player.level(),sinker));
             }
         }
         else {
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "copper")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.sinkerInputSlot.index, new ItemStack(ModItems.COPPER_SINKER, 1));
-                    this.inputContainer.getItem(this.sinkerInputSlot.index).setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    ItemStack sinkerItem = new ItemStack(ModItems.COPPER_SINKER, 1);
+                    sinkerItem.setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.SINKER_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        sinkerItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.sinkerInputSlot.index, sinkerItem);
                     sinkerPresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "prismarine")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.sinkerInputSlot.index, new ItemStack(ModItems.PRISMARINE_SINKER, 1));
-                    this.inputContainer.getItem(this.sinkerInputSlot.index).setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    ItemStack sinkerItem = new ItemStack(ModItems.PRISMARINE_SINKER, 1);
+                    sinkerItem.setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.SINKER_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        sinkerItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.sinkerInputSlot.index, sinkerItem);
                     sinkerPresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "iron")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.sinkerInputSlot.index, new ItemStack(ModItems.IRON_SINKER, 1));
-                    this.inputContainer.getItem(this.sinkerInputSlot.index).setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    ItemStack sinkerItem = new ItemStack(ModItems.IRON_SINKER, 1);
+                    sinkerItem.setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.SINKER_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        sinkerItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.sinkerInputSlot.index, sinkerItem);
                     sinkerPresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "golden")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.sinkerInputSlot.index, new ItemStack(ModItems.GOLDEN_SINKER, 1));
-                    this.inputContainer.getItem(this.sinkerInputSlot.index).setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    ItemStack sinkerItem = new ItemStack(ModItems.GOLDEN_SINKER, 1);
+                    sinkerItem.setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.SINKER_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        sinkerItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.sinkerInputSlot.index, sinkerItem);
                     sinkerPresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "diamond")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.sinkerInputSlot.index, new ItemStack(ModItems.DIAMOND_SINKER, 1));
-                    this.inputContainer.getItem(this.sinkerInputSlot.index).setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    ItemStack sinkerItem = new ItemStack(ModItems.DIAMOND_SINKER, 1);
+                    sinkerItem.setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.SINKER_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        sinkerItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.sinkerInputSlot.index, sinkerItem);
                     sinkerPresent = true;
                 }
             }
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "netherite")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
-                    this.inputContainer.setItem(this.sinkerInputSlot.index, new ItemStack(ModItems.NETHERITE_SINKER, 1));
-                    this.inputContainer.getItem(this.sinkerInputSlot.index).setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    ItemStack sinkerItem = new ItemStack(ModItems.NETHERITE_SINKER, 1);
+                    sinkerItem.setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
+                    int unbreakingLevel = rod.get(ModComponents.SINKER_UNBREAKING);
+                    if (unbreakingLevel > 0) {
+                        sinkerItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
+                    }
+                    this.inputContainer.setItem(this.sinkerInputSlot.index, sinkerItem);
                     sinkerPresent = true;
                 }
             }
@@ -466,5 +580,12 @@ public class AnglingTableMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(@NotNull Player player) {
         return stillValid(this.access, player, ModBlocks.ANGLING_TABLE);
+    }
+
+    private int getUnbreakingLevel(Level level, ItemStack stack) {
+        return EnchantmentHelper.getItemEnchantmentLevel(
+                level.registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING),
+                stack
+        );
     }
 }

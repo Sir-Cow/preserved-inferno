@@ -22,7 +22,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.item.ModItems;
+import sircow.preservedinferno.other.ModTags;
 import sircow.preservedinferno.screen.PreservedEnchantmentMenu;
 import sircow.preservedinferno.sound.ModSounds;
 
@@ -707,11 +707,8 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 || itemStack.getItem() == Items.CARROT_ON_A_STICK
                 || itemStack.getItem() == Items.WARPED_FUNGUS_ON_A_STICK
                 || itemStack.getItem() == Items.ELYTRA
-                || itemStack.getItem() == ModItems.COPPER_SHIELD
-                || itemStack.getItem() == ModItems.GOLDEN_SHIELD
-                || itemStack.getItem() == ModItems.IRON_SHIELD
-                || itemStack.getItem() == ModItems.DIAMOND_SHIELD
-                || itemStack.getItem() == ModItems.NETHERITE_SHIELD
+                || itemStack.is(ModTags.SHIELDS)
+                || itemStack.is(ModTags.ROD_UPGRADES)
         ) {
             this.itemCategory = "misc";
         }

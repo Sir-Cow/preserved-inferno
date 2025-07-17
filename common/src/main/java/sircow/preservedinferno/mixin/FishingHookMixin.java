@@ -153,10 +153,6 @@ public abstract class FishingHookMixin {
                             fortuneCounter += 1;
                             doFortune = true;
                         }
-                        if (randomNum3 < chance) {
-                            fortuneCounter += 1;
-                            doFortune = true;
-                        }
                     }
                     if (Objects.equals(fishingWithStack.get(ModComponents.LINE_COMPONENT), "diamond")) {
                         double chance = 1.0 - (2.0 / (LINE_FORTUNE_DIAMOND + 2.0));
