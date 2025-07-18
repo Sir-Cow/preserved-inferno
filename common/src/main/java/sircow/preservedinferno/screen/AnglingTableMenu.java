@@ -1,5 +1,6 @@
 package sircow.preservedinferno.screen;
 
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -261,8 +262,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "copper")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
                     ItemStack hookItem = new ItemStack(ModItems.COPPER_FISHING_HOOK, 1);
-                    hookItem.setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.HOOK_UNBREAKING);
+                    hookItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.HOOK_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.HOOK_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         hookItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -274,8 +275,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "prismarine")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
                     ItemStack hookItem = new ItemStack(ModItems.PRISMARINE_FISHING_HOOK, 1);
-                    hookItem.setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.HOOK_UNBREAKING);
+                    hookItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.HOOK_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.HOOK_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         hookItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -286,8 +287,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "iron")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
                     ItemStack hookItem = new ItemStack(ModItems.IRON_FISHING_HOOK, 1);
-                    hookItem.setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.HOOK_UNBREAKING);
+                    hookItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.HOOK_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.HOOK_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         hookItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -298,8 +299,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "golden")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
                     ItemStack hookItem = new ItemStack(ModItems.GOLDEN_FISHING_HOOK, 1);
-                    hookItem.setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.HOOK_UNBREAKING);
+                    hookItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.HOOK_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.HOOK_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         hookItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -310,8 +311,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "diamond")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
                     ItemStack hookItem = new ItemStack(ModItems.DIAMOND_FISHING_HOOK, 1);
-                    hookItem.setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.HOOK_UNBREAKING);
+                    hookItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.HOOK_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.HOOK_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         hookItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -322,8 +323,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "netherite")) {
                 if (!hookPresent && this.hookInputSlot.getItem().isEmpty()) {
                     ItemStack hookItem = new ItemStack(ModItems.NETHERITE_FISHING_HOOK, 1);
-                    hookItem.setDamageValue(rod.get(ModComponents.HOOK_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.HOOK_UNBREAKING);
+                    hookItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.HOOK_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.HOOK_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         hookItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -372,8 +373,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "copper")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
                     ItemStack lineItem = new ItemStack(ModItems.COPPER_LACED_FISHING_LINE, 1);
-                    lineItem.setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.LINE_UNBREAKING);
+                    lineItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.LINE_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.LINE_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         lineItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -384,8 +385,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "prismarine")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
                     ItemStack lineItem = new ItemStack(ModItems.PRISMARINE_LACED_FISHING_LINE, 1);
-                    lineItem.setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.LINE_UNBREAKING);
+                    lineItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.LINE_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.LINE_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         lineItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -396,8 +397,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "iron")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
                     ItemStack lineItem = new ItemStack(ModItems.IRON_LACED_FISHING_LINE, 1);
-                    lineItem.setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.LINE_UNBREAKING);
+                    lineItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.LINE_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.LINE_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         lineItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -408,8 +409,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "golden")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
                     ItemStack lineItem = new ItemStack(ModItems.GOLDEN_LACED_FISHING_LINE, 1);
-                    lineItem.setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.LINE_UNBREAKING);
+                    lineItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.LINE_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.LINE_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         lineItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -420,8 +421,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "diamond")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
                     ItemStack lineItem = new ItemStack(ModItems.DIAMOND_LACED_FISHING_LINE, 1);
-                    lineItem.setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.LINE_UNBREAKING);
+                    lineItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.LINE_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.LINE_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         lineItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -432,8 +433,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "netherite")) {
                 if (!linePresent && this.lineInputSlot.getItem().isEmpty()) {
                     ItemStack lineItem = new ItemStack(ModItems.NETHERITE_LACED_FISHING_LINE, 1);
-                    lineItem.setDamageValue(rod.get(ModComponents.LINE_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.LINE_UNBREAKING);
+                    lineItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.LINE_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.LINE_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         lineItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -482,8 +483,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "copper")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
                     ItemStack sinkerItem = new ItemStack(ModItems.COPPER_SINKER, 1);
-                    sinkerItem.setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.SINKER_UNBREAKING);
+                    sinkerItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.SINKER_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.SINKER_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         sinkerItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -494,8 +495,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "prismarine")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
                     ItemStack sinkerItem = new ItemStack(ModItems.PRISMARINE_SINKER, 1);
-                    sinkerItem.setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.SINKER_UNBREAKING);
+                    sinkerItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.SINKER_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.SINKER_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         sinkerItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -506,8 +507,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "iron")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
                     ItemStack sinkerItem = new ItemStack(ModItems.IRON_SINKER, 1);
-                    sinkerItem.setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.SINKER_UNBREAKING);
+                    sinkerItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.SINKER_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.SINKER_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         sinkerItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -518,8 +519,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "golden")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
                     ItemStack sinkerItem = new ItemStack(ModItems.GOLDEN_SINKER, 1);
-                    sinkerItem.setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.SINKER_UNBREAKING);
+                    sinkerItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.SINKER_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.SINKER_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         sinkerItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -530,8 +531,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "diamond")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
                     ItemStack sinkerItem = new ItemStack(ModItems.DIAMOND_SINKER, 1);
-                    sinkerItem.setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.SINKER_UNBREAKING);
+                    sinkerItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.SINKER_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.SINKER_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         sinkerItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -542,8 +543,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
             if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "netherite")) {
                 if (!sinkerPresent && this.sinkerInputSlot.getItem().isEmpty()) {
                     ItemStack sinkerItem = new ItemStack(ModItems.NETHERITE_SINKER, 1);
-                    sinkerItem.setDamageValue(rod.get(ModComponents.SINKER_DURABILITY));
-                    int unbreakingLevel = rod.get(ModComponents.SINKER_UNBREAKING);
+                    sinkerItem.setDamageValue(getIntComponentOrDefault(rod, ModComponents.SINKER_DURABILITY));
+                    int unbreakingLevel = getIntComponentOrDefault(rod, ModComponents.SINKER_UNBREAKING);
                     if (unbreakingLevel > 0) {
                         sinkerItem.enchant(player.level().registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), unbreakingLevel);
                     }
@@ -587,5 +588,10 @@ public class AnglingTableMenu extends AbstractContainerMenu {
                 level.registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING),
                 stack
         );
+    }
+
+    private static int getIntComponentOrDefault(ItemStack stack, DataComponentType<Integer> component) {
+        Integer val = stack.get(component);
+        return val != null ? val : 0;
     }
 }
