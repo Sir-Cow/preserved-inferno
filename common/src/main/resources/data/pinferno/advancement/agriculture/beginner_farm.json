@@ -1,0 +1,62 @@
+{
+  "parent": "pinferno:agriculture/break_grown_crop",
+  "criteria": {
+    "carrots": {
+      "conditions": {
+        "location": [
+          {
+            "block": "minecraft:carrots",
+            "condition": "minecraft:block_state_property"
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    },
+    "potatoes": {
+      "conditions": {
+        "location": [
+          {
+            "block": "minecraft:potatoes",
+            "condition": "minecraft:block_state_property"
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    },
+    "wheat": {
+      "conditions": {
+        "location": [
+          {
+            "block": "minecraft:wheat",
+            "condition": "minecraft:block_state_property"
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.beginner_farm.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:potato"
+    },
+    "title": {
+      "translate": "advancements.pinferno.agriculture.beginner_farm.title"
+    }
+  },
+  "requirements": [
+    [
+      "wheat"
+    ],
+    [
+      "carrots"
+    ],
+    [
+      "potatoes"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

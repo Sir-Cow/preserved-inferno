@@ -1,11 +1,11 @@
 {
-  "parent": "pinferno:agriculture/obtain_leather",
+  "parent": "pinferno:exploration/iron_tools",
   "criteria": {
-    "bundle": {
+    "gold": {
       "conditions": {
         "items": [
           {
-            "items": "#minecraft:bundles"
+            "items": "minecraft:gold_ingot"
           }
         ]
       },
@@ -14,19 +14,20 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.pinferno.agriculture.obtain_bundle.description"
+      "translate": "advancements.pinferno.exploration.gold.description"
     },
     "icon": {
       "count": 1,
-      "id": "minecraft:bundle"
+      "id": "minecraft:gold_ingot"
     },
+    "show_toast": true,
     "title": {
-      "translate": "advancements.pinferno.agriculture.obtain_bundle.title"
+      "translate": "advancements.pinferno.exploration.gold.title"
     }
   },
   "requirements": [
     [
-      "bundle"
+      "gold"
     ]
   ],
   "sends_telemetry_event": true

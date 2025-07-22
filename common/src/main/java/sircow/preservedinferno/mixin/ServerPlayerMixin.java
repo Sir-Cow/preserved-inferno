@@ -7,12 +7,14 @@ import net.minecraft.stats.Stat;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.other.ModDamageTypes;
+import sircow.preservedinferno.trigger.ModTriggers;
 
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin {
@@ -34,6 +36,14 @@ public class ServerPlayerMixin {
     @ModifyConstant(method = "startSleepInBed", constant = @Constant(doubleValue = 5.0))
     private double preserved_inferno$modifyDoubleValue(double original) {
         return 3.0;
+    }
+
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void preserved_inferno$tick(CallbackInfo ci) {
+        Player player = (Player)(Object)this;
+        if (player.getArmorValue() >= 100 && player instanceof ServerPlayer serverPlayer) {
+            ModTriggers.ARMOR_VALUE.trigger(serverPlayer);
+        }
     }
 
     @WrapOperation(method = "restoreFrom", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"))

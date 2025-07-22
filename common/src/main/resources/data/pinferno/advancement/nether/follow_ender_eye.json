@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:nether/obtain_blaze_rod",
+  "parent": "pinferno:nether/obtain_ender_pearl",
   "criteria": {
     "in_stronghold": {
       "conditions": {

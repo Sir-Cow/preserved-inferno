@@ -1,0 +1,36 @@
+{
+  "parent": "pinferno:exploration/consume_golden_apple",
+  "criteria": {
+    "enchanted_golden_apple": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:enchanted_golden_apple"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.enchanted_golden_apple.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:enchanted_golden_apple"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.enchanted_golden_apple.title"
+    }
+  },
+  "requirements": [
+    [
+      "enchanted_golden_apple"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

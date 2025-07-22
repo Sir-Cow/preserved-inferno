@@ -16,10 +16,9 @@
       "translate": "advancements.adventure.arbalistic.description"
     },
     "frame": "challenge",
-    "hidden": true,
     "icon": {
       "count": 1,
-      "id": "minecraft:crossbow"
+      "id": "minecraft:spectral_arrow"
     },
     "title": {
       "translate": "advancements.adventure.arbalistic.title"

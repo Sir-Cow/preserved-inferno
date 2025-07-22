@@ -25,9 +25,10 @@
     "description": {
       "translate": "advancements.adventure.whos_the_pillager_now.description"
     },
+    "frame": "goal",
     "icon": {
       "count": 1,
-      "id": "minecraft:crossbow"
+      "id": "minecraft:pillager_spawn_egg"
     },
     "title": {
       "translate": "advancements.adventure.whos_the_pillager_now.title"

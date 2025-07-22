@@ -1,0 +1,34 @@
+{
+  "parent": "pinferno:exploration/smelt_gold",
+  "criteria": {
+    "gilden_berries": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:gilden_berries"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.gilden_berries.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "pinferno:gilden_berries"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.gilden_berries.title"
+    }
+  },
+  "requirements": [
+    [
+      "gilden_berries"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

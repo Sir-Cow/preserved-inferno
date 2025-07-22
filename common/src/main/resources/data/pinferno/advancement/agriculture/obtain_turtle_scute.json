@@ -1,0 +1,33 @@
+{
+  "parent": "pinferno:agriculture/breed_an_animal",
+  "criteria": {
+    "turtle_scute": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:turtle_scute"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.obtain_turtle_scute.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:turtle_scute"
+    },
+    "title": {
+      "translate": "advancements.pinferno.agriculture.obtain_turtle_scute.title"
+    }
+  },
+  "requirements": [
+    [
+      "turtle_scute"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

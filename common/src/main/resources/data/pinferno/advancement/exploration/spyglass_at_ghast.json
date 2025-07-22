@@ -31,7 +31,7 @@
     "frame": "goal",
     "icon": {
       "count": 1,
-      "id": "minecraft:spyglass"
+      "id": "minecraft:ghast_spawn_egg"
     },
     "title": {
       "translate": "advancements.adventure.spyglass_at_ghast.title"

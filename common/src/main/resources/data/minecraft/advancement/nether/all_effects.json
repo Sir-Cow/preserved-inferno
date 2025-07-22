@@ -50,7 +50,6 @@
       "translate": "advancements.nether.all_effects.description"
     },
     "frame": "challenge",
-    "hidden": true,
     "icon": {
       "count": 1,
       "id": "minecraft:bucket"

@@ -37,7 +37,7 @@
     "frame": "challenge",
     "icon": {
       "count": 1,
-      "id": "minecraft:crossbow"
+      "id": "minecraft:phantom_spawn_egg"
     },
     "title": {
       "translate": "advancements.adventure.two_birds_one_arrow.title"

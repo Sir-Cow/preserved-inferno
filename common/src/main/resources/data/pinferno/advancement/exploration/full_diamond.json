@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:exploration/mine_diamond",
+  "parent": "pinferno:exploration/shiny_gear",
   "criteria": {
     "diamond_boots": {
       "conditions": {
@@ -44,21 +44,28 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.story.shiny_gear.description"
+      "translate": "advancements.pinferno.exploration.full_diamond.description"
     },
+    "frame": "goal",
     "icon": {
       "count": 1,
-      "id": "minecraft:diamond_boots"
+      "id": "minecraft:diamond_helmet"
     },
     "title": {
-      "translate": "advancements.story.shiny_gear.title"
+      "translate": "advancements.pinferno.exploration.full_diamond.title"
     }
   },
   "requirements": [
     [
-      "diamond_helmet",
-      "diamond_chestplate",
-      "diamond_leggings",
+      "diamond_helmet"
+    ],
+    [
+      "diamond_chestplate"
+    ],
+    [
+      "diamond_leggings"
+    ],
+    [
       "diamond_boots"
     ]
   ],

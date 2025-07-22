@@ -18,8 +18,10 @@
   "subtitles.entity.ender_eye.launch": "Awakened Eye shoots",
   "subtitles.item.hoe.till": "Scythe tills",
 
+  "advancements.adventure.overoverkill.title": "Mace to the Face",
   "advancements.adventure.sleep_in_bed.description": "Use a Dreamcatcher to skip the night",
   "advancements.adventure.summon_iron_golem.description": "Summon an Iron Golem",
+  "advancements.adventure.voluntary_exile.description": "Kill a raid captain. Best not to drink its brew",
   "advancements.husbandry.breed_an_animal.title": "Repopulation",
   "advancements.husbandry.breed_an_animal.description": "Create new life using two Mobs",
   "advancements.husbandry.kill_axolotl_target.title": "The Power of Friendship",
@@ -27,8 +29,9 @@
   "advancements.husbandry.netherite_hoe.description": "Use a Netherite Ingot to upgrade a Scythe, and then reevaluate your life choices",
   "advancements.husbandry.obtain_sniffer_egg.description": "Uncover a Sniffer Egg",
   "advancements.nether.obtain_ancient_debris.title": "Hidden in the Heights",
-  "advancements.story.follow_ender_eye.description": "Follow an Awakened Eye",
+  "advancements.story.follow_ender_eye.description": "Follow an Awakened Eye in the overworld",
   "advancements.story.iron_tools.description": "Use Iron Ingots to upgrade your Pickaxe",
+  "advancements.story.shiny_gear.title": "Bling Bling!",
   "advancements.story.smelt_iron.description": "Forge an Iron Ingot",
   "advancements.story.upgrade_tools.description": "Construct a better Pickaxe using Stone"
 }

@@ -31,7 +31,7 @@
     "frame": "challenge",
     "icon": {
       "count": 1,
-      "id": "minecraft:spyglass"
+      "id": "minecraft:ender_dragon_spawn_egg"
     },
     "title": {
       "translate": "advancements.adventure.spyglass_at_dragon.title"

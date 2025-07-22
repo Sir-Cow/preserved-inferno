@@ -1,0 +1,44 @@
+{
+  "parent": "minecraft:nether/obtain_blaze_rod",
+  "criteria": {
+    "killed_blaze": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:blaze"
+            }
+          }
+        ],
+        "killing_blow": {
+          "damage_type": {
+            "is_tag": false,
+            "id": "pinferno:flare_gun_projectile"
+          }
+        }
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.nether.afterburner.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "pinferno:flare_gun"
+    },
+    "title": {
+      "translate": "advancements.pinferno.nether.afterburner.title"
+    }
+  },
+  "requirements": [
+    [
+      "killed_blaze"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

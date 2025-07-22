@@ -1,0 +1,34 @@
+{
+  "parent": "pinferno:agriculture/obtain_turtle_scute",
+  "criteria": {
+    "turtle_shell": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:turtle_helmet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.obtain_turtle_shell.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:turtle_helmet"
+    },
+    "title": {
+      "translate": "advancements.pinferno.agriculture.obtain_turtle_shell.title"
+    }
+  },
+  "requirements": [
+    [
+      "turtle_shell"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

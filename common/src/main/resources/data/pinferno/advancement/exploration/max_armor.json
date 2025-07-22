@@ -1,0 +1,31 @@
+{
+  "parent": "pinferno:exploration/full_diamond",
+  "criteria": {
+    "max_armor": {
+      "trigger": "pinferno:armor_value"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.max_armor.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:diamond_block"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.max_armor.title"
+    }
+  },
+  "requirements": [
+    [
+      "max_armor"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

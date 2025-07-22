@@ -164,7 +164,7 @@
     },
     "icon": {
       "count": 1,
-      "id": "minecraft:gold_ingot"
+      "id": "minecraft:piglin_spawn_egg"
     },
     "title": {
       "translate": "advancements.nether.distract_piglin.title"

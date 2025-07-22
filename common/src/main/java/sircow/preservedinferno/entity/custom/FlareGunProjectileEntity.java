@@ -28,6 +28,7 @@ import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.item.ModItems;
+import sircow.preservedinferno.other.ModDamageTypes;
 
 public class FlareGunProjectileEntity extends ThrowableItemProjectile {
     private static final String TAG_FIRED_FROM = "FiredFromItem";
@@ -41,6 +42,7 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
     public FlareGunProjectileEntity(Level level, LivingEntity owner, ItemStack item) {
         super(ModEntities.FLARE_GUN_PROJECTILE, owner, level, item);
         this.setItem(item);
+        this.setOwner(owner);
         if (owner.getItemInHand(InteractionHand.MAIN_HAND).getItem() == ModItems.FLARE_GUN) {
             firedFrom = owner.getItemInHand(InteractionHand.MAIN_HAND);
         }
@@ -72,10 +74,9 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
         float f4 = Mth.cos(f);
         float f5 = Mth.sin(f);
         double d0 = f3 * f4;
-        double d1 = f5;
         double d2 = f2 * f4;
 
-        this.setDeltaMovement(d0 * velocity, d1 * velocity, d2 * velocity);
+        this.setDeltaMovement(d0 * velocity, (double) f5 * velocity, d2 * velocity);
         this.setPos(shooter.getX(), shooter.getEyeY() - 0.1, shooter.getZ());
     }
 
@@ -173,21 +174,11 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
                 if (livingEntity.isOnFire()) {
                     livingEntity.clearFire();
                     livingEntity.igniteForTicks(60);
-                    if (this.getOwner() instanceof Player) {
-                        result.getEntity().hurt(this.damageSources().playerAttack((Player) this.getOwner()), 6.0F);
-                    }
-                    else {
-                        result.getEntity().hurt(this.damageSources().generic(), 6.0F);
-                    }
+                    result.getEntity().hurt(ModDamageTypes.of(this.level(), ModDamageTypes.FLARE_GUN_PROJECTILE, this.getOwner()), 6.0F);
                 }
                 else {
                     livingEntity.igniteForTicks(60);
-                    if (this.getOwner() instanceof Player) {
-                        result.getEntity().hurt(this.damageSources().playerAttack((Player) this.getOwner()), 2.0F);
-                    }
-                    else {
-                        result.getEntity().hurt(this.damageSources().generic(), 2.0F);
-                    }
+                    result.getEntity().hurt(ModDamageTypes.of(this.level(), ModDamageTypes.FLARE_GUN_PROJECTILE, this.getOwner()), 2.0F);
                 }
             }
             this.discard();

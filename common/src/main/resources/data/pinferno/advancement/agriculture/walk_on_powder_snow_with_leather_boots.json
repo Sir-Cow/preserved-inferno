@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:exploration/upgrade_tools",
+  "parent": "pinferno:agriculture/obtain_leather",
   "criteria": {
     "walk_on_powder_snow_with_leather_boots": {
       "conditions": {

@@ -28,7 +28,6 @@
     "description": {
       "translate": "advancements.husbandry.plant_any_sniffer_seed.description"
     },
-    "hidden": true,
     "frame": "goal",
     "icon": {
       "count": 1,

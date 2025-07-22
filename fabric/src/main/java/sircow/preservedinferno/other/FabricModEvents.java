@@ -3,6 +3,7 @@ package sircow.preservedinferno.other;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -23,7 +24,7 @@ import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TridentItem;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -138,14 +139,16 @@ public class FabricModEvents {
     }
 
     public static void handleEntityDeath() {
-        ServerLivingEntityEvents.AFTER_DEATH.register((livingEntity, damageSource) -> {
+        ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
             // prevent drowned dropping trident
-            if (livingEntity instanceof Drowned drowned) {
-                ItemStack heldItem = drowned.getItemInHand(InteractionHand.MAIN_HAND);
-                if (heldItem.getItem() instanceof TridentItem) {
-                    drowned.setDropChance(EquipmentSlot.MAINHAND, 0);
+            if (entity instanceof Drowned drowned) {
+                if (drowned.getMainHandItem().is(Items.TRIDENT)) {
+                    drowned.setDropChance(EquipmentSlot.MAINHAND, 0.0f);
                 }
             }
+        });
+
+        ServerLivingEntityEvents.AFTER_DEATH.register((livingEntity, damageSource) -> {
             // reset shield cooldown
             if (livingEntity instanceof Player player) {
                 ShieldStaminaHandler.playerShieldCooldownMap.remove(player.getUUID());

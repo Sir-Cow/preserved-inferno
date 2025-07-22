@@ -1,0 +1,33 @@
+{
+  "parent": "pinferno:exploration/smelt_gold",
+  "criteria": {
+    "golden_apple": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:golden_apple"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.golden_apple.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:golden_apple"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.golden_apple.title"
+    }
+  },
+  "requirements": [
+    [
+      "golden_apple"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -28,7 +28,9 @@ public class MinecraftMixin implements IMinecraftMixin {
 
     @Inject(method = "setScreen", at = @At("HEAD"), cancellable = true)
     private void preserved_inferno$interceptAdvancementsScreen(Screen screen, CallbackInfo ci) {
-        if (screen instanceof AdvancementsScreen) {
+        if (screen == null) return;
+
+        if (screen instanceof AdvancementsScreen || screen.getClass().getName().equals("betteradvancements.common.gui.BetterAdvancementsScreen")) {
             if (FabricPreservedInfernoClient.suppressNextOpen) {
                 FabricPreservedInfernoClient.suppressNextOpen = false;
                 return;

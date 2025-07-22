@@ -1,11 +1,11 @@
 {
-  "parent": "pinferno:agriculture/obtain_leather",
+  "parent": "pinferno:nether/root",
   "criteria": {
-    "bundle": {
+    "ender_pearl": {
       "conditions": {
         "items": [
           {
-            "items": "#minecraft:bundles"
+            "items": "minecraft:ender_pearl"
           }
         ]
       },
@@ -14,19 +14,19 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.pinferno.agriculture.obtain_bundle.description"
+      "translate": "advancements.pinferno.nether.obtain_ender_pearl.description"
     },
     "icon": {
       "count": 1,
-      "id": "minecraft:bundle"
+      "id": "minecraft:ender_pearl"
     },
     "title": {
-      "translate": "advancements.pinferno.agriculture.obtain_bundle.title"
+      "translate": "advancements.pinferno.nether.obtain_ender_pearl.title"
     }
   },
   "requirements": [
     [
-      "bundle"
+      "ender_pearl"
     ]
   ],
   "sends_telemetry_event": true

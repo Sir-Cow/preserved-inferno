@@ -1,11 +1,11 @@
 {
-  "parent": "pinferno:agriculture/obtain_leather",
+  "parent": "pinferno:combat/minecraft_trials_edition",
   "criteria": {
-    "bundle": {
+    "mace": {
       "conditions": {
         "items": [
           {
-            "items": "#minecraft:bundles"
+            "items": "minecraft:mace"
           }
         ]
       },
@@ -14,19 +14,20 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.pinferno.agriculture.obtain_bundle.description"
+      "translate": "advancements.pinferno.combat.obtain_mace.description"
     },
+    "frame": "goal",
     "icon": {
       "count": 1,
-      "id": "minecraft:bundle"
+      "id": "minecraft:heavy_core"
     },
     "title": {
-      "translate": "advancements.pinferno.agriculture.obtain_bundle.title"
+      "translate": "advancements.pinferno.combat.obtain_mace.title"
     }
   },
   "requirements": [
     [
-      "bundle"
+      "mace"
     ]
   ],
   "sends_telemetry_event": true

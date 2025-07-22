@@ -1,0 +1,31 @@
+{
+  "parent": "pinferno:agriculture/place_bookshelf",
+  "criteria": {
+    "max_enchanting_table": {
+      "trigger": "pinferno:max_enchanting_table"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.max_enchanting_table.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:enchanted_book"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.max_enchanting_table.title"
+    }
+  },
+  "requirements": [
+    [
+      "max_enchanting_table"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:combat/minecraft_trials_edition",
+  "parent": "pinferno:combat/obtain_mace",
   "criteria": {
     "overoverkill": {
       "conditions": {

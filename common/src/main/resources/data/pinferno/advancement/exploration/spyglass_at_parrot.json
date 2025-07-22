@@ -30,7 +30,7 @@
     },
     "icon": {
       "count": 1,
-      "id": "minecraft:spyglass"
+      "id": "minecraft:parrot_spawn_egg"
     },
     "title": {
       "translate": "advancements.adventure.spyglass_at_parrot.title"
