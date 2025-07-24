@@ -1,16 +1,14 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "nether_gold_plate",
-  "ingredients": [
-    "minecraft:gold_ingot",
-    "minecraft:gold_ingot",
-    "minecraft:gold_ingot",
-    "minecraft:gold_ingot",
-    "minecraft:quartz",
-    "minecraft:quartz",
-    "minecraft:quartz",
-    "minecraft:quartz"
+  "key": {
+    "#": "minecraft:gold_ingot",
+    "S": "minecraft:quartz"
+  },
+  "pattern": [
+    "SSS",
+    "S#S",
+    "SSS"
   ],
   "result": {
     "count": 1,

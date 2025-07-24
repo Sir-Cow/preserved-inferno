@@ -32,7 +32,7 @@ public class ZombifiedPiglinMixin {
         if (!(self.getTarget() instanceof ServerPlayer player)) return;
 
         int heat = ((HeatAccessor) player).preserved_inferno$getHeat();
-        double heatRadius = 0.2 * heat;
+        double heatRadius = 0.4 * heat;
         double distSqr = self.distanceToSqr(player);
 
         if (heat > 0 && distSqr <= heatRadius * heatRadius) {
@@ -49,7 +49,6 @@ public class ZombifiedPiglinMixin {
     private void preserved_inferno$replaceHurtByGoal(CallbackInfo ci) {
         ZombifiedPiglin self = (ZombifiedPiglin)(Object)this;
         ((MobAccessor) self).preserved_inferno$getTargetSelector().removeAllGoals(goal -> goal instanceof HurtByTargetGoal);
-        ((MobAccessor) self).preserved_inferno$getTargetSelector().addGoal(2, new HurtByTargetGoal(self));
         ((MobAccessor) self).preserved_inferno$getTargetSelector().addGoal(1, new HeatAggroGoal(self));
     }
 }

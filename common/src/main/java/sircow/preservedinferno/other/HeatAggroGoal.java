@@ -9,7 +9,7 @@ import java.util.List;
 
 public class HeatAggroGoal extends Goal {
     private final ZombifiedPiglin piglin;
-    private final double checkRadius = 40.0;
+    private final double checkRadius = 80.0;
     private ServerPlayer targetCandidate = null;
 
     public HeatAggroGoal(ZombifiedPiglin piglin) {
@@ -31,7 +31,7 @@ public class HeatAggroGoal extends Goal {
 
         for (ServerPlayer player : nearbyPlayers) {
             int heat = ((HeatAccessor) player).preserved_inferno$getHeat();
-            double heatRadius = 0.2 * heat;
+            double heatRadius = 0.4 * heat;
             double distSqr = piglin.distanceToSqr(player);
 
             if (distSqr <= heatRadius * heatRadius) {
@@ -56,7 +56,7 @@ public class HeatAggroGoal extends Goal {
         if (!(piglin.getTarget() instanceof ServerPlayer player)) return false;
 
         int heat = ((HeatAccessor) player).preserved_inferno$getHeat();
-        double heatRadius = 0.2 * heat;
+        double heatRadius = 0.4 * heat;
         double distSqr = piglin.distanceToSqr(player);
 
         return player.isAlive() && heat > 0 && distSqr <= heatRadius * heatRadius;
