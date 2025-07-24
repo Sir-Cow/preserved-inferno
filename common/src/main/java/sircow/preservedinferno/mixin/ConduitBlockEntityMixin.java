@@ -59,7 +59,7 @@ public class ConduitBlockEntityMixin {
         if (!list.isEmpty()) {
             for (Player playerEntity : list) {
                 if (pos.closerThan(playerEntity.blockPosition(), j)) {
-                    playerEntity.addEffect(new MobEffectInstance(MobEffects.CONDUIT_POWER, 260, 0, true, true));
+                    playerEntity.addEffect(new MobEffectInstance(MobEffects.CONDUIT_POWER, 100, 0, true, true));
                 }
             }
         }

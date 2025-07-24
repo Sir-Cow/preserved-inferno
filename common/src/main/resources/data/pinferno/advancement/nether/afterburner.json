@@ -13,10 +13,15 @@
           }
         ],
         "killing_blow": {
-          "damage_type": {
-            "is_tag": false,
-            "id": "pinferno:flare_gun_projectile"
-          }
+          "direct_entity": {
+            "type": "pinferno:flare_gun_projectile"
+          },
+          "tags": [
+            {
+              "expected": true,
+              "id": "minecraft:is_projectile"
+            }
+          ]
         }
       },
       "trigger": "minecraft:player_killed_entity"

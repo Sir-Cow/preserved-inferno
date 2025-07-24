@@ -1,15 +1,15 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": "pinferno:echoing_prism",
-  "base": "minecraft:golden_leggings",
+  "base": "pinferno:copper_leggings",
   "result": {
-    "id": "minecraft:golden_leggings",
+    "id": "pinferno:copper_leggings",
     "components": {
       "minecraft:attribute_modifiers": [
         {
           "type": "minecraft:armor",
           "id": "pinferno:echoing_prism_leggings_modifier_armor",
-          "amount": 20,
+          "amount": 18,
           "operation": "add_value",
           "slot": "legs"
         },

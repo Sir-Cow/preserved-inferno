@@ -1,22 +1,15 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": "pinferno:nether_alloy_ingot",
-  "base": "minecraft:golden_helmet",
+  "base": "pinferno:copper_helmet",
   "result": {
-    "id": "minecraft:golden_helmet",
+    "id": "pinferno:copper_helmet",
     "components": {
       "minecraft:attribute_modifiers": [
         {
           "type": "minecraft:armor",
           "id": "pinferno:nether_alloy_helmet_modifier_armor",
-          "amount": 17,
-          "operation": "add_value",
-          "slot": "head"
-        },
-        {
-          "type": "minecraft:armor_toughness",
-          "id": "pinferno:nether_alloy_helmet_modifier_toughness",
-          "amount": 1,
+          "amount": 14,
           "operation": "add_value",
           "slot": "head"
         }

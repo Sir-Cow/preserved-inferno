@@ -13,7 +13,7 @@
             }
           ],
           "name": "minecraft:book",
-          "weight": 6
+          "weight": 1
         },
         {
           "type": "minecraft:item",
@@ -24,7 +24,7 @@
             }
           ],
           "name": "minecraft:book",
-          "weight": 8
+          "weight": 1
         },
         {
           "type": "minecraft:item",
@@ -73,7 +73,7 @@
             }
           ],
           "name": "minecraft:iron_nugget",
-          "weight": 15
+          "weight": 8
         },
         {
           "type": "minecraft:item",
@@ -121,7 +121,7 @@
             }
           ],
           "name": "minecraft:quartz",
-          "weight": 15
+          "weight": 8
         },
         {
           "type": "minecraft:item",
@@ -137,7 +137,7 @@
             }
           ],
           "name": "minecraft:obsidian",
-          "weight": 40
+          "weight": 30
         },
         {
           "type": "minecraft:item",
@@ -153,7 +153,7 @@
             }
           ],
           "name": "minecraft:crying_obsidian",
-          "weight": 40
+          "weight": 30
         },
         {
           "type": "minecraft:item",
@@ -163,7 +163,12 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:music_disc_pigstep",
-          "weight": 6
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:snout_armor_trim_smithing_template",
+          "weight": 1
         },
         {
           "type": "minecraft:item",
@@ -225,7 +230,23 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "minecraft:nether_brick",
+          "name": "minecraft:nether_bricks",
+          "weight": 50
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 16.0,
+                "min": 8.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:basalt",
           "weight": 50
         },
         {

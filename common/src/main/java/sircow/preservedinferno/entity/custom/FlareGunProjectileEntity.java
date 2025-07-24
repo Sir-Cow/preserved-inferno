@@ -11,7 +11,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.EnderMan;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -173,12 +172,16 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
 
                 if (livingEntity.isOnFire()) {
                     livingEntity.clearFire();
-                    livingEntity.igniteForTicks(60);
-                    result.getEntity().hurt(ModDamageTypes.of(this.level(), ModDamageTypes.FLARE_GUN_PROJECTILE, this.getOwner()), 6.0F);
+                    if (!livingEntity.fireImmune()) {
+                        livingEntity.igniteForTicks(60);
+                    }
+                    result.getEntity().hurt(ModDamageTypes.of(this.level(), ModDamageTypes.FLARE_GUN_PROJECTILE, this, this.getOwner()), 6.0F);
                 }
                 else {
-                    livingEntity.igniteForTicks(60);
-                    result.getEntity().hurt(ModDamageTypes.of(this.level(), ModDamageTypes.FLARE_GUN_PROJECTILE, this.getOwner()), 2.0F);
+                    if (!livingEntity.fireImmune()) {
+                        livingEntity.igniteForTicks(60);
+                    }
+                    result.getEntity().hurt(ModDamageTypes.of(this.level(), ModDamageTypes.FLARE_GUN_PROJECTILE, this, this.getOwner()), 2.0F);
                 }
             }
             this.discard();

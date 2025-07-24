@@ -22,45 +22,45 @@ public class ItemPropertiesMixin {
 
     static {
         Map<ArmorType, Integer> leatherDurability = new HashMap<>();
-        leatherDurability.put(ArmorType.HELMET, 106);
-        leatherDurability.put(ArmorType.CHESTPLATE, 170);
-        leatherDurability.put(ArmorType.LEGGINGS, 150);
-        leatherDurability.put(ArmorType.BOOTS, 86);
+        leatherDurability.put(ArmorType.HELMET, 256);
+        leatherDurability.put(ArmorType.CHESTPLATE, 256);
+        leatherDurability.put(ArmorType.LEGGINGS, 256);
+        leatherDurability.put(ArmorType.BOOTS, 256);
         DURABILITY_MAP.put(ArmorMaterials.LEATHER, leatherDurability);
 
         Map<ArmorType, Integer> goldDurability = new HashMap<>();
-        goldDurability.put(ArmorType.HELMET, 106);
-        goldDurability.put(ArmorType.CHESTPLATE, 170);
-        goldDurability.put(ArmorType.LEGGINGS, 150);
-        goldDurability.put(ArmorType.BOOTS, 86);
+        goldDurability.put(ArmorType.HELMET, 256);
+        goldDurability.put(ArmorType.CHESTPLATE, 256);
+        goldDurability.put(ArmorType.LEGGINGS, 256);
+        goldDurability.put(ArmorType.BOOTS, 256);
         DURABILITY_MAP.put(ArmorMaterials.GOLD, goldDurability);
 
         Map<ArmorType, Integer> chainmailDurability = new HashMap<>();
-        chainmailDurability.put(ArmorType.HELMET, 213);
-        chainmailDurability.put(ArmorType.CHESTPLATE, 341);
-        chainmailDurability.put(ArmorType.LEGGINGS, 299);
-        chainmailDurability.put(ArmorType.BOOTS, 171);
+        chainmailDurability.put(ArmorType.HELMET, 512);
+        chainmailDurability.put(ArmorType.CHESTPLATE, 512);
+        chainmailDurability.put(ArmorType.LEGGINGS, 512);
+        chainmailDurability.put(ArmorType.BOOTS, 512);
         DURABILITY_MAP.put(ArmorMaterials.CHAINMAIL, chainmailDurability);
 
         Map<ArmorType, Integer> ironDurability = new HashMap<>();
-        ironDurability.put(ArmorType.HELMET, 213);
-        ironDurability.put(ArmorType.CHESTPLATE, 341);
-        ironDurability.put(ArmorType.LEGGINGS, 299);
-        ironDurability.put(ArmorType.BOOTS, 171);
+        ironDurability.put(ArmorType.HELMET, 512);
+        ironDurability.put(ArmorType.CHESTPLATE, 512);
+        ironDurability.put(ArmorType.LEGGINGS, 512);
+        ironDurability.put(ArmorType.BOOTS, 512);
         DURABILITY_MAP.put(ArmorMaterials.IRON, ironDurability);
 
         Map<ArmorType, Integer> diamondDurability = new HashMap<>();
-        diamondDurability.put(ArmorType.HELMET, 854);
-        diamondDurability.put(ArmorType.CHESTPLATE, 1366);
-        diamondDurability.put(ArmorType.LEGGINGS, 1194);
-        diamondDurability.put(ArmorType.BOOTS, 682);
+        diamondDurability.put(ArmorType.HELMET, 1024);
+        diamondDurability.put(ArmorType.CHESTPLATE, 1024);
+        diamondDurability.put(ArmorType.LEGGINGS, 1024);
+        diamondDurability.put(ArmorType.BOOTS, 1024);
         DURABILITY_MAP.put(ArmorMaterials.DIAMOND, diamondDurability);
 
         Map<ArmorType, Integer> netheriteDurability = new HashMap<>();
-        netheriteDurability.put(ArmorType.HELMET, 854);
-        netheriteDurability.put(ArmorType.CHESTPLATE, 1366);
-        netheriteDurability.put(ArmorType.LEGGINGS, 1194);
-        netheriteDurability.put(ArmorType.BOOTS, 682);
+        netheriteDurability.put(ArmorType.HELMET, 2048);
+        netheriteDurability.put(ArmorType.CHESTPLATE, 2048);
+        netheriteDurability.put(ArmorType.LEGGINGS, 2048);
+        netheriteDurability.put(ArmorType.BOOTS, 2048);
         DURABILITY_MAP.put(ArmorMaterials.NETHERITE, netheriteDurability);
 
         Map<ArmorType, Integer> turtleDurability = new HashMap<>();
@@ -68,10 +68,10 @@ public class ItemPropertiesMixin {
         DURABILITY_MAP.put(ArmorMaterials.TURTLE_SCUTE, turtleDurability);
 
         Map<ArmorType, Integer> copperDurability = new HashMap<>();
-        copperDurability.put(ArmorType.HELMET, 106);
-        copperDurability.put(ArmorType.CHESTPLATE, 170);
-        copperDurability.put(ArmorType.LEGGINGS, 150);
-        copperDurability.put(ArmorType.BOOTS, 86);
+        copperDurability.put(ArmorType.HELMET, 256);
+        copperDurability.put(ArmorType.CHESTPLATE, 256);
+        copperDurability.put(ArmorType.LEGGINGS, 256);
+        copperDurability.put(ArmorType.BOOTS, 256);
         DURABILITY_MAP.put(ModArmourMaterials.COPPER, copperDurability);
     }
 
