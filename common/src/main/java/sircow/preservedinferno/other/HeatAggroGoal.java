@@ -26,7 +26,7 @@ public class HeatAggroGoal extends Goal {
         List<ServerPlayer> nearbyPlayers = piglin.level().getEntitiesOfClass(
                 ServerPlayer.class,
                 piglin.getBoundingBox().inflate(checkRadius),
-                player -> !player.isSpectator() && player.isAlive()
+                player -> !player.isSpectator() && !player.isCreative() && player.isAlive()
         );
 
         for (ServerPlayer player : nearbyPlayers) {
@@ -54,6 +54,7 @@ public class HeatAggroGoal extends Goal {
     @Override
     public boolean canContinueToUse() {
         if (!(piglin.getTarget() instanceof ServerPlayer player)) return false;
+        if (player.isCreative()) return false;
 
         int heat = ((HeatAccessor) player).preserved_inferno$getHeat();
         double heatRadius = 0.4 * heat;

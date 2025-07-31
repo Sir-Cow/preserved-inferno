@@ -108,7 +108,11 @@
   "death.attack.heat": "%1$s burned up",
   "death.attack.heat.player": "%1$s burned up whilst trying to escape %2$s",
 
-  "block.minecraft.bed.no_dreamcatcher": "You may not rest now; nightmares haunt you in your sleep",
+  "block.minecraft.bed.no_dreamcatcher": "You may not sleep now; nightmares haunt you in your sleep",
+  "block.minecraft.bed.hardcore_regen": "Just a bit of time to rest",
+  "block.minecraft.bed.hardcore_cooldown": "You shouldn't rest too often",
+  "block.minecraft.bed.not_safe_hardcore": "You may not rest now; there are monsters nearby",
+  "block.minecraft.bed.too_far_away_hardcore": "You may not rest now; the bed is too far away",
 
   "container.pinferno.angling_table": "Angling Table",
   "container.pinferno.cache": "Cache",
@@ -127,8 +131,9 @@
   "item.pinferno.leggings": "Leggings",
 
   "effect.pinferno.well_rested": "Well Rested",
-  "effect.pinferno.well_rested_awake": "You awaken feeling well rested.",
+  "effect.pinferno.well_rested_awake": "You awaken feeling well rested",
   "effect.pinferno.well_rested_consume": "Maybe that was just a bad dream...",
+  "effect.pinferno.well_rested_hardcore": "Is this all a bad dream?",
 
   "item.minecraft.potion.effect.haste": "Potion of Haste",
   "item.minecraft.splash_potion.effect.haste": "Splash Potion of Haste",
@@ -149,7 +154,7 @@
   "item.minecraft.splash_potion.effect.luck": "Splash Potion of Luck",
   "item.minecraft.lingering_potion.effect.luck": "Lingering Potion of Luck",
 
-  "advancement.pinferno.actionbar.open_advancements": "Press [%s] to open your Advancements tab.",
+  "advancement.pinferno.actionbar.open_advancements": "Press [%s] to open your Advancements tab",
 
   "advancements.pinferno.story.gather_wood.title": "Timber",
   "advancements.pinferno.story.gather_wood.description": "Punch a tree and collect your first piece of Wood",
@@ -265,7 +270,7 @@
   "advancements.pinferno.agriculture.obtain_cloth.title": "Impending Loom",
   "advancements.pinferno.agriculture.obtain_cloth.description": "Use a Loom to create Cloth out of Wool",
   "advancements.pinferno.agriculture.bed_spawn_point.title": "Spawn Setter",
-  "advancements.pinferno.agriculture.bed_spawn_point.description": "Use a Bed to move your spawn point",
+  "advancements.pinferno.agriculture.bed_spawn_point.description": "Craft a Bed to move your spawn location",
   "advancements.pinferno.agriculture.kill_a_phantom.title": "Nightmares",
   "advancements.pinferno.agriculture.kill_a_phantom.description": "Slay a Phantom",
   "advancements.pinferno.agriculture.place_bookshelf.title": "Librarian",

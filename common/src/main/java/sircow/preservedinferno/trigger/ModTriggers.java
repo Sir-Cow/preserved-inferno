@@ -8,7 +8,6 @@ import sircow.preservedinferno.trigger.custom.*;
 
 public class ModTriggers {
     public static final ArmorValueTrigger ARMOR_VALUE = register("armor_value", new ArmorValueTrigger());
-    public static final BedSpawnPointTrigger BED_SPAWN_POINT = register("bed_spawn_point", new BedSpawnPointTrigger());
     public static final BreakGrownCropTrigger BREAK_GROWN_CROP = register("break_grown_crop", new BreakGrownCropTrigger());
     public static final ConduitPowerTrigger CONDUIT_POWER = register("conduit_power", new ConduitPowerTrigger());
     public static final ConduitFullPowerTrigger CONDUIT_POWER_FULL = register("conduit_power_full", new ConduitFullPowerTrigger());

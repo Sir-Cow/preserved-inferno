@@ -158,5 +158,7 @@ public class FishingRodItemMixin {
                 }
             }
         }
+
+        player.causeFoodExhaustion(0.2F);
     }
 }

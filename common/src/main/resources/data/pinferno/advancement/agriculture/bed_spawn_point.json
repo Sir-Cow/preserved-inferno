@@ -1,8 +1,15 @@
 {
   "parent": "pinferno:agriculture/obtain_cloth",
   "criteria": {
-    "bed_spawn_point": {
-      "trigger": "pinferno:bed_spawn_point"
+    "bed": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:beds"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "display": {
@@ -13,14 +20,13 @@
       "count": 1,
       "id": "minecraft:red_bed"
     },
-    "show_toast": true,
     "title": {
       "translate": "advancements.pinferno.agriculture.bed_spawn_point.title"
     }
   },
   "requirements": [
     [
-      "bed_spawn_point"
+      "bed"
     ]
   ],
   "sends_telemetry_event": true

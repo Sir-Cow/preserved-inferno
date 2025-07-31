@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -19,20 +20,16 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Drowned;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.item.ModItems;
@@ -42,7 +39,7 @@ import sircow.preservedinferno.trigger.ModTriggers;
 import java.util.*;
 
 public class FabricModEvents {
-    private static final double MONSTER_DETECTION_RADIUS = 32.0;
+    private static final long REGEN_COOLDOWN_MS = 10 * 60 * 1000;
 
     public static void checkInitialAdvancement() {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
@@ -100,29 +97,35 @@ public class FabricModEvents {
         EntitySleepEvents.ALLOW_SLEEPING.register((Player player, BlockPos pos) -> {
             ItemStack mainHandItem = player.getItemInHand(InteractionHand.MAIN_HAND);
             ItemStack offHandItem = player.getItemInHand(InteractionHand.OFF_HAND);
-            boolean holdingDreamcatcherInMainHand = mainHandItem.getItem() == ModItems.DREAMCATCHER;
-            boolean holdingDreamcatcherInOffHand = offHandItem.getItem() == ModItems.DREAMCATCHER;
+            boolean holdingDreamcatcher = mainHandItem.getItem() == ModItems.DREAMCATCHER || offHandItem.getItem() == ModItems.DREAMCATCHER;
 
-            if (holdingDreamcatcherInMainHand || holdingDreamcatcherInOffHand) {
-                if (hasMonsterLineOfSight(player.level(), pos)) {
-                    player.displayClientMessage(Component.translatable("block.minecraft.bed.not_safe"), true);
-                    return Player.BedSleepingProblem.OTHER_PROBLEM;
-                }
-                else {
-                    if (holdingDreamcatcherInMainHand) {
-                        mainHandItem.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
-                    }
-                    else {
-                        offHandItem.hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
-                    }
-                }
+            if (MobLineOfSight.hasMonsterLineOfSight(player.level(), pos)) {
+                player.displayClientMessage(Component.translatable("block.minecraft.bed.not_safe"), true);
+                return Player.BedSleepingProblem.OTHER_PROBLEM;
+            }
+            if (player.level().isMoonVisible() && !holdingDreamcatcher) {
+                player.displayClientMessage(Component.translatable("block.minecraft.bed.no_dreamcatcher"), true);
+                return Player.BedSleepingProblem.OTHER_PROBLEM;
+            }
+            if (player.level().isMoonVisible() && holdingDreamcatcher) {
                 return null;
             }
             else {
-                if (player.level().isMoonVisible()) {
-                    player.displayClientMessage(Component.translatable("block.minecraft.bed.no_dreamcatcher"), true);
-                }
                 return Player.BedSleepingProblem.OTHER_PROBLEM;
+            }
+        });
+
+        EntitySleepEvents.START_SLEEPING.register((entity, sleepingPos) -> {
+            if (entity instanceof Player player) {
+                ItemStack main = player.getMainHandItem();
+                ItemStack off = player.getOffhandItem();
+
+                if (main.is(ModItems.DREAMCATCHER)) {
+                    main.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+                }
+                else if (off.is(ModItems.DREAMCATCHER)) {
+                    off.hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
+                }
             }
         });
 
@@ -134,6 +137,13 @@ public class FabricModEvents {
                         player.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake"), true);
                     }
                 }
+            }
+        });
+
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerPlayer player = handler.player;
+            if (player.getEntityData().get(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN) == 0) {
+                player.getEntityData().set(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN, System.currentTimeMillis() - REGEN_COOLDOWN_MS);
             }
         });
     }
@@ -159,6 +169,16 @@ public class FabricModEvents {
             if (livingEntity instanceof Player player) {
                 TempInventoryStorage.savePlayerInventory(player);
             }
+            // hardcore
+            if (livingEntity instanceof ServerPlayer player) {
+                if (player.level().getLevelData().isHardcore() && player.hasEffect(ModEffects.WELL_RESTED)) {
+                    player.setHealth(1.0F);
+                    player.removeEffect(ModEffects.WELL_RESTED);
+                    player.invulnerableTime = 60;
+                    player.displayClientMessage(Component.translatable("effect.pinferno.well_rested_hardcore"), true);
+                    return false;
+                }
+            }
             return true;
         });
 
@@ -177,7 +197,7 @@ public class FabricModEvents {
             }
 
             // display message if player had well rested effect
-            if (hadWellRestedEffectOnDeath && !Services.PLATFORM.isModLoaded("pblizzard")) {
+            if (hadWellRestedEffectOnDeath && !Services.PLATFORM.isModLoaded("pblizzard") && !oldPlayer.level().getLevelData().isHardcore() && !newPlayer.level().getLevelData().isHardcore()) {
                 Objects.requireNonNull(newPlayer.getServer()).execute(() -> newPlayer.sendSystemMessage(Component.translatable("effect.pinferno.well_rested_consume"), true));
             }
 
@@ -223,35 +243,6 @@ public class FabricModEvents {
         });
     }
 
-    private static boolean hasMonsterLineOfSight(Level level, BlockPos bedPos) {
-        AABB searchBox = new AABB(
-                bedPos.getX() - MONSTER_DETECTION_RADIUS, bedPos.getY() - MONSTER_DETECTION_RADIUS, bedPos.getZ() - MONSTER_DETECTION_RADIUS,
-                bedPos.getX() + MONSTER_DETECTION_RADIUS, bedPos.getY() + MONSTER_DETECTION_RADIUS, bedPos.getZ() + MONSTER_DETECTION_RADIUS
-        );
-        List<LivingEntity> nearbyEntities = level.getEntitiesOfClass(LivingEntity.class, searchBox, (entity) -> entity instanceof Monster);
-        Vec3 bedVec = Vec3.atCenterOf(bedPos).add(0, 0.5, 0);
-
-        for (LivingEntity entity : nearbyEntities) {
-            if (entity instanceof Monster) {
-                Vec3 monsterEyePos = entity.getEyePosition();
-                HitResult hitResult = level.clip(
-                        new ClipContext(
-                                bedVec,
-                                monsterEyePos,
-                                ClipContext.Block.VISUAL,
-                                ClipContext.Fluid.NONE,
-                                entity
-                        )
-                );
-
-                if (hitResult.getType() == HitResult.Type.MISS) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     public static void checkBreakFullyGrownCrop() {
         PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
             if (level.isClientSide()) {
@@ -287,6 +278,30 @@ public class FabricModEvents {
         );
     }
 
+    public static void hardcoreSetup() {
+        ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
+            if (entity instanceof ServerPlayer player) {
+                if (world.getLevelData().isHardcore()) {
+                    AttributeInstance maxHealth = player.getAttribute(Attributes.MAX_HEALTH);
+                    if (maxHealth != null && maxHealth.getBaseValue() != 10.0) {
+                        maxHealth.setBaseValue(10.0);
+                    }
+                }
+            }
+        });
+
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerPlayer player = handler.getPlayer();
+
+            if (!server.isHardcore()) return;
+
+            if (!player.getEntityData().get(ModEntityData.PLAYER_HUNGER_INITIALIZED)) {
+                player.getFoodData().setFoodLevel(10);
+                player.getEntityData().set(ModEntityData.PLAYER_HUNGER_INITIALIZED, true);
+            }
+        });
+    }
+
     public static void registerModEvents() {
         // Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
         checkInitialAdvancement();
@@ -296,5 +311,6 @@ public class FabricModEvents {
         handleBlockPlace();
         checkBreakFullyGrownCrop();
         keyPressForFirstAdvancement();
+        hardcoreSetup();
     }
 }

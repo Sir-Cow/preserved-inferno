@@ -232,30 +232,26 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                 initialMessageDelay--;
                 return;
             }
-            else if (advancementsSynced && client.player != null) {
-                var advancements = client.player.connection.getAdvancements();
-                var rootAdvancementHolder = advancements.get(ResourceLocation.withDefaultNamespace("story/root"));
-                if (rootAdvancementHolder != null) {
-                    var progressMap = ((ClientAdvancementsAccessor) advancements).getProgress();
-                    var rootProgress = progressMap.get(rootAdvancementHolder);
-                    advancementGranted = rootProgress != null && rootProgress.isDone();
-                }
-                else {
-                    advancementGranted = false;
-                }
-                advancementsSynced = false;
+
+            if (client.player == null) {
+                return;
+            }
+
+            var advancements = client.player.connection.getAdvancements();
+            var rootAdvancementHolder = advancements.get(ResourceLocation.withDefaultNamespace("story/root"));
+            if (rootAdvancementHolder != null) {
+                var progressMap = ((ClientAdvancementsAccessor) advancements).getProgress();
+                var rootProgress = progressMap.get(rootAdvancementHolder);
+                advancementGranted = rootProgress != null && rootProgress.isDone();
             }
             else {
-                return;
+                advancementGranted = false;
             }
 
             if (!advancementGranted) {
                 KeyMapping key = Minecraft.getInstance().options.keyAdvancements;
                 Component actionbar = Component.translatable("advancement.pinferno.actionbar.open_advancements", Component.keybind(key.getName()));
                 client.gui.setOverlayMessage(actionbar, false);
-            }
-            else {
-                client.gui.setOverlayMessage(Component.empty(), false);
             }
         });
 

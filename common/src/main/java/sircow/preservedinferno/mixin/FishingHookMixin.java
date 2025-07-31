@@ -236,4 +236,12 @@ public abstract class FishingHookMixin {
             }
         }
     }
+
+    @Inject(method = "retrieve", at = @At(value = "TAIL"))
+    private void preserved_inferno$causeExhaustion(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+        Player owner = this.getPlayerOwner();
+        if (owner != null) {
+            owner.causeFoodExhaustion(0.2F);
+        }
+    }
 }

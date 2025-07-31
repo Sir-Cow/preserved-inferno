@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sircow.preservedinferno.other.ModDamageTypes;
+import sircow.preservedinferno.other.NoLootingPlayerWrapper;
 import sircow.preservedinferno.trigger.ModTriggers;
 
 import java.util.List;
@@ -81,8 +82,9 @@ public class ConduitBlockEntityMixin {
         );
 
         if (!targets.isEmpty()) {
-            Player fakeSource = level.players().isEmpty() ? null : level.players().getFirst();
-            DamageSource source = ModDamageTypes.of(level, ModDamageTypes.CONDUIT, fakeSource);
+            ServerPlayer fakePlayer = level.players().isEmpty() ? null : level.players().getFirst();
+            Player conduitKiller = fakePlayer != null ? new NoLootingPlayerWrapper(fakePlayer) : null;
+            DamageSource source = ModDamageTypes.of(level, ModDamageTypes.CONDUIT, conduitKiller);
 
             for (LivingEntity target : targets) {
                 if (!target.isAlive()) continue;

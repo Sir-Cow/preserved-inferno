@@ -29,7 +29,7 @@ public class ZombifiedPiglinMixin {
     private void preserved_inferno$conditionallyCancelAlertOthers(CallbackInfo ci) {
         ZombifiedPiglin self = (ZombifiedPiglin)(Object)this;
 
-        if (!(self.getTarget() instanceof ServerPlayer player)) return;
+        if (!(self.getTarget() instanceof ServerPlayer player) || player.isSpectator() || player.isCreative()) return;
 
         int heat = ((HeatAccessor) player).preserved_inferno$getHeat();
         double heatRadius = 0.4 * heat;
