@@ -2,16 +2,17 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "minecraft:stick",
+    "#": "minecraft:redstone_torch",
+    "S": "minecraft:stick",
     "X": "minecraft:iron_nugget"
   },
   "pattern": [
-    "X X",
+    "XSX",
     "X#X",
-    "X X"
+    "XSX"
   ],
   "result": {
-    "count": 16,
-    "id": "minecraft:rail"
+    "count": 4,
+    "id": "minecraft:activator_rail"
   }
 }

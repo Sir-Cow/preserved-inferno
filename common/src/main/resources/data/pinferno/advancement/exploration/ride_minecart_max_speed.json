@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:exploration/ride_minecart",
+  "criteria": {
+    "ride_minecart_max_speed": {
+      "trigger": "pinferno:ride_minecart_max_speed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.ride_minecart_max_speed.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:powered_rail"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.ride_minecart_max_speed.title"
+    }
+  },
+  "requirements": [
+    [
+      "ride_minecart_max_speed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

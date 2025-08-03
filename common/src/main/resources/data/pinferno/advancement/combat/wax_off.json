@@ -44,7 +44,11 @@
                   "minecraft:waxed_copper_bulb",
                   "minecraft:waxed_exposed_copper_bulb",
                   "minecraft:waxed_weathered_copper_bulb",
-                  "minecraft:waxed_oxidized_copper_bulb"
+                  "minecraft:waxed_oxidized_copper_bulb",
+                  "pinferno:waxed_inductor_rail",
+                  "pinferno:waxed_exposed_inductor_rail",
+                  "pinferno:waxed_weathered_inductor_rail",
+                  "pinferno:waxed_oxidized_inductor_rail"
                 ]
               }
             }
@@ -58,7 +62,8 @@
                 "minecraft:stone_axe",
                 "minecraft:iron_axe",
                 "minecraft:diamond_axe",
-                "minecraft:netherite_axe"
+                "minecraft:netherite_axe",
+                "pinferno:copper_axe"
               ]
             }
           }

@@ -18,12 +18,8 @@ public class MagmaCubeMixin {
         this.sizeTemp = size;
     }
 
-    @ModifyArg(
-            method = "setSize(IZ)V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;setBaseValue(D)V"),
-            index = 0
-    )
+    @ModifyArg(method = "setSize(IZ)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;setBaseValue(D)V"), index = 0)
     private double preserved_inferno$modifyArmorValue(double baseValue) {
-        return (double)(this.sizeTemp * 15);
+        return this.sizeTemp * 15;
     }
 }

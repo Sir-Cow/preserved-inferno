@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:exploration/ride_minecart_max_speed",
+  "criteria": {
+    "ride_minecart_far": {
+      "trigger": "pinferno:ride_minecart_far"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.ride_minecart_far.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:minecart"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.ride_minecart_far.title"
+    }
+  },
+  "requirements": [
+    [
+      "ride_minecart_far"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

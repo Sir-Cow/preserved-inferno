@@ -13,4 +13,9 @@ public class GameRulesMixin {
     private static boolean preserved_inferno$changeVal(boolean val) {
         return false;
     }
+    // change default max minecart speed
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=minecartMaxSpeed")), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules$IntegerValue;create(IIILnet/minecraft/world/flag/FeatureFlagSet;Ljava/util/function/BiConsumer;)Lnet/minecraft/world/level/GameRules$Type;", ordinal = 0), index = 0)
+    private static int preserved_inferno$changeVal2(int defaultValue) {
+        return 64;
+    }
 }

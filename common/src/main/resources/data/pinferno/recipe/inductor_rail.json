@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": "minecraft:stick",
-    "X": "minecraft:copper_ingot"
+    "X": "pinferno:copper_nugget"
   },
   "pattern": [
     "X X",
@@ -11,7 +11,7 @@
     "X X"
   ],
   "result": {
-    "count": 6,
+    "count": 4,
     "id": "pinferno:inductor_rail"
   }
 }

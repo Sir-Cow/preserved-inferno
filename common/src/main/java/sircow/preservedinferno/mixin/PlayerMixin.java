@@ -19,6 +19,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.BlocksAttacks;
@@ -59,6 +60,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
     @Unique private int heatIncreaseTickCounter = 0;
     @Unique private int heatDecreaseTickCounter = 0;
     @Unique private int heatDamageTickCounter = 0;
+    @Unique private Vec3 rideStartPos = null;
     @Unique private static final int INCREASE_CAP = 96;
     @Unique private static final int DECREASE_CAP = 80;
     @Unique private static final int IN_WATER_CAP_REDUCTION = 10;
@@ -220,6 +222,39 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
             if (preserved_inferno$canDoHeatChange()) {
                 preserved_inferno$doHeatChange();
             }
+        }
+
+        // minecart advancements
+        if (this.getVehicle() instanceof AbstractMinecart minecart) {
+            Vec3 currentPos = minecart.position();
+
+            if (rideStartPos == null) {
+                rideStartPos = currentPos;
+                return;
+            }
+
+            double dx = currentPos.x - rideStartPos.x;
+            double dz = currentPos.z - rideStartPos.z;
+            double displacement = Math.sqrt(dx * dx + dz * dz);
+
+            if (displacement >= 1000) {
+                if ((Player)(Object)this instanceof ServerPlayer serverPlayer) {
+                    ModTriggers.RIDE_MINECART_FAR.trigger(serverPlayer);
+                }
+            }
+            if (displacement >= 50) {
+                if ((Player)(Object)this instanceof ServerPlayer serverPlayer) {
+                    ModTriggers.RIDE_MINECART.trigger(serverPlayer);
+                }
+            }
+            if (minecart.getDeltaMovement().horizontalDistance() >= 3.2) {
+                if ((Player)(Object)this instanceof ServerPlayer serverPlayer) {
+                    ModTriggers.RIDE_MINECART_MAX_SPEED.trigger(serverPlayer);
+                }
+            }
+        }
+        else {
+            rideStartPos = null;
         }
     }
 

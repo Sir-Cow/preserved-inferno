@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -15,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -26,6 +28,7 @@ import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -302,6 +305,22 @@ public class FabricModEvents {
         });
     }
 
+    public static void enableMinecartExperiment() {
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            ServerLevel overworld = server.overworld();
+            PackRepository registries = server.getPackRepository();
+
+            if (overworld.getGameRules().getRule(GameRules.RULE_MINECART_MAX_SPEED).get() != 64) {
+                overworld.getGameRules().getRule(GameRules.RULE_MINECART_MAX_SPEED).set(64, server);
+            }
+
+            boolean isEnabled = registries.getSelectedPacks().stream().anyMatch(pack -> pack.getId().equals("minecart_improvements"));
+            if (!isEnabled) {
+                registries.addPack("minecart_improvements");
+            }
+        });
+    }
+
     public static void registerModEvents() {
         // Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
         checkInitialAdvancement();
@@ -312,5 +331,6 @@ public class FabricModEvents {
         checkBreakFullyGrownCrop();
         keyPressForFirstAdvancement();
         hardcoreSetup();
+        enableMinecartExperiment();
     }
 }

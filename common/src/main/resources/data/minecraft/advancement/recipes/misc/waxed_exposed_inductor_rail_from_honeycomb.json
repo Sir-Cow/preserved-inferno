@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_inductor_rail": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:inductor_rail"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "pinferno:waxed_exposed_inductor_rail_from_honeycomb"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_inductor_rail"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "pinferno:waxed_exposed_inductor_rail_from_honeycomb"
+    ]
+  }
+}

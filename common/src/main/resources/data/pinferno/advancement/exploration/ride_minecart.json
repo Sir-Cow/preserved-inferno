@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:exploration/smelt_iron",
+  "criteria": {
+    "ride_minecart": {
+      "trigger": "pinferno:ride_minecart"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.ride_minecart.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:rail"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.ride_minecart.title"
+    }
+  },
+  "requirements": [
+    [
+      "ride_minecart"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

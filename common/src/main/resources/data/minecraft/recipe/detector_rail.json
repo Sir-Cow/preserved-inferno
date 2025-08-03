@@ -2,9 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "minecraft:stick",
+    "#": "minecraft:stone_pressure_plate",
     "R": "minecraft:redstone",
-    "X": "minecraft:gold_nugget"
+    "X": "minecraft:iron_nugget"
   },
   "pattern": [
     "X X",
@@ -13,6 +13,6 @@
   ],
   "result": {
     "count": 4,
-    "id": "minecraft:powered_rail"
+    "id": "minecraft:detector_rail"
   }
 }
