@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.minecraft.ChatFormatting;
@@ -67,6 +68,8 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
 
     private void registerEntities() {
         EntityRendererRegistry.register(ModEntities.FLARE_GUN_PROJECTILE, (ThrownItemRenderer::new));
+        EntityRendererRegistry.register(ModEntities.COPPER_TRIDENT, (ThrownCopperTridentRenderer::new));
+        EntityModelLayerRegistry.registerModelLayer(ThrownCopperTridentRenderer.COPPER_TRIDENT, CopperTridentModel::createLayer);
     }
 
     private void configureRailRenderLayers() {

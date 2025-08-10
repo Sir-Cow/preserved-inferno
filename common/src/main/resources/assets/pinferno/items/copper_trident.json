@@ -1,0 +1,37 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "pinferno:item/copper_trident"
+        },
+        "when": [
+          "gui",
+          "ground",
+          "fixed"
+        ]
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:condition",
+      "on_false": {
+        "type": "minecraft:special",
+        "base": "minecraft:item/trident_in_hand",
+        "model": {
+          "type": "pinferno:copper_trident"
+        }
+      },
+      "on_true": {
+        "type": "minecraft:special",
+        "base": "minecraft:item/trident_throwing",
+        "model": {
+          "type": "pinferno:copper_trident"
+        }
+      },
+      "property": "minecraft:using_item"
+    },
+    "property": "minecraft:display_context"
+  }
+}

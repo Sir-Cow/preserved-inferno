@@ -3,7 +3,6 @@ package sircow.preservedinferno.other;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
@@ -22,12 +21,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -152,15 +148,6 @@ public class FabricModEvents {
     }
 
     public static void handleEntityDeath() {
-        ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
-            // prevent drowned dropping trident
-            if (entity instanceof Drowned drowned) {
-                if (drowned.getMainHandItem().is(Items.TRIDENT)) {
-                    drowned.setDropChance(EquipmentSlot.MAINHAND, 0.0f);
-                }
-            }
-        });
-
         ServerLivingEntityEvents.AFTER_DEATH.register((livingEntity, damageSource) -> {
             // reset shield cooldown
             if (livingEntity instanceof Player player) {
@@ -282,17 +269,6 @@ public class FabricModEvents {
     }
 
     public static void hardcoreSetup() {
-        ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
-            if (entity instanceof ServerPlayer player) {
-                if (world.getLevelData().isHardcore()) {
-                    AttributeInstance maxHealth = player.getAttribute(Attributes.MAX_HEALTH);
-                    if (maxHealth != null && maxHealth.getBaseValue() != 10.0) {
-                        maxHealth.setBaseValue(10.0);
-                    }
-                }
-            }
-        });
-
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.getPlayer();
 
@@ -300,7 +276,15 @@ public class FabricModEvents {
 
             if (!player.getEntityData().get(ModEntityData.PLAYER_HUNGER_INITIALIZED)) {
                 player.getFoodData().setFoodLevel(10);
+                player.setHealth(10.0F);
                 player.getEntityData().set(ModEntityData.PLAYER_HUNGER_INITIALIZED, true);
+            }
+            // patch max health for existing hardcore worlds
+            if (player.getEntityData().get(ModEntityData.RESET_HARDCORE_HEALTH)) {
+                if (Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).getBaseValue() != 20.0) {
+                    Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(20.0);
+                }
+                player.getEntityData().set(ModEntityData.RESET_HARDCORE_HEALTH, false);
             }
         });
     }
@@ -310,8 +294,8 @@ public class FabricModEvents {
             ServerLevel overworld = server.overworld();
             PackRepository registries = server.getPackRepository();
 
-            if (overworld.getGameRules().getRule(GameRules.RULE_MINECART_MAX_SPEED).get() != 64) {
-                overworld.getGameRules().getRule(GameRules.RULE_MINECART_MAX_SPEED).set(64, server);
+            if (overworld.getGameRules().getRule(GameRules.RULE_MINECART_MAX_SPEED).get() != 32) {
+                overworld.getGameRules().getRule(GameRules.RULE_MINECART_MAX_SPEED).set(32, server);
             }
 
             boolean isEnabled = registries.getSelectedPacks().stream().anyMatch(pack -> pack.getId().equals("minecart_improvements"));

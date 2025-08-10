@@ -25,23 +25,23 @@ public abstract class NewMinecartBehaviorMixin {
 
         if (state.is(ModBlocks.OXIDIZED_INDUCTOR_RAIL) || state.is(ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL)) {
             boost = 0.06;
-            maxSpeed = 0.4;
+            maxSpeed = 0.2;
         }
         else if (state.is(ModBlocks.WEATHERED_INDUCTOR_RAIL) || state.is(ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL)) {
             boost = 0.12;
-            maxSpeed = 0.8;
+            maxSpeed = 0.4;
         }
         else if (state.is(ModBlocks.EXPOSED_INDUCTOR_RAIL) || state.is(ModBlocks.WAXED_EXPOSED_INDUCTOR_RAIL)) {
             boost = 0.18;
-            maxSpeed = 1.2;
+            maxSpeed = 0.6;
         }
         else if (state.is(ModBlocks.INDUCTOR_RAIL) || state.is(ModBlocks.WAXED_INDUCTOR_RAIL)) {
             boost = 0.24;
-            maxSpeed = 1.6;
+            maxSpeed = 0.8;
         }
         else if (state.is(Blocks.POWERED_RAIL) && state.getValue(PoweredRailBlock.POWERED)) {
             boost = 0.03;
-            maxSpeed = 3.2;
+            maxSpeed = 1.6;
         }
         else {
             return;

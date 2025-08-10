@@ -54,6 +54,7 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.COPPER_CHESTPLATE);
                     entries.accept(ModItems.COPPER_LEGGINGS);
                     entries.accept(ModItems.COPPER_BOOTS);
+                    entries.accept(ModItems.COPPER_TRIDENT);
 
                     entries.accept(ModItems.BLACK_CLOTH);
                     entries.accept(ModItems.BLUE_CLOTH);

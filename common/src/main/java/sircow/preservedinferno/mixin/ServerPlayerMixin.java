@@ -83,7 +83,7 @@ public abstract class ServerPlayerMixin extends Player {
     private void preserved_inferno$modifyJumpExhaustionHardcore(CallbackInfo ci) {
         ServerPlayer self = (ServerPlayer)(Object)this;
         if (self.level().getServer().isHardcore()) {
-            this.causeFoodExhaustion(0.005F);
+            this.causeFoodExhaustion(0.01F);
         }
         else {
             // do nothing
@@ -93,7 +93,7 @@ public abstract class ServerPlayerMixin extends Player {
     @Redirect(method = "checkMovementStatistics", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;causeFoodExhaustion(F)V"))
     private void preserved_inferno$modifyWalkExhaustionHardcore(ServerPlayer player, float originalExhaustion) {
         if (player.onGround() && player.level().getLevelData().isHardcore()) {
-            this.causeFoodExhaustion(0.005F);
+            this.causeFoodExhaustion(0.01F);
         }
         else {
             this.causeFoodExhaustion(originalExhaustion);

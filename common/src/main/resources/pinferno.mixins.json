@@ -32,7 +32,9 @@
     "CowMixin",
     "CrossbowMixin",
     "DoorBlockMixin",
+    "DrownedAttackGoalMixin",
     "DrownedMixin",
+    "DrownedTridentAttackGoalAccessor",
     "ElderGuardianMixin",
     "EnderDragonMixin",
     "EndermanMixin",
@@ -103,7 +105,9 @@
     "ClientAdvancementsAccessor",
     "EntityRenderDispatcherMixin",
     "GuiMixin",
-    "ItemInHandRendererMixin"
+    "ItemInHandRendererMixin",
+    "SpecialModelRenderersAccessor",
+    "SpecialModelRenderersMixin"
   ],
   "server": [],
   "injectors": {

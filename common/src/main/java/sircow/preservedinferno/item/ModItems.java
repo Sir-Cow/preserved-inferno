@@ -15,10 +15,12 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorType;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.item.custom.CopperTridentItem;
 import sircow.preservedinferno.item.custom.PreservedFlareGunItem;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
 import sircow.preservedinferno.other.ModTags;
@@ -77,6 +79,18 @@ public class ModItems {
     public static final Item COPPER_CHESTPLATE = registerItem("copper_chestplate", Item::new, new Item.Properties().humanoidArmor(ModArmourMaterials.COPPER, ArmorType.CHESTPLATE));
     public static final Item COPPER_LEGGINGS = registerItem("copper_leggings", Item::new, new Item.Properties().humanoidArmor(ModArmourMaterials.COPPER, ArmorType.LEGGINGS));
     public static final Item COPPER_BOOTS = registerItem("copper_boots", Item::new, new Item.Properties().humanoidArmor(ModArmourMaterials.COPPER, ArmorType.BOOTS));
+    public static final Item COPPER_TRIDENT = registerItem(
+            "copper_trident",
+            CopperTridentItem::new,
+            new Item.Properties()
+                    .rarity(Rarity.UNCOMMON)
+                    .durability(512)
+                    .attributes(CopperTridentItem.createAttributes())
+                    .component(DataComponents.TOOL, CopperTridentItem.createToolProperties())
+                    .enchantable(1)
+                    .component(DataComponents.WEAPON, new Weapon(1))
+                    .repairable(ModTags.COPPER_TOOL_MATERIALS)
+    );
 
     public static final Item BLACK_CLOTH = registerItem("black_cloth", Item::new, new Item.Properties());
     public static final Item BLUE_CLOTH = registerItem("blue_cloth", Item::new, new Item.Properties());

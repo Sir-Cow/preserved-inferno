@@ -307,6 +307,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         builder.define(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE, false);
         builder.define(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN, 0L);
         builder.define(ModEntityData.PLAYER_HUNGER_INITIALIZED, false);
+        builder.define(ModEntityData.RESET_HARDCORE_HEALTH, true);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
@@ -316,6 +317,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         this.entityData.set(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE, input.getBooleanOr("preserved_inferno$canDoHeatChange", false));
         this.entityData.set(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN, input.getLongOr("preserved_inferno$hardcoreRegenCooldown", 0L));
         this.entityData.set(ModEntityData.PLAYER_HUNGER_INITIALIZED, input.getBooleanOr("preserved_inferno$hungerInitialized", false));
+        this.entityData.set(ModEntityData.RESET_HARDCORE_HEALTH, input.getBooleanOr("preserved_inferno$resetHardcoreHealthOnJoin", true));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
@@ -325,6 +327,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         output.putBoolean("preserved_inferno$canDoHeatChange", this.entityData.get(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE));
         output.putLong("preserved_inferno$hardcoreRegenCooldown", this.entityData.get(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN));
         output.putBoolean("preserved_inferno$hungerInitialized", this.entityData.get(ModEntityData.PLAYER_HUNGER_INITIALIZED));
+        output.putBoolean("preserved_inferno$resetHardcoreHealthOnJoin", this.entityData.get(ModEntityData.RESET_HARDCORE_HEALTH));
     }
 
     @Unique public int preserved_inferno$getHeat() {
