@@ -3,8 +3,10 @@
   "values": [
     "minecraft:beetroots",
     "minecraft:carrots",
+    "minecraft:melon_stem",
     "minecraft:nether_wart",
     "minecraft:potatoes",
+    "minecraft:pumpkin_stem",
     "minecraft:sugar_cane",
     "minecraft:wheat"
   ]

@@ -13,7 +13,8 @@
     "CraftingTableBlockMixin",
     "EnchantingTableBlockMixin",
     "LoomBlockMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "VillagerMixin"
   ],
   "client": [
     "ClientAdvancementsMixin",

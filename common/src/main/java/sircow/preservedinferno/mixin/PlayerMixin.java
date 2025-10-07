@@ -237,7 +237,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
             double dz = currentPos.z - rideStartPos.z;
             double displacement = Math.sqrt(dx * dx + dz * dz);
 
-            if (displacement >= 1000) {
+            if (displacement >= 500) {
                 if ((Player)(Object)this instanceof ServerPlayer serverPlayer) {
                     ModTriggers.RIDE_MINECART_FAR.trigger(serverPlayer);
                 }

@@ -1,0 +1,26 @@
+{
+  "parent": "pinferno:exploration/consume_golden_apple",
+  "criteria": {
+    "cured_zombie": {
+      "trigger": "minecraft:cured_zombie_villager"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.story.cure_zombie_villager.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:zombie_villager_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.story.cure_zombie_villager.title"
+    }
+  },
+  "requirements": [
+    [
+      "cured_zombie"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

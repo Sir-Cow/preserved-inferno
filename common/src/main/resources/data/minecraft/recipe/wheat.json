@@ -1,12 +1,11 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "group": "melon_slice",
   "ingredients": [
-    "minecraft:melon"
+    "minecraft:hay_block"
   ],
   "result": {
     "count": 4,
-    "id": "minecraft:melon_slice"
+    "id": "minecraft:wheat"
   }
 }

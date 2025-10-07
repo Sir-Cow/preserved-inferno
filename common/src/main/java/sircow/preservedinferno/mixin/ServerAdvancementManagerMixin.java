@@ -45,6 +45,7 @@ public class ServerAdvancementManagerMixin {
                 ResourceLocation.withDefaultNamespace("adventure/spyglass_at_parrot"),
                 ResourceLocation.withDefaultNamespace("adventure/summon_iron_golem"),
                 ResourceLocation.withDefaultNamespace("adventure/throw_trident"),
+                ResourceLocation.withDefaultNamespace("adventure/trade"),
                 ResourceLocation.withDefaultNamespace("adventure/trim_with_all_exclusive_armor_patterns"),
                 ResourceLocation.withDefaultNamespace("adventure/trim_with_any_armor_pattern"),
                 ResourceLocation.withDefaultNamespace("adventure/two_birds_one_arrow"),
@@ -84,6 +85,7 @@ public class ServerAdvancementManagerMixin {
 
                 ResourceLocation.withDefaultNamespace("nether/root"),
 
+                ResourceLocation.withDefaultNamespace("story/cure_zombie_villager"),
                 ResourceLocation.withDefaultNamespace("story/deflect_arrow"),
                 ResourceLocation.withDefaultNamespace("story/enter_the_nether"),
                 ResourceLocation.withDefaultNamespace("story/enter_the_end"),
@@ -106,7 +108,6 @@ public class ServerAdvancementManagerMixin {
                 ResourceLocation.withDefaultNamespace("adventure/play_jukebox_in_meadows"),
                 ResourceLocation.withDefaultNamespace("adventure/sniper_duel"),
                 ResourceLocation.withDefaultNamespace("adventure/totem_of_undying"),
-                ResourceLocation.withDefaultNamespace("adventure/trade"),
                 ResourceLocation.withDefaultNamespace("adventure/trade_at_world_height"),
                 ResourceLocation.withDefaultNamespace("adventure/very_very_frightening"),
 
@@ -120,7 +121,6 @@ public class ServerAdvancementManagerMixin {
                 ResourceLocation.withDefaultNamespace("nether/ride_strider"),
                 ResourceLocation.withDefaultNamespace("nether/ride_strider_in_overworld_lava"),
 
-                ResourceLocation.withDefaultNamespace("story/cure_zombie_villager"),
                 ResourceLocation.withDefaultNamespace("story/enchant_item"),
                 ResourceLocation.withDefaultNamespace("story/form_obsidian"),
                 ResourceLocation.withDefaultNamespace("story/lava_bucket")

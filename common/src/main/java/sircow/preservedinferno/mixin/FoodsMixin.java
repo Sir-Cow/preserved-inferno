@@ -52,27 +52,27 @@ public class FoodsMixin {
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void preserved_inferno$modifyFood(CallbackInfo ci) {
-        APPLE = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
+        APPLE = new FoodProperties.Builder().nutrition(3).saturationModifier(0.6F).build();
         BAKED_POTATO = new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build();
         BEETROOT = new FoodProperties.Builder().nutrition(2).saturationModifier(0.6F).build();
         BEETROOT_SOUP = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0F).build();
         BREAD = new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build();
-        CARROT = new FoodProperties.Builder().nutrition(3).saturationModifier(0.6F).build();
+        CARROT = new FoodProperties.Builder().nutrition(2).saturationModifier(0.6F).build();
         CHORUS_FRUIT = new FoodProperties.Builder().nutrition(2).saturationModifier(0.6F).alwaysEdible().build();
-        COOKED_CHICKEN = new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build();
-        COOKED_COD = new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build();
-        COOKED_MUTTON = new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build();
-        COOKED_PORKCHOP = new FoodProperties.Builder().nutrition(6).saturationModifier(0.7F).build();
-        COOKED_RABBIT = new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build();
-        COOKED_SALMON = new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build();
+        COOKED_CHICKEN = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
+        COOKED_COD = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
+        COOKED_MUTTON = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
+        COOKED_PORKCHOP = new FoodProperties.Builder().nutrition(4).saturationModifier(0.7F).build();
+        COOKED_RABBIT = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
+        COOKED_SALMON = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
         COOKIE = new FoodProperties.Builder().nutrition(2).saturationModifier(0.1F).build();
         DRIED_KELP = new FoodProperties.Builder().nutrition(1).saturationModifier(0.2F).build();
         ENCHANTED_GOLDEN_APPLE = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0F).alwaysEdible().build();
         GOLDEN_APPLE = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0F).alwaysEdible().build();
-        GLOW_BERRIES = new FoodProperties.Builder().nutrition(4).saturationModifier(0.3F).build();
+        GLOW_BERRIES = new FoodProperties.Builder().nutrition(3).saturationModifier(0.3F).build();
         GOLDEN_CARROT = new FoodProperties.Builder().nutrition(6).saturationModifier(3.0F).build();
         HONEY_BOTTLE = new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build();
-        MELON_SLICE = new FoodProperties.Builder().nutrition(4).saturationModifier(0.2F).build();
+        MELON_SLICE = new FoodProperties.Builder().nutrition(3).saturationModifier(0.2F).build();
         MUSHROOM_STEW = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0F).build();
         POISONOUS_POTATO = new FoodProperties.Builder().nutrition(2).saturationModifier(0.0F).build();
         POTATO = new FoodProperties.Builder().nutrition(2).saturationModifier(0.6F).build();
@@ -86,11 +86,11 @@ public class FoodsMixin {
         PORKCHOP = new FoodProperties.Builder().nutrition(2).saturationModifier(0.4F).build();
         RABBIT = new FoodProperties.Builder().nutrition(2).saturationModifier(0.2F).build();
         SALMON = new FoodProperties.Builder().nutrition(2).saturationModifier(0.2F).build();
-        ROTTEN_FLESH = new FoodProperties.Builder().nutrition(4).saturationModifier(0.0F).build();
+        ROTTEN_FLESH = new FoodProperties.Builder().nutrition(2).saturationModifier(0.0F).build();
         SPIDER_EYE = new FoodProperties.Builder().nutrition(2).saturationModifier(0.0F).build();
-        COOKED_BEEF = new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build();
+        COOKED_BEEF = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
         SUSPICIOUS_STEW = new FoodProperties.Builder().nutrition(8).saturationModifier(1.4F).alwaysEdible().build();
-        SWEET_BERRIES = new FoodProperties.Builder().nutrition(4).saturationModifier(0.3F).build();
+        SWEET_BERRIES = new FoodProperties.Builder().nutrition(3).saturationModifier(0.3F).build();
         TROPICAL_FISH = new FoodProperties.Builder().nutrition(2).saturationModifier(0.2F).build();
     }
 }
