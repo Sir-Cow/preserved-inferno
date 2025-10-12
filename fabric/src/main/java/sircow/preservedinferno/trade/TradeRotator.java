@@ -11,12 +11,12 @@ import net.minecraft.tags.StructureTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.component.InstrumentComponent;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -25,10 +25,13 @@ import sircow.preservedinferno.block.ModBlocks;
 import sircow.preservedinferno.item.FabricModItems;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.other.ModTags;
+import sircow.preservedinferno.screen.PreservedEnchantmentMenu;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
+
+import static sircow.preservedinferno.screen.PreservedEnchantmentMenu.ENCHANTMENT_DATA;
 
 public class TradeRotator {
     private static final Map<ResourceKey<VillagerProfession>, Map<Integer, List<Function<Villager, MerchantOffer>>>> TRADE_POOLS = new HashMap<>();
@@ -47,13 +50,13 @@ public class TradeRotator {
     static {
         // ===== ARMORER =====
         register(VillagerProfession.ARMORER, 1, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.COAL, 20), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.RAW_COPPER, 24), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.COAL, 8), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.RAW_COPPER, 8), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
         ));
         register(VillagerProfession.ARMORER, 2, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.CHAINMAIL_HELMET, 1), 1, 5, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 2), new ItemStack(Items.CHAINMAIL_CHESTPLATE, 1), 1, 5, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 2), new ItemStack(Items.CHAINMAIL_LEGGINGS, 1), 1, 5, 1.0F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.CHAINMAIL_CHESTPLATE, 1), 1, 5, 1.0F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.CHAINMAIL_LEGGINGS, 1), 1, 5, 1.0F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.CHAINMAIL_BOOTS, 1), 1, 5, 1.0F)
         ));
         register(VillagerProfession.ARMORER, 3, List.of(
@@ -61,7 +64,7 @@ public class TradeRotator {
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 5), new ItemStack(ModItems.IRON_SHIELD, 1), 2, 10, 1.0F)
         ));
         register(VillagerProfession.ARMORER, 4, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.ARMADILLO_SCUTE, 18), new ItemStack(Items.EMERALD, 1), 1, 20, 1.0F),
+                villager -> new MerchantOffer(new ItemCost(Items.ARMADILLO_SCUTE, 12), new ItemStack(Items.EMERALD, 1), 1, 20, 1.0F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD_BLOCK, 21), new ItemStack(ModItems.DIAMOND_SHIELD, 1), 1, 20, 1.0F)
         ));
         register(VillagerProfession.ARMORER, 5, List.of(
@@ -73,14 +76,14 @@ public class TradeRotator {
 
         // ===== BUTCHER =====
         register(VillagerProfession.BUTCHER, 1, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.CHICKEN, 22), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.PORKCHOP, 22), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.CHICKEN, 12), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.PORKCHOP, 12), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
         ));
         register(VillagerProfession.BUTCHER, 2, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.COOKED_PORKCHOP, 8), 1, 5, 1.0F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.COOKED_CHICKEN, 8), 2, 5, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.BEEF, 22), new ItemStack(Items.EMERALD, 1), 1, 5, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.MUTTON, 22), new ItemStack(Items.EMERALD, 1), 1, 5, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.BEEF, 12), new ItemStack(Items.EMERALD, 1), 1, 5, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.MUTTON, 12), new ItemStack(Items.EMERALD, 1), 1, 5, 1.2F)
         ));
         register(VillagerProfession.BUTCHER, 3, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.APPLE, 8), new ItemStack(Items.EMERALD, 1), 2, 10, 1.2F),
@@ -88,17 +91,17 @@ public class TradeRotator {
         ));
         register(VillagerProfession.BUTCHER, 4, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.RABBIT, 5), new ItemStack(Items.EMERALD, 1), 2, 20, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.DRIED_KELP_BLOCK, 24), new ItemStack(Items.EMERALD, 1), 1, 20, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.DRIED_KELP_BLOCK, 16), new ItemStack(Items.EMERALD, 1), 1, 20, 1.2F)
         ));
         register(VillagerProfession.BUTCHER, 5, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.SWEET_BERRIES, 42), new ItemStack(Items.EMERALD, 1), 1, 50, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.SWEET_BERRIES, 24), new ItemStack(Items.EMERALD, 1), 1, 50, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 2), new ItemStack(Items.GOLDEN_APPLE, 1), 1, 50, 1.0F)
         ));
 
         // ===== CARTOGRAPHER =====
         register(VillagerProfession.CARTOGRAPHER, 1, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.PAPER, 36), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.GLASS, 40), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.GLASS, 24), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
         ));
         register(VillagerProfession.CARTOGRAPHER, 2, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.ITEM_FRAME, 6), new ItemStack(Items.EMERALD, 1), 2, 5, 1.2F),
@@ -119,42 +122,42 @@ public class TradeRotator {
 
         // ===== CLERIC =====
         register(VillagerProfession.CLERIC, 1, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.ROTTEN_FLESH, 50), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.ROTTEN_FLESH, 48), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.GOLD_INGOT, 4), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
         ));
         register(VillagerProfession.CLERIC, 2, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.REDSTONE, 28), new ItemStack(Items.EMERALD, 1), 2, 5, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.REDSTONE, 24), new ItemStack(Items.EMERALD, 1), 2, 5, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.RABBIT_FOOT, 2), new ItemStack(Items.EMERALD, 1), 2, 5, 1.0F)
         ));
         register(VillagerProfession.CLERIC, 3, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.GLOWSTONE, 1), 2, 10, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 6), new ItemStack(Items.TURTLE_SCUTE, 1), 1, 10, 1.0F)
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), new ItemStack(Items.TURTLE_SCUTE, 1), 1, 10, 1.0F)
         ));
         register(VillagerProfession.CLERIC, 4, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.NETHER_WART, 35), new ItemStack(Items.EMERALD, 1), 2, 20, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 3), new ItemStack(Items.ENDER_PEARL, 1), 2, 20, 1.0F)
+                villager -> new MerchantOffer(new ItemCost(Items.NETHER_WART, 24), new ItemStack(Items.EMERALD, 1), 2, 20, 1.0F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), new ItemStack(Items.ENDER_PEARL, 1), 2, 20, 1.0F)
         ));
         register(VillagerProfession.CLERIC, 5, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.SCULK, 22), new ItemStack(Items.EMERALD, 1), 1, 50, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 23), new ItemStack(Items.LAPIS_LAZULI, 1), 1, 50, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.SCULK, 16), new ItemStack(Items.EMERALD, 1), 1, 50, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 24), new ItemStack(Items.LAPIS_LAZULI, 1), 1, 50, 1.2F)
         ));
 
         // ===== FARMER =====
         register(VillagerProfession.FARMER, 1, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.WHEAT, 26), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.BEETROOT, 22), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.POTATO, 46), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.CARROT, 50), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.WHEAT, 24), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.BEETROOT, 24), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.POTATO, 32), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.CARROT, 32), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
         ));
         register(VillagerProfession.FARMER, 2, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.BREAD, 12), 2, 5, 1.0F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.PUMPKIN_PIE, 6), 2, 5, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.RED_MUSHROOM, 13), new ItemStack(Items.EMERALD, 1), 1, 5, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.BROWN_MUSHROOM, 13), new ItemStack(Items.EMERALD, 1), 1, 5, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.RED_MUSHROOM, 8), new ItemStack(Items.EMERALD, 1), 1, 5, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.BROWN_MUSHROOM, 8), new ItemStack(Items.EMERALD, 1), 1, 5, 1.2F)
         ));
         register(VillagerProfession.FARMER, 3, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.PUMPKIN, 30), new ItemStack(Items.EMERALD, 1), 2, 10, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.MELON, 28), new ItemStack(Items.EMERALD, 1), 2, 10, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.PUMPKIN, 24), new ItemStack(Items.EMERALD, 1), 2, 10, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.MELON, 24), new ItemStack(Items.EMERALD, 1), 2, 10, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.APPLE, 6), 1, 10, 1.0F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), enchantedIronHoe, 1, 10, 1.0F)
         ));
@@ -169,50 +172,50 @@ public class TradeRotator {
 
         // ===== FISHERMAN =====
         register(VillagerProfession.FISHERMAN, 1, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.STRING, 21), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.CLAY, 20), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.STRING, 16), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.CLAY, 16), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
         ));
         register(VillagerProfession.FISHERMAN, 2, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.COD, 16), new ItemStack(Items.EMERALD, 1), 2, 5, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.SALMON, 14), new ItemStack(Items.EMERALD, 1), 2, 5, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.SALMON, 16), new ItemStack(Items.EMERALD, 1), 2, 5, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.COOKED_COD, 10), 1, 5, 1.0F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.COOKED_SALMON, 10), 1, 5, 1.0F)
         ));
         register(VillagerProfession.FISHERMAN, 3, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.FISHING_ROD, 1), 1, 10, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 12), new ItemStack(ModItems.IRON_FISHING_HOOK, 1), 1, 10, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 12), new ItemStack(ModItems.IRON_LACED_FISHING_LINE, 1), 1, 10, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 12), new ItemStack(ModItems.IRON_SINKER, 1), 1, 10, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), new ItemStack(ModItems.IRON_FISHING_HOOK, 1), 1, 10, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), new ItemStack(ModItems.IRON_LACED_FISHING_LINE, 1), 1, 10, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), new ItemStack(ModItems.IRON_SINKER, 1), 1, 10, 1.2F)
         ));
         register(VillagerProfession.FISHERMAN, 4, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.PUFFERFISH, 10), new ItemStack(Items.EMERALD, 1), 2, 20, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.PUFFERFISH, 8), new ItemStack(Items.EMERALD, 1), 2, 20, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 4), waterBreatherPot, 1, 20, 1.0F)
         ));
         register(VillagerProfession.FISHERMAN, 5, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 22), new ItemStack(ModItems.AQUATIC_FIBER, 1), 1, 50, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 24), new ItemStack(ModItems.AQUATIC_FIBER, 1), 1, 50, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 64), new ItemStack(FabricModItems.CACHE, 1), 1, 50, 1.0F)
         ));
 
         // ===== FLETCHER =====
         register(VillagerProfession.FLETCHER, 1, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.GRAVEL, 50), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.GRAVEL, 40), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.FEATHER, 8), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
         ));
         register(VillagerProfession.FLETCHER, 2, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.FLINT, 14), new ItemStack(Items.EMERALD, 1), 2, 5, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.STRING, 21), new ItemStack(Items.EMERALD, 1), 2, 5, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.FLINT, 8), new ItemStack(Items.EMERALD, 1), 2, 5, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.STRING, 16), new ItemStack(Items.EMERALD, 1), 2, 5, 1.2F)
         ));
         register(VillagerProfession.FLETCHER, 3, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 3), new ItemStack(Items.CROSSBOW, 1), 1, 10, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 3), new ItemStack(Items.BOW, 1), 1, 10, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.CROSSBOW, 1), 1, 10, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.BOW, 1), 1, 10, 1.2F)
         ));
         register(VillagerProfession.FLETCHER, 4, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.TRIPWIRE_HOOK, 16), new ItemStack(Items.EMERALD, 1), 2, 20, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.TRIPWIRE_HOOK, 8), new ItemStack(Items.EMERALD, 1), 2, 20, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), enchantedCrossbow, 1, 20, 1.2F)
         ));
         register(VillagerProfession.FLETCHER, 5, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 6), tippedArrowRandom, 2, 50, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 12), enchantedBow, 1, 50, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), enchantedBow, 1, 50, 1.2F)
         ));
 
         // ===== LEATHERWORKER =====
@@ -232,39 +235,56 @@ public class TradeRotator {
         ));
         register(VillagerProfession.LEATHERWORKER, 4, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.LEATHER_HORSE_ARMOR, 1), 1, 20, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(ModItems.LEATHER_FABRIC, 4), 2, 20, 1.0F)
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(ModItems.LEATHER_FABRIC, 8), 2, 20, 1.0F)
         ));
         register(VillagerProfession.LEATHERWORKER, 5, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.ITEM_FRAME, 8), 2, 50, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 4), new ItemStack(Items.SADDLE, 1), 1, 50, 1.0F)
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.SADDLE, 1), 1, 50, 1.0F)
         ));
 
         // ===== LIBRARIAN (includes a two-cost example) =====
         register(VillagerProfession.LIBRARIAN, 1, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.PAPER, 36), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.PAPER, 32), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.BOOK, 8), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
         ));
         register(VillagerProfession.LIBRARIAN, 2, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 3), new ItemStack(Items.BOOKSHELF, 1), 2, 5, 1.0F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 2), new ItemStack(Items.BOOKSHELF, 1), 2, 5, 1.0F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.GLASS, 16), 2, 5, 1.0F)
         ));
         register(VillagerProfession.LIBRARIAN, 3, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.INK_SAC, 12), new ItemStack(Items.EMERALD, 1), 2, 10, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.LANTERN, 4), new ItemStack(Items.EMERALD, 1), 2, 10, 1.0F)
+                villager -> new MerchantOffer(new ItemCost(Items.INK_SAC, 8), new ItemStack(Items.EMERALD, 1), 2, 10, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.LANTERN, 2), new ItemStack(Items.EMERALD, 1), 2, 10, 1.0F)
         ));
         register(VillagerProfession.LIBRARIAN, 4, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.CLOCK, 1), new ItemStack(Items.EMERALD, 1), 2, 20, 1.0F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 24), new ItemStack(Items.ENCHANTING_TABLE, 1), 2, 20, 1.2F)
         ));
         register(VillagerProfession.LIBRARIAN, 5, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 10), new ItemStack(Items.NAME_TAG, 1), 2, 50, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.ENCHANTED_BOOK, 1), 1, 50, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), new ItemStack(Items.NAME_TAG, 1), 2, 50, 1.0F),
+                villager -> {
+                    RandomSource random = villager.getRandom();
+                    PreservedEnchantmentMenu.EnchantmentInfo info = ENCHANTMENT_DATA.get(random.nextInt(ENCHANTMENT_DATA.size()));
+
+                    int levelCost = Integer.parseInt(info.levelCost());
+                    int emeraldBlocks = switch (levelCost) {
+                        case 10 -> 8;
+                        case 20 -> 16;
+                        case 30 -> 24;
+                        default -> 8;
+                    };
+
+                    ResourceKey<Enchantment> key = info.enchantmentKey();
+                    ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
+                    book.enchant(villager.level().registryAccess().lookupOrThrow(key.registryKey()).getOrThrow(key), 1);
+
+                    return new MerchantOffer(new ItemCost(Items.EMERALD_BLOCK, emeraldBlocks), book, 1, 50, 1.2F);
+                }
         ));
 
         // ===== MASON =====
         register(VillagerProfession.MASON, 1, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.STONE, 50), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.DEEPSLATE, 42), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.STONE, 48), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.COBBLED_DEEPSLATE, 32), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
         ));
         register(VillagerProfession.MASON, 2, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.GRANITE, 32), new ItemStack(Items.EMERALD, 1), 2, 5, 1.2F),
@@ -273,11 +293,11 @@ public class TradeRotator {
                 villager -> new MerchantOffer(new ItemCost(ModBlocks.RHYOLITE.asItem(), 16), new ItemStack(Items.EMERALD, 1), 2, 5, 1.2F)
         ));
         register(VillagerProfession.MASON, 3, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.INK_SAC, 22), new ItemStack(Items.EMERALD, 1), 2, 10, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.BLACKSTONE, 16), new ItemStack(Items.EMERALD, 1), 2, 10, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.BRICKS, 16), 2, 10, 1.0F)
         ));
         register(VillagerProfession.MASON, 4, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.QUARTZ, 12), new ItemStack(Items.EMERALD, 1), 2, 20, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.QUARTZ, 8), new ItemStack(Items.EMERALD, 1), 2, 20, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.DRIPSTONE_BLOCK, 16), 2, 20, 1.0F)
         ));
         register(VillagerProfession.MASON, 5, List.of(
@@ -287,11 +307,11 @@ public class TradeRotator {
 
         // ===== SHEPHERD =====
         register(VillagerProfession.SHEPHERD, 1, List.of(
-                villager -> new MerchantOffer(new ItemCost(woolRandomAsItem, 20), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(dyeRandomAsItem, 32), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(woolRandomAsItem, 8), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(dyeRandomAsItem, 16), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
         ));
         register(VillagerProfession.SHEPHERD, 2, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.STRING, 12), 1, 5, 1.0F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.STRING, 8), 1, 5, 1.0F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.SHEARS, 1), 1, 5, 1.0F)
         ));
         register(VillagerProfession.SHEPHERD, 3, List.of(
@@ -299,30 +319,30 @@ public class TradeRotator {
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 3), carpetRandom, 2, 10, 1.0F)
         ));
         register(VillagerProfession.SHEPHERD, 4, List.of(
-                villager -> new MerchantOffer(new ItemCost(clothRandomAsItem, 8), new ItemStack(Items.EMERALD, 1), 2, 20, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(clothRandomAsItem, 2), new ItemStack(Items.EMERALD, 1), 2, 20, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(ModItems.HOLLOW_TWINE, 1), new ItemStack(Items.EMERALD, 1), 2, 20, 1.0F)
         ));
         register(VillagerProfession.SHEPHERD, 5, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.PAINTING, 12), 1, 50, 1.0F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.PAINTING, 8), 1, 50, 1.0F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 3), new ItemStack(ModItems.DREAMCATCHER, 1), 1, 50, 1.0F)
         ));
 
         // ===== TOOLSMITH =====
         register(VillagerProfession.TOOLSMITH, 1, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.RAW_IRON, 8), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.RAW_GOLD, 8), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.RAW_IRON, 4), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.RAW_GOLD, 4), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
         ));
         register(VillagerProfession.TOOLSMITH, 2, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.IRON_INGOT, 2), 2, 5, 1.2F),
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.GOLD_INGOT, 2), 2, 5, 1.2F)
         ));
         register(VillagerProfession.TOOLSMITH, 3, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 16), enchantedIronPickaxe, 1, 10, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 16), enchantedIronShovel, 1, 10, 1.0F)
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), enchantedIronPickaxe, 1, 10, 1.0F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), enchantedIronShovel, 1, 10, 1.0F)
         ));
         register(VillagerProfession.TOOLSMITH, 4, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.DIAMOND, 1), new ItemStack(Items.EMERALD, 10), 2, 20, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 3), new ItemStack(Items.BELL, 1), 1, 20, 1.0F)
+                villager -> new MerchantOffer(new ItemCost(Items.DIAMOND, 1), new ItemStack(Items.EMERALD, 8), 2, 20, 1.0F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(Items.BELL, 1), 1, 20, 1.0F)
         ));
         register(VillagerProfession.TOOLSMITH, 5, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD_BLOCK, 9), new ItemStack(Items.DIAMOND_PICKAXE, 1), 1, 50, 1.0F),
@@ -332,19 +352,37 @@ public class TradeRotator {
         // ===== WEAPONSMITH =====
         register(VillagerProfession.WEAPONSMITH, 1, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.IRON_INGOT, 4), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.COPPER_INGOT, 12), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.COPPER_INGOT, 4), new ItemStack(Items.EMERALD, 1), 2, 2, 1.2F)
         ));
         register(VillagerProfession.WEAPONSMITH, 2, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(ModItems.FLARE_GUN, 1), 1, 5, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.GUNPOWDER, 14), new ItemStack(Items.EMERALD, 1), 1, 5, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.GUNPOWDER, 8), new ItemStack(Items.EMERALD, 1), 1, 5, 1.2F)
         ));
         register(VillagerProfession.WEAPONSMITH, 3, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 16), enchantedIronSword, 1, 10, 1.2F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 16), enchantedIronAxe, 1, 10, 1.2F)
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), enchantedIronSword, 1, 10, 1.2F),
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), enchantedIronAxe, 1, 10, 1.2F)
         ));
         register(VillagerProfession.WEAPONSMITH, 4, List.of(
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 6), new ItemStack(Items.GOAT_HORN, 1), 2, 20, 1.0F),
-                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 10), new ItemStack(Items.ANVIL, 1), 2, 20, 1.0F)
+                villager -> {
+                    @SuppressWarnings("unchecked")
+                    ResourceKey<Instrument>[] horns = (ResourceKey<Instrument>[]) new ResourceKey[]{
+                            Instruments.PONDER_GOAT_HORN,
+                            Instruments.SING_GOAT_HORN,
+                            Instruments.SEEK_GOAT_HORN,
+                            Instruments.FEEL_GOAT_HORN,
+                            Instruments.ADMIRE_GOAT_HORN,
+                            Instruments.CALL_GOAT_HORN,
+                            Instruments.YEARN_GOAT_HORN,
+                            Instruments.DREAM_GOAT_HORN
+                    };
+                    ResourceKey<Instrument> selected = horns[villager.getRandom().nextInt(horns.length)];
+                    Holder<Instrument> instrumentHolder = villager.level().registryAccess().lookupOrThrow(Registries.INSTRUMENT).getOrThrow(selected);
+                    ItemStack randomHorn = new ItemStack(Items.GOAT_HORN);
+                    randomHorn.set(DataComponents.INSTRUMENT, new InstrumentComponent(instrumentHolder));
+
+                    return new MerchantOffer(new ItemCost(Items.EMERALD, 4), randomHorn, 2, 20, 1.0F);
+                },
+                villager -> new MerchantOffer(new ItemCost(Items.EMERALD, 8), new ItemStack(Items.ANVIL, 1), 2, 20, 1.0F)
         ));
         register(VillagerProfession.WEAPONSMITH, 5, List.of(
                 villager -> new MerchantOffer(new ItemCost(Items.EMERALD_BLOCK, 6), new ItemStack(Items.DIAMOND_SWORD, 1), 1, 50, 1.0F),
@@ -389,7 +427,7 @@ public class TradeRotator {
         }
         List<Holder<Item>> carpetTag = StreamSupport.stream(villager.level().registryAccess().lookupOrThrow(Registries.ITEM).getTagOrEmpty(ModTags.CARPETS).spliterator(), false).toList();
         if (!carpetTag.isEmpty()) {
-            carpetRandom = new ItemStack(carpetTag.get(villager.level().random.nextInt(carpetTag.size())).value());
+            carpetRandom = new ItemStack(carpetTag.get(villager.level().random.nextInt(carpetTag.size())).value(), 32);
             carpetRandomAsItem = carpetRandom.getItem();
         }
         List<Holder<Item>> clothTag = StreamSupport.stream(villager.level().registryAccess().lookupOrThrow(Registries.ITEM).getTagOrEmpty(ModTags.CLOTH).spliterator(), false).toList();
@@ -404,10 +442,9 @@ public class TradeRotator {
         }
         List<Holder<Item>> woolTag = StreamSupport.stream(villager.level().registryAccess().lookupOrThrow(Registries.ITEM).getTagOrEmpty(ItemTags.WOOL).spliterator(), false).toList();
         if (!woolTag.isEmpty()) {
-            woolRandom = new ItemStack(woolTag.get(villager.level().random.nextInt(woolTag.size())).value());
+            woolRandom = new ItemStack(woolTag.get(villager.level().random.nextInt(woolTag.size())).value(), 8);
             woolRandomAsItem = woolRandom.getItem();
         }
-
 
         Map<Integer, List<Function<Villager, MerchantOffer>>> byLevel = TRADE_POOLS.get(profKey);
         if (byLevel == null) return;

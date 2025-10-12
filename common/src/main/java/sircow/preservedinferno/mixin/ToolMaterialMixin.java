@@ -11,6 +11,7 @@ import sircow.preservedinferno.other.ModTags;
 public class ToolMaterialMixin {
     @Shadow @Final @Mutable public static ToolMaterial WOOD;
     @Shadow @Final @Mutable public static ToolMaterial STONE;
+    @Shadow @Final @Mutable public static ToolMaterial COPPER;
     @Shadow @Final @Mutable public static ToolMaterial IRON;
     @Shadow @Final @Mutable public static ToolMaterial GOLD;
     @Shadow @Final @Mutable public static ToolMaterial DIAMOND;
@@ -19,6 +20,7 @@ public class ToolMaterialMixin {
     static {
         WOOD = new ToolMaterial(WOOD.incorrectBlocksForDrops(), 64, 1.0F, WOOD.attackDamageBonus(), WOOD.enchantmentValue(), WOOD.repairItems());
         STONE = new ToolMaterial(STONE.incorrectBlocksForDrops(), 128, 2.0F, STONE.attackDamageBonus(), STONE.enchantmentValue(), STONE.repairItems());
+        COPPER = new ToolMaterial(COPPER.incorrectBlocksForDrops(), 256, 2.0F, COPPER.attackDamageBonus(), COPPER.enchantmentValue(), COPPER.repairItems());
         IRON = new ToolMaterial(IRON.incorrectBlocksForDrops(), 512, 6.0F, IRON.attackDamageBonus(), IRON.enchantmentValue(), IRON.repairItems());
         GOLD = new ToolMaterial(GOLD.incorrectBlocksForDrops(), 256, 12.0F, GOLD.attackDamageBonus(), GOLD.enchantmentValue(), GOLD.repairItems());
         DIAMOND = new ToolMaterial(DIAMOND.incorrectBlocksForDrops(), 2048, 10.0F, DIAMOND.attackDamageBonus(), DIAMOND.enchantmentValue(), DIAMOND.repairItems());

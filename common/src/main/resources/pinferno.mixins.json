@@ -42,7 +42,6 @@
     "FeatureFlagsMixin",
     "FishingHookMixin",
     "FishingRodItemMixin",
-    "FletchingTableBlockMixin",
     "FoodDataMixin",
     "FoodsMixin",
     "FuelValuesAccessor",
@@ -101,6 +100,7 @@
     "ZoglinMixin",
     "ZombieHorseMixin",
     "ZombieMixin",
+    "ZombieVillagerMixin",
     "ZombifiedPiglinMixin"
   ],
   "client": [

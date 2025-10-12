@@ -15,7 +15,8 @@ public class AxeItemMixin {
     private static float preserved_inferno$modifyAttackDamage(float attackDamage) {
         if (RegisterItemChecker.flip) {
             if (RegisterItemChecker.AXES.contains(RegisterItemChecker.itemName)) {
-                if (Objects.equals(RegisterItemChecker.itemName, "iron_axe")) {
+                if (Objects.equals(RegisterItemChecker.itemName, "iron_axe")
+                        || Objects.equals(RegisterItemChecker.itemName, "copper_axe")) {
                     attackDamage = 4.0F;
                 }
                 else if (Objects.equals(RegisterItemChecker.itemName, "golden_axe")) {

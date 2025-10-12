@@ -50,6 +50,7 @@ public class CommonClass {
                 "Couldn't parse data file 'pinferno:nether/all_effects'",
                 "Couldn't parse data file 'minecraft:netherite_upgrade_smithing_template'",
                 "Couldn't parse data file 'minecraft:repair_item'",
+                "Couldn't parse data file 'minecraft:leather'",
                 "Couldn't parse data file 'minecraft:shield'",
                 "Couldn't parse data file 'minecraft:white_wool_from_string'",
                 "Tried to add entity minecraft:enderman but it was marked as removed already"

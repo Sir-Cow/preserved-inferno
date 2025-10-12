@@ -12,6 +12,7 @@ public abstract class ModEntityData {
     public static final EntityDataAccessor<Long> PLAYER_HARDCORE_REGEN_COOLDOWN = SynchedEntityData.defineId(Player.class, EntityDataSerializers.LONG);
     public static final EntityDataAccessor<Boolean> PLAYER_HUNGER_INITIALIZED = SynchedEntityData.defineId(Player.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> RESET_HARDCORE_HEALTH = SynchedEntityData.defineId(Player.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Integer> PLAYER_TRADED_PROFESSIONS = SynchedEntityData.defineId(Player.class, EntityDataSerializers.INT);
 
     public static void registerModEntityData() {
         // Constants.LOG.info("Registering Mod Entity Data for " + Constants.MOD_ID);

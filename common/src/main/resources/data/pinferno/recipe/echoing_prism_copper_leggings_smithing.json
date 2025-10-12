@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": "pinferno:echoing_prism",
-  "base": "pinferno:copper_leggings",
+  "base": "minecraft:copper_leggings",
   "result": {
-    "id": "pinferno:copper_leggings",
+    "id": "minecraft:copper_leggings",
     "components": {
       "minecraft:attribute_modifiers": [
         {

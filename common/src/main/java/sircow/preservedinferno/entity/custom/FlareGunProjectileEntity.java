@@ -87,7 +87,7 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
     @Override
     public void tick() {
         super.tick();
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             if (this.firedFrom.isEmpty()) {
                 Constants.LOG.error("FlareGunProjectileEntity ticked with null or empty firedFrom ItemStack. Discarding.");
                 this.discard();
@@ -140,7 +140,7 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
     @Override
     protected void onHitEntity(@NotNull EntityHitResult result) {
         super.onHitEntity(result);
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             if (result.getEntity() instanceof EnderMan enderman) {
                 Vec3 oldPos = enderman.position();
                 Vec3 vec3 = new Vec3(enderman.getX() - this.getX(), enderman.getY() - this.getY(), enderman.getZ() - this.getZ());
@@ -191,7 +191,7 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
     @Override
     protected void onHit(@NotNull HitResult result) {
         super.onHit(result);
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             this.level().broadcastEntityEvent(this, (byte)3);
             this.discard();
         }

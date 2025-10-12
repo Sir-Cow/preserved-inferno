@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:exploration/villager_restock",
+  "criteria": {
+    "max_villager": {
+      "trigger": "pinferno:max_villager"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.max_villager.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:emerald_block"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.max_villager.title"
+    }
+  },
+  "requirements": [
+    [
+      "max_villager"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

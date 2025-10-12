@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": "pinferno:nether_alloy_ingot",
-  "base": "pinferno:copper_helmet",
+  "base": "minecraft:copper_helmet",
   "result": {
-    "id": "pinferno:copper_helmet",
+    "id": "minecraft:copper_helmet",
     "components": {
       "minecraft:attribute_modifiers": [
         {

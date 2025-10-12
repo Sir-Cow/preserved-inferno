@@ -1,6 +1,7 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -89,7 +90,7 @@ public abstract class CauldronBlockMixin extends Block implements EntityBlock {
 
     @Unique
     @Override
-    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction)  {
         if (level.getBlockEntity(pos) instanceof PreservedCauldronBlockEntity cauldron) {
             return (int) Math.floor((double) cauldron.progressWater / cauldron.maxWaterProgress * 15.0);
         }

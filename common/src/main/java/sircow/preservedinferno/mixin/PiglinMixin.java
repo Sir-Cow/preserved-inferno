@@ -27,7 +27,7 @@ public class PiglinMixin extends Monster {
 
     @Inject(method = "setBaby", at = @At("TAIL"))
     private void preserved_inferno$modifyBaby(boolean baby, CallbackInfo ci) {
-        if (this.level().isClientSide) return;
+        if (this.level().isClientSide()) return;
 
         AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
         if (health == null) return;

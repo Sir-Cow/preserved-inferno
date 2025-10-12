@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "pinferno:copper_nugget",
+    "#": "minecraft:copper_nugget",
     "X": "minecraft:furnace"
   },
   "pattern": [

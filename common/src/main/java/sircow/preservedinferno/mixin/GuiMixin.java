@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.AtlasManager;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -175,11 +176,11 @@ public class GuiMixin {
                 && !player.isCreative()
                 && mc.options.getCameraType().isFirstPerson()
         ) {
-
+            AtlasManager atlasManager = Minecraft.getInstance().getAtlasManager();
             PoseStack poseStack = new PoseStack();
             MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
 
-            TextureAtlasSprite textureAtlasSprite = ModelBakery.FIRE_1.sprite();
+            TextureAtlasSprite textureAtlasSprite = atlasManager.get(ModelBakery.FIRE_1);
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.fireScreenEffect(textureAtlasSprite.atlasLocation()));
             float f = textureAtlasSprite.getU0();
             float g = textureAtlasSprite.getU1();

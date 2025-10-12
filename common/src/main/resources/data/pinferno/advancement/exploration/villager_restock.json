@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:exploration/trade",
+  "criteria": {
+    "villager_restock": {
+      "trigger": "pinferno:villager_restock"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.villager_restock.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:bell"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.villager_restock.title"
+    }
+  },
+  "requirements": [
+    [
+      "villager_restock"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

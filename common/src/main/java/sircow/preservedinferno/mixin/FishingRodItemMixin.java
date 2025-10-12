@@ -84,17 +84,17 @@ public class FishingRodItemMixin {
     public void preserved_inferno$isFishingCheck(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack fishingRod = player.getItemInHand(hand);
         if (player.fishing == null) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 fishingRod.set(ModComponents.IS_FISHING, true);
             }
         }
         if (Boolean.TRUE.equals(fishingRod.get(ModComponents.IS_FISHING)) && player.fishing != null) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 fishingRod.set(ModComponents.IS_FISHING, false);
             }
         }
 
-        if (!level.isClientSide && player.gameMode() != GameType.CREATIVE) {
+        if (!level.isClientSide() && player.gameMode() != GameType.CREATIVE) {
             if (!Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "none")) {
                 if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "copper")) {
                     updateComponentDurability(fishingRod, "hook", "copper", ModItems.COPPER_FISHING_HOOK, player, hand);

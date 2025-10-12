@@ -50,24 +50,24 @@ public class ModBlocks {
 
     public static final Block INDUCTOR_RAIL = register("inductor_rail",
             (properties -> new WeatheringInductorRailBlock(WeatheringCopper.WeatherState.UNAFFECTED, properties)),
-            BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).noCollission().strength(0.7F).sound(SoundType.COPPER), true);
+            BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).noCollision().strength(0.7F).sound(SoundType.COPPER), true);
     public static final Block EXPOSED_INDUCTOR_RAIL = register("exposed_inductor_rail",
             (properties -> new WeatheringInductorRailBlock(WeatheringCopper.WeatherState.WEATHERED, properties)),
-            BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_LIGHT_GRAY).noCollission().strength(0.7F).sound(SoundType.COPPER), true);
+            BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_LIGHT_GRAY).noCollision().strength(0.7F).sound(SoundType.COPPER), true);
     public static final Block WEATHERED_INDUCTOR_RAIL = register("weathered_inductor_rail",
             (properties -> new WeatheringInductorRailBlock(WeatheringCopper.WeatherState.EXPOSED, properties)),
-            BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_STEM).noCollission().strength(0.7F).sound(SoundType.COPPER), true);
+            BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_STEM).noCollision().strength(0.7F).sound(SoundType.COPPER), true);
     public static final Block OXIDIZED_INDUCTOR_RAIL = register("oxidized_inductor_rail",
             (properties -> new WeatheringInductorRailBlock(WeatheringCopper.WeatherState.OXIDIZED, properties)),
-            BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM).noCollission().strength(0.7F).sound(SoundType.COPPER), true);
+            BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM).noCollision().strength(0.7F).sound(SoundType.COPPER), true);
     public static final Block WAXED_INDUCTOR_RAIL = register("waxed_inductor_rail",
-            InductorRailBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).noCollission().strength(0.7F).sound(SoundType.COPPER), true);
+            InductorRailBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).noCollision().strength(0.7F).sound(SoundType.COPPER), true);
     public static final Block WAXED_EXPOSED_INDUCTOR_RAIL = register("waxed_exposed_inductor_rail",
-            InductorRailBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_LIGHT_GRAY).noCollission().strength(0.7F).sound(SoundType.COPPER), true);
+            InductorRailBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_LIGHT_GRAY).noCollision().strength(0.7F).sound(SoundType.COPPER), true);
     public static final Block WAXED_WEATHERED_INDUCTOR_RAIL = register("waxed_weathered_inductor_rail",
-            InductorRailBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM).noCollission().strength(0.7F).sound(SoundType.COPPER), true);
+            InductorRailBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM).noCollision().strength(0.7F).sound(SoundType.COPPER), true);
     public static final Block WAXED_OXIDIZED_INDUCTOR_RAIL = register("waxed_oxidized_inductor_rail",
-            InductorRailBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).noCollission().strength(0.7F).sound(SoundType.COPPER), true);
+            InductorRailBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).noCollision().strength(0.7F).sound(SoundType.COPPER), true);
 
     private static Block register(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties settings, boolean shouldRegisterItem) {
         ResourceKey<Block> blockKey = keyOfBlock(name);

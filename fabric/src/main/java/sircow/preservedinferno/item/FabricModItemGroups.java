@@ -40,20 +40,10 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.ECHOING_PRISM);
                     entries.accept(ModItems.ECHOING_PRISM_UPGRADE_SMITHING_TEMPLATE);
 
-                    entries.accept(ModItems.COPPER_NUGGET);
                     entries.accept(ModItems.RAW_COPPER_CHUNK);
                     entries.accept(ModItems.RAW_IRON_CHUNK);
                     entries.accept(ModItems.RAW_GOLD_CHUNK);
 
-                    entries.accept(ModItems.COPPER_SHOVEL);
-                    entries.accept(ModItems.COPPER_PICKAXE);
-                    entries.accept(ModItems.COPPER_AXE);
-                    entries.accept(ModItems.COPPER_SCYTHE);
-                    entries.accept(ModItems.COPPER_SWORD);
-                    entries.accept(ModItems.COPPER_HELMET);
-                    entries.accept(ModItems.COPPER_CHESTPLATE);
-                    entries.accept(ModItems.COPPER_LEGGINGS);
-                    entries.accept(ModItems.COPPER_BOOTS);
                     entries.accept(ModItems.COPPER_TRIDENT);
 
                     entries.accept(ModItems.BLACK_CLOTH);

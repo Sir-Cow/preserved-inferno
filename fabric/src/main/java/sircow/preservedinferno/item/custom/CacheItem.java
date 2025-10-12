@@ -32,7 +32,7 @@ public class CacheItem extends Item {
 
     @Override
     public @NotNull InteractionResult use(Level level, Player player, InteractionHand usedHand) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             ItemStack usedStack = player.getItemInHand(usedHand);
             ItemContainerContents container = usedStack.get(DataComponents.CONTAINER);
             if (container == null) {

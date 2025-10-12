@@ -17,7 +17,6 @@ import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
-import net.minecraft.world.item.equipment.ArmorType;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.item.custom.CopperTridentItem;
@@ -31,8 +30,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class ModItems {
-    public static final ToolMaterial COPPER_TOOL = new ToolMaterial(ModTags.INCORRECT_FOR_COPPER_TOOL, 256, 4.0F, 0.0F, 5, ModTags.COPPER_TOOL_MATERIALS);
-
     // shield stuff
     static DecimalFormat df = new DecimalFormat("0.000");
     static double COPPER_REGEN_PARSE = 2F / 75F;
@@ -67,18 +64,7 @@ public class ModItems {
     public static final Item RAW_IRON_CHUNK = registerItem("raw_iron_chunk", Item::new, new Item.Properties());
     public static final Item RAW_GOLD_CHUNK = registerItem("raw_gold_chunk", Item::new, new Item.Properties());
     public static final Item RAW_COPPER_CHUNK = registerItem("raw_copper_chunk", Item::new, new Item.Properties());
-    public static final Item COPPER_NUGGET = registerItem("copper_nugget", Item::new, new Item.Properties());
 
-    public static final Item COPPER_AXE = registerItem("copper_axe", properties -> new AxeItem(COPPER_TOOL, 5.0F, -3.0F, properties), new Item.Properties());
-    public static final Item COPPER_PICKAXE = registerItem("copper_pickaxe", Item::new, new Item.Properties().pickaxe(COPPER_TOOL, 3.0F, -3.0F));
-    public static final Item COPPER_SCYTHE = registerItem("copper_hoe", properties -> new HoeItem(COPPER_TOOL, 2.0F, -2.0F, properties), new Item.Properties());
-    public static final Item COPPER_SHOVEL = registerItem("copper_shovel", properties -> new ShovelItem(COPPER_TOOL, 2.5F, -2.5F, properties), new Item.Properties());
-    public static final Item COPPER_SWORD = registerItem("copper_sword", Item::new, new Item.Properties().sword(COPPER_TOOL, 3.0F, -2.4F));
-
-    public static final Item COPPER_HELMET = registerItem("copper_helmet", Item::new, new Item.Properties().humanoidArmor(ModArmourMaterials.COPPER, ArmorType.HELMET));
-    public static final Item COPPER_CHESTPLATE = registerItem("copper_chestplate", Item::new, new Item.Properties().humanoidArmor(ModArmourMaterials.COPPER, ArmorType.CHESTPLATE));
-    public static final Item COPPER_LEGGINGS = registerItem("copper_leggings", Item::new, new Item.Properties().humanoidArmor(ModArmourMaterials.COPPER, ArmorType.LEGGINGS));
-    public static final Item COPPER_BOOTS = registerItem("copper_boots", Item::new, new Item.Properties().humanoidArmor(ModArmourMaterials.COPPER, ArmorType.BOOTS));
     public static final Item COPPER_TRIDENT = registerItem(
             "copper_trident",
             CopperTridentItem::new,
@@ -89,7 +75,7 @@ public class ModItems {
                     .component(DataComponents.TOOL, CopperTridentItem.createToolProperties())
                     .enchantable(1)
                     .component(DataComponents.WEAPON, new Weapon(1))
-                    .repairable(ModTags.COPPER_TOOL_MATERIALS)
+                    .repairable(ItemTags.COPPER_TOOL_MATERIALS)
     );
 
     public static final Item BLACK_CLOTH = registerItem("black_cloth", Item::new, new Item.Properties());
@@ -113,7 +99,7 @@ public class ModItems {
             new Item.Properties()
                     .durability(256)
                     .stacksTo(1)
-                    .repairable(ModTags.COPPER_TOOL_MATERIALS)
+                    .repairable(ItemTags.COPPER_TOOL_MATERIALS)
                     .equippableUnswappable(EquipmentSlot.OFFHAND)
                     .component(
                             DataComponents.BLOCKS_ATTACKS,
@@ -232,7 +218,7 @@ public class ModItems {
     public static final Item COPPER_FISHING_HOOK = registerItem("copper_fishing_hook", Item::new, new Item.Properties()
             .durability(256)
             .stacksTo(1)
-            .repairable(ModTags.COPPER_TOOL_MATERIALS)
+            .repairable(ItemTags.COPPER_TOOL_MATERIALS)
     );
     public static final Item PRISMARINE_FISHING_HOOK = registerItem("prismarine_fishing_hook", Item::new, new Item.Properties()
             .durability(768)
@@ -262,7 +248,7 @@ public class ModItems {
     public static final Item COPPER_LACED_FISHING_LINE = registerItem("copper_laced_fishing_line", Item::new, new Item.Properties()
             .durability(256)
             .stacksTo(1)
-            .repairable(ModTags.COPPER_TOOL_MATERIALS)
+            .repairable(ItemTags.COPPER_TOOL_MATERIALS)
     );
     public static final Item PRISMARINE_LACED_FISHING_LINE = registerItem("prismarine_laced_fishing_line", Item::new, new Item.Properties()
             .durability(768)
@@ -292,7 +278,7 @@ public class ModItems {
     public static final Item COPPER_SINKER = registerItem("copper_sinker", Item::new, new Item.Properties()
             .durability(256)
             .stacksTo(1)
-            .repairable(ModTags.COPPER_TOOL_MATERIALS)
+            .repairable(ItemTags.COPPER_TOOL_MATERIALS)
     );
     public static final Item PRISMARINE_SINKER = registerItem("prismarine_sinker", Item::new, new Item.Properties()
             .durability(768)
@@ -328,7 +314,7 @@ public class ModItems {
             .durability(128)
             .stacksTo(1)
             .useCooldown(1.0F)
-            .repairable(ModTags.COPPER_TOOL_MATERIALS)
+            .repairable(ItemTags.COPPER_TOOL_MATERIALS)
             .component(ModComponents.FLARE_PARTICLE_COMPONENT, "0xFFFFFF")
             .component(ModComponents.ON_COOLDOWN, true)
     );

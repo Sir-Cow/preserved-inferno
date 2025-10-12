@@ -70,7 +70,7 @@ public class FoodsMixin {
         ENCHANTED_GOLDEN_APPLE = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0F).alwaysEdible().build();
         GOLDEN_APPLE = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0F).alwaysEdible().build();
         GLOW_BERRIES = new FoodProperties.Builder().nutrition(3).saturationModifier(0.3F).build();
-        GOLDEN_CARROT = new FoodProperties.Builder().nutrition(6).saturationModifier(3.0F).build();
+        GOLDEN_CARROT = new FoodProperties.Builder().nutrition(12).saturationModifier(1.4F).build();
         HONEY_BOTTLE = new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build();
         MELON_SLICE = new FoodProperties.Builder().nutrition(3).saturationModifier(0.2F).build();
         MUSHROOM_STEW = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0F).build();

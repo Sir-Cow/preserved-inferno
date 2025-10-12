@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:exploration/villager_restock",
+  "criteria": {
+    "trade_every_villager": {
+      "trigger": "pinferno:trade_every_villager"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.trade_every_villager.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:villager_spawn_egg"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.trade_every_villager.title"
+    }
+  },
+  "requirements": [
+    [
+      "trade_every_villager"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

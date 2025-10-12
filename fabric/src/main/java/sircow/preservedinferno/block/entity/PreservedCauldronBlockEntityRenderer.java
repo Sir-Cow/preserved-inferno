@@ -1,56 +1,105 @@
 package sircow.preservedinferno.block.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.material.Fluids;
+import org.jetbrains.annotations.NotNull;
 
-public class PreservedCauldronBlockEntityRenderer implements BlockEntityRenderer<PreservedCauldronBlockEntity> {
-    public static final Material WATER_STILL = new Material(TextureAtlas.LOCATION_BLOCKS, ResourceLocation.withDefaultNamespace("block/water_still"));
-    private static final float MIN_HEIGHT = 4.0F / 16.0F;
-    private static final float MAX_HEIGHT = 14.0F / 16.0F;
+public class PreservedCauldronBlockEntityRenderer implements BlockEntityRenderer<PreservedCauldronBlockEntity, PreservedCauldronRenderState> {
 
-    public PreservedCauldronBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
+    private static final float MIN_HEIGHT = 4f / 16f;
+    private static final float MAX_HEIGHT = 14f / 16f;
+
+    public PreservedCauldronBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {
+
     }
 
     @Override
-    public void render(PreservedCauldronBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, Vec3 cameraPos) {
-        if (blockEntity.progressWater > 0) {
-            float fillRatio = 0.0F;
-            if (blockEntity.maxWaterProgress > 0) {
-                fillRatio = (float)blockEntity.progressWater / blockEntity.maxWaterProgress;
-            }
+    public @NotNull PreservedCauldronRenderState createRenderState() {
+        return new PreservedCauldronRenderState();
+    }
 
-            float waterHeight = MIN_HEIGHT + (MAX_HEIGHT - MIN_HEIGHT) * fillRatio;
-            TextureAtlasSprite waterSprite = WATER_STILL.sprite();
-            VertexConsumer consumer = bufferSource.getBuffer(RenderType.solid());
-            int waterColor = 0xFF3F76E4;
-            float minU = waterSprite.getU0();
-            float maxU = waterSprite.getU1();
-            float minV = waterSprite.getV0();
-            float maxV = waterSprite.getV1();
+    @Override
+    public void extractRenderState(
+            PreservedCauldronBlockEntity be,
+            PreservedCauldronRenderState state,
+            float partialTick,
+            net.minecraft.world.phys.Vec3 cameraPosition,
+            net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay overlay
+    ) {
+        BlockEntityRenderer.super.extractRenderState(be, state, partialTick, cameraPosition, overlay);
+        if (be.maxWaterProgress > 0)
+            state.fillRatio = (float) be.progressWater / be.maxWaterProgress;
+        else
+            state.fillRatio = 0f;
+    }
 
-            poseStack.pushPose();
-            poseStack.translate(2.0F / 16.0F, 0.0, 2.0F / 16.0F);
+    @Override
+    public void submit(PreservedCauldronRenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState cameraRenderState) {
+        if (state.fillRatio <= 0f) return;
 
-            float x1 = 0.0F;
-            float z1 = 0.0F;
-            float x2 = 12.0F / 16.0F;
-            float z2 = 12.0F / 16.0F;
+        var handler = FluidRenderHandlerRegistry.INSTANCE.get(Fluids.WATER);
+        if (handler == null) return;
 
-            consumer.addVertex(poseStack.last().pose(), x1, waterHeight, z1).setColor(waterColor).setUv(minU, minV).setLight(packedLight).setOverlay(packedOverlay).setNormal(0.0F, 1.0F, 0.0F);
-            consumer.addVertex(poseStack.last().pose(), x1, waterHeight, z2).setColor(waterColor).setUv(minU, maxV).setLight(packedLight).setOverlay(packedOverlay).setNormal(0.0F, 1.0F, 0.0F);
-            consumer.addVertex(poseStack.last().pose(), x2, waterHeight, z2).setColor(waterColor).setUv(maxU, maxV).setLight(packedLight).setOverlay(packedOverlay).setNormal(0.0F, 1.0F, 0.0F);
-            consumer.addVertex(poseStack.last().pose(), x2, waterHeight, z1).setColor(waterColor).setUv(maxU, minV).setLight(packedLight).setOverlay(packedOverlay).setNormal(0.0F, 1.0F, 0.0F);
+        var sprite = handler.getFluidSprites(null, null, Fluids.WATER.defaultFluidState())[0];
+        int tint = handler.getFluidColor(null, null, Fluids.WATER.defaultFluidState());
 
-            poseStack.popPose();
-        }
+        float r = ((tint >> 16) & 0xFF) / 255f;
+        float g = ((tint >> 8) & 0xFF) / 255f;
+        float b = (tint & 0xFF) / 255f;
+        float a = 0.8f;
+
+        float height = MIN_HEIGHT + (MAX_HEIGHT - MIN_HEIGHT) * state.fillRatio;
+
+        float minU = sprite.getU0();
+        float maxU = sprite.getU1();
+        float minV = sprite.getV0();
+        float maxV = sprite.getV1();
+
+        PoseStack.Pose pose = poseStack.last();
+
+        int packedOverlay = OverlayTexture.NO_OVERLAY;
+        int packedLight = 15728880; // full bright
+
+        collector.submitCustomGeometry(poseStack, RenderType.solid(), (p, vc) -> {
+            // bottom-left
+            vc.addVertex(p, 2f/16f, height, 2f/16f)
+                    .setColor(r, g, b, a)
+                    .setUv(minU, minV)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
+                    .setNormal(p, 0f, 1f, 0f);
+
+            // top-left
+            vc.addVertex(p, 2f/16f, height, 14f/16f)
+                    .setColor(r, g, b, a)
+                    .setUv(minU, maxV)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
+                    .setNormal(p, 0f, 1f, 0f);
+
+            // top-right
+            vc.addVertex(p, 14f/16f, height, 14f/16f)
+                    .setColor(r, g, b, a)
+                    .setUv(maxU, maxV)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
+                    .setNormal(p, 0f, 1f, 0f);
+
+            // bottom-right
+            vc.addVertex(p, 14f/16f, height, 2f/16f)
+                    .setColor(r, g, b, a)
+                    .setUv(maxU, minV)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
+                    .setNormal(p, 0f, 1f, 0f);
+        });
     }
 }

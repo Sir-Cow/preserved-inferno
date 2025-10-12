@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "ingredients": [],
+  "result": {
+    "id": "minecraft:air"
+  }
+}

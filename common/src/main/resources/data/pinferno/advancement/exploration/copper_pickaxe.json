@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "pinferno:copper_pickaxe"
+            "items": "minecraft:copper_pickaxe"
           }
         ]
       },
@@ -18,7 +18,7 @@
     },
     "icon": {
       "count": 1,
-      "id": "pinferno:copper_pickaxe"
+      "id": "minecraft:copper_pickaxe"
     },
     "show_toast": true,
     "title": {

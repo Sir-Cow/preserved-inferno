@@ -10,29 +10,36 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.platform.Services;
+import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
 import sircow.preservedinferno.trigger.ModTriggers;
 
 import java.util.*;
@@ -188,7 +195,7 @@ public class FabricModEvents {
 
             // display message if player had well rested effect
             if (hadWellRestedEffectOnDeath && !Services.PLATFORM.isModLoaded("pblizzard") && !oldPlayer.level().getLevelData().isHardcore() && !newPlayer.level().getLevelData().isHardcore()) {
-                Objects.requireNonNull(newPlayer.getServer()).execute(() -> newPlayer.sendSystemMessage(Component.translatable("effect.pinferno.well_rested_consume"), true));
+                Objects.requireNonNull(newPlayer.level().getServer()).execute(() -> newPlayer.sendSystemMessage(Component.translatable("effect.pinferno.well_rested_consume"), true));
             }
 
             if (!alive) {
@@ -305,6 +312,41 @@ public class FabricModEvents {
         });
     }
 
+    @SuppressWarnings("rawtypes")
+    public static void openFletchingTable() {
+        UseBlockCallback.EVENT.register((player, level, hand, hitResult) -> {
+            if (level.isClientSide()) return InteractionResult.PASS;
+
+            BlockPos pos = hitResult.getBlockPos();
+            BlockState state = level.getBlockState(pos);
+
+            if (state.is(Blocks.FLETCHING_TABLE)) {
+                player.openMenu(new ExtendedScreenHandlerFactory() {
+                        @Override
+                        public @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
+                            return new PreservedFletchingTableMenu(syncId, playerInventory, ContainerLevelAccess.create(level, pos));
+                        }
+
+                        @Override
+                        public @NotNull Component getDisplayName() {
+                            return Component.translatable("block.minecraft.fletching_table");
+                        }
+
+                        @Override
+                        public Object getScreenOpeningData(ServerPlayer serverPlayer) {
+                            boolean isEmpty = level.getBlockEntity(pos) == null;
+                            return new PreservedInferno.BlockData(isEmpty);
+                        }
+                    });
+
+                player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
+                return InteractionResult.SUCCESS;
+            }
+
+            return InteractionResult.PASS;
+        });
+    }
+
     public static void registerModEvents() {
         // Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
         checkInitialAdvancement();
@@ -316,5 +358,6 @@ public class FabricModEvents {
         keyPressForFirstAdvancement();
         hardcoreSetup();
         enableMinecartExperiment();
+        openFletchingTable();
     }
 }

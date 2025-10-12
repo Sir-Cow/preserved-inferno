@@ -20,13 +20,10 @@ public class ModTags {
     public static final TagKey<Item> FISHING_LOOT_JUNK = TagKey.create(Registries.ITEM, Constants.id("fishing_loot/junk"));
     public static final TagKey<Item> FISHING_LOOT_TREASURE = TagKey.create(Registries.ITEM, Constants.id("fishing_loot/treasure"));
     public static final TagKey<Item> FISHING_LOOT_VARIETY = TagKey.create(Registries.ITEM, Constants.id("fishing_loot/variety"));
-    public static final TagKey<Item> COPPER_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Constants.id("copper_tool_materials"));
     public static final TagKey<Item> REPAIRS_NETHERITE_TOOL = TagKey.create(Registries.ITEM, Constants.id("repairs_netherite_tool"));
     public static final TagKey<Item> LOOTING = TagKey.create(Registries.ITEM, Constants.id("enchantable/looting"));
 
     public static final TagKey<Item> DYES = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyes"));
-
-    public static final TagKey<Block> INCORRECT_FOR_COPPER_TOOL = TagKey.create(Registries.BLOCK, Constants.id("incorrect_for_copper_tool"));
 
     public static void registerModTags() {
         // Constants.LOG.info("Registering Mod Tags for " + Constants.MOD_ID);

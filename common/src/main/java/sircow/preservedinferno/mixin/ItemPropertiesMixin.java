@@ -10,7 +10,6 @@ import net.minecraft.world.item.equipment.ArmorType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import sircow.preservedinferno.item.ModArmourMaterials;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -72,7 +71,7 @@ public class ItemPropertiesMixin {
         copperDurability.put(ArmorType.CHESTPLATE, 256);
         copperDurability.put(ArmorType.LEGGINGS, 256);
         copperDurability.put(ArmorType.BOOTS, 256);
-        DURABILITY_MAP.put(ModArmourMaterials.COPPER, copperDurability);
+        DURABILITY_MAP.put(ArmorMaterials.COPPER, copperDurability);
     }
 
     @ModifyReturnValue(method = "humanoidArmor", at = @At("RETURN"))

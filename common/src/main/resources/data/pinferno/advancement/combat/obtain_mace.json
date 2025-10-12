@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:combat/minecraft_trials_edition",
+  "parent": "pinferno:combat/revaulting",
   "criteria": {
     "mace": {
       "conditions": {

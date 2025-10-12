@@ -101,7 +101,7 @@ public class ConduitBlockEntityMixin {
     // award conduit advancements
     @Inject(method = "serverTick", at = @At("TAIL"))
     private static void preserved_inferno$onActivation(Level level, BlockPos pos, BlockState state, ConduitBlockEntity conduit, CallbackInfo ci) {
-        if (level.isClientSide) return;
+        if (level.isClientSide()) return;
 
         ConduitBlockEntityMixin self = (ConduitBlockEntityMixin)(Object)conduit;
         if (self != null) {

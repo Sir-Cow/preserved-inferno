@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -18,6 +19,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.ItemStack;
@@ -49,13 +51,15 @@ import sircow.preservedinferno.other.ModDamageTypes;
 import sircow.preservedinferno.other.ModEntityData;
 import sircow.preservedinferno.other.ShieldStaminaHandler;
 import sircow.preservedinferno.sound.ModSounds;
+import sircow.preservedinferno.trade.PlayerMixinAccess;
+import sircow.preservedinferno.trade.VillagerProfessionBits;
 import sircow.preservedinferno.trigger.ModTriggers;
 
 import java.util.Objects;
 import java.util.Optional;
 
 @Mixin(Player.class)
-public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
+public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, PlayerMixinAccess {
     @Unique private boolean hasWaterBreathingFromHelmet = false;
     @Unique private int heatIncreaseTickCounter = 0;
     @Unique private int heatDecreaseTickCounter = 0;
@@ -80,10 +84,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         super(entityType, world);
     }
 
-    @ModifyVariable(method = "hurtServer", at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/LivingEntity;hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z",
-            shift = At.Shift.BEFORE
-    ), argsOnly = true)
+    @ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true)
     private float preserved_inferno$shieldDamageIntercept(float originalAmount, ServerLevel level, DamageSource damageSource) {
         Player player = (Player)(Object)this;
         ItemStack blockingStack = player.getUseItem();
@@ -308,6 +309,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         builder.define(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN, 0L);
         builder.define(ModEntityData.PLAYER_HUNGER_INITIALIZED, false);
         builder.define(ModEntityData.RESET_HARDCORE_HEALTH, true);
+        builder.define(ModEntityData.PLAYER_TRADED_PROFESSIONS, 0);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
@@ -328,6 +330,41 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor {
         output.putLong("preserved_inferno$hardcoreRegenCooldown", this.entityData.get(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN));
         output.putBoolean("preserved_inferno$hungerInitialized", this.entityData.get(ModEntityData.PLAYER_HUNGER_INITIALIZED));
         output.putBoolean("preserved_inferno$resetHardcoreHealthOnJoin", this.entityData.get(ModEntityData.RESET_HARDCORE_HEALTH));
+    }
+
+    @Unique
+    public int getTradedProfessions() {
+        return this.entityData.get(ModEntityData.PLAYER_TRADED_PROFESSIONS);
+    }
+
+    @Unique
+    public void setTradedProfessions(int mask) {
+        this.entityData.set(ModEntityData.PLAYER_TRADED_PROFESSIONS, mask);
+    }
+
+    @Unique
+    public void markTraded(ResourceKey<VillagerProfession> key) {
+        int bit = VillagerProfessionBits.getBit(key);
+        if (bit == -1) return;
+
+        int current = getTradedProfessions();
+        setTradedProfessions(current | (1 << bit));
+    }
+
+    @Unique
+    public boolean hasTradedAll() {
+        return VillagerProfessionBits.hasAll(getTradedProfessions());
+    }
+
+    @Override
+    public int getTradedCount() {
+        int mask = getTradedProfessions();
+        int count = 0;
+        while (mask != 0) {
+            count += mask & 1;
+            mask >>= 1;
+        }
+        return count;
     }
 
     @Unique public int preserved_inferno$getHeat() {

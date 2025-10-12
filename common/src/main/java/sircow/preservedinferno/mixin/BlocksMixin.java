@@ -241,7 +241,7 @@ public class BlocksMixin {
     private static BlockBehaviour.Properties preserved_inferno$modifyCrop(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.of()
                 .mapColor(blockStatex -> blockStatex.getValue(CropBlock.AGE) >= 6 ? MapColor.COLOR_YELLOW : MapColor.PLANT)
-                .noCollission()
+                .noCollision()
                 .randomTicks()
                 .strength(0.25F, 0.0F)
                 .sound(SoundType.CROP)
@@ -252,7 +252,7 @@ public class BlocksMixin {
     private static BlockBehaviour.Properties preserved_inferno$modifyCrop2(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
-                .noCollission()
+                .noCollision()
                 .randomTicks()
                 .strength(0.25F, 0.0F)
                 .sound(SoundType.CROP)
@@ -263,7 +263,7 @@ public class BlocksMixin {
     private static BlockBehaviour.Properties preserved_inferno$modifyCrop3(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
-                .noCollission()
+                .noCollision()
                 .randomTicks()
                 .strength(0.25F, 0.0F)
                 .sound(SoundType.CROP)
@@ -274,7 +274,7 @@ public class BlocksMixin {
     private static BlockBehaviour.Properties preserved_inferno$modifyCrop4(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
-                .noCollission()
+                .noCollision()
                 .randomTicks()
                 .strength(0.25F, 0.0F)
                 .sound(SoundType.CROP)
@@ -286,7 +286,7 @@ public class BlocksMixin {
     private static BlockBehaviour.Properties preserved_inferno$modifyCrop5(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.of()
                 .mapColor(MapColor.COLOR_RED)
-                .noCollission()
+                .noCollision()
                 .strength(0.25F, 0.0F)
                 .sound(SoundType.NETHER_WART)
                 .pushReaction(PushReaction.DESTROY);
@@ -296,7 +296,7 @@ public class BlocksMixin {
     private static BlockBehaviour.Properties preserved_inferno$modifyCrop6(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.of()
                 .mapColor(MapColor.PLANT)
-                .noCollission()
+                .noCollision()
                 .randomTicks()
                 .strength(0.25F, 0.0F)
                 .sound(SoundType.GRASS)
@@ -310,7 +310,7 @@ public class BlocksMixin {
         if ("attached_pumpkin_stem".equals(blockId) || "attached_melon_stem".equals(blockId)) {
             return properties
                     .mapColor(MapColor.PLANT)
-                    .noCollission()
+                    .noCollision()
                     .strength(0.25F, 0.0F)
                     .sound(SoundType.WOOD)
                     .pushReaction(PushReaction.DESTROY);
@@ -318,7 +318,7 @@ public class BlocksMixin {
         else if ("pumpkin_stem".equals(blockId) || "melon_stem".equals(blockId)) {
             return properties
                     .mapColor(MapColor.PLANT)
-                    .noCollission()
+                    .noCollision()
                     .randomTicks()
                     .strength(0.25F, 0.0F)
                     .sound(SoundType.HARD_CROP)

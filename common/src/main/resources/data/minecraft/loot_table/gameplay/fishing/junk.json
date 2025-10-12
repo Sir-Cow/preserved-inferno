@@ -42,7 +42,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "pinferno:copper_nugget",
+          "name": "minecraft:copper_nugget",
           "weight": 4
         },
         {

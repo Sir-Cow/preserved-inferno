@@ -52,6 +52,8 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     public int progressWater = 0;
     public int maxWaterProgress = 64;
 
+    private boolean needsInitialUpdate = true;
+
     public PreservedCauldronBlockEntity(BlockPos pos, BlockState state) {
         super(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, pos, state);
         this.propertyDelegate = new ContainerData() {
@@ -130,16 +132,29 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
 
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
-        CompoundTag tag = new CompoundTag();
-        tag.putInt("CauldronWaterProgress", this.progressWater);
-        tag.putInt("CauldronMaxWaterProgress", this.maxWaterProgress);
-        return ClientboundBlockEntityDataPacket.create(this, (blockEntity, registryAccess) -> tag);
+        return ClientboundBlockEntityDataPacket.create(this, (blockEntity, registryAccess) -> {
+            CompoundTag tag = new CompoundTag();
+            tag.putInt("CauldronWaterProgress", this.progressWater);
+            tag.putInt("CauldronMaxWaterProgress", this.maxWaterProgress);
+            return tag;
+        });
     }
 
     public void onDataPacket(ClientboundBlockEntityDataPacket packet) {
         CompoundTag tag = packet.getTag();
         this.progressWater = tag.getIntOr("CauldronWaterProgress", 0);
         this.maxWaterProgress = tag.getIntOr("CauldronMaxWaterProgress", 64);
+        if (this.level != null) {
+            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
+        }
+    }
+
+    public void sendInitialUpdate() {
+        if (level != null && !level.isClientSide()) {
+            setChanged(level, worldPosition, getBlockState());
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+            needsInitialUpdate = false;
+        }
     }
 
     @Override
@@ -155,6 +170,10 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     public static void tick(ServerLevel level, BlockPos pos, BlockState state, PreservedCauldronBlockEntity cauldron) {
         if (level.isClientSide()) {
             return;
+        }
+
+        if (cauldron.needsInitialUpdate) {
+            cauldron.sendInitialUpdate();
         }
 
         if (cauldron.isOutputSlotEmptyOrReceivable()) {
@@ -258,8 +277,8 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         }
 
         if (waterProgressChanged) {
-            setChanged();
             if (level != null && !level.isClientSide()) {
+                setChanged(level, worldPosition, getBlockState());
                 level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
             }
         }

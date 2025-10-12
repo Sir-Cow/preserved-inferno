@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": "minecraft:stick",
-    "X": "pinferno:copper_nugget"
+    "X": "minecraft:copper_nugget"
   },
   "pattern": [
     "X X",

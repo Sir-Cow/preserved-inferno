@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.model.BookModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -101,6 +102,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
     private boolean thirtyTextureActive;
     public Level world;
     public int enchPower;
+    private boolean scrolling;
 
     private static final Map<String, Set<Integer>> itemCategorySlots = new HashMap<>();
     static {
@@ -385,9 +387,20 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        this.mouseClicked = false;
+    public boolean mouseClicked(@NotNull MouseButtonEvent event, boolean isDoubleClick) {
+        //this.mouseClicked = false;
+        this.scrolling = false;
         if (this.itemInEnchantSlot) {
+            int scrollLeft = this.leftPos + 156;
+            int scrollTop = this.topPos + 9;
+            int scrollRight = scrollLeft + 12;
+            int scrollBottom = scrollTop + 54;
+
+            // click in scroll bar
+            if (event.x() >= scrollLeft && event.x() < scrollRight && event.y() >= scrollTop && event.y() < scrollBottom) {
+                this.scrolling = true;
+                return true;
+            }
             // enchant slots
             int scrollOffset = this.scrollOffset + 16;
             Set<Integer> slots = itemCategorySlots.get(this.itemCategory);
@@ -399,7 +412,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 int m2 = 11 + l2 * 14 + 2;
                 if (this.minecraft != null) {
                     // slot click
-                    if (this.isHovering(k2, m2, 14, 14, mouseX, mouseY) && slots != null && slots.contains(i2)) {
+                    if (this.isHovering(k2, m2, 14, 14, event.x(), event.y()) && slots != null && slots.contains(i2)) {
                         Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_CLICK, 1.0F));
                         Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.BOOK_PAGE_TURN, 1.0F));
                         this.menu.enchantSelected = true;
@@ -416,21 +429,21 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             if (this.minecraft != null) {
                 if (this.menu.getSlot(1).getItem().getItem() == Items.LAPIS_LAZULI) {
                     // 10 level
-                    if (this.isHovering(71, 13, 16, 16, mouseX, mouseY) && this.tenTextureActive) {
+                    if (this.isHovering(71, 13, 16, 16, event.x(), event.y()) && this.tenTextureActive) {
                         if (this.minecraft.gameMode != null) {
                             this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, 100 + 1);
                             return true;
                         }
                     }
                     // 20 level
-                    else if (this.isHovering(71, 13 + 20, 16, 16, mouseX, mouseY) && this.twentyTextureActive) {
+                    else if (this.isHovering(71, 13 + 20, 16, 16, event.x(), event.y()) && this.twentyTextureActive) {
                         if (this.minecraft.gameMode != null) {
                             this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, 100 + 2);
                             return true;
                         }
                     }
                     // 30 level
-                    else if (this.isHovering(71, 13 + 40, 16, 16, mouseX, mouseY) && this.thirtyTextureActive) {
+                    else if (this.isHovering(71, 13 + 40, 16, 16, event.x(), event.y()) && this.thirtyTextureActive) {
                         if (this.minecraft.gameMode != null) {
                             this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, 100 + 3);
                             return true;
@@ -441,39 +454,48 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             // scroll
             int i = this.leftPos + 156;
             int j = this.topPos + 9;
-            if (mouseX >= (double)i && mouseX < (double)(i + 12) && mouseY >= (double)j && mouseY < (double)(j + 54)) {
-                this.mouseClicked = true;
+            if (event.x() >= (double)i && event.x() < (double)(i + 12) && event.y() >= (double)j && event.y() < (double)(j + 54)) {
+                //this.mouseClicked = true;
+                this.scrolling = true;
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, isDoubleClick);
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (this.mouseClicked && this.shouldScroll()) {
-            int i = this.topPos + 14;
-            int j = i + 54;
-            this.scrollAmount = ((float)mouseY - (float)i - 7.5F) / ((float)(j - i) - 15.0F);
-            this.scrollAmount = Mth.clamp(this.scrollAmount, 0.0F, 1.0F);
-            this.scrollOffset = (int)((double)(this.scrollAmount * (float)this.getMaxScroll()) + 0.5) * 4;
+    public boolean mouseDragged(@NotNull MouseButtonEvent event, double mouseX, double mouseY) {
+        if (this.scrolling && this.shouldScroll()) {
+            int scrollTop = this.topPos + 9;
+            int scrollBottom = scrollTop + 54;
+
+            this.scrollAmount = Mth.clamp(
+                    ((float) event.y() - (float) scrollTop - 7.5F) / ((float) (scrollBottom - scrollTop) - 15.0F),
+                    0.0F,
+                    1.0F
+            );
+
+            int maxScroll = this.getMaxScroll();
+            this.scrollOffset = Mth.clamp((int) (this.scrollAmount * maxScroll + 0.5F), 0, maxScroll);
             return true;
         }
-        else {
-            return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
-        }
+        return super.mouseDragged(event, mouseX, mouseY);
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        if (!super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
-            if (this.shouldScroll()) {
-                int i = this.getMaxScroll();
-                float f = (float) verticalAmount / (float) i;
-                this.scrollAmount = Mth.clamp(this.scrollAmount - f, 0.0F, 1.0F);
-                this.scrollOffset = (int) ((double) (this.scrollAmount * (float) i) + 0.5) * 4;
-            }
+    public boolean mouseReleased(@NotNull MouseButtonEvent event) {
+        this.scrolling = false;
+        return super.mouseReleased(event);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if (this.shouldScroll()) {
+            int max = this.getMaxScroll();
+            this.scrollAmount = Mth.clamp(this.scrollAmount - (float) (scrollY / (double) max), 0.0F, 1.0F);
+            this.scrollOffset = (int) ((this.scrollAmount * (float) max) + 0.5F) * 4;
+            return true;
         }
-        return true;
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -759,7 +781,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         return this.itemInEnchantSlot && ENCHANTMENT_ICON_TEXTURES.length > 16;
     }
 
-    protected int getMaxScroll() {
-        return (ENCHANTMENT_ICON_TEXTURES.length) / 4 - 3;
+    private int getMaxScroll() {
+        return (ENCHANTMENT_ICON_TEXTURES.length + 4 - 1) / 4 - 4;
     }
 }

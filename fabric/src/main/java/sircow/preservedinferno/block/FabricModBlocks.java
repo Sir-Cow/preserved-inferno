@@ -1,7 +1,6 @@
 package sircow.preservedinferno.block;
 
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
-import sircow.preservedinferno.Constants;
 
 public class FabricModBlocks {
     public static void registerBlocks() {

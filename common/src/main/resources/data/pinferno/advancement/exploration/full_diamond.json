@@ -49,7 +49,7 @@
     "frame": "goal",
     "icon": {
       "count": 1,
-      "id": "minecraft:diamond_helmet"
+      "id": "minecraft:diamond_chestplate"
     },
     "title": {
       "translate": "advancements.pinferno.exploration.full_diamond.title"

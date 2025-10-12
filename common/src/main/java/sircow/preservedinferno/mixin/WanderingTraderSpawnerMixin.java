@@ -37,7 +37,7 @@ public abstract class WanderingTraderSpawnerMixin {
     }
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$onTick(ServerLevel level, boolean spawnEnemies, boolean spawnFriendlies, CallbackInfo ci) {
+    private void preserved_inferno$onTick(ServerLevel level, boolean spawnEnemies, CallbackInfo ci) {
         if (!level.getGameRules().getBoolean(GameRules.RULE_DO_TRADER_SPAWNING)) return;
 
         countdown--;

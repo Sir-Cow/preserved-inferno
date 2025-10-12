@@ -9,16 +9,11 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 public class VillagerDataMixin {
     @ModifyConstant(method = "<clinit>", constant = @Constant(intValue = 70))
     private static int preserved_inferno$replaceJourneymanXp(int original) {
-        return 30;
+        return 50;
     }
 
     @ModifyConstant(method = "<clinit>", constant = @Constant(intValue = 150))
     private static int preserved_inferno$replaceExpertXp(int original) {
-        return 50;
-    }
-
-    @ModifyConstant(method = "<clinit>", constant = @Constant(intValue = 250))
-    private static int preserved_inferno$replaceMasterXp(int original) {
-        return 100;
+        return 120;
     }
 }

@@ -29,7 +29,7 @@ public class BlockItemMixin {
         BlockPos blockPos = context.getClickedPos();
         Level level = context.getLevel();
 
-        if (!level.isClientSide && itemStack.getItem() instanceof BlockItem && level.dimension() == Level.NETHER) {
+        if (!level.isClientSide() && itemStack.getItem() instanceof BlockItem && level.dimension() == Level.NETHER) {
             Block placedBlock = ((BlockItem) itemStack.getItem()).getBlock();
             ServerLevel serverLevel = (ServerLevel) level;
             PreservedInferno instance = PreservedInferno.INSTANCE;

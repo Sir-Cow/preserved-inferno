@@ -1,11 +1,9 @@
 package sircow.preservedinferno.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -17,17 +15,27 @@ import java.util.Set;
 
 public class CopperTridentSpecialRenderer implements NoDataSpecialModelRenderer {
     private final CopperTridentModel model;
+    public static final ModelLayerLocation COPPER_TRIDENT = new ModelLayerLocation(Constants.id("copper_trident"), "main");
 
     public CopperTridentSpecialRenderer(CopperTridentModel model) {
         this.model = model;
     }
 
     @Override
-    public void render(@NotNull ItemDisplayContext displayContext, PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight, int packedOverlay, boolean hasFoilType) {
+    public void submit(
+            @NotNull ItemDisplayContext displayContext,
+            PoseStack poseStack,
+            @NotNull SubmitNodeCollector nodeCollector,
+            int packedLight,
+            int packedOverlay,
+            boolean hasFoil,
+            int outlineColor
+    ) {
         poseStack.pushPose();
         poseStack.scale(1.0F, -1.0F, -1.0F);
-        VertexConsumer vertexConsumer = ItemRenderer.getFoilBuffer(bufferSource, this.model.renderType(Constants.id("textures/entity/copper_trident.png")), false, hasFoilType);
-        this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay);
+        nodeCollector.submitModelPart(
+                this.model.root(), poseStack, this.model.renderType(CopperTridentModel.TEXTURE), packedLight, packedOverlay, null, false, hasFoil, -1, null, outlineColor
+        );
         poseStack.popPose();
     }
 
@@ -47,8 +55,8 @@ public class CopperTridentSpecialRenderer implements NoDataSpecialModelRenderer 
         }
 
         @Override
-        public SpecialModelRenderer<?> bake(EntityModelSet modelSet) {
-            return new CopperTridentSpecialRenderer(new CopperTridentModel(modelSet.bakeLayer(ThrownCopperTridentRenderer.COPPER_TRIDENT)));
+        public SpecialModelRenderer<?> bake(SpecialModelRenderer.BakingContext context) {
+            return new CopperTridentSpecialRenderer(new CopperTridentModel(context.entityModelSet().bakeLayer(COPPER_TRIDENT)));
         }
     }
 }

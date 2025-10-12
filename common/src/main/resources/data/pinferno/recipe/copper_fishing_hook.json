@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "F": "pinferno:aquatic_fiber",
-    "X": "#pinferno:copper_tool_materials"
+    "X": "#minecraft:copper_tool_materials"
   },
   "pattern": [
     "  F",
