@@ -1,0 +1,34 @@
+{
+  "parent": "pinferno:exploration/obtain_charcoal",
+  "criteria": {
+    "torch": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:torch"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.torch.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:torch"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.torch.title"
+    }
+  },
+  "requirements": [
+    [
+      "torch"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

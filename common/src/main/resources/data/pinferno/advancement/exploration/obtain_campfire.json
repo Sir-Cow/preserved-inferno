@@ -1,0 +1,34 @@
+{
+  "parent": "pinferno:exploration/obtain_charcoal",
+  "criteria": {
+    "campfire": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:campfire"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.campfire.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:campfire"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.campfire.title"
+    }
+  },
+  "requirements": [
+    [
+      "campfire"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

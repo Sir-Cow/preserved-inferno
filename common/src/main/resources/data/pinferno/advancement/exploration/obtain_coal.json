@@ -1,0 +1,34 @@
+{
+  "parent": "pinferno:exploration/obtain_charcoal",
+  "criteria": {
+    "coal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:coal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.coal.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:coal"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.coal.title"
+    }
+  },
+  "requirements": [
+    [
+      "coal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

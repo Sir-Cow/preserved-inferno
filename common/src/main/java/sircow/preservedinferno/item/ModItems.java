@@ -25,13 +25,15 @@ import sircow.preservedinferno.item.custom.PreservedShieldItem;
 import sircow.preservedinferno.other.ModTags;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
 
 public class ModItems {
     // shield stuff
-    static DecimalFormat df = new DecimalFormat("0.000");
+    static DecimalFormat df = new DecimalFormat("0.000", new DecimalFormatSymbols(Locale.US));
     static double COPPER_REGEN_PARSE = 2F / 75F;
     static double NETHERITE_REGEN_PARSE = 2F / 15F;
     static float COPPER_REGEN = Float.parseFloat(df.format(COPPER_REGEN_PARSE));
@@ -209,7 +211,7 @@ public class ModItems {
 
     public static final Item AQUATIC_FIBER = registerItem("aquatic_fiber", Item::new, new Item.Properties());
 
-    public static final Item NETHER_GOLD_PLATE = registerItem("nether_gold_plate", Item::new, new Item.Properties());
+    public static final Item NETHER_ALLOY_PLATE = registerItem("nether_alloy_plate", Item::new, new Item.Properties());
     public static final Item NETHER_ALLOY_INGOT = registerItem("nether_alloy_ingot", Item::new, new Item.Properties());
     public static final Item NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE = registerItem("nether_alloy_upgrade_smithing_template", Item::new, new Item.Properties()
             .rarity(Rarity.UNCOMMON)

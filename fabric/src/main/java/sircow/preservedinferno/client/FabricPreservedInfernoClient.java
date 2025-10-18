@@ -34,11 +34,13 @@ import sircow.preservedinferno.screen.CacheScreen;
 import sircow.preservedinferno.screen.PreservedCauldronScreen;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class FabricPreservedInfernoClient implements ClientModInitializer {
-    DecimalFormat df = new DecimalFormat("#.##");
+    DecimalFormat df = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.US));
     public static boolean waitingForAdvancement = false;
     public static boolean suppressNextOpen = false;
     public static int advancementDelayTicks = -1;

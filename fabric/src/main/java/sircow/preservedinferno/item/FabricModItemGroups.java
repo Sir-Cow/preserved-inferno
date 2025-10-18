@@ -69,7 +69,7 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.DIAMOND_SHIELD);
                     entries.accept(ModItems.NETHERITE_SHIELD);
 
-                    entries.accept(ModItems.NETHER_GOLD_PLATE);
+                    entries.accept(ModItems.NETHER_ALLOY_PLATE);
                     entries.accept(ModItems.NETHER_ALLOY_INGOT);
                     entries.accept(ModItems.NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE);
 

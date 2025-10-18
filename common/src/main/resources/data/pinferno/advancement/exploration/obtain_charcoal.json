@@ -1,0 +1,34 @@
+{
+  "parent": "pinferno:exploration/obtain_furnace",
+  "criteria": {
+    "charcoal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:charcoal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.charcoal.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:charcoal"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.charcoal.title"
+    }
+  },
+  "requirements": [
+    [
+      "charcoal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

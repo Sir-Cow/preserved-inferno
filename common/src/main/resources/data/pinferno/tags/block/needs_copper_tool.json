@@ -6,6 +6,8 @@
     "minecraft:deepslate_iron_ore",
     "minecraft:iron_bars",
     "minecraft:redstone_ore",
-    "minecraft:deepslate_redstone_ore"
+    "minecraft:deepslate_redstone_ore",
+    "minecraft:coal_ore",
+    "minecraft:deepslate_coal_ore"
   ]
 }

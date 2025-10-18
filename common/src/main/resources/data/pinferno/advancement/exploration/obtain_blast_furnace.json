@@ -1,0 +1,34 @@
+{
+  "parent": "pinferno:exploration/obtain_furnace",
+  "criteria": {
+    "blast_furnace": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:blast_furnace"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.blast_furnace.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:blast_furnace"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.blast_furnace.title"
+    }
+  },
+  "requirements": [
+    [
+      "blast_furnace"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

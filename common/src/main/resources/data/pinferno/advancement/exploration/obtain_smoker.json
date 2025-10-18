@@ -1,0 +1,34 @@
+{
+  "parent": "pinferno:exploration/obtain_furnace",
+  "criteria": {
+    "smoker": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:smoker"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.smoker.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:smoker"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.smoker.title"
+    }
+  },
+  "requirements": [
+    [
+      "smoker"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

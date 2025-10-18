@@ -11,7 +11,11 @@ public class ModTags {
     public static final TagKey<Item> BANNERS = TagKey.create(Registries.ITEM, Constants.id("banners"));
     public static final TagKey<Item> CARPETS = TagKey.create(Registries.ITEM, Constants.id("carpets"));
     public static final TagKey<Item> CLOTH = TagKey.create(Registries.ITEM, Constants.id("cloth"));
+    public static final TagKey<Item> OVERWORLD_WOODEN_SLABS = TagKey.create(Registries.ITEM, Constants.id("overworld_wooden_slabs"));
+    public static final TagKey<Item> OVERWORLD_PLANKS = TagKey.create(Registries.ITEM, Constants.id("overworld_planks"));
+    public static final TagKey<Item> OVERWORLD_WOODEN_PRESSURE_PLATES = TagKey.create(Registries.ITEM, Constants.id("overworld_wooden_pressure_plates"));
     public static final TagKey<Item> SHIELDS = TagKey.create(Registries.ITEM, Constants.id("shields"));
+
     public static final TagKey<Item> HOOKS = TagKey.create(Registries.ITEM, Constants.id("hooks"));
     public static final TagKey<Item> LINES = TagKey.create(Registries.ITEM, Constants.id("lines"));
     public static final TagKey<Item> SINKERS = TagKey.create(Registries.ITEM, Constants.id("sinkers"));

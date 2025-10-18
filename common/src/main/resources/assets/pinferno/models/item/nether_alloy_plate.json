@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "pinferno:item/nether_gold_plate"
+    "layer0": "pinferno:item/nether_alloy_plate"
   }
 }
