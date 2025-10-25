@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "C": "minecraft:waxed_exposed_copper_door",
+    "S": "minecraft:iron_ingot"
+  },
+  "pattern": [
+    " S ",
+    "SCS",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:reinforced_waxed_exposed_copper_door"
+  }
+}

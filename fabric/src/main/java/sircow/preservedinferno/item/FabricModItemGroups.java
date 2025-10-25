@@ -106,6 +106,27 @@ public class FabricModItemGroups {
                     entries.accept(ModBlocks.WAXED_EXPOSED_INDUCTOR_RAIL.asItem());
                     entries.accept(ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL.asItem());
                     entries.accept(ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL.asItem());
+
+                    entries.accept(ModBlocks.REINFORCED_OAK_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_SPRUCE_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_BIRCH_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_JUNGLE_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_ACACIA_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_CHERRY_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_DARK_OAK_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_PALE_OAK_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_MANGROVE_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_BAMBOO_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_CRIMSON_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_WARPED_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_COPPER_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_EXPOSED_COPPER_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_OXIDIZED_COPPER_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_WEATHERED_COPPER_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_WAXED_COPPER_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_WAXED_EXPOSED_COPPER_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_WAXED_OXIDIZED_COPPER_DOOR.asItem());
+                    entries.accept(ModBlocks.REINFORCED_WAXED_WEATHERED_COPPER_DOOR.asItem());
                 })
                 .build();
         registerCreativeTab(PRESERVED_INFERNO_GROUP);

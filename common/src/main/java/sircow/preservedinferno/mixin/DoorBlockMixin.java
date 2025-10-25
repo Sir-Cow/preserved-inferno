@@ -32,6 +32,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import sircow.preservedinferno.other.ModTags;
 
 import java.util.Optional;
 
@@ -46,12 +47,12 @@ public abstract class DoorBlockMixin extends Block implements LiquidBlockContain
     }
 
     @Inject(method = "createBlockStateDefinition", at = @At("RETURN"))
-    private void addWaterloggedProperty(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
+    private void preserved_inferno$addWaterloggedProperty(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
         builder.add(BlockStateProperties.WATERLOGGED);
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void onInit(BlockSetType type, Properties properties, CallbackInfo ci) {
+    private void preserved_inferno$onInit(BlockSetType type, Properties properties, CallbackInfo ci) {
         BlockState defaultState = this.defaultBlockState();
         this.registerDefaultState(defaultState.setValue(BlockStateProperties.WATERLOGGED, false));
     }
@@ -62,7 +63,7 @@ public abstract class DoorBlockMixin extends Block implements LiquidBlockContain
     }
 
     @Inject(method = "updateShape", at = @At("TAIL"))
-    private void onUpdateShapeWaterlogged(
+    private void preserved_inferno$onUpdateShapeWaterlogged(
             BlockState state,
             LevelReader level,
             ScheduledTickAccess scheduledTickAccess,
@@ -79,7 +80,7 @@ public abstract class DoorBlockMixin extends Block implements LiquidBlockContain
     }
 
     @Inject(method = "getStateForPlacement", at = @At("RETURN"), cancellable = true)
-    private void injectWaterloggedState(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir) {
+    private void preserved_inferno$injectWaterloggedState(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir) {
         BlockState state = cir.getReturnValue();
         if (state != null) {
             FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
@@ -114,5 +115,16 @@ public abstract class DoorBlockMixin extends Block implements LiquidBlockContain
     @Override
     public @NotNull Optional<SoundEvent> getPickupSound() {
         return Optional.of(SoundEvents.BUCKET_FILL);
+    }
+
+    // prevent zombies breaking reinforced doors
+    @Inject(method = "isWoodenDoor(Lnet/minecraft/world/level/block/state/BlockState;)Z", at = @At("HEAD"), cancellable = true)
+    private static void preserved_inferno$doorBreak(BlockState state, CallbackInfoReturnable<Boolean> cir) {
+        if (state.is(ModTags.REINFORCED_DOORS_BLOCK)) {
+            cir.setReturnValue(false);
+        }
+        else if (state.is(ModTags.BREAKABLE_DOORS)) {
+            cir.setReturnValue(true);
+        }
     }
 }

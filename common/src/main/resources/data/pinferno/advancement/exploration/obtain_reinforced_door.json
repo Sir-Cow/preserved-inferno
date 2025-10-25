@@ -1,0 +1,45 @@
+{
+  "parent": "pinferno:exploration/obtain_copper_door",
+  "criteria": {
+    "reinforced_door": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#pinferno:reinforced_doors"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "iron_door": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:iron_door"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.reinforced_door.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:iron_door"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.reinforced_door.title"
+    }
+  },
+  "requirements": [
+    [
+      "reinforced_door",
+      "iron_door"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

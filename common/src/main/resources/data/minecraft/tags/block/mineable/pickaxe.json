@@ -8,13 +8,14 @@
     "pinferno:polished_rhyolite_stairs",
     "pinferno:rhyolite_slab",
     "pinferno:polished_rhyolite_slab",
-    "pinferno:inductor_rail",
-    "pinferno:exposed_inductor_rail",
-    "pinferno:weathered_inductor_rail",
-    "pinferno:oxidized_inductor_rail",
-    "pinferno:waxed_inductor_rail",
-    "pinferno:waxed_exposed_inductor_rail",
-    "pinferno:waxed_weathered_inductor_rail",
-    "pinferno:waxed_oxidized_inductor_rail"
+    "#pinferno:rails",
+    "pinferno:reinforced_copper_door",
+    "pinferno:reinforced_exposed_copper_door",
+    "pinferno:reinforced_weathered_copper_door",
+    "pinferno:reinforced_oxidized_copper_door",
+    "pinferno:reinforced_waxed_copper_door",
+    "pinferno:reinforced_waxed_exposed_copper_door",
+    "pinferno:reinforced_waxed_weathered_copper_door",
+    "pinferno:reinforced_waxed_oxidized_copper_door"
   ]
 }

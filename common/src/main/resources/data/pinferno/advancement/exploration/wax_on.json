@@ -72,7 +72,11 @@
                   "pinferno:inductor_rail",
                   "pinferno:exposed_inductor_rail",
                   "pinferno:weathered_inductor_rail",
-                  "pinferno:oxidized_inductor_rail"
+                  "pinferno:oxidized_inductor_rail",
+                  "pinferno:reinforced_copper_door",
+                  "pinferno:reinforced_exposed_copper_door",
+                  "pinferno:reinforced_weathered_copper_door",
+                  "pinferno:reinforced_oxidized_copper_door"
                 ]
               }
             }

@@ -14,6 +14,8 @@ public class ModTags {
     public static final TagKey<Item> OVERWORLD_WOODEN_SLABS = TagKey.create(Registries.ITEM, Constants.id("overworld_wooden_slabs"));
     public static final TagKey<Item> OVERWORLD_PLANKS = TagKey.create(Registries.ITEM, Constants.id("overworld_planks"));
     public static final TagKey<Item> OVERWORLD_WOODEN_PRESSURE_PLATES = TagKey.create(Registries.ITEM, Constants.id("overworld_wooden_pressure_plates"));
+    public static final TagKey<Item> RAILS_ITEM = TagKey.create(Registries.ITEM, Constants.id("rails"));
+    public static final TagKey<Item> REINFORCED_DOORS_ITEM = TagKey.create(Registries.ITEM, Constants.id("reinforced_doors"));
     public static final TagKey<Item> SHIELDS = TagKey.create(Registries.ITEM, Constants.id("shields"));
 
     public static final TagKey<Item> HOOKS = TagKey.create(Registries.ITEM, Constants.id("hooks"));
@@ -28,6 +30,11 @@ public class ModTags {
     public static final TagKey<Item> LOOTING = TagKey.create(Registries.ITEM, Constants.id("enchantable/looting"));
 
     public static final TagKey<Item> DYES = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyes"));
+
+    public static final TagKey<Block> RAILS_BLOCK = TagKey.create(Registries.BLOCK, Constants.id("rails"));
+    public static final TagKey<Block> REINFORCED_DOORS_BLOCK = TagKey.create(Registries.BLOCK, Constants.id("reinforced_doors"));
+    public static final TagKey<Block> BREAKABLE_DOORS = TagKey.create(Registries.BLOCK, Constants.id("breakable_doors"));
+    public static final TagKey<Block> COPPER_DOORS = TagKey.create(Registries.BLOCK, Constants.id("copper_doors"));
 
     public static void registerModTags() {
         // Constants.LOG.info("Registering Mod Tags for " + Constants.MOD_ID);

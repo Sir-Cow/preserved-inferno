@@ -21,6 +21,9 @@
         ],
         "client": [
             "sircow.preservedinferno.client.FabricPreservedInfernoClient"
+        ],
+        "fabric-datagen": [
+            "sircow.preservedinferno.datagen.ModDataGenerator"
         ]
     },
     "mixins": [

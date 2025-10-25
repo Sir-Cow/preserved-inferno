@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_clay_ball": {
+    "has_fishing_rod": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:clay_ball"
+            "items": "minecraft:fishing_rod"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_clay_ball"
+      "has_fishing_rod"
     ]
   ],
   "rewards": {

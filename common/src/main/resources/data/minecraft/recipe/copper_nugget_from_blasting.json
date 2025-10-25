@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": [
+    "minecraft:copper_pickaxe",
+    "minecraft:copper_shovel",
+    "minecraft:copper_axe",
+    "minecraft:copper_hoe",
+    "minecraft:copper_sword",
+    "minecraft:copper_helmet",
+    "minecraft:copper_chestplate",
+    "minecraft:copper_leggings",
+    "minecraft:copper_boots",
+    "minecraft:copper_horse_armor",
+    "pinferno:copper_trident",
+    "pinferno:copper_shield",
+    "pinferno:copper_fishing_hook",
+    "pinferno:copper_laced_fishing_line",
+    "pinferno:copper_sinker"
+  ],
+  "result": {
+    "id": "minecraft:copper_nugget"
+  }
+}

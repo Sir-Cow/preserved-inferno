@@ -108,7 +108,7 @@ public class BlocksMixin {
         return original.mapColor(MapColor.STONE)
                 .instrument(NoteBlockInstrument.BASEDRUM)
                 .requiresCorrectToolForDrops()
-                .strength(4.0F, 3.0F);
+                .strength(5.0F, 3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=lapis_ore")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
@@ -171,7 +171,7 @@ public class BlocksMixin {
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
     private static BlockBehaviour.Properties preserved_inferno$modifyDeepCoalOre(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.ofFullCopy(Blocks.COAL_ORE).mapColor(MapColor.DEEPSLATE)
-                .strength(8.0F, 3.0F)
+                .strength(10.0F, 3.0F)
                 .sound(SoundType.DEEPSLATE);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=deepslate_lapis_ore")), at = @At(value = "INVOKE",

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "pinferno:reinforced_copper_door",
+    "minecraft:honeycomb"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:reinforced_waxed_copper_door"
+  }
+}

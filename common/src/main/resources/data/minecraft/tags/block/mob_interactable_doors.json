@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "pinferno:reinforced_copper_door",
+    "pinferno:reinforced_exposed_copper_door",
+    "pinferno:reinforced_weathered_copper_door",
+    "pinferno:reinforced_oxidized_copper_door",
+    "pinferno:reinforced_waxed_copper_door",
+    "pinferno:reinforced_waxed_exposed_copper_door",
+    "pinferno:reinforced_waxed_weathered_copper_door",
+    "pinferno:reinforced_waxed_oxidized_copper_door"
+  ]
+}
