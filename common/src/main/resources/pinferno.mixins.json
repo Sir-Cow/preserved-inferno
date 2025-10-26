@@ -33,7 +33,6 @@
     "CowMixin",
     "CrossbowMixin",
     "DoorBlockMixin",
-    "DoorInteractGoalMixin",
     "DrownedAttackGoalMixin",
     "DrownedMixin",
     "DrownedTridentAttackGoalAccessor",
