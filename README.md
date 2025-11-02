@@ -35,5 +35,7 @@ The following are the areas of the game that have been changed:
 - Nether Heat (NEW)</details>
 ## ⚙️ Modpack Usage
 Inferno is free to be used in any custom mod packs as long as credit is provided. However, compatability with existing mods has not been tested for, so use at your own risk.
+## 🔨 Version Support
+This mod is updated using the most modern version of Minecraft. Previous versions are not supported.
 ## 🐛 Issues
 If you happen to experience any issues while using this mod, please report it to our [GitHub issue tracker](https://github.com/Sir-Cow/preserved-inferno/issues)! Please be as clear as possible when reporting any bugs or issues.
