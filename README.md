@@ -34,7 +34,7 @@ The following are the areas of the game that have been changed:
 - Leatherworking (NEW)
 - Nether Heat (NEW)</details>
 ## ⚙️ Modpack Usage
-Inferno is free to be used in any custom mod packs as long as credit is provided. However, compatability with existing mods has not been tested for, so use at your own risk.
+Inferno is free to be used in any custom mod packs as long as credit is provided. However, compatibility with existing mods has not been tested for, so use at your own risk.
 ## 🔨 Version Support
 This mod is updated using the most modern version of Minecraft. Previous versions are not supported.
 ## 🐛 Issues
