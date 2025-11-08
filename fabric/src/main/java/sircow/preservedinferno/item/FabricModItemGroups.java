@@ -39,6 +39,7 @@ public class FabricModItemGroups {
 
                     entries.accept(ModItems.ECHOING_PRISM);
                     entries.accept(ModItems.ECHOING_PRISM_UPGRADE_SMITHING_TEMPLATE);
+                    entries.accept(ModItems.SCULK_INFUSION);
 
                     entries.accept(ModItems.RAW_COPPER_CHUNK);
                     entries.accept(ModItems.RAW_IRON_CHUNK);
@@ -77,20 +78,20 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.AQUATIC_FIBER);
                     entries.accept(FabricModItems.CACHE);
                     entries.accept(ModItems.COPPER_FISHING_HOOK);
-                    entries.accept(ModItems.PRISMARINE_FISHING_HOOK);
                     entries.accept(ModItems.IRON_FISHING_HOOK);
+                    entries.accept(ModItems.PRISMARINE_FISHING_HOOK);
                     entries.accept(ModItems.GOLDEN_FISHING_HOOK);
                     entries.accept(ModItems.DIAMOND_FISHING_HOOK);
                     entries.accept(ModItems.NETHERITE_FISHING_HOOK);
                     entries.accept(ModItems.COPPER_LACED_FISHING_LINE);
-                    entries.accept(ModItems.PRISMARINE_LACED_FISHING_LINE);
                     entries.accept(ModItems.IRON_LACED_FISHING_LINE);
+                    entries.accept(ModItems.PRISMARINE_LACED_FISHING_LINE);
                     entries.accept(ModItems.GOLDEN_LACED_FISHING_LINE);
                     entries.accept(ModItems.DIAMOND_LACED_FISHING_LINE);
                     entries.accept(ModItems.NETHERITE_LACED_FISHING_LINE);
                     entries.accept(ModItems.COPPER_SINKER);
-                    entries.accept(ModItems.PRISMARINE_SINKER);
                     entries.accept(ModItems.IRON_SINKER);
+                    entries.accept(ModItems.PRISMARINE_SINKER);
                     entries.accept(ModItems.GOLDEN_SINKER);
                     entries.accept(ModItems.DIAMOND_SINKER);
                     entries.accept(ModItems.NETHERITE_SINKER);

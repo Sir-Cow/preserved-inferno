@@ -240,9 +240,9 @@ public class FabricModEvents {
         });
     }
 
-    public static void checkBreakFullyGrownCrop() {
+    public static void checkBlockBreak() {
         PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
-            if (level.isClientSide()) {
+            if (level.isClientSide() || player.isCreative()) {
                 return;
             }
 
@@ -266,6 +266,10 @@ public class FabricModEvents {
                 if (isFullyGrown && mainHandItem.is(ItemTags.HOES)) {
                     ModTriggers.BREAK_GROWN_CROP.trigger((ServerPlayer) player);
                 }
+            }
+
+            if (state.is(Blocks.SCULK_SHRIEKER)) {
+                ModTriggers.BREAK_SCULK_SHRIEKER.trigger((ServerPlayer) player);
             }
         });
     }
@@ -315,10 +319,15 @@ public class FabricModEvents {
     @SuppressWarnings("rawtypes")
     public static void openFletchingTable() {
         UseBlockCallback.EVENT.register((player, level, hand, hitResult) -> {
-            if (level.isClientSide()) return InteractionResult.PASS;
-
             BlockPos pos = hitResult.getBlockPos();
             BlockState state = level.getBlockState(pos);
+
+            if (!state.is(Blocks.FLETCHING_TABLE)) {
+                return InteractionResult.PASS;
+            }
+            if (level.isClientSide()) {
+                return InteractionResult.CONSUME;
+            }
 
             if (state.is(Blocks.FLETCHING_TABLE)) {
                 player.openMenu(new ExtendedScreenHandlerFactory() {
@@ -340,10 +349,18 @@ public class FabricModEvents {
                     });
 
                 player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
-                return InteractionResult.SUCCESS;
+                return InteractionResult.CONSUME;
             }
 
             return InteractionResult.PASS;
+        });
+    }
+
+    public static void trackSwordMultiKill() {
+        ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
+            if (source.getEntity() instanceof ServerPlayer serverPlayer) {
+                KillTracker.onEntityKilled(serverPlayer, entity, source);
+            }
         });
     }
 
@@ -354,10 +371,11 @@ public class FabricModEvents {
         modifySleeping();
         handleEntityDeath();
         handleBlockPlace();
-        checkBreakFullyGrownCrop();
+        checkBlockBreak();
         keyPressForFirstAdvancement();
         hardcoreSetup();
         enableMinecartExperiment();
         openFletchingTable();
+        trackSwordMultiKill();
     }
 }

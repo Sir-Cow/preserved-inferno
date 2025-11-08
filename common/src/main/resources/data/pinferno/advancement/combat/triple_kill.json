@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:combat/crit_damage",
+  "criteria": {
+    "triple_kill": {
+      "trigger": "pinferno:triple_kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.combat.triple_kill.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:diamond_sword"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.combat.triple_kill.title"
+    }
+  },
+  "requirements": [
+    [
+      "triple_kill"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

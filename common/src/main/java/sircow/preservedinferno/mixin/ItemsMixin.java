@@ -222,8 +222,7 @@ public abstract class ItemsMixin {
         return original.durability(432)
                 .rarity(Rarity.EPIC)
                 .component(DataComponents.GLIDER, Unit.INSTANCE)
-                .component(
-                        DataComponents.EQUIPPABLE,
+                .component(DataComponents.EQUIPPABLE,
                         Equippable.builder(EquipmentSlot.CHEST)
                                 .setEquipSound(SoundEvents.ARMOR_EQUIP_ELYTRA)
                                 .setAsset(EquipmentAssets.ELYTRA)
@@ -233,7 +232,17 @@ public abstract class ItemsMixin {
 
     // catch item names
     @ModifyArg(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;"), index = 0)
-    private static String preserved_inferno$catchItemName(String name) {
+    private static String preserved_inferno$catchItemName2Arg(String name) {
+        return handleItemName(name);
+    }
+
+    @ModifyArg(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;"), index = 0)
+    private static String preserved_inferno$catchItemName3Arg(String name) {
+        return handleItemName(name);
+    }
+
+    @Unique
+    private static String handleItemName(String name) {
         if (RegisterItemChecker.AXES.contains(name) || RegisterItemChecker.SHOVELS.contains(name)) {
             preserved_inferno$callFlip(name);
         }
@@ -410,7 +419,7 @@ public abstract class ItemsMixin {
             ordinal = 0)
     )
     private static Function<Item.Properties, Item> preserved_inferno$modifyWoodenHoe(Function<Item.Properties, Item> p_361381_) {
-        return (properties) -> new HoeItem(ToolMaterial.WOOD, 0.0F, -2.0F, properties);
+        return (properties) -> new HoeItem(ToolMaterial.WOOD, 0.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=golden_hoe")), at = @At(value = "INVOKE",
@@ -418,7 +427,7 @@ public abstract class ItemsMixin {
             ordinal = 0)
     )
     private static Function<Item.Properties, Item> preserved_inferno$modifyGoldenHoe(Function<Item.Properties, Item> p_361381_) {
-        return (properties) -> new HoeItem(ToolMaterial.GOLD, 3.0F, -2.0F, properties);
+        return (properties) -> new HoeItem(ToolMaterial.GOLD, 3.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=stone_hoe")), at = @At(value = "INVOKE",
@@ -426,7 +435,7 @@ public abstract class ItemsMixin {
             ordinal = 0)
     )
     private static Function<Item.Properties, Item> preserved_inferno$modifyStoneHoe(Function<Item.Properties, Item> p_361381_) {
-        return (properties) -> new HoeItem(ToolMaterial.STONE, 0.0F, -2.0F, properties);
+        return (properties) -> new HoeItem(ToolMaterial.STONE, 0.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=copper_hoe")), at = @At(value = "INVOKE",
@@ -434,7 +443,7 @@ public abstract class ItemsMixin {
             ordinal = 0)
     )
     private static Function<Item.Properties, Item> preserved_inferno$modifyCopperHoe(Function<Item.Properties, Item> p_361381_) {
-        return (properties) -> new HoeItem(ToolMaterial.COPPER, 1.0F, -2.0F, properties);
+        return (properties) -> new HoeItem(ToolMaterial.COPPER, 1.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=iron_hoe")), at = @At(value = "INVOKE",
@@ -442,7 +451,7 @@ public abstract class ItemsMixin {
             ordinal = 0)
     )
     private static Function<Item.Properties, Item> preserved_inferno$modifyIronHoe(Function<Item.Properties, Item> p_361381_) {
-        return (properties) -> new HoeItem(ToolMaterial.IRON, 1.0F, -2.0F, properties);
+        return (properties) -> new HoeItem(ToolMaterial.IRON, 1.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=diamond_hoe")), at = @At(value = "INVOKE",
@@ -450,7 +459,7 @@ public abstract class ItemsMixin {
             ordinal = 0)
     )
     private static Function<Item.Properties, Item> preserved_inferno$modifyDiamondHoe(Function<Item.Properties, Item> p_361381_) {
-        return (properties) -> new HoeItem(ToolMaterial.DIAMOND, 2.0F, -2.0F, properties);
+        return (properties) -> new HoeItem(ToolMaterial.DIAMOND, 2.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=netherite_hoe")), at = @At(value = "INVOKE",
@@ -458,7 +467,7 @@ public abstract class ItemsMixin {
             ordinal = 0)
     )
     private static Function<Item.Properties, Item> preserved_inferno$modifyNetheriteHoe(Function<Item.Properties, Item> p_361381_) {
-        return (properties) -> new HoeItem(ToolMaterial.NETHERITE, 2.0F, -2.0F, properties);
+        return (properties) -> new HoeItem(ToolMaterial.NETHERITE, 2.0F, -2.2F, properties);
     }
 
     // modify pickaxe properties

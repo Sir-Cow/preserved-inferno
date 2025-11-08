@@ -8,7 +8,7 @@ public class RegisterItemChecker {
     public static String itemName;
 
     public static final Set<String> AXES = Set.of(
-            "wooden_axe", "golden_axe", "stone_axe", "iron_axe", "copper_axe"
+            "wooden_axe", "golden_axe", "stone_axe", "iron_axe", "copper_axe", "diamond_axe", "netherite_axe"
     );
 
     public static final Set<String> SHOVELS = Set.of(

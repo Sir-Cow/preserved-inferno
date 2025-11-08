@@ -16,6 +16,10 @@ public class ModSounds {
     public static final SoundEvent CAULDRON_BUBBLE = register("cauldron_bubble");
     public static final SoundEvent CACHE_OPEN = register("cache_open");
     public static final SoundEvent CACHE_CLOSE = register("cache_close");
+    public static final SoundEvent SCULK_INFUSION = register("sculk_infusion");
+    public static final SoundEvent SCULK_INFUSION1 = register("experience_orb_pickup_silent");
+    public static final SoundEvent SCULK_INFUSION2 = register("sculk_catalyst_bloom_silent");
+    public static final SoundEvent SCULK_INFUSION3 = register("splash_potion_break_silent");
 
     private static SoundEvent register(String name) {
         return register(Constants.id(name));

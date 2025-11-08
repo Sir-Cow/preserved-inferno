@@ -18,4 +18,9 @@ public class GameRulesMixin {
     private static int preserved_inferno$changeVal2(int defaultValue) {
         return 32;
     }
+    // set the mobGriefing gamerule to false by default
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=mobGriefing")), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules$BooleanValue;create(ZLjava/util/function/BiConsumer;)Lnet/minecraft/world/level/GameRules$Type;", ordinal = 0))
+    private static boolean preserved_inferno$changeVal3(boolean val) {
+        return false;
+    }
 }

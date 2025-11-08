@@ -59,5 +59,35 @@
     "sounds": [
       "minecraft:block/barrel/close"
     ]
+  },
+  "experience_orb_pickup_silent": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.experience_orb.pickup",
+        "type": "event"
+      }
+    ]
+  },
+  "sculk_catalyst_bloom_silent": {
+    "sounds": [
+      {
+        "name": "minecraft:block.sculk_catalyst.bloom",
+        "type": "event"
+      }
+    ]
+  },
+  "splash_potion_break_silent": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.splash_potion.break",
+        "type": "event"
+      }
+    ]
+  },
+  "sculk_infusion": {
+    "sounds": [
+      "pinferno:silence"
+    ],
+    "subtitle": "sounds.pinferno.sculk_infusion"
   }
 }

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:echo_shard",
+    "X": "minecraft:glass_bottle"
+  },
+  "pattern": [
+    " # ",
+    "#X#",
+    " # "
+  ],
+  "result": {
+    "components": {
+      "minecraft:damage": 1396
+    },
+    "count": 1,
+    "id": "pinferno:sculk_infusion"
+  }
+}

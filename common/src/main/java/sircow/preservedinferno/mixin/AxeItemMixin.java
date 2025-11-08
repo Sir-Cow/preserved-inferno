@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import sircow.preservedinferno.RegisterItemChecker;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Mixin(AxeItem.class)
 public class AxeItemMixin {
@@ -15,14 +16,13 @@ public class AxeItemMixin {
     private static float preserved_inferno$modifyAttackDamage(float attackDamage) {
         if (RegisterItemChecker.flip) {
             if (RegisterItemChecker.AXES.contains(RegisterItemChecker.itemName)) {
-                if (Objects.equals(RegisterItemChecker.itemName, "iron_axe")
-                        || Objects.equals(RegisterItemChecker.itemName, "copper_axe")) {
+                if (Set.of("iron_axe", "copper_axe").contains(RegisterItemChecker.itemName)) {
                     attackDamage = 4.0F;
                 }
                 else if (Objects.equals(RegisterItemChecker.itemName, "golden_axe")) {
                     attackDamage = 6.0F;
                 }
-                else {
+                else if (Set.of("wooden_axe", "stone_axe").contains(RegisterItemChecker.itemName)) {
                     attackDamage = 3.0F;
                 }
             }
@@ -34,7 +34,7 @@ public class AxeItemMixin {
     private static float preserved_inferno$modifyAttackSpeed(float attackSpeed) {
         if (RegisterItemChecker.flip) {
             if (RegisterItemChecker.AXES.contains(RegisterItemChecker.itemName)) {
-                attackSpeed = -3.0F;
+                attackSpeed = -2.8F;
             }
             RegisterItemChecker.flip = false;
         }

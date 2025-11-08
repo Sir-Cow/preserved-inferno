@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:exploration/avoid_vibration",
+  "criteria": {
+    "break_sculk_shrieker": {
+      "trigger": "pinferno:break_sculk_shrieker"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.break_sculk_shrieker.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:sculk_shrieker"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.break_sculk_shrieker.title"
+    }
+  },
+  "requirements": [
+    [
+      "break_sculk_shrieker"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -52,7 +52,7 @@ public class ArmorMaterialMixin {
     }
 
     static {
-        GOLD_TOUGHNESS.put(ArmorType.HELMET, 1.0f); GOLD_TOUGHNESS.put(ArmorType.CHESTPLATE, 2.0f);
+        GOLD_TOUGHNESS.put(ArmorType.HELMET, 1.0f); GOLD_TOUGHNESS.put(ArmorType.CHESTPLATE, 1.0f);
         GOLD_TOUGHNESS.put(ArmorType.LEGGINGS, 1.0f); GOLD_TOUGHNESS.put(ArmorType.BOOTS, 1.0f);
     }
 
@@ -109,8 +109,8 @@ public class ArmorMaterialMixin {
             toughVal = IRON_TOUGHNESS.getOrDefault(armorType, 0.0F);
             defenseVal = switch (armorType) {
                 case HELMET -> 12;
-                case CHESTPLATE -> 15;
-                case LEGGINGS -> 13;
+                case CHESTPLATE -> 20;
+                case LEGGINGS -> 18;
                 case BOOTS -> 10;
                 case BODY -> 30;
             };
@@ -120,7 +120,7 @@ public class ArmorMaterialMixin {
             defenseVal = switch (armorType) {
                 case HELMET -> 12;
                 case CHESTPLATE -> 20;
-                case LEGGINGS -> 15;
+                case LEGGINGS -> 18;
                 case BOOTS -> 10;
                 case BODY -> 40;
             };
@@ -157,9 +157,9 @@ public class ArmorMaterialMixin {
         else if (assetId.toString().contains("copper")) {
             toughVal = COPPER_TOUGHNESS.getOrDefault(armorType, 0.0F);
             defenseVal = switch (armorType) {
-                case HELMET -> 9;
-                case CHESTPLATE -> 15;
-                case LEGGINGS -> 13;
+                case HELMET -> 10;
+                case CHESTPLATE -> 18;
+                case LEGGINGS -> 14;
                 case BOOTS -> 8;
                 case BODY -> 25;
             };

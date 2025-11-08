@@ -185,8 +185,8 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
 
         Map<String, Double> valuesMap = Map.of(
                 "copper", 0.5,
-                "prismarine", 1.5,
                 "iron", 1.0,
+                "prismarine", 1.5,
                 "golden", 1.5,
                 "diamond", 2.0,
                 "netherite", 3.0
@@ -209,24 +209,24 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
 
         Map<Item, Double> fishingSpeedMap = Map.of(
                 ModItems.COPPER_FISHING_HOOK, 0.5,
-                ModItems.PRISMARINE_FISHING_HOOK, 1.5,
                 ModItems.IRON_FISHING_HOOK, 1.0,
+                ModItems.PRISMARINE_FISHING_HOOK, 1.5,
                 ModItems.GOLDEN_FISHING_HOOK, 1.5,
                 ModItems.DIAMOND_FISHING_HOOK, 2.0,
                 ModItems.NETHERITE_FISHING_HOOK, 3.0
         );
         Map<Item, Double> fortuneMap = Map.of(
                 ModItems.COPPER_LACED_FISHING_LINE, 0.5,
-                ModItems.PRISMARINE_LACED_FISHING_LINE, 1.5,
                 ModItems.IRON_LACED_FISHING_LINE, 1.0,
+                ModItems.PRISMARINE_LACED_FISHING_LINE, 1.5,
                 ModItems.GOLDEN_LACED_FISHING_LINE, 1.5,
                 ModItems.DIAMOND_LACED_FISHING_LINE, 2.0,
                 ModItems.NETHERITE_LACED_FISHING_LINE, 3.0
         );
         Map<Item, Double> luckMap = Map.of(
                 ModItems.COPPER_SINKER, 0.5,
-                ModItems.PRISMARINE_SINKER, 1.5,
                 ModItems.IRON_SINKER, 1.0,
+                ModItems.PRISMARINE_SINKER, 1.5,
                 ModItems.GOLDEN_SINKER, 1.5,
                 ModItems.DIAMOND_SINKER, 2.0,
                 ModItems.NETHERITE_SINKER, 3.0

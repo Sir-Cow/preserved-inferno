@@ -1,7 +1,6 @@
 package sircow.preservedinferno.other;
 
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
@@ -15,15 +14,19 @@ import java.util.UUID;
 
 public class ShieldStaminaHandler {
     public static final Map<UUID, Integer> playerShieldCooldownMap = new HashMap<>();
+    private static final Map<UUID, Integer> regenBlockMap = new HashMap<>();
     private static final int COOLDOWN_TICKS = 20 * 10;
-    private static final float STAMINA_LOSS = 0.1F;
+    private static final int REGEN_BLOCK_TICKS = 40;
+    private static final float STAMINA_LOSS = 0.15F;
     public static DamageSource lastBypassingSource = null;
 
     public static void onServerTick(ServerPlayer player) {
         handleShieldUsage(player);
         handleStaminaRegeneration(player);
         handleCooldown(player);
+        handleRegenBlock(player);
         checkBlockingOnCooldown(player);
+        checkStopBlocking(player);
     }
 
     private static void handleShieldUsage(ServerPlayer player) {
@@ -49,7 +52,7 @@ public class ShieldStaminaHandler {
 
     private static void handleStaminaRegeneration(ServerPlayer player) {
         ItemStack stack = player.getOffhandItem();
-        if (stack.getItem() instanceof PreservedShieldItem shieldItem && !player.isBlocking() && !isOnCooldown(player)) {
+        if (stack.getItem() instanceof PreservedShieldItem shieldItem && !player.isBlocking() && !isOnCooldown(player)  && !isRegenBlocked(player)) {
             float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
             int maxStamina = shieldItem.getMaxStamina(stack);
             float regenRate = shieldItem.getRegenerationRate(stack);
@@ -71,6 +74,30 @@ public class ShieldStaminaHandler {
                 playerShieldCooldownMap.remove(player.getUUID());
             }
         }
+    }
+
+    private static void handleRegenBlock(ServerPlayer player) {
+        if (regenBlockMap.containsKey(player.getUUID())) {
+            int ticks = regenBlockMap.get(player.getUUID());
+
+            if (ticks > 0) {
+                regenBlockMap.put(player.getUUID(), ticks - 1);
+            }
+            else {
+                regenBlockMap.remove(player.getUUID());
+            }
+        }
+    }
+
+    private static void checkStopBlocking(ServerPlayer player) {
+        UUID id = player.getUUID();
+        boolean isBlocking = player.isBlocking();
+        boolean wasBlocking = player.getEntityData().get(ModEntityData.PLAYER_WAS_BLOCKING);
+
+        if (wasBlocking && !isBlocking) {
+            regenBlockMap.put(id, REGEN_BLOCK_TICKS);
+        }
+        player.getEntityData().set(ModEntityData.PLAYER_WAS_BLOCKING, isBlocking);
     }
 
     public static void triggerCooldown(Player player, ItemStack shield) {
@@ -123,5 +150,9 @@ public class ShieldStaminaHandler {
 
     public static boolean isOnCooldown(Player player) {
         return playerShieldCooldownMap.containsKey(player.getUUID());
+    }
+
+    public static boolean isRegenBlocked(Player player) {
+        return regenBlockMap.containsKey(player.getUUID());
     }
 }

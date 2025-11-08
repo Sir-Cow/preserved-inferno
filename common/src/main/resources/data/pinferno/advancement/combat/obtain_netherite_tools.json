@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:combat/root",
+  "parent": "pinferno:combat/triple_kill",
   "criteria": {
     "netherite_sword": {
       "conditions": {

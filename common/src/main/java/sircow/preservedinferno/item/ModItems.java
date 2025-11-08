@@ -15,6 +15,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import sircow.preservedinferno.Constants;
@@ -22,6 +23,7 @@ import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.item.custom.CopperTridentItem;
 import sircow.preservedinferno.item.custom.PreservedFlareGunItem;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
+import sircow.preservedinferno.item.custom.SculkInfusionItem;
 import sircow.preservedinferno.other.ModTags;
 
 import java.text.DecimalFormat;
@@ -61,6 +63,11 @@ public class ModItems {
     );
     public static final Item ECHOING_PRISM_UPGRADE_SMITHING_TEMPLATE = registerItem("echoing_prism_upgrade_smithing_template", Item::new, new Item.Properties()
             .rarity(Rarity.UNCOMMON)
+    );
+    public static final Item SCULK_INFUSION = registerItem("sculk_infusion", SculkInfusionItem::new, new Item.Properties()
+            .component(DataComponents.CONSUMABLE, Consumables.defaultDrink().build())
+            .rarity(Rarity.RARE)
+            .durability(1397)
     );
 
     public static final Item RAW_IRON_CHUNK = registerItem("raw_iron_chunk", Item::new, new Item.Properties());
@@ -222,14 +229,14 @@ public class ModItems {
             .stacksTo(1)
             .repairable(ItemTags.COPPER_TOOL_MATERIALS)
     );
-    public static final Item PRISMARINE_FISHING_HOOK = registerItem("prismarine_fishing_hook", Item::new, new Item.Properties()
-            .durability(768)
-            .stacksTo(1)
-    );
     public static final Item IRON_FISHING_HOOK = registerItem("iron_fishing_hook", Item::new, new Item.Properties()
             .durability(512)
             .stacksTo(1)
             .repairable(ItemTags.IRON_TOOL_MATERIALS)
+    );
+    public static final Item PRISMARINE_FISHING_HOOK = registerItem("prismarine_fishing_hook", Item::new, new Item.Properties()
+            .durability(768)
+            .stacksTo(1)
     );
     public static final Item GOLDEN_FISHING_HOOK = registerItem("golden_fishing_hook", Item::new, new Item.Properties()
             .durability(256)
@@ -252,14 +259,14 @@ public class ModItems {
             .stacksTo(1)
             .repairable(ItemTags.COPPER_TOOL_MATERIALS)
     );
-    public static final Item PRISMARINE_LACED_FISHING_LINE = registerItem("prismarine_laced_fishing_line", Item::new, new Item.Properties()
-            .durability(768)
-            .stacksTo(1)
-    );
     public static final Item IRON_LACED_FISHING_LINE = registerItem("iron_laced_fishing_line", Item::new, new Item.Properties()
             .durability(512)
             .stacksTo(1)
             .repairable(ItemTags.IRON_TOOL_MATERIALS)
+    );
+    public static final Item PRISMARINE_LACED_FISHING_LINE = registerItem("prismarine_laced_fishing_line", Item::new, new Item.Properties()
+            .durability(768)
+            .stacksTo(1)
     );
     public static final Item GOLDEN_LACED_FISHING_LINE = registerItem("golden_laced_fishing_line", Item::new, new Item.Properties()
             .durability(256)
@@ -282,14 +289,14 @@ public class ModItems {
             .stacksTo(1)
             .repairable(ItemTags.COPPER_TOOL_MATERIALS)
     );
-    public static final Item PRISMARINE_SINKER = registerItem("prismarine_sinker", Item::new, new Item.Properties()
-            .durability(768)
-            .stacksTo(1)
-    );
     public static final Item IRON_SINKER = registerItem("iron_sinker", Item::new, new Item.Properties()
             .durability(512)
             .stacksTo(1)
             .repairable(ItemTags.IRON_TOOL_MATERIALS)
+    );
+    public static final Item PRISMARINE_SINKER = registerItem("prismarine_sinker", Item::new, new Item.Properties()
+            .durability(768)
+            .stacksTo(1)
     );
     public static final Item GOLDEN_SINKER = registerItem("golden_sinker", Item::new, new Item.Properties()
             .durability(256)

@@ -28,20 +28,20 @@ import java.util.Random;
 @Mixin(FishingHook.class)
 public abstract class FishingHookMixin {
     @Unique private final int HOOK_SPEED_COPPER = 50;
-    @Unique private final int HOOK_SPEED_PRISMARINE = 150;
     @Unique private final int HOOK_SPEED_IRON = 100;
+    @Unique private final int HOOK_SPEED_PRISMARINE = 150;
     @Unique private final int HOOK_SPEED_GOLDEN = 150;
     @Unique private final int HOOK_SPEED_DIAMOND = 200;
     @Unique private final int HOOK_SPEED_NETHERITE = 300;
     @Unique private final double LINE_FORTUNE_COPPER = 0.5;
-    @Unique private final double LINE_FORTUNE_PRISMARINE = 1.5;
     @Unique private final double LINE_FORTUNE_IRON = 1.0;
+    @Unique private final double LINE_FORTUNE_PRISMARINE = 1.5;
     @Unique private final double LINE_FORTUNE_GOLDEN = 1.5;
     @Unique private final double LINE_FORTUNE_DIAMOND = 2.0;
     @Unique private final double LINE_FORTUNE_NETHERITE = 3.0;
     @Unique private final float SINKER_LUCK_COPPER = 0.5F;
-    @Unique private final float SINKER_LUCK_PRISMARINE = 1.5F;
     @Unique private final float SINKER_LUCK_IRON = 1.0F;
+    @Unique private final float SINKER_LUCK_PRISMARINE = 1.5F;
     @Unique private final float SINKER_LUCK_GOLDEN = 1.5F;
     @Unique private final float SINKER_LUCK_DIAMOND = 2.0F;
     @Unique private final float SINKER_LUCK_NETHERITE = 3.0F;
@@ -76,12 +76,12 @@ public abstract class FishingHookMixin {
                         this.lureSpeed += HOOK_SPEED_COPPER;
                         lureSpeedModified = true;
                     }
-                    if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "prismarine")) {
-                        this.lureSpeed += HOOK_SPEED_PRISMARINE;
-                        lureSpeedModified = true;
-                    }
                     if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "iron")) {
                         this.lureSpeed += HOOK_SPEED_IRON;
+                        lureSpeedModified = true;
+                    }
+                    if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "prismarine")) {
+                        this.lureSpeed += HOOK_SPEED_PRISMARINE;
                         lureSpeedModified = true;
                     }
                     if (Objects.equals(fishingWithStack.get(ModComponents.HOOK_COMPONENT), "golden")) {
@@ -125,6 +125,13 @@ public abstract class FishingHookMixin {
                             doFortune = true;
                         }
                     }
+                    if (Objects.equals(fishingWithStack.get(ModComponents.LINE_COMPONENT), "iron")) {
+                        double chance = 1.0 - (2.0 / (LINE_FORTUNE_IRON + 2.0));
+                        if (randomNum < chance) {
+                            fortuneCounter += 1;
+                            doFortune = true;
+                        }
+                    }
                     if (Objects.equals(fishingWithStack.get(ModComponents.LINE_COMPONENT), "prismarine")) {
                         double chance = 1.0 - (2.0 / (LINE_FORTUNE_PRISMARINE + 2.0));
                         if (randomNum < chance) {
@@ -132,13 +139,6 @@ public abstract class FishingHookMixin {
                             doFortune = true;
                         }
                         if (randomNum2 < chance) {
-                            fortuneCounter += 1;
-                            doFortune = true;
-                        }
-                    }
-                    if (Objects.equals(fishingWithStack.get(ModComponents.LINE_COMPONENT), "iron")) {
-                        double chance = 1.0 - (2.0 / (LINE_FORTUNE_IRON + 2.0));
-                        if (randomNum < chance) {
                             fortuneCounter += 1;
                             doFortune = true;
                         }
@@ -204,11 +204,11 @@ public abstract class FishingHookMixin {
                 if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "copper")) {
                     newLuck = originalLuck + SINKER_LUCK_COPPER;
                 }
-                if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "prismarine")) {
-                    newLuck = originalLuck + SINKER_LUCK_PRISMARINE;
-                }
                 if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "iron")) {
                     newLuck = originalLuck + SINKER_LUCK_IRON;
+                }
+                if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "prismarine")) {
+                    newLuck = originalLuck + SINKER_LUCK_PRISMARINE;
                 }
                 if (Objects.equals(fishingWithStack.get(ModComponents.SINKER_COMPONENT), "golden")) {
                     newLuck = originalLuck + SINKER_LUCK_GOLDEN;
