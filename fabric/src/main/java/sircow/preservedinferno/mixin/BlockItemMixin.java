@@ -50,7 +50,7 @@ public class BlockItemMixin {
                 scheduleBlueIceSequence(instance, serverLevel, blockPos);
             }
             else if (placedBlock == Blocks.POWDER_SNOW) {
-                PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.POWDER_SNOW, 3 * 20));
+                PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.POWDER_SNOW, 20));
             }
         }
     }

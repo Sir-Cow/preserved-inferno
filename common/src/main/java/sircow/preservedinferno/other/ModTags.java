@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.Block;
 import sircow.preservedinferno.Constants;
 
 public class ModTags {
+    public static final TagKey<Item> ARMOR_TRIM_TEMPLATES = TagKey.create(Registries.ITEM, Constants.id("armor_trim_templates"));
     public static final TagKey<Item> BANNERS = TagKey.create(Registries.ITEM, Constants.id("banners"));
     public static final TagKey<Item> CARPETS = TagKey.create(Registries.ITEM, Constants.id("carpets"));
     public static final TagKey<Item> CLOTH = TagKey.create(Registries.ITEM, Constants.id("cloth"));

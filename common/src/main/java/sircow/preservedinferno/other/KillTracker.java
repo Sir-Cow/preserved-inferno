@@ -8,14 +8,13 @@ import sircow.preservedinferno.trigger.ModTriggers;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 public class KillTracker {
     private static final Map<UUID, KillSession> ACTIVE_SESSIONS = new HashMap<>();
 
     public static void onEntityKilled(ServerPlayer serverPlayer, LivingEntity livingEntity, DamageSource source) {
-        if (!Objects.requireNonNull(source.getWeaponItem()).is(ItemTags.SWORDS)) return;
+        if (source.getWeaponItem() == null || !source.getWeaponItem().is(ItemTags.SWORDS)) return;
 
         var session = ACTIVE_SESSIONS.computeIfAbsent(serverPlayer.getUUID(), id -> new KillSession());
         session.registerKill(serverPlayer.level().getGameTime());

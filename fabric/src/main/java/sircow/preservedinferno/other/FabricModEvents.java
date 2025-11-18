@@ -1,5 +1,6 @@
 package sircow.preservedinferno.other;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
@@ -11,8 +12,12 @@ import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -35,6 +40,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.jetbrains.annotations.NotNull;
+import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.item.ModItems;
@@ -42,10 +48,12 @@ import sircow.preservedinferno.platform.Services;
 import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
 import sircow.preservedinferno.trigger.ModTriggers;
 
+import java.net.URI;
 import java.util.*;
 
 public class FabricModEvents {
     private static final long REGEN_COOLDOWN_MS = 10 * 60 * 1000;
+    private static boolean updateCheckScheduled = false;
 
     public static void checkInitialAdvancement() {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
@@ -320,17 +328,14 @@ public class FabricModEvents {
     public static void openFletchingTable() {
         UseBlockCallback.EVENT.register((player, level, hand, hitResult) -> {
             BlockPos pos = hitResult.getBlockPos();
-            BlockState state = level.getBlockState(pos);
 
-            if (!state.is(Blocks.FLETCHING_TABLE)) {
-                return InteractionResult.PASS;
-            }
-            if (level.isClientSide()) {
-                return InteractionResult.CONSUME;
-            }
+            if (hand == InteractionHand.MAIN_HAND && level.getBlockState(hitResult.getBlockPos()).is(Blocks.FLETCHING_TABLE)) {
+                if (player.isCrouching()) {
+                    return InteractionResult.PASS;
+                }
 
-            if (state.is(Blocks.FLETCHING_TABLE)) {
-                player.openMenu(new ExtendedScreenHandlerFactory() {
+                if (!level.isClientSide()) {
+                    player.openMenu(new ExtendedScreenHandlerFactory() {
                         @Override
                         public @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
                             return new PreservedFletchingTableMenu(syncId, playerInventory, ContainerLevelAccess.create(level, pos));
@@ -348,8 +353,11 @@ public class FabricModEvents {
                         }
                     });
 
-                player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
-                return InteractionResult.CONSUME;
+                    player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
+                    return InteractionResult.CONSUME;
+                }
+
+                return InteractionResult.SUCCESS;
             }
 
             return InteractionResult.PASS;
@@ -360,6 +368,42 @@ public class FabricModEvents {
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
             if (source.getEntity() instanceof ServerPlayer serverPlayer) {
                 KillTracker.onEntityKilled(serverPlayer, entity, source);
+            }
+        });
+    }
+
+    public static void updateCheck() {
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+            if (!updateCheckScheduled) {
+                updateCheckScheduled = true;
+
+                UpdateChecker.checkAsync(() -> {
+                    client.execute(() -> {
+                        if (client.player == null) return;
+
+                        String current = Constants.INSTANCE.getVersion();
+                        String latest = UpdateChecker.getLatest();
+
+                        if (latest == null) return;
+
+                        if (UpdateChecker.hasUpdate()) {
+                            ClickEvent click = new ClickEvent.OpenUrl(URI.create("https://modrinth.com/mod/preserved-inferno/version/" + latest));
+                            HoverEvent hover = new HoverEvent.ShowText(Component.literal("Open version page"));
+                            Style updateLink = Style.EMPTY
+                                    .withClickEvent(click)
+                                    .withHoverEvent(hover)
+                                    .withUnderlined(true)
+                                    .withColor(ChatFormatting.BLUE);
+
+                            Component message = Component.literal("[Preserved: Inferno]").withStyle(ChatFormatting.RED)
+                                    .append(Component.literal(" Update available: ").withStyle(ChatFormatting.WHITE))
+                                    .append(Component.literal(latest).setStyle(updateLink))
+                                    .append(Component.literal(" (current: " + current + ")").withStyle(ChatFormatting.WHITE));
+
+                            client.player.displayClientMessage(message, false);
+                        }
+                    });
+                });
             }
         });
     }
@@ -377,5 +421,6 @@ public class FabricModEvents {
         enableMinecartExperiment();
         openFletchingTable();
         trackSwordMultiKill();
+        updateCheck();
     }
 }

@@ -8,8 +8,8 @@ import net.minecraft.world.effect.MobEffectCategory;
 import sircow.preservedinferno.Constants;
 
 public class ModEffects {
-    public static final Holder<MobEffect> WELL_RESTED = register("well_rested",
-            new WellRestedEffect(MobEffectCategory.BENEFICIAL, 0xE3884E));
+    public static final Holder<MobEffect> HINDERED = register("hindered", new HinderedEffect(MobEffectCategory.HARMFUL, 0x6C4EB7));
+    public static final Holder<MobEffect> WELL_RESTED = register("well_rested", new WellRestedEffect(MobEffectCategory.BENEFICIAL, 0xE3884E));
 
     private static Holder<MobEffect> register(String name, MobEffect effect) {
         return Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, Constants.id(name), effect);

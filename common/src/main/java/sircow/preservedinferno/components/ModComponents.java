@@ -25,6 +25,7 @@ public class ModComponents {
     // other
     public static final DataComponentType<String> FLARE_PARTICLE_COMPONENT = DataComponentType.<String>builder().persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build();
     public static final DataComponentType<Boolean> ON_COOLDOWN = DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build();
+    public static final DataComponentType<Boolean> EXHAUSTED_TEMPLATE = DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build();
 
     public static void registerModComponents() {
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("shield_max_stamina"), SHIELD_MAX_STAMINA_COMPONENT);
@@ -41,6 +42,7 @@ public class ModComponents {
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("is_fishing"), IS_FISHING);
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("flare_particle_component"), FLARE_PARTICLE_COMPONENT);
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("on_cooldown"), ON_COOLDOWN);
+        Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("exhausted_template"), EXHAUSTED_TEMPLATE);
         // Constants.LOG.info("Registering Mod Components for " + Constants.MOD_ID);
     }
 }

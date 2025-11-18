@@ -1,7 +1,9 @@
 package sircow.preservedinferno.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
@@ -328,8 +330,25 @@ public class BlocksMixin {
         return properties;
     }
 
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=powder_snow")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPowderSnow(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(MapColor.SNOW)
+                .strength(1.0F)
+                .sound(SoundType.POWDER_SNOW)
+                .dynamicShape()
+                .noOcclusion()
+                .isRedstoneConductor(BlocksMixin::never);
+    }
+
     @Shadow
     private static ToIntFunction<BlockState> litBlockEmission(int lightValue) {
         return blockState -> blockState.getValue(BlockStateProperties.LIT) ? lightValue : 0;
+    }
+
+    @Shadow
+    private static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return false;
     }
 }

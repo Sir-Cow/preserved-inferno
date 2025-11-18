@@ -1,5 +1,7 @@
 package sircow.preservedinferno.mixin;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -11,7 +13,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.other.HeatAccessor;
+import sircow.preservedinferno.other.ModTags;
 import sircow.preservedinferno.trigger.ModTriggers;
 
 @Mixin(ItemStack.class)
@@ -35,6 +39,23 @@ public class ItemStackMixin {
                     }
                 }
             }
+        }
+    }
+
+    @Inject(method = "getHoverName", at = @At("HEAD"), cancellable = true)
+    private void preserved_inferno$dynamicTemplateName(CallbackInfoReturnable<Component> cir) {
+        ItemStack self = (ItemStack)(Object)this;
+
+        if (!self.is(ModTags.ARMOR_TRIM_TEMPLATES)) {
+            return;
+        }
+
+        if (self.has(ModComponents.EXHAUSTED_TEMPLATE)) {
+            MutableComponent prefix = Component.translatable("item.pinferno.exhausted_template");
+            MutableComponent base = Component.translatable(self.getItem().getDescriptionId());
+            MutableComponent result = prefix.append(Component.literal(" ")).append(base);
+
+            cir.setReturnValue(result);
         }
     }
 }

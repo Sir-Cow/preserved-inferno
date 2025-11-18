@@ -16,6 +16,7 @@ public class ModTriggers {
     public static final CritDamageTrigger CRIT_DAMAGE = register("crit_damage", new CritDamageTrigger());
     public static final DrinkWaterTrigger DRINK_WATER = register("reduce_heat", new DrinkWaterTrigger());
     public static final FishTreasureTrigger FISH_TREASURE = register("fish_treasure", new FishTreasureTrigger());
+    public static final FreezeCoolTrigger FREEZE_COOL = register("freeze_cool", new FreezeCoolTrigger());
     public static final MaxEnchantingTableTrigger MAX_ENCHANTING_TABLE = register("max_enchanting_table", new MaxEnchantingTableTrigger());
     public static final MaxVillagerTrigger MAX_VILLAGER = register("max_villager", new MaxVillagerTrigger());
     public static final OpenAdvancementsTrigger OPENED_ADVANCEMENT_SCREEN = register("open_advancement_menu", new OpenAdvancementsTrigger());

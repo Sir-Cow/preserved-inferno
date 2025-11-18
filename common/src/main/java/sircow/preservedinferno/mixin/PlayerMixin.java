@@ -62,11 +62,11 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @Unique private int heatDecreaseTickCounter = 0;
     @Unique private int heatDamageTickCounter = 0;
     @Unique private Vec3 rideStartPos = null;
-    @Unique private static final int INCREASE_CAP = 96;
+    @Unique private static final int INCREASE_CAP = 120;
     @Unique private static final int DECREASE_CAP = 80;
     @Unique private static final int IN_WATER_CAP_REDUCTION = 10;
     @Unique private static final int FIRE_RES_INCREASE = 48;
-    @Unique private static final int FIRE_PROT_INCREASE = 9;
+    @Unique private static final int FIRE_PROT_INCREASE = 8;
     @Unique private @Nullable BlockPos lastSteppedOnIcePos = null;
     @Unique DamageSource damageSource = ModDamageTypes.of(this.level(), ModDamageTypes.HEAT, this);
 
@@ -84,6 +84,18 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true)
     private float preserved_inferno$shieldDamageIntercept(float originalAmount, ServerLevel level, DamageSource damageSource) {
         Player player = (Player)(Object)this;
+
+        if (damageSource.is(DamageTypes.FREEZE)) {
+            if (player instanceof ServerPlayer serverPlayer && preserved_inferno$getHeat() >= 1) {
+                ModTriggers.FREEZE_COOL.trigger(serverPlayer);
+            }
+            preserved_inferno$decreaseHeat(10);
+        }
+
+        if (damageSource.is(DamageTypes.ON_FIRE) && !player.hasEffect(MobEffects.FIRE_RESISTANCE) && player.level().dimension() == Level.NETHER) {
+            preserved_inferno$increaseHeat(1);
+        }
+
         ItemStack blockingStack = player.getUseItem();
 
         if (player.isBlocking() && blockingStack.getItem() instanceof PreservedShieldItem) {
@@ -434,9 +446,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
     @Unique
     public void preserved_inferno$decreaseHeat(int heat) {
-        int i = this.preserved_inferno$getHeat();
-        this.entityData.set(ModEntityData.PLAYER_HEAT, i - heat);
-//        Constants.LOG.info("heat decrease: {}", preserved_inferno$getHeat());
+        this.entityData.set(ModEntityData.PLAYER_HEAT, Math.max(0, this.preserved_inferno$getHeat() - heat));
     }
 
     @Unique
@@ -607,18 +617,28 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
     // hardcore mode
     @Inject(method = "updatePlayerPose", at = @At("HEAD"))
-    private void preserved_inferno$blockSprintingHardcore(CallbackInfo ci) {
+    private void preserved_inferno$blockSprinting(CallbackInfo ci) {
         Player player = (Player) (Object) this;
-        if (player.level().getLevelData().isHardcore() && !player.isSpectator() && !player.isCreative()) {
+        if ((player.level().getLevelData().isHardcore() || this.hasEffect(ModEffects.HINDERED)) && !player.isSpectator() && !player.isCreative()) {
             player.setSprinting(false);
             player.getAbilities().mayfly = false;
             player.getAbilities().flying = false;
         }
     }
+
     @Inject(method = "aiStep", at = @At("HEAD"))
-    private void preserved_inferno$blockSprintingHardcore2(CallbackInfo ci) {
+    private void preserved_inferno$blockSprinting2(CallbackInfo ci) {
         if (this.level().getLevelData().isHardcore() && !this.isSpectator() && !this.isCreative()) {
             this.setSprinting(false);
+        }
+    }
+
+    @Inject(method = "getDestroySpeed", at = @At("HEAD"), cancellable = true)
+    private void preserved_inferno$hinderedMining(BlockState state, CallbackInfoReturnable<Float> cir) {
+        Player self = (Player)(Object)this;
+        if (self.hasEffect(ModEffects.HINDERED)) {
+            int level = Objects.requireNonNull(this.getEffect(ModEffects.HINDERED)).getAmplifier() + 1;
+            cir.setReturnValue((float)Math.pow(0.5, level));
         }
     }
 

@@ -39,6 +39,7 @@
           "minecraft:wither": {},
 
           "minecraft:luck": {},
+          "pinferno:hindered": {},
           "pinferno:well_rested": {}
         }
       },

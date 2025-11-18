@@ -139,6 +139,7 @@ public class PreservedInferno implements ModInitializer {
     public void onInitialize() {
         PayloadTypeRegistry.playC2S().register(OpenAdvancementPayload.ID, OpenAdvancementPayload.CODEC);
         INSTANCE = this;
+        Constants.INSTANCE = new FabricVersionChecker();
         CommonClass.init();
         FabricModEvents.registerModEvents();
         FabricModItems.registerModItems();

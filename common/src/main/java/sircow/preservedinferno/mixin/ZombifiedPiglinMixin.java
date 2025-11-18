@@ -20,8 +20,9 @@ public class ZombifiedPiglinMixin {
     private static void preserved_inferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.setReturnValue(Zombie.createAttributes()
                 .add(Attributes.SPAWN_REINFORCEMENTS_CHANCE, 0.0)
-                .add(Attributes.MOVEMENT_SPEED, 0.23F)
+                .add(Attributes.MOVEMENT_SPEED, 0.3F)
                 .add(Attributes.ATTACK_DAMAGE, 5.0)
+                .add(Attributes.MAX_HEALTH, 12.0)
                 .add(Attributes.ARMOR, 10.0));
     }
 

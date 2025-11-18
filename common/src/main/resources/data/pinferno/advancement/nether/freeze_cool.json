@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:nether/reduce_heat",
+  "criteria": {
+    "freeze_cool": {
+      "trigger": "pinferno:freeze_cool"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.nether.freeze_cool.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:powder_snow_bucket"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.nether.freeze_cool.title"
+    }
+  },
+  "requirements": [
+    [
+      "freeze_cool"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

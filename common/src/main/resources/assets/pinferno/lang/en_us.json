@@ -107,6 +107,8 @@
   "item.pinferno.reinforced_waxed_weathered_copper_door": "Reinforced Waxed Weathered Copper Door",
   "item.pinferno.reinforced_weathered_copper_door": "Reinforced Weathered Copper Door",
 
+  "item.pinferno.exhausted_template": "Exhausted",
+
   "itemgroup.pinferno.items": "Preserved: Inferno",
 
   "sounds.pinferno.enchant_click": "Enchantment selected",
@@ -144,6 +146,7 @@
   "item.pinferno.helmets": "Helmets",
   "item.pinferno.leggings": "Leggings",
 
+  "effect.pinferno.hindered": "Hindered",
   "effect.pinferno.well_rested": "Well Rested",
   "effect.pinferno.well_rested_awake": "You awaken feeling well rested",
   "effect.pinferno.well_rested_consume": "Maybe that was just a bad dream...",
@@ -257,6 +260,8 @@
   "advancements.pinferno.nether.reduce_heat.description": "Drink a Bottle of Water to bring down the Heat",
   "advancements.pinferno.nether.stand_on_ice.title": "Chill Out",
   "advancements.pinferno.nether.stand_on_ice.description": "Prevent Heat gain by standing on a block of Ice",
+  "advancements.pinferno.nether.freeze_cool.title": "No Pain No Gain",
+  "advancements.pinferno.nether.freeze_cool.description": "Inflict freezing damage upon yourself to cool down",
   "advancements.pinferno.nether.netherite_upgrade_smithing_template.title": "Another Way to Upgrade",
   "advancements.pinferno.nether.netherite_upgrade_smithing_template.description": "Find a Netherite Smithing Template",
   "advancements.pinferno.nether.obtain_ender_pearl.title": "Ender Ender",
