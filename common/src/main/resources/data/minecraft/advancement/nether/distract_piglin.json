@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:nether/root",
+  "parent": "minecraft:nether/find_bastion",
   "criteria": {
     "distract_piglin": {
       "conditions": {
@@ -162,6 +162,7 @@
     "description": {
       "translate": "advancements.nether.distract_piglin.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:piglin_spawn_egg"

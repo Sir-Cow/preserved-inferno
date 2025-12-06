@@ -9,6 +9,7 @@
     "description": {
       "translate": "advancements.adventure.trade.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:emerald"

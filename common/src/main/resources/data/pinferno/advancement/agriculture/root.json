@@ -1,81 +1,14 @@
 {
   "criteria": {
-    "beetroots": {
+    "seeds": {
       "conditions": {
-        "location": [
+        "items": [
           {
-            "block": "minecraft:beetroots",
-            "condition": "minecraft:block_state_property"
+            "items": "minecraft:wheat_seeds"
           }
         ]
       },
-      "trigger": "minecraft:placed_block"
-    },
-    "melon_stem": {
-      "conditions": {
-        "location": [
-          {
-            "block": "minecraft:melon_stem",
-            "condition": "minecraft:block_state_property"
-          }
-        ]
-      },
-      "trigger": "minecraft:placed_block"
-    },
-    "nether_wart": {
-      "conditions": {
-        "location": [
-          {
-            "block": "minecraft:nether_wart",
-            "condition": "minecraft:block_state_property"
-          }
-        ]
-      },
-      "trigger": "minecraft:placed_block"
-    },
-    "pitcher_pod": {
-      "conditions": {
-        "location": [
-          {
-            "block": "minecraft:pitcher_crop",
-            "condition": "minecraft:block_state_property"
-          }
-        ]
-      },
-      "trigger": "minecraft:placed_block"
-    },
-    "pumpkin_stem": {
-      "conditions": {
-        "location": [
-          {
-            "block": "minecraft:pumpkin_stem",
-            "condition": "minecraft:block_state_property"
-          }
-        ]
-      },
-      "trigger": "minecraft:placed_block"
-    },
-    "torchflower": {
-      "conditions": {
-        "location": [
-          {
-            "block": "minecraft:torchflower_crop",
-            "condition": "minecraft:block_state_property"
-          }
-        ]
-      },
-      "trigger": "minecraft:placed_block"
-    },
-    "wheat": {
-      "conditions": {
-        "location": [
-          {
-            "block": "minecraft:wheat",
-            "condition": "minecraft:block_state_property"
-          }
-        ]
-      },
-      "trigger": "minecraft:placed_block"
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "display": {
@@ -84,6 +17,7 @@
     "description": {
       "translate": "advancements.pinferno.agriculture.root.description"
     },
+    "frame": "root",
     "icon": {
       "count": 1,
       "id": "minecraft:iron_hoe"
@@ -95,13 +29,7 @@
   },
   "requirements": [
     [
-      "wheat",
-      "pumpkin_stem",
-      "melon_stem",
-      "beetroots",
-      "nether_wart",
-      "torchflower",
-      "pitcher_pod"
+      "seeds"
     ]
   ],
   "sends_telemetry_event": true

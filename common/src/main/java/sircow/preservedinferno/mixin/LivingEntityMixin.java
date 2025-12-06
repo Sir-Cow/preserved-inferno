@@ -14,6 +14,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -71,7 +72,7 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "travel", at = @At("HEAD"))
     private void preserved_inferno$applyHindered(Vec3 travelVector, CallbackInfo ci) {
-        if (!this.hasEffect(ModEffects.HINDERED)) {
+        if (!this.hasEffect(ModEffects.HINDERED.holder)) {
             AttributeInstance speedAttr = this.getAttribute(Attributes.MOVEMENT_SPEED);
             if (speedAttr != null && speedAttr.getModifier(HINDERED_SPEED_ID) != null) {
                 speedAttr.removeModifier(HINDERED_SPEED_ID);
@@ -83,7 +84,7 @@ public abstract class LivingEntityMixin extends Entity {
             return;
         }
 
-        int level = Objects.requireNonNull(this.getEffect(ModEffects.HINDERED)).getAmplifier() + 1;
+        int level = Objects.requireNonNull(this.getEffect(ModEffects.HINDERED.holder)).getAmplifier() + 1;
         AttributeInstance speedAttr = this.getAttribute(Attributes.MOVEMENT_SPEED);
 
         if (speedAttr.getModifier(HINDERED_SPEED_ID) == null) {
@@ -111,21 +112,37 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntity self = (LivingEntity)(Object)this;
 
         if (!self.level().isClientSide() && source.is(DamageTypes.FREEZE)) {
-            MobEffectInstance newInstance = new MobEffectInstance(ModEffects.HINDERED, 160, 0, false, true, true);
+            MobEffectInstance newInstance = new MobEffectInstance(ModEffects.HINDERED.holder, 160, 0, false, true, true);
             self.addEffect(newInstance);
         }
     }
 
     @Inject(method = "jumpFromGround", at = @At("TAIL"))
     private void preserved_inferno$reduceJumpHeight(CallbackInfo ci) {
-        if (this.hasEffect(ModEffects.HINDERED)) {
-            int level = this.getEffect(ModEffects.HINDERED).getAmplifier() + 1;
+        if (this.hasEffect(ModEffects.HINDERED.holder)) {
+            int level = this.getEffect(ModEffects.HINDERED.holder).getAmplifier() + 1;
             double heightFraction = Math.pow(0.3, level);
             float baseJump = 0.42F;
             float jumpVelocity = (float) (baseJump * Math.sqrt(heightFraction));
             Vec3 current = this.getDeltaMovement();
 
             this.setDeltaMovement(current.x, jumpVelocity, current.z);
+        }
+    }
+
+    @Inject(method = "dropAllDeathLoot", at = @At("HEAD"), cancellable = true)
+    private void preserved_inferno$modifyMobDrops(ServerLevel level, DamageSource damageSource, CallbackInfo ci) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+
+        if (entity instanceof Player) {
+            // if the entity is a player, always allow drops
+        }
+        else if (damageSource.getEntity() instanceof Player || damageSource.getEntity() instanceof IronGolem) {
+            // if the entity is a mob and killed by a player or iron golem, allow drops
+        }
+        else {
+            // otherwise, cancel drops
+            ci.cancel();
         }
     }
 }

@@ -1,0 +1,46 @@
+{
+  "parent": "pinferno:story/crafting_table",
+  "criteria": {
+    "obtain_axe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:axes"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "obtain_sword": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:swords"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.story.obtain_weapon.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:wooden_sword"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.story.obtain_weapon.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_axe",
+      "obtain_sword"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

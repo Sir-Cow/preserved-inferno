@@ -1,0 +1,32 @@
+{
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "pinferno:monster_trial/zombie",
+        "processors": "minecraft:mossify_70_percent"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "pinferno:monster_trial/skeleton",
+        "processors": "minecraft:mossify_70_percent"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "pinferno:monster_trial/spider",
+        "processors": "minecraft:mossify_70_percent"
+      }
+    }
+  ],
+    "fallback": "minecraft:empty"
+}

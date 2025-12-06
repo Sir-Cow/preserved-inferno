@@ -9,6 +9,7 @@
     "description": {
       "translate": "advancements.pinferno.nether.reduce_heat.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:potion"

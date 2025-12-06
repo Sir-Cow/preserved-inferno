@@ -1,0 +1,29 @@
+{
+  "parent": "pinferno:mastery/advanced",
+  "criteria": {
+    "mastery_master": {
+      "trigger": "pinferno:mastery_master"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.pinferno.mastery.master.description"
+    },
+    "frame": "mastery",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:emerald"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.mastery.master.title"
+    }
+  },
+  "requirements": [
+    [
+      "mastery_master"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

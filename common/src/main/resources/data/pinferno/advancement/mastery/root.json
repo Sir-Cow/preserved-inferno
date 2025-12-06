@@ -1,0 +1,29 @@
+{
+  "criteria": {
+    "world_join": {
+      "trigger": "pinferno:world_join"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "pinferno:gui/advancements/backgrounds/white_concrete",
+    "description": {
+      "translate": "advancements.pinferno.mastery.world_join.description"
+    },
+    "frame": "root",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:diamond_block"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.pinferno.mastery.world_join.title"
+    }
+  },
+  "requirements": [
+    [
+      "world_join"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

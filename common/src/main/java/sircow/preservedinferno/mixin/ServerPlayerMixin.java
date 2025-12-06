@@ -116,7 +116,7 @@ public abstract class ServerPlayerMixin extends Player {
     private boolean preserved_inferno$modifyKeepInventoryRule(GameRules instance, GameRules.Key<GameRules.BooleanValue> key, Operation<Boolean> original) {
         ServerPlayer self = (ServerPlayer)(Object)this;
         if (key == GameRules.RULE_KEEPINVENTORY) {
-            return original.call(instance, key) || self.hasEffect(ModEffects.WELL_RESTED);
+            return original.call(instance, key) || self.hasEffect(ModEffects.WELL_RESTED.holder);
         }
         return original.call(instance, key);
     }

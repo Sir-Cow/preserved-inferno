@@ -1,0 +1,29 @@
+{
+  "parent": "pinferno:mastery/root",
+  "criteria": {
+    "mastery_starter": {
+      "trigger": "pinferno:mastery_starter"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.pinferno.mastery.starter.description"
+    },
+    "frame": "mastery",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:flint"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.mastery.starter.title"
+    }
+  },
+  "requirements": [
+    [
+      "mastery_starter"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -16,6 +16,7 @@
     "description": {
       "translate": "advancements.pinferno.story.crafting_table.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:crafting_table"

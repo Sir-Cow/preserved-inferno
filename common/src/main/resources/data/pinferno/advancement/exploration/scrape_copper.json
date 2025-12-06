@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:exploration/smelt_copper",
+  "criteria": {
+    "scrape_copper": {
+      "trigger": "pinferno:scrape_copper"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.scrape_copper.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:oxidized_copper"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.scrape_copper.title"
+    }
+  },
+  "requirements": [
+    [
+      "scrape_copper"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

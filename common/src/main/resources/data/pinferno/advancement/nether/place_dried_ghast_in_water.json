@@ -20,6 +20,7 @@
     "description": {
       "translate": "advancements.husbandry.place_dried_ghast_in_water.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:dried_ghast"

@@ -1,0 +1,47 @@
+{
+  "criteria": {
+    "obtain_axe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:axes"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "obtain_sword": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:swords"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "pinferno:gui/advancements/backgrounds/stone",
+    "description": {
+      "translate": "advancements.pinferno.adventure.root.description"
+    },
+    "frame": "root",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:iron_sword"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.pinferno.adventure.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_axe",
+      "obtain_sword"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

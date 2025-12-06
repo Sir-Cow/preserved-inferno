@@ -16,6 +16,7 @@
     "description": {
       "translate": "advancements.pinferno.exploration.copper_door.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:copper_door"

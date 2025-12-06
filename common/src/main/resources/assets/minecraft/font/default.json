@@ -1,0 +1,119 @@
+{
+    "providers": [
+        {
+            "type": "reference",
+            "id": "minecraft:include/space"
+        },
+        {
+            "type": "reference",
+            "id": "minecraft:include/default",
+            "filter": {
+                "uniform": false
+            }
+        },
+        {
+            "type": "reference",
+            "id": "minecraft:include/unifont"
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/adequate_rank.png",
+            "chars": [
+                "\uE005"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/advanced_rank.png",
+            "chars": [
+                "\uE006"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/beginner_rank.png",
+            "chars": [
+                "\uE002"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/champion_rank.png",
+            "chars": [
+                "\uE008"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/disciple_rank.png",
+            "chars": [
+                "\uE004"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/infernal_rank.png",
+            "chars": [
+                "\uE009"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/master_rank.png",
+            "chars": [
+                "\uE007"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/novice_rank.png",
+            "chars": [
+                "\uE003"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/placeholder_rank.png",
+            "chars": [
+                "\uE000"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/starter_rank.png",
+            "chars": [
+                "\uE001"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        }
+    ]
+}

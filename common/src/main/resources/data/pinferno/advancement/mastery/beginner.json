@@ -1,0 +1,29 @@
+{
+  "parent": "pinferno:mastery/starter",
+  "criteria": {
+    "mastery_beginner": {
+      "trigger": "pinferno:mastery_beginner"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.pinferno.mastery.beginner.description"
+    },
+    "frame": "mastery",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:coal"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.mastery.beginner.title"
+    }
+  },
+  "requirements": [
+    [
+      "mastery_beginner"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

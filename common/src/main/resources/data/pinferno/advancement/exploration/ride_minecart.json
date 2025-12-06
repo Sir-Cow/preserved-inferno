@@ -9,6 +9,7 @@
     "description": {
       "translate": "advancements.pinferno.exploration.ride_minecart.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:rail"

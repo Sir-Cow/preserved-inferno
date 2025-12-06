@@ -17,6 +17,7 @@
     "description": {
       "translate": "advancements.pinferno.exploration.mine_stone.description"
     },
+    "frame": "root",
     "icon": {
       "count": 1,
       "id": "minecraft:iron_shovel"

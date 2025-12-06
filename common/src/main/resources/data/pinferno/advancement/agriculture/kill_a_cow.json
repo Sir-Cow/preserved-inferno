@@ -44,6 +44,7 @@
     "description": {
       "translate": "advancements.pinferno.agriculture.kill_a_cow.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "pinferno:raw_hide"

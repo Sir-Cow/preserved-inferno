@@ -16,6 +16,7 @@
     "description": {
       "translate": "advancements.pinferno.nether.obtain_ender_pearl.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:ender_pearl"

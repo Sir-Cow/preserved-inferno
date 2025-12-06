@@ -9,6 +9,7 @@
     "description": {
       "translate": "advancements.story.cure_zombie_villager.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:zombie_villager_spawn_egg"

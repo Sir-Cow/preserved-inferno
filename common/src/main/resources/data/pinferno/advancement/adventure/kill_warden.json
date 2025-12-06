@@ -1,0 +1,41 @@
+{
+  "parent": "pinferno:adventure/find_ancient_city",
+  "criteria": {
+    "killed_warden": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:warden"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.adventure.kill_warden.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:warden_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.pinferno.adventure.kill_warden.title"
+    }
+  },
+  "requirements": [
+    [
+      "killed_warden"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

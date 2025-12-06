@@ -23,4 +23,9 @@ public class GameRulesMixin {
     private static boolean preserved_inferno$changeVal3(boolean val) {
         return false;
     }
+    // set the playersSleepingPercentage gamerule to 0 by default
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=playersSleepingPercentage")), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules$IntegerValue;create(I)Lnet/minecraft/world/level/GameRules$Type;", ordinal = 0))
+    private static int preserved_inferno$changeVal4(int val) {
+        return 0;
+    }
 }

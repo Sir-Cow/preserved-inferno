@@ -1,5 +1,6 @@
 package sircow.preservedinferno.other;
 
+import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
@@ -12,6 +13,7 @@ import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.ClickEvent;
@@ -19,6 +21,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.repository.PackRepository;
@@ -39,12 +42,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.item.ModItems;
-import sircow.preservedinferno.platform.Services;
+import sircow.preservedinferno.network.ModMessages;
 import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
 import sircow.preservedinferno.trigger.ModTriggers;
 
@@ -54,25 +59,7 @@ import java.util.*;
 public class FabricModEvents {
     private static final long REGEN_COOLDOWN_MS = 10 * 60 * 1000;
     private static boolean updateCheckScheduled = false;
-
-    public static void checkInitialAdvancement() {
-        ServerTickEvents.END_SERVER_TICK.register(server -> {
-            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-                ServerLevel level = player.level();
-                UUID uuid = player.getUUID();
-
-                if (AdvancementDelayCache.hasCompleted(level, uuid)) continue;
-
-                var advancement = server.getAdvancements().get(ResourceLocation.withDefaultNamespace("story/root"));
-                if (advancement == null) continue;
-
-                var progress = player.getAdvancements().getOrStartProgress(advancement);
-                if (progress.isDone()) {
-                    AdvancementDelayCache.markCompleted(level, uuid);
-                }
-            }
-        });
-    }
+    private static MinecraftServer currentServer;
 
     public static void limitCropBreak() {
         LootTableEvents.MODIFY_DROPS.register((entry, context, drops) -> {
@@ -144,11 +131,19 @@ public class FabricModEvents {
         });
 
         EntitySleepEvents.STOP_SLEEPING.register((entity, sleepingPos) -> {
-            if (!Services.PLATFORM.isModLoaded("pblizzard")) {
-                if (entity instanceof Player player) {
-                    if (player.getSleepTimer() > 20 && !player.level().isMoonVisible()) {
-                        player.addEffect(new MobEffectInstance(ModEffects.WELL_RESTED, 24000, 0, false, false, true));
-                        player.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake"), true);
+            if (entity instanceof Player player) {
+                if (player.getSleepTimer() > 20 && !player.level().isMoonVisible()) {
+                    MinecraftServer server = player.level().getServer();
+                    if (server != null) {
+                        for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers()) {
+                            serverPlayer.addEffect(new MobEffectInstance(ModEffects.WELL_RESTED.holder, 24000, 0, false, false, true));
+                            if (player.getUUID() == serverPlayer.getUUID()) {
+                                serverPlayer.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake"), true);
+                            }
+                            else {
+                                serverPlayer.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake_not_sleeping", player.getName()), true);
+                            }
+                        }
                     }
                 }
             }
@@ -176,9 +171,9 @@ public class FabricModEvents {
             }
             // hardcore
             if (livingEntity instanceof ServerPlayer player) {
-                if (player.level().getLevelData().isHardcore() && player.hasEffect(ModEffects.WELL_RESTED)) {
+                if (player.level().getLevelData().isHardcore() && player.hasEffect(ModEffects.WELL_RESTED.holder)) {
                     player.setHealth(1.0F);
-                    player.removeEffect(ModEffects.WELL_RESTED);
+                    player.removeEffect(ModEffects.WELL_RESTED.holder);
                     player.invulnerableTime = 60;
                     player.displayClientMessage(Component.translatable("effect.pinferno.well_rested_hardcore"), true);
                     return false;
@@ -202,7 +197,7 @@ public class FabricModEvents {
             }
 
             // display message if player had well rested effect
-            if (hadWellRestedEffectOnDeath && !Services.PLATFORM.isModLoaded("pblizzard") && !oldPlayer.level().getLevelData().isHardcore() && !newPlayer.level().getLevelData().isHardcore()) {
+            if (hadWellRestedEffectOnDeath  && !oldPlayer.level().getLevelData().isHardcore() && !newPlayer.level().getLevelData().isHardcore()) {
                 Objects.requireNonNull(newPlayer.level().getServer()).execute(() -> newPlayer.sendSystemMessage(Component.translatable("effect.pinferno.well_rested_consume"), true));
             }
 
@@ -373,43 +368,140 @@ public class FabricModEvents {
     }
 
     public static void updateCheck() {
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            if (!updateCheckScheduled) {
-                updateCheckScheduled = true;
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+            ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+                if (!updateCheckScheduled) {
+                    updateCheckScheduled = true;
 
-                UpdateChecker.checkAsync(() -> {
-                    client.execute(() -> {
-                        if (client.player == null) return;
+                    UpdateChecker.checkAsync(() -> {
+                        client.execute(() -> {
+                            if (client.player == null) return;
 
-                        String current = Constants.INSTANCE.getVersion();
-                        String latest = UpdateChecker.getLatest();
+                            String current = Constants.INSTANCE.getVersion();
+                            String latest = UpdateChecker.getLatest();
 
-                        if (latest == null) return;
+                            if (latest == null) return;
 
-                        if (UpdateChecker.hasUpdate()) {
-                            ClickEvent click = new ClickEvent.OpenUrl(URI.create("https://modrinth.com/mod/preserved-inferno/version/" + latest));
-                            HoverEvent hover = new HoverEvent.ShowText(Component.literal("Open version page"));
-                            Style updateLink = Style.EMPTY
-                                    .withClickEvent(click)
-                                    .withHoverEvent(hover)
-                                    .withUnderlined(true)
-                                    .withColor(ChatFormatting.BLUE);
+                            if (UpdateChecker.hasUpdate()) {
+                                ClickEvent click = new ClickEvent.OpenUrl(URI.create("https://modrinth.com/mod/preserved-inferno/version/" + latest));
+                                HoverEvent hover = new HoverEvent.ShowText(Component.literal("Open version page"));
+                                Style updateLink = Style.EMPTY
+                                        .withClickEvent(click)
+                                        .withHoverEvent(hover)
+                                        .withUnderlined(true)
+                                        .withColor(ChatFormatting.BLUE);
 
-                            Component message = Component.literal("[Preserved: Inferno]").withStyle(ChatFormatting.RED)
-                                    .append(Component.literal(" Update available: ").withStyle(ChatFormatting.WHITE))
-                                    .append(Component.literal(latest).setStyle(updateLink))
-                                    .append(Component.literal(" (current: " + current + ")").withStyle(ChatFormatting.WHITE));
+                                Component message = Component.literal("[Preserved: Inferno]").withStyle(ChatFormatting.RED)
+                                        .append(Component.literal(" Update available: ").withStyle(ChatFormatting.WHITE))
+                                        .append(Component.literal(latest).setStyle(updateLink))
+                                        .append(Component.literal(" (current: " + current + ")").withStyle(ChatFormatting.WHITE));
 
-                            client.player.displayClientMessage(message, false);
-                        }
+                                client.player.displayClientMessage(message, false);
+                            }
+                        });
                     });
-                });
+                }
+            });
+        }
+    }
+
+    // masteries
+    private static String getPlayerRankId(UUID playerUuid) {
+        if (currentServer == null) {
+            Constants.LOG.warn("currentServer is null when trying to get player rank for {}", playerUuid);
+            return "";
+        }
+        return WorldDataManager.getPlayerRank(currentServer, playerUuid);
+    }
+
+    private static Component getPrefixForRank(String rankId) {
+        return WorldDataManager.RANK_PREFIXES.getOrDefault(rankId, Component.empty());
+    }
+
+    private static Component getSuffixForRank(String rankId) {
+        return WorldDataManager.RANK_SUFFIXES.getOrDefault(rankId, Component.empty());
+    }
+
+    private static void createOrUpdateAllRankTeams() {
+        if (currentServer == null) return;
+
+        Scoreboard scoreboard = currentServer.getScoreboard();
+
+        String[] rankIds = {"starter", "beginner", "novice", "disciple", "adequate", "advanced", "master", "champion", "infernal", "placeholder"};
+        for (String rankId : rankIds) {
+            PlayerTeam playerTeam = scoreboard.getPlayerTeam(rankId);
+
+            if (playerTeam == null) {
+                playerTeam = scoreboard.addPlayerTeam(rankId);
+            }
+
+            playerTeam.setPlayerPrefix(getPrefixForRank(rankId));
+            playerTeam.setPlayerSuffix(getSuffixForRank(rankId));
+        }
+    }
+
+    public static void assignPlayerToRankTeam(ServerPlayer player) {
+        if (currentServer == null) return;
+
+        Scoreboard scoreboard = currentServer.getScoreboard();
+        String playerRankId = getPlayerRankId(player.getUUID());
+        String scoreboardEntry = player.getScoreboardName();
+        PlayerTeam currentTeam = scoreboard.getPlayersTeam(scoreboardEntry);
+        if (currentTeam != null && !currentTeam.getName().equals(playerRankId)) {
+            scoreboard.removePlayerFromTeam(scoreboardEntry);
+        }
+
+        PlayerTeam targetTeam = scoreboard.getPlayerTeam(playerRankId);
+        if (targetTeam == null) {
+            targetTeam = scoreboard.addPlayerTeam(playerRankId);
+            targetTeam.setPlayerPrefix(getPrefixForRank(playerRankId));
+            targetTeam.setPlayerSuffix(getSuffixForRank(playerRankId));
+        }
+
+        if (!targetTeam.getPlayers().contains(scoreboardEntry)) {
+            scoreboard.addPlayerToTeam(scoreboardEntry, targetTeam);
+        }
+    }
+
+
+    public static void initialiseMasteries() {
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            currentServer = server;
+            createOrUpdateAllRankTeams();
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                FabricWorldDataManager.syncPlayerPointsWithAdvancements(server, player);
+            }
+        });
+
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> currentServer = null);
+
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerPlayer player = handler.player;
+            ModTriggers.WORLD_JOIN.trigger(player);
+            assignPlayerToRankTeam(player);
+            FabricWorldDataManager.syncPlayerPointsWithAdvancements(server, player);
+
+            int currentPoints = WorldDataManager.getPlayerPoints(server, player.getUUID());
+            ServerPlayNetworking.send(player, new ModMessages.PlayerPointsPayload(player.getUUID(), currentPoints));
+        });
+    }
+
+
+    public static void checkInitialAdvancement() {
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                var advancement = server.getAdvancements().get(ResourceLocation.withDefaultNamespace("story/root"));
+                if (advancement == null) continue;
+                if (player.getAdvancements().getOrStartProgress(advancement).isDone()) {
+                    ModTriggers.WORLD_JOIN.trigger(player);
+                }
             }
         });
     }
 
     public static void registerModEvents() {
         // Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
+        initialiseMasteries();
         checkInitialAdvancement();
         limitCropBreak();
         modifySleeping();

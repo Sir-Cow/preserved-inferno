@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:adventure/kill_a_mob",
+  "criteria": {
+    "crit_damage": {
+      "trigger": "pinferno:crit_damage"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.adventure.crit_damage.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:stone_axe"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.adventure.crit_damage.title"
+    }
+  },
+  "requirements": [
+    [
+      "crit_damage"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

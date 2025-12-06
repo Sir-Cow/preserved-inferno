@@ -3466,6 +3466,7 @@
     "description": {
       "translate": "advancements.pinferno.fishing.upgrade_fishing_rod_all.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "pinferno:iron_fishing_hook"

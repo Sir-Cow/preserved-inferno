@@ -39,6 +39,7 @@
     "description": {
       "translate": "advancements.pinferno.agriculture.beginner_farm.description"
     },
+    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "minecraft:potato"

@@ -166,6 +166,7 @@
     "description": {
       "translate": "advancements.adventure.read_power_from_chiseled_bookshelf.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:chiseled_bookshelf"

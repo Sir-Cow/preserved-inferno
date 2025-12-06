@@ -38,6 +38,7 @@
     "description": {
       "translate": "advancements.husbandry.tactical_fishing.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:pufferfish_bucket"

@@ -113,6 +113,7 @@
     "description": {
       "translate": "advancements.husbandry.wax_off.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:stone_axe"

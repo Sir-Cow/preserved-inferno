@@ -36,6 +36,7 @@
     "description": {
       "translate": "advancements.pinferno.fishing.froglight.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:magma_cream"

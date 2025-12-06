@@ -16,6 +16,7 @@
     "description": {
       "translate": "advancements.pinferno.exploration.torch.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:torch"

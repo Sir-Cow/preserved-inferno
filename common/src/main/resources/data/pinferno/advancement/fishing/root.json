@@ -39,6 +39,7 @@
     "description": {
       "translate": "advancements.pinferno.story.fishing.description"
     },
+    "frame": "root",
     "icon": {
       "count": 1,
       "id": "minecraft:fishing_rod"

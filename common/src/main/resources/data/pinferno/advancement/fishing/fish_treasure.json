@@ -9,6 +9,7 @@
     "description": {
       "translate": "advancements.pinferno.fishing.fish_treasure.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:gold_nugget"

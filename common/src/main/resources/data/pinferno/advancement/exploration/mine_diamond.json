@@ -16,6 +16,7 @@
     "description": {
       "translate": "advancements.story.mine_diamond.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:diamond"

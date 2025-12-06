@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:exploration/smelt_copper",
+  "parent": "pinferno:exploration/scrape_copper",
   "criteria": {
     "wax_on": {
       "conditions": {
@@ -96,6 +96,7 @@
     "description": {
       "translate": "advancements.husbandry.wax_on.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:honeycomb"

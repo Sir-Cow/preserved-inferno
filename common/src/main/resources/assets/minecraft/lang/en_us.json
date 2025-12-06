@@ -1,6 +1,10 @@
 {
   "replace": true,
 
+  "chat.type.team.text": "%s %s: %s",
+  "chat.type.text": "%s: %s",
+  "chat.type.advancement.task": "%s has finished the task %s",
+
   "item.minecraft.wooden_hoe": "Wooden Scythe",
   "item.minecraft.stone_hoe": "Stone Scythe",
   "item.minecraft.copper_hoe": "Copper Scythe",
@@ -21,6 +25,10 @@
   "subtitles.entity.ender_eye.launch": "Awakened Eye shoots",
   "subtitles.item.hoe.till": "Scythe tills",
 
+  "advancements.adventure.kill_a_mob.title": "Creature Killer",
+  "advancements.adventure.kill_a_mob.description": "Kill any kind of mob",
+  "advancements.adventure.minecraft_trials_edition.title": "The Way",
+  "advancements.adventure.minecraft_trials_edition.description": "Wander into a Trial structure",
   "advancements.adventure.overoverkill.title": "Mace to the Face",
   "advancements.adventure.sleep_in_bed.description": "Use a Dreamcatcher to skip the night",
   "advancements.adventure.summon_iron_golem.description": "Summon an Iron Golem",
@@ -31,10 +39,13 @@
   "advancements.husbandry.kill_axolotl_target.description": "Have the Regeneration effect applied from assisting an Axolotl or it killing a Mob",
   "advancements.husbandry.netherite_hoe.description": "Use a Netherite Ingot to upgrade a Scythe, and then reevaluate your life choices",
   "advancements.husbandry.obtain_sniffer_egg.description": "Uncover a Sniffer Egg",
+  "advancements.husbandry.plant_seed.description": "Till Dirt and plant your first crop",
   "advancements.nether.obtain_ancient_debris.title": "Hidden in the Heights",
   "advancements.story.follow_ender_eye.description": "Follow an Awakened Eye in the overworld",
   "advancements.story.iron_tools.description": "Use Iron Ingots to upgrade your Pickaxe",
   "advancements.story.shiny_gear.title": "Bling Bling!",
   "advancements.story.smelt_iron.description": "Forge an Iron Ingot",
-  "advancements.story.upgrade_tools.description": "Construct a better Pickaxe using Stone"
+  "advancements.story.upgrade_tools.description": "Construct a better Pickaxe using Stone",
+  "advancements.toast.goal": "Achievement Unlocked!",
+  "advancements.toast.task": "Task Done!"
 }

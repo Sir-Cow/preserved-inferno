@@ -12,6 +12,7 @@
     "CauldronBlockMixin",
     "EnchantingTableBlockMixin",
     "LoomBlockMixin",
+    "PlayerAdvancementsMixin",
     "PlayerMixin",
     "VillagerMixin"
   ],

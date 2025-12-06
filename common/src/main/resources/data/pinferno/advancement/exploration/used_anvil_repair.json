@@ -9,6 +9,7 @@
     "description": {
       "translate": "advancements.pinferno.exploration.used_anvil_repair.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:anvil"

@@ -9,9 +9,10 @@
     "description": {
       "translate": "advancements.husbandry.tame_an_animal.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
-      "id": "minecraft:lead"
+      "id": "minecraft:bone"
     },
     "title": {
       "translate": "advancements.husbandry.tame_an_animal.title"

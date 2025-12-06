@@ -1,0 +1,29 @@
+{
+  "parent": "pinferno:mastery/adequate",
+  "criteria": {
+    "mastery_advanced": {
+      "trigger": "pinferno:mastery_advanced"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.pinferno.mastery.advanced.description"
+    },
+    "frame": "mastery",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:diamond"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.mastery.advanced.title"
+    }
+  },
+  "requirements": [
+    [
+      "mastery_advanced"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

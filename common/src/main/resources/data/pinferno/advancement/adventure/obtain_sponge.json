@@ -1,0 +1,33 @@
+{
+  "parent": "pinferno:adventure/find_ocean_monument",
+  "criteria": {
+    "sponge": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:sponge"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.adventure.obtain_sponge.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:sponge"
+    },
+    "title": {
+      "translate": "advancements.pinferno.adventure.obtain_sponge.title"
+    }
+  },
+  "requirements": [
+    [
+      "sponge"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

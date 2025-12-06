@@ -16,6 +16,7 @@
     "description": {
       "translate": "advancements.pinferno.story.mine_stone.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:wooden_pickaxe"

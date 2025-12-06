@@ -16,6 +16,7 @@
     "description": {
       "translate": "advancements.pinferno.agriculture.obtain_bundle.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:bundle"

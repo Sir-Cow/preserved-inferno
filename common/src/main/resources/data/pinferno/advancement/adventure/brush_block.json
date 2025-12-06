@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:adventure/root",
+  "criteria": {
+    "brush_block": {
+      "trigger": "pinferno:brush_block"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.adventure.brush_block.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:brush"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.adventure.brush_block.title"
+    }
+  },
+  "requirements": [
+    [
+      "brush_block"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -20,6 +20,7 @@
     "description": {
       "translate": "advancements.pinferno.agriculture.kill_a_phantom.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "pinferno:phantom_sinew"

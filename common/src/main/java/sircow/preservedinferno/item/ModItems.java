@@ -320,7 +320,7 @@ public class ModItems {
     );
 
     public static final Item FLARE_GUN = registerItem("flare_gun", PreservedFlareGunItem::new, new Item.Properties()
-            .durability(128)
+            .durability(256)
             .stacksTo(1)
             .useCooldown(1.0F)
             .repairable(ItemTags.COPPER_TOOL_MATERIALS)

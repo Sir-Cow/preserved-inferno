@@ -1,0 +1,72 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "pinferno:chests/monster_trial/reward_ominous_uncommon",
+          "weight": 1
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "pinferno:chests/monster_trial/reward_ominous_uncommon",
+          "weight": 1
+        }
+      ],
+      "rolls": 1.0
+    },
+        {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "pinferno:chests/monster_trial/reward_ominous_uncommon",
+          "weight": 1
+        }
+      ],
+      "rolls": 1.0
+    },
+        {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "pinferno:chests/monster_trial/reward_ominous_uncommon",
+          "weight": 1
+        }
+      ],
+      "rolls": 1.0
+    },
+        {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "pinferno:chests/monster_trial/reward_ominous_rare",
+          "weight": 1
+        }
+      ],
+      "rolls": 1.0
+    },
+        {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "pinferno:chests/monster_trial/reward_ominous_rare",
+          "weight": 1
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "pinferno:chests/monster_trial/reward_ominous"
+}

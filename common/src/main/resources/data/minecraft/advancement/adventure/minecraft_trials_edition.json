@@ -1,0 +1,57 @@
+{
+  "parent": "minecraft:adventure/root",
+  "criteria": {
+    "minecraft_trials_edition": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structures": "minecraft:trial_chambers"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "pinferno_monster_trial": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structures": "pinferno:monster_trial"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.adventure.minecraft_trials_edition.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:mossy_cobblestone"
+    },
+    "title": {
+      "translate": "advancements.adventure.minecraft_trials_edition.title"
+    }
+  },
+  "requirements": [
+    [
+      "minecraft_trials_edition",
+      "pinferno_monster_trial"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,11 +1,10 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
+  "group": "torch",
   "key": {
     "#": "minecraft:stick",
-    "X": [
-      "minecraft:charcoal"
-    ]
+    "X": "minecraft:charcoal"
   },
   "pattern": [
     "X",

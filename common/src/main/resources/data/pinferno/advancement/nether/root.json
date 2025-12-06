@@ -13,6 +13,7 @@
     "description": {
       "translate": "advancements.pinferno.nether.enter_the_nether.description"
     },
+    "frame": "root",
     "icon": {
       "count": 1,
       "id": "minecraft:netherrack"

@@ -12,6 +12,7 @@
     "description": {
       "translate": "advancements.pinferno.agriculture.shear_sheep.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:white_wool"

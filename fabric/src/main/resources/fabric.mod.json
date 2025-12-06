@@ -24,7 +24,11 @@
         ],
         "fabric-datagen": [
             "sircow.preservedinferno.datagen.ModDataGenerator"
-        ]
+        ],
+        "mm:early_risers": [
+            "sircow.preservedinferno.other.AdvancementEnumExtender"
+      ]
+
     },
     "mixins": [
         "${mod_id}.mixins.json",

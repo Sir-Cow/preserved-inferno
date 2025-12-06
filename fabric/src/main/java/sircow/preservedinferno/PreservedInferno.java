@@ -19,8 +19,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import sircow.preservedinferno.block.FabricModBlocks;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockData;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
+import sircow.preservedinferno.effect.FabricModEffects;
 import sircow.preservedinferno.item.FabricModItemGroups;
 import sircow.preservedinferno.item.FabricModItems;
+import sircow.preservedinferno.network.ModMessages;
 import sircow.preservedinferno.other.*;
 import sircow.preservedinferno.screen.*;
 
@@ -145,6 +147,8 @@ public class PreservedInferno implements ModInitializer {
         FabricModItems.registerModItems();
         FabricModBlocks.registerBlocks();
         FabricModItemGroups.registerItemGroups();
+        FabricModEffects.registerFabricModEffects();
         ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
+        ModMessages.registerMessages();
     }
 }

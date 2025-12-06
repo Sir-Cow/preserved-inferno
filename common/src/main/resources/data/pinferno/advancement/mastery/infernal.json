@@ -1,0 +1,29 @@
+{
+  "parent": "pinferno:mastery/champion",
+  "criteria": {
+    "mastery_infernal": {
+      "trigger": "pinferno:mastery_infernal"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.pinferno.mastery.infernal.description"
+    },
+    "frame": "mastery",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:blaze_powder"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.mastery.infernal.title"
+    }
+  },
+  "requirements": [
+    [
+      "mastery_infernal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

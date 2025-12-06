@@ -9,9 +9,10 @@
     "description": {
       "translate": "advancements.husbandry.breed_an_animal.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
-      "id": "minecraft:wheat_seeds"
+      "id": "minecraft:carrot"
     },
     "title": {
       "translate": "advancements.husbandry.breed_an_animal.title"

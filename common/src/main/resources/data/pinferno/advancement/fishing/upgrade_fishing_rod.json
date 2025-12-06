@@ -227,6 +227,7 @@
     "description": {
       "translate": "advancements.pinferno.fishing.upgrade_fishing_rod.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "pinferno:angling_table"

@@ -175,13 +175,13 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
                     if (!livingEntity.fireImmune()) {
                         livingEntity.igniteForTicks(60);
                     }
-                    result.getEntity().hurt(ModDamageTypes.of(this.level(), ModDamageTypes.FLARE_GUN_PROJECTILE, this, this.getOwner()), 6.0F);
+                    result.getEntity().hurt(ModDamageTypes.of(this.level(), ModDamageTypes.FLARE_GUN_PROJECTILE, this, this.getOwner()), 9.0F);
                 }
                 else {
                     if (!livingEntity.fireImmune()) {
                         livingEntity.igniteForTicks(60);
                     }
-                    result.getEntity().hurt(ModDamageTypes.of(this.level(), ModDamageTypes.FLARE_GUN_PROJECTILE, this, this.getOwner()), 2.0F);
+                    result.getEntity().hurt(ModDamageTypes.of(this.level(), ModDamageTypes.FLARE_GUN_PROJECTILE, this, this.getOwner()), 3.0F);
                 }
             }
             this.discard();

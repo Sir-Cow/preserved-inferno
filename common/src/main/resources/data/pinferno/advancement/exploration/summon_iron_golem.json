@@ -20,6 +20,7 @@
     "description": {
       "translate": "advancements.adventure.summon_iron_golem.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:carved_pumpkin"

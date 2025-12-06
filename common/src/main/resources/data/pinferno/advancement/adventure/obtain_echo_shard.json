@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:adventure/avoid_vibration",
+  "criteria": {
+    "echo_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:echo_shard"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.adventure.obtain_echo_shard.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:echo_shard"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.adventure.obtain_echo_shard.title"
+    }
+  },
+  "requirements": [
+    [
+      "echo_shard"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

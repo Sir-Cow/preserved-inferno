@@ -1,12 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
+  "group": "copper_torch",
   "key": {
     "#": "minecraft:stick",
     "C": "minecraft:copper_nugget",
-    "X": [
-      "minecraft:charcoal"
-    ]
+    "X": "minecraft:charcoal"
   },
   "pattern": [
     "C",

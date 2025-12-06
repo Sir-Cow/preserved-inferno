@@ -28,6 +28,7 @@ import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.mixin.ClientAdvancementsAccessor;
+import sircow.preservedinferno.network.ModMessages;
 import sircow.preservedinferno.other.IMinecraftMixin;
 import sircow.preservedinferno.other.ModTags;
 import sircow.preservedinferno.screen.CacheScreen;
@@ -57,6 +58,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         registerCustomTooltip();
         tickAdvancement();
         BlockEntityRenderers.register(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, PreservedCauldronBlockEntityRenderer::new);
+        ModMessages.registerS2CPackets();
     }
 
     private void registerMenuScreens() {

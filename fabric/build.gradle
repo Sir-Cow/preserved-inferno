@@ -8,6 +8,7 @@ repositories {
         name = "Terraformers"
         url = "https://maven.terraformersmc.com/"
     }
+    maven { url "https://jitpack.io" }
 }
 
 fabricApi {
@@ -25,6 +26,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
+    modImplementation "com.github.Chocohead:Fabric-ASM:v${project.fabric_asm_version}"
+    include "com.github.Chocohead:Fabric-ASM:v${project.fabric_asm_version}"
 }
 
 loom {

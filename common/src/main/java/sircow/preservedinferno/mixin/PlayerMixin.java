@@ -13,6 +13,7 @@ import net.minecraft.stats.Stat;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -250,7 +251,9 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                     lastSteppedOnIcePos = blockBelow.immutable();
 
                     if ((Player)(Object)this instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.STAND_ON_ICE.trigger(serverPlayer);
+                        if (this.level().getBlockState(this.blockPosition().below()).getBlock() instanceof IceBlock || this.level().getBlockState(this.blockPosition().below()).getBlock() == Blocks.PACKED_ICE || this.level().getBlockState(this.blockPosition().below()).getBlock() == Blocks.BLUE_ICE) {
+                            ModTriggers.STAND_ON_ICE.trigger(serverPlayer);
+                        }
                     }
                 }
                 else if (lastSteppedOnIcePos != null && !lastSteppedOnIcePos.equals(blockBelow)) {
@@ -326,7 +329,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
         Player player = (Player)(Object)this;
         super.die(damageSource);
         this.reapplyPosition();
-        if (!this.isSpectator() && this.level() instanceof ServerLevel serverLevel && !this.hasEffect(ModEffects.WELL_RESTED)) {
+        if (!this.isSpectator() && this.level() instanceof ServerLevel serverLevel && !this.hasEffect(ModEffects.WELL_RESTED.holder)) {
             this.dropAllDeathLoot(serverLevel, damageSource);
         }
 
@@ -601,7 +604,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @Inject(method = "dropEquipment", at = @At("HEAD"), cancellable = true)
     public void preserved_inferno$preventInvDrop(ServerLevel level, CallbackInfo ci) {
         Player player = (Player)(Object)this;
-        if (player.hasEffect(ModEffects.WELL_RESTED)) {
+        if (player.hasEffect(ModEffects.WELL_RESTED.holder)) {
             ci.cancel();
         }
     }
@@ -609,7 +612,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @Inject(method = "getBaseExperienceReward", at = @At("HEAD"), cancellable = true)
     public void preserved_inferno$preventExpDrop(ServerLevel level, CallbackInfoReturnable<Integer> cir) {
         Player player = (Player)(Object)this;
-        if (player.hasEffect(ModEffects.WELL_RESTED) || player.isSpectator()) {
+        if (player.hasEffect(ModEffects.WELL_RESTED.holder) || player.isSpectator()) {
             cir.setReturnValue(0);
             cir.cancel();
         }
@@ -619,7 +622,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @Inject(method = "updatePlayerPose", at = @At("HEAD"))
     private void preserved_inferno$blockSprinting(CallbackInfo ci) {
         Player player = (Player) (Object) this;
-        if ((player.level().getLevelData().isHardcore() || this.hasEffect(ModEffects.HINDERED)) && !player.isSpectator() && !player.isCreative()) {
+        if ((player.level().getLevelData().isHardcore() || this.hasEffect(ModEffects.HINDERED.holder)) && !player.isSpectator() && !player.isCreative()) {
             player.setSprinting(false);
             player.getAbilities().mayfly = false;
             player.getAbilities().flying = false;
@@ -636,8 +639,8 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @Inject(method = "getDestroySpeed", at = @At("HEAD"), cancellable = true)
     private void preserved_inferno$hinderedMining(BlockState state, CallbackInfoReturnable<Float> cir) {
         Player self = (Player)(Object)this;
-        if (self.hasEffect(ModEffects.HINDERED)) {
-            int level = Objects.requireNonNull(this.getEffect(ModEffects.HINDERED)).getAmplifier() + 1;
+        if (self.hasEffect(ModEffects.HINDERED.holder)) {
+            int level = Objects.requireNonNull(this.getEffect(ModEffects.HINDERED.holder)).getAmplifier() + 1;
             cir.setReturnValue((float)Math.pow(0.5, level));
         }
     }
@@ -659,7 +662,8 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                 && !self.isInWater()
                 && !self.isMobilityRestricted()
                 && !self.isPassenger()
-                && !self.isSprinting();
+                && !self.isSprinting()
+                && (self.getMainHandItem().is(ItemTags.SHARP_WEAPON_ENCHANTABLE) || self.getMainHandItem().is(ItemTags.MACE_ENCHANTABLE) || self.getMainHandItem().is(ItemTags.TRIDENT_ENCHANTABLE));
 
         if (isCritical) {
             if (self instanceof ServerPlayer serverPlayer) {
