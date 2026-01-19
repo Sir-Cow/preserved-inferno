@@ -7,9 +7,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerData;
-import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.entity.npc.villager.VillagerData;
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -42,9 +42,7 @@ public class VillagerMixin implements VillagerFlags {
 
     @Inject(method = "updateSpecialPrices", at = @At("HEAD"), cancellable = true)
     private void preserved_inferno$noCuringDiscounts(Player player, CallbackInfo ci) {
-        if (player.hasEffect(MobEffects.HERO_OF_THE_VILLAGE)) {
-            return;
-        }
+        if (player.hasEffect(MobEffects.HERO_OF_THE_VILLAGE)) return;
         ci.cancel();
     }
 
@@ -53,12 +51,8 @@ public class VillagerMixin implements VillagerFlags {
         Villager self = (Villager)(Object)this;
         this.pi$previousData = self.getVillagerData();
 
-        if (self == null || !self.isAlive()) {
-            return;
-        }
-        if (data.profession().is(VillagerProfession.NONE) && !self.getVillagerData().profession().is(VillagerProfession.NONE)) {
-            ci.cancel();
-        }
+        if (self == null || !self.isAlive()) return;
+        if (data.profession().is(VillagerProfession.NONE) && !self.getVillagerData().profession().is(VillagerProfession.NONE)) ci.cancel();
     }
 
     @Inject(method = "setVillagerData", at = @At("TAIL"))
@@ -77,9 +71,7 @@ public class VillagerMixin implements VillagerFlags {
             self.getOffers().clear();
             TradeRotator.rotateTrades(self, newMasteryLevel, random);
 
-            if (data.level() == 5) {
-                level.getPlayers(player -> player.distanceToSqr(self) <= 100 * 100).forEach(ModTriggers.MAX_VILLAGER::trigger);
-            }
+            if (data.level() == 5) level.getPlayers(player -> player.distanceToSqr(self) <= 100 * 100).forEach(ModTriggers.MAX_VILLAGER.get()::trigger);
         }
     }
 
@@ -109,16 +101,11 @@ public class VillagerMixin implements VillagerFlags {
         Villager self = (Villager)(Object)this;
         long dayTime = level.getDayTime() % 24000L;
 
-        if (self.getBrain().hasMemoryValue(MemoryModuleType.MEETING_POINT)) {
-            ((VillagerFlags) self).pi$setDidGather(true);
-        }
-
-        if (self.getBrain().isActive(Activity.PANIC)) {
-            this.pi$setDidPanic(true);
-        }
+        if (self.getBrain().hasMemoryValue(MemoryModuleType.MEETING_POINT)) ((VillagerFlags) self).pi$setDidGather(true);
+        if (self.getBrain().isActive(Activity.PANIC)) this.pi$setDidPanic(true);
 
         // start of day
-        if (!level.isMoonVisible() && dayTime < 50) {
+        if (dayTime < 50) {
             this.pi$setTradesRotatedToday(false);
             didDailyRefresh = false;
         }
@@ -130,7 +117,7 @@ public class VillagerMixin implements VillagerFlags {
                     int masteryLevel = self.getVillagerData().level();
                     RandomSource random = self.getRandom();
                     TradeRotator.rotateTrades(self, masteryLevel, random);
-                    level.getPlayers(player -> player.distanceToSqr(self) <= 100 * 100).forEach(ModTriggers.VILLAGER_RESTOCK::trigger);
+                    level.getPlayers(player -> player.distanceToSqr(self) <= 100 * 100).forEach(ModTriggers.VILLAGER_RESTOCK.get()::trigger);
                 }
                 this.pi$setDidSleep(false);
                 this.pi$setDidGather(false);
@@ -176,9 +163,7 @@ public class VillagerMixin implements VillagerFlags {
             Optional<ResourceKey<VillagerProfession>> profKeyOpt = villager.getVillagerData().profession().unwrapKey();
             profKeyOpt.ifPresent(access::markTraded);
 
-            if (access.hasTradedAll()) {
-                ModTriggers.TRADE_EVERY_VILLAGER.trigger(player);
-            }
+            if (access.hasTradedAll()) ModTriggers.TRADE_EVERY_VILLAGER.get().trigger(player);
         }
     }
 

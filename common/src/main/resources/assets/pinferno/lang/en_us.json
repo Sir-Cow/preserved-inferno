@@ -133,7 +133,7 @@
   "container.pinferno.angling_table": "Angling Table",
   "container.pinferno.cache": "Cache",
 
-  "item.pinferno.shield_max_stamina": "+%s Stamina",
+  "item.pinferno.shield_max_stamina": "+%s Max Stamina",
   "item.pinferno.shield_regen_rate": "+%s Stamina Recovery",
   "item.pinferno.modifiers.not_active": "When not active:",
 
@@ -171,6 +171,12 @@
   "item.minecraft.potion.effect.luck": "Potion of Luck",
   "item.minecraft.splash_potion.effect.luck": "Splash Potion of Luck",
   "item.minecraft.lingering_potion.effect.luck": "Lingering Potion of Luck",
+
+  "enchantment.pinferno.bashful": "Bashful",
+  "enchantment.pinferno.buckler": "Buckler",
+  "enchantment.pinferno.endurance": "Endurance",
+  "enchantment.pinferno.respite": "Respite",
+  "enchantment.pinferno.vigor": "Vigor",
 
   "advancement.pinferno.actionbar.open_advancements": "Press [%s] to open your Advancements tab",
 
@@ -342,9 +348,9 @@
   "advancements.pinferno.agriculture.kill_a_phantom.title": "Nightmares",
   "advancements.pinferno.agriculture.kill_a_phantom.description": "Slay a Phantom",
   "advancements.pinferno.agriculture.place_bookshelf.title": "Librarian",
-  "advancements.pinferno.agriculture.place_bookshelf.description": "Use Bookshelves to increase the bookshelf power of your Enchanting Table",
+  "advancements.pinferno.agriculture.place_bookshelf.description": "Place a Bookshelf near your Enchanting Table to increase its Bookshelf Power",
   "advancements.pinferno.agriculture.max_enchanting_table.title": "Maximum Power",
-  "advancements.pinferno.agriculture.max_enchanting_table.description": "Obtain an Enchanting Table with max bookshelf power",
+  "advancements.pinferno.agriculture.max_enchanting_table.description": "Obtain an Enchanting Table with max Bookshelf Power",
   "advancements.pinferno.mastery.world_join.title": "Mastery",
   "advancements.pinferno.mastery.world_join.description": "Complete Advancements to earn Mastery ranks!",
   "advancements.pinferno.mastery.adequate.title": "\uE005",

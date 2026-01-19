@@ -4,14 +4,15 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
 
 public class PreservedCauldronScreen extends AbstractContainerScreen<PreservedCauldronMenu> {
-    private static final ResourceLocation BG_LOCATION = Constants.id("textures/gui/container/preserved_cauldron_gui.png");
-    private static final ResourceLocation SOAK_PROGRESS_SPRITE = Constants.id("textures/gui/container/cauldron/soak_progress.png");
-    private static final ResourceLocation WATER_SPRITE = Constants.id("textures/gui/container/cauldron/water.png");
+    private static final Identifier BG_LOCATION = Constants.id("textures/gui/container/preserved_cauldron_gui.png");
+    private static final Identifier SOAK_PROGRESS_SPRITE = Constants.id("textures/gui/container/cauldron/soak_progress.png");
+    private static final Identifier WATER_SPRITE = Constants.id("textures/gui/container/cauldron/water.png");
 
     public PreservedCauldronScreen(PreservedCauldronMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -58,7 +59,7 @@ public class PreservedCauldronScreen extends AbstractContainerScreen<PreservedCa
     }
 
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void render(@NonNull GuiGraphics context, int mouseX, int mouseY, float delta) {
         renderBackground(context, mouseX, mouseY, delta);
         super.render(context, mouseX, mouseY, delta);
         this.renderTooltip(context, mouseX, mouseY);

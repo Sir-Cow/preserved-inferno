@@ -116,7 +116,7 @@ public class ConduitBlockEntityMixin {
                 List<Player> nearbyPlayers = level.getEntitiesOfClass(Player.class, new AABB(pos).inflate(16));
                 for (Player player : nearbyPlayers) {
                     if (player instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.CONDUIT_POWER.trigger(serverPlayer);
+                        ModTriggers.CONDUIT_POWER.get().trigger(serverPlayer);
                     }
                 }
             }
@@ -126,7 +126,7 @@ public class ConduitBlockEntityMixin {
                 List<Player> nearbyPlayers = level.getEntitiesOfClass(Player.class, new AABB(pos).inflate(16));
                 for (Player player : nearbyPlayers) {
                     if (player instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.CONDUIT_POWER_FULL.trigger(serverPlayer);
+                        ModTriggers.CONDUIT_POWER_FULL.get().trigger(serverPlayer);
                     }
                 }
             }

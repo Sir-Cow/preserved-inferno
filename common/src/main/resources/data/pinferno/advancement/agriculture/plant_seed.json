@@ -83,9 +83,10 @@
     "description": {
       "translate": "advancements.husbandry.plant_seed.description"
     },
+    "frame": "progressing",
     "icon": {
       "count": 1,
-      "id": "minecraft:wooden_hoe"
+      "id": "minecraft:wheat_seeds"
     },
     "title": {
       "translate": "advancements.husbandry.plant_seed.title"

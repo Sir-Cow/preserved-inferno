@@ -16,19 +16,24 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -37,18 +42,24 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.effect.ModEffects;
+import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.item.ModItems;
+import sircow.preservedinferno.network.BashfulPayload;
 import sircow.preservedinferno.network.ModMessages;
 import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
 import sircow.preservedinferno.trigger.ModTriggers;
@@ -66,16 +77,15 @@ public class FabricModEvents {
             if (context.hasParameter(LootContextParams.BLOCK_STATE) &&
                     context.hasParameter(LootContextParams.TOOL) &&
                     context.hasParameter(LootContextParams.THIS_ENTITY)) {
-
                 BlockState brokenState = context.getParameter(LootContextParams.BLOCK_STATE);
                 ItemStack toolUsed = context.getParameter(LootContextParams.TOOL);
                 Player playerEntity = null;
 
-                if (context.getOptionalParameter(LootContextParams.THIS_ENTITY) instanceof Player) {
-                    playerEntity = (Player) context.getOptionalParameter(LootContextParams.THIS_ENTITY);
-                }
+                if (context.getOptionalParameter(LootContextParams.THIS_ENTITY) instanceof Player) playerEntity = (Player) context.getOptionalParameter(LootContextParams.THIS_ENTITY);
 
                 if (playerEntity != null) {
+                    if (playerEntity.isCreative()) return;
+
                     if (brokenState.is(Blocks.WHEAT) ||
                             brokenState.is(Blocks.CARROTS) ||
                             brokenState.is(Blocks.POTATOES) ||
@@ -84,9 +94,7 @@ public class FabricModEvents {
                             brokenState.is(Blocks.MELON_STEM) ||
                             brokenState.is(Blocks.NETHER_WART)) {
 
-                        if (!toolUsed.is(ItemTags.HOES)) {
-                            drops.clear();
-                        }
+                        if (!toolUsed.is(ItemTags.HOES)) drops.clear();
                     }
                 }
             }
@@ -99,21 +107,18 @@ public class FabricModEvents {
             ItemStack mainHandItem = player.getItemInHand(InteractionHand.MAIN_HAND);
             ItemStack offHandItem = player.getItemInHand(InteractionHand.OFF_HAND);
             boolean holdingDreamcatcher = mainHandItem.getItem() == ModItems.DREAMCATCHER || offHandItem.getItem() == ModItems.DREAMCATCHER;
+            boolean moonVisible = player.level().environmentAttributes().getValue(EnvironmentAttributes.MOON_ANGLE, new Vec3(player.getX(), player.getY(), player.getZ()), null) > 0.0F;
 
             if (MobLineOfSight.hasMonsterLineOfSight(player.level(), pos)) {
                 player.displayClientMessage(Component.translatable("block.minecraft.bed.not_safe"), true);
                 return Player.BedSleepingProblem.OTHER_PROBLEM;
             }
-            if (player.level().isMoonVisible() && !holdingDreamcatcher) {
+            if (!moonVisible && !holdingDreamcatcher) {
                 player.displayClientMessage(Component.translatable("block.minecraft.bed.no_dreamcatcher"), true);
                 return Player.BedSleepingProblem.OTHER_PROBLEM;
             }
-            if (player.level().isMoonVisible() && holdingDreamcatcher) {
-                return null;
-            }
-            else {
-                return Player.BedSleepingProblem.OTHER_PROBLEM;
-            }
+            if (moonVisible && holdingDreamcatcher) return null;
+            else return Player.BedSleepingProblem.OTHER_PROBLEM;
         });
 
         EntitySleepEvents.START_SLEEPING.register((entity, sleepingPos) -> {
@@ -121,28 +126,21 @@ public class FabricModEvents {
                 ItemStack main = player.getMainHandItem();
                 ItemStack off = player.getOffhandItem();
 
-                if (main.is(ModItems.DREAMCATCHER)) {
-                    main.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
-                }
-                else if (off.is(ModItems.DREAMCATCHER)) {
-                    off.hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
-                }
+                if (main.is(ModItems.DREAMCATCHER)) main.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+                else if (off.is(ModItems.DREAMCATCHER)) off.hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
             }
         });
 
         EntitySleepEvents.STOP_SLEEPING.register((entity, sleepingPos) -> {
             if (entity instanceof Player player) {
-                if (player.getSleepTimer() > 20 && !player.level().isMoonVisible()) {
+                boolean moonVisible = player.level().environmentAttributes().getValue(EnvironmentAttributes.MOON_ANGLE, new Vec3(player.getX(), player.getY(), player.getZ()), null) > 0.0F;
+                if (player.getSleepTimer() > 20 && !moonVisible) {
                     MinecraftServer server = player.level().getServer();
                     if (server != null) {
                         for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers()) {
                             serverPlayer.addEffect(new MobEffectInstance(ModEffects.WELL_RESTED.holder, 24000, 0, false, false, true));
-                            if (player.getUUID() == serverPlayer.getUUID()) {
-                                serverPlayer.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake"), true);
-                            }
-                            else {
-                                serverPlayer.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake_not_sleeping", player.getName()), true);
-                            }
+                            if (player.getUUID() == serverPlayer.getUUID()) serverPlayer.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake"), true);
+                            else serverPlayer.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake_not_sleeping", player.getName()), true);
                         }
                     }
                 }
@@ -151,24 +149,18 @@ public class FabricModEvents {
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.player;
-            if (player.getEntityData().get(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN) == 0) {
-                player.getEntityData().set(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN, System.currentTimeMillis() - REGEN_COOLDOWN_MS);
-            }
+            if (player.getEntityData().get(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN) == 0) player.getEntityData().set(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN, System.currentTimeMillis() - REGEN_COOLDOWN_MS);
         });
     }
 
     public static void handleEntityDeath() {
         ServerLivingEntityEvents.AFTER_DEATH.register((livingEntity, damageSource) -> {
             // reset shield cooldown
-            if (livingEntity instanceof Player player) {
-                ShieldStaminaHandler.playerShieldCooldownMap.remove(player.getUUID());
-            }
+            if (livingEntity instanceof Player player) ShieldStaminaHandler.playerShieldCooldownMap.remove(player.getUUID());
         });
 
         ServerLivingEntityEvents.ALLOW_DEATH.register((livingEntity, damageSource, damageAmount) -> {
-            if (livingEntity instanceof Player player) {
-                TempInventoryStorage.savePlayerInventory(player);
-            }
+            if (livingEntity instanceof Player player) TempInventoryStorage.savePlayerInventory(player);
             // hardcore
             if (livingEntity instanceof ServerPlayer player) {
                 if (player.level().getLevelData().isHardcore() && player.hasEffect(ModEffects.WELL_RESTED.holder)) {
@@ -186,15 +178,9 @@ public class FabricModEvents {
             boolean hadWellRestedEffectOnDeath = TempInventoryStorage.restorePlayerInventory(newPlayer);
 
             // don't reset heat on death unless used respawn anchor
-            if (oldPlayer.getEntityData().get(ModEntityData.PLAYER_HEAT) >= 100 && newPlayer.level().dimension() != Level.NETHER) {
-                newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, 99);
-            }
-            else if (newPlayer.level().dimension() == Level.NETHER) {
-                newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, 0);
-            }
-            else {
-                newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, oldPlayer.getEntityData().get(ModEntityData.PLAYER_HEAT));
-            }
+            if (oldPlayer.getEntityData().get(ModEntityData.PLAYER_HEAT) >= 100 && newPlayer.level().dimension() != Level.NETHER) newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, 99);
+            else if (newPlayer.level().dimension() == Level.NETHER) newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, 0);
+            else newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, oldPlayer.getEntityData().get(ModEntityData.PLAYER_HEAT));
 
             // display message if player had well rested effect
             if (hadWellRestedEffectOnDeath  && !oldPlayer.level().getLevelData().isHardcore() && !newPlayer.level().getLevelData().isHardcore()) {
@@ -212,9 +198,7 @@ public class FabricModEvents {
     public static void handleBlockPlace() {
         UseBlockCallback.EVENT.register((player, level, hand, hitResult) -> {
             // check snow layer melting
-            if (level.isClientSide()) {
-                return InteractionResult.PASS;
-            }
+            if (level.isClientSide()) return InteractionResult.PASS;
 
             ItemStack itemInHand = player.getItemInHand(hand);
             BlockPos targetPos = hitResult.getBlockPos();
@@ -245,9 +229,9 @@ public class FabricModEvents {
 
     public static void checkBlockBreak() {
         PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
-            if (level.isClientSide() || player.isCreative()) {
-                return;
-            }
+            if (level.isClientSide() || player.isCreative()) return;
+
+            ItemStack mainHandItem = player.getMainHandItem();
 
             boolean isCrop = state.is(Blocks.WHEAT) ||
                     state.is(Blocks.CARROTS) ||
@@ -257,28 +241,19 @@ public class FabricModEvents {
 
             if (isCrop) {
                 boolean isFullyGrown = false;
-                ItemStack mainHandItem = player.getMainHandItem();
 
-                if (state.getBlock() instanceof CropBlock cropBlock) {
-                    isFullyGrown = cropBlock.isMaxAge(state);
-                }
-                else if (state.getBlock() instanceof NetherWartBlock) {
-                    isFullyGrown = state.hasProperty(NetherWartBlock.AGE) && state.getValue(NetherWartBlock.AGE) == NetherWartBlock.MAX_AGE;
-                }
-
-                if (isFullyGrown && mainHandItem.is(ItemTags.HOES)) {
-                    ModTriggers.BREAK_GROWN_CROP.trigger((ServerPlayer) player);
-                }
+                if (state.getBlock() instanceof CropBlock cropBlock) isFullyGrown = cropBlock.isMaxAge(state);
+                else if (state.getBlock() instanceof NetherWartBlock) isFullyGrown = state.hasProperty(NetherWartBlock.AGE) && state.getValue(NetherWartBlock.AGE) == NetherWartBlock.MAX_AGE;
+                if (isFullyGrown && mainHandItem.is(ItemTags.HOES)) ModTriggers.BREAK_GROWN_CROP.get().trigger((ServerPlayer) player);
             }
 
-            if (state.is(Blocks.SCULK_SHRIEKER)) {
-                ModTriggers.BREAK_SCULK_SHRIEKER.trigger((ServerPlayer) player);
-            }
+            if (mainHandItem.is(ItemTags.HOES) && (state.is(Blocks.SHORT_GRASS) || state.is(Blocks.TALL_GRASS))) mainHandItem.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+            if (state.is(Blocks.SCULK_SHRIEKER)) ModTriggers.BREAK_SCULK_SHRIEKER.get().trigger((ServerPlayer) player);
         });
     }
 
     private static void keyPressForFirstAdvancement() {
-        ServerPlayNetworking.registerGlobalReceiver(OpenAdvancementPayload.ID, (payload, context) -> ModTriggers.OPENED_ADVANCEMENT_SCREEN.trigger(context.player())
+        ServerPlayNetworking.registerGlobalReceiver(OpenAdvancementPayload.ID, (payload, context) -> ModTriggers.OPENED_ADVANCEMENT_SCREEN.get().trigger(context.player())
         );
     }
 
@@ -295,9 +270,7 @@ public class FabricModEvents {
             }
             // patch max health for existing hardcore worlds
             if (player.getEntityData().get(ModEntityData.RESET_HARDCORE_HEALTH)) {
-                if (Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).getBaseValue() != 20.0) {
-                    Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(20.0);
-                }
+                if (Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).getBaseValue() != 20.0) Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(20.0);
                 player.getEntityData().set(ModEntityData.RESET_HARDCORE_HEALTH, false);
             }
         });
@@ -308,14 +281,10 @@ public class FabricModEvents {
             ServerLevel overworld = server.overworld();
             PackRepository registries = server.getPackRepository();
 
-            if (overworld.getGameRules().getRule(GameRules.RULE_MINECART_MAX_SPEED).get() != 32) {
-                overworld.getGameRules().getRule(GameRules.RULE_MINECART_MAX_SPEED).set(32, server);
-            }
+            if (overworld.getGameRules().get(GameRules.MAX_MINECART_SPEED) != 32) overworld.getGameRules().set(GameRules.MAX_MINECART_SPEED, 32, server);
 
             boolean isEnabled = registries.getSelectedPacks().stream().anyMatch(pack -> pack.getId().equals("minecart_improvements"));
-            if (!isEnabled) {
-                registries.addPack("minecart_improvements");
-            }
+            if (!isEnabled) registries.addPack("minecart_improvements");
         });
     }
 
@@ -325,14 +294,12 @@ public class FabricModEvents {
             BlockPos pos = hitResult.getBlockPos();
 
             if (hand == InteractionHand.MAIN_HAND && level.getBlockState(hitResult.getBlockPos()).is(Blocks.FLETCHING_TABLE)) {
-                if (player.isCrouching()) {
-                    return InteractionResult.PASS;
-                }
+                if (player.isCrouching()) return InteractionResult.PASS;
 
                 if (!level.isClientSide()) {
                     player.openMenu(new ExtendedScreenHandlerFactory() {
                         @Override
-                        public @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
+                        public @NotNull AbstractContainerMenu createMenu(int syncId, @NonNull Inventory playerInventory, @NonNull Player player) {
                             return new PreservedFletchingTableMenu(syncId, playerInventory, ContainerLevelAccess.create(level, pos));
                         }
 
@@ -342,7 +309,7 @@ public class FabricModEvents {
                         }
 
                         @Override
-                        public Object getScreenOpeningData(ServerPlayer serverPlayer) {
+                        public Object getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
                             boolean isEmpty = level.getBlockEntity(pos) == null;
                             return new PreservedInferno.BlockData(isEmpty);
                         }
@@ -351,20 +318,83 @@ public class FabricModEvents {
                     player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
                     return InteractionResult.CONSUME;
                 }
-
                 return InteractionResult.SUCCESS;
             }
-
             return InteractionResult.PASS;
         });
     }
 
-    public static void trackSwordMultiKill() {
+    public static void afterDeath() {
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
             if (source.getEntity() instanceof ServerPlayer serverPlayer) {
                 KillTracker.onEntityKilled(serverPlayer, entity, source);
+                if (serverPlayer.getOffhandItem().is(ModTags.SHIELDS) && serverPlayer.getOffhandItem().getEnchantments().getLevel(serverPlayer.level().registryAccess().lookupOrThrow(ModEnchantments.RESPITE.registryKey()).getOrThrow(ModEnchantments.RESPITE)) > 0) {
+                    int currentDuration = serverPlayer.getEntityData().get(ModEntityData.PLAYER_SHIELD_REGEN_DURATION);
+                    serverPlayer.getEntityData().set(ModEntityData.PLAYER_SHIELD_REGEN_DURATION, currentDuration + 20);
+                }
             }
         });
+    }
+
+    public static void staminaRegenTick() {
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                int remainingTicks = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_REGEN_DURATION);
+
+                if (remainingTicks > 0) {
+                    ItemStack shield = player.getOffhandItem();
+                    if (shield.is(ModTags.SHIELDS)) {
+                        float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
+                        float maxStamina = getEffectiveMaxStamina(shield, player.level().registryAccess());
+                        float baseRegen = getEffectiveRegenRate(shield, player.level().registryAccess());
+                        float totalRegen = baseRegen + 0.25F;
+
+                        if (currentStamina < maxStamina) {
+                            player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, Math.min(maxStamina, currentStamina + totalRegen));
+                        }
+                    }
+                    player.getEntityData().set(ModEntityData.PLAYER_SHIELD_REGEN_DURATION, remainingTicks - 1);
+                }
+            }
+        });
+    }
+
+    public static float getEffectiveMaxStamina(ItemStack stack, RegistryAccess registryAccess) {
+        return stack.getOrDefault(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 100).floatValue() + (stack.getEnchantments().getLevel(registryAccess.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.ENDURANCE)) * 4.0F);
+    }
+
+    public static float getEffectiveRegenRate(ItemStack stack, RegistryAccess registryAccess) {
+        float baseRate = stack.getOrDefault(ModComponents.SHIELD_REGEN_RATE_COMPONENT, 0.1f);
+        int vigorLevel = stack.getEnchantments().getLevel(registryAccess.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.VIGOR));
+
+        return baseRate * (1.0f + (vigorLevel * 0.5f));
+    }
+
+    private static void bashfulEnchant() {
+        ServerPlayNetworking.registerGlobalReceiver(BashfulPayload.TYPE, (payload, context) -> context.server().execute(() -> {
+            var player = context.player();
+            ItemStack shield = player.getUseItem();
+
+            if (player.isUsingItem() && shield.is(ModTags.SHIELDS) && !player.getCooldowns().isOnCooldown(shield)) {
+                float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
+                if (currentStamina < 4.0f) return;
+
+                int level = EnchantmentHelper.getItemEnchantmentLevel(player.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.BASHFUL), shield);
+
+                if (level > 0 && !player.isPassenger() && !player.isFallFlying() && !player.isInWater()) {
+                    if (!player.isCreative() && !player.isSpectator()) {
+                        player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, currentStamina - 4.0f);
+                        player.causeFoodExhaustion(4.0F * level);
+                    }
+                    player.getCooldowns().addCooldown(shield, 20);
+                    player.hurtMarked = true;
+                    float magnitude = 1.374F + (0.458F * (level - 1));
+                    Vec3 look = player.getLookAngle();
+                    player.setDeltaMovement(new Vec3(look.x * magnitude, 0.0, look.z * magnitude));
+                    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, SoundSource.PLAYERS, 1.0F, 1.0F);
+                }
+            }
+        }));
     }
 
     public static void updateCheck() {
@@ -477,7 +507,7 @@ public class FabricModEvents {
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.player;
-            ModTriggers.WORLD_JOIN.trigger(player);
+            ModTriggers.WORLD_JOIN.get().trigger(player);
             assignPlayerToRankTeam(player);
             FabricWorldDataManager.syncPlayerPointsWithAdvancements(server, player);
 
@@ -486,14 +516,13 @@ public class FabricModEvents {
         });
     }
 
-
     public static void checkInitialAdvancement() {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-                var advancement = server.getAdvancements().get(ResourceLocation.withDefaultNamespace("story/root"));
+                var advancement = server.getAdvancements().get(Identifier.withDefaultNamespace("story/root"));
                 if (advancement == null) continue;
                 if (player.getAdvancements().getOrStartProgress(advancement).isDone()) {
-                    ModTriggers.WORLD_JOIN.trigger(player);
+                    ModTriggers.WORLD_JOIN.get().trigger(player);
                 }
             }
         });
@@ -512,7 +541,9 @@ public class FabricModEvents {
         hardcoreSetup();
         enableMinecartExperiment();
         openFletchingTable();
-        trackSwordMultiKill();
+        afterDeath();
+        staminaRegenTick();
+        bashfulEnchant();
         updateCheck();
     }
 }

@@ -15,8 +15,9 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gamerules.GameRule;
+import net.minecraft.world.level.gamerules.GameRules;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -60,7 +61,7 @@ public abstract class ServerPlayerMixin extends Player {
     private void preserved_inferno$tick(CallbackInfo ci) {
         ServerPlayer self = (ServerPlayer)(Object)this;
         if (this.getArmorValue() >= 100) {
-            ModTriggers.ARMOR_VALUE.trigger(self);
+            ModTriggers.ARMOR_VALUE.get().trigger(self);
         }
         // hardcore
         if (this.level().getLevelData().isHardcore()) {
@@ -112,12 +113,17 @@ public abstract class ServerPlayerMixin extends Player {
         }
     }
 
-    @WrapOperation(method = "restoreFrom", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"))
-    private boolean preserved_inferno$modifyKeepInventoryRule(GameRules instance, GameRules.Key<GameRules.BooleanValue> key, Operation<Boolean> original) {
-        ServerPlayer self = (ServerPlayer)(Object)this;
-        if (key == GameRules.RULE_KEEPINVENTORY) {
-            return original.call(instance, key) || self.hasEffect(ModEffects.WELL_RESTED.holder);
+    @WrapOperation(method = "restoreFrom", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/gamerules/GameRules;get(Lnet/minecraft/world/level/gamerules/GameRule;)Ljava/lang/Object;"))
+    private Object preserved_inferno$modifyKeepInventoryRule(GameRules instance, GameRule<?> key, Operation<Object> original) {
+        ServerPlayer self = (ServerPlayer) (Object) this;
+        Object result = original.call(instance, key);
+
+        if (key == GameRules.KEEP_INVENTORY) {
+            boolean ruleValue = false;
+            if (result instanceof Boolean) ruleValue = (Boolean) result;
+            return ruleValue || self.hasEffect(ModEffects.WELL_RESTED.holder);
         }
-        return original.call(instance, key);
+
+        return result;
     }
 }

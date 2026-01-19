@@ -22,9 +22,11 @@ import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
 import sircow.preservedinferno.effect.FabricModEffects;
 import sircow.preservedinferno.item.FabricModItemGroups;
 import sircow.preservedinferno.item.FabricModItems;
+import sircow.preservedinferno.network.BashfulPayload;
 import sircow.preservedinferno.network.ModMessages;
 import sircow.preservedinferno.other.*;
 import sircow.preservedinferno.screen.*;
+import sircow.preservedinferno.trigger.FabricModTriggers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,6 +142,7 @@ public class PreservedInferno implements ModInitializer {
     @Override
     public void onInitialize() {
         PayloadTypeRegistry.playC2S().register(OpenAdvancementPayload.ID, OpenAdvancementPayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(BashfulPayload.TYPE, BashfulPayload.CODEC);
         INSTANCE = this;
         Constants.INSTANCE = new FabricVersionChecker();
         CommonClass.init();
@@ -148,6 +151,7 @@ public class PreservedInferno implements ModInitializer {
         FabricModBlocks.registerBlocks();
         FabricModItemGroups.registerItemGroups();
         FabricModEffects.registerFabricModEffects();
+        FabricModTriggers.registerFabricModTriggers();
         ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
         ModMessages.registerMessages();
     }

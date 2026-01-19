@@ -88,6 +88,23 @@
           "type": "minecraft:item",
           "functions": [
             {
+              "function": "minecraft:enchant_randomly",
+              "options": [
+                "pinferno:buckler",
+                "pinferno:respite",
+                "pinferno:endurance",
+                "pinferno:vigor",
+                "pinferno:bashful"
+              ]
+            }
+          ],
+          "name": "pinferno:iron_shield",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
@@ -124,10 +141,11 @@
             {
               "function": "minecraft:enchant_randomly",
               "options": [
-                "minecraft:riptide",
-                "minecraft:loyalty",
-                "minecraft:channeling",
-                "minecraft:impaling"
+                "pinferno:buckler",
+                "pinferno:respite",
+                "pinferno:endurance",
+                "pinferno:vigor",
+                "pinferno:bashful"
               ]
             }
           ],
@@ -148,6 +166,22 @@
             }
           ],
           "name": "minecraft:diamond_chestplate"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:enchant_randomly",
+              "options": [
+                "pinferno:buckler",
+                "pinferno:respite",
+                "pinferno:endurance",
+                "pinferno:vigor",
+                "pinferno:bashful"
+              ]
+            }
+          ],
+          "name": "pinferno:diamond_shield"
         },
         {
           "type": "minecraft:item",

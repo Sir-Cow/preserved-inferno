@@ -2,6 +2,7 @@ package sircow.preservedinferno.other;
 
 import com.google.gson.*;
 import sircow.preservedinferno.Constants;
+import sircow.preservedinferno.platform.Services;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -11,8 +12,8 @@ import java.util.concurrent.CompletableFuture;
 
 public final class UpdateChecker {
     private static final String PROJECT_ID = "preserved-inferno";
-    private static final String GAME_VERSION = "1.21.10";
-    private static final String LOADER = "fabric";
+    private static final String GAME_VERSION = "1.21.11";
+    private static final String LOADER = Services.PLATFORM.getPlatformName().toLowerCase();
     private static volatile String latestVersion = null;
     private static volatile boolean checked = false;
 

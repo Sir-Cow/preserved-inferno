@@ -9,10 +9,9 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.advancement.ModAdvancements;
 import sircow.preservedinferno.network.ModMessages;
 
@@ -29,9 +28,7 @@ public class FabricWorldDataManager {
         if (player != null) {
             ServerPlayNetworking.send(player, new ModMessages.PlayerPointsPayload(playerUUID, points));
             for (ServerPlayer other : server.getPlayerList().getPlayers()) {
-                if (!other.getUUID().equals(playerUUID)) {
-                    ServerPlayNetworking.send(other, new ModMessages.PlayerPointsPayload(playerUUID, points));
-                }
+                if (!other.getUUID().equals(playerUUID)) ServerPlayNetworking.send(other, new ModMessages.PlayerPointsPayload(playerUUID, points));
             }
         }
     }
@@ -40,9 +37,9 @@ public class FabricWorldDataManager {
         UUID playerUUID = player.getUUID();
         ModWorldData data = WorldDataManager.getWorldData(server);
         int recalculatedPoints = 0;
-        Set<ResourceLocation> newAwardedAdvancements = new HashSet<>();
+        Set<Identifier> newAwardedAdvancements = new HashSet<>();
         for (AdvancementHolder holder : server.getAdvancements().getAllAdvancements()) {
-            ResourceLocation id = holder.id();
+            Identifier id = holder.id();
             String namespace = id.getNamespace();
             if (!(namespace.equals("minecraft") || namespace.equals("pinferno"))) continue;
             if (!ModAdvancements.EXCLUDED_ADVANCEMENTS.contains(id) && !id.getPath().startsWith("recipes/")) {
@@ -56,9 +53,7 @@ public class FabricWorldDataManager {
                             case GOAL -> recalculatedPoints += 3;
                             case CHALLENGE -> recalculatedPoints += 7;
                         }
-                        if (display.getType().getSerializedName().equals("progressing")) {
-                            recalculatedPoints += 1;
-                        }
+                        if (display.getType().getSerializedName().equals("progressing")) recalculatedPoints += 1;
                     }
                     newAwardedAdvancements.add(id);
                 }

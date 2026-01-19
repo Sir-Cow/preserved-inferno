@@ -2,7 +2,7 @@ package sircow.preservedinferno.mixin;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,7 +16,7 @@ public abstract class MinecraftServerMixin {
         ServerLevel overworld = server.overworld();
 
         if (overworld != null && server.getWorldData().isHardcore()) {
-            overworld.getGameRules().getRule(GameRules.RULE_NATURAL_REGENERATION).set(false, server);
+            overworld.getGameRules().set(GameRules.NATURAL_HEALTH_REGENERATION,false, server);
         }
     }
 }

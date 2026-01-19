@@ -68,7 +68,7 @@ public class AxeItemMixin {
             if (prev.isPresent() && prev.get().getBlock() == optional.get().getBlock()) {
                 Constants.LOG.info("yes");
                 if (player instanceof ServerPlayer serverPlayer) {
-                    ModTriggers.SCRAPE_COPPER.trigger(serverPlayer);
+                    ModTriggers.SCRAPE_COPPER.get().trigger(serverPlayer);
                 }
             }
         }

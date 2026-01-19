@@ -1,14 +1,8 @@
 package sircow.preservedinferno.other;
 
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.DynamicOps;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.resources.ResourceLocation;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.datafix.DataFixTypes;
@@ -20,109 +14,33 @@ import sircow.preservedinferno.Constants;
 import java.util.*;
 
 public class ModWorldData extends SavedData {
-    public final Map<UUID, Integer> playerPoints = new HashMap<>();
-    public final Map<UUID, Set<ResourceLocation>> playerAwardedAdvancements = new HashMap<>();
-    public final Map<UUID, String> PLAYER_RANKS = new HashMap<>();
+    private static final Codec<UUID> UUID_CODEC = Codec.STRING.xmap(UUID::fromString, UUID::toString);
+    private static final Codec<Set<Identifier>> IDENTIFIER_SET_CODEC = Codec.list(Identifier.CODEC).xmap(HashSet::new, List::copyOf);
+    public static final Codec<ModWorldData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                    Codec.unboundedMap(UUID_CODEC, Codec.INT).fieldOf("playerPoints").forGetter(d -> d.playerPoints),
+                    Codec.unboundedMap(UUID_CODEC, IDENTIFIER_SET_CODEC).fieldOf("playerAwardedAdvancements").forGetter(d -> d.playerAwardedAdvancements),
+                    Codec.unboundedMap(UUID_CODEC, Codec.STRING).fieldOf("playerRanks").forGetter(d -> d.playerRanks)
+            ).apply(instance, ModWorldData::new));
+    public final Map<UUID, Integer> playerPoints;
+    public final Map<UUID, Set<Identifier>> playerAwardedAdvancements;
+    public final Map<UUID, String> playerRanks;
 
     public ModWorldData() {
+        this(new HashMap<>(), new HashMap<>(), new HashMap<>());
     }
 
-    public static ModWorldData load(CompoundTag tag, HolderLookup.Provider provider) {
-        ModWorldData data = new ModWorldData();
-
-        CompoundTag playerPointsTag = tag.getCompound("playerPoints").get();
-        for (String key : playerPointsTag.keySet()) {
-            UUID uuid = UUID.fromString(key);
-            data.playerPoints.put(uuid, playerPointsTag.getInt(key).get());
-        }
-
-        CompoundTag awardedAdvancementsTag = tag.getCompound("playerAwardedAdvancements").get();
-        for (String uuidString : awardedAdvancementsTag.keySet()) {
-            UUID uuid = UUID.fromString(uuidString);
-            ListTag advListTag = awardedAdvancementsTag.getList(uuidString).get();
-            Set<ResourceLocation> advancements = new HashSet<>();
-            for (int i = 0; i < advListTag.size(); i++) {
-                advancements.add(ResourceLocation.parse(advListTag.getString(i).get()));
-            }
-            data.playerAwardedAdvancements.put(uuid, advancements);
-        }
-
-        CompoundTag playerRanksTag = tag.getCompound("playerRanks").get();
-        for (String uuidString : playerRanksTag.keySet()) {
-            UUID uuid = UUID.fromString(uuidString);
-            data.PLAYER_RANKS.put(uuid, playerRanksTag.getString(uuidString).get());
-        }
-
-        return data;
-    }
-
-    public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
-
-        CompoundTag playerPointsTag = new CompoundTag();
-        for (Map.Entry<UUID, Integer> entry : this.playerPoints.entrySet()) {
-            playerPointsTag.putInt(entry.getKey().toString(), entry.getValue());
-        }
-        tag.put("playerPoints", playerPointsTag);
-
-        CompoundTag awardedAdvancementsTag = new CompoundTag();
-        for (Map.Entry<UUID, Set<ResourceLocation>> entry : this.playerAwardedAdvancements.entrySet()) {
-            ListTag advListTag = new ListTag();
-            for (ResourceLocation adv : entry.getValue()) {
-                advListTag.add(StringTag.valueOf(adv.toString()));
-            }
-            awardedAdvancementsTag.put(entry.getKey().toString(), advListTag);
-        }
-        tag.put("playerAwardedAdvancements", awardedAdvancementsTag);
-
-        CompoundTag playerRanksTag = new CompoundTag();
-        for (Map.Entry<UUID, String> entry : this.PLAYER_RANKS.entrySet()) {
-            playerRanksTag.putString(entry.getKey().toString(), entry.getValue());
-        }
-        tag.put("playerRanks", playerRanksTag);
-
-        return tag;
+    private ModWorldData(Map<UUID, Integer> playerPoints, Map<UUID, Set<Identifier>> playerAwardedAdvancements, Map<UUID, String> playerRanks) {
+        this.playerPoints = new HashMap<>(playerPoints);
+        this.playerAwardedAdvancements = new HashMap<>();
+        playerAwardedAdvancements.forEach((uuid, set) -> this.playerAwardedAdvancements.put(uuid, new HashSet<>(set)));
+        this.playerRanks = new HashMap<>(playerRanks);
     }
 
     public static ModWorldData get(MinecraftServer server) {
-        DimensionDataStorage dataStorage = Objects.requireNonNull(server.getLevel(ServerLevel.OVERWORLD)).getDataStorage();
-        return dataStorage.computeIfAbsent(TYPE);
+        ServerLevel level = Objects.requireNonNull(server.getLevel(ServerLevel.OVERWORLD));
+        DimensionDataStorage storage = level.getDataStorage();
+        return storage.computeIfAbsent(TYPE);
     }
 
-    private static Codec<ModWorldData> createWorldDataCodec(Context context) {
-        return new Codec<>() {
-            @Override
-            public <U> DataResult<Pair<ModWorldData, U>> decode(DynamicOps<U> ops, U input) {
-                return CompoundTag.CODEC.decode(ops, input)
-                        .flatMap(pair -> {
-                            CompoundTag tag = pair.getFirst();
-                            ServerLevel level = context.level();
-                            if (level == null) {
-                                return DataResult.error(() -> "ServerLevel is null in SavedData.Context. Cannot get HolderLookup.Provider for decoding.");
-                            }
-                            HolderLookup.Provider provider = level.registryAccess();
-                            ModWorldData loadedData = ModWorldData.load(tag, provider);
-                            return DataResult.success(Pair.of(loadedData, pair.getSecond()));
-                        });
-            }
-
-            @Override
-            public <U> DataResult<U> encode(ModWorldData input, DynamicOps<U> ops, U prefix) {
-                ServerLevel level = context.level();
-                if (level == null) {
-                    return DataResult.error(() -> "ServerLevel is null in SavedData.Context. Cannot get HolderLookup.Provider for encoding.");
-                }
-                HolderLookup.Provider provider = level.registryAccess();
-                CompoundTag tagToSave = new CompoundTag();
-                CompoundTag resultTag = input.save(tagToSave, provider);
-                return CompoundTag.CODEC.encode(resultTag, ops, prefix);
-            }
-        };
-    }
-
-    public static final SavedDataType<ModWorldData> TYPE = new SavedDataType<>(
-            Constants.MOD_ID + "_world_data",
-            context -> new ModWorldData(),
-            ModWorldData::createWorldDataCodec,
-            DataFixTypes.SAVED_DATA_RANDOM_SEQUENCES
-    );
+    public static final SavedDataType<ModWorldData> TYPE = new SavedDataType<>(Constants.MOD_ID + "_world_data", ModWorldData::new, CODEC, DataFixTypes.LEVEL);
 }

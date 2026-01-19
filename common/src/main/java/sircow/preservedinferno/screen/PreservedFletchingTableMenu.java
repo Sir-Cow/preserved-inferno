@@ -16,11 +16,7 @@ import sircow.preservedinferno.Constants;
 
 public class PreservedFletchingTableMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
-    private final Slot flintInputSlot;
-    private final Slot stickInputSlot;
-    private final Slot featherInputSlot;
-    private final Slot potionInputSlot;
-    private final Slot resultSlot;
+    private final Slot flintInputSlot, stickInputSlot, featherInputSlot, potionInputSlot, resultSlot;
 
     Runnable slotUpdateListener = () -> {
     };

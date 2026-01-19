@@ -2,7 +2,7 @@ package sircow.preservedinferno.sound;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import sircow.preservedinferno.Constants;
 
@@ -25,11 +25,11 @@ public class ModSounds {
         return register(Constants.id(name));
     }
 
-    private static SoundEvent register(ResourceLocation name) {
+    private static SoundEvent register(Identifier name) {
         return register(name, name);
     }
 
-    private static SoundEvent register(ResourceLocation name, ResourceLocation location) {
+    private static SoundEvent register(Identifier name, Identifier location) {
         return Registry.register(BuiltInRegistries.SOUND_EVENT, name, SoundEvent.createVariableRangeEvent(location));
     }
 

@@ -11,6 +11,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.MenuTypes;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.item.custom.CacheItem;
@@ -52,7 +53,7 @@ public class CacheMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public @NotNull ItemStack quickMoveStack(Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(@NonNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 
@@ -60,34 +61,21 @@ public class CacheMenu extends AbstractContainerMenu {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
 
-            if (itemstack1.getItem() instanceof CacheItem) {
-                return ItemStack.EMPTY;
-            }
+            if (itemstack1.getItem() instanceof CacheItem) return ItemStack.EMPTY;
 
             if (index < 15) {
-                if (!this.moveItemStackTo(itemstack1, 15, this.slots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
+                if (!this.moveItemStackTo(itemstack1, 15, this.slots.size(), true)) return ItemStack.EMPTY;
             }
             else if (index < 42) {
-                if (!this.moveItemStackTo(itemstack1, 0, 15, false) && !this.moveItemStackTo(itemstack1, 42, this.slots.size(), false)) {
-                    return ItemStack.EMPTY;
-                }
+                if (!this.moveItemStackTo(itemstack1, 0, 15, false) && !this.moveItemStackTo(itemstack1, 42, this.slots.size(), false)) return ItemStack.EMPTY;
             }
             else if (index < this.slots.size()) {
-                if (!this.moveItemStackTo(itemstack1, 0, 15, false) && !this.moveItemStackTo(itemstack1, 15, 42, false)) {
-                    return ItemStack.EMPTY;
-                }
+                if (!this.moveItemStackTo(itemstack1, 0, 15, false) && !this.moveItemStackTo(itemstack1, 15, 42, false)) return ItemStack.EMPTY;
             }
 
-            if (itemstack1.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            }
-            else {
-                slot.setChanged();
-            }
+            if (itemstack1.isEmpty()) slot.set(ItemStack.EMPTY);
+            else slot.setChanged();
         }
-
         return itemstack;
     }
 
@@ -108,7 +96,7 @@ public class CacheMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public void removed(Player player) {
+    public void removed(@NonNull Player player) {
         super.removed(player);
         this.container.stopOpen(player);
         if (player instanceof ServerPlayer serverPlayer) {

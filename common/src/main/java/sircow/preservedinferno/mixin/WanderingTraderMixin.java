@@ -1,10 +1,11 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.npc.AbstractVillager;
-import net.minecraft.world.entity.npc.WanderingTrader;
+import net.minecraft.world.entity.npc.villager.AbstractVillager;
+import net.minecraft.world.entity.npc.wanderingtrader.WanderingTrader;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
@@ -208,7 +209,7 @@ public abstract class WanderingTraderMixin extends AbstractVillager {
                     attempts++;
 
                     WeightedTradeEntry entry = pool.entries().get(random.nextInt(pool.entries().size()));
-                    MerchantOffer offer = entry.getOffer((WanderingTrader) (Object) this, random);
+                    MerchantOffer offer = entry.getOffer((ServerLevel) this.level(), (WanderingTrader) (Object) this, random);
                     if (offer == null) continue;
 
                     String key = offer.getResult().getItem().toString()
@@ -233,9 +234,8 @@ public abstract class WanderingTraderMixin extends AbstractVillager {
                 for (int i = 0; i < pool.rolls(); i++) {
                     if (tradesAdded >= maxTrades) break;
 
-                    WeightedTradeEntry entry = pool.entries()
-                            .get(random.nextInt(pool.entries().size()));
-                    MerchantOffer offer = entry.getOffer((WanderingTrader) (Object) this, random);
+                    WeightedTradeEntry entry = pool.entries().get(random.nextInt(pool.entries().size()));
+                    MerchantOffer offer = entry.getOffer((ServerLevel) this.level(), (WanderingTrader) (Object) this, random);
                     if (offer == null) continue;
 
                     String key = offer.getResult().getItem().toString()

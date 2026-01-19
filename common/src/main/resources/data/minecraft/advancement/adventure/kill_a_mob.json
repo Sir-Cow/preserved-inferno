@@ -127,6 +127,20 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "minecraft:camel_husk": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:camel_husk"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "minecraft:cat": {
       "conditions": {
         "entity": [
@@ -583,6 +597,20 @@
             "entity": "this",
             "predicate": {
               "type": "minecraft:panda"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "minecraft:parched": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:parched"
             }
           }
         ]
@@ -1121,6 +1149,34 @@
       },
       "trigger": "minecraft:player_killed_entity"
     },
+    "minecraft:zombie_horse": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:zombie_horse"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "minecraft:zombie_nautilus": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:zombie_nautilus"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
     "minecraft:zombie_villager": {
       "conditions": {
         "entity": [
@@ -1174,6 +1230,7 @@
       "minecraft:bogged",
       "minecraft:breeze",
       "minecraft:camel",
+      "minecraft:camel_husk",
       "minecraft:cat",
       "minecraft:cave_spider",
       "minecraft:chicken",
@@ -1207,6 +1264,7 @@
       "minecraft:mule",
       "minecraft:ocelot",
       "minecraft:panda",
+      "minecraft:parched",
       "minecraft:parrot",
       "minecraft:phantom",
       "minecraft:pig",
@@ -1246,7 +1304,9 @@
       "minecraft:zoglin",
       "minecraft:zombie",
       "minecraft:zombie_villager",
-      "minecraft:zombified_piglin"
+      "minecraft:zombie_horse",
+      "minecraft:zombified_piglin",
+      "minecraft:zombie_nautilus"
     ]
   ],
   "sends_telemetry_event": true

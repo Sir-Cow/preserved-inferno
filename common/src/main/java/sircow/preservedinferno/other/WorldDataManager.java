@@ -3,7 +3,7 @@ package sircow.preservedinferno.other;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import sircow.preservedinferno.Constants;
@@ -63,11 +63,11 @@ public class WorldDataManager {
     }
 
     public static String getPlayerRank(MinecraftServer server, UUID playerUUID) {
-        return getWorldData(server).PLAYER_RANKS.getOrDefault(playerUUID, "");
+        return getWorldData(server).playerRanks.getOrDefault(playerUUID, "");
     }
 
     public static void setPlayerRank(MinecraftServer server, UUID playerUUID, String rank) {
-        getWorldData(server).PLAYER_RANKS.put(playerUUID, rank);
+        getWorldData(server).playerRanks.put(playerUUID, rank);
         getWorldData(server).setDirty();
     }
 
@@ -111,7 +111,7 @@ public class WorldDataManager {
 
         if (stillQualifies) return;
 
-        ResourceLocation oldRankAdvancement = switch (oldRank) {
+        Identifier oldRankAdvancement = switch (oldRank) {
             case "starter" -> Constants.id("mastery/starter");
             case "beginner" -> Constants.id("mastery/beginner");
             case "novice" -> Constants.id("mastery/novice");

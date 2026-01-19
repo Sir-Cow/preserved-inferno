@@ -21,8 +21,6 @@ import java.util.List;
 public class BlockMixin {
     @Inject(method = "getDrops(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/entity/BlockEntity;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/item/ItemStack;)Ljava/util/List;", at = @At("HEAD"), cancellable = true)
     private static void preserved_inferno$injectedGetDroppedStacks(BlockState state, ServerLevel level, BlockPos pos, @Nullable BlockEntity blockEntity, @Nullable Entity entity, ItemStack tool, CallbackInfoReturnable<List<ItemStack>> cir) {
-        if (DelayedBlockTransformationTask.isNoDropBlock(pos)) {
-            cir.setReturnValue(Collections.emptyList());
-        }
+        if (DelayedBlockTransformationTask.isNoDropBlock(pos)) cir.setReturnValue(Collections.emptyList());
     }
 }

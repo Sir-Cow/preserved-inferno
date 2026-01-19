@@ -29,13 +29,13 @@ public class ItemStackMixin {
                 if (((HeatAccessor) player).preserved_inferno$getHeat() >= HEAT_MODIFIER) {
                     ((HeatAccessor) player).preserved_inferno$decreaseHeat(HEAT_MODIFIER);
                     if (player instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.DRINK_WATER.trigger(serverPlayer);
+                        ModTriggers.DRINK_WATER.get().trigger(serverPlayer);
                     }
                 }
                 else if (((HeatAccessor) player).preserved_inferno$getHeat() < HEAT_MODIFIER && ((HeatAccessor) player).preserved_inferno$getHeat() > 0) {
                     ((HeatAccessor) player).preserved_inferno$setHeat(0);
                     if (player instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.DRINK_WATER.trigger(serverPlayer);
+                        ModTriggers.DRINK_WATER.get().trigger(serverPlayer);
                     }
                 }
             }

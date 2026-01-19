@@ -8,6 +8,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EnchantingTableBlock;
 import net.minecraft.world.phys.BlockHitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -16,35 +17,26 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.trigger.ModTriggers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(ServerPlayerGameMode.class)
 public class ServerPlayerGameModeMixin {
-    @Unique private static final List<BlockPos> BOOKSHELF_HORIZONTAL_OFFSETS;
+    @Unique
+    private static final List<BlockPos> BOOKSHELF_HORIZONTAL_OFFSETS = BlockPos.betweenClosedStream(-3, -3, -3, 3, 3, 3)
+            .filter(pos -> !pos.equals(BlockPos.ZERO))
+            .map(BlockPos::immutable)
+            .toList();
 
-    static {
-        BOOKSHELF_HORIZONTAL_OFFSETS = new ArrayList<>();
-        for (int x = -2; x <= 2; x++) {
-            for (int z = -2; z <= 2; z++) {
-                if ((Math.abs(x) == 2 || Math.abs(z) == 2) && !(Math.abs(x) <= 1 && Math.abs(z) <= 1)) {
-                    BOOKSHELF_HORIZONTAL_OFFSETS.add(new BlockPos(x, 0, z));
-                }
-            }
-        }
-    }
+    @Inject(method = "useItemOn", at = @At(value = "RETURN"))
+    private void preserved_inferno$afterUseItemOnBlock(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
+        if (cir.getReturnValue().consumesAction() && stack.is(Blocks.BOOKSHELF.asItem())) {
+            BlockPos enchantmentTablePos = getEnchantmentTableInValidSpot(level, hitResult.getBlockPos().relative(hitResult.getDirection()));
 
-    @Inject(method = "useItemOn", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;useOn(Lnet/minecraft/world/item/context/UseOnContext;)Lnet/minecraft/world/InteractionResult;"))
-    private void preserved_inferno$onUseItemOnBlock(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
-        if (stack.getItem() == Blocks.BOOKSHELF.asItem()) {
-            BlockPos placedPos = hitResult.getBlockPos().relative(hitResult.getDirection());
-            BlockPos enchantmentTablePos = getEnchantmentTableInValidSpot(level, placedPos);
             if (enchantmentTablePos != null) {
-                ModTriggers.PLACE_BOOKSHELF.trigger(player);
-
+                ModTriggers.PLACE_BOOKSHELF.get().trigger(player);
                 int bookshelfCount = countValidBookshelvesAroundEnchantingTable(level, enchantmentTablePos);
-                if (bookshelfCount >= 12) {
-                    ModTriggers.MAX_ENCHANTING_TABLE.trigger(player);
+                if (bookshelfCount >= 10) {
+                    ModTriggers.MAX_ENCHANTING_TABLE.get().trigger(player);
                 }
             }
         }
@@ -52,20 +44,13 @@ public class ServerPlayerGameModeMixin {
 
     @Unique
     private BlockPos getEnchantmentTableInValidSpot(Level level, BlockPos bookshelfPos) {
-        for (int x = -2; x <= 2; x++) {
-            for (int z = -2; z <= 2; z++) {
-                if (Math.abs(x) <= 1 && Math.abs(z) <= 1) {
-                    continue;
-                }
-
-                BlockPos potentialEnchantmentTablePosSameY = bookshelfPos.offset(x, 0, z);
-                if (level.getBlockState(potentialEnchantmentTablePosSameY).is(Blocks.ENCHANTING_TABLE)) {
-                    return potentialEnchantmentTablePosSameY;
-                }
-
-                BlockPos potentialEnchantmentTablePosDownY = bookshelfPos.offset(x, -1, z);
-                if (level.getBlockState(potentialEnchantmentTablePosDownY).is(Blocks.ENCHANTING_TABLE)) {
-                    return potentialEnchantmentTablePosDownY;
+        for (int x = -3; x <= 3; x++) {
+            for (int y = -3; y <= 3; y++) {
+                for (int z = -3; z <= 3; z++) {
+                    BlockPos potentialTablePos = bookshelfPos.offset(x, y, z);
+                    if (level.getBlockState(potentialTablePos).is(Blocks.ENCHANTING_TABLE)) {
+                        return potentialTablePos;
+                    }
                 }
             }
         }
@@ -75,20 +60,11 @@ public class ServerPlayerGameModeMixin {
     @Unique
     private int countValidBookshelvesAroundEnchantingTable(Level level, BlockPos enchantmentTablePos) {
         int bookshelfCount = 0;
-
         for (BlockPos offset : BOOKSHELF_HORIZONTAL_OFFSETS) {
-            BlockPos potentialBookshelfPosSameY = enchantmentTablePos.offset(offset.getX(), 0, offset.getZ());
-            if (level.getBlockState(potentialBookshelfPosSameY).is(Blocks.BOOKSHELF)) {
-                bookshelfCount++;
-            }
-
-            BlockPos potentialBookshelfPosUpY = enchantmentTablePos.offset(offset.getX(), 1, offset.getZ());
-            if (level.getBlockState(potentialBookshelfPosUpY).is(Blocks.BOOKSHELF)) {
+            if (EnchantingTableBlock.isValidBookShelf(level, enchantmentTablePos, offset)) {
                 bookshelfCount++;
             }
         }
-
-        bookshelfCount = bookshelfCount + 1;
         return bookshelfCount;
     }
 }

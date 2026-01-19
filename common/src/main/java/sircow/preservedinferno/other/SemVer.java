@@ -1,7 +1,6 @@
 package sircow.preservedinferno.other;
 
 public record SemVer(int major, int minor, int patch, String beta) {
-
     public static SemVer parse(String raw) {
         if (raw.startsWith("beta-")) {
             raw = raw.substring("beta-".length()) + "-beta";

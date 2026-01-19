@@ -13,6 +13,16 @@
       "rotation": [ 0, 180, -5 ],
       "translation": [ 0, -1, -11 ],
       "scale": [ 1.65, 1.65, 1.65 ]
+    },
+    "firstperson_righthand": {
+      "rotation": [ 0, 180, -5 ],
+      "translation": [ 0, -1, -11 ],
+      "scale": [ 1.65, 1.65, 1.65 ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [ 45, 155, 0 ],
+      "translation": [ 1.25, 2.5, 2.75 ],
+      "scale": [ 1, 1, 1 ]
     }
   }
 }

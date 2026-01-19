@@ -1,8 +1,9 @@
 package sircow.preservedinferno.trade;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.entity.npc.WanderingTrader;
+import net.minecraft.world.entity.npc.villager.VillagerTrades;
+import net.minecraft.world.entity.npc.wanderingtrader.WanderingTrader;
 import net.minecraft.world.item.trading.MerchantOffer;
 
 public record WeightedTradeEntry(VillagerTrades.ItemListing listing, int weight, boolean guaranteed) {
@@ -10,8 +11,8 @@ public record WeightedTradeEntry(VillagerTrades.ItemListing listing, int weight,
         return weight;
     }
 
-    public MerchantOffer getOffer(WanderingTrader trader, RandomSource random) {
-        return listing.getOffer(trader, random);
+    public MerchantOffer getOffer(ServerLevel serverLevel, WanderingTrader trader, RandomSource random) {
+        return listing.getOffer(serverLevel, trader, random);
     }
 
     public boolean isEmeraldsForItems() {

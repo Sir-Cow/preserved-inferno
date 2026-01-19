@@ -26,7 +26,7 @@ public abstract class AdvancementsScreenMixin extends Screen {
     }
 
     @Inject(method = "renderWindow", at = @At("TAIL"))
-    private void preserved_inferno$renderPoints(GuiGraphics guiGraphics, int offsetX, int offsetY, CallbackInfo ci) {
+    private void preserved_inferno$renderPoints(GuiGraphics guiGraphics, int offsetX, int offsetY, int k, int l, CallbackInfo ci) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) return;
 

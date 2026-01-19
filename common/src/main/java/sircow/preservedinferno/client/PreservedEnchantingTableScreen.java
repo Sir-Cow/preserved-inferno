@@ -5,13 +5,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.model.BookModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.object.book.BookModel;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
@@ -23,6 +23,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
+import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.other.ModTags;
 import sircow.preservedinferno.screen.PreservedEnchantmentMenu;
 import sircow.preservedinferno.sound.ModSounds;
@@ -30,151 +31,156 @@ import sircow.preservedinferno.sound.ModSounds;
 import java.util.*;
 
 public class PreservedEnchantingTableScreen extends AbstractContainerScreen<PreservedEnchantmentMenu> {
-    private static final ResourceLocation[] LEVEL_TEXTURES = new ResourceLocation[]{
+    private static final Identifier[] LEVEL_TEXTURES = new Identifier[]{
             Constants.id("container/enchanting_table/10_levels_enabled"),
             Constants.id("container/enchanting_table/20_levels_enabled"),
             Constants.id("container/enchanting_table/30_levels_enabled")
     };
-    private static final ResourceLocation[] LEVEL_DISABLED_TEXTURES = new ResourceLocation[]{
+    private static final Identifier[] LEVEL_DISABLED_TEXTURES = new Identifier[]{
             Constants.id("container/enchanting_table/10_levels_disabled"),
             Constants.id("container/enchanting_table/20_levels_disabled"),
             Constants.id("container/enchanting_table/30_levels_disabled")
     };
-    private static final ResourceLocation[] ENCHANTMENT_ICON_TEXTURES = new ResourceLocation[]{
-            Constants.id("container/enchanting_table/enchant_overlay/aqua_affinity"),
-            Constants.id("container/enchanting_table/enchant_overlay/bane_of_arthropods"),
-            Constants.id("container/enchanting_table/enchant_overlay/blast_protection"),
-            Constants.id("container/enchanting_table/enchant_overlay/breach"),
-            Constants.id("container/enchanting_table/enchant_overlay/channeling"),
-            Constants.id("container/enchanting_table/enchant_overlay/density"),
-            Constants.id("container/enchanting_table/enchant_overlay/depth_strider"),
-            Constants.id("container/enchanting_table/enchant_overlay/efficiency"),
-            Constants.id("container/enchanting_table/enchant_overlay/feather_falling"),
-            Constants.id("container/enchanting_table/enchant_overlay/fire_aspect"),
-            Constants.id("container/enchanting_table/enchant_overlay/fire_protection"),
-            Constants.id("container/enchanting_table/enchant_overlay/flame"),
-            Constants.id("container/enchanting_table/enchant_overlay/fortune"),
-            Constants.id("container/enchanting_table/enchant_overlay/impaling"),
-            Constants.id("container/enchanting_table/enchant_overlay/infinity"),
-            Constants.id("container/enchanting_table/enchant_overlay/knockback"),
-            Constants.id("container/enchanting_table/enchant_overlay/looting"),
-            Constants.id("container/enchanting_table/enchant_overlay/loyalty"),
-            Constants.id("container/enchanting_table/enchant_overlay/multishot"),
-            Constants.id("container/enchanting_table/enchant_overlay/piercing"),
-            Constants.id("container/enchanting_table/enchant_overlay/power"),
-            Constants.id("container/enchanting_table/enchant_overlay/projectile_protection"),
-            Constants.id("container/enchanting_table/enchant_overlay/protection"),
-            Constants.id("container/enchanting_table/enchant_overlay/punch"),
-            Constants.id("container/enchanting_table/enchant_overlay/quick_charge"),
-            Constants.id("container/enchanting_table/enchant_overlay/respiration"),
-            Constants.id("container/enchanting_table/enchant_overlay/riptide"),
-            Constants.id("container/enchanting_table/enchant_overlay/sharpness"),
-            Constants.id("container/enchanting_table/enchant_overlay/silk_touch"),
-            Constants.id("container/enchanting_table/enchant_overlay/smite"),
-            Constants.id("container/enchanting_table/enchant_overlay/sweeping_edge"),
-            Constants.id("container/enchanting_table/enchant_overlay/thorns"),
-            Constants.id("container/enchanting_table/enchant_overlay/unbreaking"),
+    private static final Identifier[] ENCHANTMENT_ICON_TEXTURES = new Identifier[]{
+            Constants.id("container/enchanting_table/enchant_overlay/aqua_affinity"), // 0
+            Constants.id("container/enchanting_table/enchant_overlay/bane_of_arthropods"), // 1
+            Constants.id("container/enchanting_table/enchant_overlay/blast_protection"), // 2
+            Constants.id("container/enchanting_table/enchant_overlay/breach"), // 3
+            Constants.id("container/enchanting_table/enchant_overlay/buckler"), // 4
+            Constants.id("container/enchanting_table/enchant_overlay/channeling"), // 5
+            Constants.id("container/enchanting_table/enchant_overlay/density"), // 6
+            Constants.id("container/enchanting_table/enchant_overlay/depth_strider"), // 7
+            Constants.id("container/enchanting_table/enchant_overlay/efficiency"), // 8
+            Constants.id("container/enchanting_table/enchant_overlay/endurance"), // 9
+            Constants.id("container/enchanting_table/enchant_overlay/feather_falling"), // 10
+            Constants.id("container/enchanting_table/enchant_overlay/fire_aspect"), // 11
+            Constants.id("container/enchanting_table/enchant_overlay/fire_protection"), // 12
+            Constants.id("container/enchanting_table/enchant_overlay/flame"), // 13
+            Constants.id("container/enchanting_table/enchant_overlay/fortune"), // 14
+            Constants.id("container/enchanting_table/enchant_overlay/impaling"), // 15
+            Constants.id("container/enchanting_table/enchant_overlay/infinity"), // 16
+            Constants.id("container/enchanting_table/enchant_overlay/knockback"), // 17
+            Constants.id("container/enchanting_table/enchant_overlay/looting"), // 18
+            Constants.id("container/enchanting_table/enchant_overlay/loyalty"), // 19
+            Constants.id("container/enchanting_table/enchant_overlay/lunge"), // 20
+            Constants.id("container/enchanting_table/enchant_overlay/multishot"), // 21
+            Constants.id("container/enchanting_table/enchant_overlay/piercing"), // 22
+            Constants.id("container/enchanting_table/enchant_overlay/power"), // 23
+            Constants.id("container/enchanting_table/enchant_overlay/projectile_protection"), // 24
+            Constants.id("container/enchanting_table/enchant_overlay/protection"), // 25
+            Constants.id("container/enchanting_table/enchant_overlay/punch"), // 26
+            Constants.id("container/enchanting_table/enchant_overlay/quick_charge"), // 27
+            Constants.id("container/enchanting_table/enchant_overlay/respiration"), // 28
+            Constants.id("container/enchanting_table/enchant_overlay/respite"), // 29
+            Constants.id("container/enchanting_table/enchant_overlay/riptide"), // 30
+            Constants.id("container/enchanting_table/enchant_overlay/sharpness"), // 31
+            Constants.id("container/enchanting_table/enchant_overlay/silk_touch"), // 32
+            Constants.id("container/enchanting_table/enchant_overlay/smite"), // 33
+            Constants.id("container/enchanting_table/enchant_overlay/sweeping_edge"), // 34
+            Constants.id("container/enchanting_table/enchant_overlay/thorns"), // 35
+            Constants.id("container/enchanting_table/enchant_overlay/unbreaking"), // 36
+            Constants.id("container/enchanting_table/enchant_overlay/vigor") // 37
     };
 
-    private static final ResourceLocation ENCHANTMENT_SLOT_DISABLED_TEXTURE = Constants.id("container/enchanting_table/enchantment_slot_disabled");
-    private static final ResourceLocation ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE = Constants.id("container/enchanting_table/enchantment_slot_highlighted");
-    private static final ResourceLocation ENCHANTMENT_SLOT_TEXTURE = Constants.id("container/enchanting_table/enchantment_slot");
-    private static final ResourceLocation TEXTURE = Constants.id("textures/gui/container/preserved_enchanting_table_gui.png");
-    private static final ResourceLocation BOOK_TEXTURE = ResourceLocation.withDefaultNamespace("textures/entity/enchanting_table_book.png");
-    private static final ResourceLocation SCROLLER_TEXTURE = Constants.id("container/enchanting_table/scroller");
-    private static final ResourceLocation SCROLLER_DISABLED_TEXTURE = Constants.id("container/enchanting_table/scroller_disabled");
+    private static final Identifier ENCHANTMENT_SLOT_DISABLED_TEXTURE = Constants.id("container/enchanting_table/enchantment_slot_disabled");
+    private static final Identifier ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE = Constants.id("container/enchanting_table/enchantment_slot_highlighted");
+    private static final Identifier ENCHANTMENT_SLOT_TEXTURE = Constants.id("container/enchanting_table/enchantment_slot");
+    private static final Identifier TEXTURE = Constants.id("textures/gui/container/preserved_enchanting_table_gui.png");
+    private static final Identifier BOOK_TEXTURE = Identifier.withDefaultNamespace("textures/entity/enchanting_table_book.png");
+    private static final Identifier SCROLLER_TEXTURE = Constants.id("container/enchanting_table/scroller");
+    private static final Identifier SCROLLER_DISABLED_TEXTURE = Constants.id("container/enchanting_table/scroller_disabled");
     private final RandomSource random = RandomSource.create();
-    private BookModel bookModel;
-    public float flip;
-    public float oFlip;
-    public float flipT;
-    public float flipA;
-    public float open;
-    public float oOpen;
     private ItemStack last = ItemStack.EMPTY;
-    private boolean itemInEnchantSlot;
-    private float scrollAmount;
-    private boolean mouseClicked;
-    private int scrollOffset;
     private String itemCategory;
-    private boolean tenTextureActive;
-    private boolean twentyTextureActive;
-    private boolean thirtyTextureActive;
     public Level world;
-    public int enchPower;
-    private boolean scrolling;
+    private BookModel bookModel;
+    private boolean itemInEnchantSlot, scrolling, tenTextureActive, twentyTextureActive, thirtyTextureActive;
+    public float flip, oFlip, flipT, flipA, open, oOpen, scrollAmount;
+    private int scrollOffset, enchPower;
 
     private static final Map<String, Set<Integer>> itemCategorySlots = new HashMap<>();
     static {
-        itemCategorySlots.put("sword", Set.of(1, 9, 15, 16, 27, 29, 30, 32));
-        itemCategorySlots.put("swordBane", Set.of(1, 9, 15, 16, 30, 32));
-        itemCategorySlots.put("swordSharp", Set.of(9, 15, 16, 27, 30, 32));
-        itemCategorySlots.put("swordSmite", Set.of(9, 15, 16, 29, 30, 32));
-        itemCategorySlots.put("pickaxe", Set.of(3, 7, 12, 28, 32));
-        itemCategorySlots.put("shovel", Set.of(7, 12, 28, 32));
-        itemCategorySlots.put("toolWeapon", Set.of(1, 7, 12, 16, 27, 28, 29, 32));
-        itemCategorySlots.put("toolWeaponBane", Set.of(1, 7, 12, 16, 28, 32));
-        itemCategorySlots.put("toolWeaponSharp", Set.of(7, 12, 16, 27, 28, 32));
-        itemCategorySlots.put("toolWeaponSmite", Set.of(7, 12, 16, 28, 29, 32));
-        itemCategorySlots.put("pickaxeFort", Set.of(3, 7, 12, 32));
-        itemCategorySlots.put("shovelFort", Set.of(7, 12, 32));
-        itemCategorySlots.put("toolFortWeapon", Set.of(1, 7, 12, 16, 27, 29, 32));
-        itemCategorySlots.put("toolFortWeaponBane", Set.of(1, 7, 12, 16, 32));
-        itemCategorySlots.put("toolFortWeaponSharp", Set.of(7, 12, 16, 27, 32));
-        itemCategorySlots.put("toolFortWeaponSmite", Set.of(7, 12, 16, 29, 32));
-        itemCategorySlots.put("pickaxeSilk", Set.of(3, 7, 28, 32));
-        itemCategorySlots.put("shovelSilk", Set.of(7, 28, 32));
-        itemCategorySlots.put("toolSilkWeapon", Set.of(1, 7, 16, 27, 28, 29, 32));
-        itemCategorySlots.put("toolSilkWeaponBane", Set.of(1, 7, 16, 28, 32));
-        itemCategorySlots.put("toolSilkWeaponSharp", Set.of(7, 16, 27, 28, 32));
-        itemCategorySlots.put("toolSilkWeaponSmite", Set.of(7, 16, 28, 29, 32));
-        itemCategorySlots.put("bow", Set.of(11, 14, 20, 23, 32));
-        itemCategorySlots.put("bowMending", Set.of(11, 20, 23, 32));
-        itemCategorySlots.put("trident", Set.of(4, 13, 16, 17, 26, 32));
-        itemCategorySlots.put("tridentRip", Set.of(13, 16, 26, 32));
-        itemCategorySlots.put("tridentWithoutRip", Set.of(4, 13, 16, 17, 32));
-        itemCategorySlots.put("crossbow", Set.of(18, 19, 24, 32));
-        itemCategorySlots.put("crossbowPierce", Set.of(19, 24, 32));
-        itemCategorySlots.put("crossbowMulti", Set.of(18, 24, 32));
-        itemCategorySlots.put("mace", Set.of(1, 3, 5, 9, 16, 29));
-        itemCategorySlots.put("maceBane", Set.of(1, 3, 5, 9, 16));
-        itemCategorySlots.put("maceSmite", Set.of(3, 5, 9, 16, 29));
-        itemCategorySlots.put("maceBreach", Set.of(1, 3, 9, 16, 29));
-        itemCategorySlots.put("maceBreachBane", Set.of(1, 3, 9, 16));
-        itemCategorySlots.put("maceBreachSmite", Set.of(3, 9, 16, 29));
-        itemCategorySlots.put("maceDensity", Set.of(1, 5, 9, 16, 29));
-        itemCategorySlots.put("maceDensityBane", Set.of(1, 5, 9, 16));
-        itemCategorySlots.put("maceDensitySmite", Set.of(5, 9, 16, 29));
-        itemCategorySlots.put("helmet", Set.of(0, 2, 10, 21, 22, 25, 31, 32));
-        itemCategorySlots.put("chestplate", Set.of(2, 10, 21, 22, 31, 32));
-        itemCategorySlots.put("leggings", Set.of(2, 10, 21, 22, 31, 32));
-        itemCategorySlots.put("boots", Set.of(2, 6, 8, 10, 21, 22, 31, 32));
-        itemCategorySlots.put("helmetProt", Set.of(0, 22, 25, 31, 32));
-        itemCategorySlots.put("helmetProj", Set.of(0, 21, 25, 31, 32));
-        itemCategorySlots.put("helmetFire", Set.of(0, 10, 25, 31, 32));
-        itemCategorySlots.put("helmetBlast", Set.of(0, 2, 25, 31, 32));
-        itemCategorySlots.put("depthNoProt", Set.of(2, 6, 8, 10, 21, 22, 31, 32));
-        itemCategorySlots.put("depthProt", Set.of(6, 8, 22, 31, 32));
-        itemCategorySlots.put("depthProj", Set.of(6, 8, 21, 31, 32));
-        itemCategorySlots.put("depthFire", Set.of(6, 8, 10, 31, 32));
-        itemCategorySlots.put("depthBlast", Set.of(2, 6, 8, 31, 32));
-        itemCategorySlots.put("frostWalkNoProt", Set.of(2, 8, 10, 21, 22, 31, 32));
-        itemCategorySlots.put("frostWalkProt", Set.of(8, 22, 31, 32));
-        itemCategorySlots.put("frostWalkProj", Set.of(8, 21, 31, 32));
-        itemCategorySlots.put("frostWalkFire", Set.of(8, 10, 31, 32));
-        itemCategorySlots.put("frostWalkBlast", Set.of(2, 8, 31, 32));
-        itemCategorySlots.put("armourProt", Set.of(22, 31, 32));
-        itemCategorySlots.put("armourProj", Set.of(21, 31, 32));
-        itemCategorySlots.put("armourFire", Set.of(10, 31, 32));
-        itemCategorySlots.put("armourBlast", Set.of(2, 31, 32));
-        itemCategorySlots.put("shears", Set.of(7, 32));
-        itemCategorySlots.put("misc", Set.of(32));
-        itemCategorySlots.put("book", Set.of(
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-                11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-                21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-                31, 32
-        ));
+        // sword
+        itemCategorySlots.put("sword", Set.of(idx("Bane Of Arthropods"), idx("Fire Aspect"), idx("Knockback"), idx("Looting"), idx("Sharpness"), idx("Smite"), idx("Sweeping Edge"), idx("Unbreaking")));
+        itemCategorySlots.put("swordBane", Set.of(idx("Bane Of Arthropods"), idx("Fire Aspect"), idx("Knockback"), idx("Looting"), idx("Sweeping Edge"), idx("Unbreaking")));
+        itemCategorySlots.put("swordSharp", Set.of(idx("Fire Aspect"), idx("Knockback"), idx("Looting"), idx("Sharpness"), idx("Sweeping Edge"), idx("Unbreaking")));
+        itemCategorySlots.put("swordSmite", Set.of(idx("Fire Aspect"), idx("Knockback"), idx("Looting"), idx("Smite"), idx("Sweeping Edge"), idx("Unbreaking")));
+        // spear
+        itemCategorySlots.put("spear", Set.of(idx("Bane Of Arthropods"), idx("Fire Aspect"), idx("Looting"), idx("Lunge"), idx("Sharpness"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("spearBane", Set.of(idx("Bane Of Arthropods"), idx("Fire Aspect"), idx("Looting"), idx("Lunge"), idx("Unbreaking")));
+        itemCategorySlots.put("spearSharp", Set.of(idx("Fire Aspect"), idx("Looting"), idx("Lunge"), idx("Sharpness"), idx("Unbreaking")));
+        itemCategorySlots.put("spearSmite", Set.of(idx("Fire Aspect"), idx("Looting"), idx("Lunge"), idx("Smite"), idx("Unbreaking")));
+        // tools
+        itemCategorySlots.put("pickaxe", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Silk Touch"), idx("Unbreaking")));
+        itemCategorySlots.put("shovel", Set.of(idx("Efficiency"), idx("Fortune"), idx("Silk Touch"), idx("Unbreaking")));
+        itemCategorySlots.put("toolWeapon", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("toolWeaponBane", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Silk Touch"), idx("Unbreaking")));
+        itemCategorySlots.put("toolWeaponSharp", Set.of(idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Unbreaking")));
+        itemCategorySlots.put("toolWeaponSmite", Set.of(idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeFort", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelFort", Set.of(idx("Efficiency"), idx("Fortune"), idx("Unbreaking")));
+        itemCategorySlots.put("toolFortWeapon", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("toolFortWeaponBane", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Unbreaking")));
+        itemCategorySlots.put("toolFortWeaponSharp", Set.of(idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Unbreaking")));
+        itemCategorySlots.put("toolFortWeaponSmite", Set.of(idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeSilk", Set.of(idx("Breach"), idx("Efficiency"), idx("Silk Touch"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelSilk", Set.of(idx("Efficiency"), idx("Silk Touch"), idx("Unbreaking")));
+        itemCategorySlots.put("toolSilkWeapon", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("toolSilkWeaponBane", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Looting"), idx("Silk Touch"), idx("Unbreaking")));
+        itemCategorySlots.put("toolSilkWeaponSharp", Set.of(idx("Efficiency"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("toolSilkWeaponSmite", Set.of(idx("Efficiency"), idx("Looting"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
+        // bow
+        itemCategorySlots.put("bow", Set.of(idx("Flame"), idx("Infinity"), idx("Power"), idx("Punch"), idx("Unbreaking")));
+        itemCategorySlots.put("bowMending", Set.of(idx("Flame"), idx("Power"), idx("Punch"), idx("Unbreaking")));
+        // trident
+        itemCategorySlots.put("trident", Set.of(idx("Channeling"), idx("Impaling"), idx("Looting"), idx("Loyalty"), idx("Riptide"), idx("Unbreaking")));
+        itemCategorySlots.put("tridentRip", Set.of(idx("Impaling"), idx("Looting"), idx("Loyalty"), idx("Riptide"), idx("Unbreaking")));
+        itemCategorySlots.put("tridentWithoutRip", Set.of(idx("Channeling"), idx("Impaling"), idx("Looting"), idx("Loyalty"), idx("Unbreaking")));
+        // crossbow
+        itemCategorySlots.put("crossbow", Set.of(idx("Multishot"), idx("Piercing"), idx("Quick Charge"), idx("Unbreaking")));
+        itemCategorySlots.put("crossbowMulti", Set.of(idx("Multishot"), idx("Quick Charge"), idx("Unbreaking")));
+        itemCategorySlots.put("crossbowPierce", Set.of(idx("Piercing"), idx("Quick Charge"), idx("Unbreaking")));
+        // mace
+        itemCategorySlots.put("mace", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Density"), idx("Fire Aspect"), idx("Looting"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("maceBane", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Density"), idx("Fire Aspect"), idx("Looting"), idx("Unbreaking")));
+        itemCategorySlots.put("maceSmite", Set.of(idx("Breach"), idx("Density"), idx("Fire Aspect"), idx("Looting"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("maceBreach", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Fire Aspect"), idx("Looting"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("maceBreachBane", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Fire Aspect"), idx("Looting"), idx("Unbreaking")));
+        itemCategorySlots.put("maceBreachSmite", Set.of(idx("Breach"), idx("Fire Aspect"), idx("Looting"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("maceDensity", Set.of(idx("Bane Of Arthropods"), idx("Density"), idx("Fire Aspect"), idx("Looting"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("maceDensityBane", Set.of(idx("Bane Of Arthropods"), idx("Density"), idx("Fire Aspect"), idx("Looting"), idx("Unbreaking")));
+        itemCategorySlots.put("maceDensitySmite", Set.of(idx("Density"), idx("Fire Aspect"), idx("Looting"), idx("Smite"), idx("Unbreaking")));
+        // shield
+        itemCategorySlots.put("shieldEndurance", Set.of(idx("Buckler"), idx("Endurance"), idx("Respite"), idx("Unbreaking")));
+        itemCategorySlots.put("shieldVigor", Set.of(idx("Buckler"), idx("Respite"), idx("Unbreaking"), idx("Vigor")));
+        itemCategorySlots.put("shield", Set.of(idx("Buckler"), idx("Endurance"), idx("Respite"), idx("Unbreaking"), idx("Vigor")));
+        // armour
+        itemCategorySlots.put("helmet", Set.of(idx("Aqua Affinity"), idx("Blast Protection"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("chestplate", Set.of(idx("Blast Protection"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("leggings", Set.of(idx("Blast Protection"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("boots", Set.of(idx("Blast Protection"), idx("Depth Strider"), idx("Feather Falling"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("helmetProt", Set.of(idx("Aqua Affinity"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("helmetProj", Set.of(idx("Aqua Affinity"), idx("Projectile Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("helmetFire", Set.of(idx("Aqua Affinity"), idx("Fire Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("helmetBlast", Set.of(idx("Aqua Affinity"), idx("Blast Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("depthNoProt", Set.of(idx("Blast Protection"), idx("Feather Falling"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("depthProt", Set.of(idx("Feather Falling"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("depthProj", Set.of(idx("Feather Falling"), idx("Projectile Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("depthFire", Set.of(idx("Feather Falling"), idx("Fire Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("depthBlast", Set.of(idx("Blast Protection"), idx("Feather Falling"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("frostWalkNoProt", Set.of(idx("Blast Protection"), idx("Feather Falling"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("frostWalkProt", Set.of(idx("Feather Falling"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("frostWalkProj", Set.of(idx("Feather Falling"), idx("Projectile Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("frostWalkFire", Set.of(idx("Feather Falling"), idx("Fire Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("frostWalkBlast", Set.of(idx("Blast Protection"), idx("Feather Falling"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("armourProt", Set.of(idx("Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("armourProj", Set.of(idx("Projectile Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("armourFire", Set.of(idx("Fire Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("armourBlast", Set.of(idx("Blast Protection"), idx("Thorns"), idx("Unbreaking")));
+        // other
+        itemCategorySlots.put("shears", Set.of(idx("Efficiency"), idx("Unbreaking")));
+        itemCategorySlots.put("misc", Set.of(idx("Unbreaking")));
+        itemCategorySlots.put("book", Set.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37));
     }
 
     public PreservedEnchantingTableScreen(PreservedEnchantmentMenu menu, Inventory inventory, Component title) {
@@ -185,9 +191,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
     @Override
     protected void init() {
         super.init();
-        if (this.minecraft != null) {
-            this.bookModel = new BookModel(this.minecraft.getEntityModels().bakeLayer(ModelLayers.BOOK));
-        }
+        this.bookModel = new BookModel(this.minecraft.getEntityModels().bakeLayer(ModelLayers.BOOK));
         this.tenTextureActive = false;
         this.twentyTextureActive = false;
         this.thirtyTextureActive = false;
@@ -207,7 +211,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         this.drawBook(guiGraphics, i, j);
 
         int k = (int)(41.0F * this.scrollAmount);
-        ResourceLocation identifier = this.shouldScroll() ? SCROLLER_TEXTURE : SCROLLER_DISABLED_TEXTURE;
+        Identifier identifier = this.shouldScroll() ? SCROLLER_TEXTURE : SCROLLER_DISABLED_TEXTURE;
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, identifier, i + 156, j + 13 + k, 12, 15);
         int l = this.leftPos + 97;
         int m = this.topPos + 11;
@@ -217,24 +221,20 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
     }
 
     private void drawBook(GuiGraphics guiGraphics, int i, int j) {
-        if (this.minecraft != null) {
-            float f = this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false);
-            float g = Mth.lerp(f, this.oOpen, this.open);
-            float h = Mth.lerp(f, this.oFlip, this.flip);
-            int k = i + 14;
-            int l = j + 14;
-            int m = k + 38;
-            int n = l + 31;
-            guiGraphics.submitBookModelRenderState(this.bookModel, BOOK_TEXTURE, 40.0F, g, h, k, l, m, n);
-        }
+        float f = this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false);
+        float g = Mth.lerp(f, this.oOpen, this.open);
+        float h = Mth.lerp(f, this.oFlip, this.flip);
+        int k = i + 14;
+        int l = j + 14;
+        int m = k + 38;
+        int n = l + 31;
+        guiGraphics.submitBookModelRenderState(this.bookModel, BOOK_TEXTURE, 40.0F, g, h, k, l, m, n);
     }
 
     public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        if (this.minecraft != null) {
-            float f = this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false);
-            super.render(context, mouseX, mouseY, f);
-            this.renderTooltip(context, mouseX, mouseY);
-        }
+        float f = this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false);
+        super.render(context, mouseX, mouseY, f);
+        this.renderTooltip(context, mouseX, mouseY);
     }
 
     private void renderIcons(GuiGraphics context, int x, int y, int scrollOffset) {
@@ -318,22 +318,12 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             // hover over 10 exp
             if (this.isHovering(71, 13, 16, 16, x, y)) {
                 List<Component> list = Lists.newArrayList();
-                if (this.menu.getSlot(1).getItem().isEmpty() && !this.twentyTextureActive && !this.thirtyTextureActive) {
-                    list.add(Component.literal("Lapis Lazuli missing"));
-                }
-                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) {
-                    list.add(Component.literal("10 Levels needed"));
-                }
-                else if (this.itemInEnchantSlot && !this.menu.enchantSelected) {
-                    list.add(Component.literal("Enchant not selected"));
-                }
+                if (this.menu.getSlot(1).getItem().isEmpty() && !this.twentyTextureActive && !this.thirtyTextureActive) list.add(Component.literal("Requires 1 Lapis Lazuli"));
+                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) list.add(Component.literal("10 Levels needed"));
+                else if (this.itemInEnchantSlot && !this.menu.enchantSelected) list.add(Component.literal("Enchant not selected"));
 
-                if (this.enchPower < 1 && !this.twentyTextureActive && !this.thirtyTextureActive) {
-                    list.add(Component.literal("Not enough bookshelf power"));
-                }
-                else if (this.tenTextureActive && this.menu.enchantSelected && !this.twentyTextureActive && !this.thirtyTextureActive) {
-                    list.add(Component.literal("Enchant for 10 Levels"));
-                }
+                if (this.enchPower < 1 && !this.twentyTextureActive && !this.thirtyTextureActive) list.add(Component.literal("Not enough bookshelf power"));
+                else if (this.tenTextureActive && this.menu.enchantSelected && !this.twentyTextureActive && !this.thirtyTextureActive) list.add(Component.literal("Enchant for 10 Levels"));
 
                 guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
             }
@@ -341,22 +331,12 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             // hover over 20 exp
             if (this.isHovering(71, 33, 16, 16, x, y)) {
                 List<Component> list = Lists.newArrayList();
-                if (this.menu.getSlot(1).getItem().isEmpty() && !this.tenTextureActive && !this.thirtyTextureActive) {
-                    list.add(Component.literal("Lapis Lazuli missing"));
-                }
-                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) {
-                    list.add(Component.literal("20 Levels needed"));
-                }
-                else if (this.itemInEnchantSlot && !this.menu.enchantSelected) {
-                    list.add(Component.literal("Enchant not selected"));
-                }
+                if (this.menu.getSlot(1).getItem().isEmpty() && !this.tenTextureActive && !this.thirtyTextureActive) list.add(Component.literal("Requires 2 Lapis Lazuli"));
+                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) list.add(Component.literal("20 Levels needed"));
+                else if (this.itemInEnchantSlot && !this.menu.enchantSelected) list.add(Component.literal("Enchant not selected"));
 
-                if (this.enchPower < 2 && !this.tenTextureActive && !this.thirtyTextureActive) {
-                    list.add(Component.literal("Not enough bookshelf power"));
-                }
-                else if (this.twentyTextureActive && this.menu.enchantSelected && !this.tenTextureActive && !this.thirtyTextureActive) {
-                    list.add(Component.literal("Enchant for 20 Levels"));
-                }
+                if (this.enchPower < 2 && !this.tenTextureActive && !this.thirtyTextureActive) list.add(Component.literal("Not enough bookshelf power"));
+                else if (this.twentyTextureActive && this.menu.enchantSelected && !this.tenTextureActive && !this.thirtyTextureActive) list.add(Component.literal("Enchant for 20 Levels"));
 
                 guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
             }
@@ -364,22 +344,12 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             // hover over 30 exp
             if (this.isHovering(71, 53, 16, 16, x, y)) {
                 List<Component> list = Lists.newArrayList();
-                if (this.menu.getSlot(1).getItem().isEmpty() && !this.tenTextureActive && !this.twentyTextureActive) {
-                    list.add(Component.literal("Lapis Lazuli missing"));
-                }
-                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) {
-                    list.add(Component.literal("30 Levels needed"));
-                }
-                else if (this.itemInEnchantSlot && !this.menu.enchantSelected) {
-                    list.add(Component.literal("Enchant not selected"));
-                }
+                if (this.menu.getSlot(1).getItem().isEmpty() && !this.tenTextureActive && !this.twentyTextureActive) list.add(Component.literal("Requires 3 Lapis Lazuli"));
+                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) list.add(Component.literal("30 Levels needed"));
+                else if (this.itemInEnchantSlot && !this.menu.enchantSelected) list.add(Component.literal("Enchant not selected"));
 
-                if (this.enchPower < 3 && !this.tenTextureActive && !this.twentyTextureActive) {
-                    list.add(Component.literal("Not enough bookshelf power"));
-                }
-                else if (this.thirtyTextureActive && this.menu.enchantSelected && !this.tenTextureActive && !this.twentyTextureActive) {
-                    list.add(Component.literal("Enchant for 30 Levels"));
-                }
+                if (this.enchPower < 3 && !this.tenTextureActive && !this.twentyTextureActive) list.add(Component.literal("Not enough bookshelf power"));
+                else if (this.thirtyTextureActive && this.menu.enchantSelected && !this.tenTextureActive && !this.twentyTextureActive) list.add(Component.literal("Enchant for 30 Levels"));
 
                 guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
             }
@@ -388,7 +358,6 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
 
     @Override
     public boolean mouseClicked(@NotNull MouseButtonEvent event, boolean isDoubleClick) {
-        //this.mouseClicked = false;
         this.scrolling = false;
         if (this.itemInEnchantSlot) {
             int scrollLeft = this.leftPos + 156;
@@ -410,44 +379,40 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 int k2 = 97 + j2 % 4 * 14;
                 int l2 = j2 / 4;
                 int m2 = 11 + l2 * 14 + 2;
-                if (this.minecraft != null) {
-                    // slot click
-                    if (this.isHovering(k2, m2, 14, 14, event.x(), event.y()) && slots != null && slots.contains(i2)) {
-                        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_CLICK, 1.0F));
-                        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.BOOK_PAGE_TURN, 1.0F));
-                        this.menu.enchantSelected = true;
-                        this.menu.selectedEnchantID = i2;
+                // slot click
+                if (this.isHovering(k2, m2, 14, 14, event.x(), event.y()) && slots != null && slots.contains(i2)) {
+                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.ENCHANT_CLICK, 1.0F));
+                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.BOOK_PAGE_TURN, 1.0F));
+                    this.menu.enchantSelected = true;
+                    this.menu.selectedEnchantID = i2;
 
-                        if (this.minecraft.gameMode != null) {
-                            this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, i2);
-                            return true;
-                        }
+                    if (this.minecraft.gameMode != null) {
+                        this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, i2);
+                        return true;
                     }
                 }
             }
             // level click
-            if (this.minecraft != null) {
-                if (this.menu.getSlot(1).getItem().getItem() == Items.LAPIS_LAZULI) {
-                    // 10 level
-                    if (this.isHovering(71, 13, 16, 16, event.x(), event.y()) && this.tenTextureActive) {
-                        if (this.minecraft.gameMode != null) {
-                            this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, 100 + 1);
-                            return true;
-                        }
+            if (this.menu.getSlot(1).getItem().getItem() == Items.LAPIS_LAZULI) {
+                // 10 level
+                if (this.isHovering(71, 13, 16, 16, event.x(), event.y()) && this.tenTextureActive) {
+                    if (this.minecraft.gameMode != null) {
+                        this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, 100 + 1);
+                        return true;
                     }
-                    // 20 level
-                    else if (this.isHovering(71, 13 + 20, 16, 16, event.x(), event.y()) && this.twentyTextureActive) {
-                        if (this.minecraft.gameMode != null) {
-                            this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, 100 + 2);
-                            return true;
-                        }
+                }
+                // 20 level
+                else if (this.isHovering(71, 13 + 20, 16, 16, event.x(), event.y()) && this.twentyTextureActive) {
+                    if (this.minecraft.gameMode != null) {
+                        this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, 100 + 2);
+                        return true;
                     }
-                    // 30 level
-                    else if (this.isHovering(71, 13 + 40, 16, 16, event.x(), event.y()) && this.thirtyTextureActive) {
-                        if (this.minecraft.gameMode != null) {
-                            this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, 100 + 3);
-                            return true;
-                        }
+                }
+                // 30 level
+                else if (this.isHovering(71, 13 + 40, 16, 16, event.x(), event.y()) && this.thirtyTextureActive) {
+                    if (this.minecraft.gameMode != null) {
+                        this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, 100 + 3);
+                        return true;
                     }
                 }
             }
@@ -455,7 +420,6 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             int i = this.leftPos + 156;
             int j = this.topPos + 9;
             if (event.x() >= (double)i && event.x() < (double)(i + 12) && event.y() >= (double)j && event.y() < (double)(j + 54)) {
-                //this.mouseClicked = true;
                 this.scrolling = true;
             }
         }
@@ -475,7 +439,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             );
 
             int maxScroll = this.getMaxScroll();
-            this.scrollOffset = Mth.clamp((int) (this.scrollAmount * maxScroll + 0.5F), 0, maxScroll);
+            this.scrollOffset = Mth.clamp((int) (this.scrollAmount * (float) maxScroll + 0.5F), 0, maxScroll) * 4;
             return true;
         }
         return super.mouseDragged(event, mouseX, mouseY);
@@ -518,6 +482,12 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "swordSmite";
             else this.itemCategory = "sword";
         }
+        else if (itemStack.is(ItemTags.SPEARS)) {
+            if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "spearBane";
+            else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "spearSharp";
+            else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "spearSmite";
+            else this.itemCategory = "spear";
+        }
         else if (itemStack.is(ItemTags.PICKAXES)) {
             if (hasEnchantment(itemStack, Enchantments.FORTUNE)) this.itemCategory = "pickaxeFort";
             else if (hasEnchantment(itemStack, Enchantments.SILK_TOUCH)) this.itemCategory = "pickaxeSilk";
@@ -533,25 +503,19 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "toolFortWeaponBane";
                 else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "toolFortWeaponSharp";
                 else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "toolFortWeaponSmite";
-                else {
-                    this.itemCategory = "toolFortWeapon";
-                }
+                else this.itemCategory = "toolFortWeapon";
             }
             else if (hasEnchantment(itemStack, Enchantments.SILK_TOUCH)) {
                 if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "toolSilkWeaponBane";
                 else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "toolSilkWeaponSharp";
                 else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "toolSilkWeaponSmite";
-                else {
-                    this.itemCategory = "toolSilkWeapon";
-                }
+                else this.itemCategory = "toolSilkWeapon";
             }
             else {
                 if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "toolWeaponBane";
                 else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "toolWeaponSharp";
                 else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "toolWeaponSmite";
-                else {
-                    this.itemCategory = "toolWeapon";
-                }
+                else this.itemCategory = "toolWeapon";
             }
         }
         else if (itemStack.is(ItemTags.BOW_ENCHANTABLE)) {
@@ -571,99 +535,68 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             if (hasEnchantment(itemStack, Enchantments.BREACH)) {
                 if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "maceBreachBane";
                 else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "maceBreachSmite";
-                else {
-                    this.itemCategory = "maceBreach";
-                }
+                else this.itemCategory = "maceBreach";
             }
             else if (hasEnchantment(itemStack, Enchantments.DENSITY)) {
                 if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "maceDensityBane";
                 else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "maceDensitySmite";
-                else {
-                    this.itemCategory = "maceDensity";
-                }
+                else this.itemCategory = "maceDensity";
             }
             else {
                 if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "maceBane";
                 else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "maceSmite";
-                else {
-                    this.itemCategory = "mace";
-                }
+                else this.itemCategory = "mace";
             }
+        }
+        else if (itemStack.is(ModTags.SHIELDS)) {
+            if (hasEnchantment(itemStack, ModEnchantments.ENDURANCE)) this.itemCategory = "shieldEndurance";
+            else if (hasEnchantment(itemStack, ModEnchantments.VIGOR)) this.itemCategory = "shieldVigor";
+            else this.itemCategory = "shield";
         }
         else if (itemStack.is(ItemTags.HEAD_ARMOR_ENCHANTABLE)) {
             if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.PROTECTION.registryKey())
-                    .getOrThrow(Enchantments.PROTECTION))) {
-                this.itemCategory = "helmetProt";
-            }
+                    .getOrThrow(Enchantments.PROTECTION))) this.itemCategory = "helmetProt";
             else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.PROJECTILE_PROTECTION.registryKey())
-                    .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) {
-                this.itemCategory = "helmetProj";
-            }
+                    .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) this.itemCategory = "helmetProj";
             else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.FIRE_PROTECTION.registryKey())
-                    .getOrThrow(Enchantments.FIRE_PROTECTION))) {
-                this.itemCategory = "helmetFire";
-            }
+                    .getOrThrow(Enchantments.FIRE_PROTECTION))) this.itemCategory = "helmetFire";
             else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.BLAST_PROTECTION.registryKey())
-                    .getOrThrow(Enchantments.BLAST_PROTECTION))) {
-                this.itemCategory = "helmetBlast";
-            }
-            else {
-                this.itemCategory = "helmet";
-            }
+                    .getOrThrow(Enchantments.BLAST_PROTECTION))) this.itemCategory = "helmetBlast";
+            else this.itemCategory = "helmet";
         }
         else if (itemStack.is(ItemTags.CHEST_ARMOR_ENCHANTABLE)) {
             if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.PROTECTION.registryKey())
-                    .getOrThrow(Enchantments.PROTECTION))) {
-                this.itemCategory = "armourProt";
-            }
+                    .getOrThrow(Enchantments.PROTECTION))) this.itemCategory = "armourProt";
             else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.PROJECTILE_PROTECTION.registryKey())
-                    .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) {
-                this.itemCategory = "armourProj";
-            }
+                    .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) this.itemCategory = "armourProj";
             else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.FIRE_PROTECTION.registryKey())
-                    .getOrThrow(Enchantments.FIRE_PROTECTION))) {
-                this.itemCategory = "armourFire";
-            }
+                    .getOrThrow(Enchantments.FIRE_PROTECTION))) this.itemCategory = "armourFire";
             else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.BLAST_PROTECTION.registryKey())
-                    .getOrThrow(Enchantments.BLAST_PROTECTION))) {
-                this.itemCategory = "armourBlast";
-            }
-            else {
-                this.itemCategory = "chestplate";
-            }
+                    .getOrThrow(Enchantments.BLAST_PROTECTION))) this.itemCategory = "armourBlast";
+            else this.itemCategory = "chestplate";
         }
         else if (itemStack.is(ItemTags.LEG_ARMOR_ENCHANTABLE)) {
             if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.PROTECTION.registryKey())
-                    .getOrThrow(Enchantments.PROTECTION))) {
-                this.itemCategory = "armourProt";
-            }
+                    .getOrThrow(Enchantments.PROTECTION))) this.itemCategory = "armourProt";
             else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.PROJECTILE_PROTECTION.registryKey())
-                    .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) {
-                this.itemCategory = "armourProj";
-            }
+                    .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) this.itemCategory = "armourProj";
             else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.FIRE_PROTECTION.registryKey())
-                    .getOrThrow(Enchantments.FIRE_PROTECTION))) {
-                this.itemCategory = "armourFire";
-            }
+                    .getOrThrow(Enchantments.FIRE_PROTECTION))) this.itemCategory = "armourFire";
             else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.BLAST_PROTECTION.registryKey())
-                    .getOrThrow(Enchantments.BLAST_PROTECTION))) {
-                this.itemCategory = "armourBlast";
-            }
-            else {
-                this.itemCategory = "leggings";
-            }
+                    .getOrThrow(Enchantments.BLAST_PROTECTION))) this.itemCategory = "armourBlast";
+            else this.itemCategory = "leggings";
         }
         else if (itemStack.is(ItemTags.FOOT_ARMOR_ENCHANTABLE)) {
             if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
@@ -671,72 +604,45 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                     .getOrThrow(Enchantments.FROST_WALKER))) {
                 if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                         .lookupOrThrow(Enchantments.PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.PROTECTION))) {
-                    this.itemCategory = "frostWalkProt";
-                }
+                        .getOrThrow(Enchantments.PROTECTION))) this.itemCategory = "frostWalkProt";
                 else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                         .lookupOrThrow(Enchantments.PROJECTILE_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) {
-                    this.itemCategory = "frostWalkProj";
-                }
+                        .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) this.itemCategory = "frostWalkProj";
                 else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                         .lookupOrThrow(Enchantments.FIRE_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.FIRE_PROTECTION))) {
-                    this.itemCategory = "frostWalkFire";
-                }
+                        .getOrThrow(Enchantments.FIRE_PROTECTION))) this.itemCategory = "frostWalkFire";
                 else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                         .lookupOrThrow(Enchantments.BLAST_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.BLAST_PROTECTION))) {
-                    this.itemCategory = "frostWalkBlast";
-                }
-                else {
-                    this.itemCategory = "frostWalkNoProt";
-                }
+                        .getOrThrow(Enchantments.BLAST_PROTECTION))) this.itemCategory = "frostWalkBlast";
+                else this.itemCategory = "frostWalkNoProt";
             }
             else if (!itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                     .lookupOrThrow(Enchantments.FROST_WALKER.registryKey())
                     .getOrThrow(Enchantments.FROST_WALKER))) {
                 if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                         .lookupOrThrow(Enchantments.PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.PROTECTION))) {
-                    this.itemCategory = "depthProt";
-                }
+                        .getOrThrow(Enchantments.PROTECTION))) this.itemCategory = "depthProt";
                 else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                         .lookupOrThrow(Enchantments.PROJECTILE_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) {
-                    this.itemCategory = "depthProj";
-                }
+                        .getOrThrow(Enchantments.PROJECTILE_PROTECTION))) this.itemCategory = "depthProj";
                 else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                         .lookupOrThrow(Enchantments.FIRE_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.FIRE_PROTECTION))) {
-                    this.itemCategory = "depthFire";
-                }
+                        .getOrThrow(Enchantments.FIRE_PROTECTION))) this.itemCategory = "depthFire";
                 else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                         .lookupOrThrow(Enchantments.BLAST_PROTECTION.registryKey())
-                        .getOrThrow(Enchantments.BLAST_PROTECTION))) {
-                    this.itemCategory = "depthBlast";
-                }
-                else {
-                    this.itemCategory = "depthNoProt";
-                }
+                        .getOrThrow(Enchantments.BLAST_PROTECTION))) this.itemCategory = "depthBlast";
+                else this.itemCategory = "depthNoProt";
             }
         }
-        else if (itemStack.getItem() == Items.SHEARS) {
-            this.itemCategory = "shears";
-        }
+        else if (itemStack.getItem() == Items.SHEARS) this.itemCategory = "shears";
         else if (itemStack.getItem() == Items.FLINT_AND_STEEL
                 || itemStack.getItem() == Items.BRUSH
                 || itemStack.getItem() == Items.CARROT_ON_A_STICK
                 || itemStack.getItem() == Items.WARPED_FUNGUS_ON_A_STICK
                 || itemStack.getItem() == Items.ELYTRA
-                || itemStack.is(ModTags.SHIELDS)
                 || itemStack.is(ModTags.ROD_UPGRADES)
-        ) {
-            this.itemCategory = "misc";
-        }
-        else if (itemStack.getItem() == Items.BOOK) {
-            this.itemCategory = "book";
-        }
+        ) this.itemCategory = "misc";
+        else if (itemStack.getItem() == Items.BOOK) this.itemCategory = "book";
     }
 
     public void tickBook() {
@@ -778,10 +684,19 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
     }
 
     private boolean shouldScroll() {
-        return this.itemInEnchantSlot && ENCHANTMENT_ICON_TEXTURES.length > 16;
+        return this.itemInEnchantSlot;
     }
 
     private int getMaxScroll() {
         return (ENCHANTMENT_ICON_TEXTURES.length + 4 - 1) / 4 - 4;
+    }
+
+    private static int idx(String name) {
+        for (int i = 0; i < PreservedEnchantmentMenu.ENCHANTMENT_DATA.size(); i++) {
+            if (PreservedEnchantmentMenu.ENCHANTMENT_DATA.get(i).name().equalsIgnoreCase(name)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

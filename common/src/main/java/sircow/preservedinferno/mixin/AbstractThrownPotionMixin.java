@@ -4,8 +4,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractThrownPotion;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.AbstractThrownPotion;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -52,13 +52,7 @@ public abstract class AbstractThrownPotionMixin extends ThrowableItemProjectile 
         }
     }
 
-    @Inject(
-            method = "onHit",
-            at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/projectile/AbstractThrownPotion;onHitAsPotion(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/phys/HitResult;)V",
-                    shift = At.Shift.BEFORE
-            )
-    )
+    @Inject(method = "onHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/throwableitemprojectile/AbstractThrownPotion;onHitAsPotion(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/phys/HitResult;)V", shift = At.Shift.BEFORE))
     public void preserved_inferno$beforePotionHit(HitResult result, CallbackInfo ci) {
         AbstractThrownPotion thisAsPotion = (AbstractThrownPotion) (Object) this;
         AABB aABB = thisAsPotion.getBoundingBox().inflate(4.0, 2.0, 4.0);

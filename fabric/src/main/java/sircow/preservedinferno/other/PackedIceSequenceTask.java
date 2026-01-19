@@ -6,8 +6,7 @@ import net.minecraft.world.level.block.Blocks;
 import sircow.preservedinferno.PreservedInferno;
 
 public class PackedIceSequenceTask extends DelayedBlockTransformationTask {
-    private final int iceToAirDelay;
-    private final int initialPackedToIceDelay;
+    private final int iceToAirDelay, initialPackedToIceDelay;
 
     public PackedIceSequenceTask(PreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, int packedToIceDelay, int iceToAirDelay) {
         super(modInstance, serverLevel, pos, Blocks.PACKED_ICE.defaultBlockState(), Blocks.PACKED_ICE, packedToIceDelay);

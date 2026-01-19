@@ -1,6 +1,6 @@
 package sircow.preservedinferno.advancement;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import sircow.preservedinferno.Constants;
 
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class ModAdvancements {
     private static final Map<UUID, Integer> clientPlayerPoints = new HashMap<>();
-    public static final List<ResourceLocation> EXCLUDED_ADVANCEMENTS = List.of(
+    public static final List<Identifier> EXCLUDED_ADVANCEMENTS = List.of(
             Constants.id("mastery/root"),
             Constants.id("mastery/adequate"),
             Constants.id("mastery/advanced"),
@@ -26,8 +26,8 @@ public class ModAdvancements {
             Constants.id("exploration/root"),
             Constants.id("fishing/root"),
             Constants.id("nether/root"),
-            ResourceLocation.withDefaultNamespace("end/root"),
-            ResourceLocation.withDefaultNamespace("story/root")
+            Identifier.withDefaultNamespace("end/root"),
+            Identifier.withDefaultNamespace("story/root")
     );
 
     public static void setPlayerPoints(UUID playerUUID, int points) {

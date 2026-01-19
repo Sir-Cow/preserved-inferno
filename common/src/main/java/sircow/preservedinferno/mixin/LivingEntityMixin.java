@@ -1,7 +1,8 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -14,10 +15,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.effect.ModEffects;
+import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
 
 import java.util.Objects;
@@ -39,9 +42,8 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow public abstract MobEffectInstance getEffect(Holder<MobEffect> effect);
     @Shadow public abstract AttributeInstance getAttribute(Holder<Attribute> attribute);
 
-    @Unique private static final ResourceLocation HINDERED_SPEED_ID = Constants.id("hindered_speed");
-    @Unique private static final ResourceLocation HINDERED_ATTACK_ID = Constants.id("hindered_attack");
-
+    @Unique private static final Identifier HINDERED_SPEED_ID = Constants.id("hindered_speed");
+    @Unique private static final Identifier HINDERED_ATTACK_ID = Constants.id("hindered_attack");
 
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -143,6 +145,36 @@ public abstract class LivingEntityMixin extends Entity {
         else {
             // otherwise, cancel drops
             ci.cancel();
+        }
+    }
+
+    @Inject(method = "getItemBlockingWith", at = @At("HEAD"), cancellable = true)
+    private void preserved_inferno$bucklerEnchant(CallbackInfoReturnable<ItemStack> cir) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+
+        if (!entity.isUsingItem()) {
+            return;
+        }
+
+        ItemStack stack = entity.getUseItem();
+
+        if (!(stack.getItem() instanceof PreservedShieldItem)) {
+            return;
+        }
+
+        BlocksAttacks blocks = stack.get(DataComponents.BLOCKS_ATTACKS);
+        if (blocks == null) {
+            return;
+        }
+
+        int usedTicks = stack.getUseDuration(entity) - entity.getUseItemRemainingTicks();
+        int delay = stack.getEnchantments().getLevel(level().registryAccess().lookupOrThrow(ModEnchantments.BUCKLER.registryKey()).getOrThrow(ModEnchantments.BUCKLER)) > 0 ? 1 : blocks.blockDelayTicks();
+
+        if (usedTicks >= delay) {
+            cir.setReturnValue(stack);
+        }
+        else {
+            cir.setReturnValue(null);
         }
     }
 }

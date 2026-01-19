@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,7 +33,7 @@ public class AnglingTableBlockMixin {
         cir.setReturnValue(
                 new ExtendedScreenHandlerFactory() {
                     @Override
-                    public @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
+                    public @NotNull AbstractContainerMenu createMenu(int syncId, @NonNull Inventory playerInventory, @NonNull Player player) {
                         return new AnglingTableMenu(syncId, playerInventory, ContainerLevelAccess.create(level, pos));
                     }
 
@@ -42,7 +43,7 @@ public class AnglingTableBlockMixin {
                     }
 
                     @Override
-                    public Object getScreenOpeningData(ServerPlayer serverPlayer) {
+                    public Object getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
                         boolean isEmpty = level.getBlockEntity(pos) == null;
                         return new PreservedInferno.BlockData(isEmpty);
                     }

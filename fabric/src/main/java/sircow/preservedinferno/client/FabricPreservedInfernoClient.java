@@ -14,9 +14,10 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import sircow.preservedinferno.Constants;
@@ -25,6 +26,7 @@ import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.block.ModBlocks;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntityRenderer;
 import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.mixin.ClientAdvancementsAccessor;
@@ -42,12 +44,8 @@ import java.util.Map;
 
 public class FabricPreservedInfernoClient implements ClientModInitializer {
     DecimalFormat df = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.US));
-    public static boolean waitingForAdvancement = false;
-    public static boolean suppressNextOpen = false;
+    public static boolean waitingForAdvancement, suppressNextOpen, hasTriggeredOnce, advancementsSynced, advancementGranted = false;
     public static int advancementDelayTicks = -1;
-    public static boolean hasTriggeredOnce = false;
-    public static boolean advancementsSynced = false;
-    public static boolean advancementGranted = false;
     private static int initialMessageDelay = 40;
 
     @Override
@@ -121,8 +119,22 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             String line = stack.get(ModComponents.LINE_COMPONENT);
             String sinker = stack.get(ModComponents.SINKER_COMPONENT);
 
-            if (maxStamina != null) {
-                addShieldTooltip(lines, insertIndex, maxStamina, staminaRegenRate);
+            if (maxStamina != null && staminaRegenRate != null) {
+                int displayedMaxStamina = maxStamina;
+                float displayedRegenRate = staminaRegenRate;
+
+                if (Minecraft.getInstance().level != null) {
+                    var enchantmentRegistry = Minecraft.getInstance().level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+
+                    int enduranceLevel = stack.getEnchantments().getLevel(enchantmentRegistry.getOrThrow(ModEnchantments.ENDURANCE));
+                    displayedMaxStamina += (enduranceLevel * 4);
+
+                    int vigorLevel = stack.getEnchantments().getLevel(enchantmentRegistry.getOrThrow(ModEnchantments.VIGOR));
+                    if (vigorLevel > 0) {
+                        displayedRegenRate *= (1.0f + (vigorLevel * 0.5f));
+                    }
+                }
+                addShieldTooltip(lines, insertIndex, displayedMaxStamina, displayedRegenRate);
             }
             if (stack.is(ModTags.ROD_UPGRADES)) {
                 addFishingUpgradeTooltip(lines, insertIndex, stack.getItem());
@@ -194,15 +206,9 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                 "netherite", 3.0
         );
 
-        if (valuesMap.containsKey(hook)) {
-            lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.fishing_speed", valuesMap.get(hook)).withStyle(ChatFormatting.BLUE));
-        }
-        if (valuesMap.containsKey(line)) {
-            lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.fortune", valuesMap.get(line)).withStyle(ChatFormatting.BLUE));
-        }
-        if (valuesMap.containsKey(sinker)) {
-            lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", valuesMap.get(sinker)).withStyle(ChatFormatting.BLUE));
-        }
+        if (valuesMap.containsKey(hook)) lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.fishing_speed", valuesMap.get(hook)).withStyle(ChatFormatting.BLUE));
+        if (valuesMap.containsKey(line)) lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.fortune", valuesMap.get(line)).withStyle(ChatFormatting.BLUE));
+        if (valuesMap.containsKey(sinker)) lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", valuesMap.get(sinker)).withStyle(ChatFormatting.BLUE));
     }
 
     private void addFishingUpgradeTooltip(List<Component> lines, int insertIndex, Item item) {
@@ -247,9 +253,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
 
     private void tickAdvancement() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (advancementDelayTicks > 0) {
-                advancementDelayTicks--;
-            }
+            if (advancementDelayTicks > 0) advancementDelayTicks--;
             else if (advancementDelayTicks == 0) {
                 advancementDelayTicks = -1;
                 ((IMinecraftMixin) client).startWaitForAdvancement(client, 0);
@@ -260,20 +264,16 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                 return;
             }
 
-            if (client.player == null) {
-                return;
-            }
+            if (client.player == null) return;
 
             var advancements = client.player.connection.getAdvancements();
-            var rootAdvancementHolder = advancements.get(ResourceLocation.withDefaultNamespace("story/root"));
+            var rootAdvancementHolder = advancements.get(Identifier.withDefaultNamespace("story/root"));
             if (rootAdvancementHolder != null) {
                 var progressMap = ((ClientAdvancementsAccessor) advancements).getProgress();
                 var rootProgress = progressMap.get(rootAdvancementHolder);
                 advancementGranted = rootProgress != null && rootProgress.isDone();
             }
-            else {
-                advancementGranted = false;
-            }
+            else advancementGranted = false;
 
             if (!advancementGranted) {
                 KeyMapping key = Minecraft.getInstance().options.keyAdvancements;

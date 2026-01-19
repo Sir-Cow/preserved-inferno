@@ -307,7 +307,7 @@ public class BlocksMixin {
 
     @ModifyVariable(method = "register(Lnet/minecraft/resources/ResourceKey;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", at = @At("HEAD"), index = 2, argsOnly = true)
     private static BlockBehaviour.Properties preserved_inferno$modifyCrop7(BlockBehaviour.Properties properties, @Local(argsOnly = true, ordinal = 0) ResourceKey<Block> resourceKey) {
-        String blockId = resourceKey.location().getPath();
+        String blockId = resourceKey.identifier().getPath();
 
         if ("attached_pumpkin_stem".equals(blockId) || "attached_melon_stem".equals(blockId)) {
             return properties

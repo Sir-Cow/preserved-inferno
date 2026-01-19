@@ -4,18 +4,18 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.screen.AnglingTableMenu;
 
 public class AnglingTableScreen extends AbstractContainerScreen<AnglingTableMenu> {
-    private static final ResourceLocation BG_LOCATION = Constants.id("textures/gui/container/angling_table_gui.png");
-    private static final ResourceLocation ROD_SLOT_TEXTURE = Constants.id("container/slot/fishing_rod");
-    private static final ResourceLocation HOOK_SLOT_TEXTURE = Constants.id("container/slot/hook");
-    private static final ResourceLocation LINE_SLOT_TEXTURE = Constants.id("container/slot/line");
-    private static final ResourceLocation SINKER_SLOT_TEXTURE = Constants.id("container/slot/sinker");
+    private static final Identifier BG_LOCATION = Constants.id("textures/gui/container/angling_table_gui.png");
+    private static final Identifier ROD_SLOT_TEXTURE = Constants.id("container/slot/fishing_rod");
+    private static final Identifier HOOK_SLOT_TEXTURE = Constants.id("container/slot/hook");
+    private static final Identifier LINE_SLOT_TEXTURE = Constants.id("container/slot/line");
+    private static final Identifier SINKER_SLOT_TEXTURE = Constants.id("container/slot/sinker");
 
     public AnglingTableScreen(AnglingTableMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);

@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LoomBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,13 +32,12 @@ public class LoomBlockMixin {
     private void preserved_inferno$injectGetMenuProvider(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
         cir.setReturnValue(new ExtendedScreenHandlerFactory() {
             @Override
-            public PreservedInferno.BlockData getScreenOpeningData(ServerPlayer serverPlayer) {
-                boolean isEmpty = level.getBlockEntity(pos) == null;
-                return new PreservedInferno.BlockData(isEmpty);
+            public PreservedInferno.BlockData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
+                return new PreservedInferno.BlockData(level.getBlockEntity(pos) == null);
             }
 
             @Override
-            public @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
+            public @NotNull AbstractContainerMenu createMenu(int syncId, @NonNull Inventory playerInventory, @NonNull Player player) {
                 return new PreservedLoomMenu(syncId, playerInventory, ContainerLevelAccess.create(level, pos));
             }
 

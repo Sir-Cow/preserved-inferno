@@ -1,8 +1,8 @@
 package sircow.preservedinferno.advancement;
 
 import net.minecraft.advancements.AdvancementType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public interface HiddenSpriteAccessor {
-    ResourceLocation preserved_inferno$getHiddenSprite(AdvancementType type);
+    Identifier preserved_inferno$getHiddenSprite(AdvancementType type);
 }

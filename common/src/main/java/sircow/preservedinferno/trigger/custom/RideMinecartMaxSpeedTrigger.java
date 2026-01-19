@@ -1,9 +1,10 @@
 package sircow.preservedinferno.trigger.custom;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.critereon.CriterionValidator;
+import net.minecraft.advancements.criterion.CriterionValidator;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
@@ -52,7 +53,7 @@ public class RideMinecartMaxSpeedTrigger implements CriterionTrigger<RideMinecar
     }
 
     public static class Instance implements CriterionTriggerInstance {
-        public static final Codec<RideMinecartMaxSpeedTrigger.Instance> CODEC = Codec.unit(new RideMinecartMaxSpeedTrigger.Instance());
+        public static final Codec<RideMinecartMaxSpeedTrigger.Instance> CODEC = MapCodec.unit(new RideMinecartMaxSpeedTrigger.Instance()).codec();
 
         public Instance() {}
 

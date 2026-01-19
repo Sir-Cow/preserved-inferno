@@ -119,8 +119,7 @@ public abstract class DelayedBlockTransformationTask {
 }
 
 class PackedIceToIceTask extends DelayedBlockTransformationTask {
-    private final int iceToAirDelay;
-    private final int initialPackedToIceDelay;
+    private final int iceToAirDelay, initialPackedToIceDelay;
 
     public PackedIceToIceTask(PreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, int packedToIceDelay, int iceToAirDelay) {
         super(modInstance, serverLevel, pos, Blocks.ICE.defaultBlockState(), Blocks.PACKED_ICE, packedToIceDelay);
@@ -154,9 +153,7 @@ class PackedIceToIceTask extends DelayedBlockTransformationTask {
 }
 
 class BlueIceToPackedIceTask extends DelayedBlockTransformationTask {
-    private final int packedToIceDelay;
-    private final int iceToAirDelay;
-    private final int initialBlueToPackedDelay;
+    private final int packedToIceDelay, iceToAirDelay, initialBlueToPackedDelay;
 
     public BlueIceToPackedIceTask(PreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, int blueToPackedDelay, int packedToIceDelay, int iceToAirDelay) {
         super(modInstance, serverLevel, pos, Blocks.PACKED_ICE.defaultBlockState(), Blocks.BLUE_ICE, blueToPackedDelay);

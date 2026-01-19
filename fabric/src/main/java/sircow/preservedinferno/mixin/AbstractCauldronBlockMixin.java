@@ -91,15 +91,11 @@ public class AbstractCauldronBlockMixin {
                         }
                     }
                 }
-
                 if (interactionHandled) {
                     cauldron.setChanged();
                     level.sendBlockUpdated(pos, state, state, 3);
                 }
-                else {
-                    player.openMenu(cauldron);
-                }
-
+                else player.openMenu(cauldron);
             }
             cir.setReturnValue(InteractionResult.SUCCESS);
             return;

@@ -1,7 +1,7 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -15,8 +15,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.monster.zombie.Zombie;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -107,7 +107,7 @@ public class ZombieMixin extends Monster {
         randomizeReinforcementsChance();
         Objects.requireNonNull(self.getAttribute(Attributes.KNOCKBACK_RESISTANCE))
                 .addOrReplacePermanentModifier(new AttributeModifier(
-                        ResourceLocation.withDefaultNamespace("zombie_random_spawn_bonus"),
+                        Identifier.withDefaultNamespace("zombie_random_spawn_bonus"),
                         self.getRandom().nextDouble() * 0.05F,
                         AttributeModifier.Operation.ADD_VALUE));
 
@@ -115,7 +115,7 @@ public class ZombieMixin extends Monster {
         if (d > 1.0) {
             Objects.requireNonNull(self.getAttribute(Attributes.FOLLOW_RANGE))
                     .addOrReplacePermanentModifier(new AttributeModifier(
-                            ResourceLocation.withDefaultNamespace("zombie_random_spawn_bonus"),
+                            Identifier.withDefaultNamespace("zombie_random_spawn_bonus"),
                             d,
                             AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
@@ -123,12 +123,12 @@ public class ZombieMixin extends Monster {
         if (self.getRandom().nextFloat() < difficulty * (isLowY ? 0.15F : 0.05F)) {
             Objects.requireNonNull(self.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE))
                     .addOrReplacePermanentModifier(new AttributeModifier(
-                            ResourceLocation.withDefaultNamespace("leader_zombie_bonus"),
+                            Identifier.withDefaultNamespace("leader_zombie_bonus"),
                             self.getRandom().nextDouble() * 0.25 + 0.5,
                             AttributeModifier.Operation.ADD_VALUE));
             Objects.requireNonNull(self.getAttribute(Attributes.MAX_HEALTH))
                     .addOrReplacePermanentModifier(new AttributeModifier(
-                            ResourceLocation.withDefaultNamespace("leader_zombie_bonus"),
+                            Identifier.withDefaultNamespace("leader_zombie_bonus"),
                             self.getRandom().nextDouble() * 3.0 + 1.0,
                             AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
             self.setCanBreakDoors(true);

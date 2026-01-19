@@ -29,10 +29,7 @@ import java.util.Optional;
 
 public class PreservedLoomMenu extends AbstractContainerMenu {
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(4, ItemStack.EMPTY);
-    private final Slot inputSlotOne;
-    private final Slot inputSlotTwo;
-    private final Slot shearsSlot;
-    private final Slot resultSlot;
+    private final Slot inputSlotOne, inputSlotTwo, shearsSlot, resultSlot;
     private final ContainerLevelAccess access;
     private Level world;
 
@@ -133,7 +130,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
                 // award advancement
                 if (stack.is(ItemTags.WOOL)) {
                     if (player instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.WOOL_FROM_LOOM.trigger(serverPlayer);
+                        ModTriggers.WOOL_FROM_LOOM.get().trigger(serverPlayer);
                     }
                 }
 

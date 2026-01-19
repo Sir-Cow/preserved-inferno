@@ -14,13 +14,13 @@ public class KillTracker {
     private static final Map<UUID, KillSession> ACTIVE_SESSIONS = new HashMap<>();
 
     public static void onEntityKilled(ServerPlayer serverPlayer, LivingEntity livingEntity, DamageSource source) {
-        if (source.getWeaponItem() == null || !source.getWeaponItem().is(ItemTags.SWORDS)) return;
+        if (source.getWeaponItem() == null || !source.getWeaponItem().is(ItemTags.MELEE_WEAPON_ENCHANTABLE)) return;
 
         var session = ACTIVE_SESSIONS.computeIfAbsent(serverPlayer.getUUID(), id -> new KillSession());
         session.registerKill(serverPlayer.level().getGameTime());
 
         if (session.kills >= 3) {
-            ModTriggers.TRIPLE_KILL.trigger(serverPlayer);
+            ModTriggers.TRIPLE_KILL.get().trigger(serverPlayer);
             ACTIVE_SESSIONS.remove(serverPlayer.getUUID());
         }
     }

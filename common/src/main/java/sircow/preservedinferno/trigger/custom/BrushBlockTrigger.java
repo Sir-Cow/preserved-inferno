@@ -1,9 +1,10 @@
 package sircow.preservedinferno.trigger.custom;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.critereon.CriterionValidator;
+import net.minecraft.advancements.criterion.CriterionValidator;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
@@ -52,7 +53,7 @@ public class BrushBlockTrigger implements CriterionTrigger<BrushBlockTrigger.Ins
     }
 
     public static class Instance implements CriterionTriggerInstance {
-        public static final Codec<BrushBlockTrigger.Instance> CODEC = Codec.unit(new BrushBlockTrigger.Instance());
+        public static final Codec<BrushBlockTrigger.Instance> CODEC = MapCodec.unit(new BrushBlockTrigger.Instance()).codec();
 
         public Instance() {}
 

@@ -1,7 +1,8 @@
 package sircow.preservedinferno.trade;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.npc.WanderingTrader;
+import net.minecraft.world.entity.npc.wanderingtrader.WanderingTrader;
 import net.minecraft.world.item.trading.MerchantOffer;
 
 import java.util.ArrayList;
@@ -9,24 +10,22 @@ import java.util.List;
 
 public record WeightedTradePool(List<WeightedTradeEntry> entries, int rolls) {
 
-    public List<WeightedTradeResult> rollOffers(WanderingTrader trader, RandomSource random) {
+    public List<WeightedTradeResult> rollOffers(ServerLevel serverLevel, WanderingTrader trader, RandomSource random) {
         List<WeightedTradeResult> results = new ArrayList<>();
 
-        // Always include guaranteed entries
         for (WeightedTradeEntry entry : entries) {
             if (entry.guaranteed()) {
-                MerchantOffer offer = entry.getOffer(trader, random);
+                MerchantOffer offer = entry.getOffer(serverLevel, trader, random);
                 if (offer != null) {
                     results.add(new WeightedTradeResult(entry, offer));
                 }
             }
         }
 
-        // Then do weighted rolls for the rest
         for (int i = 0; i < rolls; i++) {
             WeightedTradeEntry entry = pickWeighted(random);
-            if (entry.guaranteed()) continue; // don’t re-roll guaranteed
-            MerchantOffer offer = entry.getOffer(trader, random);
+            if (entry.guaranteed()) continue;
+            MerchantOffer offer = entry.getOffer(serverLevel, trader, random);
             if (offer != null) {
                 results.add(new WeightedTradeResult(entry, offer));
             }

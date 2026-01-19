@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.player.Inventory;
@@ -16,12 +17,18 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.EnchantingTableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.screen.PreservedEnchantmentMenu;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 @Mixin(EnchantingTableBlock.class)
 public class EnchantingTableBlockMixin {
@@ -33,13 +40,12 @@ public class EnchantingTableBlockMixin {
             Component component = ((Nameable) blockentity).getDisplayName();
             cir.setReturnValue(new ExtendedScreenHandlerFactory() {
                 @Override
-                public PreservedInferno.BlockData getScreenOpeningData(ServerPlayer serverPlayer) {
-                    boolean isEmpty = level.getBlockEntity(pos) == null;
-                    return new PreservedInferno.BlockData(isEmpty);
+                public PreservedInferno.BlockData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
+                    return new PreservedInferno.BlockData(level.getBlockEntity(pos) == null);
                 }
 
                 @Override
-                public @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
+                public @NotNull AbstractContainerMenu createMenu(int syncId, @NonNull Inventory playerInventory, @NonNull Player player) {
                     return new PreservedEnchantmentMenu(syncId, playerInventory, ContainerLevelAccess.create(level, pos));
                 }
 
@@ -49,5 +55,18 @@ public class EnchantingTableBlockMixin {
                 }
             });
         }
+    }
+
+    @Redirect(method = "<clinit>", at = @At(value = "INVOKE", target = "Ljava/util/stream/Stream;toList()Ljava/util/List;", remap = false))
+    private static List<BlockPos> preserved_inferno$redirectBookshelfOffsets(Stream<BlockPos> stream) {
+        return BlockPos.betweenClosedStream(-3, -3, -3, 3, 3, 3)
+                .filter(pos -> !pos.equals(BlockPos.ZERO))
+                .map(BlockPos::immutable)
+                .toList();
+    }
+
+    @Overwrite
+    public static boolean isValidBookShelf(Level level, BlockPos enchantingTablePos, BlockPos bookshelfOffset) {
+        return level.getBlockState(enchantingTablePos.offset(bookshelfOffset)).is(BlockTags.ENCHANTMENT_POWER_PROVIDER);
     }
 }

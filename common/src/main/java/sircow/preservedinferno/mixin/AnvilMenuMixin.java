@@ -74,7 +74,7 @@ public class AnvilMenuMixin {
 
         if (this.number == 10) {
             if (!((ItemCombinerMenuAccessor) this).getInputSlots().getItem(1).is(Items.ENCHANTED_BOOK)) {
-                ModTriggers.USED_ANVIL_REPAIR.trigger(serverPlayer);
+                ModTriggers.USED_ANVIL_REPAIR.get().trigger(serverPlayer);
             }
         }
     }

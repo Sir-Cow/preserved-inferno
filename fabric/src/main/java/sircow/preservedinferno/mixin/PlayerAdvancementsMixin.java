@@ -1,7 +1,7 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.advancements.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
@@ -42,9 +42,7 @@ public abstract class PlayerAdvancementsMixin {
             FabricModEvents.assignPlayerToRankTeam(player);
             triggerRankAdvancement(newRank, player);
         }
-        else {
-            triggerRankAdvancement(newRank, player);
-        }
+        else triggerRankAdvancement(newRank, player);
     }
 
     @Inject(method = "revoke", at = @At("RETURN"))
@@ -56,20 +54,20 @@ public abstract class PlayerAdvancementsMixin {
     @Unique
     private void triggerRankAdvancement(String rank, ServerPlayer player) {
         switch (rank) {
-            case "infernal" -> ModTriggers.MASTERY_INFERNAL.trigger(player);
-            case "champion" -> ModTriggers.MASTERY_CHAMPION.trigger(player);
-            case "master" -> ModTriggers.MASTERY_MASTER.trigger(player);
-            case "advanced" -> ModTriggers.MASTERY_ADVANCED.trigger(player);
-            case "adequate" -> ModTriggers.MASTERY_ADEQUATE.trigger(player);
-            case "disciple" -> ModTriggers.MASTERY_DISCIPLE.trigger(player);
-            case "novice" -> ModTriggers.MASTERY_NOVICE.trigger(player);
-            case "beginner" -> ModTriggers.MASTERY_BEGINNER.trigger(player);
-            case "starter" -> ModTriggers.MASTERY_STARTER.trigger(player);
+            case "infernal" -> ModTriggers.MASTERY_INFERNAL.get().trigger(player);
+            case "champion" -> ModTriggers.MASTERY_CHAMPION.get().trigger(player);
+            case "master" -> ModTriggers.MASTERY_MASTER.get().trigger(player);
+            case "advanced" -> ModTriggers.MASTERY_ADVANCED.get().trigger(player);
+            case "adequate" -> ModTriggers.MASTERY_ADEQUATE.get().trigger(player);
+            case "disciple" -> ModTriggers.MASTERY_DISCIPLE.get().trigger(player);
+            case "novice" -> ModTriggers.MASTERY_NOVICE.get().trigger(player);
+            case "beginner" -> ModTriggers.MASTERY_BEGINNER.get().trigger(player);
+            case "starter" -> ModTriggers.MASTERY_STARTER.get().trigger(player);
         }
     }
 
     @Overwrite
-    private void updateTreeVisibility(AdvancementNode root, Set<AdvancementHolder> advancementOutput, Set<ResourceLocation> idOutput) {
+    private void updateTreeVisibility(AdvancementNode root, Set<AdvancementHolder> advancementOutput, Set<Identifier> idOutput) {
         Set<AdvancementHolder> previouslyVisible = new HashSet<>(this.visible);
 
         this.visible.clear();
@@ -80,15 +78,11 @@ public abstract class PlayerAdvancementsMixin {
 
             this.visible.add(advancementHolder);
 
-            if (!previouslyVisible.contains(advancementHolder)) {
-                advancementOutput.add(advancementHolder);
-            }
+            if (!previouslyVisible.contains(advancementHolder)) advancementOutput.add(advancementHolder);
         }
 
         for (AdvancementHolder holder : previouslyVisible) {
-            if (!this.visible.contains(holder)) {
-                idOutput.add(holder.id());
-            }
+            if (!this.visible.contains(holder)) idOutput.add(holder.id());
         }
     }
 }

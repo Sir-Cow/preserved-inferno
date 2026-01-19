@@ -1,15 +1,15 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
-import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.entity.monster.zombie.Drowned;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import sircow.preservedinferno.item.ModItems;
 
-@Mixin(targets = "net.minecraft.world.entity.monster.Drowned$DrownedTridentAttackGoal")
+@Mixin(targets = "net.minecraft.world.entity.monster.zombie.Drowned$DrownedTridentAttackGoal")
 public class DrownedAttackGoalMixin extends RangedAttackGoal {
     @Shadow @Final private Drowned drowned;
 

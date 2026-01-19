@@ -6,9 +6,7 @@ import net.minecraft.world.level.block.Blocks;
 import sircow.preservedinferno.PreservedInferno;
 
 public class BlueIceSequenceTask extends DelayedBlockTransformationTask {
-    private final int packedToIceDelay;
-    private final int iceToAirDelay;
-    private final int initialBlueToPackedDelay;
+    private final int packedToIceDelay, iceToAirDelay, initialBlueToPackedDelay;
 
     public BlueIceSequenceTask(PreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, int blueToPackedDelay, int packedToIceDelay, int iceToAirDelay) {
         super(modInstance, serverLevel, pos, Blocks.BLUE_ICE.defaultBlockState(), Blocks.BLUE_ICE, blueToPackedDelay);

@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.recipe.CauldronRecipe;
 import sircow.preservedinferno.recipe.CauldronRecipeInput;
@@ -40,18 +41,13 @@ import java.util.Optional;
 @SuppressWarnings("rawtypes")
 public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity implements ExtendedScreenHandlerFactory {
     private NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
-
     private static final int INPUT_SLOT = 0;
     private static final int INPUT_SLOT_TWO = 1;
     private static final int OUTPUT_SLOT = 2;
-
-    protected final ContainerData propertyDelegate;
-    protected final ContainerData propertyDelegateTwo;
-    private int progress = 0;
-    private int maxProgress = 100;
-    public int progressWater = 0;
+    protected final ContainerData propertyDelegate, propertyDelegateTwo;
+    public int progress, progressWater = 0;
+    public int maxProgress = 100;
     public int maxWaterProgress = 64;
-
     private boolean needsInitialUpdate = true;
 
     public PreservedCauldronBlockEntity(BlockPos pos, BlockState state) {
@@ -110,12 +106,12 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     @Override
-    protected void setItems(NonNullList<ItemStack> items) {
+    protected void setItems(@NonNull NonNullList<ItemStack> items) {
         this.inventory = items;
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
+    protected void saveAdditional(@NonNull ValueOutput output) {
         super.saveAdditional(output);
         ContainerHelper.saveAllItems(output, this.inventory, false);
         output.putInt("CauldronProgress", this.progress);
@@ -123,7 +119,7 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
+    protected void loadAdditional(@NonNull ValueInput input) {
         super.loadAdditional(input);
         ContainerHelper.loadAllItems(input, this.inventory);
         this.progress = input.getIntOr("CauldronProgress", 0);
@@ -163,18 +159,13 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     @Override
-    public @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory) {
+    public @NotNull AbstractContainerMenu createMenu(int syncId, @NonNull Inventory playerInventory) {
         return new PreservedCauldronMenu(syncId, playerInventory, this.propertyDelegate, this.propertyDelegateTwo, this);
     }
 
     public static void tick(ServerLevel level, BlockPos pos, BlockState state, PreservedCauldronBlockEntity cauldron) {
-        if (level.isClientSide()) {
-            return;
-        }
-
-        if (cauldron.needsInitialUpdate) {
-            cauldron.sendInitialUpdate();
-        }
+        if (level.isClientSide()) return;
+        if (cauldron.needsInitialUpdate) cauldron.sendInitialUpdate();
 
         if (cauldron.isOutputSlotEmptyOrReceivable()) {
             if (cauldron.hasRecipe() && cauldron.progressWater > 0) {
@@ -186,15 +177,12 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
                     cauldron.resetProgress();
                 }
             }
-            else {
-                cauldron.resetProgress();
-            }
+            else cauldron.resetProgress();
         }
         else {
             cauldron.resetProgress();
             setChanged(level, pos, state);
         }
-
         cauldron.insertWater();
     }
 
@@ -215,19 +203,14 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
 
             this.setItem(OUTPUT_SLOT, result);
         }
-        else if (output != null) {
-            this.setItem(OUTPUT_SLOT, new ItemStack(output.getItem(), getItem(OUTPUT_SLOT).getCount() + output.getCount()));
-        }
+        else if (output != null) this.setItem(OUTPUT_SLOT, new ItemStack(output.getItem(), getItem(OUTPUT_SLOT).getCount() + output.getCount()));
 
         this.removeItem(INPUT_SLOT, 1);
-
         this.progressWater -= 1;
         setChanged();
 
         if (level != null) {
-            if (!level.isClientSide()) {
-                level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
-            }
+            if (!level.isClientSide()) level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
             level.playSound(null, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), ModSounds.CAULDRON_BUBBLE, SoundSource.BLOCKS);
         }
     }
@@ -252,9 +235,7 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
             this.progressWater += 8;
             this.removeItem(INPUT_SLOT_TWO, 1);
             this.setItem(INPUT_SLOT_TWO, new ItemStack(emptyBucket.getItem()));
-            if (level != null) {
-                level.playSound(null, getBlockPos(), SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
-            }
+            if (level != null) level.playSound(null, getBlockPos(), SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
             waterProgressChanged = true;
         }
         // water bottle
@@ -266,16 +247,11 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
             ItemStack emptyBottle = new ItemStack(Items.GLASS_BOTTLE);
             this.removeItem(INPUT_SLOT_TWO, 1);
             this.setItem(INPUT_SLOT_TWO, new ItemStack(emptyBottle.getItem(), stackSize));
-            if (level != null) {
-                level.playSound(null, getBlockPos(), SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
-            }
+            if (level != null) level.playSound(null, getBlockPos(), SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
             waterProgressChanged = true;
         }
         // cap water limit at 64
-        if (this.progressWater > this.maxWaterProgress) {
-            this.progressWater = 64;
-        }
-
+        if (this.progressWater > this.maxWaterProgress) this.progressWater = 64;
         if (waterProgressChanged) {
             if (level != null && !level.isClientSide()) {
                 setChanged(level, worldPosition, getBlockState());
@@ -286,9 +262,7 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
 
     private boolean hasRecipe() {
         ItemStack input = inventory.getFirst();
-        if (isLeatherArmor(input) && !input.has(DataComponents.DYED_COLOR)) {
-            return false;
-        }
+        if (isLeatherArmor(input) && !input.has(DataComponents.DYED_COLOR)) return false;
 
         Optional<RecipeHolder<CauldronRecipe>> recipe = getCurrentRecipe();
         if (recipe.isEmpty()) return false;
@@ -305,19 +279,9 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         if (original.has(DataComponents.DYED_COLOR) && original.getItem().getDescriptionId().contains("leather_")) {
             ItemStack normalized = original.copy();
             normalized.remove(DataComponents.DYED_COLOR);
-
-            return serverLevel.recipeAccess().getRecipeFor(
-                    ModRecipes.CAULDRON_TYPE,
-                    new CauldronRecipeInput(normalized),
-                    serverLevel
-            );
+            return serverLevel.recipeAccess().getRecipeFor(ModRecipes.CAULDRON_TYPE, new CauldronRecipeInput(normalized), serverLevel);
         }
-
-        return serverLevel.recipeAccess().getRecipeFor(
-                ModRecipes.CAULDRON_TYPE,
-                new CauldronRecipeInput(original),
-                serverLevel
-        );
+        return serverLevel.recipeAccess().getRecipeFor(ModRecipes.CAULDRON_TYPE, new CauldronRecipeInput(original), serverLevel);
     }
 
     private boolean isLeatherArmor(ItemStack stack) {
@@ -344,7 +308,7 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     @Override
-    public Object getScreenOpeningData(ServerPlayer serverPlayer) {
+    public Object getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
         return new PreservedCauldronBlockData(this.getBlockPos());
     }
 

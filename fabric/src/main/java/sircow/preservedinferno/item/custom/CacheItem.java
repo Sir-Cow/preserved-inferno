@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.other.CacheContainer;
 import sircow.preservedinferno.screen.CacheMenu;
@@ -31,7 +32,7 @@ public class CacheItem extends Item {
     }
 
     @Override
-    public @NotNull InteractionResult use(Level level, Player player, InteractionHand usedHand) {
+    public @NotNull InteractionResult use(Level level, @NonNull Player player, @NonNull InteractionHand usedHand) {
         if (!level.isClientSide()) {
             ItemStack usedStack = player.getItemInHand(usedHand);
             ItemContainerContents container = usedStack.get(DataComponents.CONTAINER);
@@ -62,12 +63,12 @@ public class CacheItem extends Item {
         final ItemStack finalStackContext = stackContext;
         return new ExtendedScreenHandlerFactory() {
             @Override
-            public PreservedInferno.ItemData getScreenOpeningData(ServerPlayer serverPlayer) {
+            public PreservedInferno.ItemData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
                 return new PreservedInferno.ItemData(CacheItem.this.size);
             }
 
             @Override
-            public @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
+            public @NotNull AbstractContainerMenu createMenu(int syncId, @NonNull Inventory playerInventory, @NonNull Player player) {
                 return new CacheMenu(syncId, playerInventory, finalContainer, finalStackContext);
             }
 

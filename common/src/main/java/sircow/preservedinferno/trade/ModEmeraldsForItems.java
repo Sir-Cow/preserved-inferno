@@ -1,20 +1,20 @@
 package sircow.preservedinferno.trade;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.villager.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class ModEmeraldsForItems implements VillagerTrades.ItemListing {
     private final ItemCost itemStack;
-    private final int maxUses;
-    private final int villagerXp;
-    private final int emeraldAmount;
+    private final int maxUses, villagerXp, emeraldAmount;
     private final float priceMultiplier;
 
     public ModEmeraldsForItems(ItemLike item, int cost, int maxUses, int villagerXp) {
@@ -34,7 +34,7 @@ public class ModEmeraldsForItems implements VillagerTrades.ItemListing {
     }
 
     @Override
-    public MerchantOffer getOffer(@NotNull Entity trader, @NotNull RandomSource random) {
+    public MerchantOffer getOffer(@NonNull ServerLevel serverLevel, @NotNull Entity trader, @NotNull RandomSource random) {
         return new MerchantOffer(this.itemStack, new ItemStack(Items.EMERALD, this.emeraldAmount), this.maxUses, this.villagerXp, this.priceMultiplier);
     }
 }

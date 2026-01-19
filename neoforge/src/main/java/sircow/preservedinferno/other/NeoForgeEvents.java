@@ -3,9 +3,11 @@ package sircow.preservedinferno.other;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerWakeUpEvent;
@@ -18,7 +20,7 @@ public class NeoForgeEvents {
         public static void modifySleeping(PlayerWakeUpEvent event) {
             LivingEntity entity = event.getEntity();
             if (entity instanceof Player player) {
-                if (player.getSleepTimer() > 20 && !player.level().isMoonVisible()) {
+                if (player.getSleepTimer() > 20 && !(player.level().environmentAttributes().getValue(EnvironmentAttributes.MOON_ANGLE, new Vec3(player.getX(), player.getY(), player.getZ()), null) > 0.0F)) {
                     MinecraftServer server = player.level().getServer();
                     if (server != null) {
                         for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers()) {

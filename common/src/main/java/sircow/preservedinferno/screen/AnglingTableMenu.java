@@ -23,13 +23,8 @@ import sircow.preservedinferno.other.ModTags;
 import java.util.Objects;
 
 public class AnglingTableMenu extends AbstractContainerMenu {
-    private final Slot rodInputSlot;
-    private final Slot hookInputSlot;
-    private final Slot lineInputSlot;
-    private final Slot sinkerInputSlot;
-    private boolean hookPresent;
-    private boolean linePresent;
-    private boolean sinkerPresent;
+    private final Slot rodInputSlot, hookInputSlot, lineInputSlot, sinkerInputSlot;
+    private boolean hookPresent, linePresent, sinkerPresent;
     private final Player player;
 
     Runnable slotUpdateListener = () -> {

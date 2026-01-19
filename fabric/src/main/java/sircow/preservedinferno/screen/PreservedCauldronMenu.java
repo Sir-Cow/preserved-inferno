@@ -16,6 +16,7 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockData;
 import sircow.preservedinferno.recipe.CauldronRecipe;
@@ -26,12 +27,10 @@ import java.util.Optional;
 
 public class PreservedCauldronMenu extends AbstractContainerMenu {
     private final Container inventory;
-    private final ContainerData propertyDelegate;
-    private final ContainerData propertyDelegateTwo;
+    private final ContainerData propertyDelegate, propertyDelegateTwo;
 
     public PreservedCauldronMenu(int syncId, Inventory inventory, PreservedCauldronBlockData blockData) {
-        this(syncId, inventory,
-                new SimpleContainerData(2), new SimpleContainerData(2), new SimpleContainer(3));
+        this(syncId, inventory, new SimpleContainerData(2), new SimpleContainerData(2), new SimpleContainer(3));
     }
 
     public PreservedCauldronMenu(int syncId, Inventory playerInventory, ContainerData arrayPropertyDelegate, ContainerData arrayPropertyDelegateTwo, Container inventory) {
@@ -81,7 +80,7 @@ public class PreservedCauldronMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public @NotNull ItemStack quickMoveStack(Player player, int invSlot) {
+    public @NotNull ItemStack quickMoveStack(@NonNull Player player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
         PotionContents potionContentsComponent = slot.getItem().get(DataComponents.POTION_CONTENTS);
@@ -90,18 +89,13 @@ public class PreservedCauldronMenu extends AbstractContainerMenu {
             newStack = originalStack.copy();
 
             if (invSlot == 2) {
-                if (!this.moveItemStackTo(originalStack, 3, 39, true)) {
-                    return ItemStack.EMPTY;
-                }
+                if (!this.moveItemStackTo(originalStack, 3, 39, true)) return ItemStack.EMPTY;
                 slot.onQuickCraft(originalStack, newStack);
             }
             else if (invSlot != 1 && invSlot != 0) {
                 // shift click into water slot
-                if (originalStack.getItem() == Items.WATER_BUCKET ||
-                        originalStack.getItem() == Items.POTION && (potionContentsComponent != null && potionContentsComponent.is(Potions.WATER))) {
-                    if (!this.moveItemStackTo(originalStack, 1, 2, false)) {
-                        return ItemStack.EMPTY;
-                    }
+                if (originalStack.getItem() == Items.WATER_BUCKET || originalStack.getItem() == Items.POTION && (potionContentsComponent != null && potionContentsComponent.is(Potions.WATER))) {
+                    if (!this.moveItemStackTo(originalStack, 1, 2, false)) return ItemStack.EMPTY;
                 }
                 // shift click into input slot
                 else {
@@ -117,39 +111,28 @@ public class PreservedCauldronMenu extends AbstractContainerMenu {
                                 );
 
                         if (recipeMatch.isPresent()) {
-                            if (!this.moveItemStackTo(originalStack, 0, 1, false)) {
-                                return ItemStack.EMPTY;
-                            }
-                        } else if (invSlot >= 3 && invSlot < 30) {
-                            if (!this.moveItemStackTo(originalStack, 30, 39, false)) {
-                                return ItemStack.EMPTY;
-                            }
-                        } else if (invSlot >= 30 && invSlot < 39 && !this.moveItemStackTo(originalStack, 3, 30, false)) {
-                            return ItemStack.EMPTY;
+                            if (!this.moveItemStackTo(originalStack, 0, 1, false)) return ItemStack.EMPTY;
                         }
+                        else if (invSlot >= 3 && invSlot < 30) {
+                            if (!this.moveItemStackTo(originalStack, 30, 39, false)) return ItemStack.EMPTY;
+                        }
+                        else if (invSlot >= 30 && invSlot < 39 && !this.moveItemStackTo(originalStack, 3, 30, false)) return ItemStack.EMPTY;
                     }
                 }
             }
-            else if (!this.moveItemStackTo(originalStack, 3, 39, false)) {
-                return ItemStack.EMPTY;
-            }
+            else if (!this.moveItemStackTo(originalStack, 3, 39, false)) return ItemStack.EMPTY;
 
-            if (originalStack.isEmpty()) {
-                slot.setByPlayer(ItemStack.EMPTY);
-            } else {
-                slot.setChanged();
-            }
+            if (originalStack.isEmpty()) slot.setByPlayer(ItemStack.EMPTY);
+            else slot.setChanged();
 
-            if (originalStack.getCount() == newStack.getCount()) {
-                return ItemStack.EMPTY;
-            }
+            if (originalStack.getCount() == newStack.getCount()) return ItemStack.EMPTY;
             slot.onTake(player, originalStack);
         }
         return newStack;
     }
 
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NonNull Player player) {
         return this.inventory.stillValid(player);
     }
 

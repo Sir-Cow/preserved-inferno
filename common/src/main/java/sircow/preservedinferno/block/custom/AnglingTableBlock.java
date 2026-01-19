@@ -33,7 +33,6 @@ public class AnglingTableBlock extends Block {
             player.openMenu(blockState.getMenuProvider(level, blockPos));
             player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
         }
-
         return InteractionResult.SUCCESS;
     }
 

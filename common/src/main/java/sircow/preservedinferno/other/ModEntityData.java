@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 
 public abstract class ModEntityData {
     public static final EntityDataAccessor<Float> PLAYER_SHIELD_STAMINA = SynchedEntityData.defineId(Player.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Integer> PLAYER_SHIELD_REGEN_DURATION = SynchedEntityData.defineId(Player.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Boolean> PLAYER_WAS_BLOCKING = SynchedEntityData.defineId(Player.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> PLAYER_HEAT = SynchedEntityData.defineId(Player.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Boolean> PLAYER_CAN_DO_HEAT_CHANGE = SynchedEntityData.defineId(Player.class, EntityDataSerializers.BOOLEAN);

@@ -1,9 +1,10 @@
 package sircow.preservedinferno.trade;
 
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.villager.VillagerTrades;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -11,17 +12,15 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.providers.EnchantmentProvider;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 
 public class ModItemsForEmeralds implements VillagerTrades.ItemListing {
     private final ItemStack itemStack;
-    private final int emeraldCost;
-    private final int maxUses;
-    private final int villagerXp;
+    private final int emeraldCost, maxUses, villagerXp;
     private final float priceMultiplier;
     private final Optional<ResourceKey<EnchantmentProvider>> enchantmentProvider;
 
@@ -74,15 +73,26 @@ public class ModItemsForEmeralds implements VillagerTrades.ItemListing {
     }
 
     @Override
-    public MerchantOffer getOffer(Entity trader, @NotNull RandomSource random) {
+    public MerchantOffer getOffer(@NonNull ServerLevel serverLevel, Entity trader, @NotNull RandomSource random) {
         ItemStack itemStack = this.itemStack.copy();
-        Level level = trader.level();
-        this.enchantmentProvider
-                .ifPresent(
-                        resourceKey -> EnchantmentHelper.enchantItemFromProvider(
-                                itemStack, level.registryAccess(), resourceKey, level.getCurrentDifficultyAt(trader.blockPosition()), random
-                        )
-                );
-        return new MerchantOffer(new ItemCost(Items.EMERALD, this.emeraldCost), itemStack, this.maxUses, this.villagerXp, this.priceMultiplier);
+        ServerLevel srv = (ServerLevel) trader.level();
+
+        this.enchantmentProvider.ifPresent(resourceKey ->
+                EnchantmentHelper.enchantItemFromProvider(
+                        itemStack,
+                        srv.registryAccess(),
+                        resourceKey,
+                        srv.getCurrentDifficultyAt(trader.blockPosition()),
+                        random
+                )
+        );
+
+        return new MerchantOffer(
+                new ItemCost(Items.EMERALD, this.emeraldCost),
+                itemStack,
+                this.maxUses,
+                this.villagerXp,
+                this.priceMultiplier
+        );
     }
 }

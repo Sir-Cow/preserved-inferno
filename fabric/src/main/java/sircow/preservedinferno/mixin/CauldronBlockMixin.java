@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,7 +31,7 @@ public abstract class CauldronBlockMixin extends Block implements EntityBlock {
 
     @Unique
     @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public @Nullable BlockEntity newBlockEntity(@NonNull BlockPos pos, @NonNull BlockState state) {
         return new PreservedCauldronBlockEntity(pos, state);
     }
 
@@ -44,7 +45,7 @@ public abstract class CauldronBlockMixin extends Block implements EntityBlock {
 
     @Unique
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> blockEntityType) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NonNull Level world, @NonNull BlockState state, @NonNull BlockEntityType<T> blockEntityType) {
         return createCauldronTicker(world, blockEntityType);
     }
 
@@ -84,13 +85,13 @@ public abstract class CauldronBlockMixin extends Block implements EntityBlock {
 
     @Unique
     @Override
-    public boolean hasAnalogOutputSignal(BlockState state) {
+    public boolean hasAnalogOutputSignal(@NonNull BlockState state) {
         return true;
     }
 
     @Unique
     @Override
-    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction)  {
+    public int getAnalogOutputSignal(@NonNull BlockState state, Level level, @NonNull BlockPos pos, @NonNull Direction direction)  {
         if (level.getBlockEntity(pos) instanceof PreservedCauldronBlockEntity cauldron) {
             return (int) Math.floor((double) cauldron.progressWater / cauldron.maxWaterProgress * 15.0);
         }

@@ -6,7 +6,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MapItem;
@@ -20,12 +20,10 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class TreasureMapSupplier implements Function<Villager, MerchantOffer> {
-    private final int emeraldCost;
+    private final int emeraldCost, maxUses, villagerXp;
     private final TagKey<Structure> destination;
     private final String displayNameKey;
     private final Holder<MapDecorationType> decoration;
-    private final int maxUses;
-    private final int villagerXp;
 
     public TreasureMapSupplier(
             int emeraldCost,

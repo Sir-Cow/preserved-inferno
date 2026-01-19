@@ -18,7 +18,7 @@ public class BrushableBlockEntityMixin {
     private void preserved_inferno$onBrushingCompleted(ServerLevel level, LivingEntity brusher, ItemStack stack, CallbackInfo ci) {
         if (brusher instanceof Player player) {
             if (player instanceof ServerPlayer serverPlayer) {
-                ModTriggers.BRUSH_BLOCK.trigger(serverPlayer);
+                ModTriggers.BRUSH_BLOCK.get().trigger(serverPlayer);
             }
         }
     }

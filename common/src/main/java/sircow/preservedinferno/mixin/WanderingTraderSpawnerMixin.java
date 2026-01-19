@@ -2,9 +2,9 @@ package sircow.preservedinferno.mixin;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.npc.WanderingTraderSpawner;
+import net.minecraft.world.entity.npc.wanderingtrader.WanderingTraderSpawner;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.ServerLevelData;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,8 +21,7 @@ public abstract class WanderingTraderSpawnerMixin {
     @Final @Shadow private ServerLevelData serverLevelData;
     @Shadow private int spawnChance;
 
-    @Shadow
-    protected abstract boolean spawn(ServerLevel serverLevel);
+    @Shadow protected abstract boolean spawn(ServerLevel serverLevel);
 
     @Unique private static final int START_DELAY = 24000;
     @Unique private static final int CHANCE_INCREMENT = 8;
@@ -38,7 +37,7 @@ public abstract class WanderingTraderSpawnerMixin {
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     private void preserved_inferno$onTick(ServerLevel level, boolean spawnEnemies, CallbackInfo ci) {
-        if (!level.getGameRules().getBoolean(GameRules.RULE_DO_TRADER_SPAWNING)) return;
+        if (!level.getGameRules().get(GameRules.SPAWN_WANDERING_TRADERS)) return;
 
         countdown--;
         if (countdown > 0) return;

@@ -8,10 +8,11 @@ import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
+import org.joml.Vector3fc;
+import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
 
-import java.util.Set;
+import java.util.function.Consumer;
 
 public class CopperTridentSpecialRenderer implements NoDataSpecialModelRenderer {
     private final CopperTridentModel model;
@@ -40,10 +41,10 @@ public class CopperTridentSpecialRenderer implements NoDataSpecialModelRenderer 
     }
 
     @Override
-    public void getExtents(@NotNull Set<Vector3f> output) {
+    public void getExtents(@NonNull Consumer<Vector3fc> consumer) {
         PoseStack poseStack = new PoseStack();
         poseStack.scale(1.0F, -1.0F, -1.0F);
-        this.model.root().getExtentsForGui(poseStack, output);
+        this.model.root().getExtentsForGui(poseStack, consumer);
     }
 
     public record Unbaked() implements SpecialModelRenderer.Unbaked {

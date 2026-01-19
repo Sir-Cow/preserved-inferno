@@ -10,11 +10,11 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "obtain_sword": {
+    "obtain_melee_weapon": {
       "conditions": {
         "items": [
           {
-            "items": "#minecraft:swords"
+            "items": "#minecraft:enchantable/melee_weapon"
           }
         ]
       },
@@ -40,7 +40,7 @@
   "requirements": [
     [
       "obtain_axe",
-      "obtain_sword"
+      "obtain_melee_weapon"
     ]
   ],
   "sends_telemetry_event": true

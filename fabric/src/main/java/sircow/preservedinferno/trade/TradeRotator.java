@@ -9,8 +9,8 @@ import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.StructureTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -452,21 +452,15 @@ public class TradeRotator {
         List<Function<Villager, MerchantOffer>> pool = new ArrayList<>();
         for (int lvl = 1; lvl <= masteryLevel; lvl++) {
             List<Function<Villager, MerchantOffer>> tierPool = byLevel.get(lvl);
-            if (tierPool != null) {
-                pool.addAll(tierPool);
-            }
+            if (tierPool != null) pool.addAll(tierPool);
         }
         if (pool.isEmpty()) return;
 
         Collections.shuffle(pool, new Random(random.nextLong()));
-        int slots = Math.min(masteryLevel + 1, pool.size());
-
         villager.getOffers().clear();
-        for (int i = 0; i < slots; i++) {
+        for (int i = 0; i < Math.min(masteryLevel + 1, pool.size()); i++) {
             MerchantOffer offer = pool.get(i).apply(villager);
-            if (offer != null) {
-                villager.getOffers().add(offer);
-            }
+            if (offer != null) villager.getOffers().add(offer);
         }
     }
 }

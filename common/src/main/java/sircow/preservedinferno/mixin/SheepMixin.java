@@ -28,7 +28,7 @@ public class SheepMixin {
         ItemStack itemStack = player.getItemInHand(hand);
         if (itemStack.is(Items.SHEARS) && ((Sheep)(Object)this).readyForShearing()) {
             if (player instanceof ServerPlayer serverPlayer) {
-                ModTriggers.SHEAR_SHEEP.trigger(serverPlayer);
+                ModTriggers.SHEAR_SHEEP.get().trigger(serverPlayer);
             }
         }
     }

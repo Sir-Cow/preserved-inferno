@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:agriculture/root",
+  "parent": "pinferno:agriculture/plant_seed",
   "criteria": {
     "break_grown_crop": {
       "trigger": "pinferno:break_grown_crop"

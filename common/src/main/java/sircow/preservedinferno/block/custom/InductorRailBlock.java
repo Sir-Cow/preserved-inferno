@@ -12,15 +12,12 @@ import net.minecraft.world.level.block.state.properties.RailShape;
 import org.jetbrains.annotations.NotNull;
 
 public class InductorRailBlock extends BaseRailBlock {
-        public static final MapCodec<InductorRailBlock> CODEC = simpleCodec(InductorRailBlock::new);
+    public static final MapCodec<InductorRailBlock> CODEC = simpleCodec(InductorRailBlock::new);
     public static final EnumProperty<RailShape> SHAPE = BlockStateProperties.RAIL_SHAPE_STRAIGHT;
 
     public InductorRailBlock(BlockBehaviour.Properties properties) {
         super(true, properties);
-        this.registerDefaultState(this.stateDefinition
-                .any().setValue(SHAPE, RailShape.NORTH_SOUTH)
-                .setValue(WATERLOGGED, Boolean.FALSE)
-        );
+        this.registerDefaultState(this.stateDefinition.any().setValue(SHAPE, RailShape.NORTH_SOUTH).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     @Override
@@ -127,7 +124,6 @@ public class InductorRailBlock extends BaseRailBlock {
                         return state.setValue(SHAPE, RailShape.NORTH_WEST);
                 }
         }
-
         return super.mirror(state, mirror);
     }
 

@@ -1,7 +1,7 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -83,7 +83,7 @@ public class ArmorMaterialMixin {
         float toughVal;
         ItemAttributeModifiers.Builder itemattributemodifiers$builder = ItemAttributeModifiers.builder();
         EquipmentSlotGroup equipmentslotgroup = EquipmentSlotGroup.bySlot(armorType.getSlot());
-        ResourceLocation resourcelocation = ResourceLocation.withDefaultNamespace("armor." + armorType.getName());
+        Identifier identifier = Identifier.withDefaultNamespace("armor." + armorType.getName());
 
         if (assetId.toString().contains("leather")) {
             toughVal = LEATHER_TOUGHNESS.getOrDefault(armorType, 0.0F);
@@ -169,10 +169,10 @@ public class ArmorMaterialMixin {
             defenseVal = this.defense.getOrDefault(armorType, 0);
         }
 
-        itemattributemodifiers$builder.add(Attributes.ARMOR, new AttributeModifier(resourcelocation, defenseVal, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);
-        itemattributemodifiers$builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(resourcelocation, toughVal, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);
+        itemattributemodifiers$builder.add(Attributes.ARMOR, new AttributeModifier(identifier, defenseVal, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);
+        itemattributemodifiers$builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(identifier, toughVal, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);
         if (this.knockbackResistance > 0.0F) {
-            itemattributemodifiers$builder.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(resourcelocation, this.knockbackResistance, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);
+            itemattributemodifiers$builder.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(identifier, this.knockbackResistance, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);
         }
 
         cir.setReturnValue(itemattributemodifiers$builder.build());

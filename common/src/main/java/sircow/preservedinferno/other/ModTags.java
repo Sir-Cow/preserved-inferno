@@ -1,7 +1,7 @@
 package sircow.preservedinferno.other;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -30,7 +30,8 @@ public class ModTags {
     public static final TagKey<Item> REPAIRS_NETHERITE_TOOL = TagKey.create(Registries.ITEM, Constants.id("repairs_netherite_tool"));
     public static final TagKey<Item> LOOTING = TagKey.create(Registries.ITEM, Constants.id("enchantable/looting"));
 
-    public static final TagKey<Item> DYES = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyes"));
+    public static final TagKey<Item> DYES = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "dyes"));
+    public static final TagKey<Item> SHIELDS_COMMON = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "tools/shield"));
 
     public static final TagKey<Block> RAILS_BLOCK = TagKey.create(Registries.BLOCK, Constants.id("rails"));
     public static final TagKey<Block> REINFORCED_DOORS_BLOCK = TagKey.create(Registries.BLOCK, Constants.id("reinforced_doors"));

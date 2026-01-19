@@ -34,24 +34,12 @@ public class BlockItemMixin {
             ServerLevel serverLevel = (ServerLevel) level;
             PreservedInferno instance = PreservedInferno.INSTANCE;
 
-            if (placedBlock == Blocks.ICE) {
-                PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.ICE, 2 * 20));
-            }
-            else if (placedBlock == Blocks.SNOW_BLOCK) {
-                PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.SNOW_BLOCK, 5 * 20));
-            }
-            else if (placedBlock instanceof SnowLayerBlock) {
-                PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), placedBlock, 2 * 20));
-            }
-            else if (placedBlock == Blocks.PACKED_ICE) {
-                schedulePackedIceSequence(instance, serverLevel, blockPos);
-            }
-            else if (placedBlock == Blocks.BLUE_ICE) {
-                scheduleBlueIceSequence(instance, serverLevel, blockPos);
-            }
-            else if (placedBlock == Blocks.POWDER_SNOW) {
-                PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.POWDER_SNOW, 20));
-            }
+            if (placedBlock == Blocks.ICE) PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.ICE, 2 * 20));
+            else if (placedBlock == Blocks.SNOW_BLOCK) PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.SNOW_BLOCK, 5 * 20));
+            else if (placedBlock instanceof SnowLayerBlock) PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), placedBlock, 2 * 20));
+            else if (placedBlock == Blocks.PACKED_ICE) schedulePackedIceSequence(instance, serverLevel, blockPos);
+            else if (placedBlock == Blocks.BLUE_ICE) scheduleBlueIceSequence(instance, serverLevel, blockPos);
+            else if (placedBlock == Blocks.POWDER_SNOW) PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.POWDER_SNOW, 20));
         }
     }
 

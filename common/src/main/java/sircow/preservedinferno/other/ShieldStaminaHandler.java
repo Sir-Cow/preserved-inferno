@@ -30,6 +30,9 @@ public class ShieldStaminaHandler {
     }
 
     private static void handleShieldUsage(ServerPlayer player) {
+        int regenDelay = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_REGEN_DURATION);
+        if (regenDelay > 0) return;
+
         ItemStack heldStack = player.getOffhandItem();
         if (heldStack.getItem() instanceof PreservedShieldItem && player.isBlocking() && !isOnCooldown(player) && !player.isCreative()) {
             float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
@@ -51,8 +54,15 @@ public class ShieldStaminaHandler {
     }
 
     private static void handleStaminaRegeneration(ServerPlayer player) {
+        int regenDelay = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_REGEN_DURATION);
+
+        if (regenDelay > 0) {
+            player.getEntityData().set(ModEntityData.PLAYER_SHIELD_REGEN_DURATION, regenDelay - 1);
+            return;
+        }
+
         ItemStack stack = player.getOffhandItem();
-        if (stack.getItem() instanceof PreservedShieldItem shieldItem && !player.isBlocking() && !isOnCooldown(player)  && !isRegenBlocked(player)) {
+        if (stack.getItem() instanceof PreservedShieldItem shieldItem && !player.isBlocking() && !isOnCooldown(player) && !isRegenBlocked(player)) {
             float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
             int maxStamina = shieldItem.getMaxStamina(stack);
             float regenRate = shieldItem.getRegenerationRate(stack);

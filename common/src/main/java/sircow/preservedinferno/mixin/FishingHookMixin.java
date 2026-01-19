@@ -231,7 +231,7 @@ public abstract class FishingHookMixin {
         if (owner != null) {
             for (ItemStack itemStack : list) {
                 if (itemStack.is(ModTags.FISHING_LOOT_TREASURE) && owner instanceof ServerPlayer serverPlayer) {
-                    ModTriggers.FISH_TREASURE.trigger(serverPlayer);
+                    ModTriggers.FISH_TREASURE.get().trigger(serverPlayer);
                 }
             }
         }
