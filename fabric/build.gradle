@@ -1,6 +1,7 @@
 plugins {
     id 'multiloader-loader'
     id 'fabric-loom'
+    id 'com.gradleup.shadow' version '9.3.1'
 }
 
 repositories {
@@ -9,12 +10,22 @@ repositories {
         url = "https://maven.terraformersmc.com/"
     }
     maven { url "https://jitpack.io" }
+
+    maven {
+        name = "MoulConfig"
+        url = "https://maven.notenoughupdates.org/releases/"
+    }
 }
 
 fabricApi {
     configureDataGeneration() {
         client = true
     }
+}
+
+configurations {
+    shadowModImpl
+    modImplementation.extendsFrom(shadowModImpl)
 }
 
 dependencies {
@@ -28,6 +39,29 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
     modImplementation "com.github.Chocohead:Fabric-ASM:v${project.fabric_asm_version}"
     include "com.github.Chocohead:Fabric-ASM:v${project.fabric_asm_version}"
+    shadowModImpl(libs.moulconfig) {
+        exclude group: "org.jetbrains.kotlin"
+        exclude group: "org.jetbrains.kotlinx"
+    }
+    include(libs.moulconfig)
+}
+
+tasks.shadowJar {
+    configurations = [project.configurations.shadowModImpl]
+    relocate "io.github.notenoughupdates.moulconfig", "sircow.preservedinferno.deps.moulconfig"
+    archiveClassifier = 'shadow'
+    exclude "META-INF/versions/**"
+    mergeServiceFiles()
+}
+
+remapJar {
+    dependsOn tasks.shadowJar
+    inputFile = tasks.shadowJar.archiveFile
+    archiveClassifier = ""
+}
+
+tasks.jar {
+    archiveClassifier = "nodeps"
 }
 
 loom {
