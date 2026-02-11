@@ -35,7 +35,7 @@ public class AxeItemMixin {
                     attackDamage = 4.0F;
                 }
                 else if (Objects.equals(RegisterItemChecker.itemName, "golden_axe")) {
-                    attackDamage = 6.0F;
+                    attackDamage = 5.0F;
                 }
                 else if (Set.of("wooden_axe", "stone_axe").contains(RegisterItemChecker.itemName)) {
                     attackDamage = 3.0F;

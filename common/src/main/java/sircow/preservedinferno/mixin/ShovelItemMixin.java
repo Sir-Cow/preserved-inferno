@@ -15,8 +15,7 @@ public class ShovelItemMixin {
             if (RegisterItemChecker.SHOVELS.contains(RegisterItemChecker.itemName)) {
                 switch (RegisterItemChecker.itemName) {
                     case "wooden_shovel", "stone_shovel" -> attackDamage = 0.5F;
-                    case "golden_shovel" -> attackDamage = 3.5F;
-                    case "diamond_shovel" -> attackDamage = 2.5F;
+                    case "golden_shovel", "diamond_shovel" -> attackDamage = 2.5F;
                     case null, default -> {
                         return attackDamage;
                     }

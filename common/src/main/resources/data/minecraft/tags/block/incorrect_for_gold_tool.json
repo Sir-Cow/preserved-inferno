@@ -1,6 +1,8 @@
 {
   "replace": true,
   "values": [
-    "#minecraft:needs_diamond_tool"
+    "#minecraft:needs_diamond_tool",
+    "#minecraft:needs_iron_tool",
+    "#pinferno:needs_copper_tool"
   ]
 }

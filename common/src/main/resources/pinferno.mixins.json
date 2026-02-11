@@ -15,6 +15,7 @@
     "AgeableMobMixin",
     "AnvilMenuMixin",
     "ArmorMaterialMixin",
+    "ArrowMixin",
     "AttributesMixin",
     "AxeItemMixin",
     "BedBlockMixin",

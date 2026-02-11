@@ -1,0 +1,48 @@
+{
+  "parent": "pinferno:exploration/upgrade_tools",
+  "criteria": {
+    "quartzite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:quartzite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "quartzite_pickaxe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:quartzite_pickaxe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.obtain_quartzite.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "pinferno:quartzite_pickaxe"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.obtain_quartzite.title"
+    }
+  },
+  "requirements": [
+    [
+      "quartzite_pickaxe"
+    ],
+    [
+      "quartzite"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

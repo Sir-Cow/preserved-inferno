@@ -100,7 +100,9 @@
                 "minecraft:copper_axe",
                 "minecraft:iron_axe",
                 "minecraft:diamond_axe",
-                "minecraft:netherite_axe"
+                "minecraft:netherite_axe",
+                "pinferno:nether_alloy_axe",
+                "pinferno:quartzite_axe"
               ]
             }
           }

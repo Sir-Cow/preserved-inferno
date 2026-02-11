@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#pinferno:nether_alloy_tool_materials",
+  "base": "minecraft:golden_hoe",
+  "result": {
+    "id": "pinferno:nether_alloy_hoe"
+  },
+  "template": "pinferno:nether_alloy_upgrade_smithing_template"
+}

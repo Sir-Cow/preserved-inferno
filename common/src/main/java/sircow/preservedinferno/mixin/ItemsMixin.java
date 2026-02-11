@@ -273,7 +273,7 @@ public abstract class ItemsMixin {
     ), index = 1
     )
     private static float preserved_inferno$modifyGoldenSword(float attackDamage) {
-        return 4.0F;
+        return 3.0F;
     }
 
     @ModifyArg(method = "<clinit>", slice = @Slice(
@@ -427,7 +427,7 @@ public abstract class ItemsMixin {
             ordinal = 0)
     )
     private static Function<Item.Properties, Item> preserved_inferno$modifyGoldenHoe(Function<Item.Properties, Item> p_361381_) {
-        return (properties) -> new HoeItem(ToolMaterial.GOLD, 3.0F, -2.2F, properties);
+        return (properties) -> new HoeItem(ToolMaterial.GOLD, 2.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=stone_hoe")), at = @At(value = "INVOKE",
@@ -485,7 +485,7 @@ public abstract class ItemsMixin {
             ordinal = 0), index = 1
     )
     private static Item.Properties preserved_inferno$modifyGoldenPickaxe(Item.Properties properties) {
-        return new Item.Properties().pickaxe(ToolMaterial.GOLD, 4.0F, -3.0F);
+        return new Item.Properties().pickaxe(ToolMaterial.GOLD, 3.0F, -3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=stone_pickaxe")), at = @At(value = "INVOKE",

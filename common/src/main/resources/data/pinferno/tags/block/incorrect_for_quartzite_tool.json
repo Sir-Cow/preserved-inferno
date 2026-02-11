@@ -1,0 +1,8 @@
+{
+  "values": [
+    "#minecraft:needs_diamond_tool",
+    "#minecraft:needs_iron_tool",
+    "#minecraft:needs_stone_tool",
+    "#pinferno:needs_copper_tool"
+  ]
+}

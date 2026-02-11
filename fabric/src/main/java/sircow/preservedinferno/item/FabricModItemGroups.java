@@ -45,6 +45,13 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.RAW_IRON_CHUNK);
                     entries.accept(ModItems.RAW_GOLD_CHUNK);
 
+                    entries.accept(ModItems.QUARTZITE);
+                    entries.accept(ModItems.QUARTZITE_SHOVEL);
+                    entries.accept(ModItems.QUARTZITE_PICKAXE);
+                    entries.accept(ModItems.QUARTZITE_AXE);
+                    entries.accept(ModItems.QUARTZITE_SCYTHE);
+                    entries.accept(ModItems.QUARTZITE_SWORD);
+
                     entries.accept(ModItems.COPPER_TRIDENT);
 
                     entries.accept(ModItems.BLACK_CLOTH);
@@ -73,6 +80,11 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.NETHER_ALLOY_PLATE);
                     entries.accept(ModItems.NETHER_ALLOY_INGOT);
                     entries.accept(ModItems.NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE);
+                    entries.accept(ModItems.NETHER_ALLOY_SHOVEL);
+                    entries.accept(ModItems.NETHER_ALLOY_PICKAXE);
+                    entries.accept(ModItems.NETHER_ALLOY_AXE);
+                    entries.accept(ModItems.NETHER_ALLOY_SCYTHE);
+                    entries.accept(ModItems.NETHER_ALLOY_SWORD);
 
                     entries.accept(ModBlocks.ANGLING_TABLE.asItem());
                     entries.accept(ModItems.AQUATIC_FIBER);

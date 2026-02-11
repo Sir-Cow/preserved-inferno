@@ -39,13 +39,16 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
     modImplementation "com.github.Chocohead:Fabric-ASM:v${project.fabric_asm_version}"
     include "com.github.Chocohead:Fabric-ASM:v${project.fabric_asm_version}"
+    /*
     shadowModImpl(libs.moulconfig) {
         exclude group: "org.jetbrains.kotlin"
         exclude group: "org.jetbrains.kotlinx"
     }
     include(libs.moulconfig)
+    */
 }
 
+/*
 tasks.shadowJar {
     configurations = [project.configurations.shadowModImpl]
     relocate "io.github.notenoughupdates.moulconfig", "sircow.preservedinferno.deps.moulconfig"
@@ -63,14 +66,12 @@ remapJar {
 tasks.jar {
     archiveClassifier = "nodeps"
 }
+*/
 
 loom {
     def aw = project(':common').file("src/main/resources/${mod_id}.accesswidener")
     if (aw.exists()) {
         accessWidenerPath.set(aw)
-    }
-    mixin {
-        defaultRefmapName.set("${mod_id}.refmap.json")
     }
     runs {
         client {

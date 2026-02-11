@@ -4,8 +4,8 @@
   "ingredients": [
     "minecraft:diorite",
     "minecraft:diorite",
-    "minecraft:quartz",
-    "minecraft:quartz"
+    "pinferno:quartzite",
+    "pinferno:quartzite"
   ],
   "result": {
     "count": 4,

@@ -18,6 +18,7 @@ import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.item.equipment.trim.TrimMaterials;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.item.custom.CopperTridentItem;
@@ -43,6 +44,8 @@ public class ModItems {
     static float DIAMOND_REGEN = 2F / 25F;
     static float NETHERITE_REGEN = Float.parseFloat(df.format(NETHERITE_REGEN_PARSE));
     static float GOLD_REGEN = 1F / 10F;
+    public static final ToolMaterial NETHER_ALLOY_TOOL = new ToolMaterial(ModTags.INCORRECT_FOR_NETHER_ALLOY_TOOL, 256, 12.0F, 0.0F, 5, ModTags.QUARTZITE_TOOL_MATERIALS);
+    public static final ToolMaterial QUARTZITE_TOOL = new ToolMaterial(ModTags.INCORRECT_FOR_QUARTZITE_TOOL, 64, 6.0F, 0.0F, 4, ModTags.QUARTZITE_TOOL_MATERIALS);
 
     // items
     public static final Item DREAMCATCHER = registerItem("dreamcatcher", Item::new, new Item.Properties()
@@ -73,6 +76,13 @@ public class ModItems {
     public static final Item RAW_IRON_CHUNK = registerItem("raw_iron_chunk", Item::new, new Item.Properties());
     public static final Item RAW_GOLD_CHUNK = registerItem("raw_gold_chunk", Item::new, new Item.Properties());
     public static final Item RAW_COPPER_CHUNK = registerItem("raw_copper_chunk", Item::new, new Item.Properties());
+
+    public static final Item QUARTZITE = registerItem("quartzite", Item::new, new Item.Properties().trimMaterial(TrimMaterials.QUARTZ));
+    public static final Item QUARTZITE_SHOVEL = registerItem("quartzite_shovel", properties -> new ShovelItem(QUARTZITE_TOOL, 1.5F, -2.5F, properties), new Item.Properties().repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
+    public static final Item QUARTZITE_PICKAXE = registerItem("quartzite_pickaxe", Item::new, new Item.Properties().pickaxe(QUARTZITE_TOOL, 2.0F, -3.0F).repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
+    public static final Item QUARTZITE_AXE = registerItem("quartzite_axe", properties -> new AxeItem(QUARTZITE_TOOL, 4.0F, -2.8F, properties), new Item.Properties().repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
+    public static final Item QUARTZITE_SCYTHE = registerItem("quartzite_hoe", properties -> new HoeItem(QUARTZITE_TOOL, 1.0F, -2.2F, properties), new Item.Properties().repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
+    public static final Item QUARTZITE_SWORD = registerItem("quartzite_sword", Item::new, new Item.Properties().sword(QUARTZITE_TOOL, 2.0F, -2.4F).repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
 
     public static final Item COPPER_TRIDENT = registerItem(
             "copper_trident",
@@ -223,6 +233,11 @@ public class ModItems {
     public static final Item NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE = registerItem("nether_alloy_upgrade_smithing_template", Item::new, new Item.Properties()
             .rarity(Rarity.UNCOMMON)
     );
+    public static final Item NETHER_ALLOY_SHOVEL = registerItem("nether_alloy_shovel", properties -> new ShovelItem(NETHER_ALLOY_TOOL, 3.5F, -2.5F, properties), new Item.Properties().repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
+    public static final Item NETHER_ALLOY_PICKAXE = registerItem("nether_alloy_pickaxe", Item::new, new Item.Properties().pickaxe(NETHER_ALLOY_TOOL, 4.0F, -3.0F).repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
+    public static final Item NETHER_ALLOY_AXE = registerItem("nether_alloy_axe", properties -> new AxeItem(NETHER_ALLOY_TOOL, 6.0F, -2.8F, properties), new Item.Properties().repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
+    public static final Item NETHER_ALLOY_SCYTHE = registerItem("nether_alloy_hoe", properties -> new HoeItem(NETHER_ALLOY_TOOL, 3.0F, -2.2F, properties), new Item.Properties().repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
+    public static final Item NETHER_ALLOY_SWORD = registerItem("nether_alloy_sword", Item::new, new Item.Properties().sword(NETHER_ALLOY_TOOL, 4.0F, -2.4F).repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
 
     public static final Item COPPER_FISHING_HOOK = registerItem("copper_fishing_hook", Item::new, new Item.Properties()
             .durability(256)

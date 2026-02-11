@@ -1,6 +1,7 @@
 package sircow.preservedinferno.screen;
 
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -13,6 +14,7 @@ import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
+import sircow.preservedinferno.trigger.ModTriggers;
 
 public class PreservedFletchingTableMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
@@ -81,6 +83,7 @@ public class PreservedFletchingTableMenu extends AbstractContainerMenu {
                     }
                 }
                 PreservedFletchingTableMenu.this.potionInputSlot.remove(1);
+                if (player instanceof ServerPlayer serverPlayer) ModTriggers.CRAFT_ARROWS.get().trigger(serverPlayer);
                 super.onTake(player, stack);
             }
         });
@@ -102,47 +105,28 @@ public class PreservedFletchingTableMenu extends AbstractContainerMenu {
             }
 
             else if (index >= 0 && index < 4) {
-                if (!this.moveItemStackTo(itemstack1, 4, 40, false)) {
-                    return ItemStack.EMPTY;
-                }
+                if (!this.moveItemStackTo(itemstack1, 4, 40, false)) return ItemStack.EMPTY;
             }
             else if (index >= 4 && index < 40) {
                 if (itemstack1.getItem() == Items.FLINT) {
-                    if (!this.moveItemStackTo(itemstack1, this.flintInputSlot.index, this.flintInputSlot.index + 1, false)) {
-                        return ItemStack.EMPTY;
-                    }
+                    if (!this.moveItemStackTo(itemstack1, this.flintInputSlot.index, this.flintInputSlot.index + 1, false)) return ItemStack.EMPTY;
                 }
                 else if (itemstack1.getItem() == Items.STICK) {
-                    if (!this.moveItemStackTo(itemstack1, this.stickInputSlot.index, this.stickInputSlot.index + 1, false)) {
-                        return ItemStack.EMPTY;
-                    }
+                    if (!this.moveItemStackTo(itemstack1, this.stickInputSlot.index, this.stickInputSlot.index + 1, false)) return ItemStack.EMPTY;
                 }
                 else if (itemstack1.getItem() == Items.FEATHER) {
-                    if (!this.moveItemStackTo(itemstack1, this.featherInputSlot.index, this.featherInputSlot.index + 1, false)) {
-                        return ItemStack.EMPTY;
-                    }
+                    if (!this.moveItemStackTo(itemstack1, this.featherInputSlot.index, this.featherInputSlot.index + 1, false)) return ItemStack.EMPTY;
                 }
                 else if (itemstack1.getItem() instanceof PotionItem) {
-                    if (!this.moveItemStackTo(itemstack1, this.potionInputSlot.index, this.potionInputSlot.index + 1, false)) {
-                        return ItemStack.EMPTY;
-                    }
+                    if (!this.moveItemStackTo(itemstack1, this.potionInputSlot.index, this.potionInputSlot.index + 1, false)) return ItemStack.EMPTY;
                 }
-                else if (!this.moveItemStackTo(itemstack1, 0, 4, false)) {
-                    return ItemStack.EMPTY;
-                }
+                else if (!this.moveItemStackTo(itemstack1, 0, 4, false)) return ItemStack.EMPTY;
             }
 
-            if (itemstack1.isEmpty()) {
-                slot.setByPlayer(ItemStack.EMPTY);
-            }
-            else {
-                slot.setChanged();
-            }
+            if (itemstack1.isEmpty()) slot.setByPlayer(ItemStack.EMPTY);
+            else slot.setChanged();
 
-            if (itemstack1.getCount() == itemstack.getCount()) {
-                return ItemStack.EMPTY;
-            }
-
+            if (itemstack1.getCount() == itemstack.getCount()) return ItemStack.EMPTY;
             slot.onTake(player, itemstack1);
         }
         return itemstack;
@@ -158,9 +142,7 @@ public class PreservedFletchingTableMenu extends AbstractContainerMenu {
             this.setupResultSlot();
             this.broadcastChanges();
         }
-        else {
-            this.resultSlot.set(ItemStack.EMPTY);
-        }
+        else this.resultSlot.set(ItemStack.EMPTY);
     }
 
     private void setupResultSlot() {
@@ -172,18 +154,12 @@ public class PreservedFletchingTableMenu extends AbstractContainerMenu {
         if (!flintStack.isEmpty() && !stickStack.isEmpty() && !featherStack.isEmpty()) {
             if (potionStack.getItem() instanceof PotionItem) {
                 ItemStack tippedArrowStack = new ItemStack(Items.TIPPED_ARROW, 16);
-                if (potionStack.get(DataComponents.POTION_CONTENTS) != null) {
-                    tippedArrowStack.set(DataComponents.POTION_CONTENTS, potionStack.get(DataComponents.POTION_CONTENTS));
-                }
+                if (potionStack.get(DataComponents.POTION_CONTENTS) != null) tippedArrowStack.set(DataComponents.POTION_CONTENTS, potionStack.get(DataComponents.POTION_CONTENTS));
                 this.outputContainer.setItem(0, tippedArrowStack);
             }
-            else {
-                this.outputContainer.setItem(0, new ItemStack(Items.ARROW, 16));
-            }
+            else this.outputContainer.setItem(0, new ItemStack(Items.ARROW, 16));
         }
-        else {
-            this.outputContainer.setItem(0, ItemStack.EMPTY);
-        }
+        else this.outputContainer.setItem(0, ItemStack.EMPTY);
     }
 
     @Override

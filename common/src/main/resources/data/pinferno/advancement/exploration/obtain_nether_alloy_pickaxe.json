@@ -1,0 +1,35 @@
+{
+  "parent": "pinferno:exploration/obtain_golden_pickaxe",
+  "criteria": {
+    "nether_alloy_pickaxe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:nether_alloy_pickaxe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.obtain_nether_alloy_pickaxe.description"
+    },
+    "frame": "task",
+    "icon": {
+      "count": 1,
+      "id": "pinferno:nether_alloy_pickaxe"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.obtain_nether_alloy_pickaxe.title"
+    }
+  },
+  "requirements": [
+    [
+      "nether_alloy_pickaxe"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

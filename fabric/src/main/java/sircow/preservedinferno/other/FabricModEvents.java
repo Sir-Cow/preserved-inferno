@@ -107,18 +107,21 @@ public class FabricModEvents {
             ItemStack mainHandItem = player.getItemInHand(InteractionHand.MAIN_HAND);
             ItemStack offHandItem = player.getItemInHand(InteractionHand.OFF_HAND);
             boolean holdingDreamcatcher = mainHandItem.getItem() == ModItems.DREAMCATCHER || offHandItem.getItem() == ModItems.DREAMCATCHER;
-            boolean moonVisible = player.level().environmentAttributes().getValue(EnvironmentAttributes.MOON_ANGLE, new Vec3(player.getX(), player.getY(), player.getZ()), null) > 0.0F;
+            float moonAngle = player.level().environmentAttributes().getValue(EnvironmentAttributes.MOON_ANGLE, new Vec3(player.getX(), player.getY(), player.getZ()), null);
+            boolean moonVisible = moonAngle > 0.0F;
 
             if (MobLineOfSight.hasMonsterLineOfSight(player.level(), pos)) {
                 player.displayClientMessage(Component.translatable("block.minecraft.bed.not_safe"), true);
                 return Player.BedSleepingProblem.OTHER_PROBLEM;
             }
-            if (!moonVisible && !holdingDreamcatcher) {
+
+            if (!holdingDreamcatcher) {
                 player.displayClientMessage(Component.translatable("block.minecraft.bed.no_dreamcatcher"), true);
                 return Player.BedSleepingProblem.OTHER_PROBLEM;
             }
-            if (moonVisible && holdingDreamcatcher) return null;
-            else return Player.BedSleepingProblem.OTHER_PROBLEM;
+
+            if (moonVisible) return null;
+            return null;
         });
 
         EntitySleepEvents.START_SLEEPING.register((entity, sleepingPos) -> {
@@ -133,8 +136,7 @@ public class FabricModEvents {
 
         EntitySleepEvents.STOP_SLEEPING.register((entity, sleepingPos) -> {
             if (entity instanceof Player player) {
-                boolean moonVisible = player.level().environmentAttributes().getValue(EnvironmentAttributes.MOON_ANGLE, new Vec3(player.getX(), player.getY(), player.getZ()), null) > 0.0F;
-                if (player.getSleepTimer() > 20 && !moonVisible) {
+                if (player.getSleepTimer() > 20) {
                     MinecraftServer server = player.level().getServer();
                     if (server != null) {
                         for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers()) {

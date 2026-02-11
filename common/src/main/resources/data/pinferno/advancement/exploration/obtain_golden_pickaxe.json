@@ -1,0 +1,35 @@
+{
+  "parent": "pinferno:exploration/obtain_quartzite",
+  "criteria": {
+    "golden_pickaxe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:golden_pickaxe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.obtain_golden_pickaxe.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:golden_pickaxe"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.obtain_golden_pickaxe.title"
+    }
+  },
+  "requirements": [
+    [
+      "golden_pickaxe"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

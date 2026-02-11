@@ -1,8 +1,21 @@
 {
   "parent": "minecraft:adventure/throw_trident",
   "criteria": {
-    "lightning_strike": {
-      "trigger": "minecraft:channeled_lightning"
+    "strike_any_target": {
+      "trigger": "minecraft:channeled_lightning",
+      "conditions": {
+        "victims": [
+          [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "type": "#minecraft:sensitive_to_impaling"
+              }
+            }
+          ]
+        ]
+      }
     }
   },
   "display": {
@@ -20,7 +33,7 @@
   },
   "requirements": [
     [
-      "lightning_strike"
+      "strike_any_target"
     ]
   ],
   "sends_telemetry_event": true

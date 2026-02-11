@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "pinferno:item/nether_alloy_axe"
+  }
+}

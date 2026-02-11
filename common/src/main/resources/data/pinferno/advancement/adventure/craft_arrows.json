@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:adventure/shoot_arrow",
+  "criteria": {
+    "craft_arrows": {
+      "trigger": "pinferno:craft_arrows"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.adventure.craft_arrows.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:fletching_table"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.adventure.craft_arrows.title"
+    }
+  },
+  "requirements": [
+    [
+      "craft_arrows"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

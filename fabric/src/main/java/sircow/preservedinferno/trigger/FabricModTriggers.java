@@ -14,6 +14,7 @@ public class FabricModTriggers {
         register(ModTriggers.CONDUIT_POWER);
         register(ModTriggers.CONDUIT_POWER_FULL);
         register(ModTriggers.CONSUME_SCULK_INFUSION);
+        register(ModTriggers.CRAFT_ARROWS);
         register(ModTriggers.CRIT_DAMAGE);
         register(ModTriggers.DRINK_WATER);
         register(ModTriggers.FISH_TREASURE);
@@ -39,6 +40,7 @@ public class FabricModTriggers {
         register(ModTriggers.STAND_ON_ICE);
         register(ModTriggers.TRADE_EVERY_VILLAGER);
         register(ModTriggers.TRIPLE_KILL);
+        register(ModTriggers.USE_TIPPED_ARROW);
         register(ModTriggers.USED_ANVIL_REPAIR);
         register(ModTriggers.VILLAGER_RESTOCK);
         register(ModTriggers.WOOL_FROM_LOOM);

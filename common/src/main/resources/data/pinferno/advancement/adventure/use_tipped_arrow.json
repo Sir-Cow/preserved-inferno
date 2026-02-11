@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:adventure/craft_arrows",
+  "criteria": {
+    "use_tipped_arrow": {
+      "trigger": "pinferno:use_tipped_arrow"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.adventure.use_tipped_arrow.description"
+    },
+    "frame": "task",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:tipped_arrow"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.adventure.use_tipped_arrow.title"
+    }
+  },
+  "requirements": [
+    [
+      "use_tipped_arrow"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

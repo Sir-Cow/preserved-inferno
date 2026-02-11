@@ -110,21 +110,28 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         itemCategorySlots.put("spearBane", Set.of(idx("Bane Of Arthropods"), idx("Fire Aspect"), idx("Looting"), idx("Lunge"), idx("Unbreaking")));
         itemCategorySlots.put("spearSharp", Set.of(idx("Fire Aspect"), idx("Looting"), idx("Lunge"), idx("Sharpness"), idx("Unbreaking")));
         itemCategorySlots.put("spearSmite", Set.of(idx("Fire Aspect"), idx("Looting"), idx("Lunge"), idx("Smite"), idx("Unbreaking")));
-        // tools
-        itemCategorySlots.put("pickaxe", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Silk Touch"), idx("Unbreaking")));
-        itemCategorySlots.put("shovel", Set.of(idx("Efficiency"), idx("Fortune"), idx("Silk Touch"), idx("Unbreaking")));
+        // pickaxe
+        itemCategorySlots.put("pickaxe", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeFort", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeSilk", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Efficiency"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeFortBane", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeFortSharp", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeFortSmite", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeSilkBane", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Efficiency"), idx("Looting"), idx("Silk Touch"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeSilkSharp", Set.of(idx("Breach"), idx("Efficiency"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeSilkSmite", Set.of(idx("Breach"), idx("Efficiency"), idx("Looting"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeBane", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Silk Touch"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeSharp", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Unbreaking")));
+        itemCategorySlots.put("pickaxeSmite", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
+        // tool weapon
         itemCategorySlots.put("toolWeapon", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
         itemCategorySlots.put("toolWeaponBane", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Silk Touch"), idx("Unbreaking")));
         itemCategorySlots.put("toolWeaponSharp", Set.of(idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Unbreaking")));
         itemCategorySlots.put("toolWeaponSmite", Set.of(idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
-        itemCategorySlots.put("pickaxeFort", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelFort", Set.of(idx("Efficiency"), idx("Fortune"), idx("Unbreaking")));
         itemCategorySlots.put("toolFortWeapon", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Smite"), idx("Unbreaking")));
         itemCategorySlots.put("toolFortWeaponBane", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Unbreaking")));
         itemCategorySlots.put("toolFortWeaponSharp", Set.of(idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Unbreaking")));
         itemCategorySlots.put("toolFortWeaponSmite", Set.of(idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Smite"), idx("Unbreaking")));
-        itemCategorySlots.put("pickaxeSilk", Set.of(idx("Breach"), idx("Efficiency"), idx("Silk Touch"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelSilk", Set.of(idx("Efficiency"), idx("Silk Touch"), idx("Unbreaking")));
         itemCategorySlots.put("toolSilkWeapon", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
         itemCategorySlots.put("toolSilkWeaponBane", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Looting"), idx("Silk Touch"), idx("Unbreaking")));
         itemCategorySlots.put("toolSilkWeaponSharp", Set.of(idx("Efficiency"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
@@ -489,16 +496,26 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             else this.itemCategory = "spear";
         }
         else if (itemStack.is(ItemTags.PICKAXES)) {
-            if (hasEnchantment(itemStack, Enchantments.FORTUNE)) this.itemCategory = "pickaxeFort";
-            else if (hasEnchantment(itemStack, Enchantments.SILK_TOUCH)) this.itemCategory = "pickaxeSilk";
-            else this.itemCategory = "pickaxe";
+            if (hasEnchantment(itemStack, Enchantments.FORTUNE)) {
+                if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "pickaxeFortBane";
+                else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "pickaxeFortSharp";
+                else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "pickaxeFortSmite";
+                else this.itemCategory = "pickaxeFort";
+            }
+            else if (hasEnchantment(itemStack, Enchantments.SILK_TOUCH)) {
+                if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "pickaxeSilkBane";
+                else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "pickaxeSilkSharp";
+                else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "pickaxeSilkSmite";
+                else this.itemCategory = "pickaxeSilk";
+            }
+            else {
+                if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "pickaxeBane";
+                else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "pickaxeSharp";
+                else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "pickaxeSmite";
+                else this.itemCategory = "pickaxe";
+            }
         }
-        else if (itemStack.is(ItemTags.SHOVELS)) {
-            if (hasEnchantment(itemStack, Enchantments.FORTUNE)) this.itemCategory = "shovelFort";
-            else if (hasEnchantment(itemStack, Enchantments.SILK_TOUCH)) this.itemCategory = "shovelSilk";
-            else this.itemCategory = "shovel";
-        }
-        else if (itemStack.is(ItemTags.AXES) || itemStack.is(ItemTags.HOES)) {
+        else if (itemStack.is(ItemTags.AXES) || itemStack.is(ItemTags.HOES) || itemStack.is(ItemTags.SHOVELS)) {
             if (hasEnchantment(itemStack, Enchantments.FORTUNE)) {
                 if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "toolFortWeaponBane";
                 else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "toolFortWeaponSharp";

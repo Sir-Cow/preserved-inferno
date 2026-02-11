@@ -4,8 +4,8 @@
   "ingredients": [
     "minecraft:cobblestone",
     "minecraft:cobblestone",
-    "minecraft:quartz",
-    "minecraft:quartz"
+    "pinferno:quartzite",
+    "pinferno:quartzite"
   ],
   "result": {
     "count": 4,

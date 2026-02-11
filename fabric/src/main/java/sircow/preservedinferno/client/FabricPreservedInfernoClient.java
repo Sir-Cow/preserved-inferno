@@ -179,7 +179,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template").withStyle(ChatFormatting.GRAY));
             lines.add(insertIndex++, Component.empty());
             lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.applies_to").withStyle(ChatFormatting.GRAY));
-            lines.add(insertIndex++, Component.literal(" ").append(Component.translatable("item.pinferno.helmets").withStyle(ChatFormatting.BLUE)));
+            lines.add(insertIndex++, Component.literal(" ").append(Component.translatable("item.pinferno.nether_alloy_applies").withStyle(ChatFormatting.BLUE)));
             lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.ingredients").withStyle(ChatFormatting.GRAY));
             lines.add(insertIndex, Component.literal(" ").append(Component.translatable("item.pinferno.nether_alloy_ingot").withStyle(ChatFormatting.BLUE)));
         }
