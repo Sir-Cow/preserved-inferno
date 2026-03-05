@@ -1,12 +1,16 @@
 package sircow.preservedinferno.mixin;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.piglin.Piglin;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.NonNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -32,12 +36,15 @@ public class PiglinMixin extends Monster {
         AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
         if (health == null) return;
 
-        if (baby) {
-            health.setBaseValue(health.getBaseValue() * 0.75);
-        }
-        else {
-            health.setBaseValue(health.getBaseValue());
-        }
+        if (baby) health.setBaseValue(health.getBaseValue() * 0.75);
+        else health.setBaseValue(health.getBaseValue());
+
         this.setHealth(this.getMaxHealth());
+    }
+
+    // force picking up when mobGriefing false
+    @Overwrite
+    public boolean wantsToPickUp(@NonNull ServerLevel level, @NonNull ItemStack stack) {
+        return this.canPickUpLoot() && PiglinAiAccessor.callWantsToPickup((Piglin) (Object) this, stack);
     }
 }

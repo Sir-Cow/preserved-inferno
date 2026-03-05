@@ -22,6 +22,10 @@ public class ModDamageTypes {
         return new DamageSource(world.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(key), directEntity, sourceEntity);
     }
 
+    public static DamageSource of(Level world, ResourceKey<DamageType> key) {
+        return new DamageSource(world.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(key));
+    }
+
     public static void registerModDamageTypes() {
         // Constants.LOG.info("Registering Mod Damage Types for " + Constants.MOD_ID);
     }

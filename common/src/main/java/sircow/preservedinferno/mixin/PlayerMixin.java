@@ -66,7 +66,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @Unique private static final int FIRE_RES_INCREASE = 48;
     @Unique private static final int FIRE_PROT_INCREASE = 8;
     @Unique private @Nullable BlockPos lastSteppedOnIcePos = null;
-    @Unique DamageSource damageSource = ModDamageTypes.of(this.level(), ModDamageTypes.HEAT, this);
+    @Unique DamageSource heatDamageSource = ModDamageTypes.of(level(), ModDamageTypes.HEAT);
 
     @Shadow @Nullable public abstract GameType gameMode();
     @Shadow public abstract void awardStat(Stat<?> stat);
@@ -297,7 +297,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                     ModTriggers.RIDE_MINECART.get().trigger(serverPlayer);
                 }
             }
-            if (minecart.getDeltaMovement().horizontalDistance() >= 3.2) {
+            if (minecart.getDeltaMovement().horizontalDistance() >= 1.6) {
                 if ((Player)(Object)this instanceof ServerPlayer serverPlayer) {
                     ModTriggers.RIDE_MINECART_MAX_SPEED.get().trigger(serverPlayer);
                 }
@@ -462,22 +462,10 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
         if (this.level().dimension() == Level.NETHER) {
             tickCap = INCREASE_CAP;
 
-            if (this.hasEffect(MobEffects.FIRE_RESISTANCE)) {
-                tickCap += FIRE_RES_INCREASE;
-            }
+            if (this.hasEffect(MobEffects.FIRE_RESISTANCE)) tickCap += FIRE_RES_INCREASE;
 
-            if (preserved_inferno$fireProtCheck() == 1) {
-                tickCap += FIRE_PROT_INCREASE;
-            }
-            if (preserved_inferno$fireProtCheck() == 2) {
-                tickCap += (FIRE_PROT_INCREASE * 2);
-            }
-            if (preserved_inferno$fireProtCheck() == 3) {
-                tickCap += (FIRE_PROT_INCREASE * 3);
-            }
-            if (preserved_inferno$fireProtCheck() == 4) {
-                tickCap += (FIRE_PROT_INCREASE * 4);
-            }
+            int fireProt = preserved_inferno$fireProtCheck();
+            if (fireProt > 0) tickCap += FIRE_PROT_INCREASE * fireProt;
 
             if (currentHeat == 0) {
                 preserved_inferno$increaseHeat(1);
@@ -507,73 +495,17 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
         }
         // heat damage
         currentHeat = preserved_inferno$getHeat();
+
         if (currentHeat >= 100) {
             this.heatDamageTickCounter++;
-            if (this.heatDamageTickCounter >= 20) {
-                if (currentHeat < 105) {
-                    this.hurt((this.damageSource), 0.5F);
-                }
-                if (currentHeat >= 105 && currentHeat < 110) {
-                    this.hurt((this.damageSource), 1.0F);
-                }
-                if (currentHeat >= 110 && currentHeat < 115) {
-                    this.hurt((this.damageSource), 1.5F);
-                }
-                if (currentHeat >= 115 && currentHeat < 120) {
-                    this.hurt((this.damageSource), 2.0F);
-                }
-                if (currentHeat >= 120 && currentHeat < 125) {
-                    this.hurt((this.damageSource), 2.5F);
-                }
-                if (currentHeat >= 125 && currentHeat < 130) {
-                    this.hurt((this.damageSource), 3.0F);
-                }
-                if (currentHeat >= 130 && currentHeat < 135) {
-                    this.hurt((this.damageSource), 3.5F);
-                }
-                if (currentHeat >= 135 && currentHeat < 140) {
-                    this.hurt((this.damageSource), 4.0F);
-                }
-                if (currentHeat >= 140 && currentHeat < 145) {
-                    this.hurt((this.damageSource), 4.5F);
-                }
-                if (currentHeat >= 145 && currentHeat < 150) {
-                    this.hurt((this.damageSource), 5.0F);
-                }
-                if (currentHeat >= 150 && currentHeat < 155) {
-                    this.hurt((this.damageSource), 5.5F);
-                }
-                if (currentHeat >= 155 && currentHeat < 160) {
-                    this.hurt((this.damageSource), 6.0F);
-                }
-                if (currentHeat >= 160 && currentHeat < 165) {
-                    this.hurt((this.damageSource), 6.5F);
-                }
-                if (currentHeat >= 165 && currentHeat < 170) {
-                    this.hurt((this.damageSource), 7.0F);
-                }
-                if (currentHeat >= 170 && currentHeat < 175) {
-                    this.hurt((this.damageSource), 7.5F);
-                }
-                if (currentHeat >= 175 && currentHeat < 180) {
-                    this.hurt((this.damageSource), 8.0F);
-                }
-                if (currentHeat >= 180 && currentHeat < 185) {
-                    this.hurt((this.damageSource), 8.5F);
-                }
-                if (currentHeat >= 185 && currentHeat < 190) {
-                    this.hurt((this.damageSource), 9.0F);
-                }
-                if (currentHeat >= 190 && currentHeat < 195) {
-                    this.hurt((this.damageSource), 9.5F);
-                }
-                if (currentHeat >= 195 && currentHeat < 200) {
-                    this.hurt((this.damageSource), 10.0F);
-                }
-                if (currentHeat >= 200) {
-                    this.hurt((this.damageSource), 10.5F);
-                }
 
+            if (this.heatDamageTickCounter >= 20) {
+                int step = (currentHeat - 100) / 5;
+                float damage = 0.5F * (step + 1);
+
+                if (damage > 10.5F) damage = 10.5F;
+
+                this.hurt(this.heatDamageSource, damage);
                 this.heatDamageTickCounter = 0;
             }
         }

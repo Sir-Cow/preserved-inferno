@@ -25,7 +25,7 @@
     "frame": "progressing",
     "icon": {
       "count": 1,
-      "id": "minecraft:prismarine"
+      "id": "minecraft:sea_lantern"
     },
     "title": {
       "translate": "advancements.pinferno.adventure.find_ocean_monument.title"

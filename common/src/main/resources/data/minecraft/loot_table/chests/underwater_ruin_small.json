@@ -17,7 +17,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "minecraft:coal",
+          "name": "minecraft:charcoal",
           "weight": 10
         },
         {
@@ -71,10 +71,16 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:golden_helmet"
+          "name": "minecraft:chainmail_helmet"
         },
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:enchant_randomly",
+              "options": "#minecraft:on_random_loot"
+            }
+          ],
           "name": "minecraft:fishing_rod",
           "weight": 5
         },

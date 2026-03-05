@@ -42,8 +42,8 @@ public class ArmorMaterialMixin {
     }
 
     static {
-        CHAINMAIL_TOUGHNESS.put(ArmorType.HELMET, 0.0f); CHAINMAIL_TOUGHNESS.put(ArmorType.CHESTPLATE, 2.0f);
-        CHAINMAIL_TOUGHNESS.put(ArmorType.LEGGINGS, 1.0f); CHAINMAIL_TOUGHNESS.put(ArmorType.BOOTS, 0.0f);
+        CHAINMAIL_TOUGHNESS.put(ArmorType.HELMET, 1.0f); CHAINMAIL_TOUGHNESS.put(ArmorType.CHESTPLATE, 1.0f);
+        CHAINMAIL_TOUGHNESS.put(ArmorType.LEGGINGS, 1.0f); CHAINMAIL_TOUGHNESS.put(ArmorType.BOOTS, 1.0f);
     }
 
     static {
@@ -98,10 +98,10 @@ public class ArmorMaterialMixin {
         else if (assetId.toString().contains("chainmail")) {
             toughVal = CHAINMAIL_TOUGHNESS.getOrDefault(armorType, 0.0F);
             defenseVal = switch (armorType) {
-                case HELMET -> 9;
-                case CHESTPLATE -> 20;
+                case HELMET -> 10;
+                case CHESTPLATE -> 16;
                 case LEGGINGS -> 15;
-                case BOOTS -> 6;
+                case BOOTS -> 9;
                 case BODY -> 30;
             };
         }
