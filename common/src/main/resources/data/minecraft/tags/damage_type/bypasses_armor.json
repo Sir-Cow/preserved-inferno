@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pinferno:heat"
+    "pinferno:heat",
+    "pinferno:true_damage"
   ]
 }

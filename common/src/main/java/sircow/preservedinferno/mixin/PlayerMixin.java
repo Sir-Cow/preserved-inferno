@@ -13,6 +13,7 @@ import net.minecraft.stats.Stat;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -59,7 +60,7 @@ import java.util.Optional;
 public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, PlayerMixinAccess {
     @Unique private boolean hasWaterBreathingFromHelmet = false;
     @Unique private int heatIncreaseTickCounter, heatDecreaseTickCounter, heatDamageTickCounter = 0;
-    @Unique private Vec3 rideStartPos = null;
+    @Unique private Vec3 rideStartPos;
     @Unique private static final int INCREASE_CAP = 120;
     @Unique private static final int DECREASE_CAP = 80;
     @Unique private static final int IN_WATER_CAP_REDUCTION = 10;
@@ -597,5 +598,17 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
             return f + 3.0F;
         }
         return f;
+    }
+
+    @Inject(method = "canCriticalAttack", at = @At("HEAD"), cancellable = true)
+    private void preserved_inferno$disableCritForNonWeapons(Entity target, CallbackInfoReturnable<Boolean> cir) {
+        Player self = (Player)(Object)this;
+        ItemStack stack = self.getMainHandItem();
+
+        if (!stack.is(ItemTags.SHARP_WEAPON_ENCHANTABLE)
+                && !stack.is(ItemTags.MACE_ENCHANTABLE)
+                && !stack.is(ItemTags.TRIDENT_ENCHANTABLE)) {
+            cir.setReturnValue(false);
+        }
     }
 }

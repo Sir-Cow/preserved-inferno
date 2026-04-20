@@ -1,0 +1,9 @@
+{
+  "replace": true,
+  "values": [
+    "pinferno:armorer/2/emerald_chainmail_boots",
+    "pinferno:armorer/2/emerald_chainmail_chestplate",
+    "pinferno:armorer/2/emerald_chainmail_helmet",
+    "pinferno:armorer/2/emerald_chainmail_leggings"
+  ]
+}

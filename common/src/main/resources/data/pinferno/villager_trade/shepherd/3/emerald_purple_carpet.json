@@ -1,0 +1,12 @@
+{
+  "gives": {
+    "count": 32.0,
+    "id": "minecraft:purple_carpet"
+  },
+  "max_uses": 2.0,
+  "reputation_discount": 0.0,
+  "wants": {
+    "count": 1.0,
+    "id": "minecraft:emerald"
+  }
+}

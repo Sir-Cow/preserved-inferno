@@ -1,0 +1,18 @@
+{
+  "given_item_modifiers": [
+    {
+      "function": "minecraft:set_random_potion",
+      "options": "#minecraft:tradeable"
+    }
+  ],
+  "gives": {
+    "count": 8.0,
+    "id": "minecraft:tipped_arrow"
+  },
+  "max_uses": 1.0,
+  "reputation_discount": 0.0,
+  "wants": {
+    "count": 6.0,
+    "id": "minecraft:emerald"
+  }
+}

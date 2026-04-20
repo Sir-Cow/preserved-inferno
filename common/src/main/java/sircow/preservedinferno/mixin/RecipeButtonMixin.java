@@ -1,6 +1,6 @@
 package sircow.preservedinferno.mixin;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.recipebook.RecipeButton;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -18,8 +18,8 @@ public abstract class RecipeButtonMixin extends AbstractWidget {
         super(x, y, width, height, message);
     }
 
-    @Inject(method = "renderWidget", at = @At("TAIL"))
-    private void preserved_inferno$renderDurabilityBar(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
+    @Inject(method = "extractWidgetRenderState", at = @At("TAIL"))
+    private void preserved_inferno$renderDurabilityBar(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
         ItemStack stack = ((RecipeButton)(Object)this).getDisplayStack();
 
         if (!stack.isEmpty() && stack.isDamaged()) {

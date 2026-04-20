@@ -1,0 +1,11 @@
+{
+  "gives": {
+    "count": 8,
+    "id": "minecraft:lily_pad"
+  },
+  "max_uses": 8.0,
+  "reputation_discount": 0.0,
+  "wants": {
+    "id": "minecraft:emerald"
+  }
+}

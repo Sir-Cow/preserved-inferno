@@ -7,6 +7,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -99,7 +100,7 @@ public class ZombieMixin extends Monster {
     }
 
     @Inject(method = "handleAttributes", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$boostLowYLeaderChance(float difficulty, CallbackInfo ci) {
+    private void preserved_inferno$boostLowYLeaderChance(float difficultyModifier, EntitySpawnReason spawnReason, CallbackInfo ci) {
         Zombie self = (Zombie) (Object) this;
         BlockPos pos = self.blockPosition();
         boolean isLowY = pos.getY() <= 0;
@@ -111,7 +112,7 @@ public class ZombieMixin extends Monster {
                         self.getRandom().nextDouble() * 0.05F,
                         AttributeModifier.Operation.ADD_VALUE));
 
-        double d = self.getRandom().nextDouble() * 1.5 * difficulty;
+        double d = self.getRandom().nextDouble() * 1.5 * difficultyModifier;
         if (d > 1.0) {
             Objects.requireNonNull(self.getAttribute(Attributes.FOLLOW_RANGE))
                     .addOrReplacePermanentModifier(new AttributeModifier(
@@ -120,7 +121,7 @@ public class ZombieMixin extends Monster {
                             AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
 
-        if (self.getRandom().nextFloat() < difficulty * (isLowY ? 0.15F : 0.05F)) {
+        if (self.getRandom().nextFloat() < difficultyModifier * (isLowY ? 0.15F : 0.05F)) {
             Objects.requireNonNull(self.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE))
                     .addOrReplacePermanentModifier(new AttributeModifier(
                             Identifier.withDefaultNamespace("leader_zombie_bonus"),

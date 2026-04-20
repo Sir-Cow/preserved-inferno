@@ -1,6 +1,6 @@
 package sircow.preservedinferno.screen;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -22,16 +22,17 @@ public class CacheScreen extends AbstractContainerScreen<CacheMenu> {
     }
 
     @Override
-    protected void renderBg(GuiGraphics context, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(@NonNull GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a) {
+        super.extractBackground(graphics, mouseX, mouseY, a);
         int i = this.leftPos;
         int j = this.topPos;
-        context.blit(RenderPipelines.GUI_TEXTURED, BG_LOCATION, i, j, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, BG_LOCATION, i, j, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
     }
 
     @Override
-    public void render(@NonNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        renderBg(context, delta, mouseX, mouseY);
-        super.render(context, mouseX, mouseY, delta);
-        this.renderTooltip(context, mouseX, mouseY);
+    public void extractRenderState(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+        extractBackground(graphics, mouseX, mouseY, delta);
+        super.extractRenderState(graphics, mouseX, mouseY, delta);
+        this.extractTooltip(graphics, mouseX, mouseY);
     }
 }

@@ -2,7 +2,7 @@ package sircow.preservedinferno.mixin;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.recipebook.GhostSlots;
 import net.minecraft.client.gui.screens.recipebook.SlotSelectTime;
 import net.minecraft.core.component.DataComponents;
@@ -26,8 +26,8 @@ public class GhostSlotsMixin {
     @Shadow @Final private Reference2ObjectMap<Slot, ?> ingredients;
     @Shadow @Final private SlotSelectTime slotSelectTime;
 
-    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$changeGhostSlotTexture(GuiGraphics guiGraphics, Minecraft minecraft, boolean isBiggerResultSlot, CallbackInfo ci) {
+    @Inject(method = "extractRenderState", at = @At("HEAD"), cancellable = true)
+    private void preserved_inferno$changeGhostSlotTexture(GuiGraphicsExtractor guiGraphics, Minecraft minecraft, boolean isBiggerResultSlot, CallbackInfo ci) {
         for (var entry : this.ingredients.entrySet()) {
             Slot slot = entry.getKey();
             Object ghostSlotObj = entry.getValue();
@@ -55,11 +55,11 @@ public class GhostSlotsMixin {
                 guiGraphics.fill(x, y, x + 16, y + 16, 822018048);
             }
 
-            guiGraphics.renderFakeItem(stack, x, y);
+            guiGraphics.fakeItem(stack, x, y);
             guiGraphics.fill(x, y, x + 16, y + 16, 822083583);
 
             if (isResult) {
-                guiGraphics.renderItemDecorations(minecraft.font, stack, x, y);
+                guiGraphics.itemDecorations(minecraft.font, stack, x, y);
             }
         }
         ci.cancel();

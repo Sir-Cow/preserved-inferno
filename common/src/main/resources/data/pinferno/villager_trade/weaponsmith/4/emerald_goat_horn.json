@@ -1,0 +1,17 @@
+{
+  "given_item_modifiers": [
+    {
+      "function": "minecraft:set_instrument",
+      "options": "#minecraft:regular_goat_horns"
+    }
+  ],
+  "gives": {
+    "id": "minecraft:goat_horn"
+  },
+  "max_uses": 2.0,
+  "reputation_discount": 0.0,
+  "wants": {
+    "count": 4.0,
+    "id": "minecraft:emerald"
+  }
+}

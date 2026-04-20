@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:diamond_pickaxe",
+    "minecraft:diamond_axe",
+    "minecraft:diamond_shovel",
+    "minecraft:diamond_hoe",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:diamond_multitool"
+  }
+}

@@ -1,5 +1,7 @@
 package sircow.preservedinferno.entity.custom;
 
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,6 +19,7 @@ import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -27,6 +30,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.item.ModItems;
+
+import java.util.List;
 
 public class ThrownCopperTrident extends AbstractArrow {
     public static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(ThrownCopperTrident.class, EntityDataSerializers.BYTE);
@@ -142,6 +147,12 @@ public class ThrownCopperTrident extends AbstractArrow {
         if (entity.hurtOrSimulate(damageSource, f)) {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
+            }
+
+            if (this.getOwner() instanceof ServerPlayer player) {
+                if (EnchantmentHelper.getItemEnchantmentLevel(this.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.CHANNELING), this.getWeaponItem()) > 0 && this.level().isThundering() && this.level().canSeeSky(entity.blockPosition())) {
+                    CriteriaTriggers.CHANNELED_LIGHTNING.trigger(player, List.of(entity));
+                }
             }
 
             if (this.level() instanceof ServerLevel serverLevel) {

@@ -45,20 +45,20 @@ public abstract class BedBlockMixin extends HorizontalDirectionalBlock {
             if (now - lastUsed >= REGEN_COOLDOWN_MS && !MobLineOfSight.hasMonsterLineOfSight(player.level(), pos)) {
                 player.getEntityData().set(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN, now);
                 player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 20 * 20, 0));
-                player.displayClientMessage(Component.translatable("block.minecraft.bed.hardcore_regen"), true);
+                player.sendOverlayMessage(Component.translatable("block.minecraft.bed.hardcore_regen"));
                 cir.setReturnValue(InteractionResult.SUCCESS_SERVER);
             }
             else {
                 boolean moonVisible = player.level().environmentAttributes().getValue(EnvironmentAttributes.MOON_ANGLE, new Vec3(player.getX(), player.getY(), player.getZ()), null) > 0.0F;
                 if (moonVisible) {
-                    player.displayClientMessage(Component.translatable("block.minecraft.bed.no_dreamcatcher"), true);
+                    player.sendOverlayMessage(Component.translatable("block.minecraft.bed.no_dreamcatcher"));
                 }
                 else  {
                     if (MobLineOfSight.hasMonsterLineOfSight(player.level(), pos)) {
-                        player.displayClientMessage(Component.translatable("block.minecraft.bed.not_safe_hardcore"), true);
+                        player.sendOverlayMessage(Component.translatable("block.minecraft.bed.not_safe_hardcore"));
                     }
                     else {
-                        player.displayClientMessage(Component.translatable("block.minecraft.bed.hardcore_cooldown"), true);
+                        player.sendOverlayMessage(Component.translatable("block.minecraft.bed.hardcore_cooldown"));
                     }
                 }
                 cir.setReturnValue(InteractionResult.SUCCESS_SERVER);

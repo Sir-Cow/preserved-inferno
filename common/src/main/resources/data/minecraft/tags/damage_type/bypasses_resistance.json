@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pinferno:conduit"
+    "pinferno:conduit",
+    "pinferno:true_damage"
   ]
 }

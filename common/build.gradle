@@ -9,16 +9,12 @@ neoForge {
     if (at.exists()) {
         accessTransformers.from(at.absolutePath)
     }
-    parchment {
-        minecraftVersion = parchment_minecraft
-        mappingsVersion = parchment_version
-    }
 }
 
 dependencies {
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.7'
-    compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.5.3'
-    annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.5.3'
+    compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.5.4'
+    annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.5.4'
 }
 
 configurations {
@@ -30,6 +26,10 @@ configurations {
         canBeResolved = false
         canBeConsumed = true
     }
+
+    [apiElements, runtimeElements].each { cfg ->
+        cfg.outgoing.capability("${project.group}:${mod_id}:${project.version}")
+    }
 }
 
 artifacts {
@@ -38,7 +38,7 @@ artifacts {
 }
 
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
-['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
+['apiElements', 'runtimeElements'].each { variant ->
     configurations.named("$variant") {
         attributes {
             attribute(loaderAttribute, 'common')

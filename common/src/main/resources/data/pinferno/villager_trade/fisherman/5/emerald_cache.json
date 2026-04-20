@@ -1,0 +1,11 @@
+{
+  "gives": {
+    "id": "pinferno:cache"
+  },
+  "max_uses": 1.0,
+  "reputation_discount": 0.0,
+  "wants": {
+    "count": 64.0,
+    "id": "minecraft:emerald"
+  }
+}

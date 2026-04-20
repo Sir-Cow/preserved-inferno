@@ -1,0 +1,11 @@
+{
+  "gives": {
+    "id": "minecraft:resin_clump"
+  },
+  "max_uses": 9.0,
+  "reputation_discount": 0.0,
+  "wants": {
+    "count": 1.0,
+    "id": "minecraft:emerald"
+  }
+}

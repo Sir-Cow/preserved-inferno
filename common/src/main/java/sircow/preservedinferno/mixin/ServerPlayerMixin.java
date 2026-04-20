@@ -107,7 +107,7 @@ public abstract class ServerPlayerMixin extends Player {
 
         if (result.left().isPresent() && result.left().get() == Player.BedSleepingProblem.TOO_FAR_AWAY) {
             if (this.level().getLevelData().isHardcore()) {
-                this.displayClientMessage(Component.translatable("block.minecraft.bed.too_far_away_hardcore"), true);
+                this.sendOverlayMessage(Component.translatable("block.minecraft.bed.too_far_away_hardcore"));
                 cir.setReturnValue(Either.left(Player.BedSleepingProblem.OTHER_PROBLEM));
             }
         }

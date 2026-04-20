@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "sircow.preservedinferno.mixin",
-  "refmap": "${mod_id}.refmap.json",
+  "refmap": "pinferno.refmap.json",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AbstractCauldronBlockMixin",
@@ -13,8 +13,7 @@
     "EnchantingTableBlockMixin",
     "LoomBlockMixin",
     "PlayerAdvancementsMixin",
-    "PlayerMixin",
-    "VillagerMixin"
+    "PlayerMixin"
   ],
   "client": [
     "ClientAdvancementsMixin",

@@ -1,0 +1,9 @@
+{
+  "replace": true,
+  "values": [
+    "pinferno:fisherman/3/emerald_fishing_rod",
+    "pinferno:fisherman/3/emerald_iron_fishing_hook",
+    "pinferno:fisherman/3/emerald_iron_laced_fishing_line",
+    "pinferno:fisherman/3/emerald_iron_sinker"
+  ]
+}

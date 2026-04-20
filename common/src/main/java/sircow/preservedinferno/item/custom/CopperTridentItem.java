@@ -34,7 +34,8 @@ import java.util.List;
 
 public class CopperTridentItem extends Item implements ProjectileItem {
     public static final int THROW_THRESHOLD_TIME = 10;
-    public static final float BASE_DAMAGE = 7.0F;
+    public static final float BASE_DAMAGE = 8.0F;
+    public static final float BASE_ATTACK_SPEED = -2.8F;
     public static final float PROJECTILE_SHOOT_POWER = 2.5F;
 
     public CopperTridentItem(Properties properties) {
@@ -44,7 +45,7 @@ public class CopperTridentItem extends Item implements ProjectileItem {
     public static ItemAttributeModifiers createAttributes() {
         return ItemAttributeModifiers.builder()
                 .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, BASE_DAMAGE, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-                .add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -2.8F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, BASE_ATTACK_SPEED, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .build();
     }
 
@@ -65,13 +66,13 @@ public class CopperTridentItem extends Item implements ProjectileItem {
     @Override
     public boolean releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity, int timeLeft) {
         if (entity instanceof Player player) {
-            int i = this.getUseDuration(stack, entity) - timeLeft;
-            if (i < THROW_THRESHOLD_TIME) {
+            int timeHeld = this.getUseDuration(stack, entity) - timeLeft;
+            if (timeHeld < THROW_THRESHOLD_TIME) {
                 return false;
             }
             else {
-                float f = EnchantmentHelper.getTridentSpinAttackStrength(stack, player);
-                if (f > 0.0F && (!player.hasEffect(MobEffects.CONDUIT_POWER) && !player.isInWaterOrRain())) {
+                float riptideStrength = EnchantmentHelper.getTridentSpinAttackStrength(stack, player);
+                if (riptideStrength > 0.0F && (!player.hasEffect(MobEffects.CONDUIT_POWER) && !player.isInWaterOrRain())) {
                     return false;
                 }
                 else if (stack.nextDamageWillBreak()) {
@@ -82,7 +83,7 @@ public class CopperTridentItem extends Item implements ProjectileItem {
                     player.awardStat(Stats.ITEM_USED.get(this));
                     if (level instanceof ServerLevel serverLevel) {
                         stack.hurtWithoutBreaking(1, player);
-                        if (f == 0.0F) {
+                        if (riptideStrength == 0.0F) {
                             ItemStack itemStack = stack.consumeAndReturn(1, player);
                             ThrownCopperTrident thrownTrident = Projectile.spawnProjectileFromRotation(ThrownCopperTrident::new, serverLevel, itemStack, player, 0.0F, PROJECTILE_SHOOT_POWER, 1.0F);
                             if (player.hasInfiniteMaterials()) {
@@ -94,18 +95,18 @@ public class CopperTridentItem extends Item implements ProjectileItem {
                         }
                     }
 
-                    if (f > 0.0F) {
-                        float g = player.getYRot();
-                        float h = player.getXRot();
-                        float j = -Mth.sin(g * (float) (Math.PI / 180.0)) * Mth.cos(h * (float) (Math.PI / 180.0));
-                        float k = -Mth.sin(h * (float) (Math.PI / 180.0));
-                        float l = Mth.cos(g * (float) (Math.PI / 180.0)) * Mth.cos(h * (float) (Math.PI / 180.0));
-                        float m = Mth.sqrt(j * j + k * k + l * l);
-                        j *= f / m;
-                        k *= f / m;
-                        l *= f / m;
+                    if (riptideStrength > 0.0F) {
+                        float yRot = player.getYRot();
+                        float xRot = player.getXRot();
+                        float j = -Mth.sin(yRot * (float) (Math.PI / 180.0)) * Mth.cos(xRot * (float) (Math.PI / 180.0));
+                        float k = -Mth.sin(xRot * (float) (Math.PI / 180.0));
+                        float l = Mth.cos(yRot * (float) (Math.PI / 180.0)) * Mth.cos(xRot * (float) (Math.PI / 180.0));
+                        float dist = Mth.sqrt(j * j + k * k + l * l);
+                        j *= riptideStrength / dist;
+                        k *= riptideStrength / dist;
+                        l *= riptideStrength / dist;
                         player.push(j, k, l);
-                        player.startAutoSpinAttack(20, 6.0F, stack);
+                        player.startAutoSpinAttack(20, 8.0F, stack);
                         if (player.onGround()) {
                             player.move(MoverType.SELF, new Vec3(0.0, 1.1999999F, 0.0));
                         }

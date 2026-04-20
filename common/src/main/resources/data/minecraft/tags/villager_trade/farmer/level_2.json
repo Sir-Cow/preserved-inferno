@@ -1,0 +1,9 @@
+{
+  "replace": true,
+  "values": [
+    "pinferno:farmer/2/brown_mushroom_emerald",
+    "pinferno:farmer/2/emerald_bread",
+    "pinferno:farmer/2/emerald_pumpkin_pie",
+    "pinferno:farmer/2/red_mushroom_emerald"
+  ]
+}

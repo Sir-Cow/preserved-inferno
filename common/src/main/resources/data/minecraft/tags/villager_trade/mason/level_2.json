@@ -1,0 +1,9 @@
+{
+  "replace": true,
+  "values": [
+    "pinferno:mason/2/granite_emerald",
+    "pinferno:mason/2/andesite_emerald",
+    "pinferno:mason/2/rhyolite_emerald",
+    "pinferno:mason/2/diorite_emerald"
+  ]
+}

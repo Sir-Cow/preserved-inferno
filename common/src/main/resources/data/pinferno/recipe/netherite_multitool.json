@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:netherite_pickaxe",
+    "minecraft:netherite_axe",
+    "minecraft:netherite_shovel",
+    "minecraft:netherite_hoe",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:netherite_multitool"
+  }
+}

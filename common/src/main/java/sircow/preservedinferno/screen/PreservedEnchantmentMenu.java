@@ -121,7 +121,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
         super.removed(player);
         this.access.execute((world, pos) -> {
             this.clearContainer(player, this.enchantSlots);
-            world.playSound(null, pos, ModSounds.ENCHANT_CLOSE, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+            world.playSound(null, pos, ModSounds.ENCHANT_CLOSE, SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
         });
         this.enchantSelected = false;
     }
@@ -193,7 +193,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                                 }
                                 this.enchantSlots.setChanged();
                                 this.slotsChanged(this.enchantSlots);
-                                world.playSound(null, pos, ModSounds.ENCHANT, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                                world.playSound(null, pos, ModSounds.ENCHANT, SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
                             }
                         }
                     }
@@ -231,7 +231,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                                 }
                                 this.enchantSlots.setChanged();
                                 this.slotsChanged(this.enchantSlots);
-                                world.playSound(null, pos, ModSounds.ENCHANT, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                                world.playSound(null, pos, ModSounds.ENCHANT, SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
                             }
                         }
                     }
@@ -269,7 +269,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
                                 }
                                 this.enchantSlots.setChanged();
                                 this.slotsChanged(this.enchantSlots);
-                                world.playSound(null, pos, ModSounds.ENCHANT, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+                                world.playSound(null, pos, ModSounds.ENCHANT, SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
                             }
                         }
                     }

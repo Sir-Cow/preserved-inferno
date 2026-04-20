@@ -29,6 +29,8 @@ public class FabricModItemGroups {
                     entries.accept(ModBlocks.RHYOLITE_SLAB.asItem());
                     entries.accept(ModBlocks.POLISHED_RHYOLITE_SLAB.asItem());
 
+                    entries.accept(ModBlocks.SPARKLING_BLACKSTONE.asItem());
+
                     entries.accept(ModItems.DREAMCATCHER);
                     entries.accept(ModItems.ELDER_GUARDIAN_SPINE);
                     entries.accept(ModItems.HOLLOW_TWINE);
@@ -36,6 +38,7 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.RAW_HIDE);
                     entries.accept(ModItems.LEATHER_FABRIC);
                     entries.accept(ModItems.GILDEN_BERRIES);
+                    entries.accept(ModItems.RESIN_SPECK);
 
                     entries.accept(ModItems.ECHOING_PRISM);
                     entries.accept(ModItems.ECHOING_PRISM_UPGRADE_SMITHING_TEMPLATE);
@@ -53,6 +56,16 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.QUARTZITE_SWORD);
 
                     entries.accept(ModItems.COPPER_TRIDENT);
+
+                    entries.accept(ModItems.WOODEN_MULTITOOL);
+                    entries.accept(ModItems.STONE_MULTITOOL);
+                    entries.accept(ModItems.COPPER_MULTITOOL);
+                    entries.accept(ModItems.IRON_MULTITOOL);
+                    entries.accept(ModItems.DIAMOND_MULTITOOL);
+                    entries.accept(ModItems.NETHERITE_MULTITOOL);
+                    entries.accept(ModItems.QUARTZITE_MULTITOOL);
+                    entries.accept(ModItems.GOLDEN_MULTITOOL);
+                    entries.accept(ModItems.NETHER_ALLOY_MULTITOOL);
 
                     entries.accept(ModItems.BLACK_CLOTH);
                     entries.accept(ModItems.BLUE_CLOTH);

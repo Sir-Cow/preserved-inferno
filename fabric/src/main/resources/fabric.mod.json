@@ -27,17 +27,16 @@
         ],
         "mm:early_risers": [
             "sircow.preservedinferno.other.AdvancementEnumExtender"
-      ]
-
+        ]
     },
     "mixins": [
-        "${mod_id}.mixins.json",
-        "${mod_id}.fabric.mixins.json"
+        "pinferno.mixins.json",
+        "pinferno.fabric.mixins.json"
     ],
     "depends": {
-        "fabricloader": ">=${fabric_loader_version}",
+        "fabricloader": ">=0.19.0",
         "fabric-api": "*",
-        "minecraft": "~${minecraft_version}",
+        "minecraft": "~26.1",
         "java": ">=${java_version}"
     },
     "suggests": {

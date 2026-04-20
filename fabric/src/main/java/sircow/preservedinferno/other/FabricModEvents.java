@@ -10,9 +10,9 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -41,11 +41,14 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.CreakingHeartState;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
@@ -55,6 +58,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.block.ModBlocks;
+import sircow.preservedinferno.block.custom.SparklingBlackstoneBlock;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.enchantment.ModEnchantments;
@@ -78,7 +83,7 @@ public class FabricModEvents {
                     context.hasParameter(LootContextParams.TOOL) &&
                     context.hasParameter(LootContextParams.THIS_ENTITY)) {
                 BlockState brokenState = context.getParameter(LootContextParams.BLOCK_STATE);
-                ItemStack toolUsed = context.getParameter(LootContextParams.TOOL);
+                ItemInstance toolUsed = context.getParameter(LootContextParams.TOOL);
                 Player playerEntity = null;
 
                 if (context.getOptionalParameter(LootContextParams.THIS_ENTITY) instanceof Player) playerEntity = (Player) context.getOptionalParameter(LootContextParams.THIS_ENTITY);
@@ -111,12 +116,12 @@ public class FabricModEvents {
             boolean moonVisible = moonAngle > 0.0F;
 
             if (MobLineOfSight.hasMonsterLineOfSight(player.level(), pos)) {
-                player.displayClientMessage(Component.translatable("block.minecraft.bed.not_safe"), true);
+                player.sendOverlayMessage(Component.translatable("block.minecraft.bed.not_safe"));
                 return Player.BedSleepingProblem.OTHER_PROBLEM;
             }
 
             if (!holdingDreamcatcher) {
-                player.displayClientMessage(Component.translatable("block.minecraft.bed.no_dreamcatcher"), true);
+                player.sendOverlayMessage(Component.translatable("block.minecraft.bed.no_dreamcatcher"));
                 return Player.BedSleepingProblem.OTHER_PROBLEM;
             }
 
@@ -141,8 +146,8 @@ public class FabricModEvents {
                     if (server != null) {
                         for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers()) {
                             serverPlayer.addEffect(new MobEffectInstance(ModEffects.WELL_RESTED.holder, 24000, 0, false, false, true));
-                            if (player.getUUID() == serverPlayer.getUUID()) serverPlayer.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake"), true);
-                            else serverPlayer.displayClientMessage(Component.translatable("effect.pinferno.well_rested_awake_not_sleeping", player.getName()), true);
+                            if (player.getUUID() == serverPlayer.getUUID()) serverPlayer.sendOverlayMessage(Component.translatable("effect.pinferno.well_rested_awake"));
+                            else serverPlayer.sendOverlayMessage(Component.translatable("effect.pinferno.well_rested_awake_not_sleeping", player.getName()));
                         }
                     }
                 }
@@ -169,7 +174,7 @@ public class FabricModEvents {
                     player.setHealth(1.0F);
                     player.removeEffect(ModEffects.WELL_RESTED.holder);
                     player.invulnerableTime = 60;
-                    player.displayClientMessage(Component.translatable("effect.pinferno.well_rested_hardcore"), true);
+                    player.sendOverlayMessage(Component.translatable("effect.pinferno.well_rested_hardcore"));
                     return false;
                 }
             }
@@ -251,6 +256,9 @@ public class FabricModEvents {
 
             if (mainHandItem.is(ItemTags.HOES) && (state.is(Blocks.SHORT_GRASS) || state.is(Blocks.TALL_GRASS))) mainHandItem.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
             if (state.is(Blocks.SCULK_SHRIEKER)) ModTriggers.BREAK_SCULK_SHRIEKER.get().trigger((ServerPlayer) player);
+            if (state.is(Blocks.CREAKING_HEART) && state.getValue(BlockStateProperties.CREAKING_HEART_STATE) == CreakingHeartState.AWAKE) ModTriggers.BREAK_CREAKING_HEART.get().trigger((ServerPlayer) player);
+            if (state.is(ModBlocks.SPARKLING_BLACKSTONE) && state.getValue(SparklingBlackstoneBlock.STAGE) == 4) ModTriggers.BREAK_SPARKLING_BLACKSTONE.get().trigger((ServerPlayer) player);
+
         });
     }
 
@@ -299,7 +307,7 @@ public class FabricModEvents {
                 if (player.isCrouching()) return InteractionResult.PASS;
 
                 if (!level.isClientSide()) {
-                    player.openMenu(new ExtendedScreenHandlerFactory() {
+                    player.openMenu(new ExtendedMenuProvider() {
                         @Override
                         public @NotNull AbstractContainerMenu createMenu(int syncId, @NonNull Inventory playerInventory, @NonNull Player player) {
                             return new PreservedFletchingTableMenu(syncId, playerInventory, ContainerLevelAccess.create(level, pos));
@@ -428,7 +436,7 @@ public class FabricModEvents {
                                         .append(Component.literal(latest).setStyle(updateLink))
                                         .append(Component.literal(" (current: " + current + ")").withStyle(ChatFormatting.WHITE));
 
-                                client.player.displayClientMessage(message, false);
+                                client.player.sendSystemMessage(message);
                             }
                         });
                     });

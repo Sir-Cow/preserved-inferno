@@ -1,5 +1,6 @@
 {
   "asset_id": "pinferno:entity/cow/sir_cow",
+  "baby_asset_id": "pinferno:entity/cow/sir_cow_baby",
   "spawn_conditions": [
     {
       "condition": {

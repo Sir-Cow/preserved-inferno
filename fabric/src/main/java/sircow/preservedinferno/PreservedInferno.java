@@ -2,9 +2,9 @@ package sircow.preservedinferno;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuType;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -38,22 +38,22 @@ public class PreservedInferno implements ModInitializer {
     // menus
     private static final MenuType<AnglingTableMenu> ANGLING_TABLE_MENU_TYPE =
             Registry.register(BuiltInRegistries.MENU, Constants.id("angling_table"),
-                    new ExtendedScreenHandlerType<>((pWindowID, pInventory, pData) -> new AnglingTableMenu(pWindowID, pInventory), BlockData.CODEC));
+                    new ExtendedMenuType<>((pWindowID, pInventory, pData) -> new AnglingTableMenu(pWindowID, pInventory), BlockData.CODEC));
     public static final MenuType<PreservedCauldronMenu> PRESERVED_CAULDRON_MENU_TYPE =
             Registry.register(BuiltInRegistries.MENU, Constants.id("preserved_cauldron"),
-                    new ExtendedScreenHandlerType<>(PreservedCauldronMenu::new, PreservedCauldronBlockData.STREAM_CODEC));
+                    new ExtendedMenuType<>(PreservedCauldronMenu::new, PreservedCauldronBlockData.STREAM_CODEC));
     public static final MenuType<PreservedFletchingTableMenu> PRESERVED_FLETCHING_TABLE_MENU_TYPE =
             Registry.register(BuiltInRegistries.MENU, Constants.id("preserved_fletching_table"),
-                    new ExtendedScreenHandlerType<>((pWindowID, pInventory, pData) -> new PreservedFletchingTableMenu(pWindowID, pInventory), BlockData.CODEC));
+                    new ExtendedMenuType<>((pWindowID, pInventory, pData) -> new PreservedFletchingTableMenu(pWindowID, pInventory), BlockData.CODEC));
     private static final MenuType<PreservedLoomMenu> PRESERVED_LOOM_MENU_TYPE =
             Registry.register(BuiltInRegistries.MENU, Constants.id("preserved_loom"),
-                    new ExtendedScreenHandlerType<>((pWindowID, pInventory, pData) -> new PreservedLoomMenu(pWindowID, pInventory), BlockData.CODEC));
+                    new ExtendedMenuType<>((pWindowID, pInventory, pData) -> new PreservedLoomMenu(pWindowID, pInventory), BlockData.CODEC));
     private static final MenuType<PreservedEnchantmentMenu> PRESERVED_ENCHANT_MENU_TYPE =
             Registry.register(BuiltInRegistries.MENU, Constants.id("preserved_enchant"),
-                    new ExtendedScreenHandlerType<>((pWindowID, pInventory, pData) -> new PreservedEnchantmentMenu(pWindowID, pInventory), BlockData.CODEC));
+                    new ExtendedMenuType<>((pWindowID, pInventory, pData) -> new PreservedEnchantmentMenu(pWindowID, pInventory), BlockData.CODEC));
     private static final MenuType<CacheMenu> CACHE_MENU_TYPE =
             Registry.register(BuiltInRegistries.MENU, Constants.id("cache"),
-                    new ExtendedScreenHandlerType<>(CacheMenu::new, PreservedInferno.ItemData.CODEC));
+                    new ExtendedMenuType<>(CacheMenu::new, PreservedInferno.ItemData.CODEC));
 
     static {
         Constants.ANGLING_TABLE_MENU_TYPE = () -> ANGLING_TABLE_MENU_TYPE;
@@ -141,8 +141,8 @@ public class PreservedInferno implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        PayloadTypeRegistry.playC2S().register(OpenAdvancementPayload.ID, OpenAdvancementPayload.CODEC);
-        PayloadTypeRegistry.playC2S().register(BashfulPayload.TYPE, BashfulPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(OpenAdvancementPayload.ID, OpenAdvancementPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(BashfulPayload.TYPE, BashfulPayload.CODEC);
         INSTANCE = this;
         Constants.INSTANCE = new FabricVersionChecker();
         CommonClass.init();

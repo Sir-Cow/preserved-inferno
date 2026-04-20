@@ -6,8 +6,6 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
-import net.minecraft.world.item.ItemDisplayContext;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3fc;
 import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
@@ -24,39 +22,33 @@ public class CopperTridentSpecialRenderer implements NoDataSpecialModelRenderer 
 
     @Override
     public void submit(
-            @NotNull ItemDisplayContext displayContext,
-            PoseStack poseStack,
-            @NotNull SubmitNodeCollector nodeCollector,
-            int packedLight,
-            int packedOverlay,
-            boolean hasFoil,
-            int outlineColor
+            final @NonNull PoseStack poseStack,
+            final SubmitNodeCollector submitNodeCollector,
+            final int lightCoords,
+            final int overlayCoords,
+            final boolean hasFoil,
+            final int outlineColor
     ) {
-        poseStack.pushPose();
-        poseStack.scale(1.0F, -1.0F, -1.0F);
-        nodeCollector.submitModelPart(
-                this.model.root(), poseStack, this.model.renderType(CopperTridentModel.TEXTURE), packedLight, packedOverlay, null, false, hasFoil, -1, null, outlineColor
+        submitNodeCollector.submitModelPart(
+                this.model.root(), poseStack, this.model.renderType(CopperTridentModel.TEXTURE), lightCoords, overlayCoords, null, false, hasFoil, -1, null, outlineColor
         );
-        poseStack.popPose();
     }
 
     @Override
-    public void getExtents(@NonNull Consumer<Vector3fc> consumer) {
+    public void getExtents(final @NonNull Consumer<Vector3fc> output) {
         PoseStack poseStack = new PoseStack();
-        poseStack.scale(1.0F, -1.0F, -1.0F);
-        this.model.root().getExtentsForGui(poseStack, consumer);
+        this.model.root().getExtentsForGui(poseStack, output);
     }
 
-    public record Unbaked() implements SpecialModelRenderer.Unbaked {
+    public record Unbaked() implements NoDataSpecialModelRenderer.Unbaked {
         public static final MapCodec<CopperTridentSpecialRenderer.Unbaked> MAP_CODEC = MapCodec.unit(new CopperTridentSpecialRenderer.Unbaked());
 
         @Override
-        public @NotNull MapCodec<CopperTridentSpecialRenderer.Unbaked> type() {
+        public @NonNull MapCodec<CopperTridentSpecialRenderer.Unbaked> type() {
             return MAP_CODEC;
         }
 
-        @Override
-        public SpecialModelRenderer<?> bake(SpecialModelRenderer.BakingContext context) {
+        public CopperTridentSpecialRenderer bake(final SpecialModelRenderer.BakingContext context) {
             return new CopperTridentSpecialRenderer(new CopperTridentModel(context.entityModelSet().bakeLayer(COPPER_TRIDENT)));
         }
     }

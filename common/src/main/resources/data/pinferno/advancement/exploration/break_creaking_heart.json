@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:exploration/find_pale_garden",
+  "criteria": {
+    "break_creaking_heart": {
+      "trigger": "pinferno:break_creaking_heart"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.break_creaking_heart.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:creaking_heart"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.break_creaking_heart.title"
+    }
+  },
+  "requirements": [
+    [
+      "break_creaking_heart"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

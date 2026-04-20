@@ -1,0 +1,9 @@
+{
+  "replace": true,
+  "values": [
+    "pinferno:farmer/3/emerald_apple",
+    "pinferno:farmer/3/emerald_enchanted_iron_hoe",
+    "pinferno:farmer/3/melon_emerald",
+    "pinferno:farmer/3/pumpkin_emerald"
+  ]
+}

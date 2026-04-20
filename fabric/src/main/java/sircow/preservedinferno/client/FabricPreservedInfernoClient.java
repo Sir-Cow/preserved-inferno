@@ -4,14 +4,12 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.registries.Registries;
@@ -23,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.MenuTypes;
 import sircow.preservedinferno.PreservedInferno;
-import sircow.preservedinferno.block.ModBlocks;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntityRenderer;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.enchantment.ModEnchantments;
@@ -52,7 +49,6 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     public void onInitializeClient() {
         registerMenuScreens();
         registerEntities();
-        configureBlockRenderLayers();
         registerCustomTooltip();
         tickAdvancement();
         BlockEntityRenderers.register(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, PreservedCauldronBlockEntityRenderer::new);
@@ -71,40 +67,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     private void registerEntities() {
         EntityRenderers.register(ModEntities.FLARE_GUN_PROJECTILE, (ThrownItemRenderer::new));
         EntityRenderers.register(ModEntities.COPPER_TRIDENT, (ThrownCopperTridentRenderer::new));
-        EntityModelLayerRegistry.registerModelLayer(ThrownCopperTridentRenderer.COPPER_TRIDENT, CopperTridentModel::createLayer);
-    }
-
-    private void configureBlockRenderLayers() {
-        BlockRenderLayerMap.putBlocks(ChunkSectionLayer.CUTOUT,
-                ModBlocks.INDUCTOR_RAIL,
-                ModBlocks.EXPOSED_INDUCTOR_RAIL,
-                ModBlocks.WEATHERED_INDUCTOR_RAIL,
-                ModBlocks.OXIDIZED_INDUCTOR_RAIL,
-                ModBlocks.WAXED_INDUCTOR_RAIL,
-                ModBlocks.WAXED_EXPOSED_INDUCTOR_RAIL,
-                ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL,
-                ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL,
-                ModBlocks.REINFORCED_OAK_DOOR,
-                ModBlocks.REINFORCED_SPRUCE_DOOR,
-                ModBlocks.REINFORCED_BIRCH_DOOR,
-                ModBlocks.REINFORCED_JUNGLE_DOOR,
-                ModBlocks.REINFORCED_ACACIA_DOOR,
-                ModBlocks.REINFORCED_CHERRY_DOOR,
-                ModBlocks.REINFORCED_DARK_OAK_DOOR,
-                ModBlocks.REINFORCED_PALE_OAK_DOOR,
-                ModBlocks.REINFORCED_MANGROVE_DOOR,
-                ModBlocks.REINFORCED_BAMBOO_DOOR,
-                ModBlocks.REINFORCED_CRIMSON_DOOR,
-                ModBlocks.REINFORCED_WARPED_DOOR,
-                ModBlocks.REINFORCED_COPPER_DOOR,
-                ModBlocks.REINFORCED_EXPOSED_COPPER_DOOR,
-                ModBlocks.REINFORCED_OXIDIZED_COPPER_DOOR,
-                ModBlocks.REINFORCED_WEATHERED_COPPER_DOOR,
-                ModBlocks.REINFORCED_WAXED_COPPER_DOOR,
-                ModBlocks.REINFORCED_WAXED_EXPOSED_COPPER_DOOR,
-                ModBlocks.REINFORCED_WAXED_OXIDIZED_COPPER_DOOR,
-                ModBlocks.REINFORCED_WAXED_WEATHERED_COPPER_DOOR
-        );
+        ModelLayerRegistry.registerModelLayer(ThrownCopperTridentRenderer.COPPER_TRIDENT, CopperTridentModel::createLayer);
     }
 
     private void registerCustomTooltip() {

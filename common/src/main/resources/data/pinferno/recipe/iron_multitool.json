@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:iron_pickaxe",
+    "minecraft:iron_axe",
+    "minecraft:iron_shovel",
+    "minecraft:iron_hoe",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:iron_multitool"
+  }
+}

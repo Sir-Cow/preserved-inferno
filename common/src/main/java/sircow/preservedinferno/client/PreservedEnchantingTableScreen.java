@@ -2,7 +2,7 @@ package sircow.preservedinferno.client;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -22,6 +22,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.other.ModTags;
@@ -86,7 +87,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
     private static final Identifier ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE = Constants.id("container/enchanting_table/enchantment_slot_highlighted");
     private static final Identifier ENCHANTMENT_SLOT_TEXTURE = Constants.id("container/enchanting_table/enchantment_slot");
     private static final Identifier TEXTURE = Constants.id("textures/gui/container/preserved_enchanting_table_gui.png");
-    private static final Identifier BOOK_TEXTURE = Identifier.withDefaultNamespace("textures/entity/enchanting_table_book.png");
+    private static final Identifier BOOK_TEXTURE = Identifier.withDefaultNamespace("textures/entity/enchantment/enchanting_table_book.png");
     private static final Identifier SCROLLER_TEXTURE = Constants.id("container/enchanting_table/scroller");
     private static final Identifier SCROLLER_DISABLED_TEXTURE = Constants.id("container/enchanting_table/scroller_disabled");
     private final RandomSource random = RandomSource.create();
@@ -136,6 +137,10 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         itemCategorySlots.put("toolSilkWeaponBane", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Looting"), idx("Silk Touch"), idx("Unbreaking")));
         itemCategorySlots.put("toolSilkWeaponSharp", Set.of(idx("Efficiency"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
         itemCategorySlots.put("toolSilkWeaponSmite", Set.of(idx("Efficiency"), idx("Looting"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
+        // multitool
+        itemCategorySlots.put("multitool", Set.of(idx("Efficiency"), idx("Fortune"), idx("Silk Touch"), idx("Unbreaking")));
+        itemCategorySlots.put("multitoolFort", Set.of(idx("Efficiency"), idx("Fortune"), idx("Unbreaking")));
+        itemCategorySlots.put("multitoolSilk", Set.of(idx("Efficiency"), idx("Silk Touch"), idx("Unbreaking")));
         // bow
         itemCategorySlots.put("bow", Set.of(idx("Flame"), idx("Infinity"), idx("Power"), idx("Punch"), idx("Unbreaking")));
         itemCategorySlots.put("bowMending", Set.of(idx("Flame"), idx("Power"), idx("Punch"), idx("Unbreaking")));
@@ -211,40 +216,35 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float delta, int mouseX, int mouseY) {
+    public void extractBackground(@NonNull GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a) {
+        super.extractBackground(graphics, mouseX, mouseY, a);
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, i, j, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
-        this.drawBook(guiGraphics, i, j);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, i, j, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
+        this.extractBook(graphics, i, j);
 
         int k = (int)(41.0F * this.scrollAmount);
         Identifier identifier = this.shouldScroll() ? SCROLLER_TEXTURE : SCROLLER_DISABLED_TEXTURE;
-        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, identifier, i + 156, j + 13 + k, 12, 15);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, identifier, i + 156, j + 13 + k, 12, 15);
         int l = this.leftPos + 97;
         int m = this.topPos + 11;
         int n = this.scrollOffset + 16;
-        this.renderIcons(guiGraphics, l, m, n);
-        this.renderEXPIcons(guiGraphics, this.leftPos + 71, this.topPos + 13);
+        this.renderIcons(graphics, l, m, n);
+        this.renderEXPIcons(graphics, this.leftPos + 71, this.topPos + 13);
     }
 
-    private void drawBook(GuiGraphics guiGraphics, int i, int j) {
-        float f = this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false);
-        float g = Mth.lerp(f, this.oOpen, this.open);
-        float h = Mth.lerp(f, this.oFlip, this.flip);
-        int k = i + 14;
-        int l = j + 14;
-        int m = k + 38;
-        int n = l + 31;
-        guiGraphics.submitBookModelRenderState(this.bookModel, BOOK_TEXTURE, 40.0F, g, h, k, l, m, n);
+    private void extractBook(final GuiGraphicsExtractor graphics, final int left, final int top) {
+        float a = this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false);
+        float open = Mth.lerp(a, this.oOpen, this.open);
+        float flip = Mth.lerp(a, this.oFlip, this.flip);
+        int x0 = left + 14;
+        int y0 = top + 14;
+        int x1 = x0 + 38;
+        int y1 = y0 + 31;
+        graphics.book(this.bookModel, BOOK_TEXTURE, 40.0F, open, flip, x0, y0, x1, y1);
     }
 
-    public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        float f = this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false);
-        super.render(context, mouseX, mouseY, f);
-        this.renderTooltip(context, mouseX, mouseY);
-    }
-
-    private void renderIcons(GuiGraphics context, int x, int y, int scrollOffset) {
+    private void renderIcons(GuiGraphicsExtractor graphics, int x, int y, int scrollOffset) {
         for (int i = this.scrollOffset; i < scrollOffset && i < ENCHANTMENT_ICON_TEXTURES.length; i++) {
             int j = i - this.scrollOffset;
             int k = x + j % 4 * 14;
@@ -256,18 +256,18 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 this.twentyTextureActive = false;
                 this.thirtyTextureActive = false;
                 this.menu.enchantSelected = false;
-                context.blitSprite(RenderPipelines.GUI_TEXTURED, ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
+                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
             }
             Set<Integer> slots = itemCategorySlots.get(this.itemCategory);
             if (!this.menu.enchantSelected) {
-                context.blitSprite(RenderPipelines.GUI_TEXTURED, slots != null && slots.contains(i) ? ENCHANTMENT_SLOT_TEXTURE : ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
+                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, slots != null && slots.contains(i) ? ENCHANTMENT_SLOT_TEXTURE : ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
             }
             else {
                 if (i != this.menu.getSelectedEnchantID()) {
-                    context.blitSprite(RenderPipelines.GUI_TEXTURED, slots != null && slots.contains(i) ? ENCHANTMENT_SLOT_TEXTURE : ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
+                    graphics.blitSprite(RenderPipelines.GUI_TEXTURED, slots != null && slots.contains(i) ? ENCHANTMENT_SLOT_TEXTURE : ENCHANTMENT_SLOT_DISABLED_TEXTURE, k, m, 14, 14);
                 }
                 else {
-                    context.blitSprite(RenderPipelines.GUI_TEXTURED, ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE, k, m, 14, 14);
+                    graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE, k, m, 14, 14);
                     if (Objects.equals(PreservedEnchantmentMenu.ENCHANTMENT_DATA.get(i).levelCost(), "10")) {
                         this.tenTextureActive = true;
                         this.twentyTextureActive = false;
@@ -285,19 +285,19 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                     }
                 }
             }
-            context.blitSprite(RenderPipelines.GUI_TEXTURED, ENCHANTMENT_ICON_TEXTURES[i], k, m, 14, 14);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ENCHANTMENT_ICON_TEXTURES[i], k, m, 14, 14);
         }
     }
 
-    private void renderEXPIcons(GuiGraphics context, int x, int y) {
-        context.blitSprite(RenderPipelines.GUI_TEXTURED, !tenTextureActive ? LEVEL_DISABLED_TEXTURES[0] : LEVEL_TEXTURES[0], x, y, 16, 16);
-        context.blitSprite(RenderPipelines.GUI_TEXTURED, !twentyTextureActive ? LEVEL_DISABLED_TEXTURES[1] : LEVEL_TEXTURES[1], x, y + 20, 16, 16);
-        context.blitSprite(RenderPipelines.GUI_TEXTURED, !thirtyTextureActive ? LEVEL_DISABLED_TEXTURES[2] : LEVEL_TEXTURES[2], x, y + 40, 16, 16);
+    private void renderEXPIcons(GuiGraphicsExtractor graphics, int x, int y) {
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, !tenTextureActive ? LEVEL_DISABLED_TEXTURES[0] : LEVEL_TEXTURES[0], x, y, 16, 16);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, !twentyTextureActive ? LEVEL_DISABLED_TEXTURES[1] : LEVEL_TEXTURES[1], x, y + 20, 16, 16);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, !thirtyTextureActive ? LEVEL_DISABLED_TEXTURES[2] : LEVEL_TEXTURES[2], x, y + 40, 16, 16);
     }
 
     @Override
-    protected void renderTooltip(@NotNull GuiGraphics guiGraphics, int x, int y) {
-        super.renderTooltip(guiGraphics, x, y);
+    protected void extractTooltip(@NotNull GuiGraphicsExtractor graphics, int x, int y) {
+        super.extractTooltip(graphics, x, y);
         int scrollOffset = this.scrollOffset + 16;
         Set<Integer> slots = itemCategorySlots.get(this.itemCategory);
 
@@ -310,7 +310,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 if (this.isHovering(k, m, 14, 14, x, y) && slots != null && slots.contains(i)) {
                     List<Component> list = Lists.newArrayList();
                     list.add(Component.literal(PreservedEnchantmentMenu.ENCHANTMENT_DATA.get(i).name() + " I"));
-                    guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
+                    graphics.setComponentTooltipForNextFrame(this.font, list, x, y);
                     break;
                 }
             }
@@ -318,47 +318,47 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             // hover over animated book
             if (this.isHovering(24, 18, 40, 24, x, y)) {
                 List<Component> list = Lists.newArrayList();
-                list.add(Component.literal("Bookshelf Power: " + this.enchPower));
-                guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
+                list.add(Component.translatable("enchanting_table.pinferno.bookshelf_power", this.enchPower));
+                graphics.setComponentTooltipForNextFrame(this.font, list, x, y);
             }
 
             // hover over 10 exp
             if (this.isHovering(71, 13, 16, 16, x, y)) {
                 List<Component> list = Lists.newArrayList();
-                if (this.menu.getSlot(1).getItem().isEmpty() && !this.twentyTextureActive && !this.thirtyTextureActive) list.add(Component.literal("Requires 1 Lapis Lazuli"));
-                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) list.add(Component.literal("10 Levels needed"));
-                else if (this.itemInEnchantSlot && !this.menu.enchantSelected) list.add(Component.literal("Enchant not selected"));
+                if (this.menu.getSlot(1).getItem().isEmpty() && !this.twentyTextureActive && !this.thirtyTextureActive) list.add(Component.translatable("enchanting_table.pinferno.requires_lapis_lazuli", 1));
+                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) list.add(Component.translatable("enchanting_table.pinferno.levels_needed", 10));
+                else if (this.itemInEnchantSlot && !this.menu.enchantSelected) list.add(Component.translatable("enchanting_table.pinferno.not_selected"));
 
-                if (this.enchPower < 1 && !this.twentyTextureActive && !this.thirtyTextureActive) list.add(Component.literal("Not enough bookshelf power"));
-                else if (this.tenTextureActive && this.menu.enchantSelected && !this.twentyTextureActive && !this.thirtyTextureActive) list.add(Component.literal("Enchant for 10 Levels"));
+                if (this.enchPower < 1 && !this.twentyTextureActive && !this.thirtyTextureActive) list.add(Component.translatable("enchanting_table.pinferno.no_bookshelf_power"));
+                else if (this.tenTextureActive && this.menu.enchantSelected && !this.twentyTextureActive && !this.thirtyTextureActive) list.add(Component.translatable("enchanting_table.pinferno.enchant_for_levels", 10));
 
-                guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
+                graphics.setComponentTooltipForNextFrame(this.font, list, x, y);
             }
 
             // hover over 20 exp
             if (this.isHovering(71, 33, 16, 16, x, y)) {
                 List<Component> list = Lists.newArrayList();
-                if (this.menu.getSlot(1).getItem().isEmpty() && !this.tenTextureActive && !this.thirtyTextureActive) list.add(Component.literal("Requires 2 Lapis Lazuli"));
-                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) list.add(Component.literal("20 Levels needed"));
-                else if (this.itemInEnchantSlot && !this.menu.enchantSelected) list.add(Component.literal("Enchant not selected"));
+                if (this.menu.getSlot(1).getItem().isEmpty() && !this.tenTextureActive && !this.thirtyTextureActive) list.add(Component.translatable("enchanting_table.pinferno.requires_lapis_lazuli", 2));
+                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) list.add(Component.translatable("enchanting_table.pinferno.levels_needed", 20));
+                else if (this.itemInEnchantSlot && !this.menu.enchantSelected) list.add(Component.translatable("enchanting_table.pinferno.not_selected"));
 
-                if (this.enchPower < 2 && !this.tenTextureActive && !this.thirtyTextureActive) list.add(Component.literal("Not enough bookshelf power"));
-                else if (this.twentyTextureActive && this.menu.enchantSelected && !this.tenTextureActive && !this.thirtyTextureActive) list.add(Component.literal("Enchant for 20 Levels"));
+                if (this.enchPower < 2 && !this.tenTextureActive && !this.thirtyTextureActive) list.add(Component.translatable("enchanting_table.pinferno.no_bookshelf_power"));
+                else if (this.twentyTextureActive && this.menu.enchantSelected && !this.tenTextureActive && !this.thirtyTextureActive) list.add(Component.translatable("enchanting_table.pinferno.enchant_for_levels", 20));
 
-                guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
+                graphics.setComponentTooltipForNextFrame(this.font, list, x, y);
             }
 
             // hover over 30 exp
             if (this.isHovering(71, 53, 16, 16, x, y)) {
                 List<Component> list = Lists.newArrayList();
-                if (this.menu.getSlot(1).getItem().isEmpty() && !this.tenTextureActive && !this.twentyTextureActive) list.add(Component.literal("Requires 3 Lapis Lazuli"));
-                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) list.add(Component.literal("30 Levels needed"));
-                else if (this.itemInEnchantSlot && !this.menu.enchantSelected) list.add(Component.literal("Enchant not selected"));
+                if (this.menu.getSlot(1).getItem().isEmpty() && !this.tenTextureActive && !this.twentyTextureActive) list.add(Component.translatable("enchanting_table.pinferno.requires_lapis_lazuli", 3));
+                if (!this.tenTextureActive && !this.twentyTextureActive && !this.thirtyTextureActive && this.menu.enchantSelected) list.add(Component.translatable("enchanting_table.pinferno.levels_needed", 30));
+                else if (this.itemInEnchantSlot && !this.menu.enchantSelected) list.add(Component.translatable("enchanting_table.pinferno.not_selected"));
 
-                if (this.enchPower < 3 && !this.tenTextureActive && !this.twentyTextureActive) list.add(Component.literal("Not enough bookshelf power"));
-                else if (this.thirtyTextureActive && this.menu.enchantSelected && !this.tenTextureActive && !this.twentyTextureActive) list.add(Component.literal("Enchant for 30 Levels"));
+                if (this.enchPower < 3 && !this.tenTextureActive && !this.twentyTextureActive) list.add(Component.translatable("enchanting_table.pinferno.no_bookshelf_power"));
+                else if (this.thirtyTextureActive && this.menu.enchantSelected && !this.tenTextureActive && !this.twentyTextureActive) list.add(Component.translatable("enchanting_table.pinferno.enchant_for_levels", 30));
 
-                guiGraphics.setComponentTooltipForNextFrame(this.font, list, x, y);
+                graphics.setComponentTooltipForNextFrame(this.font, list, x, y);
             }
         }
     }
@@ -495,7 +495,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
             else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "spearSmite";
             else this.itemCategory = "spear";
         }
-        else if (itemStack.is(ItemTags.PICKAXES)) {
+        else if (itemStack.is(ItemTags.PICKAXES) && !itemStack.is(ModTags.MULTITOOLS)) {
             if (hasEnchantment(itemStack, Enchantments.FORTUNE)) {
                 if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "pickaxeFortBane";
                 else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "pickaxeFortSharp";
@@ -515,7 +515,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 else this.itemCategory = "pickaxe";
             }
         }
-        else if (itemStack.is(ItemTags.AXES) || itemStack.is(ItemTags.HOES) || itemStack.is(ItemTags.SHOVELS)) {
+        else if ((itemStack.is(ItemTags.AXES) || itemStack.is(ItemTags.HOES) || itemStack.is(ItemTags.SHOVELS)) && !itemStack.is(ModTags.MULTITOOLS)) {
             if (hasEnchantment(itemStack, Enchantments.FORTUNE)) {
                 if (hasEnchantment(itemStack, Enchantments.BANE_OF_ARTHROPODS)) this.itemCategory = "toolFortWeaponBane";
                 else if (hasEnchantment(itemStack, Enchantments.SHARPNESS)) this.itemCategory = "toolFortWeaponSharp";
@@ -534,6 +534,11 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                 else if (hasEnchantment(itemStack, Enchantments.SMITE)) this.itemCategory = "toolWeaponSmite";
                 else this.itemCategory = "toolWeapon";
             }
+        }
+        else if (itemStack.is(ModTags.MULTITOOLS)) {
+            if (hasEnchantment(itemStack, Enchantments.FORTUNE)) this.itemCategory = "multitoolFort";
+            else if (hasEnchantment(itemStack, Enchantments.SILK_TOUCH)) this.itemCategory = "multitoolSilk";
+            else this.itemCategory = "multitool";
         }
         else if (itemStack.is(ItemTags.BOW_ENCHANTABLE)) {
             this.itemCategory = hasEnchantment(itemStack, Enchantments.MENDING) ? "bowMending" : "bow";
@@ -676,18 +681,15 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
 
         this.oFlip = this.flip;
         this.oOpen = this.open;
-        boolean bl = this.menu.enchantmentPower.get() != 0;
+        boolean shouldBeOpen = this.menu.enchantmentPower.get() != 0;
 
-        if (bl) {
-            this.open += 0.2F;
-        } else {
-            this.open -= 0.2F;
-        }
+        if (shouldBeOpen) this.open += 0.2F;
+        else this.open -= 0.2F;
 
         this.open = Mth.clamp(this.open, 0.0F, 1.0F);
-        float f = (this.flipT - this.flip) * 0.4F;
-        f = Mth.clamp(f, -0.2F, 0.2F);
-        this.flipA = this.flipA + (f - this.flipA) * 0.9F;
+        float diff = (this.flipT - this.flip) * 0.4F;
+        diff = Mth.clamp(diff, -0.2F, 0.2F);
+        this.flipA = this.flipA + (diff - this.flipA) * 0.9F;
         this.flip = this.flip + this.flipA;
 
         if (!this.menu.getSlot(0).getItem().isEmpty()) {

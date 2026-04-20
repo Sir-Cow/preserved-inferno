@@ -6,17 +6,15 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.state.ThrownTridentRenderState;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.feature.ItemFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.entity.custom.ThrownCopperTrident;
-
-import java.util.List;
 
 public class ThrownCopperTridentRenderer extends EntityRenderer<ThrownCopperTrident, ThrownTridentRenderState> {
     public static final Identifier TRIDENT_LOCATION = Constants.id("textures/entity/copper_trident.png");
@@ -28,41 +26,45 @@ public class ThrownCopperTridentRenderer extends EntityRenderer<ThrownCopperTrid
         this.model = new CopperTridentModel(context.bakeLayer(COPPER_TRIDENT));
     }
 
-    public void submit(ThrownTridentRenderState thrownTridentRenderState, PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState cameraRenderState
-    ) {
+    public void submit(final ThrownTridentRenderState state, final PoseStack poseStack, final SubmitNodeCollector submitNodeCollector, final @NonNull CameraRenderState camera) {
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(thrownTridentRenderState.yRot - 90.0F));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(thrownTridentRenderState.xRot + 90.0F));
-        List<RenderType> list = ItemRenderer.getFoilRenderTypes(this.model.renderType(TRIDENT_LOCATION), false, thrownTridentRenderState.isFoil);
-
-        for (int i = 0; i < list.size(); i++) {
-            submitNodeCollector.order(i)
-                    .submitModel(
-                            this.model,
-                            thrownTridentRenderState,
-                            poseStack,
-                            list.get(i),
-                            thrownTridentRenderState.lightCoords,
-                            OverlayTexture.NO_OVERLAY,
-                            -1,
-                            null,
-                            thrownTridentRenderState.outlineColor,
-                            null
-                    );
+        poseStack.mulPose(Axis.YP.rotationDegrees(state.yRot - 90.0F));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(state.xRot + 90.0F));
+        submitNodeCollector.order(0).submitModel(
+                this.model,
+                state,
+                poseStack,
+                TRIDENT_LOCATION,
+                state.lightCoords,
+                OverlayTexture.NO_OVERLAY,
+                state.outlineColor,
+                null
+        );
+        if (state.isFoil) {
+            submitNodeCollector.order(1).submitModel(
+                    this.model,
+                    state,
+                    poseStack,
+                    ItemFeatureRenderer.getFoilRenderType(this.model.renderType(TRIDENT_LOCATION), false),
+                    state.lightCoords,
+                    OverlayTexture.NO_OVERLAY,
+                    state.outlineColor,
+                    null
+            );
         }
 
         poseStack.popPose();
-        super.submit(thrownTridentRenderState, poseStack, submitNodeCollector, cameraRenderState);
+        super.submit(state, poseStack, submitNodeCollector, camera);
     }
 
     public @NotNull ThrownTridentRenderState createRenderState() {
         return new ThrownTridentRenderState();
     }
 
-    public void extractRenderState(@NotNull ThrownCopperTrident thrownTrident, @NotNull ThrownTridentRenderState thrownTridentRenderState, float f) {
-        super.extractRenderState(thrownTrident, thrownTridentRenderState, f);
-        thrownTridentRenderState.yRot = thrownTrident.getYRot(f);
-        thrownTridentRenderState.xRot = thrownTrident.getXRot(f);
-        thrownTridentRenderState.isFoil = thrownTrident.isFoil();
+    public void extractRenderState(final ThrownCopperTrident entity, final ThrownTridentRenderState state, final float partialTicks) {
+        super.extractRenderState(entity, state, partialTicks);
+        state.yRot = entity.getYRot(partialTicks);
+        state.xRot = entity.getXRot(partialTicks);
+        state.isFoil = entity.isFoil();
     }
 }

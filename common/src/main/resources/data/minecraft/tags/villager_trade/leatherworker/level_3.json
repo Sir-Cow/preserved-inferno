@@ -1,0 +1,9 @@
+{
+  "replace": true,
+  "values": [
+    "pinferno:leatherworker/3/emerald_leather_helmet",
+    "pinferno:leatherworker/3/emerald_leather_chestplate",
+    "pinferno:leatherworker/3/emerald_leather_leggings",
+    "pinferno:leatherworker/3/emerald_leather_boots"
+  ]
+}

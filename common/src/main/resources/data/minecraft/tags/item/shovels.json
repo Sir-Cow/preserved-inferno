@@ -2,6 +2,15 @@
   "replace": false,
   "values": [
     "pinferno:nether_alloy_shovel",
-    "pinferno:quartzite_shovel"
+    "pinferno:quartzite_shovel",
+    "pinferno:copper_multitool",
+    "pinferno:diamond_multitool",
+    "pinferno:golden_multitool",
+    "pinferno:iron_multitool",
+    "pinferno:nether_alloy_multitool",
+    "pinferno:netherite_multitool",
+    "pinferno:quartzite_multitool",
+    "pinferno:stone_multitool",
+    "pinferno:wooden_multitool"
   ]
 }

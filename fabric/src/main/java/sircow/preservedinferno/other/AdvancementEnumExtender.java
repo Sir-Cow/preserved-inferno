@@ -1,15 +1,13 @@
 package sircow.preservedinferno.other;
 
 import com.chocohead.mm.api.ClassTinkerers;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 
 public class AdvancementEnumExtender implements Runnable {
     @Override
     public void run() {
-        var resolver = FabricLoader.getInstance().getMappingResolver();
-        String targetClass = resolver.mapClassName("intermediary", "net.minecraft.class_189");
-        String formattingInternal = resolver.mapClassName("intermediary", "net.minecraft.class_124");
+        String targetClass = "net.minecraft.advancements.AdvancementType";
+        String formattingInternal = "net.minecraft.ChatFormatting";
         String formattingDesc = "L" + formattingInternal.replace('.', '/') + ";";
 
         ClassTinkerers.enumBuilder(targetClass, String.class, formattingDesc)

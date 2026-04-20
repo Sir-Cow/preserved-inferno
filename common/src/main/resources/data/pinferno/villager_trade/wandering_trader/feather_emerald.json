@@ -1,0 +1,12 @@
+{
+  "gives": {
+    "count": 1.0,
+    "id": "minecraft:emerald"
+  },
+  "max_uses": 1.0,
+  "reputation_discount": 0.0,
+  "wants": {
+    "count": 6.0,
+    "id": "minecraft:feather"
+  }
+}

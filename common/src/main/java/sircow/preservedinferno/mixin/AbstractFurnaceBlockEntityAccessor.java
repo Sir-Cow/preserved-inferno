@@ -2,6 +2,7 @@ package sircow.preservedinferno.mixin;
 
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
@@ -21,7 +22,4 @@ public interface AbstractFurnaceBlockEntityAccessor {
 
     @Accessor("litTimeRemaining")
     void setBurnTime(int burnTime);
-
-    @Invoker("isLit")
-    boolean invokeIsBurning();
 }

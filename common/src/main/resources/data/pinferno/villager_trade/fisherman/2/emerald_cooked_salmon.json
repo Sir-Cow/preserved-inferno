@@ -1,0 +1,12 @@
+{
+  "gives": {
+    "count": 10.0,
+    "id": "minecraft:cooked_salmon"
+  },
+  "max_uses": 1.0,
+  "reputation_discount": 0.0,
+  "wants": {
+    "count": 1.0,
+    "id": "minecraft:emerald"
+  }
+}

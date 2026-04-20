@@ -1,0 +1,40 @@
+{
+  "parent": "pinferno:exploration/upgrade_tools",
+  "criteria": {
+    "pale_garden": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "minecraft:pale_garden"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.find_pale_garden.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:pale_oak_sapling"
+    },
+    "title": {
+      "translate": "advancements.pinferno.exploration.find_pale_garden.title"
+    }
+  },
+  "requirements": [
+    [
+      "pale_garden"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

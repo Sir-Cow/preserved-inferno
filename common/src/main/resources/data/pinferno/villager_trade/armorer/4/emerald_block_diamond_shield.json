@@ -1,0 +1,11 @@
+{
+  "gives": {
+    "id": "pinferno:diamond_shield"
+  },
+  "max_uses": 1.0,
+  "reputation_discount": 0.0,
+  "wants": {
+    "count": 21.0,
+    "id": "minecraft:emerald_block"
+  }
+}

@@ -242,7 +242,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
                     );
             if (recipeMatch.isPresent()) {
                 LoomRecipe recipe = recipeMatch.get().value();
-                this.resultSlot.set(recipe.assemble(recipeInput, this.world.registryAccess()));
+                this.resultSlot.set(recipe.assemble(recipeInput));
             }
             else {
                 this.resultSlot.set(ItemStack.EMPTY);

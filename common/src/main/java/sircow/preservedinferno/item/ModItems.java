@@ -21,10 +21,7 @@ import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.trim.TrimMaterials;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.components.ModComponents;
-import sircow.preservedinferno.item.custom.CopperTridentItem;
-import sircow.preservedinferno.item.custom.PreservedFlareGunItem;
-import sircow.preservedinferno.item.custom.PreservedShieldItem;
-import sircow.preservedinferno.item.custom.SculkInfusionItem;
+import sircow.preservedinferno.item.custom.*;
 import sircow.preservedinferno.other.ModTags;
 
 import java.text.DecimalFormat;
@@ -60,6 +57,7 @@ public class ModItems {
     public static final Item GILDEN_BERRIES = registerItem("gilden_berries", Item::new, new Item.Properties().food(
             new FoodProperties.Builder().nutrition(6).saturationModifier(1.2F).alwaysEdible().build(),
             defaultFood().consumeSeconds(0.8F).onConsume(new ApplyStatusEffectsConsumeEffect(List.of(new MobEffectInstance(MobEffects.REGENERATION, 100, 0)))).build()));
+    public static final Item RESIN_SPECK = registerItem("resin_speck", Item::new, new Item.Properties());
 
     public static final Item ECHOING_PRISM = registerItem("echoing_prism", Item::new, new Item.Properties()
             .rarity(Rarity.UNCOMMON)
@@ -97,6 +95,16 @@ public class ModItems {
                     .repairable(ItemTags.COPPER_TOOL_MATERIALS)
     );
 
+    public static final Item COPPER_MULTITOOL = registerItem("copper_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.COPPER, 3.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.COPPER_TOOL_MATERIALS));
+    public static final Item DIAMOND_MULTITOOL = registerItem("diamond_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.DIAMOND, 4.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.DIAMOND_TOOL_MATERIALS));
+    public static final Item GOLDEN_MULTITOOL = registerItem("golden_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.GOLD, 4.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.GOLD_TOOL_MATERIALS));
+    public static final Item IRON_MULTITOOL = registerItem("iron_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.IRON, 3.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.IRON_TOOL_MATERIALS));
+    public static final Item NETHER_ALLOY_MULTITOOL = registerItem("nether_alloy_multitool", properties -> new PreservedMultitoolItem(NETHER_ALLOY_TOOL, 5.0F, -3.4F, properties), new Item.Properties().repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
+    public static final Item NETHERITE_MULTITOOL = registerItem("netherite_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.NETHERITE, 4.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.NETHERITE_TOOL_MATERIALS).fireResistant());
+    public static final Item QUARTZITE_MULTITOOL = registerItem("quartzite_multitool", properties -> new PreservedMultitoolItem(QUARTZITE_TOOL, 3.0F, -3.4F, properties), new Item.Properties().repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
+    public static final Item STONE_MULTITOOL = registerItem("stone_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.STONE, 2.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.STONE_TOOL_MATERIALS));
+    public static final Item WOODEN_MULTITOOL = registerItem("wooden_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.WOOD, 2.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.WOODEN_TOOL_MATERIALS));
+
     public static final Item BLACK_CLOTH = registerItem("black_cloth", Item::new, new Item.Properties());
     public static final Item BLUE_CLOTH = registerItem("blue_cloth", Item::new, new Item.Properties());
     public static final Item BROWN_CLOTH = registerItem("brown_cloth", Item::new, new Item.Properties());
@@ -120,14 +128,14 @@ public class ModItems {
                     .stacksTo(1)
                     .repairable(ItemTags.COPPER_TOOL_MATERIALS)
                     .equippableUnswappable(EquipmentSlot.OFFHAND)
-                    .component(
+                    .delayedComponent(
                             DataComponents.BLOCKS_ATTACKS,
-                            new BlocksAttacks(
+                            context -> new BlocksAttacks(
                                     0.25F,
                                     1.0F,
                                     List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
                                     new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
-                                    Optional.of(DamageTypeTags.BYPASSES_SHIELD),
+                                    Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                                     Optional.of(SoundEvents.SHIELD_BLOCK),
                                     Optional.of(SoundEvents.SHIELD_BREAK)
                             )
@@ -142,14 +150,14 @@ public class ModItems {
                     .stacksTo(1)
                     .repairable(ItemTags.IRON_TOOL_MATERIALS)
                     .equippableUnswappable(EquipmentSlot.OFFHAND)
-                    .component(
+                    .delayedComponent(
                             DataComponents.BLOCKS_ATTACKS,
-                            new BlocksAttacks(
+                            context -> new BlocksAttacks(
                                     0.25F,
                                     1.0F,
                                     List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
                                     new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
-                                    Optional.of(DamageTypeTags.BYPASSES_SHIELD),
+                                    Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                                     Optional.of(SoundEvents.SHIELD_BLOCK),
                                     Optional.of(SoundEvents.SHIELD_BREAK)
                             )
@@ -160,46 +168,46 @@ public class ModItems {
     );
     public static final Item DIAMOND_SHIELD = registerItem("diamond_shield", PreservedShieldItem::new,
             new Item.Properties()
-            .durability(2048)
-            .stacksTo(1)
-            .repairable(ItemTags.DIAMOND_TOOL_MATERIALS)
-            .equippableUnswappable(EquipmentSlot.OFFHAND)
-            .component(
-                    DataComponents.BLOCKS_ATTACKS,
-                    new BlocksAttacks(
-                            0.25F,
-                            1.0F,
-                            List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
-                            new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
-                            Optional.of(DamageTypeTags.BYPASSES_SHIELD),
-                            Optional.of(SoundEvents.SHIELD_BLOCK),
-                            Optional.of(SoundEvents.SHIELD_BREAK)
+                    .durability(2048)
+                    .stacksTo(1)
+                    .repairable(ItemTags.DIAMOND_TOOL_MATERIALS)
+                    .equippableUnswappable(EquipmentSlot.OFFHAND)
+                    .delayedComponent(
+                            DataComponents.BLOCKS_ATTACKS,
+                            context -> new BlocksAttacks(
+                                    0.25F,
+                                    1.0F,
+                                    List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
+                                    new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
+                                    Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
+                                    Optional.of(SoundEvents.SHIELD_BLOCK),
+                                    Optional.of(SoundEvents.SHIELD_BREAK)
+                            )
                     )
-            )
-            .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
+                    .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
                     .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 16)
                     .component(ModComponents.SHIELD_REGEN_RATE_COMPONENT, DIAMOND_REGEN)
     );
     public static final Item NETHERITE_SHIELD = registerItem("netherite_shield", PreservedShieldItem::new,
             new Item.Properties()
-            .durability(4096)
-            .stacksTo(1)
-            .repairable(ModTags.REPAIRS_NETHERITE_TOOL)
-            .equippableUnswappable(EquipmentSlot.OFFHAND)
-            .fireResistant()
-            .component(
-                    DataComponents.BLOCKS_ATTACKS,
-                    new BlocksAttacks(
-                            0.25F,
-                            1.0F,
-                            List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
-                            new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
-                            Optional.of(DamageTypeTags.BYPASSES_SHIELD),
-                            Optional.of(SoundEvents.SHIELD_BLOCK),
-                            Optional.of(SoundEvents.SHIELD_BREAK)
+                    .durability(4096)
+                    .stacksTo(1)
+                    .repairable(ModTags.REPAIRS_NETHERITE_TOOL)
+                    .equippableUnswappable(EquipmentSlot.OFFHAND)
+                    .fireResistant()
+                    .delayedComponent(
+                            DataComponents.BLOCKS_ATTACKS,
+                            context -> new BlocksAttacks(
+                                    0.25F,
+                                    1.0F,
+                                    List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
+                                    new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
+                                    Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
+                                    Optional.of(SoundEvents.SHIELD_BLOCK),
+                                    Optional.of(SoundEvents.SHIELD_BREAK)
+                            )
                     )
-            )
-            .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
+                    .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
                     .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 20)
                     .component(ModComponents.SHIELD_REGEN_RATE_COMPONENT, NETHERITE_REGEN)
     );
@@ -209,14 +217,14 @@ public class ModItems {
                     .stacksTo(1)
                     .repairable(ItemTags.GOLD_TOOL_MATERIALS)
                     .equippableUnswappable(EquipmentSlot.OFFHAND)
-                    .component(
+                    .delayedComponent(
                             DataComponents.BLOCKS_ATTACKS,
-                            new BlocksAttacks(
+                            context -> new BlocksAttacks(
                                     0.25F,
                                     1.0F,
                                     List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
                                     new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
-                                    Optional.of(DamageTypeTags.BYPASSES_SHIELD),
+                                    Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                                     Optional.of(SoundEvents.SHIELD_BLOCK),
                                     Optional.of(SoundEvents.SHIELD_BREAK)
                             )

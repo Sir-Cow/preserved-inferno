@@ -1,0 +1,27 @@
+{
+  "parent": "minecraft:nether/find_bastion",
+  "criteria": {
+    "break_sparkling_blackstone": {
+      "trigger": "pinferno:break_sparkling_blackstone"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.nether.break_sparkling_blackstone.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "pinferno:sparkling_blackstone"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.nether.break_sparkling_blackstone.title"
+    }
+  },
+  "requirements": [
+    [
+      "break_sparkling_blackstone"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

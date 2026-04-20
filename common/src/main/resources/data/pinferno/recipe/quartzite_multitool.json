@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "pinferno:quartzite_pickaxe",
+    "pinferno:quartzite_axe",
+    "pinferno:quartzite_shovel",
+    "pinferno:quartzite_hoe",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:quartzite_multitool"
+  }
+}

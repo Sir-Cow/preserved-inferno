@@ -1,6 +1,6 @@
 package sircow.preservedinferno.mixin;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,7 +31,7 @@ public class AnglingTableBlockMixin {
     @Inject(method = "getMenuProvider", at = @At("HEAD"), cancellable = true)
     public void preserved_inferno$checkForAnglingTable(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
         cir.setReturnValue(
-                new ExtendedScreenHandlerFactory() {
+                new ExtendedMenuProvider() {
                     @Override
                     public @NotNull AbstractContainerMenu createMenu(int syncId, @NonNull Inventory playerInventory, @NonNull Player player) {
                         return new AnglingTableMenu(syncId, playerInventory, ContainerLevelAccess.create(level, pos));

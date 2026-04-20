@@ -1,0 +1,9 @@
+{
+  "replace": true,
+  "values": [
+    "pinferno:fisherman/2/cod_emerald",
+    "pinferno:fisherman/2/salmon_emerald",
+    "pinferno:fisherman/2/emerald_cooked_cod",
+    "pinferno:fisherman/2/emerald_cooked_salmon"
+  ]
+}

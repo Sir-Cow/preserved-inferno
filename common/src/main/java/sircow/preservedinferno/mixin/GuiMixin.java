@@ -4,7 +4,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -34,8 +34,8 @@ public class GuiMixin {
     @Unique private int heat;
     @Unique private Player player;
 
-    @Inject(method = "render", at = @At("HEAD"))
-    public void preserved_inferno$renderHeat(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+    @Inject(method = "extractRenderState", at = @At("HEAD"))
+    public void preserved_inferno$renderHeat(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player != null) {
             this.player = minecraft.player;
@@ -43,8 +43,8 @@ public class GuiMixin {
         }
     }
 
-    @Inject(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;renderFood(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/world/entity/player/Player;II)V", shift = At.Shift.BEFORE))
-    public void preserved_inferno$renderHeatBar(GuiGraphics guiGraphics, CallbackInfo ci) {
+    @Inject(method = "extractPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;extractFood(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/entity/player/Player;II)V", shift = At.Shift.BEFORE))
+    public void preserved_inferno$renderHeatBar(GuiGraphicsExtractor guiGraphics, CallbackInfo ci) {
         int screenWidth = guiGraphics.guiWidth();
         int screenHeight = guiGraphics.guiHeight();
         int x = screenWidth / 2 + 91;
@@ -62,7 +62,7 @@ public class GuiMixin {
     }
 
     @Unique
-    private void renderHeat(GuiGraphics guiGraphics, int x, int y, int barWidth, int barHeight) {
+    private void renderHeat(GuiGraphicsExtractor guiGraphics, int x, int y, int barWidth, int barHeight) {
         double maxHeatVal = 100.0F; // Cap for the bar
         int heatVal = this.heat;
         double percentageMultiplier;
@@ -88,8 +88,8 @@ public class GuiMixin {
     }
 
     // replace vanilla with custom armour bar
-    @Inject(method = "renderArmor", at = @At("HEAD"), cancellable = true)
-    private static void preserved_inferno$modifyArmourBar(GuiGraphics guiGraphics, Player player, int y, int heartRows, int height, int x, CallbackInfo ci) {
+    @Inject(method = "extractArmor", at = @At("HEAD"), cancellable = true)
+    private static void preserved_inferno$modifyArmourBar(GuiGraphicsExtractor guiGraphics, Player player, int y, int heartRows, int height, int x, CallbackInfo ci) {
         double maxArmourVal = 100.0F; // its actually 150 but this is a cap for only the bar
         int armourVal = player.getArmorValue();
         double percentageMultiplier;
@@ -114,10 +114,10 @@ public class GuiMixin {
     }
 
     // shield stamina
-    @Inject(method = "renderHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/contextualbar/ContextualBarRenderer;render(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V",
+    @Inject(method = "extractHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/contextualbar/ContextualBarRenderer;extractRenderState(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/DeltaTracker;)V",
             shift = At.Shift.AFTER)
     )
-    private void preserved_inferno$renderShieldBar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+    private void preserved_inferno$renderShieldBar(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         int barWidth = 182;
         int barHeight = 5;
         double percentageMultiplier;
@@ -150,21 +150,21 @@ public class GuiMixin {
     }
 
     // extend sleep overlay time
-    @ModifyConstant(method = "renderSleepOverlay", constant = @Constant(floatValue = 100.0F))
+    @ModifyConstant(method = "extractSleepOverlay", constant = @Constant(floatValue = 100.0F))
     private float preserved_inferno$modifyFloatValue(float original) {
         return 200.0F;
     }
 
-    @Redirect(method = "renderHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/contextualbar/ContextualBarRenderer;renderExperienceLevel(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/gui/Font;I)V"))
-    private void preserved_inferno$moveXPNumber(GuiGraphics guiGraphics, Font font, int level) {
+    @Redirect(method = "extractHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/contextualbar/ContextualBarRenderer;extractExperienceLevel(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/gui/Font;I)V"))
+    private void preserved_inferno$moveXPNumber(GuiGraphicsExtractor guiGraphics, Font font, int level) {
         Component component = Component.translatable("gui.experience.level", level);
         int i = (guiGraphics.guiWidth() - font.width(component)) / 2;
         int j = guiGraphics.guiHeight() - 24 - 9 - 5;
 
-        guiGraphics.drawString(font, component, i + 1, j, -16777216, false);
-        guiGraphics.drawString(font, component, i - 1, j, -16777216, false);
-        guiGraphics.drawString(font, component, i, j + 1, -16777216, false);
-        guiGraphics.drawString(font, component, i, j - 1, -16777216, false);
-        guiGraphics.drawString(font, component, i, j, -8323296, false);
+        guiGraphics.text(font, component, i + 1, j, -16777216, false);
+        guiGraphics.text(font, component, i - 1, j, -16777216, false);
+        guiGraphics.text(font, component, i, j + 1, -16777216, false);
+        guiGraphics.text(font, component, i, j - 1, -16777216, false);
+        guiGraphics.text(font, component, i, j, -8323296, false);
     }
 }

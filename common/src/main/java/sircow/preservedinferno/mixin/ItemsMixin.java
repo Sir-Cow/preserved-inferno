@@ -2,7 +2,12 @@ package sircow.preservedinferno.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Unit;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,6 +29,7 @@ import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import sircow.preservedinferno.RegisterItemChecker;
@@ -35,6 +41,20 @@ import java.util.function.Function;
 
 @Mixin(value = Items.class, priority = 1100)
 public abstract class ItemsMixin {
+    @Shadow private static ResourceKey<Item> vanillaItemId(final String name) {
+        return ResourceKey.create(Registries.ITEM, Identifier.withDefaultNamespace(name));
+    }
+
+    @Shadow private static Item registerItem(final String name, final Item.Properties properties) {
+        return registerItem(vanillaItemId(name), Item::new, properties);
+    }
+
+    @Shadow private static Item registerItem(final ResourceKey<Item> key, final Function<Item.Properties, Item> itemFactory, final Item.Properties properties) {
+        Item item = itemFactory.apply(properties.setId(key));
+        if (item instanceof BlockItem blockItem) blockItem.registerBlocks(Item.BY_BLOCK, item);
+        return Registry.register(BuiltInRegistries.ITEM, key, item);
+    }
+
     // modify stack size of potions
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=potion")),
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;stacksTo(I)Lnet/minecraft/world/item/Item$Properties;", ordinal = 0))
@@ -196,7 +216,7 @@ public abstract class ItemsMixin {
     @WrapOperation(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=glistering_melon_slice")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;)Lnet/minecraft/world/item/Item;", ordinal = 0))
     private static Item preserved_inferno$modifyGlisteringMelonSlice(String id, Operation<Item> original) {
-        return Items.registerItem("glistering_melon_slice",
+        return registerItem("glistering_melon_slice",
                 new Item.Properties()
                         .food(new FoodProperties.Builder().nutrition(6).saturationModifier(1.2F).alwaysEdible().build(),
                                 Consumable.builder().consumeSeconds(0.8F)

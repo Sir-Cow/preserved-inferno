@@ -1,6 +1,6 @@
 package sircow.preservedinferno.block.entity;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
@@ -39,7 +39,7 @@ import sircow.preservedinferno.sound.ModSounds;
 import java.util.Optional;
 
 @SuppressWarnings("rawtypes")
-public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity implements ExtendedScreenHandlerFactory {
+public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity implements ExtendedMenuProvider {
     private NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
     private static final int INPUT_SLOT = 0;
     private static final int INPUT_SLOT_TWO = 1;
@@ -194,16 +194,19 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         Optional<RecipeHolder<CauldronRecipe>> recipe = getCurrentRecipe();
         if (recipe.isEmpty()) return;
 
-        ItemStack output = recipe.get().value().output();
+        var outputTemplate = recipe.get().value().output();
         ItemStack inputStack = this.getItem(INPUT_SLOT);
 
         if (inputStack.has(DataComponents.DYED_COLOR)) {
             ItemStack result = inputStack.copy();
             result.remove(DataComponents.DYED_COLOR);
-
             this.setItem(OUTPUT_SLOT, result);
         }
-        else if (output != null) this.setItem(OUTPUT_SLOT, new ItemStack(output.getItem(), getItem(OUTPUT_SLOT).getCount() + output.getCount()));
+        else if (outputTemplate != null) {
+            ItemStack templateStack = outputTemplate.create();
+            templateStack.setCount(this.getItem(OUTPUT_SLOT).getCount() + templateStack.getCount());
+            this.setItem(OUTPUT_SLOT, templateStack);
+        }
 
         this.removeItem(INPUT_SLOT, 1);
         this.progressWater -= 1;
@@ -267,8 +270,9 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         Optional<RecipeHolder<CauldronRecipe>> recipe = getCurrentRecipe();
         if (recipe.isEmpty()) return false;
 
-        ItemStack output = recipe.get().value().output();
-        return this.progressWater >= 1 && canInsertAmountIntoOutputSlot(output) && canInsertItemIntoOutputSlot(output);
+        ItemStack outputStack = recipe.get().value().output().create();
+
+        return this.progressWater >= 1 && canInsertAmountIntoOutputSlot(outputStack) && canInsertItemIntoOutputSlot(outputStack);
     }
 
     private Optional<RecipeHolder<CauldronRecipe>> getCurrentRecipe() {

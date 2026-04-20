@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_golden_tool": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#pinferno:golden_tool"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "pinferno:golden_multitool"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_golden_tool"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "pinferno:golden_multitool"
+    ]
+  }
+}

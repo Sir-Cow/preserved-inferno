@@ -6,7 +6,7 @@ import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.DisplayInfo;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.advancements.AdvancementTab;
 import net.minecraft.client.gui.screens.advancements.AdvancementWidget;
 import net.minecraft.client.gui.screens.advancements.AdvancementWidgetType;
@@ -30,9 +30,9 @@ public abstract class AdvancementWidgetMixin {
     @Shadow private AdvancementProgress progress;
     @Shadow private static Identifier TITLE_BOX_SPRITE = Identifier.withDefaultNamespace("advancements/title_box");
 
-    @Shadow protected abstract void drawMultilineText(GuiGraphics guiGraphics, List<FormattedCharSequence> text, int x, int y, int color);
+    @Shadow protected abstract void extractMultilineText(GuiGraphicsExtractor guiGraphics, List<FormattedCharSequence> text, int x, int y, int color);
 
-    @Redirect(method = "draw", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/advancements/AdvancementWidgetType;frameSprite(Lnet/minecraft/advancements/AdvancementType;)Lnet/minecraft/resources/Identifier;"))
+    @Redirect(method = "extractRenderState", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/advancements/AdvancementWidgetType;frameSprite(Lnet/minecraft/advancements/AdvancementType;)Lnet/minecraft/resources/Identifier;"))
     private Identifier modifyFrameSprite(AdvancementWidgetType instance, AdvancementType type) {
         AdvancementProgress prog = this.progress;
 
@@ -60,8 +60,8 @@ public abstract class AdvancementWidgetMixin {
         }
     }
 
-    @Redirect(method = "drawHover", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/advancements/AdvancementWidget;drawMultilineText(Lnet/minecraft/client/gui/GuiGraphics;Ljava/util/List;III)V"))
-    private void preserved_inferno$hideDescription(AdvancementWidget self, GuiGraphics gfx, List<FormattedCharSequence> text, int x, int y, int color) {
+    @Redirect(method = "extractHover", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/advancements/AdvancementWidget;extractMultilineText(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Ljava/util/List;III)V"))
+    private void preserved_inferno$hideDescription(AdvancementWidget self, GuiGraphicsExtractor gfx, List<FormattedCharSequence> text, int x, int y, int color) {
         if (text == this.description) {
             AdvancementProgress prog = this.progress;
             AdvancementWidget parentWidget = this.parent;
@@ -74,11 +74,11 @@ public abstract class AdvancementWidgetMixin {
             }
         }
 
-        this.drawMultilineText(gfx, text, x, y, color);
+        this.extractMultilineText(gfx, text, x, y, color);
     }
 
-    @Redirect(method = "drawHover", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"))
-    private void preserved_inferno$$hideBox(GuiGraphics guiGraphics, RenderPipeline pipeline, Identifier sprite, int x, int y, int width, int height) {
+    @Redirect(method = "extractHover", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"))
+    private void preserved_inferno$$hideBox(GuiGraphicsExtractor guiGraphics, RenderPipeline pipeline, Identifier sprite, int x, int y, int width, int height) {
         if (sprite != TITLE_BOX_SPRITE) {
             guiGraphics.blitSprite(pipeline, sprite, x, y, width, height);
             return;

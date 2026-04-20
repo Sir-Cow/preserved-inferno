@@ -33,42 +33,26 @@ public abstract class CowMixin extends AbstractCow {
     @Shadow
     public abstract void setVariant(Holder<CowVariant> variant);
 
-    @Inject(method = "finalizeSpawn", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$onFinalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
 //               :3
 //         \|/         (__)
 //             `\------(oo)
 //    \|/        ||    (__) - moo!
 //               ||w--||     \|/
 //           \|/
+
+    @Inject(method = "finalizeSpawn", at = @At("TAIL"))
+    private void preserved_inferno$onFinalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
         var context = SpawnContext.create(level, this.blockPosition());
         var registry = level.registryAccess().lookupOrThrow(Registries.COW_VARIANT);
 
-        List<Holder<CowVariant>> allVariantHolders = registry.listElements()
-                .map(holderReference -> (Holder<CowVariant>) holderReference)
+        List<Holder<CowVariant>> validVariants = registry.listElements()
+                .map(holder -> (Holder<CowVariant>) holder)
+                .filter(holder -> holder.value().selectors().stream().anyMatch(selector ->
+                        selector.condition().map(cond -> cond.test(context)).orElse(false)
+                ))
                 .toList();
 
-        List<Holder<CowVariant>> validVariants = allVariantHolders.stream()
-                .filter(holder -> {
-                    CowVariant variant = holder.value();
-                    return variant.selectors().stream().anyMatch(selector -> {
-                        try {
-                            return selector.condition()
-                                    .map(cond -> cond.test(context))
-                                    .orElse(false);
-                        }
-                        catch (Exception e) {
-                            return false;
-                        }
-                    });
-                })
-                .toList();
-
-        if (validVariants.isEmpty()) {
-            this.setVariant(VariantUtils.getDefaultOrAny(level.registryAccess(), CowVariants.TEMPERATE));
-            cir.setReturnValue(super.finalizeSpawn(level, difficulty, spawnReason, spawnGroupData));
-            return;
-        }
+        if (validVariants.isEmpty()) return;
 
         int totalPriority = validVariants.stream()
                 .mapToInt(holder -> holder.value().selectors().stream()
@@ -76,9 +60,8 @@ public abstract class CowMixin extends AbstractCow {
                         .max().orElse(0))
                 .sum();
 
-        if (totalPriority == 0) {
+        if (totalPriority <= 0) {
             this.setVariant(validVariants.getFirst());
-            cir.setReturnValue(super.finalizeSpawn(level, difficulty, spawnReason, spawnGroupData));
             return;
         }
 
@@ -90,13 +73,10 @@ public abstract class CowMixin extends AbstractCow {
 
             if (roll < priority) {
                 this.setVariant(holder);
-                cir.setReturnValue(super.finalizeSpawn(level, difficulty, spawnReason, spawnGroupData));
                 return;
             }
             roll -= priority;
         }
-
         this.setVariant(validVariants.getFirst());
-        cir.setReturnValue(super.finalizeSpawn(level, difficulty, spawnReason, spawnGroupData));
     }
 }

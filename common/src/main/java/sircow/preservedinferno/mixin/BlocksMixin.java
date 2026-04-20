@@ -2,12 +2,11 @@ package sircow.preservedinferno.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -166,7 +165,7 @@ public class BlocksMixin {
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
     private static BlockBehaviour.Properties preserved_inferno$modifyDeepIronOre(BlockBehaviour.Properties original) {
         return BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE).mapColor(MapColor.DEEPSLATE)
-                .strength(8.0F, 3.0F)
+                .strength(9.0F, 3.0F)
                 .sound(SoundType.DEEPSLATE);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=deepslate_coal_ore")), at = @At(value = "INVOKE",
@@ -229,15 +228,6 @@ public class BlocksMixin {
                 .strength(8.0F, 3.0F)
                 .sound(SoundType.NETHER_ORE);
     }
-    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=ancient_debris")), at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 1)
-    private static BlockBehaviour.Properties preserved_inferno$modifyAncientDebris(BlockBehaviour.Properties original) {
-        return original.mapColor(MapColor.COLOR_BLACK)
-                .requiresCorrectToolForDrops()
-                .strength(20.0F, 1200.0F)
-                .sound(SoundType.ANCIENT_DEBRIS);
-    }
-
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=wheat")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
     private static BlockBehaviour.Properties preserved_inferno$modifyCrop(BlockBehaviour.Properties original) {
@@ -342,13 +332,229 @@ public class BlocksMixin {
                 .isRedstoneConductor(BlocksMixin::never);
     }
 
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=creaking_heart")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyCreakingHeart(BlockBehaviour.Properties original) {
+        return original.mapColor(MapColor.COLOR_ORANGE)
+                .instrument(NoteBlockInstrument.BASEDRUM)
+                .strength(22.5F)
+                .sound(SoundType.CREAKING_HEART);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_wood")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakWood(BlockBehaviour.Properties original) {
+        return original.mapColor(MapColor.STONE)
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(5.0F)
+                .sound(SoundType.WOOD);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_planks")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 1)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakPlanks(BlockBehaviour.Properties original) {
+        return original.mapColor(MapColor.QUARTZ)
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(5.0F, 3.0F)
+                .sound(SoundType.WOOD);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_log")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakLog(BlockBehaviour.Properties original) {
+        return original.mapColor(state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? Blocks.PALE_OAK_PLANKS.defaultMapColor() : Blocks.PALE_OAK_WOOD.defaultMapColor())
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(5.0F)
+                .sound(SoundType.WOOD);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=stripped_pale_oak_log")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyStrippedPaleOakLog(BlockBehaviour.Properties original) {
+        return original.mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(5.0F)
+                .sound(SoundType.WOOD);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=stripped_pale_oak_wood")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyStrippedPaleOakWood(BlockBehaviour.Properties original) {
+        return original.mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(5.0F)
+                .sound(SoundType.WOOD);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_shelf")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakShelf(BlockBehaviour.Properties original) {
+        return original.mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .instrument(NoteBlockInstrument.BASS)
+                .sound(SoundType.SHELF)
+                .strength(5.0F, 3.0F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_sign")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakSign(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .forceSolidOn()
+                .instrument(NoteBlockInstrument.BASS)
+                .noCollision()
+                .strength(1.0F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_wall_sign")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakWallSign(BlockBehaviour.Properties original) {
+        return wallVariant(Blocks.PALE_OAK_SIGN, true)
+                .mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .forceSolidOn()
+                .instrument(NoteBlockInstrument.BASS)
+                .noCollision()
+                .strength(1.0F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_hanging_sign")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakHangingSign(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .forceSolidOn()
+                .instrument(NoteBlockInstrument.BASS)
+                .noCollision()
+                .strength(1.0F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_wall_hanging_sign")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakWallHangingSign(BlockBehaviour.Properties original) {
+        return wallVariant(Blocks.PALE_OAK_HANGING_SIGN, true)
+                .mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .forceSolidOn()
+                .instrument(NoteBlockInstrument.BASS)
+                .noCollision()
+                .strength(1.0F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_pressure_plate")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakPressurePlate(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .forceSolidOn()
+                .instrument(NoteBlockInstrument.BASS)
+                .noCollision()
+                .strength(0.5F)
+                .pushReaction(PushReaction.DESTROY);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_trapdoor")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakTrapdoor(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(3.0F)
+                .noOcclusion()
+                .isValidSpawn(BlocksMixin::never);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_slab")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakSlab(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(2.0F, 3.0F)
+                .sound(SoundType.WOOD);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_fence_gate")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakFenceGate(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .forceSolidOn()
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(2.0F, 3.0F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_fence")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakFence(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(2.0F, 3.0F)
+                .sound(SoundType.WOOD);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_door")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakDoor(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(3.0F)
+                .noOcclusion()
+                .pushReaction(PushReaction.DESTROY);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_oak_leaves")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleOakLeaves(BlockBehaviour.Properties original) {
+        return BlockBehaviour.Properties.of()
+                .mapColor(MapColor.METAL)
+                .strength(0.2F)
+                .randomTicks()
+                .sound(SoundType.GRASS)
+                .noOcclusion()
+                .isValidSpawn(BlocksMixin::ocelotOrParrot)
+                .isSuffocating(BlocksMixin::never)
+                .isViewBlocking(BlocksMixin::never)
+                .pushReaction(PushReaction.DESTROY)
+                .isRedstoneConductor(BlocksMixin::never);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_moss_block")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleMossBlock(BlockBehaviour.Properties original) {
+        return original.mapColor(MapColor.COLOR_LIGHT_GRAY)
+                .strength(0.1F)
+                .sound(SoundType.MOSS)
+                .pushReaction(PushReaction.DESTROY);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_moss_carpet")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleMossCarpet(BlockBehaviour.Properties original) {
+        return original.mapColor(Blocks.PALE_MOSS_BLOCK.defaultMapColor())
+                .strength(0.1F)
+                .sound(SoundType.MOSS_CARPET)
+                .pushReaction(PushReaction.DESTROY)
+                .noOcclusion();
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=pale_hanging_moss")), at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Blocks;register(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
+    private static BlockBehaviour.Properties preserved_inferno$modifyPaleHangingMoss(BlockBehaviour.Properties original) {
+        return original.mapColor(Blocks.PALE_MOSS_BLOCK.defaultMapColor())
+                .mapColor(Blocks.PALE_MOSS_BLOCK.defaultMapColor())
+                .noCollision()
+                .sound(SoundType.MOSS_CARPET)
+                .pushReaction(PushReaction.DESTROY);
+    }
+
     @Shadow
     private static ToIntFunction<BlockState> litBlockEmission(int lightValue) {
         return blockState -> blockState.getValue(BlockStateProperties.LIT) ? lightValue : 0;
     }
 
     @Shadow
+    private static BlockBehaviour.Properties wallVariant(final Block standingBlock, final boolean copyName) {
+        BlockBehaviour.Properties wallProperties = BlockBehaviour.Properties.of().overrideLootTable(standingBlock.getLootTable());
+        if (copyName) {
+            wallProperties = wallProperties.overrideDescription(standingBlock.getDescriptionId());
+        }
+
+        return wallProperties;
+    }
+
+    @Shadow
+    private static Boolean ocelotOrParrot(final BlockState state, final BlockGetter blockGetter, final BlockPos blockPos, final EntityType<?> entityType) {
+        return entityType == EntityType.OCELOT || entityType == EntityType.PARROT;
+    }
+
+    @Shadow
     private static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return false;
+    }
+
+    @Shadow
+    private static Boolean never(final BlockState state, final BlockGetter blockGetter, final BlockPos blockPos, final EntityType<?> entityType) {
         return false;
     }
 }

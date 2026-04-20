@@ -1,0 +1,31 @@
+{
+  "given_item_modifiers": [
+    {
+      "function": "minecraft:enchant_randomly",
+      "options": "#minecraft:on_traded_equipment"
+    },
+    {
+      "function": "minecraft:filtered",
+      "item_filter": {
+        "items": "minecraft:iron_shovel",
+        "predicates": {
+          "minecraft:enchantments": [
+            {}
+          ]
+        }
+      },
+      "on_fail": {
+        "function": "minecraft:discard"
+      }
+    }
+  ],
+  "gives": {
+    "id": "minecraft:iron_shovel"
+  },
+  "max_uses": 1.0,
+  "reputation_discount": 0.0,
+  "wants": {
+    "count": 8.0,
+    "id": "minecraft:emerald"
+  }
+}

@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 public final class UpdateChecker {
     private static final String PROJECT_ID = "preserved-inferno";
-    private static final String GAME_VERSION = "1.21.11";
+    private static final String GAME_VERSION = "26.1";
     private static final String LOADER = Services.PLATFORM.getPlatformName().toLowerCase();
     private static volatile String latestVersion = null;
     private static volatile boolean checked = false;

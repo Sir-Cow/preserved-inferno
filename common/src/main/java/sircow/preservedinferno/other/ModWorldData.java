@@ -4,11 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.SavedDataType;
-import net.minecraft.world.level.storage.DimensionDataStorage;
 import sircow.preservedinferno.Constants;
 
 import java.util.*;
@@ -37,10 +34,8 @@ public class ModWorldData extends SavedData {
     }
 
     public static ModWorldData get(MinecraftServer server) {
-        ServerLevel level = Objects.requireNonNull(server.getLevel(ServerLevel.OVERWORLD));
-        DimensionDataStorage storage = level.getDataStorage();
-        return storage.computeIfAbsent(TYPE);
+        return server.getDataStorage().computeIfAbsent(TYPE);
     }
 
-    public static final SavedDataType<ModWorldData> TYPE = new SavedDataType<>(Constants.MOD_ID + "_world_data", ModWorldData::new, CODEC, DataFixTypes.LEVEL);
+    public static final SavedDataType<ModWorldData> TYPE = new SavedDataType<>(Constants.id( "world_data"), ModWorldData::new, CODEC, null);
 }

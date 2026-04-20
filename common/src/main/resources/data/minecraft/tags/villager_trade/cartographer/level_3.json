@@ -1,0 +1,21 @@
+{
+  "replace": true,
+  "values": [
+    "pinferno:cartographer/3/emerald_map",
+    "pinferno:cartographer/3/emerald_white_banner",
+    "pinferno:cartographer/3/emerald_orange_banner",
+    "pinferno:cartographer/3/emerald_magenta_banner",
+    "pinferno:cartographer/3/emerald_blue_banner",
+    "pinferno:cartographer/3/emerald_light_blue_banner",
+    "pinferno:cartographer/3/emerald_yellow_banner",
+    "pinferno:cartographer/3/emerald_lime_banner",
+    "pinferno:cartographer/3/emerald_pink_banner",
+    "pinferno:cartographer/3/emerald_gray_banner",
+    "pinferno:cartographer/3/emerald_cyan_banner",
+    "pinferno:cartographer/3/emerald_purple_banner",
+    "pinferno:cartographer/3/emerald_brown_banner",
+    "pinferno:cartographer/3/emerald_green_banner",
+    "pinferno:cartographer/3/emerald_red_banner",
+    "pinferno:cartographer/3/emerald_black_banner"
+  ]
+}

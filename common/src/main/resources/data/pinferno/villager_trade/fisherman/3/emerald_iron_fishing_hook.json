@@ -1,0 +1,11 @@
+{
+  "gives": {
+    "id": "pinferno:iron_fishing_hook"
+  },
+  "max_uses": 1.0,
+  "reputation_discount": 0.0,
+  "wants": {
+    "count": 8.0,
+    "id": "minecraft:emerald"
+  }
+}

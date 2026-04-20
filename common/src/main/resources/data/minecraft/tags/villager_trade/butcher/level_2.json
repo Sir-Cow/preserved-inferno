@@ -1,0 +1,9 @@
+{
+  "replace": true,
+  "values": [
+    "pinferno:butcher/2/beef_emerald",
+    "pinferno:butcher/2/emerald_cooked_chicken",
+    "pinferno:butcher/2/emerald_cooked_porkchop",
+    "pinferno:butcher/2/mutton_emerald"
+  ]
+}

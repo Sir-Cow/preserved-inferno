@@ -1,0 +1,34 @@
+{
+  "parent": "pinferno:exploration/obtain_resin_speck",
+  "criteria": {
+    "multitool": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#pinferno:multitools"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.obtain_multitool.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "pinferno:iron_multitool"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.obtain_multitool.title"
+    }
+  },
+  "requirements": [
+    [
+      "multitool"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

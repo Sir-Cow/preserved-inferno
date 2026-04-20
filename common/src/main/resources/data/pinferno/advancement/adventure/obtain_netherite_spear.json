@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:adventure/spear_many_mobs",
+  "criteria": {
+    "netherite_spear": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:netherite_spear"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.adventure.obtain_netherite_spear.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:netherite_spear"
+    },
+    "title": {
+      "translate": "advancements.pinferno.adventure.obtain_netherite_spear.title"
+    }
+  },
+  "requirements": [
+    [
+      "netherite_spear"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

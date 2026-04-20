@@ -1,5 +1,6 @@
 package sircow.preservedinferno.other;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
@@ -19,15 +20,11 @@ public class CacheContainer extends SimpleContainer {
         this.itemStack = itemStack;
         this.sourceContainer = sourceContainer;
 
-        int i = 0;
-        for (ItemStack stack : sourceContainer.nonEmptyItems()) {
-            if (i < this.getContainerSize()) {
-                this.setItem(i, stack.copy());
-                i++;
-            }
-            else {
-                break;
-            }
+        NonNullList<ItemStack> stacks = NonNullList.withSize(size, ItemStack.EMPTY);
+        sourceContainer.copyInto(stacks);
+
+        for (int i = 0; i < size; i++) {
+            this.setItem(i, stacks.get(i).copy());
         }
     }
 
@@ -35,14 +32,15 @@ public class CacheContainer extends SimpleContainer {
     public void setChanged() {
         super.setChanged();
 
-        if (itemStack != null) {
-            List<ItemStack> contents = new ArrayList<>();
-            for (int i = 0; i < this.getContainerSize(); i++) {
-                contents.add(this.getItem(i).copy());
-            }
-            sourceContainer = ItemContainerContents.fromItems(contents);
-            itemStack.set(DataComponents.CONTAINER, sourceContainer);
+        if (itemStack == null) return;
+
+        List<ItemStack> contents = new ArrayList<>(this.getContainerSize());
+        for (int i = 0; i < this.getContainerSize(); i++) {
+            contents.add(this.getItem(i).copy());
         }
+
+        this.sourceContainer = ItemContainerContents.fromItems(contents);
+        this.itemStack.set(DataComponents.CONTAINER, this.sourceContainer);
     }
 
     @Override

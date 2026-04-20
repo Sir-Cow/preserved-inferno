@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "pinferno:nether_alloy_pickaxe",
+    "pinferno:nether_alloy_axe",
+    "pinferno:nether_alloy_shovel",
+    "pinferno:nether_alloy_hoe",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick",
+    "minecraft:resin_brick"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:nether_alloy_multitool"
+  }
+}

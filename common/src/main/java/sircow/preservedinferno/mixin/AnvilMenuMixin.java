@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.other.ModTags;
@@ -25,10 +26,9 @@ public class AnvilMenuMixin {
     @Shadow @Final private DataSlot cost;
     @Shadow private int repairItemCountCost;
 
-    @Unique private int number = 0;
+    @Unique private int number;
 
-    @ModifyArg(method = "createResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/DataSlot;set(I)V",
-            ordinal = 4), index = 0)
+    @ModifyArg(method = "createResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/DataSlot;set(I)V", ordinal = 4), index = 0)
     private int preserved_inferno$anvilRepairCostModifier(int originalCost) {
         Container inputSlots = ((ItemCombinerMenuAccessor) this).getInputSlots();
         ItemStack itemStack = inputSlots.getItem(0);
@@ -50,8 +50,7 @@ public class AnvilMenuMixin {
         return 0;
     }
 
-    @ModifyArg(method = "createResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/DataSlot;set(I)V",
-            ordinal = 5), index = 0)
+    @ModifyArg(method = "createResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/DataSlot;set(I)V", ordinal = 5), index = 0)
     private int preserved_inferno$anvilRepairCostModifier2(int originalCost) {
         Container inputSlots = ((ItemCombinerMenuAccessor) this).getInputSlots();
         ItemStack itemStack = inputSlots.getItem(0);
@@ -100,5 +99,19 @@ public class AnvilMenuMixin {
                 ci.cancel();
             }
         }
+    }
+
+    @ModifyVariable(method = "createResult", at = @At(value = "STORE", ordinal = 0), ordinal = 0)
+    private int preserved_inferno$reduceMultitoolRepair(int repairAmount) {
+        // cap multitool repair to 10%
+        AnvilMenu self = (AnvilMenu) (Object) this;
+        ItemCombinerMenuAccessor accessor = (ItemCombinerMenuAccessor) self;
+        ItemStack input = accessor.getInputSlots().getItem(0);
+
+        if (input.is(ModTags.MULTITOOLS)) {
+            return Math.max(1, repairAmount / 10);
+        }
+
+        return repairAmount;
     }
 }

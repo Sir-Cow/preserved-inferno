@@ -1,6 +1,6 @@
 package sircow.preservedinferno.screen;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -24,20 +24,21 @@ public class PreservedCauldronScreen extends AbstractContainerScreen<PreservedCa
     }
 
     @Override
-    protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
+    public void extractBackground(@NonNull GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a) {
+        super.extractBackground(graphics, mouseX, mouseY, a);
         int x = this.leftPos;
         int y = this.topPos;
-        context.blit(RenderPipelines.GUI_TEXTURED, BG_LOCATION, x, y, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
-        renderProgressArrow(context, x, y);
-        renderProgressWater(context, x, y);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, BG_LOCATION, x, y, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
+        renderProgressArrow(graphics, x, y);
+        renderProgressWater(graphics, x, y);
     }
 
-    private void renderProgressArrow(GuiGraphics context, int x, int y) {
+    private void renderProgressArrow(GuiGraphicsExtractor graphics, int x, int y) {
         if (menu.isCrafting()) {
             int arrowX = x + 85;
             int arrowY = y + 34;
 
-            context.blit(RenderPipelines.GUI_TEXTURED, SOAK_PROGRESS_SPRITE,
+            graphics.blit(RenderPipelines.GUI_TEXTURED, SOAK_PROGRESS_SPRITE,
                     arrowX, arrowY,
                     0, 0,
                     8, menu.getScaledProgressArrow(),
@@ -46,22 +47,15 @@ public class PreservedCauldronScreen extends AbstractContainerScreen<PreservedCa
         }
     }
 
-    private void renderProgressWater(GuiGraphics context, int x, int y) {
+    private void renderProgressWater(GuiGraphicsExtractor graphics, int x, int y) {
         int waterX = x + 152;
         int waterY = y + 15 + (32 - menu.getScaledProgressWater());
 
-        context.blit(RenderPipelines.GUI_TEXTURED, WATER_SPRITE,
+        graphics.blit(RenderPipelines.GUI_TEXTURED, WATER_SPRITE,
                 waterX, waterY,
                 0, 32 - menu.getScaledProgressWater(),
                 16, menu.getScaledProgressWater(),
                 16, 32
         );
-    }
-
-    @Override
-    public void render(@NonNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        renderBackground(context, mouseX, mouseY, delta);
-        super.render(context, mouseX, mouseY, delta);
-        this.renderTooltip(context, mouseX, mouseY);
     }
 }

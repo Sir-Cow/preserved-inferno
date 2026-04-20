@@ -9,7 +9,9 @@ public class FabricModTriggers {
     public static void registerFabricModTriggers() {
         register(ModTriggers.ARMOR_VALUE);
         register(ModTriggers.BREAK_GROWN_CROP);
+        register(ModTriggers.BREAK_CREAKING_HEART);
         register(ModTriggers.BREAK_SCULK_SHRIEKER);
+        register(ModTriggers.BREAK_SPARKLING_BLACKSTONE);
         register(ModTriggers.BRUSH_BLOCK);
         register(ModTriggers.CONDUIT_POWER);
         register(ModTriggers.CONDUIT_POWER_FULL);

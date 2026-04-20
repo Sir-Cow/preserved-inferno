@@ -1,0 +1,35 @@
+{
+  "parent": "pinferno:exploration/find_pale_garden",
+  "criteria": {
+    "resin_speck": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:resin_speck"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.obtain_resin_speck.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "pinferno:resin_speck"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.obtain_resin_speck.title"
+    }
+  },
+  "requirements": [
+    [
+      "resin_speck"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

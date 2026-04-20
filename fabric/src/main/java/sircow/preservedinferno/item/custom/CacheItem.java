@@ -1,6 +1,6 @@
 package sircow.preservedinferno.item.custom;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -61,7 +61,7 @@ public class CacheItem extends Item {
     public MenuProvider getMenuProvider(Container container, ItemStack stackContext) {
         final Container finalContainer = container;
         final ItemStack finalStackContext = stackContext;
-        return new ExtendedScreenHandlerFactory() {
+        return new ExtendedMenuProvider() {
             @Override
             public PreservedInferno.ItemData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
                 return new PreservedInferno.ItemData(CacheItem.this.size);

@@ -1,0 +1,9 @@
+{
+  "replace": true,
+  "values": [
+    "pinferno:farmer/1/beetroot_emerald",
+    "pinferno:farmer/1/carrot_emerald",
+    "pinferno:farmer/1/potato_emerald",
+    "pinferno:farmer/1/wheat_emerald"
+  ]
+}

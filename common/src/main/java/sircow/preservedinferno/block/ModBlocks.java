@@ -37,6 +37,18 @@ public class ModBlocks {
     public static final Block POLISHED_RHYOLITE_SLAB = register("polished_rhyolite_slab", SlabBlock::new, BlockBehaviour.Properties.ofFullCopy(POLISHED_RHYOLITE), true);
     public static final Block RHYOLITE_WALL = register("rhyolite_wall", WallBlock::new, BlockBehaviour.Properties.ofFullCopy(RHYOLITE).forceSolidOn(), true);
 
+    public static final Block SPARKLING_BLACKSTONE = register("sparkling_blackstone",
+            SparklingBlackstoneBlock::new, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_YELLOW)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F)
+                    .sound(SoundType.GILDED_BLACKSTONE)
+                    .pushReaction(PushReaction.DESTROY)
+                    .randomTicks(),
+            true
+    );
+
     public static final Block ANGLING_TABLE = register("angling_table",
             AnglingTableBlock::new, BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
@@ -99,7 +111,7 @@ public class ModBlocks {
     public static final Block REINFORCED_PALE_OAK_DOOR = register(
             "reinforced_pale_oak_door",
             properties -> new PreservedDoorBlock(BlockSetType.PALE_OAK, properties),
-            BlockBehaviour.Properties.of().mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor()).instrument(NoteBlockInstrument.BASS).strength(3.0F).noOcclusion().ignitedByLava().pushReaction(PushReaction.DESTROY), true
+            BlockBehaviour.Properties.of().mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor()).instrument(NoteBlockInstrument.BASS).strength(3.0F).noOcclusion().pushReaction(PushReaction.DESTROY), true
     );
     public static final Block REINFORCED_MANGROVE_DOOR = register(
             "reinforced_mangrove_door",

@@ -11,6 +11,7 @@
     "minecraft:raw_gold_block",
     "minecraft:gold_ore",
     "minecraft:deepslate_gold_ore",
-    "minecraft:nether_gold_ore"
+    "minecraft:nether_gold_ore",
+    "pinferno:sparkling_blackstone"
   ]
 }

@@ -45,7 +45,7 @@ public class PreservedFlareGunItem extends Item {
                     SoundEvents.FIREWORK_ROCKET_LAUNCH,
                     SoundSource.BLOCKS,
                     0.5F,
-                    2.6F + (serverLevel.random.nextFloat() - serverLevel.random.nextFloat()) * 0.8F
+                    2.6F + (serverLevel.getRandom().nextFloat() - serverLevel.getRandom().nextFloat()) * 0.8F
             );
         }
 

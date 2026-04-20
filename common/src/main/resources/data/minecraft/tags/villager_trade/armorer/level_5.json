@@ -1,0 +1,9 @@
+{
+  "replace": true,
+  "values": [
+    "pinferno:armorer/5/emerald_block_diamond_boots",
+    "pinferno:armorer/5/emerald_block_diamond_chestplate",
+    "pinferno:armorer/5/emerald_block_diamond_helmet",
+    "pinferno:armorer/5/emerald_block_diamond_leggings"
+  ]
+}

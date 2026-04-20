@@ -1,6 +1,18 @@
 {
   "replace": false,
   "values": [
-    "pinferno:angling_table"
+    "pinferno:angling_table",
+    "pinferno:reinforced_acacia_door",
+    "pinferno:reinforced_bamboo_door",
+    "pinferno:reinforced_birch_door",
+    "pinferno:reinforced_cherry_door",
+    "pinferno:reinforced_crimson_door",
+    "pinferno:reinforced_dark_oak_door",
+    "pinferno:reinforced_jungle_door",
+    "pinferno:reinforced_mangrove_door",
+    "pinferno:reinforced_oak_door",
+    "pinferno:reinforced_pale_oak_door",
+    "pinferno:reinforced_spruce_door",
+    "pinferno:reinforced_warped_door"
   ]
 }

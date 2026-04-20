@@ -1,6 +1,6 @@
 package sircow.preservedinferno.mixin;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -38,7 +38,7 @@ public class EnchantingTableBlockMixin {
         BlockEntity blockentity = level.getBlockEntity(pos);
         if (blockentity instanceof EnchantingTableBlockEntity) {
             Component component = ((Nameable) blockentity).getDisplayName();
-            cir.setReturnValue(new ExtendedScreenHandlerFactory() {
+            cir.setReturnValue(new ExtendedMenuProvider() {
                 @Override
                 public PreservedInferno.BlockData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
                     return new PreservedInferno.BlockData(level.getBlockEntity(pos) == null);

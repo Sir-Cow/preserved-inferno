@@ -8,7 +8,9 @@ import java.util.function.Supplier;
 public class ModTriggers {
     public static final TriggerEntry<CustomTrigger> ARMOR_VALUE = new TriggerEntry<>("armor_value", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> BREAK_GROWN_CROP = new TriggerEntry<>("break_grown_crop", CustomTrigger::new);
+    public static final TriggerEntry<CustomTrigger> BREAK_CREAKING_HEART = new TriggerEntry<>("break_creaking_heart", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> BREAK_SCULK_SHRIEKER = new TriggerEntry<>("break_sculk_shrieker", CustomTrigger::new);
+    public static final TriggerEntry<CustomTrigger> BREAK_SPARKLING_BLACKSTONE = new TriggerEntry<>("break_sparkling_blackstone", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> BRUSH_BLOCK = new TriggerEntry<>("brush_block", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> CONDUIT_POWER = new TriggerEntry<>("conduit_power", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> CONDUIT_POWER_FULL = new TriggerEntry<>("conduit_power_full", CustomTrigger::new);

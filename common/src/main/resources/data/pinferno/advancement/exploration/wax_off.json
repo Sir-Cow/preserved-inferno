@@ -102,7 +102,16 @@
                 "minecraft:diamond_axe",
                 "minecraft:netherite_axe",
                 "pinferno:nether_alloy_axe",
-                "pinferno:quartzite_axe"
+                "pinferno:quartzite_axe",
+                "pinferno:wooden_multitool",
+                "pinferno:golden_multitool",
+                "pinferno:stone_multitool",
+                "pinferno:copper_multitool",
+                "pinferno:iron_multitool",
+                "pinferno:diamond_multitool",
+                "pinferno:netherite_multitool",
+                "pinferno:nether_alloy_multitool",
+                "pinferno:quartzite_multitool"
               ]
             }
           }

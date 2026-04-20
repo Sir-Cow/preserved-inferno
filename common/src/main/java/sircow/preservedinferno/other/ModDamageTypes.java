@@ -13,6 +13,7 @@ public class ModDamageTypes {
     public static final ResourceKey<DamageType> CONDUIT = ResourceKey.create(Registries.DAMAGE_TYPE, Constants.id("conduit"));
     public static final ResourceKey<DamageType> HEAT = ResourceKey.create(Registries.DAMAGE_TYPE, Constants.id("heat"));
     public static final ResourceKey<DamageType> FLARE_GUN_PROJECTILE = ResourceKey.create(Registries.DAMAGE_TYPE, Constants.id("flare_gun_projectile"));
+    public static final ResourceKey<DamageType> TRUE_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, Constants.id("true_damage"));
 
     public static DamageSource of(Level world, ResourceKey<DamageType> key, @Nullable Entity attacker) {
         return new DamageSource(world.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(key), attacker);
