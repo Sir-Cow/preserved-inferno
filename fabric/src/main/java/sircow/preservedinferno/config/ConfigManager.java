@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import io.github.notenoughupdates.moulconfig.processor.BuiltinMoulConfigGuis;
 import io.github.notenoughupdates.moulconfig.processor.ConfigProcessorDriver;
 import io.github.notenoughupdates.moulconfig.processor.MoulConfigProcessor;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import org.apache.commons.io.FileUtils;
 import sircow.preservedinferno.PreservedInferno;
 
@@ -50,6 +52,7 @@ public class ConfigManager {
     }
 
     public void recreateProcessor() {
+        if (FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT) return;
         processor = new MoulConfigProcessor<>(PreservedInferno.config);
         BuiltinMoulConfigGuis.addProcessors(processor);
         ConfigProcessorDriver driver = new ConfigProcessorDriver(processor);
