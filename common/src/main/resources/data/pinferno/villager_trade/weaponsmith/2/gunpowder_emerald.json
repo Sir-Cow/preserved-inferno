@@ -7,5 +7,6 @@
   "wants": {
     "count": 8.0,
     "id": "minecraft:gunpowder"
-  }
+  },
+  "xp": 5.0
 }

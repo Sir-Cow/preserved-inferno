@@ -8,7 +8,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.item.trading.TradeSet;
@@ -28,56 +27,33 @@ public final class TradeRotator {
     public static void rebuildTrades(Villager villager, int masteryLevel, RandomSource random) {
         if (!(villager.level() instanceof ServerLevel level)) return;
 
-        MerchantOffers offers = villager.getOffers();
-        offers.clear();
+        MerchantOffers offers = new MerchantOffers();
+        addSlotOffers(villager, level, offers, 1, 2, random);
 
-        for (int lvl = 1; lvl <= masteryLevel; lvl++) {
-            addTradesForLevel(villager, level, lvl, random);
-        }
+        if (masteryLevel >= 2) addSlotOffers(villager, level, offers, 2, 1, random);
+        if (masteryLevel >= 3) addSlotOffers(villager, level, offers, 3, 1, random);
+        if (masteryLevel >= 4) addSlotOffers(villager, level, offers, 4, 1, random);
+        if (masteryLevel >= 5) addSlotOffers(villager, level, offers, 5, 1, random);
 
         villager.setOffers(offers);
     }
 
-    public static void addTradesForLevel(Villager villager, ServerLevel level, int levelIndex, RandomSource random) {
+    private static void addSlotOffers(Villager villager, ServerLevel level, MerchantOffers offers, int poolLevel, int count, RandomSource random) {
         Registry<TradeSet> registry = level.registryAccess().lookupOrThrow(Registries.TRADE_SET);
         VillagerProfession profession = villager.getVillagerData().profession().value();
-
-        ResourceKey<TradeSet> key = profession.getTrades(levelIndex);
+        ResourceKey<TradeSet> key = profession.getTrades(poolLevel);
         if (key == null) return;
-
         TradeSet set = registry.getValueOrThrow(key);
         List<VillagerTrade> trades = new ArrayList<>();
         set.getTrades().forEach(h -> trades.add(h.value()));
 
         if (trades.isEmpty()) return;
 
-        int picks = Math.min(getMaxTrades(levelIndex), trades.size());
-        MerchantOffers offers = villager.getOffers();
-
-        for (int i = 0; i < picks; i++) {
+        for (int i = 0; i < count && !trades.isEmpty(); i++) {
             VillagerTrade trade = trades.remove(random.nextInt(trades.size()));
-            MerchantOffer newOffer = createOffer(villager, level, trade);
-
-            if (newOffer != null) {
-                boolean duplicate = false;
-                for (MerchantOffer existingOffer : offers) {
-                    if (isSameTrade(existingOffer, newOffer)) {
-                        duplicate = true;
-                        break;
-                    }
-                }
-
-                if (!duplicate) {
-                    offers.add(newOffer);
-                }
-            }
+            MerchantOffer offer = createOffer(villager, level, trade);
+            if (offer != null) offers.add(offer);
         }
-    }
-
-    private static boolean isSameTrade(MerchantOffer a, MerchantOffer b) {
-        return ItemStack.isSameItemSameComponents(a.getBaseCostA(), b.getBaseCostA()) &&
-                ItemStack.isSameItemSameComponents(a.getCostB(), b.getCostB()) &&
-                ItemStack.isSameItemSameComponents(a.getResult(), b.getResult());
     }
 
     private static MerchantOffer createOffer(Villager villager, ServerLevel level, VillagerTrade trade) {
@@ -87,29 +63,17 @@ public final class TradeRotator {
                 .withParameter(LootContextParams.ADDITIONAL_COST_COMPONENT_ALLOWED, Unit.INSTANCE)
                 .create(LootContextParamSets.VILLAGER_TRADE);
 
-        LootContext context = new LootContext.Builder(params).create(Optional.empty());
-
+        LootContext context = new LootContext.Builder(params).create(java.util.Optional.empty());
         MerchantOffer offer = trade.getOffer(context);
         if (offer == null) return null;
 
         MerchantOfferAccessor accessor = (MerchantOfferAccessor) offer;
-        int intendedMaxUses = ((VillagerTradeAccessor)trade).getMaxUses().getInt(context);
+        int intendedMaxUses = ((VillagerTradeAccessor) trade).getMaxUses().getInt(context);
 
         accessor.setMaxUses(Math.max(intendedMaxUses, 1));
         offer.resetUses();
         accessor.setDemand(0);
 
         return offer;
-    }
-
-    public static int getMaxTrades(int level) {
-        return switch (level) {
-            case 1 -> 2;
-            case 2 -> 3;
-            case 3 -> 4;
-            case 4 -> 5;
-            case 5 -> 6;
-            default -> 2;
-        };
     }
 }

@@ -38,18 +38,12 @@ public class ShieldStaminaHandler {
             float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
             float drainRate = STAMINA_LOSS;
 
-            if (lastBypassingSource != null) {
-                drainRate *= 1.5F;
-            }
+            if (lastBypassingSource != null) drainRate *= 1.5F;
 
             float newStamina = Math.max(0, currentStamina - drainRate);
-            if (newStamina != currentStamina) {
-                player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
-            }
+            if (newStamina != currentStamina) player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
 
-            if (newStamina <= 0 && currentStamina > 0) {
-                triggerCooldown(player, heldStack);
-            }
+            if (newStamina <= 0 && currentStamina > 0) triggerCooldown(player, heldStack);
         }
     }
 
@@ -68,34 +62,23 @@ public class ShieldStaminaHandler {
             float regenRate = shieldItem.getRegenerationRate(stack);
 
             float newStamina = Math.min(maxStamina, currentStamina + regenRate);
-            if (newStamina != currentStamina) {
-                player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
-            }
+            if (newStamina != currentStamina) player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
         }
     }
 
     private static void handleCooldown(ServerPlayer player) {
         if (playerShieldCooldownMap.containsKey(player.getUUID())) {
             int cooldown = playerShieldCooldownMap.get(player.getUUID());
-            if (cooldown > 0) {
-                playerShieldCooldownMap.put(player.getUUID(), cooldown - 1);
-            }
-            else {
-                playerShieldCooldownMap.remove(player.getUUID());
-            }
+            if (cooldown > 0) playerShieldCooldownMap.put(player.getUUID(), cooldown - 1);
+            else playerShieldCooldownMap.remove(player.getUUID());
         }
     }
 
     private static void handleRegenBlock(ServerPlayer player) {
         if (regenBlockMap.containsKey(player.getUUID())) {
             int ticks = regenBlockMap.get(player.getUUID());
-
-            if (ticks > 0) {
-                regenBlockMap.put(player.getUUID(), ticks - 1);
-            }
-            else {
-                regenBlockMap.remove(player.getUUID());
-            }
+            if (ticks > 0) regenBlockMap.put(player.getUUID(), ticks - 1);
+            else regenBlockMap.remove(player.getUUID());
         }
     }
 
@@ -104,9 +87,7 @@ public class ShieldStaminaHandler {
         boolean isBlocking = player.isBlocking();
         boolean wasBlocking = player.getEntityData().get(ModEntityData.PLAYER_WAS_BLOCKING);
 
-        if (wasBlocking && !isBlocking) {
-            regenBlockMap.put(id, REGEN_BLOCK_TICKS);
-        }
+        if (wasBlocking && !isBlocking) regenBlockMap.put(id, REGEN_BLOCK_TICKS);
         player.getEntityData().set(ModEntityData.PLAYER_WAS_BLOCKING, isBlocking);
     }
 
@@ -116,9 +97,7 @@ public class ShieldStaminaHandler {
             stopBlocking(player);
             for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
                 ItemStack itemStack = player.getInventory().getItem(i);
-                if (itemStack.getItem() instanceof PreservedShieldItem) {
-                    player.getCooldowns().addCooldown(itemStack, COOLDOWN_TICKS);
-                }
+                if (itemStack.getItem() instanceof PreservedShieldItem) player.getCooldowns().addCooldown(itemStack, COOLDOWN_TICKS);
             }
             if (player instanceof ServerPlayer serverPlayer) {
                 serverPlayer.level().playSound(null,
@@ -139,22 +118,16 @@ public class ShieldStaminaHandler {
     }
 
     private static void checkBlockingOnCooldown(ServerPlayer player) {
-        if (isOnCooldown(player) && player.isBlocking() && player.getUseItem().getItem() instanceof PreservedShieldItem) {
-            stopBlocking(player);
-        }
+        if (isOnCooldown(player) && player.isBlocking() && player.getUseItem().getItem() instanceof PreservedShieldItem) stopBlocking(player);
     }
 
     public static float getShieldStamina(ItemStack stack, Player player) {
-        if (stack.getItem() instanceof PreservedShieldItem) {
-            return player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
-        }
+        if (stack.getItem() instanceof PreservedShieldItem) return player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
         return 0.0F;
     }
 
     public static int getShieldMaxStamina(ItemStack stack) {
-        if (stack.getItem() instanceof PreservedShieldItem) {
-            return ((PreservedShieldItem) stack.getItem()).getMaxStamina(stack);
-        }
+        if (stack.getItem() instanceof PreservedShieldItem) return ((PreservedShieldItem) stack.getItem()).getMaxStamina(stack);
         return 0;
     }
 

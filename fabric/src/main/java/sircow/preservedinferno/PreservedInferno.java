@@ -1,10 +1,14 @@
 package sircow.preservedinferno;
 
+import com.mojang.brigadier.Command;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuType;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,6 +23,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import sircow.preservedinferno.block.FabricModBlocks;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockData;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
+import sircow.preservedinferno.config.ConfigGuiManager;
+import sircow.preservedinferno.config.ConfigManager;
+import sircow.preservedinferno.config.PreservedInfernoConfig;
 import sircow.preservedinferno.effect.FabricModEffects;
 import sircow.preservedinferno.item.FabricModItemGroups;
 import sircow.preservedinferno.item.FabricModItems;
@@ -31,9 +38,13 @@ import sircow.preservedinferno.trigger.FabricModTriggers;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
+
 public class PreservedInferno implements ModInitializer {
     private static final List<DelayedBlockTransformationTask> scheduledTasks = new ArrayList<>();
     public static PreservedInferno INSTANCE;
+    public static PreservedInfernoConfig config;
+    public static ConfigManager configManager;
 
     // menus
     private static final MenuType<AnglingTableMenu> ANGLING_TABLE_MENU_TYPE =
@@ -139,6 +150,22 @@ public class PreservedInferno implements ModInitializer {
         }
     }
 
+    private void createConfig() {
+        configManager = new ConfigManager();
+        configManager.firstLoad();
+
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            Command<FabricClientCommandSource> action = context -> {
+                Minecraft.getInstance().execute(() -> ConfigGuiManager.openConfigGui(null));
+                return 1;
+            };
+
+            dispatcher.register(literal("preservedinferno").executes(action));
+            dispatcher.register(literal("pinferno").executes(action));
+            dispatcher.register(literal("inferno").executes(action));
+        });
+    }
+
     @Override
     public void onInitialize() {
         PayloadTypeRegistry.serverboundPlay().register(OpenAdvancementPayload.ID, OpenAdvancementPayload.CODEC);
@@ -154,5 +181,6 @@ public class PreservedInferno implements ModInitializer {
         FabricModTriggers.registerFabricModTriggers();
         ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
         ModMessages.registerMessages();
+        createConfig();
     }
 }

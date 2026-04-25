@@ -4,6 +4,7 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -19,7 +20,10 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
@@ -45,9 +49,13 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
-import sircow.preservedinferno.other.*;
+import sircow.preservedinferno.other.HeatAccessor;
+import sircow.preservedinferno.other.ModDamageTypes;
+import sircow.preservedinferno.other.ModEntityData;
+import sircow.preservedinferno.other.ShieldStaminaHandler;
 import sircow.preservedinferno.sound.ModSounds;
 import sircow.preservedinferno.trade.PlayerMixinAccess;
 import sircow.preservedinferno.trade.VillagerProfessionBits;
@@ -58,23 +66,22 @@ import java.util.Optional;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, PlayerMixinAccess {
-    @Unique private boolean hasWaterBreathingFromHelmet = false;
-    @Unique private int heatIncreaseTickCounter, heatDecreaseTickCounter, heatDamageTickCounter = 0;
+    @Unique private boolean hasWaterBreathingFromHelmet;
+    @Unique private int heatIncreaseTickCounter, heatDecreaseTickCounter, heatDamageTickCounter;
     @Unique private Vec3 rideStartPos;
     @Unique private static final int INCREASE_CAP = 120;
     @Unique private static final int DECREASE_CAP = 80;
     @Unique private static final int IN_WATER_CAP_REDUCTION = 10;
     @Unique private static final int FIRE_RES_INCREASE = 48;
     @Unique private static final int FIRE_PROT_INCREASE = 8;
-    @Unique private @Nullable BlockPos lastSteppedOnIcePos = null;
+    @Unique private @Nullable BlockPos lastSteppedOnIcePos;
     @Unique DamageSource heatDamageSource = ModDamageTypes.of(level(), ModDamageTypes.HEAT);
 
     @Shadow @Nullable public abstract GameType gameMode();
     @Shadow public abstract void awardStat(Stat<?> stat);
     @Shadow public abstract void resetStat(Stat<?> stat);
-    @Shadow public abstract void setLastDeathLocation(Optional<GlobalPos> lastDeathLocation);
-    @Shadow protected abstract boolean canCriticalAttack(Entity target);
-
+    @Shadow public abstract void setLastDeathLocation(Optional<GlobalPos> pos);
+    @Shadow protected abstract boolean canCriticalAttack(Entity entity);
     @Shadow public abstract boolean isCreative();
 
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, Level world) {
@@ -86,26 +93,18 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
         Player player = (Player)(Object)this;
 
         if (damageSource.is(DamageTypes.FREEZE)) {
-            if (player instanceof ServerPlayer serverPlayer && preserved_inferno$getHeat() >= 1) {
-                ModTriggers.FREEZE_COOL.get().trigger(serverPlayer);
-            }
+            if (player instanceof ServerPlayer serverPlayer && preserved_inferno$getHeat() >= 1) ModTriggers.FREEZE_COOL.get().trigger(serverPlayer);
             preserved_inferno$decreaseHeat(10);
         }
 
-        if (damageSource.is(DamageTypes.ON_FIRE) && !player.hasEffect(MobEffects.FIRE_RESISTANCE) && player.level().dimension() == Level.NETHER) {
-            preserved_inferno$increaseHeat(1);
-        }
+        if (damageSource.is(DamageTypes.ON_FIRE) && !player.hasEffect(MobEffects.FIRE_RESISTANCE) && player.level().dimension() == Level.NETHER) preserved_inferno$increaseHeat(1);
 
         ItemStack blockingStack = player.getUseItem();
 
         if (player.isBlocking() && blockingStack.getItem() instanceof PreservedShieldItem) {
             Vec3 sourcePos;
-            if (damageSource.getEntity() != null) {
-                sourcePos = damageSource.getEntity().position();
-            }
-            else {
-                sourcePos = damageSource.getSourcePosition();
-            }
+            if (damageSource.getEntity() != null) sourcePos = damageSource.getEntity().position();
+            else sourcePos = damageSource.getSourcePosition();
 
             // make shield only block damage from 120°
             if (sourcePos != null) {
@@ -123,18 +122,12 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                     double lookZ = look.z;
                     double lookLen = Math.sqrt(lookX * lookX + lookZ * lookZ);
 
-                    if (lookLen > 1e-6) {
-                        look = new Vec3(lookX / lookLen, 0.0D, lookZ / lookLen);
-                    }
-                    else {
-                        look = new Vec3(0.0D, 0.0D, 0.0D);
-                    }
+                    if (lookLen > 1e-6) look = new Vec3(lookX / lookLen, 0.0D, lookZ / lookLen);
+                    else look = new Vec3(0.0D, 0.0D, 0.0D);
 
                     double dot = toSource.x * look.x + toSource.z * look.z;
 
-                    if (dot < 0.5D) {
-                        return originalAmount;
-                    }
+                    if (dot < 0.5D) return originalAmount;
                 }
             }
 
@@ -159,13 +152,9 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                 float finalDamageToApply = Math.max(0, originalAmount - currentStamina);
                 float newStamina = Math.max(0, currentStamina - originalAmount);
 
-                if (newStamina != currentStamina) {
-                    player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
-                }
+                if (newStamina != currentStamina) player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
 
-                if (newStamina <= 0) {
-                    ShieldStaminaHandler.triggerCooldown(player, blockingStack);
-                }
+                if (newStamina <= 0) ShieldStaminaHandler.triggerCooldown(player, blockingStack);
 
                 Optional<BlocksAttacks> blocksAttacks = Optional.ofNullable(blockingStack.get(DataComponents.BLOCKS_ATTACKS));
                 if (blocksAttacks.isPresent()) {
@@ -210,6 +199,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void preserved_inferno$tick(CallbackInfo ci) {
+        Player player = (Player)(Object)this;
         // turtle helmet
         boolean isInWater = this.isEyeInFluid(FluidTags.WATER);
         boolean isWearingHelmet = this.getItemBySlot(EquipmentSlot.HEAD).is(Items.TURTLE_HELMET);
@@ -259,20 +249,12 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                     preserved_inferno$setCanDoHeatChange(true);
                     lastSteppedOnIcePos = null;
                 }
-                else if (lastSteppedOnIcePos != null && lastSteppedOnIcePos.equals(blockBelow)) {
-                    preserved_inferno$setCanDoHeatChange(false);
-                }
-                else if (lastSteppedOnIcePos == null) {
-                    preserved_inferno$setCanDoHeatChange(true);
-                }
+                else if (lastSteppedOnIcePos != null && lastSteppedOnIcePos.equals(blockBelow)) preserved_inferno$setCanDoHeatChange(false);
+                else if (lastSteppedOnIcePos == null) preserved_inferno$setCanDoHeatChange(true);
             }
-            else {
-                preserved_inferno$setCanDoHeatChange(true);
-            }
+            else preserved_inferno$setCanDoHeatChange(true);
 
-            if (preserved_inferno$canDoHeatChange()) {
-                preserved_inferno$doHeatChange();
-            }
+            if (preserved_inferno$canDoHeatChange()) preserved_inferno$doHeatChange();
         }
 
         // minecart advancements
@@ -289,24 +271,51 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
             double displacement = Math.sqrt(dx * dx + dz * dz);
 
             if (displacement >= 500) {
-                if ((Player)(Object)this instanceof ServerPlayer serverPlayer) {
-                    ModTriggers.RIDE_MINECART_FAR.get().trigger(serverPlayer);
-                }
+                if (player instanceof ServerPlayer serverPlayer) ModTriggers.RIDE_MINECART_FAR.get().trigger(serverPlayer);
             }
             if (displacement >= 50) {
-                if ((Player)(Object)this instanceof ServerPlayer serverPlayer) {
-                    ModTriggers.RIDE_MINECART.get().trigger(serverPlayer);
-                }
+                if (player instanceof ServerPlayer serverPlayer) ModTriggers.RIDE_MINECART.get().trigger(serverPlayer);
             }
             if (minecart.getDeltaMovement().horizontalDistance() >= 1.6) {
-                if ((Player)(Object)this instanceof ServerPlayer serverPlayer) {
-                    ModTriggers.RIDE_MINECART_MAX_SPEED.get().trigger(serverPlayer);
-                }
+                if (player instanceof ServerPlayer serverPlayer) ModTriggers.RIDE_MINECART_MAX_SPEED.get().trigger(serverPlayer);
             }
         }
-        else {
-            rideStartPos = null;
+        else rideStartPos = null;
+
+        // clock
+        if (!(player instanceof ServerPlayer serverPlayer)) return;
+
+        ItemStack mainHand = player.getMainHandItem();
+        ItemStack offHand = player.getOffhandItem();
+        boolean hasClockMain = mainHand.is(Items.CLOCK);
+        boolean hasClockOff = offHand.is(Items.CLOCK);
+
+        if (!hasClockMain && !hasClockOff) return;
+
+        Level level = player.level();
+        long dayTime = level.getOverworldClockTime() % 24000L;
+        int hour24 = (int)((dayTime / 1000 + 6) % 24);
+        int minutes = (int)((dayTime % 1000) * 60 / 1000);
+
+
+        String formatted;
+        switch (PreservedInferno.config.miscCategory.timeFormat) {
+            case TWELVE_HOUR -> {
+                int hour12 = hour24 % 12;
+                if (hour12 == 0) hour12 = 12;
+                String ampm = hour24 < 12 ? "AM" : "PM";
+                formatted = String.format("%d:%02d %s", hour12, minutes, ampm);
+            }
+            case TWELVE_HOUR_ALT -> {
+                int hour12 = hour24 % 12;
+                if (hour12 == 0) hour12 = 12;
+                String ampm = hour24 < 12 ? "a.m." : "p.m.";
+                formatted = String.format("%d:%02d %s", hour12, minutes, ampm);
+            }
+            case TWENTY_FOUR_HOUR -> formatted = String.format("%02d:%02d", hour24, minutes);
+            default -> formatted = String.format("%02d:%02d", hour24, minutes);
         }
+        serverPlayer.sendOverlayMessage(Component.literal(formatted));
     }
 
     @Unique
@@ -322,15 +331,13 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     private void preserved_inferno$cancelTurtleHelmetTick(CallbackInfo ci) {
         ci.cancel();
     }
-    
+
     @Inject(method = "die", at = @At(value = "HEAD"), cancellable = true)
     private void preserved_inferno$handleDie(DamageSource damageSource, CallbackInfo ci) {
         Player player = (Player)(Object)this;
         super.die(damageSource);
         this.reapplyPosition();
-        if (!this.isSpectator() && this.level() instanceof ServerLevel serverLevel && !this.hasEffect(ModEffects.WELL_RESTED.holder)) {
-            this.dropAllDeathLoot(serverLevel, damageSource);
-        }
+        if (!this.isSpectator() && this.level() instanceof ServerLevel serverLevel && !this.hasEffect(ModEffects.WELL_RESTED.holder)) this.dropAllDeathLoot(serverLevel, damageSource);
 
         if (damageSource != null) {
             this.setDeltaMovement(
@@ -339,9 +346,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                     -Mth.sin((this.getHurtDir() + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F
             );
         }
-        else {
-            this.setDeltaMovement(0.0, 0.1, 0.0);
-        }
+        else this.setDeltaMovement(0.0, 0.1, 0.0);
 
         this.awardStat(Stats.CUSTOM.get(Stats.DEATHS));
         this.resetStat(Stats.CUSTOM.get(Stats.TIME_SINCE_DEATH));
@@ -443,15 +448,14 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
         int i = this.preserved_inferno$getHeat();
         this.entityData.set(ModEntityData.PLAYER_HEAT, i + heat);
         double randomNum = random.nextDouble();
-        if (randomNum <= 0.4) {
-            this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.HEAT_UP, SoundSource.PLAYERS);
-        }
+        if (randomNum <= 0.4) this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.HEAT_UP, SoundSource.PLAYERS);
 //        Constants.LOG.info("heat increase: {}", preserved_inferno$getHeat());
     }
 
     @Unique
     public void preserved_inferno$decreaseHeat(int heat) {
-        this.entityData.set(ModEntityData.PLAYER_HEAT, Math.max(0, this.preserved_inferno$getHeat() - heat));
+        if (this.level().dimension() == Level.NETHER) this.entityData.set(ModEntityData.PLAYER_HEAT, Math.max(1, this.preserved_inferno$getHeat() - heat));
+        else this.entityData.set(ModEntityData.PLAYER_HEAT, Math.max(0, this.preserved_inferno$getHeat() - heat));
     }
 
     @Unique
@@ -468,9 +472,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
             int fireProt = preserved_inferno$fireProtCheck();
             if (fireProt > 0) tickCap += FIRE_PROT_INCREASE * fireProt;
 
-            if (currentHeat == 0) {
-                preserved_inferno$increaseHeat(1);
-            }
+            if (currentHeat == 0) preserved_inferno$increaseHeat(1);
 
             if (currentHeat < 200) {
                 this.heatIncreaseTickCounter += 1;
@@ -484,9 +486,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
         if (this.level().dimension() != Level.NETHER) {
             tickCap = DECREASE_CAP;
             if (currentHeat > 0) {
-                if (this.isInWater()) {
-                    tickCap -= IN_WATER_CAP_REDUCTION;
-                }
+                if (this.isInWater()) tickCap -= IN_WATER_CAP_REDUCTION;
                 this.heatDecreaseTickCounter += 1;
                 if (this.heatDecreaseTickCounter >= tickCap) {
                     preserved_inferno$decreaseHeat(1);
@@ -510,9 +510,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                 this.heatDamageTickCounter = 0;
             }
         }
-        else {
-            this.heatDamageTickCounter = 0;
-        }
+        else this.heatDamageTickCounter = 0;
     }
 
     @Unique
@@ -526,7 +524,6 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                 EquipmentSlot.FEET
         }) {
             ItemStack itemStack = this.getItemBySlot(slot);
-
             totalLevel += EnchantmentHelper.getItemEnchantmentLevel(this.level().registryAccess()
                     .lookupOrThrow(Enchantments.FIRE_PROTECTION.registryKey())
                     .getOrThrow(Enchantments.FIRE_PROTECTION), itemStack);
@@ -565,9 +562,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
     @Inject(method = "aiStep", at = @At("HEAD"))
     private void preserved_inferno$blockSprinting2(CallbackInfo ci) {
-        if (this.level().getLevelData().isHardcore() && !this.isSpectator() && !this.isCreative()) {
-            this.setSprinting(false);
-        }
+        if (this.level().getLevelData().isHardcore() && !this.isSpectator() && !this.isCreative()) this.setSprinting(false);
     }
 
     @Inject(method = "getDestroySpeed", at = @At("HEAD"), cancellable = true)
@@ -592,9 +587,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
         boolean isFullStrength = self.getAttackStrengthScale(0.5F) > 0.9F;
 
         if (isFullStrength && canCriticalAttack(target)) {
-            if (self instanceof ServerPlayer serverPlayer) {
-                ModTriggers.CRIT_DAMAGE.get().trigger(serverPlayer);
-            }
+            if (self instanceof ServerPlayer serverPlayer) ModTriggers.CRIT_DAMAGE.get().trigger(serverPlayer);
             return f + 3.0F;
         }
         return f;
@@ -605,10 +598,9 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
         Player self = (Player)(Object)this;
         ItemStack stack = self.getMainHandItem();
 
-        if (!stack.is(ItemTags.SHARP_WEAPON_ENCHANTABLE)
-                && !stack.is(ItemTags.MACE_ENCHANTABLE)
-                && !stack.is(ItemTags.TRIDENT_ENCHANTABLE)) {
+        if (!stack.is(ItemTags.SHARP_WEAPON_ENCHANTABLE) && !stack.is(ItemTags.MACE_ENCHANTABLE) && !stack.is(ItemTags.TRIDENT_ENCHANTABLE)) {
             cir.setReturnValue(false);
         }
     }
 }
+

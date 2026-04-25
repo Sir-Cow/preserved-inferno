@@ -1,0 +1,5 @@
+classTweaker  v2  official
+
+extend-enum net/minecraft/advancements/AdvancementType PINFERNO_PROGRESSING
+extend-enum net/minecraft/advancements/AdvancementType PINFERNO_ROOT
+extend-enum net/minecraft/advancements/AdvancementType PINFERNO_MASTERY

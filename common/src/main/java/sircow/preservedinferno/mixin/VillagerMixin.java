@@ -55,7 +55,7 @@ public class VillagerMixin implements VillagerFlags {
     }
 
     @Inject(method = "setVillagerData", at = @At("TAIL"))
-    private void preserved_inferno$clearTradesOnLevelUp(VillagerData data, CallbackInfo ci) {
+    private void preserved_inferno$onLevelUp(VillagerData data, CallbackInfo ci) {
         Villager self = (Villager)(Object)this;
         if (!(self.level() instanceof ServerLevel level)) return;
         VillagerData prev = this.pi$previousData;
@@ -64,15 +64,18 @@ public class VillagerMixin implements VillagerFlags {
         if (prev == null) return;
 
         if (data.profession() == prev.profession() && data.level() > prev.level()) {
+            MerchantOffers offers = self.getOffers();
+            offers.clear();
+            TradeRotator.rebuildTrades(self, data.level(), self.getRandom());
             if (data.level() == 5) level.getPlayers(player -> player.distanceToSqr(self) <= 100 * 100).forEach(ModTriggers.MAX_VILLAGER.get()::trigger);
         }
     }
 
-    @Unique private boolean pi$didSleep = false;
-    @Unique private boolean pi$didGather = false;
-    @Unique private boolean pi$didPanic = false;
-    @Unique private boolean pi$tradesRotatedToday = false;
-    @Unique boolean didDailyRefresh = false;
+    @Unique private boolean pi$didSleep;
+    @Unique private boolean pi$didGather;
+    @Unique private boolean pi$didPanic;
+    @Unique private boolean pi$tradesRotatedToday;
+    @Unique boolean didDailyRefresh;
 
     // === Flag accessors ===
     @Override public boolean pi$didSleep() { return pi$didSleep; }
@@ -112,7 +115,7 @@ public class VillagerMixin implements VillagerFlags {
             }
 
             if (this.pi$didSleep && this.pi$didGather && !this.pi$didPanic) {
-                TradeRotator.addTradesForLevel(self, level, self.getVillagerData().level(), self.getRandom());
+                TradeRotator.rebuildTrades(self, self.getVillagerData().level(), self.getRandom());
                 level.getPlayers(player -> player.distanceToSqr(self) <= 100 * 100).forEach(ModTriggers.VILLAGER_RESTOCK.get()::trigger);
             }
 

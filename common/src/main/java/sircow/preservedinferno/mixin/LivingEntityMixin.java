@@ -4,12 +4,14 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -19,6 +21,7 @@ import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -33,6 +36,7 @@ import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
+import sircow.preservedinferno.other.cooldowns.ElytraCooldown;
 
 import java.util.Objects;
 
@@ -53,9 +57,7 @@ public abstract class LivingEntityMixin extends Entity {
     private void preserved_inferno$preventEffectsOnShieldBlock(MobEffectInstance effectInstance, Entity source, CallbackInfoReturnable<Boolean> cir) {
         if ((LivingEntity)(Object)this instanceof Player player) {
             if (player.isBlocking()) {
-                if (source instanceof Monster) {
-                    cir.setReturnValue(false);
-                }
+                if (source instanceof Monster) cir.setReturnValue(false);
             }
         }
     }
@@ -65,9 +67,7 @@ public abstract class LivingEntityMixin extends Entity {
         if ((Object)this instanceof Player player) {
             if (player.isBlocking()) {
                 ItemStack blockingItem = player.getUseItem();
-                if (blockingItem.getItem() instanceof PreservedShieldItem) {
-                    cir.setReturnValue(true);
-                }
+                if (blockingItem.getItem() instanceof PreservedShieldItem) cir.setReturnValue(true);
             }
         }
     }
@@ -76,13 +76,9 @@ public abstract class LivingEntityMixin extends Entity {
     private void preserved_inferno$applyHindered(Vec3 travelVector, CallbackInfo ci) {
         if (!this.hasEffect(ModEffects.HINDERED.holder)) {
             AttributeInstance speedAttr = this.getAttribute(Attributes.MOVEMENT_SPEED);
-            if (speedAttr != null && speedAttr.getModifier(HINDERED_SPEED_ID) != null) {
-                speedAttr.removeModifier(HINDERED_SPEED_ID);
-            }
+            if (speedAttr != null && speedAttr.getModifier(HINDERED_SPEED_ID) != null) speedAttr.removeModifier(HINDERED_SPEED_ID);
             AttributeInstance atk = this.getAttribute(Attributes.ATTACK_SPEED);
-            if (atk != null && atk.getModifier(HINDERED_ATTACK_ID) != null) {
-                atk.removeModifier(HINDERED_ATTACK_ID);
-            }
+            if (atk != null && atk.getModifier(HINDERED_ATTACK_ID) != null) atk.removeModifier(HINDERED_ATTACK_ID);
             return;
         }
 
@@ -105,18 +101,31 @@ public abstract class LivingEntityMixin extends Entity {
                     AttributeModifier.Operation.ADD_MULTIPLIED_BASE
             ));
         }
-
         this.setSprinting(false);
     }
 
     @Inject(method = "hurtServer", at = @At("HEAD"))
-    private void preserved_inferno$applyHinderedOnFrostDamage(ServerLevel serverLevel, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    private void preserved_inferno$applyOnDamage(ServerLevel serverLevel, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity self = (LivingEntity)(Object)this;
-
+        // hindered effect on freeze
         if (!self.level().isClientSide() && source.is(DamageTypes.FREEZE)) {
             MobEffectInstance newInstance = new MobEffectInstance(ModEffects.HINDERED.holder, 160, 0, false, true, true);
             self.addEffect(newInstance);
         }
+        // elytra cooldown
+        if (self instanceof ServerPlayer serverPlayer) ElytraCooldown.applyCooldown(serverPlayer, 20 * 8);
+    }
+
+    @Inject(method = "canGlide", at = @At("HEAD"), cancellable = true)
+    private void preserved_inferno$disableElytraOnCooldown(CallbackInfoReturnable<Boolean> cir) {
+        LivingEntity self = (LivingEntity)(Object)this;
+
+        if (!(self instanceof Player player)) return;
+
+        ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
+
+        if (!chest.is(Items.ELYTRA)) return;
+        if (player.getCooldowns().isOnCooldown(chest)) cir.setReturnValue(false);
     }
 
     @Inject(method = "jumpFromGround", at = @At("TAIL"))
@@ -151,30 +160,18 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "getItemBlockingWith", at = @At("HEAD"), cancellable = true)
     private void preserved_inferno$bucklerEnchant(CallbackInfoReturnable<ItemStack> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
-
-        if (!entity.isUsingItem()) {
-            return;
-        }
+        if (!entity.isUsingItem()) return;
 
         ItemStack stack = entity.getUseItem();
-
-        if (!(stack.getItem() instanceof PreservedShieldItem)) {
-            return;
-        }
+        if (!(stack.getItem() instanceof PreservedShieldItem)) return;
 
         BlocksAttacks blocks = stack.get(DataComponents.BLOCKS_ATTACKS);
-        if (blocks == null) {
-            return;
-        }
+        if (blocks == null) return;
 
         int usedTicks = stack.getUseDuration(entity) - entity.getUseItemRemainingTicks();
         int delay = stack.getEnchantments().getLevel(level().registryAccess().lookupOrThrow(ModEnchantments.BUCKLER.registryKey()).getOrThrow(ModEnchantments.BUCKLER)) > 0 ? 1 : blocks.blockDelayTicks();
 
-        if (usedTicks >= delay) {
-            cir.setReturnValue(stack);
-        }
-        else {
-            cir.setReturnValue(null);
-        }
+        if (usedTicks >= delay) cir.setReturnValue(stack);
+        else cir.setReturnValue(null);
     }
 }

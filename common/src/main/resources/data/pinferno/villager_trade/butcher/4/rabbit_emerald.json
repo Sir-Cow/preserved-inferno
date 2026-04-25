@@ -7,5 +7,6 @@
   "wants": {
     "count": 5.0,
     "id": "minecraft:rabbit"
-  }
+  },
+  "xp": 20.0
 }

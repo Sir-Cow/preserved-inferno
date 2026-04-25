@@ -42,14 +42,14 @@ public abstract class AdvancementWidgetTypeMixin implements HiddenSpriteAccessor
 
     @Inject(method = "frameSprite", at = @At("HEAD"), cancellable = true)
     private void preserved_inferno$injectProgressingCase(AdvancementType type, CallbackInfoReturnable<Identifier> cir) {
-        if (type.name().equals("PROGRESSING") || type.name().equals("ROOT") || type.name().equals("MASTERY")) {
+        if (type.name().equals("PINFERNO_PROGRESSING") || type.name().equals("PINFERNO_ROOT") || type.name().equals("PINFERNO_MASTERY")) {
             cir.setReturnValue(this.progressingFrameSprite);
         }
     }
 
     @Override
     public Identifier preserved_inferno$getHiddenSprite(AdvancementType type) {
-        if (type.name().equals("PROGRESSING")) {
+        if (type.name().equals("PINFERNO_PROGRESSING")) {
             return this.hiddenProgressingSprite;
         }
         return switch (type) {

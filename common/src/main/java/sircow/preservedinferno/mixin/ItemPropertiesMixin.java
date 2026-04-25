@@ -63,7 +63,7 @@ public class ItemPropertiesMixin {
         DURABILITY_MAP.put(ArmorMaterials.NETHERITE, netheriteDurability);
 
         Map<ArmorType, Integer> turtleDurability = new HashMap<>();
-        turtleDurability.put(ArmorType.HELMET, 512);
+        turtleDurability.put(ArmorType.HELMET, 1024);
         DURABILITY_MAP.put(ArmorMaterials.TURTLE_SCUTE, turtleDurability);
 
         Map<ArmorType, Integer> copperDurability = new HashMap<>();

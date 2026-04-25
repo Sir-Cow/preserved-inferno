@@ -25,9 +25,7 @@ public class PreservedFlareGunItem extends Item {
 
     @Override
     public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
-        if (player.containerMenu != player.inventoryMenu) {
-            return InteractionResult.PASS;
-        }
+        if (player.containerMenu != player.inventoryMenu) return InteractionResult.PASS;
 
         ItemStack itemStack = player.getItemInHand(hand);
         player.startUsingItem(hand);

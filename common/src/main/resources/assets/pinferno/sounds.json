@@ -60,6 +60,38 @@
       "minecraft:block/barrel/close"
     ]
   },
+  "enderpearl_land_silent": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.player.teleport",
+        "pitch": 1.5,
+        "type": "event"
+      }
+    ]
+  },
+  "sculk_catalyst_break_silent": {
+    "sounds": [
+      {
+        "name": "minecraft:block.sculk_catalyst.break",
+        "type": "event"
+      }
+    ]
+  },
+  "ender_eye_dead_silent": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.ender_eye.death",
+        "pitch": 0.5,
+        "type": "event"
+      }
+    ]
+  },
+  "reverb_compass_use": {
+    "sounds": [
+      "pinferno:silence"
+    ],
+    "subtitle": "sounds.pinferno.reverb_compass_use"
+  },
   "experience_orb_pickup_silent": {
     "sounds": [
       {

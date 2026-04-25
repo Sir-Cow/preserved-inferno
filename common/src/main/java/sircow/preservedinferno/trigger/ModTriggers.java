@@ -38,9 +38,11 @@ public class ModTriggers {
     public static final TriggerEntry<CustomTrigger> RIDE_MINECART_FAR = new TriggerEntry<>("ride_minecart_far", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> SCRAPE_COPPER = new TriggerEntry<>("scrape_copper", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> SHEAR_SHEEP = new TriggerEntry<>("shear_sheep", CustomTrigger::new);
+    public static final TriggerEntry<CustomTrigger> SMELT_LEATHER_FABRIC = new TriggerEntry<>("smelt_leather_fabric", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> STAND_ON_ICE = new TriggerEntry<>("stand_on_ice", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> TRADE_EVERY_VILLAGER = new TriggerEntry<>("trade_every_villager", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> TRIPLE_KILL = new TriggerEntry<>("triple_kill", CustomTrigger::new);
+    public static final TriggerEntry<CustomTrigger> USE_REVERB_COMPASS = new TriggerEntry<>("use_reverb_compass", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> USE_TIPPED_ARROW = new TriggerEntry<>("use_tipped_arrow", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> USED_ANVIL_REPAIR = new TriggerEntry<>("used_anvil_repair", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> VILLAGER_RESTOCK = new TriggerEntry<>("villager_restock", CustomTrigger::new);

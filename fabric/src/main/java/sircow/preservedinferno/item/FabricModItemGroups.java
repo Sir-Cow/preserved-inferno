@@ -31,6 +31,7 @@ public class FabricModItemGroups {
 
                     entries.accept(ModBlocks.SPARKLING_BLACKSTONE.asItem());
 
+                    entries.accept(FabricModItems.REVERB_COMPASS);
                     entries.accept(ModItems.DREAMCATCHER);
                     entries.accept(ModItems.ELDER_GUARDIAN_SPINE);
                     entries.accept(ModItems.HOLLOW_TWINE);

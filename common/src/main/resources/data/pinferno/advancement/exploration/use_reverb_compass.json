@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:exploration/use_lodestone",
+  "criteria": {
+    "use_reverb_compass": {
+      "trigger": "pinferno:use_reverb_compass"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.use_reverb_compass.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:lodestone"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.use_reverb_compass.title"
+    }
+  },
+  "requirements": [
+    [
+      "use_reverb_compass"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

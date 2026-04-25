@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -43,7 +44,7 @@ public class GuiMixin {
         }
     }
 
-    @Inject(method = "extractPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;extractFood(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/entity/player/Player;II)V", shift = At.Shift.BEFORE))
+    @Inject(method = "extractPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;extractAirBubbles(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/entity/player/Player;III)V", shift = At.Shift.AFTER))
     public void preserved_inferno$renderHeatBar(GuiGraphicsExtractor guiGraphics, CallbackInfo ci) {
         int screenWidth = guiGraphics.guiWidth();
         int screenHeight = guiGraphics.guiHeight();
@@ -52,12 +53,9 @@ public class GuiMixin {
         int heatBarY = baseY - 10;
         int barWidth = 81;
         int barHeight = 9;
+        boolean hasAirBar = player.isEyeInFluid(FluidTags.WATER) || player.getAirSupply() < player.getMaxAirSupply();
 
-        int maxAir = player.getMaxAirSupply();
-        if (player.getAirSupply() < maxAir) {
-            heatBarY -= 10;
-        }
-
+        if (hasAirBar) heatBarY -= 10;
         this.renderHeat(guiGraphics, x, heatBarY, barWidth, barHeight);
     }
 
@@ -101,12 +99,8 @@ public class GuiMixin {
         if (armourVal > 0) {
             guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, NEW_ARMOUR_BAR_EMPTY, x, j, barWidth, barHeight);
 
-            if (armourVal >= 100) {
-                percentageMultiplier = 1.0F;
-            }
-            else {
-                percentageMultiplier = armourVal / maxArmourVal;
-            }
+            if (armourVal >= 100) percentageMultiplier = 1.0F;
+            else percentageMultiplier = armourVal / maxArmourVal;
 
             guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, NEW_ARMOUR_BAR_FILLED, barWidth, barHeight, 0, 0, x, j, (int)(percentageMultiplier * barWidth), barHeight);
         }
@@ -137,14 +131,10 @@ public class GuiMixin {
                 if (maxStamina > 0) {
                     percentageMultiplier = (double) currentStamina / maxStamina;
                     int filledWidth = (int) (percentageMultiplier * barWidth);
-                    if (currentStamina <= maxStamina) {
-                        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SHIELD_BAR_PROGRESS_SPRITE, x, y, 0, 0, filledWidth, barHeight, barWidth, barHeight);
-                    }
+                    if (currentStamina <= maxStamina) guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SHIELD_BAR_PROGRESS_SPRITE, x, y, 0, 0, filledWidth, barHeight, barWidth, barHeight);
                 }
 
-                if (ShieldStaminaHandler.isOnCooldown(client.player)) {
-                    guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SHIELD_BAR_COOLDOWN_SPRITE, x, y, 0, 0, barWidth, barHeight, barWidth, barHeight);
-                }
+                if (ShieldStaminaHandler.isOnCooldown(client.player)) guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SHIELD_BAR_COOLDOWN_SPRITE, x, y, 0, 0, barWidth, barHeight, barWidth, barHeight);
             }
         }
     }

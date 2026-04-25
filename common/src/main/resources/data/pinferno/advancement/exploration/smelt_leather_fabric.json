@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:exploration/obtain_furnace",
+  "criteria": {
+    "smelt_leather_fabric": {
+      "trigger": "pinferno:smelt_leather_fabric"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.smelt_leather_fabric.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:rotten_flesh"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.smelt_leather_fabric.title"
+    }
+  },
+  "requirements": [
+    [
+      "smelt_leather_fabric"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

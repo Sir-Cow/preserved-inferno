@@ -18,7 +18,6 @@ public class PreservedShieldItem extends ShieldItem {
     public int getMaxStamina(ItemStack stack) {
         return stack.get(ModComponents.SHIELD_MAX_STAMINA_COMPONENT);
     }
-
     public float getRegenerationRate(ItemStack stack) {
         return stack.get(ModComponents.SHIELD_REGEN_RATE_COMPONENT);
     }
@@ -35,18 +34,14 @@ public class PreservedShieldItem extends ShieldItem {
 
     @Override
     public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
-        if (player.containerMenu != player.inventoryMenu) {
-            return InteractionResult.PASS;
-        }
+        if (player.containerMenu != player.inventoryMenu) return InteractionResult.PASS;
 
         if (hand == InteractionHand.OFF_HAND && player.getOffhandItem().is(this)) {
             if (!ShieldStaminaHandler.isOnCooldown(player)) {
                 player.startUsingItem(hand);
                 return InteractionResult.CONSUME;
             }
-            else {
-                return InteractionResult.FAIL;
-            }
+            else return InteractionResult.FAIL;
         }
         return InteractionResult.PASS;
     }

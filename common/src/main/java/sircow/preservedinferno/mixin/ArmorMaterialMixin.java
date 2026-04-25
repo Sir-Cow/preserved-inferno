@@ -67,7 +67,7 @@ public class ArmorMaterialMixin {
     }
 
     static {
-        TURTLE_TOUGHNESS.put(ArmorType.HELMET, 1.0f); TURTLE_TOUGHNESS.put(ArmorType.CHESTPLATE, 0.0f);
+        TURTLE_TOUGHNESS.put(ArmorType.HELMET, 3.0f); TURTLE_TOUGHNESS.put(ArmorType.CHESTPLATE, 0.0f);
         TURTLE_TOUGHNESS.put(ArmorType.LEGGINGS, 0.0f); TURTLE_TOUGHNESS.put(ArmorType.BOOTS, 0.0f);
     }
 

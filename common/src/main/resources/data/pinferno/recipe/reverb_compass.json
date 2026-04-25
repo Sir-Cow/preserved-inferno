@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:compass",
+    "minecraft:echo_shard"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:reverb_compass"
+  }
+}

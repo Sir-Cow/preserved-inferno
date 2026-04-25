@@ -9,6 +9,7 @@
 
   "item.pinferno.sparkling_blackstone": "Sparkling Blackstone",
 
+  "item.pinferno.reverb_compass": "Reverb Compass",
   "item.pinferno.dreamcatcher": "Dreamcatcher",
   "item.pinferno.elder_guardian_spine": "Elder Guardian Spine",
   "item.pinferno.hollow_twine": "Hollow Twine",
@@ -144,6 +145,7 @@
   "sounds.pinferno.cauldron_bubble": "Cauldron bubbles",
   "sounds.pinferno.cache_open": "Cache opens",
   "sounds.pinferno.cache_close": "Cache closes",
+  "sounds.pinferno.reverb_compass_use": "Reverb Compass used",
   "sounds.pinferno.sculk_infusion": "Sculk Infusion consumed",
 
   "death.attack.heat": "%1$s burned up",
@@ -170,6 +172,7 @@
 
   "item.pinferno.nether_alloy_applies": "Helmets, Golden Tools",
   "item.pinferno.leggings": "Leggings",
+  "item.pinferno.compass_tooltip": "Distance: ",
 
   "effect.pinferno.hindered": "Hindered",
   "effect.pinferno.well_rested": "Well Rested",
@@ -297,6 +300,10 @@
   "advancements.pinferno.exploration.obtain_netherite_multitool.description": "Forge a Netherite Multitool",
   "advancements.pinferno.exploration.break_creaking_heart.title": "Heartpiercer",
   "advancements.pinferno.exploration.break_creaking_heart.description": "Deconstruct a Creaking by destroying its Heart",
+  "advancements.pinferno.exploration.use_reverb_compass.title": "Take Me Home",
+  "advancements.pinferno.exploration.use_reverb_compass.description": "Use a linked Reverb Compass to transport yourself",
+  "advancements.pinferno.exploration.smelt_leather_fabric.title": "Total Fabrication",
+  "advancements.pinferno.exploration.smelt_leather_fabric.description": "Dry out Rotten Flesh to create Leather Fabric",
   "advancements.pinferno.nether.enter_the_nether.title": "Nether",
   "advancements.pinferno.nether.enter_the_nether.description": "Bring summer clothes",
   "advancements.pinferno.nether.reduce_heat.title": "Cool Headed",

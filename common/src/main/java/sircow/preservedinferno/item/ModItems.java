@@ -134,7 +134,7 @@ public class ModItems {
                                     0.25F,
                                     1.0F,
                                     List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
-                                    new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
+                                    new BlocksAttacks.ItemDamageFunction(1.0F, 1.0F, 1.0F),
                                     Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                                     Optional.of(SoundEvents.SHIELD_BLOCK),
                                     Optional.of(SoundEvents.SHIELD_BREAK)
@@ -156,7 +156,7 @@ public class ModItems {
                                     0.25F,
                                     1.0F,
                                     List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
-                                    new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
+                                    new BlocksAttacks.ItemDamageFunction(1.0F, 1.0F, 1.0F),
                                     Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                                     Optional.of(SoundEvents.SHIELD_BLOCK),
                                     Optional.of(SoundEvents.SHIELD_BREAK)
@@ -178,7 +178,7 @@ public class ModItems {
                                     0.25F,
                                     1.0F,
                                     List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
-                                    new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
+                                    new BlocksAttacks.ItemDamageFunction(1.0F, 1.0F, 1.0F),
                                     Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                                     Optional.of(SoundEvents.SHIELD_BLOCK),
                                     Optional.of(SoundEvents.SHIELD_BREAK)
@@ -201,7 +201,7 @@ public class ModItems {
                                     0.25F,
                                     1.0F,
                                     List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
-                                    new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
+                                    new BlocksAttacks.ItemDamageFunction(1.0F, 1.0F, 1.0F),
                                     Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                                     Optional.of(SoundEvents.SHIELD_BLOCK),
                                     Optional.of(SoundEvents.SHIELD_BREAK)
@@ -223,7 +223,7 @@ public class ModItems {
                                     0.25F,
                                     1.0F,
                                     List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
-                                    new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
+                                    new BlocksAttacks.ItemDamageFunction(1.0F, 1.0F, 1.0F),
                                     Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                                     Optional.of(SoundEvents.SHIELD_BLOCK),
                                     Optional.of(SoundEvents.SHIELD_BREAK)

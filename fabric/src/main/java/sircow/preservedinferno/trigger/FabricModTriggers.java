@@ -39,9 +39,11 @@ public class FabricModTriggers {
         register(ModTriggers.RIDE_MINECART_FAR);
         register(ModTriggers.SCRAPE_COPPER);
         register(ModTriggers.SHEAR_SHEEP);
+        register(ModTriggers.SMELT_LEATHER_FABRIC);
         register(ModTriggers.STAND_ON_ICE);
         register(ModTriggers.TRADE_EVERY_VILLAGER);
         register(ModTriggers.TRIPLE_KILL);
+        register(ModTriggers.USE_REVERB_COMPASS);
         register(ModTriggers.USE_TIPPED_ARROW);
         register(ModTriggers.USED_ANVIL_REPAIR);
         register(ModTriggers.VILLAGER_RESTOCK);

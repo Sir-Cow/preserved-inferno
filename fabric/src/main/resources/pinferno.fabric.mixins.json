@@ -6,10 +6,12 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AbstractCauldronBlockMixin",
+    "AdvancementTypeFabricMixin",
     "AnglingTableBlockMixin",
     "BlockItemMixin",
     "BlockMixin",
     "CauldronBlockMixin",
+    "CompassItemMixin",
     "EnchantingTableBlockMixin",
     "LoomBlockMixin",
     "PlayerAdvancementsMixin",
