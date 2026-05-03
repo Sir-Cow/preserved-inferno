@@ -167,19 +167,19 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         itemCategorySlots.put("shieldVigor", Set.of(idx("Buckler"), idx("Respite"), idx("Unbreaking"), idx("Vigor")));
         itemCategorySlots.put("shield", Set.of(idx("Buckler"), idx("Endurance"), idx("Respite"), idx("Unbreaking"), idx("Vigor")));
         // armour
-        itemCategorySlots.put("helmet", Set.of(idx("Aqua Affinity"), idx("Blast Protection"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("helmet", Set.of(idx("Aqua Affinity"), idx("Blast Protection"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Respiration"), idx("Thorns"), idx("Unbreaking")));
         itemCategorySlots.put("chestplate", Set.of(idx("Blast Protection"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
         itemCategorySlots.put("leggings", Set.of(idx("Blast Protection"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
         itemCategorySlots.put("boots", Set.of(idx("Blast Protection"), idx("Depth Strider"), idx("Feather Falling"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
-        itemCategorySlots.put("helmetProt", Set.of(idx("Aqua Affinity"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
-        itemCategorySlots.put("helmetProj", Set.of(idx("Aqua Affinity"), idx("Projectile Protection"), idx("Thorns"), idx("Unbreaking")));
-        itemCategorySlots.put("helmetFire", Set.of(idx("Aqua Affinity"), idx("Fire Protection"), idx("Thorns"), idx("Unbreaking")));
-        itemCategorySlots.put("helmetBlast", Set.of(idx("Aqua Affinity"), idx("Blast Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("helmetProt", Set.of(idx("Aqua Affinity"), idx("Protection"), idx("Respiration"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("helmetProj", Set.of(idx("Aqua Affinity"), idx("Projectile Protection"), idx("Respiration"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("helmetFire", Set.of(idx("Aqua Affinity"), idx("Fire Protection"), idx("Respiration"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("helmetBlast", Set.of(idx("Aqua Affinity"), idx("Blast Protection"), idx("Respiration"), idx("Thorns"), idx("Unbreaking")));
         itemCategorySlots.put("depthNoProt", Set.of(idx("Blast Protection"), idx("Feather Falling"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
-        itemCategorySlots.put("depthProt", Set.of(idx("Feather Falling"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
-        itemCategorySlots.put("depthProj", Set.of(idx("Feather Falling"), idx("Projectile Protection"), idx("Thorns"), idx("Unbreaking")));
-        itemCategorySlots.put("depthFire", Set.of(idx("Feather Falling"), idx("Fire Protection"), idx("Thorns"), idx("Unbreaking")));
-        itemCategorySlots.put("depthBlast", Set.of(idx("Blast Protection"), idx("Feather Falling"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("depthProt", Set.of(idx("Depth Strider"), idx("Feather Falling"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("depthProj", Set.of(idx("Depth Strider"), idx("Feather Falling"), idx("Projectile Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("depthFire", Set.of(idx("Depth Strider"), idx("Feather Falling"), idx("Fire Protection"), idx("Thorns"), idx("Unbreaking")));
+        itemCategorySlots.put("depthBlast", Set.of(idx("Blast Protection"), idx("Depth Strider"), idx("Feather Falling"), idx("Thorns"), idx("Unbreaking")));
         itemCategorySlots.put("frostWalkNoProt", Set.of(idx("Blast Protection"), idx("Feather Falling"), idx("Fire Protection"), idx("Projectile Protection"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
         itemCategorySlots.put("frostWalkProt", Set.of(idx("Feather Falling"), idx("Protection"), idx("Thorns"), idx("Unbreaking")));
         itemCategorySlots.put("frostWalkProj", Set.of(idx("Feather Falling"), idx("Projectile Protection"), idx("Thorns"), idx("Unbreaking")));
@@ -638,9 +638,9 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                         .getOrThrow(Enchantments.BLAST_PROTECTION))) this.itemCategory = "frostWalkBlast";
                 else this.itemCategory = "frostWalkNoProt";
             }
-            else if (!itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
-                    .lookupOrThrow(Enchantments.FROST_WALKER.registryKey())
-                    .getOrThrow(Enchantments.FROST_WALKER))) {
+            else if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
+                    .lookupOrThrow(Enchantments.DEPTH_STRIDER.registryKey())
+                    .getOrThrow(Enchantments.DEPTH_STRIDER))) {
                 if (itemStack.getEnchantments().keySet().contains(this.world.registryAccess()
                         .lookupOrThrow(Enchantments.PROTECTION.registryKey())
                         .getOrThrow(Enchantments.PROTECTION))) this.itemCategory = "depthProt";
@@ -655,6 +655,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
                         .getOrThrow(Enchantments.BLAST_PROTECTION))) this.itemCategory = "depthBlast";
                 else this.itemCategory = "depthNoProt";
             }
+            else this.itemCategory = "boots";
         }
         else if (itemStack.getItem() == Items.SHEARS) this.itemCategory = "shears";
         else if (itemStack.getItem() == Items.FLINT_AND_STEEL

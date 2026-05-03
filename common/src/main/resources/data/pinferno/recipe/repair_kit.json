@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:leather",
+    "minecraft:string",
+    "minecraft:bone",
+    "#pinferno:cloth"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:repair_kit"
+  }
+}

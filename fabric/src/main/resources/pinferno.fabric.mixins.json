@@ -11,11 +11,9 @@
     "BlockItemMixin",
     "BlockMixin",
     "CauldronBlockMixin",
-    "CompassItemMixin",
     "EnchantingTableBlockMixin",
     "LoomBlockMixin",
-    "PlayerAdvancementsMixin",
-    "PlayerMixin"
+    "PlayerAdvancementsMixin"
   ],
   "client": [
     "ClientAdvancementsMixin",

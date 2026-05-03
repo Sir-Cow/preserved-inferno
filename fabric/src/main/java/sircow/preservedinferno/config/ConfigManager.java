@@ -20,31 +20,37 @@ public class ConfigManager {
     public MoulConfigProcessor<PreservedInfernoConfig> processor;
 
     public void firstLoad() {
+        PreservedInfernoConfig loaded;
+
         if (configFile.exists()) {
             try {
                 String json = FileUtils.readFileToString(configFile, StandardCharsets.UTF_8);
-                PreservedInferno.config = gson.fromJson(json, PreservedInfernoConfig.class);
+                loaded = gson.fromJson(json, PreservedInfernoConfig.class);
             }
             catch (Exception e) {
                 e.printStackTrace();
-                PreservedInferno.config = new PreservedInfernoConfig();
+                loaded = new PreservedInfernoConfig();
             }
         }
         else {
-            PreservedInferno.config = new PreservedInfernoConfig();
-            saveConfig();
+            loaded = new PreservedInfernoConfig();
+            saveConfig(loaded);
         }
+
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) PreservedInferno.clientConfig = loaded;
+        else PreservedInferno.serverConfig = loaded;
+
         recreateProcessor();
     }
 
-    public void saveConfig() {
+    public void saveConfig(PreservedInfernoConfig config) {
         try {
             File parent = configFile.getParentFile();
             if (parent != null && !parent.exists() && !parent.mkdirs()) {
                 throw new IOException("Failed to create directory: " + parent);
             }
 
-            FileUtils.writeStringToFile(configFile, gson.toJson(PreservedInferno.config), StandardCharsets.UTF_8);
+            FileUtils.writeStringToFile(configFile, gson.toJson(config), StandardCharsets.UTF_8);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -53,10 +59,10 @@ public class ConfigManager {
 
     public void recreateProcessor() {
         if (FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT) return;
-        processor = new MoulConfigProcessor<>(PreservedInferno.config);
+        processor = new MoulConfigProcessor<>(PreservedInferno.clientConfig);
         BuiltinMoulConfigGuis.addProcessors(processor);
         ConfigProcessorDriver driver = new ConfigProcessorDriver(processor);
         driver.warnForPrivateFields = false;
-        driver.processConfig(PreservedInferno.config);
+        driver.processConfig(PreservedInferno.clientConfig);
     }
 }

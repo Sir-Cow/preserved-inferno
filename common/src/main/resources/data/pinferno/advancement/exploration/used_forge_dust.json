@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:exploration/used_anvil_repair",
+  "criteria": {
+    "used_forge_dust": {
+      "trigger": "pinferno:used_forge_dust"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.used_forge_dust.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "pinferno:forge_dust"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.used_forge_dust.title"
+    }
+  },
+  "requirements": [
+    [
+      "used_forge_dust"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -136,7 +136,7 @@ public class ThrownCopperTrident extends AbstractArrow {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         Entity entity = result.getEntity();
-        float f = 8.0F;
+        float f = 9.0F;
         Entity entity2 = this.getOwner();
         DamageSource damageSource = this.damageSources().trident(this, entity2 == null ? this : entity2);
         if (this.level() instanceof ServerLevel serverLevel) {

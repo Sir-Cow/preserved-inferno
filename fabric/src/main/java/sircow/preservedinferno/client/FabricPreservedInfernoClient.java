@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
@@ -12,20 +13,32 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CompassItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.LodestoneTracker;
+import net.minecraft.world.level.Level;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.MenuTypes;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntityRenderer;
 import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.components.RodTooltipComponent;
+import sircow.preservedinferno.config.MiscCategory;
 import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.item.ModItems;
+import sircow.preservedinferno.item.custom.ReverbCompassItem;
 import sircow.preservedinferno.mixin.ClientAdvancementsAccessor;
 import sircow.preservedinferno.network.ModMessages;
 import sircow.preservedinferno.other.IMinecraftMixin;
@@ -41,7 +54,7 @@ import java.util.Map;
 
 public class FabricPreservedInfernoClient implements ClientModInitializer {
     DecimalFormat df = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.US));
-    public static boolean waitingForAdvancement, suppressNextOpen, hasTriggeredOnce, advancementsSynced, advancementGranted = false;
+    public static boolean waitingForAdvancement, suppressNextOpen, hasTriggeredOnce, advancementsSynced, advancementGranted;
     public static int advancementDelayTicks = -1;
     private static int initialMessageDelay = 40;
 
@@ -50,6 +63,8 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         registerMenuScreens();
         registerEntities();
         registerCustomTooltip();
+        compassDistance();
+        clockTime();
         tickAdvancement();
         BlockEntityRenderers.register(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, PreservedCauldronBlockEntityRenderer::new);
         ModMessages.registerS2CPackets();
@@ -71,6 +86,11 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     }
 
     private void registerCustomTooltip() {
+        ClientTooltipComponentCallback.EVENT.register(data -> {
+            if (data instanceof RodTooltipComponent previewData) return new RodTooltipComponentRenderer(previewData);
+            return null;
+        });
+
         ItemTooltipCallback.EVENT.register((stack, context, tooltipType, lines) -> {
             String durabilityTranslatable = Component.translatable("item.durability").getString();
             String textBeforeSplit = durabilityTranslatable.substring(0, durabilityTranslatable.indexOf(':')).trim();
@@ -99,22 +119,18 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                 }
                 addShieldTooltip(lines, insertIndex, displayedMaxStamina, displayedRegenRate);
             }
-            if (stack.is(ModTags.ROD_UPGRADES)) {
-                addFishingUpgradeTooltip(lines, insertIndex, stack.getItem());
-            }
-            if ((hook != null && !hook.equals("none")) || (line != null && !line.equals("none")) || (sinker != null && !sinker.equals("none"))) {
-                addFishingUpgradeTooltip(lines, insertIndex, hook, line, sinker);
-            }
+            if (stack.is(ModTags.ROD_UPGRADES)) addFishingUpgradeTooltip(lines, insertIndex, stack.getItem());
+            if ((hook != null && !hook.equals("none")) || (line != null && !line.equals("none")) || (sinker != null && !sinker.equals("none"))) addFishingUpgradeTooltip(lines, insertIndex, hook, line, sinker);
             if (stack.is(ModItems.FLARE_GUN)) {
                 if (particleVal != null) {
-                    if (particleVal.equals("0xFFFFFF")) {
-                        particleVal = "#FFFFFF";
-                    }
+                    if (particleVal.equals("0xFFFFFF")) particleVal = "#FFFFFF";
                     int parsedParticleVal = Integer.parseInt(particleVal.replace("#", ""), 16);
                     lines.add(insertIndex, Component.translatable("item.color", Component.literal(particleVal).withStyle(Style.EMPTY.withColor(parsedParticleVal))).withStyle(ChatFormatting.GRAY));
                 }
             }
             addSmithingTemplateTooltip(lines, insertIndex, stack);
+            addForgeMaterialTooltip(lines, stack);
+            addAquaDiscTooltip(lines, stack);
         });
     }
 
@@ -208,10 +224,110 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         addIfPresent(lines, insertIndex, item, luckMap, "item.pinferno.modifiers.luck");
     }
 
+    private void addForgeMaterialTooltip(List<Component> lines, ItemStack stack) {
+        String material = stack.get(ModComponents.FORGE_MATERIAL_COMPONENT);
+        if (material == null || material.isEmpty()) return;
+
+        lines.add(1, Component.literal(material).withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+    }
+
+    private void addAquaDiscTooltip(List<Component> lines, ItemStack stack) {
+        if (stack.is(ModItems.MUSIC_DISC_AQUA)) {
+            lines.add(1, Component.literal("Not yet implemented...").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+        }
+    }
+
     private void addIfPresent(List<Component> lines, int insertIndex, Item item, Map<Item, Double> map, String translationKey) {
         if (map.containsKey(item)) {
             lines.add(insertIndex, Component.literal(" ").append(Component.translatable(translationKey, map.get(item)).withStyle(ChatFormatting.BLUE)));
         }
+    }
+
+    private void compassDistance() {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (client.player == null || client.level == null) return;
+
+            Player player = client.player;
+
+            ItemStack stack = player.getMainHandItem();
+            if (!((stack.getItem() instanceof CompassItem) || stack.getItem() instanceof ReverbCompassItem)) {
+                stack = player.getOffhandItem();
+                if (!((stack.getItem() instanceof CompassItem) || stack.getItem() instanceof ReverbCompassItem)) return;
+            }
+
+            MiscCategory.UnitSystem unit = PreservedInferno.clientConfig.miscCategory.unitSystem;
+
+            BlockPos targetPos = null;
+
+            LodestoneTracker tracker = stack.get(DataComponents.LODESTONE_TRACKER);
+
+            if (tracker != null && tracker.target().isPresent()) {
+                GlobalPos gp = tracker.target().get();
+                if (gp.dimension() == player.level().dimension()) {
+                    targetPos = gp.pos();
+                }
+            }
+            else {
+                GlobalPos respawn = player.level().getRespawnData().globalPos();
+                if (respawn.dimension() == player.level().dimension()) {
+                    targetPos = respawn.pos();
+                }
+            }
+
+            if (targetPos == null) return;
+
+            double dx = player.getX() - targetPos.getX();
+            double dy = player.getY() - targetPos.getY();
+            double dz = player.getZ() - targetPos.getZ();
+            double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            String formatted;
+
+            if (unit == MiscCategory.UnitSystem.IMPERIAL) {
+                double feet = distance / 0.3048;
+                formatted = (feet >= 5280.0) ? String.format("%.2fmi", feet / 5280.0) : String.format("%.2fft", feet);
+            }
+            else formatted = (distance >= 1000.0) ? String.format("%.2fkm", distance / 1000.0) : String.format("%.2fm", distance);
+
+            player.sendOverlayMessage(Component.translatable("item.pinferno.compass_tooltip").append(formatted));
+        });
+    }
+
+    private void clockTime() {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (client.player == null || client.level == null) return;
+
+            Player player = client.player;
+
+            ItemStack stack = player.getMainHandItem();
+            if (!(stack.getItem() == Items.CLOCK)) {
+                stack = player.getOffhandItem();
+                if (!(stack.getItem() == Items.CLOCK)) return;
+            }
+
+            Level level = player.level();
+            long dayTime = level.getOverworldClockTime() % 24000L;
+            int hour24 = (int) ((dayTime / 1000 + 6) % 24);
+            int minutes = (int) ((dayTime % 1000) * 60 / 1000);
+
+            String formatted;
+            switch (PreservedInferno.clientConfig.miscCategory.timeFormat) {
+                case TWELVE_HOUR -> {
+                    int hour12 = hour24 % 12;
+                    if (hour12 == 0) hour12 = 12;
+                    String ampm = hour24 < 12 ? "AM" : "PM";
+                    formatted = String.format("%d:%02d %s", hour12, minutes, ampm);
+                }
+                case TWELVE_HOUR_ALT -> {
+                    int hour12 = hour24 % 12;
+                    if (hour12 == 0) hour12 = 12;
+                    String ampm = hour24 < 12 ? "a.m." : "p.m.";
+                    formatted = String.format("%d:%02d %s", hour12, minutes, ampm);
+                }
+                case TWENTY_FOUR_HOUR -> formatted = String.format("%02d:%02d", hour24, minutes);
+                default -> formatted = String.format("%02d:%02d", hour24, minutes);
+            }
+            player.sendOverlayMessage(Component.literal(formatted));
+        });
     }
 
     private void tickAdvancement() {

@@ -3,7 +3,6 @@ package sircow.preservedinferno.item.custom;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -22,13 +21,10 @@ import net.minecraft.world.item.component.LodestoneTracker;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import sircow.preservedinferno.PreservedInferno;
-import sircow.preservedinferno.config.MiscCategory;
-import sircow.preservedinferno.item.FabricModItems;
+import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.sound.ModSounds;
 import sircow.preservedinferno.trigger.ModTriggers;
 
@@ -49,9 +45,7 @@ public class ReverbCompassItem extends Item {
         LodestoneTracker tracker = itemStack.get(DataComponents.LODESTONE_TRACKER);
         if (tracker != null) {
             LodestoneTracker newTracker = tracker.tick(level);
-            if (newTracker != tracker) {
-                itemStack.set(DataComponents.LODESTONE_TRACKER, newTracker);
-            }
+            if (newTracker != tracker) itemStack.set(DataComponents.LODESTONE_TRACKER, newTracker);
         }
 
         if (!(owner instanceof Player player)) return;
@@ -61,55 +55,8 @@ public class ReverbCompassItem extends Item {
 
         if (slot == EquipmentSlot.OFFHAND) {
             ItemStack mainHand = player.getMainHandItem();
-            if (mainHand.getItem() instanceof CompassItem || mainHand.getItem() == FabricModItems.REVERB_COMPASS) return;
+            if (mainHand.getItem() instanceof CompassItem || mainHand.getItem() == ModItems.REVERB_COMPASS) return;
         }
-
-        BlockPos targetPos = null;
-
-        LodestoneTracker currentTracker = itemStack.get(DataComponents.LODESTONE_TRACKER);
-        if (currentTracker != null) {
-            Optional<GlobalPos> optional = currentTracker.target();
-            if (optional.isPresent() && optional.get().dimension() == level.dimension()) {
-                targetPos = optional.get().pos();
-            }
-        }
-        else {
-            GlobalPos respawn = level.getRespawnData().globalPos();
-            if (respawn.dimension() == level.dimension()) {
-                targetPos = respawn.pos();
-            }
-        }
-
-        if (targetPos == null) return;
-
-        Vec3 playerPos = player.position();
-        double dx = playerPos.x - targetPos.getX();
-        double dy = playerPos.y - targetPos.getY();
-        double dz = playerPos.z - targetPos.getZ();
-        double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-        String formatted = "";
-
-        MiscCategory.UnitSystem unit = PreservedInferno.config.miscCategory.unitSystem;
-
-        if (unit == MiscCategory.UnitSystem.IMPERIAL) {
-            double feet = distance / 0.3048;
-
-            if (feet >= 5280.0) {
-                double miles = feet / 5280.0;
-                formatted = String.format("%.2f", miles) + "mi";
-            }
-            else formatted = String.format("%.2f", feet) + "ft";
-        }
-        else if (unit == MiscCategory.UnitSystem.METRIC) {
-            if (distance >= 1000.0) {
-                double km = distance / 1000.0;
-                formatted = String.format("%.2f", km) + "km";
-            }
-            else formatted = String.format("%.2f", distance) + "m";
-        }
-
-        Component message = Component.translatable("item.pinferno.compass_tooltip").append(formatted);
-        player.sendOverlayMessage(message);
     }
 
     @Override
@@ -125,7 +72,7 @@ public class ReverbCompassItem extends Item {
             LodestoneTracker target = new LodestoneTracker(Optional.of(GlobalPos.of(level.dimension(), blockPos)), true);
             if (replaceExistingStack) itemStack.set(DataComponents.LODESTONE_TRACKER, target);
             else {
-                ItemStack lodestoneCompass = itemStack.transmuteCopy(FabricModItems.REVERB_COMPASS, 1);
+                ItemStack lodestoneCompass = itemStack.transmuteCopy(ModItems.REVERB_COMPASS, 1);
                 itemStack.consume(1, player);
                 lodestoneCompass.set(DataComponents.LODESTONE_TRACKER, target);
                 if (!player.getInventory().add(lodestoneCompass)) player.drop(lodestoneCompass, false);

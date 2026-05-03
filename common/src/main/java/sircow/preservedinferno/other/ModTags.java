@@ -19,7 +19,7 @@ public class ModTags {
     public static final TagKey<Item> REINFORCED_DOORS_ITEM = TagKey.create(Registries.ITEM, Constants.id("reinforced_doors"));
     public static final TagKey<Item> SHIELDS = TagKey.create(Registries.ITEM, Constants.id("shields"));
     public static final TagKey<Item> MULTITOOLS = TagKey.create(Registries.ITEM, Constants.id("multitools"));
-    public static final TagKey<Item> NETHER_ALLOY_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Constants.id("nether_alloy_materials"));
+    public static final TagKey<Item> NETHER_ALLOY_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Constants.id("nether_alloy_tool_materials"));
     public static final TagKey<Item> QUARTZITE_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Constants.id("quartzite_tool_materials"));
     public static final TagKey<Item> HOOKS = TagKey.create(Registries.ITEM, Constants.id("hooks"));
     public static final TagKey<Item> LINES = TagKey.create(Registries.ITEM, Constants.id("lines"));

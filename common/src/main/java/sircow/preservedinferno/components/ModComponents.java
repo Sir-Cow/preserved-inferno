@@ -21,9 +21,9 @@ public class ModComponents {
     public static final DataComponentType<Integer> SINKER_DURABILITY = DataComponentType.<Integer>builder().persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build();
     public static final DataComponentType<String> SINKER_COMPONENT = DataComponentType.<String>builder().persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build();
     public static final DataComponentType<Integer> SINKER_UNBREAKING = DataComponentType.<Integer>builder().persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build();
-    public static final DataComponentType<Boolean> IS_FISHING = DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build();
     // other
     public static final DataComponentType<String> FLARE_PARTICLE_COMPONENT = DataComponentType.<String>builder().persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build();
+    public static final DataComponentType<String> FORGE_MATERIAL_COMPONENT = DataComponentType.<String>builder().persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build();
     public static final DataComponentType<Boolean> ON_COOLDOWN = DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build();
     public static final DataComponentType<Boolean> EXHAUSTED_TEMPLATE = DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build();
 
@@ -39,8 +39,8 @@ public class ModComponents {
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("sinker_durability"), SINKER_DURABILITY);
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("sinker_component"), SINKER_COMPONENT);
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("sinker_unbreaking"), SINKER_UNBREAKING);
-        Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("is_fishing"), IS_FISHING);
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("flare_particle_component"), FLARE_PARTICLE_COMPONENT);
+        Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("forge_material_component"), FORGE_MATERIAL_COMPONENT);
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("on_cooldown"), ON_COOLDOWN);
         Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Constants.id("exhausted_template"), EXHAUSTED_TEMPLATE);
         // Constants.LOG.info("Registering Mod Components for " + Constants.MOD_ID);

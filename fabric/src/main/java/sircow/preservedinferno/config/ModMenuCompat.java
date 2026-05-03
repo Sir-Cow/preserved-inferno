@@ -13,12 +13,14 @@ public class ModMenuCompat implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parent -> {
+            if (PreservedInferno.clientConfig == null) PreservedInferno.clientConfig = new PreservedInfernoConfig();
+
             MoulConfigEditor<PreservedInfernoConfig> editor = new MoulConfigEditor<>(PreservedInferno.configManager.processor);
             return new MoulConfigScreenComponent(Component.empty(), new GuiContext(new GuiElementComponent(editor)), null) {
                 @Override
                 public void onClose() {
                     super.onClose();
-                    PreservedInferno.configManager.saveConfig();
+                    PreservedInferno.configManager.saveConfig(PreservedInferno.clientConfig);
                 }
             };
         };

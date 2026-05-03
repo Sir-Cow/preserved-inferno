@@ -12,7 +12,7 @@
     "frame": "progressing",
     "icon": {
       "count": 1,
-      "id": "minecraft:anvil"
+      "id": "pinferno:repair_kit"
     },
     "show_toast": true,
     "title": {

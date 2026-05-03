@@ -43,7 +43,8 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 public class PreservedInferno implements ModInitializer {
     private static final List<DelayedBlockTransformationTask> scheduledTasks = new ArrayList<>();
     public static PreservedInferno INSTANCE;
-    public static PreservedInfernoConfig config;
+    public static PreservedInfernoConfig clientConfig;
+    public static PreservedInfernoConfig serverConfig;
     public static ConfigManager configManager;
 
     // menus

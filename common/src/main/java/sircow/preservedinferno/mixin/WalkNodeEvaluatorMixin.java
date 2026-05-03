@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(WalkNodeEvaluator.class)
-public abstract class WalkNodeEvaluatorMixin {
+public class WalkNodeEvaluatorMixin {
     @Inject(method = "getPathTypeOfMob", at = @At("RETURN"), cancellable = true)
     private void preserved_inferno$zombieFenceGateAsDoor(PathfindingContext context, int x, int y, int z, Mob mob, CallbackInfoReturnable<PathType> cir) {
         if (!(mob instanceof Zombie)) return;

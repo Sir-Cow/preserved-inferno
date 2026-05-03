@@ -183,11 +183,17 @@ public class FabricModEvents {
 
         ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
             boolean hadWellRestedEffectOnDeath = TempInventoryStorage.restorePlayerInventory(newPlayer);
+            int oldHeat = oldPlayer.getEntityData().get(ModEntityData.PLAYER_HEAT);
+            int resultHeat = oldHeat / 2;
+
+            if (oldHeat >= 200) resultHeat = 99;
+            if (newPlayer.level().dimension() == Level.NETHER) resultHeat = Math.max(resultHeat, 1);
+            else resultHeat = Math.max(resultHeat, 0);
 
             // don't reset heat on death unless used respawn anchor
-            if (oldPlayer.getEntityData().get(ModEntityData.PLAYER_HEAT) >= 100 && newPlayer.level().dimension() != Level.NETHER) newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, 99);
-            else if (newPlayer.level().dimension() == Level.NETHER) newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, 0);
-            else newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, oldPlayer.getEntityData().get(ModEntityData.PLAYER_HEAT));
+            if (oldPlayer.getEntityData().get(ModEntityData.PLAYER_HEAT) >= 100 && newPlayer.level().dimension() != Level.NETHER) newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, resultHeat);
+            else if (newPlayer.level().dimension() == Level.NETHER) newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, resultHeat);
+            else newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, resultHeat);
 
             // display message if player had well rested effect
             if (hadWellRestedEffectOnDeath  && !oldPlayer.level().getLevelData().isHardcore() && !newPlayer.level().getLevelData().isHardcore()) {
@@ -395,13 +401,24 @@ public class FabricModEvents {
                     if (!player.isCreative() && !player.isSpectator()) {
                         player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, currentStamina - 4.0f);
                         player.causeFoodExhaustion(4.0F * level);
+                        shield.hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
                     }
+
                     player.getCooldowns().addCooldown(shield, 20);
                     player.hurtMarked = true;
+
                     float magnitude = 1.374F + (0.458F * (level - 1));
                     Vec3 look = player.getLookAngle();
                     player.setDeltaMovement(new Vec3(look.x * magnitude, 0.0, look.z * magnitude));
-                    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, SoundSource.PLAYERS, 1.0F, 1.0F);
+
+                    player.level().playSound(
+                            null,
+                            player.getX(), player.getY(), player.getZ(),
+                            SoundEvents.PLAYER_ATTACK_NODAMAGE,
+                            SoundSource.PLAYERS,
+                            1.0F,
+                            1.0F
+                    );
                 }
             }
         }));

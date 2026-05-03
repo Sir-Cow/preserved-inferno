@@ -14,14 +14,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ZombieVillager.class)
-public abstract class ZombieVillagerMixin {
+public class ZombieVillagerMixin {
     @Inject(method = "initializeVillagerData", at = @At("HEAD"), cancellable = true)
     private void preserved_inferno$joblessVillager(CallbackInfoReturnable<VillagerData> cir) {
         ZombieVillager self = (ZombieVillager)(Object)this;
         Level level = self.level();
-
         Holder<VillagerProfession> noneProfession = level.registryAccess().lookupOrThrow(Registries.VILLAGER_PROFESSION).getOrThrow(VillagerProfession.NONE);
-
         VillagerData data = Villager.createDefaultVillagerData().withType(level.registryAccess(), VillagerType.byBiome(level.getBiome(self.blockPosition()))).withProfession(noneProfession);
 
         cir.setReturnValue(data);

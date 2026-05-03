@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_nether_alloy": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:nether_alloy_plate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_forge_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:forge_dust"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "pinferno:forge_dust"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_nether_alloy",
+      "has_forge_dust"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "pinferno:forge_dust_nether_alloy"
+    ]
+  }
+}

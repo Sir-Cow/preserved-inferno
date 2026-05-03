@@ -6,6 +6,36 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "minecraft:quartz",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 8,
+                "max": 12
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:quartz",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 8,
+                "max": 12
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
           "functions": [
             {
               "add": false,
@@ -50,7 +80,23 @@
             }
           ],
           "name": "minecraft:gold_ingot",
-          "weight": 15
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 12,
+                "min": 8
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:gold_ingot",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
@@ -73,6 +119,28 @@
               "function": "minecraft:enchant_randomly",
               "options": "minecraft:fire_protection",
               "conditions": []
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:golden_leggings",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:enchant_randomly",
+              "options": "minecraft:fire_protection"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:golden_boots",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:enchant_randomly",
+              "options": "minecraft:fire_protection"
             }
           ]
         },
@@ -143,8 +211,8 @@
       ],
       "rolls": {
         "type": "minecraft:uniform",
-        "max": 4,
-        "min": 3
+        "max": 5,
+        "min": 4
       }
     },
     {

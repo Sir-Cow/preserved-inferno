@@ -45,6 +45,7 @@ public class ModTriggers {
     public static final TriggerEntry<CustomTrigger> USE_REVERB_COMPASS = new TriggerEntry<>("use_reverb_compass", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> USE_TIPPED_ARROW = new TriggerEntry<>("use_tipped_arrow", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> USED_ANVIL_REPAIR = new TriggerEntry<>("used_anvil_repair", CustomTrigger::new);
+    public static final TriggerEntry<CustomTrigger> USED_FORGE_DUST = new TriggerEntry<>("used_forge_dust", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> VILLAGER_RESTOCK = new TriggerEntry<>("villager_restock", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> WOOL_FROM_LOOM = new TriggerEntry<>("wool_from_loom", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> WORLD_JOIN = new TriggerEntry<>("world_join", CustomTrigger::new);

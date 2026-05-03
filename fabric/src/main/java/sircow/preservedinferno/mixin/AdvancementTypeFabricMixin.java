@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Shadow;
 enum AdvancementTypeFabricMixin {
     PINFERNO_PROGRESSING("progressing", ChatFormatting.GREEN),
     PINFERNO_ROOT("root", ChatFormatting.GREEN),
-    PINFERNO_MASTERY("mastery", ChatFormatting.LIGHT_PURPLE);
+    PINFERNO_MASTERY("mastery", ChatFormatting.GRAY);
 
     @Shadow
     AdvancementTypeFabricMixin(String name, ChatFormatting chatColor) {

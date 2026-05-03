@@ -29,8 +29,8 @@ import java.util.List;
 @Mixin(ThrownTrident.class)
 public abstract class ThrownTridentMixin extends AbstractArrow {
     @Shadow @Final private static EntityDataAccessor<Byte> ID_LOYALTY;
-    @Shadow private boolean dealtDamage = false;
-    @Unique private Vec3 initialPos = null;
+    @Shadow private boolean dealtDamage;
+    @Unique private Vec3 initialPos;
 
     protected ThrownTridentMixin(EntityType<? extends AbstractArrow> entityType, Level level) {
         super(entityType, level);
@@ -39,7 +39,7 @@ public abstract class ThrownTridentMixin extends AbstractArrow {
     // modify thrown trident damage
     @ModifyVariable(method = "onHitEntity", at = @At("STORE"), ordinal = 0)
     private float preserved_inferno$modifyDamage(float originalValue) {
-        return 10.0F;
+        return 12.0F;
     }
 
     // cap distance loyalty trident can be thrown

@@ -120,24 +120,24 @@ public class ItemStackMixin {
     @Unique
     private static float getBaseSpeed(Item item) {
         float baseSpeed = 1.0F;
-        if (item == Items.WOODEN_PICKAXE || item == Items.WOODEN_SHOVEL || item == Items.WOODEN_AXE || item == Items.WOODEN_HOE)
+        if (item == Items.WOODEN_PICKAXE || item == Items.WOODEN_SHOVEL || item == Items.WOODEN_AXE || item == Items.WOODEN_HOE || item == ModItems.WOODEN_MULTITOOL)
             baseSpeed = 1.5F;
-        else if (item == Items.STONE_PICKAXE || item == Items.STONE_SHOVEL || item == Items.STONE_AXE || item == Items.STONE_HOE)
+        else if (item == Items.STONE_PICKAXE || item == Items.STONE_SHOVEL || item == Items.STONE_AXE || item == Items.STONE_HOE || item == ModItems.STONE_MULTITOOL)
             baseSpeed = 3.0F;
-        else if (item == Items.COPPER_PICKAXE || item == Items.COPPER_SHOVEL || item == Items.COPPER_AXE || item == Items.COPPER_HOE)
+        else if (item == Items.COPPER_PICKAXE || item == Items.COPPER_SHOVEL || item == Items.COPPER_AXE || item == Items.COPPER_HOE || item == ModItems.COPPER_MULTITOOL)
             baseSpeed = 4.5F;
-        else if (item == Items.IRON_PICKAXE || item == Items.IRON_SHOVEL || item == Items.IRON_AXE || item == Items.IRON_HOE)
+        else if (item == Items.IRON_PICKAXE || item == Items.IRON_SHOVEL || item == Items.IRON_AXE || item == Items.IRON_HOE || item == ModItems.IRON_MULTITOOL)
             baseSpeed = 6.0F;
-        else if (item == Items.GOLDEN_PICKAXE || item == Items.GOLDEN_SHOVEL || item == Items.GOLDEN_AXE || item == Items.GOLDEN_HOE)
-            baseSpeed = 9.0F;
-        else if (item == Items.DIAMOND_PICKAXE || item == Items.DIAMOND_SHOVEL || item == Items.DIAMOND_AXE || item == Items.DIAMOND_HOE)
-            baseSpeed = 9.0F;
-        else if (item == Items.NETHERITE_PICKAXE || item == Items.NETHERITE_SHOVEL || item == Items.NETHERITE_AXE || item == Items.NETHERITE_HOE)
-            baseSpeed = 18.0F;
-        else if (item == ModItems.QUARTZITE_PICKAXE || item == ModItems.QUARTZITE_SHOVEL || item == ModItems.QUARTZITE_AXE || item == ModItems.QUARTZITE_SCYTHE)
-            baseSpeed = 6.0F;
-        else if (item == ModItems.NETHER_ALLOY_PICKAXE || item == ModItems.NETHER_ALLOY_SHOVEL || item == ModItems.NETHER_ALLOY_AXE || item == ModItems.NETHER_ALLOY_SCYTHE)
+        else if (item == Items.GOLDEN_PICKAXE || item == Items.GOLDEN_SHOVEL || item == Items.GOLDEN_AXE || item == Items.GOLDEN_HOE || item == ModItems.GOLDEN_MULTITOOL)
             baseSpeed = 12.0F;
+        else if (item == Items.DIAMOND_PICKAXE || item == Items.DIAMOND_SHOVEL || item == Items.DIAMOND_AXE || item == Items.DIAMOND_HOE || item == ModItems.DIAMOND_MULTITOOL)
+            baseSpeed = 9.0F;
+        else if (item == Items.NETHERITE_PICKAXE || item == Items.NETHERITE_SHOVEL || item == Items.NETHERITE_AXE || item == Items.NETHERITE_HOE || item == ModItems.NETHERITE_MULTITOOL)
+            baseSpeed = 16.0F;
+        else if (item == ModItems.QUARTZITE_PICKAXE || item == ModItems.QUARTZITE_SHOVEL || item == ModItems.QUARTZITE_AXE || item == ModItems.QUARTZITE_SCYTHE || item == ModItems.QUARTZITE_MULTITOOL)
+            baseSpeed = 8.0F;
+        else if (item == ModItems.NETHER_ALLOY_PICKAXE || item == ModItems.NETHER_ALLOY_SHOVEL || item == ModItems.NETHER_ALLOY_AXE || item == ModItems.NETHER_ALLOY_SCYTHE || item == ModItems.NETHER_ALLOY_MULTITOOL)
+            baseSpeed = 16.0F;
         return baseSpeed;
     }
 

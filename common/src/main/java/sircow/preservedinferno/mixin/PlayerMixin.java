@@ -4,7 +4,6 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -49,7 +48,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
 import sircow.preservedinferno.other.HeatAccessor;
@@ -89,7 +87,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     }
 
     @ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true)
-    private float preserved_inferno$shieldDamageIntercept(float originalAmount, ServerLevel level, DamageSource damageSource) {
+    private float preserved_inferno$damageIntercept(float originalAmount, ServerLevel level, DamageSource damageSource) {
         Player player = (Player)(Object)this;
 
         if (damageSource.is(DamageTypes.FREEZE)) {
@@ -140,11 +138,6 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
             if (damageSource.is(DamageTypeTags.BYPASSES_SHIELD)) {
                 ShieldStaminaHandler.lastBypassingSource = damageSource;
-                Optional<BlocksAttacks> blocksAttacks = Optional.ofNullable(blockingStack.get(DataComponents.BLOCKS_ATTACKS));
-                if (blocksAttacks.isPresent()) {
-                    blocksAttacks.get().onBlocked(level, player);
-                    blocksAttacks.get().hurtBlockingItem(level, blockingStack, player, player.getUsedItemHand(), originalAmount);
-                }
                 return originalAmount;
             }
             else {
@@ -281,41 +274,6 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
             }
         }
         else rideStartPos = null;
-
-        // clock
-        if (!(player instanceof ServerPlayer serverPlayer)) return;
-
-        ItemStack mainHand = player.getMainHandItem();
-        ItemStack offHand = player.getOffhandItem();
-        boolean hasClockMain = mainHand.is(Items.CLOCK);
-        boolean hasClockOff = offHand.is(Items.CLOCK);
-
-        if (!hasClockMain && !hasClockOff) return;
-
-        Level level = player.level();
-        long dayTime = level.getOverworldClockTime() % 24000L;
-        int hour24 = (int)((dayTime / 1000 + 6) % 24);
-        int minutes = (int)((dayTime % 1000) * 60 / 1000);
-
-
-        String formatted;
-        switch (PreservedInferno.config.miscCategory.timeFormat) {
-            case TWELVE_HOUR -> {
-                int hour12 = hour24 % 12;
-                if (hour12 == 0) hour12 = 12;
-                String ampm = hour24 < 12 ? "AM" : "PM";
-                formatted = String.format("%d:%02d %s", hour12, minutes, ampm);
-            }
-            case TWELVE_HOUR_ALT -> {
-                int hour12 = hour24 % 12;
-                if (hour12 == 0) hour12 = 12;
-                String ampm = hour24 < 12 ? "a.m." : "p.m.";
-                formatted = String.format("%d:%02d %s", hour12, minutes, ampm);
-            }
-            case TWENTY_FOUR_HOUR -> formatted = String.format("%02d:%02d", hour24, minutes);
-            default -> formatted = String.format("%02d:%02d", hour24, minutes);
-        }
-        serverPlayer.sendOverlayMessage(Component.literal(formatted));
     }
 
     @Unique
@@ -603,4 +561,3 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
         }
     }
 }
-

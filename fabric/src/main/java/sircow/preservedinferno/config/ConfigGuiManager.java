@@ -9,9 +9,10 @@ import net.minecraft.network.chat.Component;
 import sircow.preservedinferno.PreservedInferno;
 
 public class ConfigGuiManager {
-    public static MoulConfigEditor<PreservedInfernoConfig> editor = null;
+    public static MoulConfigEditor<PreservedInfernoConfig> editor;
 
     public static void openConfigGui(String search) {
+        if (PreservedInferno.configManager.processor == null) return;
         if (editor == null) editor = new MoulConfigEditor<>(PreservedInferno.configManager.processor);
         if (search != null) editor.search(search);
 
@@ -19,7 +20,7 @@ public class ConfigGuiManager {
             @Override
             public void onClose() {
                 super.onClose();
-                PreservedInferno.configManager.saveConfig();
+                PreservedInferno.configManager.saveConfig(PreservedInferno.clientConfig);
             }
         };
 

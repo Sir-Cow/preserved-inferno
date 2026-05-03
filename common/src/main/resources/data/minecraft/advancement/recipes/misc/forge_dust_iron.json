@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_iron": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:iron_tool_materials"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_forge_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:forge_dust"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "pinferno:forge_dust"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_iron",
+      "has_forge_dust"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "pinferno:forge_dust_iron"
+    ]
+  }
+}

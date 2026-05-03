@@ -96,8 +96,6 @@ public abstract class WanderingTraderMixin extends AbstractVillager {
 
     @Unique
     private static ResourceKey<TradeSet> key(String id) {
-        return ResourceKey.create(
-                Registries.TRADE_SET, Constants.id("wandering_trader/" + id)
-        );
+        return ResourceKey.create(Registries.TRADE_SET, Constants.id("wandering_trader/" + id));
     }
 }

@@ -46,6 +46,7 @@ public class FabricModTriggers {
         register(ModTriggers.USE_REVERB_COMPASS);
         register(ModTriggers.USE_TIPPED_ARROW);
         register(ModTriggers.USED_ANVIL_REPAIR);
+        register(ModTriggers.USED_FORGE_DUST);
         register(ModTriggers.VILLAGER_RESTOCK);
         register(ModTriggers.WOOL_FROM_LOOM);
         register(ModTriggers.WORLD_JOIN);

@@ -1,12 +1,12 @@
 {
   "gives": {
-    "count": 18,
+    "count": 1,
     "id": "minecraft:lapis_lazuli"
   },
   "max_uses": 1.0,
   "reputation_discount": 0.0,
   "wants": {
-    "count": 2.0,
+    "count": 18.0,
     "id": "minecraft:emerald"
   }
 }

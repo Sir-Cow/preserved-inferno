@@ -11,9 +11,7 @@ import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.block.ModBlocks;
 
 public class FabricModItemGroups {
-    public static final ResourceKey<CreativeModeTab> PRESERVED_INFERNO_TAB_KEY =
-            ResourceKey.create(Registries.CREATIVE_MODE_TAB, Constants.id("pinferno"));
-
+    public static final ResourceKey<CreativeModeTab> PRESERVED_INFERNO_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Constants.id("pinferno"));
     public static CreativeModeTab PRESERVED_INFERNO_GROUP;
 
     public static void register() {
@@ -31,7 +29,7 @@ public class FabricModItemGroups {
 
                     entries.accept(ModBlocks.SPARKLING_BLACKSTONE.asItem());
 
-                    entries.accept(FabricModItems.REVERB_COMPASS);
+                    entries.accept(ModItems.REVERB_COMPASS);
                     entries.accept(ModItems.DREAMCATCHER);
                     entries.accept(ModItems.ELDER_GUARDIAN_SPINE);
                     entries.accept(ModItems.HOLLOW_TWINE);
@@ -44,6 +42,9 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.ECHOING_PRISM);
                     entries.accept(ModItems.ECHOING_PRISM_UPGRADE_SMITHING_TEMPLATE);
                     entries.accept(ModItems.SCULK_INFUSION);
+
+                    entries.accept(ModItems.REPAIR_KIT);
+                    entries.accept(ModItems.FORGE_DUST);
 
                     entries.accept(ModItems.RAW_COPPER_CHUNK);
                     entries.accept(ModItems.RAW_IRON_CHUNK);

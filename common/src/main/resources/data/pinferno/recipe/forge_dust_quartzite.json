@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "forge_dust",
+  "ingredients": [
+    "pinferno:forge_dust",
+    "#pinferno:quartzite_tool_materials"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:forge_dust",
+    "components": {
+      "pinferno:forge_material_component": "Quartzite"
+    }
+  }
+}

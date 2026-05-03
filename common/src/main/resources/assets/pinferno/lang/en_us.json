@@ -23,12 +23,12 @@
   "item.pinferno.echoing_prism_upgrade_smithing_template": "Echoing Upgrade",
   "item.pinferno.sculk_infusion": "Sculk Infusion",
 
+  "item.pinferno.repair_kit": "Repair Kit",
+  "item.pinferno.forge_dust": "Forge Dust",
   "item.pinferno.raw_copper_chunk": "Raw Copper Chunk",
   "item.pinferno.raw_iron_chunk": "Raw Iron Chunk",
   "item.pinferno.raw_gold_chunk": "Raw Gold Chunk",
-
   "item.pinferno.copper_trident": "Copper Trident",
-
   "item.pinferno.copper_multitool": "Copper Multitool",
   "item.pinferno.diamond_multitool": "Diamond Multitool",
   "item.pinferno.golden_multitool": "Golden Multitool",
@@ -159,6 +159,8 @@
 
   "container.pinferno.angling_table": "Angling Table",
   "container.pinferno.cache": "Cache",
+  "container.pinferno.rename.cost": "Rename Cost: %1$s",
+  "container.pinferno.repair.cost": "Repair Cost: %1$s",
 
   "item.pinferno.shield_max_stamina": "+%s Max Stamina",
   "item.pinferno.shield_regen_rate": "+%s Stamina Recovery",
@@ -273,7 +275,9 @@
   "advancements.pinferno.exploration.torch.title": "Enlightening",
   "advancements.pinferno.exploration.torch.description": "Use basic fuels to create a light source",
   "advancements.pinferno.exploration.used_anvil_repair.title": "Fixer Upper",
-  "advancements.pinferno.exploration.used_anvil_repair.description": "Repair an item by using an Anvil",
+  "advancements.pinferno.exploration.used_anvil_repair.description": "Repair an item by using a Repair Kit in an Anvil",
+  "advancements.pinferno.exploration.used_forge_dust.title": "Perfect Forgery",
+  "advancements.pinferno.exploration.used_forge_dust.description": "Repair an item by using a specialized Forge Dust in an Anvil",
   "advancements.pinferno.exploration.full_diamond.title": "Cover Me in Diamonds",
   "advancements.pinferno.exploration.full_diamond.description": "Diamond armor, full set!",
   "advancements.pinferno.exploration.max_armor.title": "Max Coverage",

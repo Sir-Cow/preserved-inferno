@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.RegisterItemChecker;
 import sircow.preservedinferno.trigger.ModTriggers;
 
@@ -31,15 +30,9 @@ public class AxeItemMixin {
     private static float preserved_inferno$modifyAttackDamage(float attackDamage) {
         if (RegisterItemChecker.flip) {
             if (RegisterItemChecker.AXES.contains(RegisterItemChecker.itemName)) {
-                if (Set.of("iron_axe", "copper_axe").contains(RegisterItemChecker.itemName)) {
-                    attackDamage = 4.0F;
-                }
-                else if (Objects.equals(RegisterItemChecker.itemName, "golden_axe")) {
-                    attackDamage = 5.0F;
-                }
-                else if (Set.of("wooden_axe", "stone_axe").contains(RegisterItemChecker.itemName)) {
-                    attackDamage = 3.0F;
-                }
+                if (Set.of("iron_axe", "copper_axe").contains(RegisterItemChecker.itemName)) attackDamage = 4.0F;
+                else if (Objects.equals(RegisterItemChecker.itemName, "golden_axe")) attackDamage = 5.0F;
+                else if (Set.of("wooden_axe", "stone_axe").contains(RegisterItemChecker.itemName)) attackDamage = 3.0F;
             }
         }
         return attackDamage;
@@ -48,9 +41,7 @@ public class AxeItemMixin {
     @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;axe(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;"), index = 2, remap = false)
     private static float preserved_inferno$modifyAttackSpeed(float attackSpeed) {
         if (RegisterItemChecker.flip) {
-            if (RegisterItemChecker.AXES.contains(RegisterItemChecker.itemName)) {
-                attackSpeed = -2.8F;
-            }
+            if (RegisterItemChecker.AXES.contains(RegisterItemChecker.itemName)) attackSpeed = -2.8F;
             RegisterItemChecker.flip = false;
         }
         return attackSpeed;
@@ -66,10 +57,7 @@ public class AxeItemMixin {
             Optional<BlockState> prev = WeatheringCopper.getPrevious(before);
 
             if (prev.isPresent() && prev.get().getBlock() == optional.get().getBlock()) {
-                Constants.LOG.info("yes");
-                if (player instanceof ServerPlayer serverPlayer) {
-                    ModTriggers.SCRAPE_COPPER.get().trigger(serverPlayer);
-                }
+                if (player instanceof ServerPlayer serverPlayer) ModTriggers.SCRAPE_COPPER.get().trigger(serverPlayer);
             }
         }
     }

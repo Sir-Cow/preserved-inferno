@@ -41,8 +41,8 @@ public class ModItems {
     static float DIAMOND_REGEN = 2F / 25F;
     static float NETHERITE_REGEN = Float.parseFloat(df.format(NETHERITE_REGEN_PARSE));
     static float GOLD_REGEN = 1F / 10F;
-    public static final ToolMaterial NETHER_ALLOY_TOOL = new ToolMaterial(ModTags.INCORRECT_FOR_NETHER_ALLOY_TOOL, 256, 12.0F, 0.0F, 5, ModTags.QUARTZITE_TOOL_MATERIALS);
-    public static final ToolMaterial QUARTZITE_TOOL = new ToolMaterial(ModTags.INCORRECT_FOR_QUARTZITE_TOOL, 64, 6.0F, 0.0F, 4, ModTags.QUARTZITE_TOOL_MATERIALS);
+    public static final ToolMaterial NETHER_ALLOY_TOOL = new ToolMaterial(ModTags.INCORRECT_FOR_NETHER_ALLOY_TOOL, 512, 16.0F, 0.0F, 5, ModTags.NETHER_ALLOY_TOOL_MATERIALS);
+    public static final ToolMaterial QUARTZITE_TOOL = new ToolMaterial(ModTags.INCORRECT_FOR_QUARTZITE_TOOL, 128, 8.0F, 0.0F, 4, ModTags.QUARTZITE_TOOL_MATERIALS);
 
     // items
     public static final Item DREAMCATCHER = registerItem("dreamcatcher", Item::new, new Item.Properties()
@@ -70,7 +70,12 @@ public class ModItems {
             .rarity(Rarity.RARE)
             .durability(1397)
     );
+    public static final Item REVERB_COMPASS = registerItem("reverb_compass", ReverbCompassItem::new, new Item.Properties());
 
+    public static final Item REPAIR_KIT = registerItem("repair_kit", Item::new, new Item.Properties());
+    public static final Item FORGE_DUST = registerItem("forge_dust", Item::new, new Item.Properties()
+            .component(ModComponents.FORGE_MATERIAL_COMPONENT, "None")
+    );
     public static final Item RAW_IRON_CHUNK = registerItem("raw_iron_chunk", Item::new, new Item.Properties());
     public static final Item RAW_GOLD_CHUNK = registerItem("raw_gold_chunk", Item::new, new Item.Properties());
     public static final Item RAW_COPPER_CHUNK = registerItem("raw_copper_chunk", Item::new, new Item.Properties());

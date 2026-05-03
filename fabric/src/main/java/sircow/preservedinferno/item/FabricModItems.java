@@ -11,7 +11,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.ItemContainerContents;
 import sircow.preservedinferno.item.custom.CacheItem;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.item.custom.ReverbCompassItem;
 
 import java.util.function.Function;
 
@@ -22,7 +21,6 @@ public class FabricModItems {
             .rarity(Rarity.UNCOMMON)
             .stacksTo(1)
     );
-    public static final Item REVERB_COMPASS = registerItem("reverb_compass", ReverbCompassItem::new, new Item.Properties());
 
     private static ResourceKey<Item> moddedItemId(String name) {
         return ResourceKey.create(Registries.ITEM, Constants.id(name));

@@ -1,0 +1,11 @@
+{
+  "values": [
+    "#minecraft:copper_tool_materials",
+    "#minecraft:gold_tool_materials",
+    "#minecraft:iron_tool_materials",
+    "#minecraft:diamond_tool_materials",
+    "#pinferno:repairs_netherite_tool",
+    "#pinferno:quartzite_tool_materials",
+    "pinferno:nether_alloy_plate"
+  ]
+}

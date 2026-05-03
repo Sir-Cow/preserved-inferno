@@ -1,0 +1,9 @@
+{
+  "type": "pinferno:forge_dust",
+  "category": "misc",
+  "group": "forge_dust",
+  "material": "#pinferno:forge_dust_materials",
+  "result": {
+    "id": "pinferno:forge_dust"
+  }
+}

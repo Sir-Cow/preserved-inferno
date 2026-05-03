@@ -1,0 +1,95 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_glowstone_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:glowstone_dust"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_lapis_lazuli": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:lapis_lazuli"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_material": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#pinferno:forge_dust_materials"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_amethyst_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:amethyst_shard"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_forge_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": "pinferno:forge_dust"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gunpowder": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:gunpowder"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "pinferno:forge_dust"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_glowstone_dust",
+      "has_lapis_lazuli",
+      "has_amethyst_shard",
+      "has_gunpowder",
+      "has_material",
+      "has_forge_dust"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "pinferno:forge_dust",
+      "pinferno:forge_dust_none",
+      "pinferno:forge_dust_copper",
+      "pinferno:forge_dust_iron",
+      "pinferno:forge_dust_gold",
+      "pinferno:forge_dust_diamond",
+      "pinferno:forge_dust_netherite",
+      "pinferno:forge_dust_quartzite",
+      "pinferno:forge_dust_nether_alloy"
+    ]
+  }
+}

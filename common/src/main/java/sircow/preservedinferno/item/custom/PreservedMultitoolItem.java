@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import sircow.preservedinferno.trigger.ModTriggers;
 
 import java.util.List;
 import java.util.Map;
@@ -118,25 +119,29 @@ public class PreservedMultitoolItem extends Item {
         Player player = context.getPlayer();
         BlockState blockState = level.getBlockState(pos);
 
-        if (playerHasBlockingItemUseIntent(context)) {
-            return InteractionResult.PASS;
-        }
+        if (playerHasBlockingItemUseIntent(context)) return InteractionResult.PASS;
 
         ItemStack stack = context.getItemInHand();
 
         Optional<BlockState> modified = evaluateNewBlockState(level, pos, player, blockState);
         if (modified.isPresent()) {
-            if (player instanceof ServerPlayer sp) {
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(sp, pos, stack);
+            BlockState before = level.getBlockState(pos);
+            BlockState after = modified.get();
+
+            if (before.getBlock() instanceof WeatheringCopper) {
+                Optional<BlockState> prev = WeatheringCopper.getPrevious(before);
+
+                if (prev.isPresent() && prev.get().getBlock() == after.getBlock()) {
+                    if (player instanceof ServerPlayer serverPlayer) ModTriggers.SCRAPE_COPPER.get().trigger(serverPlayer);
+                }
             }
 
-            level.setBlock(pos, modified.get(), 11);
+            if (player instanceof ServerPlayer serverPlayer) CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
+
+            level.setBlock(pos, after, 11);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, modified.get()));
 
-            if (player != null) {
-                stack.hurtAndBreak(1, player, context.getHand().asEquipmentSlot());
-            }
-
+            if (player != null) stack.hurtAndBreak(1, player, context.getHand().asEquipmentSlot());
             return InteractionResult.SUCCESS;
         }
 
@@ -153,9 +158,7 @@ public class PreservedMultitoolItem extends Item {
                     resultState = flatten;
                 }
                 else if (blockState.getBlock() instanceof CampfireBlock && blockState.getValue(CampfireBlock.LIT)) {
-                    if (!level.isClientSide()) {
-                        level.levelEvent(null, 1009, pos, 0);
-                    }
+                    if (!level.isClientSide()) level.levelEvent(null, 1009, pos, 0);
 
                     CampfireBlock.dowse(player, level, pos, blockState);
                     resultState = blockState.setValue(CampfireBlock.LIT, false);
@@ -167,7 +170,6 @@ public class PreservedMultitoolItem extends Item {
                         level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, resultState));
                         stack.hurtAndBreak(1, player, context.getHand().asEquipmentSlot());
                     }
-
                     return InteractionResult.SUCCESS;
                 }
             }
@@ -180,7 +182,6 @@ public class PreservedMultitoolItem extends Item {
                     hoeLogic.getSecond().accept(context);
                     stack.hurtAndBreak(1, player, context.getHand().asEquipmentSlot());
                 }
-
                 return InteractionResult.SUCCESS;
             }
         }
@@ -193,11 +194,8 @@ public class PreservedMultitoolItem extends Item {
                 if (!level.isClientSide()) {
                     hoeLogic.getSecond().accept(context);
 
-                    if (player != null) {
-                        stack.hurtAndBreak(1, player, context.getHand().asEquipmentSlot());
-                    }
+                    if (player != null) stack.hurtAndBreak(1, player, context.getHand().asEquipmentSlot());
                 }
-
                 return InteractionResult.SUCCESS;
             }
 
@@ -210,9 +208,7 @@ public class PreservedMultitoolItem extends Item {
                     resultState = flatten;
                 }
                 else if (blockState.getBlock() instanceof CampfireBlock && blockState.getValue(CampfireBlock.LIT)) {
-                    if (!level.isClientSide()) {
-                        level.levelEvent(null, 1009, pos, 0);
-                    }
+                    if (!level.isClientSide()) level.levelEvent(null, 1009, pos, 0);
 
                     CampfireBlock.dowse(player, level, pos, blockState);
                     resultState = blockState.setValue(CampfireBlock.LIT, false);
@@ -223,16 +219,12 @@ public class PreservedMultitoolItem extends Item {
                         level.setBlock(pos, resultState, 11);
                         level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, resultState));
 
-                        if (player != null) {
-                            stack.hurtAndBreak(1, player, context.getHand().asEquipmentSlot());
-                        }
+                        if (player != null) stack.hurtAndBreak(1, player, context.getHand().asEquipmentSlot());
                     }
-
                     return InteractionResult.SUCCESS;
                 }
             }
         }
-
         return InteractionResult.PASS;
     }
 
@@ -260,9 +252,7 @@ public class PreservedMultitoolItem extends Item {
                     spawnSoundAndParticle(level, pos, player, oldState, SoundEvents.AXE_WAX_OFF, 3004);
                     return waxoffBlock;
                 }
-                else {
-                    return Optional.empty();
-                }
+                else return Optional.empty();
             }
         }
     }

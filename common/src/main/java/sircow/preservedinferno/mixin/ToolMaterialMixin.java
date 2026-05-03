@@ -22,8 +22,8 @@ public class ToolMaterialMixin {
         STONE = new ToolMaterial(STONE.incorrectBlocksForDrops(), 128, 3.0F, STONE.attackDamageBonus(), STONE.enchantmentValue(), STONE.repairItems());
         COPPER = new ToolMaterial(COPPER.incorrectBlocksForDrops(), 256, 4.5F, COPPER.attackDamageBonus(), COPPER.enchantmentValue(), COPPER.repairItems());
         IRON = new ToolMaterial(IRON.incorrectBlocksForDrops(), 512, 6.0F, IRON.attackDamageBonus(), IRON.enchantmentValue(), IRON.repairItems());
-        GOLD = new ToolMaterial(GOLD.incorrectBlocksForDrops(), 128, 9.0F, GOLD.attackDamageBonus(), GOLD.enchantmentValue(), GOLD.repairItems());
+        GOLD = new ToolMaterial(GOLD.incorrectBlocksForDrops(), 256, 12.0F, GOLD.attackDamageBonus(), GOLD.enchantmentValue(), GOLD.repairItems());
         DIAMOND = new ToolMaterial(DIAMOND.incorrectBlocksForDrops(), 2048, 9.0F, DIAMOND.attackDamageBonus(), DIAMOND.enchantmentValue(), DIAMOND.repairItems());
-        NETHERITE = new ToolMaterial(NETHERITE.incorrectBlocksForDrops(), 4096, 18.0F, NETHERITE.attackDamageBonus(), NETHERITE.enchantmentValue(), ModTags.REPAIRS_NETHERITE_TOOL);
+        NETHERITE = new ToolMaterial(NETHERITE.incorrectBlocksForDrops(), 4096, 16.0F, NETHERITE.attackDamageBonus(), NETHERITE.enchantmentValue(), ModTags.REPAIRS_NETHERITE_TOOL);
     }
 }

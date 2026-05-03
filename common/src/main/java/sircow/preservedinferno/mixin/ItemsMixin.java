@@ -230,9 +230,7 @@ public abstract class ItemsMixin {
                                                 if (livingEntity instanceof Player player) {
                                                     if (!level.isClientSide()) {
                                                         int currentHeat = ((HeatAccessor) player).preserved_inferno$getHeat();
-                                                        if (currentHeat >= 1) {
-                                                            ((HeatAccessor) player).preserved_inferno$decreaseHeat(1);
-                                                        }
+                                                        if (currentHeat >= 1) ((HeatAccessor) player).preserved_inferno$decreaseHeat(1);
                                                     }
                                                 }
                                                 return false;
@@ -241,7 +239,7 @@ public abstract class ItemsMixin {
                                         .build()));
     }
 
-    // modify elytra repair item
+    // remove elytra repair item
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=elytra")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
     private static Item.Properties preserved_inferno$modifyElytra(Item.Properties original) {
@@ -253,7 +251,7 @@ public abstract class ItemsMixin {
                                 .setEquipSound(SoundEvents.ARMOR_EQUIP_ELYTRA)
                                 .setAsset(EquipmentAssets.ELYTRA)
                                 .setDamageOnHurt(false).build()
-                ).repairable(ModItems.HOLLOW_TWINE);
+                );
     }
 
     // catch item names
@@ -286,8 +284,7 @@ public abstract class ItemsMixin {
             from = @At(value = "CONSTANT", args = "stringValue=wooden_sword")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;",
             ordinal = 0
-    ), index = 1
-    )
+    ), index = 1)
     private static float preserved_inferno$modifyWoodenSword(float attackDamage) {
         return 1.0F;
     }
@@ -296,8 +293,7 @@ public abstract class ItemsMixin {
             from = @At(value = "CONSTANT", args = "stringValue=golden_sword")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;",
             ordinal = 0
-    ), index = 1
-    )
+    ), index = 1)
     private static float preserved_inferno$modifyGoldenSword(float attackDamage) {
         return 3.0F;
     }
@@ -306,8 +302,7 @@ public abstract class ItemsMixin {
             from = @At(value = "CONSTANT", args = "stringValue=iron_sword")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;",
             ordinal = 0
-    ), index = 1
-    )
+    ), index = 1)
     private static float preserved_inferno$modifyIronSword(float attackDamage) {
         return 2.0F;
     }
@@ -316,8 +311,7 @@ public abstract class ItemsMixin {
             from = @At(value = "CONSTANT", args = "stringValue=copper_sword")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;",
             ordinal = 0
-    ), index = 1
-    )
+    ), index = 1)
     private static float preserved_inferno$modifyCopperSword(float attackDamage) {
         return 2.0F;
     }
@@ -326,8 +320,7 @@ public abstract class ItemsMixin {
             from = @At(value = "CONSTANT", args = "stringValue=stone_sword")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Item$Properties;sword(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;",
             ordinal = 0
-    ), index = 1
-    )
+    ), index = 1)
     private static float preserved_inferno$modifyStoneSword(float attackDamage) {
         return 1.0F;
     }
@@ -337,8 +330,7 @@ public abstract class ItemsMixin {
             from = @At(value = "CONSTANT", args = "stringValue=netherite_shovel")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
             ordinal = 0
-    ), index = 1
-    )
+    ), index = 1)
     private static Function<Item.Properties, Item> preserved_inferno$modifyNetheriteShovel(Function<Item.Properties, Item> factory) {
         return properties -> new ShovelItem(ToolMaterial.NETHERITE, 2.5F, -2.5F, properties);
     }
@@ -356,8 +348,7 @@ public abstract class ItemsMixin {
                 .attributes(TridentItem.createAttributes())
                 .component(DataComponents.TOOL, TridentItem.createToolProperties())
                 .enchantable(1)
-                .component(DataComponents.WEAPON, new Weapon(1))
-                .repairable(Items.PRISMARINE_CRYSTALS);
+                .component(DataComponents.WEAPON, new Weapon(1));
     }
 
     @ModifyArg(method = "<clinit>", slice = @Slice(
@@ -370,7 +361,6 @@ public abstract class ItemsMixin {
                 .rarity(Rarity.EPIC)
                 .durability(2048)
                 .component(DataComponents.TOOL, MaceItem.createToolProperties())
-                .repairable(Items.BREEZE_ROD)
                 .attributes(MaceItem.createAttributes())
                 .enchantable(15)
                 .component(DataComponents.WEAPON, new Weapon(1));
@@ -401,7 +391,9 @@ public abstract class ItemsMixin {
                 .component(ModComponents.LINE_DURABILITY, 0)
                 .component(ModComponents.SINKER_COMPONENT, "none")
                 .component(ModComponents.SINKER_DURABILITY, 0)
-                .component(ModComponents.IS_FISHING, false);
+                .component(ModComponents.HOOK_UNBREAKING, 0)
+                .component(ModComponents.LINE_UNBREAKING, 0)
+                .component(ModComponents.SINKER_UNBREAKING, 0);
     }
 
     // modify chainmail rarity
@@ -444,7 +436,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;",
             ordinal = 0)
     )
-    private static Function<Item.Properties, Item> preserved_inferno$modifyWoodenHoe(Function<Item.Properties, Item> p_361381_) {
+    private static Function<Item.Properties, Item> preserved_inferno$modifyWoodenHoe(Function<Item.Properties, Item> p) {
         return (properties) -> new HoeItem(ToolMaterial.WOOD, 0.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
@@ -452,7 +444,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;",
             ordinal = 0)
     )
-    private static Function<Item.Properties, Item> preserved_inferno$modifyGoldenHoe(Function<Item.Properties, Item> p_361381_) {
+    private static Function<Item.Properties, Item> preserved_inferno$modifyGoldenHoe(Function<Item.Properties, Item> p) {
         return (properties) -> new HoeItem(ToolMaterial.GOLD, 2.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
@@ -460,7 +452,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;",
             ordinal = 0)
     )
-    private static Function<Item.Properties, Item> preserved_inferno$modifyStoneHoe(Function<Item.Properties, Item> p_361381_) {
+    private static Function<Item.Properties, Item> preserved_inferno$modifyStoneHoe(Function<Item.Properties, Item> p) {
         return (properties) -> new HoeItem(ToolMaterial.STONE, 0.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
@@ -468,7 +460,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;",
             ordinal = 0)
     )
-    private static Function<Item.Properties, Item> preserved_inferno$modifyCopperHoe(Function<Item.Properties, Item> p_361381_) {
+    private static Function<Item.Properties, Item> preserved_inferno$modifyCopperHoe(Function<Item.Properties, Item> p) {
         return (properties) -> new HoeItem(ToolMaterial.COPPER, 1.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
@@ -476,7 +468,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;",
             ordinal = 0)
     )
-    private static Function<Item.Properties, Item> preserved_inferno$modifyIronHoe(Function<Item.Properties, Item> p_361381_) {
+    private static Function<Item.Properties, Item> preserved_inferno$modifyIronHoe(Function<Item.Properties, Item> p) {
         return (properties) -> new HoeItem(ToolMaterial.IRON, 1.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
@@ -484,7 +476,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;",
             ordinal = 0)
     )
-    private static Function<Item.Properties, Item> preserved_inferno$modifyDiamondHoe(Function<Item.Properties, Item> p_361381_) {
+    private static Function<Item.Properties, Item> preserved_inferno$modifyDiamondHoe(Function<Item.Properties, Item> p) {
         return (properties) -> new HoeItem(ToolMaterial.DIAMOND, 2.0F, -2.2F, properties);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
@@ -492,7 +484,7 @@ public abstract class ItemsMixin {
             target = "Lnet/minecraft/world/item/Items;registerItem(Ljava/lang/String;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
             ordinal = 0)
     )
-    private static Function<Item.Properties, Item> preserved_inferno$modifyNetheriteHoe(Function<Item.Properties, Item> p_361381_) {
+    private static Function<Item.Properties, Item> preserved_inferno$modifyNetheriteHoe(Function<Item.Properties, Item> p) {
         return (properties) -> new HoeItem(ToolMaterial.NETHERITE, 2.0F, -2.2F, properties);
     }
 

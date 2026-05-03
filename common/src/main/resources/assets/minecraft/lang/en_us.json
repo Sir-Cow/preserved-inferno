@@ -20,6 +20,8 @@
 
   "entity.minecraft.eye_of_ender": "Awakened Eye",
 
+  "container.repair.cost": "Enchanting Cost: %1$s",
+
   "subtitles.block.end_portal_frame.fill": "Awakened Eye attaches",
   "subtitles.entity.ender_eye.death": "Awakened Eye falls",
   "subtitles.entity.ender_eye.launch": "Awakened Eye shoots",

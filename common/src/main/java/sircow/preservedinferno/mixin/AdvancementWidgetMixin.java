@@ -35,19 +35,11 @@ public abstract class AdvancementWidgetMixin {
     @Redirect(method = "extractRenderState", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/advancements/AdvancementWidgetType;frameSprite(Lnet/minecraft/advancements/AdvancementType;)Lnet/minecraft/resources/Identifier;"))
     private Identifier modifyFrameSprite(AdvancementWidgetType instance, AdvancementType type) {
         AdvancementProgress prog = this.progress;
-
-        if (prog != null && prog.isDone()) {
-            return instance.frameSprite(type);
-        }
+        if (prog != null && prog.isDone()) return instance.frameSprite(type);
 
         AdvancementProgress parentProg = null;
-        if (this.parent != null) {
-            parentProg = ((AdvancementWidgetAccessor)this.parent).preserved_inferno$getProgress();
-        }
-
-        if (parent == null || (parentProg != null && parentProg.isDone())) {
-            return instance.frameSprite(type);
-        }
+        if (this.parent != null) parentProg = ((AdvancementWidgetAccessor)this.parent).preserved_inferno$getProgress();
+        if (parent == null || (parentProg != null && parentProg.isDone())) return instance.frameSprite(type);
 
         return ((HiddenSpriteAccessor)(Object)instance).preserved_inferno$getHiddenSprite(type);
     }
@@ -69,9 +61,7 @@ public abstract class AdvancementWidgetMixin {
             boolean isThisDone = prog != null && prog.isDone();
             boolean isParentDone = parentProg != null && parentProg.isDone();
 
-            if (!isThisDone && parentWidget != null && !isParentDone) {
-                return;
-            }
+            if (!isThisDone && parentWidget != null && !isParentDone) return;
         }
 
         this.extractMultilineText(gfx, text, x, y, color);

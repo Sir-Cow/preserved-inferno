@@ -4,10 +4,10 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -24,141 +24,114 @@ import java.util.Objects;
 
 @Mixin(FishingRodItem.class)
 public class FishingRodItemMixin {
-    @Unique
-    private void updateComponentDurability(ItemStack stack, String componentType, String material, Item durabilityItem, Player player, InteractionHand hand) {
-        DataComponentType<String> componentKey;
-        DataComponentType<Integer> durabilityKey;
-
-        switch (componentType) {
-            case "hook":
-                componentKey = ModComponents.HOOK_COMPONENT;
-                durabilityKey = ModComponents.HOOK_DURABILITY;
-                break;
-            case "line":
-                componentKey = ModComponents.LINE_COMPONENT;
-                durabilityKey = ModComponents.LINE_DURABILITY;
-                break;
-            case "sinker":
-                componentKey = ModComponents.SINKER_COMPONENT;
-                durabilityKey = ModComponents.SINKER_DURABILITY;
-                break;
-            default:
-                return;
-        }
-
-        if (Objects.equals(stack.get(componentKey), material)) {
-            int currentDurability = stack.get(durabilityKey);
-            int maxDurability = durabilityItem.getDefaultInstance().getMaxDamage();
-
-            if (currentDurability >= maxDurability) {
-                player.level().playSound(null,
-                        player.getX(), player.getY(), player.getZ(),
-                        SoundEvents.ITEM_BREAK,
-                        player.getSoundSource(),
-                        1.0F,
-                        1.0F
-                );
-
-                player.swing(hand, true);
-                if (player instanceof ServerPlayer serverPlayer) {
-                    serverPlayer.connection.send(new ClientboundAnimatePacket(player, 3));
-                }
-
-                stack.set(componentKey, "none");
-                stack.set(durabilityKey, 0);
-            }
-            else {
-                if (shouldIncreaseDamage(player.getRandom())) {
-                    stack.set(durabilityKey, currentDurability + 1);
-                }
-            }
-        }
-    }
-
-    @Unique
-    private boolean shouldIncreaseDamage(RandomSource random) {
-        return random.nextInt(1 + 1) == 0;
-    }
-
     @Inject(method = "use", at = @At("HEAD"))
-    public void preserved_inferno$isFishingCheck(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-        ItemStack fishingRod = player.getItemInHand(hand);
+    private void preserved_inferno$onUse(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+        if (level.isClientSide()) return;
+        if (player.gameMode() == GameType.CREATIVE) return;
+
+        ItemStack rod = player.getItemInHand(hand);
+
         if (player.fishing == null) {
-            if (!level.isClientSide()) {
-                fishingRod.set(ModComponents.IS_FISHING, true);
+            apply(rod, player, hand, "hook");
+            apply(rod, player, hand, "line");
+            apply(rod, player, hand, "sinker");
+            player.causeFoodExhaustion(0.2F);
+        }
+    }
+
+    @Redirect(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/FishingHook;retrieve(Lnet/minecraft/world/item/ItemStack;)I"))
+    private int preserved_inferno$cancelRetrieveDamage(FishingHook hook, ItemStack rod) {
+        hook.retrieve(rod);
+        return 0;
+    }
+
+    @Unique
+    private void apply(ItemStack rod, Player player, InteractionHand hand, String type) {
+        if (Objects.equals(rod.get(getComponent(type)), "none")) return;
+
+        switch (type) {
+            case "hook" -> {
+                if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "copper"))
+                    update(rod, ModComponents.HOOK_COMPONENT, ModComponents.HOOK_DURABILITY, ModComponents.HOOK_UNBREAKING, ModItems.COPPER_FISHING_HOOK, "copper", player, hand);
+                if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "iron"))
+                    update(rod, ModComponents.HOOK_COMPONENT, ModComponents.HOOK_DURABILITY, ModComponents.HOOK_UNBREAKING, ModItems.IRON_FISHING_HOOK, "iron", player, hand);
+                if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "prismarine"))
+                    update(rod, ModComponents.HOOK_COMPONENT, ModComponents.HOOK_DURABILITY, ModComponents.HOOK_UNBREAKING, ModItems.PRISMARINE_FISHING_HOOK, "prismarine", player, hand);
+                if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "golden"))
+                    update(rod, ModComponents.HOOK_COMPONENT, ModComponents.HOOK_DURABILITY, ModComponents.HOOK_UNBREAKING, ModItems.GOLDEN_FISHING_HOOK, "golden", player, hand);
+                if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "diamond"))
+                    update(rod, ModComponents.HOOK_COMPONENT, ModComponents.HOOK_DURABILITY, ModComponents.HOOK_UNBREAKING, ModItems.DIAMOND_FISHING_HOOK, "diamond", player, hand);
+                if (Objects.equals(rod.get(ModComponents.HOOK_COMPONENT), "netherite"))
+                    update(rod, ModComponents.HOOK_COMPONENT, ModComponents.HOOK_DURABILITY, ModComponents.HOOK_UNBREAKING, ModItems.NETHERITE_FISHING_HOOK, "netherite", player, hand);
+            }
+
+            case "line" -> {
+                if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "copper"))
+                    update(rod, ModComponents.LINE_COMPONENT, ModComponents.LINE_DURABILITY, ModComponents.LINE_UNBREAKING, ModItems.COPPER_LACED_FISHING_LINE, "copper", player, hand);
+                if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "iron"))
+                    update(rod, ModComponents.LINE_COMPONENT, ModComponents.LINE_DURABILITY, ModComponents.LINE_UNBREAKING, ModItems.IRON_LACED_FISHING_LINE, "iron", player, hand);
+                if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "prismarine"))
+                    update(rod, ModComponents.LINE_COMPONENT, ModComponents.LINE_DURABILITY, ModComponents.LINE_UNBREAKING, ModItems.PRISMARINE_LACED_FISHING_LINE, "prismarine", player, hand);
+                if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "golden"))
+                    update(rod, ModComponents.LINE_COMPONENT, ModComponents.LINE_DURABILITY, ModComponents.LINE_UNBREAKING, ModItems.GOLDEN_LACED_FISHING_LINE, "golden", player, hand);
+                if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "diamond"))
+                    update(rod, ModComponents.LINE_COMPONENT, ModComponents.LINE_DURABILITY, ModComponents.LINE_UNBREAKING, ModItems.DIAMOND_LACED_FISHING_LINE, "diamond", player, hand);
+                if (Objects.equals(rod.get(ModComponents.LINE_COMPONENT), "netherite"))
+                    update(rod, ModComponents.LINE_COMPONENT, ModComponents.LINE_DURABILITY, ModComponents.LINE_UNBREAKING, ModItems.NETHERITE_LACED_FISHING_LINE, "netherite", player, hand);
+            }
+
+            case "sinker" -> {
+                if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "copper"))
+                    update(rod, ModComponents.SINKER_COMPONENT, ModComponents.SINKER_DURABILITY, ModComponents.SINKER_UNBREAKING, ModItems.COPPER_SINKER, "copper", player, hand);
+                if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "iron"))
+                    update(rod, ModComponents.SINKER_COMPONENT, ModComponents.SINKER_DURABILITY, ModComponents.SINKER_UNBREAKING, ModItems.IRON_SINKER, "iron", player, hand);
+                if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "prismarine"))
+                    update(rod, ModComponents.SINKER_COMPONENT, ModComponents.SINKER_DURABILITY, ModComponents.SINKER_UNBREAKING, ModItems.PRISMARINE_SINKER, "prismarine", player, hand);
+                if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "golden"))
+                    update(rod, ModComponents.SINKER_COMPONENT, ModComponents.SINKER_DURABILITY, ModComponents.SINKER_UNBREAKING, ModItems.GOLDEN_SINKER, "golden", player, hand);
+                if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "diamond"))
+                    update(rod, ModComponents.SINKER_COMPONENT, ModComponents.SINKER_DURABILITY, ModComponents.SINKER_UNBREAKING, ModItems.DIAMOND_SINKER, "diamond", player, hand);
+                if (Objects.equals(rod.get(ModComponents.SINKER_COMPONENT), "netherite"))
+                    update(rod, ModComponents.SINKER_COMPONENT, ModComponents.SINKER_DURABILITY, ModComponents.SINKER_UNBREAKING, ModItems.NETHERITE_SINKER, "netherite", player, hand);
             }
         }
-        if (Boolean.TRUE.equals(fishingRod.get(ModComponents.IS_FISHING)) && player.fishing != null) {
-            if (!level.isClientSide()) {
-                fishingRod.set(ModComponents.IS_FISHING, false);
-            }
+    }
+
+    @Unique
+    private void update(ItemStack stack, DataComponentType<String> componentKey, DataComponentType<Integer> durabilityKey, DataComponentType<Integer> unbreakingKey, Item durabilityItem, String material, Player player, InteractionHand hand) {
+        if (!Objects.equals(stack.get(componentKey), material)) return;
+
+        int current = stack.getOrDefault(durabilityKey, 0);
+        int max = durabilityItem.getDefaultInstance().getMaxDamage();
+        int unbreaking = stack.getOrDefault(unbreakingKey, 0);
+
+        if (unbreaking > 0) {
+            float chance = 1.0F / (unbreaking + 1);
+            if (player.level().getRandom().nextFloat() >= chance) return;
         }
 
-        if (!level.isClientSide() && player.gameMode() != GameType.CREATIVE) {
-            if (!Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "none")) {
-                if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "copper")) {
-                    updateComponentDurability(fishingRod, "hook", "copper", ModItems.COPPER_FISHING_HOOK, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "iron")) {
-                    updateComponentDurability(fishingRod, "hook", "iron", ModItems.IRON_FISHING_HOOK, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "prismarine")) {
-                    updateComponentDurability(fishingRod, "hook", "prismarine", ModItems.PRISMARINE_FISHING_HOOK, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "golden")) {
-                    updateComponentDurability(fishingRod, "hook", "golden", ModItems.GOLDEN_FISHING_HOOK, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "diamond")) {
-                    updateComponentDurability(fishingRod, "hook", "diamond", ModItems.DIAMOND_FISHING_HOOK, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.HOOK_COMPONENT), "netherite")) {
-                    updateComponentDurability(fishingRod, "hook", "netherite", ModItems.NETHERITE_FISHING_HOOK, player, hand);
-                }
-            }
+        current++;
 
-            if (!Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "none")) {
-                if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "copper")) {
-                    updateComponentDurability(fishingRod, "line", "copper", ModItems.COPPER_LACED_FISHING_LINE, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "iron")) {
-                    updateComponentDurability(fishingRod, "line", "iron", ModItems.IRON_LACED_FISHING_LINE, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "prismarine")) {
-                    updateComponentDurability(fishingRod, "line", "prismarine", ModItems.PRISMARINE_LACED_FISHING_LINE, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "golden")) {
-                    updateComponentDurability(fishingRod, "line", "golden", ModItems.GOLDEN_LACED_FISHING_LINE, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "diamond")) {
-                    updateComponentDurability(fishingRod, "line", "diamond", ModItems.DIAMOND_LACED_FISHING_LINE, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.LINE_COMPONENT), "netherite")) {
-                    updateComponentDurability(fishingRod, "line", "netherite", ModItems.NETHERITE_LACED_FISHING_LINE, player, hand);
-                }
-            }
+        if (current >= max) {
+            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_BREAK, player.getSoundSource(), 1.0F, 1.0F);
 
-            if (!Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "none")) {
-                if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "copper")) {
-                    updateComponentDurability(fishingRod, "sinker", "copper", ModItems.COPPER_SINKER, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "iron")) {
-                    updateComponentDurability(fishingRod, "sinker", "iron", ModItems.IRON_SINKER, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "prismarine")) {
-                    updateComponentDurability(fishingRod, "sinker", "prismarine", ModItems.PRISMARINE_SINKER, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "golden")) {
-                    updateComponentDurability(fishingRod, "sinker", "golden", ModItems.GOLDEN_SINKER, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "diamond")) {
-                    updateComponentDurability(fishingRod, "sinker", "diamond", ModItems.DIAMOND_SINKER, player, hand);
-                }
-                if (Objects.equals(fishingRod.get(ModComponents.SINKER_COMPONENT), "netherite")) {
-                    updateComponentDurability(fishingRod, "sinker", "netherite", ModItems.NETHERITE_SINKER, player, hand);
-                }
-            }
+            player.swing(hand, true);
+
+            if (player instanceof ServerPlayer serverPlayer) serverPlayer.connection.send(new ClientboundAnimatePacket(player, 3));
+
+            stack.set(componentKey, "none");
+            stack.set(durabilityKey, 0);
         }
+        else stack.set(durabilityKey, current);
+    }
 
-        player.causeFoodExhaustion(0.2F);
+    @Unique
+    private DataComponentType<String> getComponent(String type) {
+        return switch (type) {
+            case "hook" -> ModComponents.HOOK_COMPONENT;
+            case "line" -> ModComponents.LINE_COMPONENT;
+            case "sinker" -> ModComponents.SINKER_COMPONENT;
+            default -> null;
+        };
     }
 }

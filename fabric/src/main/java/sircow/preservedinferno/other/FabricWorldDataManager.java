@@ -50,7 +50,7 @@ public class FabricWorldDataManager {
                     if (display != null) {
                         switch (display.getType()) {
                             case TASK -> recalculatedPoints += 2;
-                            case GOAL -> recalculatedPoints += 3;
+                            case GOAL -> recalculatedPoints += 4;
                             case CHALLENGE -> recalculatedPoints += 7;
                         }
                         if (display.getType().getSerializedName().equals("progressing")) recalculatedPoints += 1;
