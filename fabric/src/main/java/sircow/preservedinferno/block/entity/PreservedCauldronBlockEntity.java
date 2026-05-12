@@ -2,6 +2,7 @@ package sircow.preservedinferno.block.entity;
 
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -14,6 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
@@ -39,13 +41,13 @@ import sircow.preservedinferno.sound.ModSounds;
 import java.util.Optional;
 
 @SuppressWarnings("rawtypes")
-public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity implements ExtendedMenuProvider {
+public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity implements ExtendedMenuProvider, WorldlyContainer {
     private NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
     private static final int INPUT_SLOT = 0;
     private static final int INPUT_SLOT_TWO = 1;
     private static final int OUTPUT_SLOT = 2;
     protected final ContainerData propertyDelegate, propertyDelegateTwo;
-    public int progress, progressWater = 0;
+    public int progress, progressWater;
     public int maxProgress = 100;
     public int maxWaterProgress = 64;
     private boolean needsInitialUpdate = true;
@@ -134,15 +136,6 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
             tag.putInt("CauldronMaxWaterProgress", this.maxWaterProgress);
             return tag;
         });
-    }
-
-    public void onDataPacket(ClientboundBlockEntityDataPacket packet) {
-        CompoundTag tag = packet.getTag();
-        this.progressWater = tag.getIntOr("CauldronWaterProgress", 0);
-        this.maxWaterProgress = tag.getIntOr("CauldronMaxWaterProgress", 64);
-        if (this.level != null) {
-            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
-        }
     }
 
     public void sendInitialUpdate() {
@@ -238,7 +231,7 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
             this.progressWater += 8;
             this.removeItem(INPUT_SLOT_TWO, 1);
             this.setItem(INPUT_SLOT_TWO, new ItemStack(emptyBucket.getItem()));
-            if (level != null) level.playSound(null, getBlockPos(), SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+            if (level != null) level.playSound(null, getBlockPos(), SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
             waterProgressChanged = true;
         }
         // water bottle
@@ -312,12 +305,42 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     @Override
-    public Object getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
+    public @NonNull Object getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
         return new PreservedCauldronBlockData(this.getBlockPos());
     }
 
     @Override
     public void setChanged() {
         super.setChanged();
+    }
+
+    @Override
+    public int @NonNull [] getSlotsForFace(Direction side) {
+        return switch (side) {
+            case UP -> new int[]{INPUT_SLOT};
+            case DOWN -> new int[]{OUTPUT_SLOT};
+            default -> new int[]{INPUT_SLOT_TWO};
+        };
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int slot, @NonNull ItemStack stack, Direction direction) {
+        if (slot == INPUT_SLOT) return direction == Direction.UP;
+
+        if (slot == INPUT_SLOT_TWO) {
+            if (stack.is(Items.WATER_BUCKET)) return true;
+
+            if (stack.is(Items.POTION)) {
+                var contents = stack.get(DataComponents.POTION_CONTENTS);
+                return contents != null && contents.is(Potions.WATER);
+            }
+            return false;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, @NonNull ItemStack stack, @NonNull Direction direction) {
+        return slot == OUTPUT_SLOT && direction == Direction.DOWN;
     }
 }

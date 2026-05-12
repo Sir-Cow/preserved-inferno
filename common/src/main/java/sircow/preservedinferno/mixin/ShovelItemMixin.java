@@ -14,8 +14,9 @@ public class ShovelItemMixin {
         if (RegisterItemChecker.flip) {
             if (RegisterItemChecker.SHOVELS.contains(RegisterItemChecker.itemName)) {
                 switch (RegisterItemChecker.itemName) {
-                    case "wooden_shovel", "stone_shovel" -> attackDamage = 0.5F;
-                    case "golden_shovel", "diamond_shovel" -> attackDamage = 2.5F;
+                    case "wooden_shovel", "stone_shovel" -> attackDamage = 1.0F;
+                    case "copper_shovel", "iron_shovel" -> attackDamage = 2.0F;
+                    case "golden_shovel", "diamond_shovel" -> attackDamage = 3.0F;
                     case null, default -> {
                         return attackDamage;
                     }
@@ -29,7 +30,7 @@ public class ShovelItemMixin {
     private static float preserved_inferno$modifyAttackSpeed(float attackSpeed) {
         if (RegisterItemChecker.flip) {
             if (RegisterItemChecker.SHOVELS.contains(RegisterItemChecker.itemName)) {
-                attackSpeed = -2.5F;
+                attackSpeed = -2.6F;
             }
             RegisterItemChecker.flip = false;
         }

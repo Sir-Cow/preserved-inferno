@@ -18,7 +18,7 @@ public class ShieldStaminaHandler {
     private static final int COOLDOWN_TICKS = 20 * 10;
     private static final int REGEN_BLOCK_TICKS = 40;
     private static final float STAMINA_LOSS = 0.15F;
-    public static DamageSource lastBypassingSource = null;
+    public static DamageSource lastBypassingSource;
 
     public static void onServerTick(ServerPlayer player) {
         handleShieldUsage(player);
@@ -49,20 +49,21 @@ public class ShieldStaminaHandler {
 
     private static void handleStaminaRegeneration(ServerPlayer player) {
         int regenDelay = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_REGEN_DURATION);
-
         if (regenDelay > 0) {
             player.getEntityData().set(ModEntityData.PLAYER_SHIELD_REGEN_DURATION, regenDelay - 1);
             return;
         }
 
+        float stamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
+        if (stamina <= 0) regenBlockMap.remove(player.getUUID());
+
         ItemStack stack = player.getOffhandItem();
         if (stack.getItem() instanceof PreservedShieldItem shieldItem && !player.isBlocking() && !isOnCooldown(player) && !isRegenBlocked(player)) {
-            float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
             int maxStamina = shieldItem.getMaxStamina(stack);
             float regenRate = shieldItem.getRegenerationRate(stack);
 
-            float newStamina = Math.min(maxStamina, currentStamina + regenRate);
-            if (newStamina != currentStamina) player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
+            float newStamina = Math.min(maxStamina, stamina + regenRate);
+            if (newStamina != stamina) player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
         }
     }
 
@@ -80,6 +81,10 @@ public class ShieldStaminaHandler {
             if (ticks > 0) regenBlockMap.put(player.getUUID(), ticks - 1);
             else regenBlockMap.remove(player.getUUID());
         }
+    }
+
+    public static void triggerRegenBlock(Player player, int ticks) {
+        regenBlockMap.put(player.getUUID(), ticks);
     }
 
     private static void checkStopBlocking(ServerPlayer player) {

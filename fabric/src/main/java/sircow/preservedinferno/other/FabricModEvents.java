@@ -74,7 +74,7 @@ import java.util.*;
 
 public class FabricModEvents {
     private static final long REGEN_COOLDOWN_MS = 10 * 60 * 1000;
-    private static boolean updateCheckScheduled = false;
+    private static boolean updateCheckScheduled;
     private static MinecraftServer currentServer;
 
     public static void limitCropBreak() {
@@ -201,9 +201,43 @@ public class FabricModEvents {
             }
 
             if (!alive) {
-                newPlayer.setHealth(10.0F);
-                newPlayer.getFoodData().setFoodLevel(10);
-                newPlayer.getFoodData().setSaturation(5.0F);
+                int oldFood = oldPlayer.getFoodData().getFoodLevel();
+                float saturation;
+
+                ServerPlayer.RespawnConfig respawnConfig = newPlayer.getRespawnConfig();
+                boolean isBedSpawn = false;
+
+                if (respawnConfig != null) isBedSpawn = newPlayer.level().getBlockState(respawnConfig.respawnData().pos()).getBlock() instanceof BedBlock;
+
+                if (isBedSpawn) {
+                    newPlayer.setHealth(16.0F);
+
+                    if (oldFood < 16) {
+                        int newFood = Math.max(oldFood, 10);
+                        newPlayer.getFoodData().setFoodLevel(newFood);
+
+                        if (oldFood < 10) saturation = 1.0F;
+                        else saturation = 6.0F;
+                    }
+                    else {
+                        newPlayer.getFoodData().setFoodLevel(16);
+                        saturation = 6.0F;
+                    }
+                }
+                else {
+                    newPlayer.setHealth(12.0F);
+
+                    if (oldFood < 12) {
+                        int newFood = Math.max(oldFood, 6);
+                        newPlayer.getFoodData().setFoodLevel(newFood);
+                        saturation = 1.0F;
+                    }
+                    else {
+                        newPlayer.getFoodData().setFoodLevel(12);
+                        saturation = 6.0F;
+                    }
+                }
+                newPlayer.getFoodData().setSaturation(saturation);
             }
         });
     }
@@ -388,23 +422,34 @@ public class FabricModEvents {
 
     private static void bashfulEnchant() {
         ServerPlayNetworking.registerGlobalReceiver(BashfulPayload.TYPE, (payload, context) -> context.server().execute(() -> {
-            var player = context.player();
-            ItemStack shield = player.getUseItem();
+                    ServerPlayer player = context.player();
+                    ItemStack shield = player.getUseItem();
 
-            if (player.isUsingItem() && shield.is(ModTags.SHIELDS) && !player.getCooldowns().isOnCooldown(shield)) {
-                float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
-                if (currentStamina < 4.0f) return;
+                    if (!player.isUsingItem()) return;
+                    if (!shield.is(ModTags.SHIELDS)) return;
 
-                int level = EnchantmentHelper.getItemEnchantmentLevel(player.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.BASHFUL), shield);
+                    int level = EnchantmentHelper.getItemEnchantmentLevel(player.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.BASHFUL), shield);
 
-                if (level > 0 && !player.isPassenger() && !player.isFallFlying() && !player.isInWater()) {
+                    if (level <= 0) return;
+                    if (player.isPassenger() || player.isFallFlying() || player.isInWater()) return;
+
+                    float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
+                    float cost = 4.0F;
+
+                    if (currentStamina < cost) return;
+
                     if (!player.isCreative() && !player.isSpectator()) {
-                        player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, currentStamina - 4.0f);
+                        float newStamina = Math.max(0.0F, currentStamina - cost);
+                        player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
+
+                        if (newStamina <= 0.0F && currentStamina > 0.0F) ShieldStaminaHandler.triggerCooldown(player, shield);
+                        ShieldStaminaHandler.triggerRegenBlock(player, 40);
                         player.causeFoodExhaustion(4.0F * level);
                         shield.hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
                     }
 
                     player.getCooldowns().addCooldown(shield, 20);
+                    player.stopUsingItem();
                     player.hurtMarked = true;
 
                     float magnitude = 1.374F + (0.458F * (level - 1));
@@ -419,9 +464,8 @@ public class FabricModEvents {
                             1.0F,
                             1.0F
                     );
-                }
-            }
-        }));
+                })
+        );
     }
 
     public static void updateCheck() {

@@ -29,15 +29,9 @@ public abstract class AdvancementWidgetTypeMixin implements HiddenSpriteAccessor
 
         AdvancementWidgetType currentInstance = (AdvancementWidgetType)(Object)this;
 
-        if (currentInstance.name().equals("OBTAINED")) {
-            this.progressingFrameSprite = Constants.id("advancements/progressing_frame_obtained");
-        }
-        else if (currentInstance.name().equals("UNOBTAINED")) {
-            this.progressingFrameSprite = Constants.id("advancements/progressing_frame_unobtained");
-        }
-        else {
-            this.progressingFrameSprite = Constants.id("advancements/progressing_frame_hidden");
-        }
+        if (currentInstance.name().equals("OBTAINED")) this.progressingFrameSprite = Constants.id("advancements/progressing_frame_obtained");
+        else if (currentInstance.name().equals("UNOBTAINED")) this.progressingFrameSprite = Constants.id("advancements/progressing_frame_unobtained");
+        else this.progressingFrameSprite = Constants.id("advancements/progressing_frame_hidden");
     }
 
     @Inject(method = "frameSprite", at = @At("HEAD"), cancellable = true)
@@ -49,7 +43,7 @@ public abstract class AdvancementWidgetTypeMixin implements HiddenSpriteAccessor
 
     @Override
     public Identifier preserved_inferno$getHiddenSprite(AdvancementType type) {
-        if (type.name().equals("PINFERNO_PROGRESSING")) {
+        if (type.name().equals("PINFERNO_PROGRESSING") || type.name().equals("PINFERNO_ROOT") || type.name().equals("PINFERNO_MASTERY")) {
             return this.hiddenProgressingSprite;
         }
         return switch (type) {

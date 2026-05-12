@@ -83,6 +83,24 @@ public class AnvilMenuMixin {
     }
 
     @Inject(method = "createResult", at = @At("HEAD"), cancellable = true)
+    private void preserved_inferno$disableVanillaMaterialRepair(CallbackInfo ci) {
+        AnvilMenu self = (AnvilMenu) (Object) this;
+        ItemCombinerMenuAccessor accessor = (ItemCombinerMenuAccessor) self;
+        ItemStack left = accessor.getInputSlots().getItem(0);
+        ItemStack right = accessor.getInputSlots().getItem(1);
+
+        if (left.isEmpty() || right.isEmpty()) return;
+
+        if (right.is(ModItems.REPAIR_KIT) || right.is(ModItems.FORGE_DUST) || (left.is(ModTags.ROD_UPGRADES) && right.is(ModItems.AQUATIC_FIBER))) return;
+
+        if (left.isDamageableItem() && left.isValidRepairItem(right)) {
+            accessor.getResultSlots().setItem(0, ItemStack.EMPTY);
+            this.cost.set(0);
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "createResult", at = @At("HEAD"), cancellable = true)
     private void preserved_inferno$customRepair(CallbackInfo ci) {
         AnvilMenu self = (AnvilMenu) (Object) this;
         ItemCombinerMenuAccessor accessor = (ItemCombinerMenuAccessor) self;

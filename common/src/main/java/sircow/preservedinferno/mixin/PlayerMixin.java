@@ -4,6 +4,7 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -49,6 +50,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.effect.ModEffects;
+import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
 import sircow.preservedinferno.other.HeatAccessor;
 import sircow.preservedinferno.other.ModDamageTypes;
@@ -540,15 +542,19 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
     // change crit multiplier to additive
     @ModifyVariable(method = "attack", at = @At(value = "STORE", ordinal = 0), index = 2)
-    private float preserved_inferno$applyFlatCritDamage(float f, Entity target) {
+    private float preserved_inferno$applyFlatCritDamage(float baseDamage, Entity target) {
         Player self = (Player) (Object) this;
         boolean isFullStrength = self.getAttackStrengthScale(0.5F) > 0.9F;
+        float finalDamage = baseDamage;
 
         if (isFullStrength && canCriticalAttack(target)) {
+            int level = EnchantmentHelper.getItemEnchantmentLevel(self.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.SPLATTERING), self.getMainHandItem());
+
             if (self instanceof ServerPlayer serverPlayer) ModTriggers.CRIT_DAMAGE.get().trigger(serverPlayer);
-            return f + 3.0F;
+            if (level > 0) finalDamage += (3.0F * level);
+            finalDamage += 3.0F;
         }
-        return f;
+        return finalDamage;
     }
 
     @Inject(method = "canCriticalAttack", at = @At("HEAD"), cancellable = true)

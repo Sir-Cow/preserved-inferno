@@ -20,7 +20,7 @@
           "functions": [
             {
               "function": "minecraft:set_count",
-              "count": 1
+              "count": 2
             },
             {
               "enchantment": "minecraft:fortune",
@@ -48,7 +48,7 @@
           "functions": [
             {
               "function": "minecraft:set_count",
-              "count": 2
+              "count": 4
             },
             {
               "enchantment": "minecraft:fortune",
@@ -75,7 +75,7 @@
           ],
           "functions": [
             { "function": "minecraft:set_count",
-              "count": 4
+              "count": 8
             },
             {
               "enchantment": "minecraft:fortune",
@@ -103,7 +103,7 @@
           "functions": [
             {
               "function": "minecraft:set_count",
-              "count": 8
+              "count": 16
             },
             {
               "enchantment": "minecraft:fortune",

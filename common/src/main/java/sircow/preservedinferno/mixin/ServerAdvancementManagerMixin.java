@@ -91,6 +91,7 @@ public class ServerAdvancementManagerMixin {
                 Identifier.withDefaultNamespace("nether/fast_travel"),
                 Identifier.withDefaultNamespace("nether/ride_strider"),
                 Identifier.withDefaultNamespace("nether/ride_strider_in_overworld_lava"),
+                Identifier.withDefaultNamespace("nether/uneasy_alliance"),
                 Identifier.withDefaultNamespace("story/enchant_item"),
                 Identifier.withDefaultNamespace("story/form_obsidian"),
                 Identifier.withDefaultNamespace("story/lava_bucket")

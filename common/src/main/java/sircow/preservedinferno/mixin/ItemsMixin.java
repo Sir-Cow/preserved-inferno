@@ -332,7 +332,7 @@ public abstract class ItemsMixin {
             ordinal = 0
     ), index = 1)
     private static Function<Item.Properties, Item> preserved_inferno$modifyNetheriteShovel(Function<Item.Properties, Item> factory) {
-        return properties -> new ShovelItem(ToolMaterial.NETHERITE, 2.5F, -2.5F, properties);
+        return properties -> new ShovelItem(ToolMaterial.NETHERITE, 3.0F, -2.6F, properties);
     }
 
     // other weapons
@@ -495,7 +495,7 @@ public abstract class ItemsMixin {
             ordinal = 0), index = 1
     )
     private static Item.Properties preserved_inferno$modifyWoodenPickaxe(Item.Properties properties) {
-        return new Item.Properties().pickaxe(ToolMaterial.WOOD, 1.0F, -3.0F);
+        return new Item.Properties().pickaxe(ToolMaterial.WOOD, 2.0F, -3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=golden_pickaxe")), at = @At(value = "INVOKE",
@@ -503,7 +503,7 @@ public abstract class ItemsMixin {
             ordinal = 0), index = 1
     )
     private static Item.Properties preserved_inferno$modifyGoldenPickaxe(Item.Properties properties) {
-        return new Item.Properties().pickaxe(ToolMaterial.GOLD, 3.0F, -3.0F);
+        return new Item.Properties().pickaxe(ToolMaterial.GOLD, 4.0F, -3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=stone_pickaxe")), at = @At(value = "INVOKE",
@@ -511,7 +511,7 @@ public abstract class ItemsMixin {
             ordinal = 0), index = 1
     )
     private static Item.Properties preserved_inferno$modifyStonePickaxe(Item.Properties properties) {
-        return new Item.Properties().pickaxe(ToolMaterial.STONE, 1.0F, -3.0F);
+        return new Item.Properties().pickaxe(ToolMaterial.STONE, 2.0F, -3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=copper_pickaxe")), at = @At(value = "INVOKE",
@@ -519,7 +519,7 @@ public abstract class ItemsMixin {
             ordinal = 0), index = 1
     )
     private static Item.Properties preserved_inferno$modifyCopperPickaxe(Item.Properties properties) {
-        return new Item.Properties().pickaxe(ToolMaterial.COPPER, 2.0F, -3.0F);
+        return new Item.Properties().pickaxe(ToolMaterial.COPPER, 3.0F, -3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=iron_pickaxe")), at = @At(value = "INVOKE",
@@ -527,7 +527,7 @@ public abstract class ItemsMixin {
             ordinal = 0), index = 1
     )
     private static Item.Properties preserved_inferno$modifyIronPickaxe(Item.Properties properties) {
-        return new Item.Properties().pickaxe(ToolMaterial.IRON, 2.0F, -3.0F);
+        return new Item.Properties().pickaxe(ToolMaterial.IRON, 3.0F, -3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=diamond_pickaxe")), at = @At(value = "INVOKE",
@@ -535,7 +535,7 @@ public abstract class ItemsMixin {
             ordinal = 0), index = 1
     )
     private static Item.Properties preserved_inferno$modifyDiamondPickaxe(Item.Properties properties) {
-        return new Item.Properties().pickaxe(ToolMaterial.DIAMOND, 3.0F, -3.0F);
+        return new Item.Properties().pickaxe(ToolMaterial.DIAMOND, 4.0F, -3.0F);
     }
     @ModifyArg(method = "<clinit>", slice = @Slice (
             from = @At(value = "CONSTANT", args = "stringValue=netherite_pickaxe")), at = @At(value = "INVOKE",
@@ -543,6 +543,6 @@ public abstract class ItemsMixin {
             ordinal = 0), index = 1
     )
     private static Item.Properties preserved_inferno$modifyNetheritePickaxe(Item.Properties properties) {
-        return new Item.Properties().pickaxe(ToolMaterial.NETHERITE, 3.0F, -3.0F).fireResistant();
+        return new Item.Properties().pickaxe(ToolMaterial.NETHERITE, 4.0F, -3.0F).fireResistant();
     }
 }

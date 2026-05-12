@@ -11,14 +11,16 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.animal.golem.IronGolem;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.skeleton.Skeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -45,7 +47,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow public abstract boolean hasEffect(Holder<MobEffect> effect);
     @Shadow public abstract MobEffectInstance getEffect(Holder<MobEffect> effect);
     @Shadow public abstract AttributeInstance getAttribute(Holder<Attribute> attribute);
-
+    @Unique private float preDamageHealth;
     @Unique private static final Identifier HINDERED_SPEED_ID = Constants.id("hindered_speed");
     @Unique private static final Identifier HINDERED_ATTACK_ID = Constants.id("hindered_attack");
 
@@ -105,14 +107,24 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "hurtServer", at = @At("HEAD"))
-    private void preserved_inferno$applyOnDamage(ServerLevel serverLevel, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    private void preserved_inferno$onDamage(ServerLevel serverLevel, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity self = (LivingEntity)(Object)this;
+        this.preDamageHealth = self.getHealth();
         // hindered effect on freeze
         if (!self.level().isClientSide() && source.is(DamageTypes.FREEZE)) {
             MobEffectInstance newInstance = new MobEffectInstance(ModEffects.HINDERED.holder, 160, 0, false, true, true);
             self.addEffect(newInstance);
         }
+    }
+
+    @Inject(method = "hurtServer", at = @At("RETURN"))
+    private void preserved_inferno$onDamage2(ServerLevel serverLevel, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if (!cir.getReturnValueZ()) return;
+
+        LivingEntity self = (LivingEntity)(Object)this;
+
         // elytra cooldown
+        if (self.getHealth() >= this.preDamageHealth) return;
         if (self instanceof ServerPlayer serverPlayer) ElytraCooldown.applyCooldown(serverPlayer, 20 * 8);
     }
 
@@ -121,11 +133,7 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntity self = (LivingEntity)(Object)this;
 
         if (!(self instanceof Player player)) return;
-
-        ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
-
-        if (!chest.is(Items.ELYTRA)) return;
-        if (player.getCooldowns().isOnCooldown(chest)) cir.setReturnValue(false);
+        if (player.getCooldowns().isOnCooldown(new ItemStack(Items.ELYTRA))) cir.setReturnValue(false);
     }
 
     @Inject(method = "jumpFromGround", at = @At("TAIL"))
@@ -148,8 +156,15 @@ public abstract class LivingEntityMixin extends Entity {
         if (entity instanceof Player) {
             // if the entity is a player, always allow drops
         }
-        else if (damageSource.getEntity() instanceof Player || damageSource.getEntity() instanceof IronGolem) {
-            // if the entity is a mob and killed by a player or iron golem, allow drops
+        else if (damageSource.getEntity() instanceof Player
+                || damageSource.getEntity() instanceof IronGolem
+                || damageSource.getEntity() instanceof Frog
+                || (damageSource.getEntity() instanceof Skeleton && entity instanceof Creeper)
+        ) {
+            // if the entity is a mob and killed by:
+            // a player, iron golem, frog,
+            // or creeper killed by skeleton
+            // allow drops
         }
         else {
             // otherwise, cancel drops

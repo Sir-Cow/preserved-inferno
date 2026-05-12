@@ -104,7 +104,7 @@
       "conditions": {
         "location": [
           {
-            "block": "minecraft:bamboo",
+            "block": "minecraft:bamboo_sapling",
             "condition": "minecraft:block_state_property"
           }
         ]

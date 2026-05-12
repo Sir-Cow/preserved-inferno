@@ -4,6 +4,7 @@ import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -12,11 +13,14 @@ import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.other.ModTags;
 
 public class ModEnchantments {
+    // shield
     public static final ResourceKey<Enchantment> BUCKLER = key("buckler");
     public static final ResourceKey<Enchantment> RESPITE = key("respite");
     public static final ResourceKey<Enchantment> ENDURANCE = key("endurance");
     public static final ResourceKey<Enchantment> VIGOR = key("vigor");
     public static final ResourceKey<Enchantment> BASHFUL = key("bashful");
+    // shovel
+    public static final ResourceKey<Enchantment> SPLATTERING = key("splattering");
 
     private static ResourceKey<Enchantment> key(String name) {
         return ResourceKey.create(Registries.ENCHANTMENT, Constants.id(name));
@@ -78,6 +82,17 @@ public class ModEnchantments {
                         Enchantment.dynamicCost(12, 11),
                         1,
                         EquipmentSlotGroup.OFFHAND
+                ))
+        );
+        register(context, SPLATTERING, Enchantment.enchantment(
+                Enchantment.definition(
+                        items.getOrThrow(ItemTags.SHOVELS),
+                        5,
+                        1,
+                        Enchantment.dynamicCost(1, 11),
+                        Enchantment.dynamicCost(12, 11),
+                        1,
+                        EquipmentSlotGroup.MAINHAND
                 ))
         );
     }

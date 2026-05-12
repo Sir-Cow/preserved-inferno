@@ -81,8 +81,8 @@ public class ModItems {
     public static final Item RAW_COPPER_CHUNK = registerItem("raw_copper_chunk", Item::new, new Item.Properties());
 
     public static final Item QUARTZITE = registerItem("quartzite", Item::new, new Item.Properties().trimMaterial(TrimMaterials.QUARTZ));
-    public static final Item QUARTZITE_SHOVEL = registerItem("quartzite_shovel", properties -> new ShovelItem(QUARTZITE_TOOL, 1.5F, -2.5F, properties), new Item.Properties().repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
-    public static final Item QUARTZITE_PICKAXE = registerItem("quartzite_pickaxe", Item::new, new Item.Properties().pickaxe(QUARTZITE_TOOL, 2.0F, -3.0F).repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
+    public static final Item QUARTZITE_SHOVEL = registerItem("quartzite_shovel", properties -> new ShovelItem(QUARTZITE_TOOL, 2.0F, -2.6F, properties), new Item.Properties().repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
+    public static final Item QUARTZITE_PICKAXE = registerItem("quartzite_pickaxe", Item::new, new Item.Properties().pickaxe(QUARTZITE_TOOL, 3.0F, -3.0F).repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
     public static final Item QUARTZITE_AXE = registerItem("quartzite_axe", properties -> new AxeItem(QUARTZITE_TOOL, 4.0F, -2.8F, properties), new Item.Properties().repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
     public static final Item QUARTZITE_SCYTHE = registerItem("quartzite_hoe", properties -> new HoeItem(QUARTZITE_TOOL, 1.0F, -2.2F, properties), new Item.Properties().repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
     public static final Item QUARTZITE_SWORD = registerItem("quartzite_sword", Item::new, new Item.Properties().sword(QUARTZITE_TOOL, 2.0F, -2.4F).repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
@@ -100,15 +100,15 @@ public class ModItems {
                     .repairable(ItemTags.COPPER_TOOL_MATERIALS)
     );
 
-    public static final Item COPPER_MULTITOOL = registerItem("copper_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.COPPER, 3.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.COPPER_TOOL_MATERIALS));
-    public static final Item DIAMOND_MULTITOOL = registerItem("diamond_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.DIAMOND, 4.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.DIAMOND_TOOL_MATERIALS));
-    public static final Item GOLDEN_MULTITOOL = registerItem("golden_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.GOLD, 4.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.GOLD_TOOL_MATERIALS));
-    public static final Item IRON_MULTITOOL = registerItem("iron_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.IRON, 3.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.IRON_TOOL_MATERIALS));
-    public static final Item NETHER_ALLOY_MULTITOOL = registerItem("nether_alloy_multitool", properties -> new PreservedMultitoolItem(NETHER_ALLOY_TOOL, 5.0F, -3.4F, properties), new Item.Properties().repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
-    public static final Item NETHERITE_MULTITOOL = registerItem("netherite_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.NETHERITE, 4.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.NETHERITE_TOOL_MATERIALS).fireResistant());
-    public static final Item QUARTZITE_MULTITOOL = registerItem("quartzite_multitool", properties -> new PreservedMultitoolItem(QUARTZITE_TOOL, 3.0F, -3.4F, properties), new Item.Properties().repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
-    public static final Item STONE_MULTITOOL = registerItem("stone_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.STONE, 2.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.STONE_TOOL_MATERIALS));
-    public static final Item WOODEN_MULTITOOL = registerItem("wooden_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.WOOD, 2.0F, -3.4F, properties), new Item.Properties().repairable(ItemTags.WOODEN_TOOL_MATERIALS));
+    public static final Item COPPER_MULTITOOL = registerItem("copper_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.COPPER, 3.0F, -3.2F, properties), new Item.Properties().repairable(ItemTags.COPPER_TOOL_MATERIALS));
+    public static final Item DIAMOND_MULTITOOL = registerItem("diamond_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.DIAMOND, 4.0F, -3.2F, properties), new Item.Properties().repairable(ItemTags.DIAMOND_TOOL_MATERIALS));
+    public static final Item GOLDEN_MULTITOOL = registerItem("golden_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.GOLD, 4.0F, -3.2F, properties), new Item.Properties().repairable(ItemTags.GOLD_TOOL_MATERIALS));
+    public static final Item IRON_MULTITOOL = registerItem("iron_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.IRON, 3.0F, -3.2F, properties), new Item.Properties().repairable(ItemTags.IRON_TOOL_MATERIALS));
+    public static final Item NETHER_ALLOY_MULTITOOL = registerItem("nether_alloy_multitool", properties -> new PreservedMultitoolItem(NETHER_ALLOY_TOOL, 5.0F, -3.2F, properties), new Item.Properties().repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
+    public static final Item NETHERITE_MULTITOOL = registerItem("netherite_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.NETHERITE, 4.0F, -3.2F, properties), new Item.Properties().repairable(ItemTags.NETHERITE_TOOL_MATERIALS).fireResistant());
+    public static final Item QUARTZITE_MULTITOOL = registerItem("quartzite_multitool", properties -> new PreservedMultitoolItem(QUARTZITE_TOOL, 3.0F, -3.2F, properties), new Item.Properties().repairable(ModTags.QUARTZITE_TOOL_MATERIALS));
+    public static final Item STONE_MULTITOOL = registerItem("stone_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.STONE, 2.0F, -3.2F, properties), new Item.Properties().repairable(ItemTags.STONE_TOOL_MATERIALS));
+    public static final Item WOODEN_MULTITOOL = registerItem("wooden_multitool", properties -> new PreservedMultitoolItem(ToolMaterial.WOOD, 2.0F, -3.2F, properties), new Item.Properties().repairable(ItemTags.WOODEN_TOOL_MATERIALS));
 
     public static final Item BLACK_CLOTH = registerItem("black_cloth", Item::new, new Item.Properties());
     public static final Item BLUE_CLOTH = registerItem("blue_cloth", Item::new, new Item.Properties());
@@ -246,8 +246,8 @@ public class ModItems {
     public static final Item NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE = registerItem("nether_alloy_upgrade_smithing_template", Item::new, new Item.Properties()
             .rarity(Rarity.UNCOMMON)
     );
-    public static final Item NETHER_ALLOY_SHOVEL = registerItem("nether_alloy_shovel", properties -> new ShovelItem(NETHER_ALLOY_TOOL, 3.5F, -2.5F, properties), new Item.Properties().repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
-    public static final Item NETHER_ALLOY_PICKAXE = registerItem("nether_alloy_pickaxe", Item::new, new Item.Properties().pickaxe(NETHER_ALLOY_TOOL, 4.0F, -3.0F).repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
+    public static final Item NETHER_ALLOY_SHOVEL = registerItem("nether_alloy_shovel", properties -> new ShovelItem(NETHER_ALLOY_TOOL, 4.0F, -2.6F, properties), new Item.Properties().repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
+    public static final Item NETHER_ALLOY_PICKAXE = registerItem("nether_alloy_pickaxe", Item::new, new Item.Properties().pickaxe(NETHER_ALLOY_TOOL, 5.0F, -3.0F).repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
     public static final Item NETHER_ALLOY_AXE = registerItem("nether_alloy_axe", properties -> new AxeItem(NETHER_ALLOY_TOOL, 6.0F, -2.8F, properties), new Item.Properties().repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
     public static final Item NETHER_ALLOY_SCYTHE = registerItem("nether_alloy_hoe", properties -> new HoeItem(NETHER_ALLOY_TOOL, 3.0F, -2.2F, properties), new Item.Properties().repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));
     public static final Item NETHER_ALLOY_SWORD = registerItem("nether_alloy_sword", Item::new, new Item.Properties().sword(NETHER_ALLOY_TOOL, 4.0F, -2.4F).repairable(ModTags.NETHER_ALLOY_TOOL_MATERIALS));

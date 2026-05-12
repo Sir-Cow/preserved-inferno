@@ -25,13 +25,18 @@
         "fabric-datagen": [
             "sircow.preservedinferno.datagen.ModDataGenerator"
         ],
+        "jade": [
+            "sircow.preservedinferno.compat.JadePlugin"
+        ],
         "modmenu": [
             "sircow.preservedinferno.config.ModMenuCompat"
         ]
     },
     "mixins": [
         "pinferno.mixins.json",
-        "pinferno.fabric.mixins.json"
+        "pinferno.fabric.mixins.json",
+        "pinferno.jade.mixins.json",
+        "pinferno.lootr.mixins.json"
     ],
     "accessWidener": "pinferno.classtweaker",
     "depends": {

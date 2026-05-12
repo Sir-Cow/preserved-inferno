@@ -19,6 +19,17 @@ public class PotionBrewingMixin {
         builder.addContainer(Items.LINGERING_POTION);
         builder.addContainerRecipe(Items.POTION, Items.GUNPOWDER, Items.SPLASH_POTION);
         builder.addContainerRecipe(Items.POTION, Items.FIRE_CHARGE, Items.LINGERING_POTION);
+        builder.addMix(Potions.WATER, Items.AMETHYST_SHARD, ModPotions.HASTE);
+        builder.addMix(ModPotions.HASTE, Items.REDSTONE, ModPotions.LONG_HASTE);
+        builder.addMix(ModPotions.HASTE, Items.GLOWSTONE_DUST, ModPotions.STRONG_HASTE);
+        builder.addMix(ModPotions.HASTE, Items.FERMENTED_SPIDER_EYE, ModPotions.MINING_FATIGUE);
+        builder.addMix(ModPotions.MINING_FATIGUE, Items.REDSTONE, ModPotions.LONG_MINING_FATIGUE);
+        builder.addMix(ModPotions.MINING_FATIGUE, Items.GLOWSTONE_DUST, ModPotions.STRONG_MINING_FATIGUE);
+        builder.addMix(Potions.WATER, Items.INK_SAC, ModPotions.BLINDNESS);
+        builder.addMix(ModPotions.BLINDNESS, Items.REDSTONE, ModPotions.LONG_BLINDNESS);
+        builder.addMix(Potions.WATER, Items.RABBIT_FOOT, ModPotions.LUCK);
+        builder.addMix(ModPotions.LUCK, Items.REDSTONE, ModPotions.LONG_LUCK);
+        builder.addMix(ModPotions.LUCK, Items.GLOWSTONE_DUST, ModPotions.STRONG_LUCK);
         builder.addMix(Potions.WATER, Items.BREEZE_ROD, Potions.WIND_CHARGED);
         builder.addMix(Potions.WATER, Items.SLIME_BLOCK, Potions.OOZING);
         builder.addMix(Potions.WATER, Items.STONE, Potions.INFESTED);
@@ -68,18 +79,6 @@ public class PotionBrewingMixin {
         builder.addMix(Potions.WEAKNESS, Items.REDSTONE, Potions.LONG_WEAKNESS);
         builder.addMix(Potions.WATER, ModItems.PHANTOM_SINEW, Potions.SLOW_FALLING);
         builder.addMix(Potions.SLOW_FALLING, Items.REDSTONE, Potions.LONG_SLOW_FALLING);
-
-        builder.addMix(Potions.WATER, Items.AMETHYST_SHARD, ModPotions.HASTE);
-        builder.addMix(ModPotions.HASTE, Items.REDSTONE, ModPotions.LONG_HASTE);
-        builder.addMix(ModPotions.HASTE, Items.GLOWSTONE_DUST, ModPotions.STRONG_HASTE);
-        builder.addMix(ModPotions.HASTE, Items.FERMENTED_SPIDER_EYE, ModPotions.MINING_FATIGUE);
-        builder.addMix(ModPotions.MINING_FATIGUE, Items.REDSTONE, ModPotions.LONG_MINING_FATIGUE);
-        builder.addMix(ModPotions.MINING_FATIGUE, Items.GLOWSTONE_DUST, ModPotions.STRONG_MINING_FATIGUE);
-        builder.addMix(Potions.WATER, Items.INK_SAC, ModPotions.BLINDNESS);
-        builder.addMix(ModPotions.BLINDNESS, Items.REDSTONE, ModPotions.LONG_BLINDNESS);
-        builder.addMix(Potions.WATER, Items.RABBIT_FOOT, ModPotions.LUCK);
-        builder.addMix(ModPotions.LUCK, Items.REDSTONE, ModPotions.LONG_LUCK);
-        builder.addMix(ModPotions.LUCK, Items.GLOWSTONE_DUST, ModPotions.STRONG_LUCK);
         ci.cancel();
     }
 }

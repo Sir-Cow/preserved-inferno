@@ -1,0 +1,42 @@
+{
+  "parent": "pinferno:nether/place_dried_ghast_in_water",
+  "criteria": {
+    "killed_happy_ghast": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:happy_ghast",
+              "location": {
+                "dimension": "minecraft:the_nether"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.nether.kill_happy_ghast.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:ghast_tear"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.nether.kill_happy_ghast.title"
+    }
+  },
+  "requirements": [
+    [
+      "killed_happy_ghast"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

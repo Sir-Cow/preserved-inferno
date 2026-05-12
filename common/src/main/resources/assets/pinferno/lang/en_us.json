@@ -207,6 +207,7 @@
   "enchantment.pinferno.endurance": "Endurance",
   "enchantment.pinferno.respite": "Respite",
   "enchantment.pinferno.vigor": "Vigor",
+  "enchantment.pinferno.splattering": "Splattering",
 
   "enchanting_table.pinferno.bookshelf_power": "Bookshelf Power: %s",
   "enchanting_table.pinferno.enchant_for_levels": "Enchant for %s levels",
@@ -326,6 +327,8 @@
   "advancements.pinferno.nether.afterburner.description": "Kill a Blaze using your own fire",
   "advancements.pinferno.nether.break_sparkling_blackstone.title": "Hidden in the Depths",
   "advancements.pinferno.nether.break_sparkling_blackstone.description": "Harvest Gold from a fully developed Sparkling Blackstone",
+  "advancements.pinferno.nether.kill_happy_ghast.title": "Uneasy Betrayal",
+  "advancements.pinferno.nether.kill_happy_ghast.description": "Recover a Happy Ghast, bring it back to the Nether... and then kill it",
   "advancements.pinferno.adventure.root.title": "Adventure",
   "advancements.pinferno.adventure.root.description": "Get up and get out there",
   "advancements.pinferno.adventure.brush_block.title": "Sussed Out",
@@ -443,5 +446,8 @@
   "message.pinferno.mastery_rank_up_hover": "Click to say GG!",
   "chat.type.advancement.progressing": "%s has progressed towards %s",
   "advancements.toast.progressing": "Progress Made!",
-  "advancements.toast.mastery": "Mastery Upgraded!"
+  "advancements.toast.mastery": "Mastery Upgraded!",
+
+  "config.jade.plugin_pinferno.cauldron_progress": "Cauldron Progress",
+  "config.jade.plugin_pinferno.sparkling_blackstone_stage": "Sparkling Blackstone Growth Stage"
 }

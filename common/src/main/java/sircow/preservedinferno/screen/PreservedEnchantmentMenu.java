@@ -81,6 +81,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
             new EnchantmentInfo("Sharpness", "10", Enchantments.SHARPNESS),
             new EnchantmentInfo("Silk Touch", "30", Enchantments.SILK_TOUCH),
             new EnchantmentInfo("Smite", "10", Enchantments.SMITE),
+            new EnchantmentInfo("Splattering", "20", ModEnchantments.SPLATTERING),
             new EnchantmentInfo("Sweeping Edge", "20", Enchantments.SWEEPING_EDGE),
             new EnchantmentInfo("Thorns", "10", Enchantments.THORNS),
             new EnchantmentInfo("Unbreaking", "20", Enchantments.UNBREAKING),
