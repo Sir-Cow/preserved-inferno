@@ -1,0 +1,30 @@
+{
+  "parent": "pinferno:agriculture/obtain_bread",
+  "criteria": {
+    "pumpkin_pie": {
+      "conditions": {
+        "recipe_id": "minecraft:pumpkin_pie"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.obtain_pumpkin_pie.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:pumpkin_pie"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.obtain_pumpkin_pie.title"
+    }
+  },
+  "requirements": [
+    [
+      "pumpkin_pie"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

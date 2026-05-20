@@ -22,7 +22,6 @@
     "description": {
       "translate": "advancements.pinferno.adventure.find_ancient_city.description"
     },
-    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "minecraft:deepslate_bricks"

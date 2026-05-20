@@ -21,11 +21,16 @@ public class FabricModItemGroups {
                 .displayItems((displayContext, entries) -> {
                     entries.accept(ModBlocks.RHYOLITE.asItem());
                     entries.accept(ModBlocks.POLISHED_RHYOLITE.asItem());
+                    entries.accept(ModBlocks.RHYOLITE_BRICKS.asItem());
+                    entries.accept(ModBlocks.CRACKED_RHYOLITE_BRICKS.asItem());
                     entries.accept(ModBlocks.RHYOLITE_WALL.asItem());
+                    entries.accept(ModBlocks.RHYOLITE_BRICK_WALL.asItem());
                     entries.accept(ModBlocks.RHYOLITE_STAIRS.asItem());
                     entries.accept(ModBlocks.POLISHED_RHYOLITE_STAIRS.asItem());
+                    entries.accept(ModBlocks.RHYOLITE_BRICK_STAIRS.asItem());
                     entries.accept(ModBlocks.RHYOLITE_SLAB.asItem());
                     entries.accept(ModBlocks.POLISHED_RHYOLITE_SLAB.asItem());
+                    entries.accept(ModBlocks.RHYOLITE_BRICK_SLAB.asItem());
 
                     entries.accept(ModBlocks.SPARKLING_BLACKSTONE.asItem());
 

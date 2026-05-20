@@ -56,9 +56,10 @@ public abstract class PlayerAdvancementsMixin {
         switch (rank) {
             case "infernal" -> ModTriggers.MASTERY_INFERNAL.get().trigger(player);
             case "champion" -> ModTriggers.MASTERY_CHAMPION.get().trigger(player);
+            case "centurion" -> ModTriggers.MASTERY_CENTURION.get().trigger(player);
             case "master" -> ModTriggers.MASTERY_MASTER.get().trigger(player);
-            case "advanced" -> ModTriggers.MASTERY_ADVANCED.get().trigger(player);
-            case "adequate" -> ModTriggers.MASTERY_ADEQUATE.get().trigger(player);
+            case "knight" -> ModTriggers.MASTERY_KNIGHT.get().trigger(player);
+            case "squire" -> ModTriggers.MASTERY_SQUIRE.get().trigger(player);
             case "disciple" -> ModTriggers.MASTERY_DISCIPLE.get().trigger(player);
             case "novice" -> ModTriggers.MASTERY_NOVICE.get().trigger(player);
             case "beginner" -> ModTriggers.MASTERY_BEGINNER.get().trigger(player);

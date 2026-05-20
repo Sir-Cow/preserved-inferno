@@ -3,13 +3,9 @@
   "criteria": {
     "crafting_table": {
       "conditions": {
-        "items": [
-          {
-            "items": "minecraft:crafting_table"
-          }
-        ]
+        "recipe_id": "minecraft:crafting_table"
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:recipe_crafted"
     }
   },
   "display": {

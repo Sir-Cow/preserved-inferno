@@ -49,15 +49,9 @@
     }
   },
   "requirements": [
-    [
-      "wheat"
-    ],
-    [
-      "carrots"
-    ],
-    [
-      "potatoes"
-    ]
+    ["wheat"],
+    ["carrots"],
+    ["potatoes"]
   ],
   "sends_telemetry_event": true
 }

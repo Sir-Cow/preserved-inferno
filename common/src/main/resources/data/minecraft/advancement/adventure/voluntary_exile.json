@@ -64,7 +64,6 @@
     "description": {
       "translate": "advancements.adventure.voluntary_exile.description"
     },
-    "frame": "progressing",
     "icon": {
       "components": {
         "minecraft:banner_patterns": [

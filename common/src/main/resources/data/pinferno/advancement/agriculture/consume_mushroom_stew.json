@@ -1,0 +1,33 @@
+{
+  "parent": "pinferno:agriculture/break_grown_crop",
+  "criteria": {
+    "mushroom_stew": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:mushroom_stew"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.mushroom_stew.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:mushroom_stew"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.mushroom_stew.title"
+    }
+  },
+  "requirements": [
+    [
+      "mushroom_stew"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

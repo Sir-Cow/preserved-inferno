@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "pinferno:rhyolite_bricks",
+  "result": {
+    "count": 1,
+    "id": "pinferno:rhyolite_brick_stairs"
+  }
+}

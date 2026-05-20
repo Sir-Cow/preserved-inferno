@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:nether/place_dried_ghast_in_water",
+  "criteria": {
+    "happy_ghast_build_height": {
+      "trigger": "pinferno:happy_ghast_build_height"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.nether.happy_ghast_build_height.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:happy_ghast_spawn_egg"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.nether.happy_ghast_build_height.title"
+    }
+  },
+  "requirements": [
+    [
+      "happy_ghast_build_height"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

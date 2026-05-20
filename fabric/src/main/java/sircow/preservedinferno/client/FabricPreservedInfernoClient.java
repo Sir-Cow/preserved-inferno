@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.ChatFormatting;
@@ -20,7 +21,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CompassItem;
 import net.minecraft.world.item.Item;
@@ -41,6 +41,7 @@ import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.item.custom.ReverbCompassItem;
 import sircow.preservedinferno.mixin.ClientAdvancementsAccessor;
 import sircow.preservedinferno.network.ModMessages;
+import sircow.preservedinferno.network.RespawnSyncPayload;
 import sircow.preservedinferno.other.IMinecraftMixin;
 import sircow.preservedinferno.other.ModTags;
 import sircow.preservedinferno.screen.CacheScreen;
@@ -66,6 +67,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         compassDistance();
         clockTime();
         tickAdvancement();
+        respawnSyncClient();
         BlockEntityRenderers.register(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, PreservedCauldronBlockEntityRenderer::new);
         ModMessages.registerS2CPackets();
     }
@@ -248,33 +250,30 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             if (client.player == null || client.level == null) return;
 
             Player player = client.player;
-
             ItemStack stack = player.getMainHandItem();
-            if (!((stack.getItem() instanceof CompassItem) || stack.getItem() instanceof ReverbCompassItem)) {
+            if (!((stack.getItem() instanceof CompassItem) || stack.getItem() == Items.RECOVERY_COMPASS || stack.getItem() instanceof ReverbCompassItem)) {
                 stack = player.getOffhandItem();
-                if (!((stack.getItem() instanceof CompassItem) || stack.getItem() instanceof ReverbCompassItem)) return;
+                if (!((stack.getItem() instanceof CompassItem) || stack.getItem() == Items.RECOVERY_COMPASS || stack.getItem() instanceof ReverbCompassItem)) return;
             }
 
             MiscCategory.UnitSystem unit = PreservedInferno.clientConfig.miscCategory.unitSystem;
-
             BlockPos targetPos = null;
-
             LodestoneTracker tracker = stack.get(DataComponents.LODESTONE_TRACKER);
 
             if (tracker != null && tracker.target().isPresent()) {
                 GlobalPos gp = tracker.target().get();
-                if (gp.dimension() == player.level().dimension()) {
-                    targetPos = gp.pos();
-                }
+                if (gp.dimension() == player.level().dimension()) targetPos = gp.pos();
+            }
+            else if (stack.getItem() == Items.RECOVERY_COMPASS) {
+                GlobalPos death = player.getLastDeathLocation().orElse(null);
+                if (death != null && death.dimension() == player.level().dimension()) targetPos = death.pos();
             }
             else {
-                GlobalPos respawn = player.level().getRespawnData().globalPos();
-                if (respawn.dimension() == player.level().dimension()) {
-                    targetPos = respawn.pos();
-                }
+                GlobalPos respawn = ClientRespawnData.respawnPos;
+                if (respawn != null && respawn.dimension() == player.level().dimension()) targetPos = respawn.pos();
             }
 
-            if (targetPos == null) return;
+            if (targetPos == null) targetPos = player.level().getLevelData().getRespawnData().pos();
 
             double dx = player.getX() - targetPos.getX();
             double dy = player.getY() - targetPos.getY();
@@ -370,5 +369,9 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             advancementsSynced = false;
             initialMessageDelay = 40;
         });
+    }
+
+    public void respawnSyncClient() {
+        ClientPlayNetworking.registerGlobalReceiver(RespawnSyncPayload.TYPE, (payload, context) -> context.client().execute(() -> ClientRespawnData.respawnPos = payload.pos()));
     }
 }

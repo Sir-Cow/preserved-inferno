@@ -1,0 +1,33 @@
+{
+  "parent": "pinferno:agriculture/consume_mushroom_stew",
+  "criteria": {
+    "suspicious_stew": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.suspicious_stew.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:suspicious_stew"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.suspicious_stew.title"
+    }
+  },
+  "requirements": [
+    [
+      "suspicious_stew"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

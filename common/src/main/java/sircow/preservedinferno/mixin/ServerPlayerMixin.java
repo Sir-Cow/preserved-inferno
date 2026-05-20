@@ -26,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.other.ModDamageTypes;
+import sircow.preservedinferno.other.TempInventoryStorage;
 import sircow.preservedinferno.trigger.ModTriggers;
 
 @Mixin(ServerPlayer.class)
@@ -50,6 +51,12 @@ public abstract class ServerPlayerMixin extends Player {
         if (stat != Stats.CUSTOM.get(Stats.TIME_SINCE_REST)) {
             instance.resetStat(stat);
         }
+    }
+
+    @Inject(method = "die", at = @At("HEAD"))
+    private void preserved_inferno$saveInventory(DamageSource source, CallbackInfo ci) {
+        ServerPlayer player = (ServerPlayer) (Object) this;
+        TempInventoryStorage.savePlayerInventory(player);
     }
 
     @ModifyConstant(method = "startSleepInBed", constant = @Constant(doubleValue = 5.0))

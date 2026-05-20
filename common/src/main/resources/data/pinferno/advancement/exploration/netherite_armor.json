@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:nether/obtain_netherite_smithing_template",
+  "parent": "pinferno:exploration/shiny_gear",
   "criteria": {
     "netherite_armor": {
       "conditions": {
@@ -28,7 +28,7 @@
     "frame": "challenge",
     "icon": {
       "count": 1,
-      "id": "minecraft:netherite_chestplate"
+      "id": "minecraft:netherite_helmet"
     },
     "title": {
       "translate": "advancements.nether.netherite_armor.title"

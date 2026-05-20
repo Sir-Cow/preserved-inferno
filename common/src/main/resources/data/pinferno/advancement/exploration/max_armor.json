@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:exploration/full_diamond",
+  "parent": "pinferno:exploration/netherite_armor",
   "criteria": {
     "max_armor": {
       "trigger": "pinferno:armor_value"
@@ -12,7 +12,7 @@
     "frame": "challenge",
     "icon": {
       "count": 1,
-      "id": "minecraft:diamond_block"
+      "id": "minecraft:netherite_chestplate"
     },
     "show_toast": true,
     "title": {

@@ -286,7 +286,6 @@
     "description": {
       "translate": "advancements.adventure.heart_transplanter.description"
     },
-    "frame": "progressing",
     "icon": {
       "id": "minecraft:creaking_spawn_egg"
     },

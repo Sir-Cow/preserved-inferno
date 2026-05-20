@@ -1,0 +1,32 @@
+{
+  "parent": "pinferno:exploration/smelt_gold",
+  "criteria": {
+    "glistering_melon": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:glistering_melon_slice"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.glistering_melon.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:glistering_melon_slice"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.glistering_melon.title"
+    }
+  },
+  "requirements": [
+    [
+      "glistering_melon"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

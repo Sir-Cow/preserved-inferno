@@ -34,6 +34,7 @@ public class ModTags {
     public static final TagKey<Item> DYES = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "dyes"));
     public static final TagKey<Item> SHIELDS_COMMON = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "tools/shield"));
 
+    public static final TagKey<Block> RHYOLITE_BRICKS = TagKey.create(Registries.BLOCK, Constants.id("rhyolite_bricks"));
     public static final TagKey<Block> RAILS_BLOCK = TagKey.create(Registries.BLOCK, Constants.id("rails"));
     public static final TagKey<Block> REINFORCED_DOORS_BLOCK = TagKey.create(Registries.BLOCK, Constants.id("reinforced_doors"));
     public static final TagKey<Block> BREAKABLE_DOORS = TagKey.create(Registries.BLOCK, Constants.id("breakable_doors"));

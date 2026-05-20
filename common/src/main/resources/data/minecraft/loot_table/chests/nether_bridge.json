@@ -13,8 +13,8 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 8,
-                "max": 12
+                "min": 6,
+                "max": 9
               }
             }
           ]
@@ -28,8 +28,8 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 8,
-                "max": 12
+                "min": 6,
+                "max": 9
               }
             }
           ]
@@ -41,14 +41,14 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 4,
-                "min": 2
+                "max": 2,
+                "min": 1
               },
               "function": "minecraft:set_count"
             }
           ],
           "name": "minecraft:diamond",
-          "weight": 10
+          "weight": 5
         },
         {
           "type": "minecraft:item",
@@ -73,8 +73,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12,
-                "min": 8
+                "max": 6,
+                "min": 4
               },
               "function": "minecraft:set_count"
             }
@@ -89,8 +89,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12,
-                "min": 8
+                "max": 6,
+                "min": 4
               },
               "function": "minecraft:set_count"
             }

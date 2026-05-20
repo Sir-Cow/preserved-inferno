@@ -12,14 +12,15 @@ public class ModAdvancements {
     private static final Map<UUID, Integer> clientPlayerPoints = new HashMap<>();
     public static final List<Identifier> EXCLUDED_ADVANCEMENTS = List.of(
             Constants.id("mastery/root"),
-            Constants.id("mastery/adequate"),
-            Constants.id("mastery/advanced"),
             Constants.id("mastery/beginner"),
+            Constants.id("mastery/centurion"),
             Constants.id("mastery/champion"),
             Constants.id("mastery/disciple"),
             Constants.id("mastery/infernal"),
+            Constants.id("mastery/knight"),
             Constants.id("mastery/master"),
             Constants.id("mastery/novice"),
+            Constants.id("mastery/squire"),
             Constants.id("mastery/starter"),
             Constants.id("adventure/root"),
             Constants.id("agriculture/root"),

@@ -3,13 +3,9 @@
   "criteria": {
     "blast_furnace": {
       "conditions": {
-        "items": [
-          {
-            "items": "minecraft:blast_furnace"
-          }
-        ]
+        "recipe_id": "minecraft:blast_furnace"
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:recipe_crafted"
     }
   },
   "display": {

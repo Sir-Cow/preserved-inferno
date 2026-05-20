@@ -3,13 +3,9 @@
   "criteria": {
     "smoker": {
       "conditions": {
-        "items": [
-          {
-            "items": "minecraft:smoker"
-          }
-        ]
+        "recipe_id": "minecraft:smoker"
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:recipe_crafted"
     }
   },
   "display": {

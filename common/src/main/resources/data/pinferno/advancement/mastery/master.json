@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:mastery/advanced",
+  "parent": "pinferno:mastery/knight",
   "criteria": {
     "mastery_master": {
       "trigger": "pinferno:mastery_master"
@@ -13,7 +13,7 @@
     "frame": "mastery",
     "icon": {
       "count": 1,
-      "id": "minecraft:emerald"
+      "id": "minecraft:diamond"
     },
     "show_toast": true,
     "title": {

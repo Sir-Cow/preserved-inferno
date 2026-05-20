@@ -19,6 +19,7 @@ public class ServerAdvancementManagerMixin {
     @Inject(method = "apply*", at = @At("HEAD"))
     private void preserved_inferno$onApply(Map<Identifier, Advancement> advancementsIn, ResourceManager resourceManager, ProfilerFiller profiler, CallbackInfo ci) {
         Set<Identifier> blacklist = new HashSet<>(Set.of(
+                Identifier.withDefaultNamespace("adventure/adventuring_time"),
                 Identifier.withDefaultNamespace("adventure/brush_armadillo"),
                 Identifier.withDefaultNamespace("adventure/fall_from_world_height"),
                 Identifier.withDefaultNamespace("adventure/heart_transplanter"),
@@ -47,6 +48,7 @@ public class ServerAdvancementManagerMixin {
                 Identifier.withDefaultNamespace("husbandry/obtain_netherite_hoe"),
                 Identifier.withDefaultNamespace("husbandry/obtain_sniffer_egg"),
                 Identifier.withDefaultNamespace("husbandry/place_dried_ghast_in_water"),
+                Identifier.withDefaultNamespace("husbandry/plant_any_sniffer_seed"),
                 Identifier.withDefaultNamespace("husbandry/plant_seed"),
                 Identifier.withDefaultNamespace("husbandry/repair_wolf_armor"),
                 Identifier.withDefaultNamespace("husbandry/ride_a_boat_with_a_goat"),
@@ -60,6 +62,7 @@ public class ServerAdvancementManagerMixin {
                 Identifier.withDefaultNamespace("husbandry/wax_off"),
                 Identifier.withDefaultNamespace("husbandry/whole_pack"),
                 Identifier.withDefaultNamespace("nether/root"),
+                Identifier.withDefaultNamespace("nether/netherite_armor"),
                 Identifier.withDefaultNamespace("story/cure_zombie_villager"),
                 Identifier.withDefaultNamespace("story/deflect_arrow"),
                 Identifier.withDefaultNamespace("story/enter_the_nether"),
@@ -73,10 +76,8 @@ public class ServerAdvancementManagerMixin {
                 Identifier.withDefaultNamespace("story/upgrade_tools"),
 
                 // removed entirely
-                Identifier.withDefaultNamespace("adventure/adventuring_time"),
                 Identifier.withDefaultNamespace("adventure/crafters_crafting_crafters"),
                 Identifier.withDefaultNamespace("adventure/hero_of_the_village"),
-                Identifier.withDefaultNamespace("adventure/kill_all_mobs"),
                 Identifier.withDefaultNamespace("adventure/lighten_up"),
                 Identifier.withDefaultNamespace("adventure/lightning_rod_with_villager_no_fire"),
                 Identifier.withDefaultNamespace("adventure/play_jukebox_in_meadows"),
@@ -85,7 +86,6 @@ public class ServerAdvancementManagerMixin {
                 Identifier.withDefaultNamespace("husbandry/allay_deliver_cake_to_note_block"),
                 Identifier.withDefaultNamespace("husbandry/allay_deliver_item_to_player"),
                 Identifier.withDefaultNamespace("husbandry/make_a_sign_glow"),
-                Identifier.withDefaultNamespace("husbandry/plant_any_sniffer_seed"),
                 Identifier.withDefaultNamespace("husbandry/remove_wolf_armor"),
                 Identifier.withDefaultNamespace("nether/explore_nether"),
                 Identifier.withDefaultNamespace("nether/fast_travel"),

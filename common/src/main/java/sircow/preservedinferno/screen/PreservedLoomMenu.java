@@ -105,21 +105,23 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
                         PreservedLoomMenu.this.inputSlotTwo.remove(1);
 
                         ItemStack shearsItemStack = PreservedLoomMenu.this.shearsSlot.getItem();
-                        if (!shearsItemStack.isEmpty()) {
+                        if (!shearsItemStack.isEmpty() && !player.isCreative() && !player.isSpectator()) {
                             // unbreaking check
-                            int unbreakingLevel = EnchantmentHelper.getItemEnchantmentLevel(PreservedLoomMenu.this.world.registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey())
-                                    .getOrThrow(Enchantments.UNBREAKING), shearsItemStack);
+                            int unbreakingLevel = EnchantmentHelper.getItemEnchantmentLevel(PreservedLoomMenu.this.world.registryAccess().lookupOrThrow(Enchantments.UNBREAKING.registryKey()).getOrThrow(Enchantments.UNBREAKING), shearsItemStack);
                             if (unbreakingLevel > 0) {
                                 double chance = 1.0 / (unbreakingLevel + 1);
                                 if (Math.random() >= chance) {
                                     shearsItemStack.setDamageValue(shearsItemStack.getDamageValue() + 1);
                                     if (shearsItemStack.getDamageValue() >= shearsItemStack.getMaxDamage()) {
+                                        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
                                         shearsItemStack.shrink(1);
                                     }
                                 }
-                            } else {
+                            }
+                            else {
                                 shearsItemStack.setDamageValue(shearsItemStack.getDamageValue() + 1);
                                 if (shearsItemStack.getDamageValue() >= shearsItemStack.getMaxDamage()) {
+                                    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
                                     shearsItemStack.shrink(1);
                                 }
                             }
@@ -129,9 +131,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
 
                 // award advancement
                 if (stack.is(ItemTags.WOOL)) {
-                    if (player instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.WOOL_FROM_LOOM.get().trigger(serverPlayer);
-                    }
+                    if (player instanceof ServerPlayer serverPlayer) ModTriggers.WOOL_FROM_LOOM.get().trigger(serverPlayer);
                 }
 
                 access.execute((level, blockPos) -> {
@@ -155,9 +155,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
     @Override
     public void slotsChanged(@NotNull Container inventory) {
         this.access.execute((level, blockPos) -> {
-            if (level.isClientSide()) {
-                return;
-            }
+            if (level.isClientSide()) return;
             this.world = level;
             this.setupResultSlot();
             this.broadcastChanges();
@@ -171,45 +169,28 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index == this.resultSlot.index) {
-                if (!this.moveItemStackTo(itemstack1, 4, 40, true)) {
-                    return ItemStack.EMPTY;
-                }
-
+                if (!this.moveItemStackTo(itemstack1, 4, 40, true)) return ItemStack.EMPTY;
                 slot.onQuickCraft(itemstack1, itemstack);
             }
             else if (index == this.shearsSlot.index) {
                 if (!this.moveItemStackTo(itemstack1, 4, 40, false)) {
-                    if (!this.moveItemStackTo(itemstack1, 0, 4, false)) {
-                        return ItemStack.EMPTY;
-                    }
+                    if (!this.moveItemStackTo(itemstack1, 0, 4, false)) return ItemStack.EMPTY;
                 }
             }
             else if (itemstack1.getItem() == Items.SHEARS) {
-                if (!this.moveItemStackTo(itemstack1, this.shearsSlot.index, this.shearsSlot.index + 1, false)) {
-                    return ItemStack.EMPTY;
-                }
+                if (!this.moveItemStackTo(itemstack1, this.shearsSlot.index, this.shearsSlot.index + 1, false)) return ItemStack.EMPTY;
             }
             else if (index != this.inputSlotOne.index && index != this.inputSlotTwo.index) {
                 if (!this.moveItemStackTo(itemstack1, this.inputSlotOne.index, this.inputSlotOne.index + 1, false)) {
-                    if (!this.moveItemStackTo(itemstack1, this.inputSlotTwo.index, this.inputSlotTwo.index + 1, false)) {
-                        return ItemStack.EMPTY;
-                    }
+                    if (!this.moveItemStackTo(itemstack1, this.inputSlotTwo.index, this.inputSlotTwo.index + 1, false)) return ItemStack.EMPTY;
                 }
             }
-            else if (!this.moveItemStackTo(itemstack1, 4, 40, false)) {
-                return ItemStack.EMPTY;
-            }
+            else if (!this.moveItemStackTo(itemstack1, 4, 40, false)) return ItemStack.EMPTY;
 
-            if (itemstack1.isEmpty()) {
-                slot.setByPlayer(ItemStack.EMPTY);
-            }
-            else {
-                slot.setChanged();
-            }
+            if (itemstack1.isEmpty()) slot.setByPlayer(ItemStack.EMPTY);
+            else slot.setChanged();
 
-            if (itemstack1.getCount() == itemstack.getCount()) {
-                return ItemStack.EMPTY;
-            }
+            if (itemstack1.getCount() == itemstack.getCount()) return ItemStack.EMPTY;
             slot.onTake(player, itemstack1);
         }
         return itemstack;
@@ -222,9 +203,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
     }
 
     private void setupResultSlot() {
-        if (this.world == null) {
-            return;
-        }
+        if (this.world == null) return;
 
         NonNullList<ItemStack> currentInputs = NonNullList.withSize(3, ItemStack.EMPTY);
         currentInputs.set(0, this.inputSlotOne.getItem());
@@ -244,9 +223,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
                 LoomRecipe recipe = recipeMatch.get().value();
                 this.resultSlot.set(recipe.assemble(recipeInput));
             }
-            else {
-                this.resultSlot.set(ItemStack.EMPTY);
-            }
+            else this.resultSlot.set(ItemStack.EMPTY);
         }
     }
 

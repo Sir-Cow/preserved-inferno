@@ -127,7 +127,7 @@
     "frame": "progressing",
     "icon": {
       "count": 1,
-      "id": "minecraft:stone_axe"
+      "id": "minecraft:copper_axe"
     },
     "title": {
       "translate": "advancements.husbandry.wax_off.title"

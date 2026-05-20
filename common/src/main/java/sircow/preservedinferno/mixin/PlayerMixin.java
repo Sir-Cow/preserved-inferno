@@ -2,7 +2,6 @@ package sircow.preservedinferno.mixin;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -10,12 +9,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.stats.Stat;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -78,9 +75,6 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @Unique DamageSource heatDamageSource = ModDamageTypes.of(level(), ModDamageTypes.HEAT);
 
     @Shadow @Nullable public abstract GameType gameMode();
-    @Shadow public abstract void awardStat(Stat<?> stat);
-    @Shadow public abstract void resetStat(Stat<?> stat);
-    @Shadow public abstract void setLastDeathLocation(Optional<GlobalPos> pos);
     @Shadow protected abstract boolean canCriticalAttack(Entity entity);
     @Shadow public abstract boolean isCreative();
 
@@ -160,13 +154,6 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ENTITY_HURT_PLAYER.trigger(serverPlayer, damageSource, originalAmount, originalAmount, true);
                     serverPlayer.awardStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(originalAmount * 10.0F));
-
-                    if (finalDamageToApply == 0.0F) {
-                        serverPlayer.hurtTime = 0;
-                        serverPlayer.hurtDuration = 0;
-                        serverPlayer.hurtMarked = false;
-                        serverPlayer.invulnerableTime = 0;
-                    }
                 }
                 return finalDamageToApply;
             }
@@ -289,30 +276,6 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
     @Inject(method = "turtleHelmetTick", at = @At("HEAD"), cancellable = true)
     private void preserved_inferno$cancelTurtleHelmetTick(CallbackInfo ci) {
-        ci.cancel();
-    }
-
-    @Inject(method = "die", at = @At(value = "HEAD"), cancellable = true)
-    private void preserved_inferno$handleDie(DamageSource damageSource, CallbackInfo ci) {
-        Player player = (Player)(Object)this;
-        super.die(damageSource);
-        this.reapplyPosition();
-        if (!this.isSpectator() && this.level() instanceof ServerLevel serverLevel && !this.hasEffect(ModEffects.WELL_RESTED.holder)) this.dropAllDeathLoot(serverLevel, damageSource);
-
-        if (damageSource != null) {
-            this.setDeltaMovement(
-                    -Mth.cos((this.getHurtDir() + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F,
-                    0.1F,
-                    -Mth.sin((this.getHurtDir() + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F
-            );
-        }
-        else this.setDeltaMovement(0.0, 0.1, 0.0);
-
-        this.awardStat(Stats.CUSTOM.get(Stats.DEATHS));
-        this.resetStat(Stats.CUSTOM.get(Stats.TIME_SINCE_DEATH));
-        this.clearFire();
-        this.setSharedFlagOnFire(false);
-        this.setLastDeathLocation(Optional.of(GlobalPos.of(this.level().dimension(), this.blockPosition())));
         ci.cancel();
     }
 

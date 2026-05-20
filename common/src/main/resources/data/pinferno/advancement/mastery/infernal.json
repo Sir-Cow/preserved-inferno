@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:mastery/champion",
+  "parent": "pinferno:mastery/centurion",
   "criteria": {
     "mastery_infernal": {
       "trigger": "pinferno:mastery_infernal"

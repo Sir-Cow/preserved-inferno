@@ -1,0 +1,280 @@
+{
+  "parent": "pinferno:agriculture/consume_suspicious_stew",
+  "criteria": {
+    "allium": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 60,
+                "id": "minecraft:fire_resistance"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "azure_bluet_or_open_eyeblossom": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 220,
+                "id": "minecraft:blindness"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "blue_orchid_or_dandelion": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 7,
+                "id": "minecraft:saturation"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "closed_eyeblossom": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 140,
+                "id": "minecraft:nausea"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "cornflower": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 100,
+                "id": "minecraft:jump_boost"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "lilac": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 160,
+                "id": "minecraft:speed"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "lily_of_the_valley": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 220,
+                "id": "minecraft:poison"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "tulip": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 140,
+                "id": "minecraft:weakness"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "oxeye_daisy": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 140,
+                "id": "minecraft:regeneration"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "peony": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 160,
+                "id": "minecraft:resistance"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "pitcher_plant": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 160,
+                "id": "minecraft:strength"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "poppy_or_torchflower": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 100,
+                "id": "minecraft:night_vision"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "rose_bush": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 160,
+                "id": "minecraft:night_vision"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "sunflower": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 160,
+                "id": "minecraft:absorption"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "wither_rose": {
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew",
+          "components": {
+            "minecraft:suspicious_stew_effects": [
+              {
+                "duration": 140,
+                "id": "minecraft:wither"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.all_suspicious_stews.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:oxeye_daisy"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.all_suspicious_stews.title"
+    }
+  },
+  "requirements": [
+    ["allium"],
+    ["azure_bluet_or_open_eyeblossom"],
+    ["blue_orchid_or_dandelion"],
+    ["closed_eyeblossom"],
+    ["cornflower"],
+    ["lilac"],
+    ["lily_of_the_valley"],
+    ["tulip"],
+    ["oxeye_daisy"],
+    ["peony"],
+    ["pitcher_plant"],
+    ["poppy_or_torchflower"],
+    ["rose_bush"],
+    ["sunflower"],
+    ["wither_rose"]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

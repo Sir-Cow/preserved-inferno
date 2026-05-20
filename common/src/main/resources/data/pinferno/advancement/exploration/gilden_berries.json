@@ -3,20 +3,17 @@
   "criteria": {
     "gilden_berries": {
       "conditions": {
-        "items": [
-          {
-            "items": "pinferno:gilden_berries"
-          }
-        ]
+        "item": {
+          "items": "pinferno:gilden_berries"
+        }
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:consume_item"
     }
   },
   "display": {
     "description": {
       "translate": "advancements.pinferno.exploration.gilden_berries.description"
     },
-    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "pinferno:gilden_berries"

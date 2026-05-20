@@ -3,13 +3,9 @@
   "criteria": {
     "netherite_shield": {
       "conditions": {
-        "items": [
-          {
-            "items": "pinferno:netherite_shield"
-          }
-        ]
+        "recipe_id": "pinferno:netherite_shield_smithing"
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:recipe_crafted"
     }
   },
   "display": {

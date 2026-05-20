@@ -31,6 +31,7 @@ import sircow.preservedinferno.item.FabricModItemGroups;
 import sircow.preservedinferno.item.FabricModItems;
 import sircow.preservedinferno.network.BashfulPayload;
 import sircow.preservedinferno.network.ModMessages;
+import sircow.preservedinferno.network.RespawnSyncPayload;
 import sircow.preservedinferno.other.*;
 import sircow.preservedinferno.screen.*;
 import sircow.preservedinferno.trigger.FabricModTriggers;
@@ -171,6 +172,7 @@ public class PreservedInferno implements ModInitializer {
     public void onInitialize() {
         PayloadTypeRegistry.serverboundPlay().register(OpenAdvancementPayload.ID, OpenAdvancementPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(BashfulPayload.TYPE, BashfulPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(RespawnSyncPayload.TYPE, RespawnSyncPayload.CODEC);
         INSTANCE = this;
         Constants.INSTANCE = new FabricVersionChecker();
         CommonClass.init();

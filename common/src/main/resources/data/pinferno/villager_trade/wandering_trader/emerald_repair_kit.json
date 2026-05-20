@@ -1,11 +1,12 @@
 {
   "gives": {
-    "id": "minecraft:resin_clump"
+    "count": 1,
+    "id": "pinferno:repair_kit"
   },
-  "max_uses": 9.0,
+  "max_uses": 3.0,
   "reputation_discount": 0.0,
   "wants": {
-    "count": 1.0,
+    "count": 2.0,
     "id": "minecraft:emerald"
   }
 }

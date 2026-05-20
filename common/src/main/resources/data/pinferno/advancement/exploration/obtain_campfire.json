@@ -3,13 +3,9 @@
   "criteria": {
     "campfire": {
       "conditions": {
-        "items": [
-          {
-            "items": "minecraft:campfire"
-          }
-        ]
+        "recipe_id": "minecraft:campfire"
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:recipe_crafted"
     }
   },
   "display": {

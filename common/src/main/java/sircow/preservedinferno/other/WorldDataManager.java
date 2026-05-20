@@ -20,10 +20,11 @@ public class WorldDataManager {
             "beginner",
             "novice",
             "disciple",
-            "adequate",
-            "advanced",
+            "squire",
+            "knight",
             "master",
             "champion",
+            "centurion",
             "infernal"
     );
 
@@ -32,21 +33,23 @@ public class WorldDataManager {
         RANK_PREFIXES.put("beginner", Component.literal("\uE002 "));
         RANK_PREFIXES.put("novice", Component.literal("\uE003 "));
         RANK_PREFIXES.put("disciple", Component.literal("\uE004 "));
-        RANK_PREFIXES.put("adequate", Component.literal("\uE005 "));
-        RANK_PREFIXES.put("advanced", Component.literal("\uE006 "));
+        RANK_PREFIXES.put("squire", Component.literal("\uE005 "));
+        RANK_PREFIXES.put("knight", Component.literal("\uE006 "));
         RANK_PREFIXES.put("master", Component.literal("\uE007 "));
         RANK_PREFIXES.put("champion", Component.literal("\uE008 "));
-        RANK_PREFIXES.put("infernal", Component.literal("\uE009 "));
+        RANK_PREFIXES.put("centurion", Component.literal("\uE009 "));
+        RANK_PREFIXES.put("infernal", Component.literal("\uE010 "));
         RANK_PREFIXES.put("placeholder", Component.literal("\uE000 "));
 
         RANK_SUFFIXES.put("starter", Component.empty());
         RANK_SUFFIXES.put("beginner", Component.empty());
         RANK_SUFFIXES.put("novice", Component.empty());
         RANK_SUFFIXES.put("disciple", Component.empty());
-        RANK_SUFFIXES.put("adequate", Component.empty());
-        RANK_SUFFIXES.put("advanced", Component.empty());
+        RANK_SUFFIXES.put("squire", Component.empty());
+        RANK_SUFFIXES.put("knight", Component.empty());
         RANK_SUFFIXES.put("master", Component.empty());
         RANK_SUFFIXES.put("champion", Component.empty());
+        RANK_SUFFIXES.put("centurion", Component.empty());
         RANK_SUFFIXES.put("infernal", Component.empty());
         RANK_SUFFIXES.put("placeholder", Component.empty());
     }
@@ -71,8 +74,6 @@ public class WorldDataManager {
         getWorldData(server).setDirty();
     }
 
-
-
     public static String calculateRank(MinecraftServer server, ServerPlayer player, int points) {
         boolean hasAll = server.getAdvancements().getAllAdvancements().stream()
                 .filter(holder -> !ModAdvancements.EXCLUDED_ADVANCEMENTS.contains(holder.id()))
@@ -80,10 +81,11 @@ public class WorldDataManager {
                 .allMatch(holder -> player.getAdvancements().getOrStartProgress(holder).isDone());
 
         if (hasAll) return "infernal";
-        if (points >= 350) return "champion";
+        if (points >= 460) return "centurion";
+        if (points >= 340) return "champion";
         if (points >= 240) return "master";
-        if (points >= 160) return "advanced";
-        if (points >= 100) return "adequate";
+        if (points >= 160) return "knight";
+        if (points >= 100) return "squire";
         if (points >= 60)  return "disciple";
         if (points >= 35)  return "novice";
         if (points >= 20)  return "beginner";
@@ -101,10 +103,11 @@ public class WorldDataManager {
             case "beginner" -> playerPoints >= 20;
             case "novice" -> playerPoints >= 35;
             case "disciple" -> playerPoints >= 60;
-            case "adequate" -> playerPoints >= 100;
-            case "advanced" -> playerPoints >= 160;
+            case "squire" -> playerPoints >= 100;
+            case "knight" -> playerPoints >= 160;
             case "master" -> playerPoints >= 240;
-            case "champion" -> playerPoints >= 350;
+            case "champion" -> playerPoints >= 340;
+            case "centurion" -> playerPoints >= 460;
             case "infernal" -> calculateRank(Objects.requireNonNull(player.level().getServer()), player, playerPoints).equals("infernal");
             default -> false;
         };
@@ -116,10 +119,11 @@ public class WorldDataManager {
             case "beginner" -> Constants.id("mastery/beginner");
             case "novice" -> Constants.id("mastery/novice");
             case "disciple" -> Constants.id("mastery/disciple");
-            case "adequate" -> Constants.id("mastery/adequate");
-            case "advanced" -> Constants.id("mastery/advanced");
+            case "squire" -> Constants.id("mastery/squire");
+            case "knight" -> Constants.id("mastery/knight");
             case "master" -> Constants.id("mastery/master");
             case "champion" -> Constants.id("mastery/champion");
+            case "centurion" -> Constants.id("mastery/centurion");
             case "infernal" -> Constants.id("mastery/infernal");
             default -> null;
         };

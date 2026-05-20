@@ -1,0 +1,50 @@
+{
+  "parent": "pinferno:adventure/feed_snifflet",
+  "criteria": {
+    "plant_pitcher_pod": {
+      "conditions": {
+        "location": [
+          {
+            "block": "minecraft:pitcher_crop",
+            "condition": "minecraft:block_state_property"
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    },
+    "obtain_pitcher_pod": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:pitcher_pod"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.adventure.obtian_pitcher_pod.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "id": "minecraft:pitcher_pod"
+    },
+    "title": {
+      "translate": "advancements.husbandry.plant_any_sniffer_seed.title"
+    }
+  },
+  "requirements": [
+    [
+      "plant_pitcher_pod"
+    ],
+    [
+      "obtain_pitcher_pod"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

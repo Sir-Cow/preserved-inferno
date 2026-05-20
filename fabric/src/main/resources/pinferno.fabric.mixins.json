@@ -13,6 +13,7 @@
     "EnchantingTableBlockMixin",
     "LoomBlockMixin",
     "PlayerAdvancementsMixin",
+    "ServerPlayerRespawnMixin",
     "StructureTemplateMixin"
   ],
   "client": [

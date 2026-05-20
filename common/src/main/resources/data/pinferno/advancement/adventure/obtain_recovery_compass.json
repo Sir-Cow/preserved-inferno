@@ -3,13 +3,9 @@
   "criteria": {
     "recovery_compass": {
       "conditions": {
-        "items": [
-          {
-            "items": "minecraft:recovery_compass"
-          }
-        ]
+        "recipe_id": "minecraft:recovery_compass"
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:recipe_crafted"
     }
   },
   "display": {

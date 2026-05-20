@@ -17,7 +17,7 @@
         },
         {
             "type": "bitmap",
-            "file": "pinferno:font/adequate_rank.png",
+            "file": "pinferno:font/squire.png",
             "chars": [
                 "\uE005"
             ],
@@ -27,7 +27,7 @@
         },
         {
             "type": "bitmap",
-            "file": "pinferno:font/advanced_rank.png",
+            "file": "pinferno:font/knight.png",
             "chars": [
                 "\uE006"
             ],
@@ -37,37 +37,7 @@
         },
         {
             "type": "bitmap",
-            "file": "pinferno:font/beginner_rank.png",
-            "chars": [
-                "\uE002"
-            ],
-            "height": 7,
-            "ascent": 7,
-            "oversample": 1.0
-        },
-        {
-            "type": "bitmap",
-            "file": "pinferno:font/champion_rank.png",
-            "chars": [
-                "\uE008"
-            ],
-            "height": 7,
-            "ascent": 7,
-            "oversample": 1.0
-        },
-        {
-            "type": "bitmap",
-            "file": "pinferno:font/disciple_rank.png",
-            "chars": [
-                "\uE004"
-            ],
-            "height": 7,
-            "ascent": 7,
-            "oversample": 1.0
-        },
-        {
-            "type": "bitmap",
-            "file": "pinferno:font/infernal_rank.png",
+            "file": "pinferno:font/centurion.png",
             "chars": [
                 "\uE009"
             ],
@@ -77,7 +47,47 @@
         },
         {
             "type": "bitmap",
-            "file": "pinferno:font/master_rank.png",
+            "file": "pinferno:font/beginner.png",
+            "chars": [
+                "\uE002"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/champion.png",
+            "chars": [
+                "\uE008"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/disciple.png",
+            "chars": [
+                "\uE004"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/infernal.png",
+            "chars": [
+                "\uE010"
+            ],
+            "height": 7,
+            "ascent": 7,
+            "oversample": 1.0
+        },
+        {
+            "type": "bitmap",
+            "file": "pinferno:font/master.png",
             "chars": [
                 "\uE007"
             ],
@@ -87,7 +97,7 @@
         },
         {
             "type": "bitmap",
-            "file": "pinferno:font/novice_rank.png",
+            "file": "pinferno:font/novice.png",
             "chars": [
                 "\uE003"
             ],
@@ -97,7 +107,7 @@
         },
         {
             "type": "bitmap",
-            "file": "pinferno:font/placeholder_rank.png",
+            "file": "pinferno:font/placeholder.png",
             "chars": [
                 "\uE000"
             ],
@@ -107,7 +117,7 @@
         },
         {
             "type": "bitmap",
-            "file": "pinferno:font/starter_rank.png",
+            "file": "pinferno:font/starter.png",
             "chars": [
                 "\uE001"
             ],

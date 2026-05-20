@@ -1,0 +1,87 @@
+{
+  "parent": "pinferno:adventure/channeled_lightning",
+  "criteria": {
+    "creeper_head": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:creeper_head"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "dragon_head": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:dragon_head"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "piglin_head": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:piglin_head"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "skeleton_skull": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:skeleton_skull"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "wither_skeleton_skull": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:wither_skeleton_skull"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "zombie_head": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:zombie_head"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.adventure.all_mob_heads.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:creeper_head"
+    },
+    "title": {
+      "translate": "advancements.pinferno.adventure.all_mob_heads.title"
+    }
+  },
+  "requirements": [
+    ["creeper_head"],
+    ["dragon_head"],
+    ["piglin_head"],
+    ["skeleton_skull"],
+    ["wither_skeleton_skull"],
+    ["zombie_head"]
+  ],
+  "sends_telemetry_event": true
+}

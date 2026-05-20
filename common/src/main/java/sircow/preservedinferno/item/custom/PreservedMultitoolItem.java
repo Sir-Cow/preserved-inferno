@@ -1,8 +1,6 @@
 package sircow.preservedinferno.item.custom;
 
 import com.google.common.collect.BiMap;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -29,66 +27,17 @@ import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import sircow.preservedinferno.mixin.AxeItemAccessor;
+import sircow.preservedinferno.mixin.HoeItemAccessor;
+import sircow.preservedinferno.mixin.ShovelItemAccessor;
 import sircow.preservedinferno.trigger.ModTriggers;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class PreservedMultitoolItem extends Item {
-    protected static final Map<Block, BlockState> FLATTENABLES =
-            ImmutableMap.<Block, BlockState>builder()
-                    .put(Blocks.GRASS_BLOCK, Blocks.DIRT_PATH.defaultBlockState())
-                    .put(Blocks.DIRT, Blocks.DIRT_PATH.defaultBlockState())
-                    .put(Blocks.PODZOL, Blocks.DIRT_PATH.defaultBlockState())
-                    .put(Blocks.COARSE_DIRT, Blocks.DIRT_PATH.defaultBlockState())
-                    .put(Blocks.MYCELIUM, Blocks.DIRT_PATH.defaultBlockState())
-                    .put(Blocks.ROOTED_DIRT, Blocks.DIRT_PATH.defaultBlockState())
-                    .build();
-
-    protected static final Map<Block, Block> STRIPPABLES = new ImmutableMap.Builder<Block, Block>()
-            .put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD)
-            .put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG)
-            .put(Blocks.DARK_OAK_WOOD, Blocks.STRIPPED_DARK_OAK_WOOD)
-            .put(Blocks.DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_LOG)
-            .put(Blocks.PALE_OAK_WOOD, Blocks.STRIPPED_PALE_OAK_WOOD)
-            .put(Blocks.PALE_OAK_LOG, Blocks.STRIPPED_PALE_OAK_LOG)
-            .put(Blocks.ACACIA_WOOD, Blocks.STRIPPED_ACACIA_WOOD)
-            .put(Blocks.ACACIA_LOG, Blocks.STRIPPED_ACACIA_LOG)
-            .put(Blocks.CHERRY_WOOD, Blocks.STRIPPED_CHERRY_WOOD)
-            .put(Blocks.CHERRY_LOG, Blocks.STRIPPED_CHERRY_LOG)
-            .put(Blocks.BIRCH_WOOD, Blocks.STRIPPED_BIRCH_WOOD)
-            .put(Blocks.BIRCH_LOG, Blocks.STRIPPED_BIRCH_LOG)
-            .put(Blocks.JUNGLE_WOOD, Blocks.STRIPPED_JUNGLE_WOOD)
-            .put(Blocks.JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_LOG)
-            .put(Blocks.SPRUCE_WOOD, Blocks.STRIPPED_SPRUCE_WOOD)
-            .put(Blocks.SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_LOG)
-            .put(Blocks.WARPED_STEM, Blocks.STRIPPED_WARPED_STEM)
-            .put(Blocks.WARPED_HYPHAE, Blocks.STRIPPED_WARPED_HYPHAE)
-            .put(Blocks.CRIMSON_STEM, Blocks.STRIPPED_CRIMSON_STEM)
-            .put(Blocks.CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_HYPHAE)
-            .put(Blocks.MANGROVE_WOOD, Blocks.STRIPPED_MANGROVE_WOOD)
-            .put(Blocks.MANGROVE_LOG, Blocks.STRIPPED_MANGROVE_LOG)
-            .put(Blocks.BAMBOO_BLOCK, Blocks.STRIPPED_BAMBOO_BLOCK)
-            .build();
-
-    protected static final Map<Block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>>> TILLABLES = Maps.<Block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>>>newHashMap(
-            ImmutableMap.of(
-                    Blocks.GRASS_BLOCK,
-                    Pair.of(HoeItem::onlyIfAirAbove, changeIntoState(Blocks.FARMLAND.defaultBlockState())),
-                    Blocks.DIRT_PATH,
-                    Pair.of(HoeItem::onlyIfAirAbove, changeIntoState(Blocks.FARMLAND.defaultBlockState())),
-                    Blocks.DIRT,
-                    Pair.of(HoeItem::onlyIfAirAbove, changeIntoState(Blocks.FARMLAND.defaultBlockState())),
-                    Blocks.COARSE_DIRT,
-                    Pair.of(HoeItem::onlyIfAirAbove, changeIntoState(Blocks.DIRT.defaultBlockState())),
-                    Blocks.ROOTED_DIRT,
-                    Pair.of(context -> true, changeIntoStateAndDropItem(Blocks.DIRT.defaultBlockState(), Items.HANGING_ROOTS))
-            )
-    );
-
     public PreservedMultitoolItem(final ToolMaterial material, final float attackDamageBaseline, final float attackSpeedBaseline, final Item.Properties properties) {
         super(buildProperties(material, attackDamageBaseline, attackSpeedBaseline, properties));
     }
@@ -150,7 +99,7 @@ public class PreservedMultitoolItem extends Item {
         if (crouching) {
             // shovel
             if (context.getClickedFace() != Direction.DOWN) {
-                BlockState flatten = FLATTENABLES.get(blockState.getBlock());
+                BlockState flatten = ShovelItemAccessor.getFlattenables().get(blockState.getBlock());
                 BlockState resultState = null;
 
                 if (flatten != null && level.getBlockState(pos.above()).isAir()) {
@@ -174,7 +123,7 @@ public class PreservedMultitoolItem extends Item {
                 }
             }
 
-            Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> hoeLogic = TILLABLES.get(blockState.getBlock());
+            Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> hoeLogic = HoeItemAccessor.getTillables().get(context.getLevel().getBlockState(context.getClickedPos()).getBlock());
             if (hoeLogic != null && hoeLogic.getFirst().test(context)) {
                 level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
 
@@ -187,7 +136,7 @@ public class PreservedMultitoolItem extends Item {
         }
         else {
             // hoe
-            Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> hoeLogic = TILLABLES.get(blockState.getBlock());
+            Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> hoeLogic = HoeItemAccessor.getTillables().get(context.getLevel().getBlockState(context.getClickedPos()).getBlock());
             if (hoeLogic != null && hoeLogic.getFirst().test(context)) {
                 level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
 
@@ -200,7 +149,7 @@ public class PreservedMultitoolItem extends Item {
             }
 
             if (context.getClickedFace() != Direction.DOWN) {
-                BlockState flatten = FLATTENABLES.get(blockState.getBlock());
+                BlockState flatten = ShovelItemAccessor.getFlattenables().get(blockState.getBlock());
                 BlockState resultState = null;
 
                 if (flatten != null && level.getBlockState(pos.above()).isAir()) {
@@ -257,9 +206,7 @@ public class PreservedMultitoolItem extends Item {
         }
     }
 
-    private static void spawnSoundAndParticle(
-            final Level level, final BlockPos pos, @Nullable final Player player, final BlockState oldState, final SoundEvent soundEvent, final int particle
-    ) {
+    private static void spawnSoundAndParticle(final Level level, final BlockPos pos, @Nullable final Player player, final BlockState oldState, final SoundEvent soundEvent, final int particle) {
         level.playSound(player, pos, soundEvent, SoundSource.BLOCKS, 1.0F, 1.0F);
         level.levelEvent(player, particle, pos, 0);
         if (oldState.getBlock() instanceof ChestBlock && oldState.getValue(ChestBlock.TYPE) != ChestType.SINGLE) {
@@ -269,8 +216,11 @@ public class PreservedMultitoolItem extends Item {
         }
     }
 
-    private Optional<BlockState> getStripped(final BlockState state) {
-        return Optional.ofNullable(STRIPPABLES.get(state.getBlock())).map(block -> block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, state.getValue(RotatedPillarBlock.AXIS)));
+    private Optional<BlockState> getStripped(BlockState state) {
+        Block block = AxeItemAccessor.getStrippables().get(state.getBlock());
+        if (block == null) return Optional.empty();
+
+        return Optional.of(block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, state.getValue(RotatedPillarBlock.AXIS)));
     }
 
     public static Consumer<UseOnContext> changeIntoState(final BlockState state) {

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "pinferno:block/rhyolite_bricks",
+    "side": "pinferno:block/rhyolite_bricks",
+    "top": "pinferno:block/rhyolite_bricks"
+  }
+}

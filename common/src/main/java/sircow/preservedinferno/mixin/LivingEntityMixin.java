@@ -64,12 +64,11 @@ public abstract class LivingEntityMixin extends Entity {
         }
     }
 
-    @Inject(method = "hurtServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;knockback(DDD)V", shift = At.Shift.BEFORE), cancellable = true)
-    private void preserved_inferno$cancelKnockbackIfBlockingWithCustomShield(ServerLevel level, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "knockback", at = @At("HEAD"), cancellable = true)
+    private void preserved_inferno$cancelKnockback(double strength, double x, double z, CallbackInfo ci) {
         if ((Object)this instanceof Player player) {
-            if (player.isBlocking()) {
-                ItemStack blockingItem = player.getUseItem();
-                if (blockingItem.getItem() instanceof PreservedShieldItem) cir.setReturnValue(true);
+            if (player.isBlocking() && player.getUseItem().getItem() instanceof PreservedShieldItem) {
+                ci.cancel();
             }
         }
     }
@@ -125,7 +124,7 @@ public abstract class LivingEntityMixin extends Entity {
 
         // elytra cooldown
         if (self.getHealth() >= this.preDamageHealth) return;
-        if (self instanceof ServerPlayer serverPlayer) ElytraCooldown.applyCooldown(serverPlayer, 20 * 8);
+        if (self instanceof ServerPlayer serverPlayer) ElytraCooldown.applyCooldown(serverPlayer, 20 * 12);
     }
 
     @Inject(method = "canGlide", at = @At("HEAD"), cancellable = true)
@@ -153,23 +152,14 @@ public abstract class LivingEntityMixin extends Entity {
     private void preserved_inferno$modifyMobDrops(ServerLevel level, DamageSource damageSource, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        if (entity instanceof Player) {
-            // if the entity is a player, always allow drops
-        }
-        else if (damageSource.getEntity() instanceof Player
+        if (entity instanceof Player) return; // if the entity is a player, always allow drops
+        else if (damageSource.getEntity() instanceof Player // allow drops by mob
                 || damageSource.getEntity() instanceof IronGolem
                 || damageSource.getEntity() instanceof Frog
                 || (damageSource.getEntity() instanceof Skeleton && entity instanceof Creeper)
-        ) {
-            // if the entity is a mob and killed by:
-            // a player, iron golem, frog,
-            // or creeper killed by skeleton
-            // allow drops
-        }
-        else {
-            // otherwise, cancel drops
-            ci.cancel();
-        }
+        ) return;
+
+        ci.cancel();
     }
 
     @Inject(method = "getItemBlockingWith", at = @At("HEAD"), cancellable = true)

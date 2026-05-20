@@ -3,20 +3,16 @@
   "criteria": {
     "nether_alloy_pickaxe": {
       "conditions": {
-        "items": [
-          {
-            "items": "pinferno:nether_alloy_pickaxe"
-          }
-        ]
+        "recipe_id": "pinferno:nether_alloy_pickaxe_smithing"
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:recipe_crafted"
     }
   },
   "display": {
     "description": {
       "translate": "advancements.pinferno.exploration.obtain_nether_alloy_pickaxe.description"
     },
-    "frame": "task",
+    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "pinferno:nether_alloy_pickaxe"

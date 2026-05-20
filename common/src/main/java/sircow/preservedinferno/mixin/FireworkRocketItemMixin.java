@@ -25,6 +25,6 @@ public class FireworkRocketItemMixin {
             return;
         }
 
-        if (player.isFallFlying()) player.getCooldowns().addCooldown(stack, 20 * 8);
+        if (player.isFallFlying()) player.getCooldowns().addCooldown(stack, 20 * 12);
     }
 }

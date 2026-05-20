@@ -1,0 +1,29 @@
+{
+  "parent": "pinferno:mastery/champion",
+  "criteria": {
+    "mastery_centurion": {
+      "trigger": "pinferno:mastery_centurion"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.pinferno.mastery.centurion.description"
+    },
+    "frame": "mastery",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:netherite_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.mastery.centurion.title"
+    }
+  },
+  "requirements": [
+    [
+      "mastery_centurion"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

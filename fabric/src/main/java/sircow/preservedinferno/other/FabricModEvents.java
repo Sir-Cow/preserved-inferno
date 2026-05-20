@@ -16,6 +16,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.ClickEvent;
@@ -66,6 +67,7 @@ import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.network.BashfulPayload;
 import sircow.preservedinferno.network.ModMessages;
+import sircow.preservedinferno.network.RespawnSyncPayload;
 import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
 import sircow.preservedinferno.trigger.ModTriggers;
 
@@ -76,6 +78,50 @@ public class FabricModEvents {
     private static final long REGEN_COOLDOWN_MS = 10 * 60 * 1000;
     private static boolean updateCheckScheduled;
     private static MinecraftServer currentServer;
+    private static final Map<UUID, CakeSession> CAKE_SESSIONS = new HashMap<>();
+
+    private static class CakeSession {
+        BlockPos pos;
+        long startTime;
+        int slices;
+
+        CakeSession(BlockPos pos, long startTime) {
+            this.pos = pos;
+            this.startTime = startTime;
+            this.slices = 0;
+        }
+    }
+
+    public static void trackCakeEating() {
+        UseBlockCallback.EVENT.register((player, level, hand, hitResult) -> {
+            if (level.isClientSide()) return InteractionResult.PASS;
+            if (!(player instanceof ServerPlayer serverPlayer)) return InteractionResult.PASS;
+
+            BlockPos pos = hitResult.getBlockPos();
+            BlockState state = level.getBlockState(pos);
+
+            if (!(state.getBlock() instanceof CakeBlock)) return InteractionResult.PASS;
+            if (!player.canEat(false)) return InteractionResult.PASS;
+
+            UUID uuid = player.getUUID();
+            long now = System.currentTimeMillis();
+            CakeSession session = CAKE_SESSIONS.get(uuid);
+
+            if (session == null || !session.pos.equals(pos) || (now - session.startTime) > 5000) {
+                session = new CakeSession(pos, now);
+                CAKE_SESSIONS.put(uuid, session);
+            }
+
+            session.slices++;
+
+            if (session.slices >= 7) {
+                if ((now - session.startTime) <= 5000) ModTriggers.EAT_CAKE_FAST.get().trigger(serverPlayer);
+                CAKE_SESSIONS.remove(uuid);
+            }
+
+            return InteractionResult.PASS;
+        });
+    }
 
     public static void limitCropBreak() {
         LootTableEvents.MODIFY_DROPS.register((entry, context, drops) -> {
@@ -196,7 +242,7 @@ public class FabricModEvents {
             else newPlayer.getEntityData().set(ModEntityData.PLAYER_HEAT, resultHeat);
 
             // display message if player had well rested effect
-            if (hadWellRestedEffectOnDeath  && !oldPlayer.level().getLevelData().isHardcore() && !newPlayer.level().getLevelData().isHardcore()) {
+            if (hadWellRestedEffectOnDeath && !oldPlayer.level().getLevelData().isHardcore() && !newPlayer.level().getLevelData().isHardcore()) {
                 Objects.requireNonNull(newPlayer.level().getServer()).execute(() -> newPlayer.sendSystemMessage(Component.translatable("effect.pinferno.well_rested_consume"), true));
             }
 
@@ -298,7 +344,6 @@ public class FabricModEvents {
             if (state.is(Blocks.SCULK_SHRIEKER)) ModTriggers.BREAK_SCULK_SHRIEKER.get().trigger((ServerPlayer) player);
             if (state.is(Blocks.CREAKING_HEART) && state.getValue(BlockStateProperties.CREAKING_HEART_STATE) == CreakingHeartState.AWAKE) ModTriggers.BREAK_CREAKING_HEART.get().trigger((ServerPlayer) player);
             if (state.is(ModBlocks.SPARKLING_BLACKSTONE) && state.getValue(SparklingBlackstoneBlock.STAGE) == 4) ModTriggers.BREAK_SPARKLING_BLACKSTONE.get().trigger((ServerPlayer) player);
-
         });
     }
 
@@ -599,10 +644,23 @@ public class FabricModEvents {
         });
     }
 
+    public static void respawnSync() {
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerPlayer player = handler.player;
+            ServerPlayer.RespawnConfig config = player.getRespawnConfig();
+            GlobalPos pos = null;
+
+            if (config != null) pos = config.respawnData().globalPos();
+
+            ServerPlayNetworking.send(player, new RespawnSyncPayload(pos));
+        });
+    }
+
     public static void registerModEvents() {
-        // Constants.LOG.info("Registering Fabric Mod Events for " + Constants.MOD_ID);
         initialiseMasteries();
         checkInitialAdvancement();
+        respawnSync();
+        trackCakeEating();
         limitCropBreak();
         modifySleeping();
         handleEntityDeath();

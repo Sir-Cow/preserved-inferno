@@ -31,11 +31,26 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .requiresCorrectToolForDrops()
                     .strength(1.5F, 6.0F), true);
+    public static final Block RHYOLITE_BRICKS = register("rhyolite_bricks",
+            Block::new, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F), true);
+    public static final Block CRACKED_RHYOLITE_BRICKS = register("cracked_rhyolite_bricks",
+            Block::new, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F), true);
     public static final Block RHYOLITE_STAIRS = registerStair("rhyolite_stairs", RHYOLITE);
     public static final Block POLISHED_RHYOLITE_STAIRS = registerStair("polished_rhyolite_stairs", POLISHED_RHYOLITE);
+    public static final Block RHYOLITE_BRICK_STAIRS = registerStair("rhyolite_brick_stairs", RHYOLITE_BRICKS);
     public static final Block RHYOLITE_SLAB = register("rhyolite_slab", SlabBlock::new, BlockBehaviour.Properties.ofFullCopy(RHYOLITE), true);
     public static final Block POLISHED_RHYOLITE_SLAB = register("polished_rhyolite_slab", SlabBlock::new, BlockBehaviour.Properties.ofFullCopy(POLISHED_RHYOLITE), true);
+    public static final Block RHYOLITE_BRICK_SLAB = register("rhyolite_brick_slab", SlabBlock::new, BlockBehaviour.Properties.ofFullCopy(RHYOLITE_BRICKS), true);
     public static final Block RHYOLITE_WALL = register("rhyolite_wall", WallBlock::new, BlockBehaviour.Properties.ofFullCopy(RHYOLITE).forceSolidOn(), true);
+    public static final Block RHYOLITE_BRICK_WALL = register("rhyolite_brick_wall", WallBlock::new, BlockBehaviour.Properties.ofFullCopy(RHYOLITE_BRICKS).forceSolidOn(), true);
 
     public static final Block SPARKLING_BLACKSTONE = register("sparkling_blackstone",
             SparklingBlackstoneBlock::new, BlockBehaviour.Properties.of()

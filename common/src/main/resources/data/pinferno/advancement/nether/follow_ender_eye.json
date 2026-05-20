@@ -22,7 +22,6 @@
     "description": {
       "translate": "advancements.story.follow_ender_eye.description"
     },
-    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:ender_eye"

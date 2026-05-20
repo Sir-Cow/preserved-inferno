@@ -1,25 +1,155 @@
 {
   "parent": "pinferno:story/crafting_table",
   "criteria": {
-    "obtain_axe": {
+    "wooden_axe": {
       "conditions": {
-        "items": [
-          {
-            "items": "#minecraft:axes"
-          }
-        ]
+        "recipe_id": "minecraft:wooden_axe"
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:recipe_crafted"
     },
-    "obtain_melee_weapon": {
+    "stone_axe": {
       "conditions": {
-        "items": [
-          {
-            "items": "#minecraft:enchantable/melee_weapon"
-          }
-        ]
+        "recipe_id": "minecraft:stone_axe"
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "copper_axe": {
+      "conditions": {
+        "recipe_id": "minecraft:copper_axe"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "iron_axe": {
+      "conditions": {
+        "recipe_id": "minecraft:iron_axe"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "golden_axe": {
+      "conditions": {
+        "recipe_id": "minecraft:golden_axe"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "diamond_axe": {
+      "conditions": {
+        "recipe_id": "minecraft:diamond_axe"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "netherite_axe": {
+      "conditions": {
+        "recipe_id": "minecraft:netherite_axe_smithing"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "quartzite_axe": {
+      "conditions": {
+        "recipe_id": "pinferno:quartzite_axe"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "nether_alloy_axe": {
+      "conditions": {
+        "recipe_id": "pinferno:nether_alloy_axe_smithing"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "wooden_sword": {
+      "conditions": {
+        "recipe_id": "minecraft:wooden_sword"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "stone_sword": {
+      "conditions": {
+        "recipe_id": "minecraft:stone_sword"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "copper_sword": {
+      "conditions": {
+        "recipe_id": "minecraft:copper_sword"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "iron_sword": {
+      "conditions": {
+        "recipe_id": "minecraft:iron_sword"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "golden_sword": {
+      "conditions": {
+        "recipe_id": "minecraft:golden_sword"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "diamond_sword": {
+      "conditions": {
+        "recipe_id": "minecraft:diamond_sword"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "netherite_sword": {
+      "conditions": {
+        "recipe_id": "minecraft:netherite_sword_smithing"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "quartzite_sword": {
+      "conditions": {
+        "recipe_id": "pinferno:quartzite_sword"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "nether_alloy_sword": {
+      "conditions": {
+        "recipe_id": "pinferno:nether_alloy_sword_smithing"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "wooden_spear": {
+      "conditions": {
+        "recipe_id": "minecraft:wooden_spear"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "stone_spear": {
+      "conditions": {
+        "recipe_id": "minecraft:stone_spear"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "copper_spear": {
+      "conditions": {
+        "recipe_id": "minecraft:copper_spear"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "iron_spear": {
+      "conditions": {
+        "recipe_id": "minecraft:iron_spear"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "golden_spear": {
+      "conditions": {
+        "recipe_id": "minecraft:golden_spear"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "diamond_spear": {
+      "conditions": {
+        "recipe_id": "minecraft:diamond_spear"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    },
+    "netherite_spear": {
+      "conditions": {
+        "recipe_id": "minecraft:netherite_spear_smithing"
+      },
+      "trigger": "minecraft:recipe_crafted"
     }
   },
   "display": {
@@ -38,8 +168,31 @@
   },
   "requirements": [
     [
-      "obtain_axe",
-      "obtain_melee_weapon"
+      "wooden_axe",
+      "stone_axe",
+      "copper_axe",
+      "iron_axe",
+      "golden_axe",
+      "diamond_axe",
+      "netherite_axe",
+      "quartzite_axe",
+      "nether_alloy_axe",
+      "wooden_sword",
+      "stone_sword",
+      "copper_sword",
+      "iron_sword",
+      "golden_sword",
+      "diamond_sword",
+      "netherite_sword",
+      "quartzite_sword",
+      "nether_alloy_sword",
+      "wooden_spear",
+      "stone_spear",
+      "copper_spear",
+      "iron_spear",
+      "golden_spear",
+      "diamond_spear",
+      "netherite_spear"
     ]
   ],
   "sends_telemetry_event": true

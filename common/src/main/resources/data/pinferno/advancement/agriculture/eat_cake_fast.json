@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:agriculture/obtain_pumpkin_pie",
+  "criteria": {
+    "eat_cake_fast": {
+      "trigger": "pinferno:eat_cake_fast"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.eat_cake_fast.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:cake"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.eat_cake_fast.title"
+    }
+  },
+  "requirements": [
+    [
+      "eat_cake_fast"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

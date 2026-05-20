@@ -20,7 +20,7 @@ public class PhantomMixin extends Mob {
     }
 
     @Inject(method = "finalizeSpawn", at = @At("HEAD"))
-    public void preserved_inferno$modifyHealth(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
+    public void preserved_inferno$modifyHealth(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, SpawnGroupData groupData, CallbackInfoReturnable<SpawnGroupData> cir) {
         Objects.requireNonNull(this.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(25.0F);
         this.setHealth(25.0F);
     }

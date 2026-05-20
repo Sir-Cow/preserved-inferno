@@ -9,7 +9,6 @@
     "description": {
       "translate": "advancements.pinferno.exploration.villager_restock.description"
     },
-    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "minecraft:bell"

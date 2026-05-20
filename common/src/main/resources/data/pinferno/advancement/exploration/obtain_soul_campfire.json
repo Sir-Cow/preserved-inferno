@@ -1,0 +1,31 @@
+{
+  "parent": "pinferno:exploration/obtain_campfire",
+  "criteria": {
+    "soul_campfire": {
+      "conditions": {
+        "recipe_id": "minecraft:soul_campfire"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.exploration.soul_campfire.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:soul_campfire"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.exploration.soul_campfire.title"
+    }
+  },
+  "requirements": [
+    [
+      "soul_campfire"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

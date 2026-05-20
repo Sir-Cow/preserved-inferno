@@ -160,7 +160,7 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         itemCategorySlots.put("bowMending", Set.of(idx("Flame"), idx("Power"), idx("Punch"), idx("Unbreaking")));
         // trident
         itemCategorySlots.put("trident", Set.of(idx("Channeling"), idx("Impaling"), idx("Looting"), idx("Loyalty"), idx("Riptide"), idx("Unbreaking")));
-        itemCategorySlots.put("tridentRip", Set.of(idx("Impaling"), idx("Looting"), idx("Loyalty"), idx("Riptide"), idx("Unbreaking")));
+        itemCategorySlots.put("tridentRip", Set.of(idx("Impaling"), idx("Looting"), idx("Riptide"), idx("Unbreaking")));
         itemCategorySlots.put("tridentWithoutRip", Set.of(idx("Channeling"), idx("Impaling"), idx("Looting"), idx("Loyalty"), idx("Unbreaking")));
         // crossbow
         itemCategorySlots.put("crossbow", Set.of(idx("Multishot"), idx("Piercing"), idx("Quick Charge"), idx("Unbreaking")));

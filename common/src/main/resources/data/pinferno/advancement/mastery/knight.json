@@ -1,0 +1,29 @@
+{
+  "parent": "pinferno:mastery/squire",
+  "criteria": {
+    "mastery_knight": {
+      "trigger": "pinferno:mastery_knight"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.pinferno.mastery.knight.description"
+    },
+    "frame": "mastery",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:gold_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.mastery.knight.title"
+    }
+  },
+  "requirements": [
+    [
+      "mastery_knight"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

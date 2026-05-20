@@ -16,7 +16,7 @@
     "description": {
       "translate": "advancements.pinferno.nether.netherite_upgrade_smithing_template.description"
     },
-    "frame": "progressing",
+    "frame": "goal",
     "icon": {
       "count": 1,
       "id": "minecraft:netherite_upgrade_smithing_template"
