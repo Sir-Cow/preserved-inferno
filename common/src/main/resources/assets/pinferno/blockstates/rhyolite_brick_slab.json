@@ -4,7 +4,7 @@
       "model": "pinferno:block/rhyolite_brick_slab"
     },
     "type=double": {
-      "model": "pinferno:block/rhyolite_brick"
+      "model": "pinferno:block/rhyolite_bricks"
     },
     "type=top": {
       "model": "pinferno:block/rhyolite_brick_slab_top"

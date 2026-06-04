@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
@@ -19,6 +18,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.other.ModDamageTypes;
 import sircow.preservedinferno.other.NoLootingPlayerWrapper;
 import sircow.preservedinferno.trigger.ModTriggers;
@@ -27,8 +27,8 @@ import java.util.List;
 
 @Mixin(ConduitBlockEntity.class)
 public class ConduitBlockEntityMixin {
-    @Unique private boolean wasActive = false;
-    @Unique private boolean wasFullyPowered = false;
+    @Unique private boolean wasActive;
+    @Unique private boolean wasFullyPowered;
 
     // extend conduit radius
     @ModifyConstant(method = "getDestroyRangeAABB", constant = @Constant(doubleValue = 8.0F))
@@ -48,21 +48,22 @@ public class ConduitBlockEntityMixin {
     // remove in rain or water to grant effect
     @Inject(method = "applyEffects", at = @At("HEAD"), cancellable = true)
     private static void preserved_inferno$givePlayersEffects(Level level, BlockPos pos, List<BlockPos> positions, CallbackInfo ci) {
-        int i = positions.size();
-        int j = i / 7 * 16;
-        int k = pos.getX();
-        int l = pos.getY();
-        int m = pos.getZ();
-        AABB box = new AABB(k, l, m, k + 1, l + 1, m + 1)
-                .inflate(j)
-                .expandTowards(0.0, level.getHeight(), 0.0);
-        List<Player> list = level.getEntitiesOfClass(Player.class, box);
-        if (!list.isEmpty()) {
-            for (Player playerEntity : list) {
-                if (pos.closerThan(playerEntity.blockPosition(), j)) {
-                    playerEntity.addEffect(new MobEffectInstance(MobEffects.CONDUIT_POWER, 100, 0, true, true));
-                }
-            }
+        int structureSize = positions.size();
+        int amplifier;
+
+        if (structureSize >= 42) amplifier = 2;
+        else if (structureSize >= 28) amplifier = 1;
+        else amplifier = 0;
+
+        int radius = structureSize / 7 * 16;
+
+        AABB box = new AABB(pos).inflate(radius).expandTowards(0.0, level.getHeight(), 0.0);
+        List<Player> players = level.getEntitiesOfClass(Player.class, box);
+
+        for (Player player : players) {
+            if (!pos.closerThan(player.blockPosition(), radius)) continue;
+
+            player.addEffect(new MobEffectInstance(ModEffects.PINFERNO_CONDUIT_POWER.holder, 100, amplifier, true, true));
         }
         ci.cancel();
     }

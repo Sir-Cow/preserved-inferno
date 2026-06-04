@@ -38,9 +38,9 @@ public class ThrownCopperTrident extends AbstractArrow {
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownCopperTrident.class, EntityDataSerializers.BOOLEAN);
     private static final float WATER_INERTIA = 0.99F;
     private static final boolean DEFAULT_DEALT_DAMAGE = false;
-    private boolean dealtDamage = false;
+    private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
-    private Vec3 initialPos = null;
+    private Vec3 initialPos;
 
     public ThrownCopperTrident(EntityType<? extends ThrownCopperTrident> entityType, Level level) {
         super(entityType, level);

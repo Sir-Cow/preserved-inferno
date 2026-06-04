@@ -1,6 +1,5 @@
 package sircow.preservedinferno.mixin;
 
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -10,6 +9,7 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.*;
+import sircow.preservedinferno.effect.ModEffects;
 
 import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 import static net.minecraft.world.item.Item.BASE_ATTACK_SPEED_ID;
@@ -19,10 +19,10 @@ public class TridentItemMixin {
     // allow riptide to be used outside of rain or touching water while having conduit power effect
     @Redirect(method = {"releaseUsing", "use"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWaterOrRain()Z"))
     private boolean preserved_inferno$replaceWaterCheck(Player playerEntity) {
-        if (playerEntity.hasEffect(MobEffects.CONDUIT_POWER) || playerEntity.isInWaterOrRain()) {
+        if (playerEntity.hasEffect(ModEffects.PINFERNO_CONDUIT_POWER.holder) || playerEntity.isInWaterOrRain()) {
             return true;
         }
-        else if (!playerEntity.hasEffect(MobEffects.CONDUIT_POWER) && !playerEntity.isInWaterOrRain()) {
+        else if (!playerEntity.hasEffect(ModEffects.PINFERNO_CONDUIT_POWER.holder) && !playerEntity.isInWaterOrRain()) {
             return false;
         }
         return false;

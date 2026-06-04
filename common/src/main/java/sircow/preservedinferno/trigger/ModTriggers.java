@@ -19,6 +19,7 @@ public class ModTriggers {
     public static final TriggerEntry<CustomTrigger> CRIT_DAMAGE = new TriggerEntry<>("crit_damage", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> DRINK_WATER = new TriggerEntry<>("reduce_heat", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> EAT_CAKE_FAST = new TriggerEntry<>("eat_cake_fast", CustomTrigger::new);
+    public static final TriggerEntry<CustomTrigger> FISH_ON_NAUTILUS = new TriggerEntry<>("fish_on_nautilus", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> FISH_TREASURE = new TriggerEntry<>("fish_treasure", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> FREEZE_COOL = new TriggerEntry<>("freeze_cool", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> HAPPY_GHAST_BUILD_HEIGHT = new TriggerEntry<>("happy_ghast_build_height", CustomTrigger::new);

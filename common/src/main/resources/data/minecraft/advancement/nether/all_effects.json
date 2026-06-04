@@ -8,7 +8,6 @@
           "minecraft:bad_omen": {},
           "minecraft:blindness": {},
           "minecraft:breath_of_the_nautilus": {},
-          "minecraft:conduit_power": {},
           "minecraft:darkness": {},
           "minecraft:dolphins_grace": {},
           "minecraft:fire_resistance": {},
@@ -41,6 +40,7 @@
 
           "minecraft:luck": {},
           "pinferno:hindered": {},
+          "pinferno:conduit_power": {},
           "pinferno:well_rested": {}
         }
       },

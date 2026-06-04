@@ -18,6 +18,8 @@
   "block.minecraft.bed.not_safe": "You may not sleep now; there are monsters nearby",
   "block.minecraft.bed.too_far_away": "You may not sleep now; the bed is too far away",
 
+  "effect.minecraft.breath_of_the_nautilus": "Nautilus Blessing",
+
   "entity.minecraft.eye_of_ender": "Awakened Eye",
 
   "container.repair.cost": "Enchanting Cost: %1$s",

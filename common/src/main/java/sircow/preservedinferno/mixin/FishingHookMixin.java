@@ -3,7 +3,9 @@ package sircow.preservedinferno.mixin;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.animal.nautilus.Nautilus;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.other.ModTags;
 import sircow.preservedinferno.trigger.ModTriggers;
 
@@ -72,7 +75,10 @@ public abstract class FishingHookMixin {
         ItemStack rod = getRod(owner);
         if (rod.isEmpty()) return;
 
-        if (owner.hasEffect(MobEffects.CONDUIT_POWER)) this.lureSpeed += 100;
+        MobEffectInstance conduit = owner.getEffect(ModEffects.PINFERNO_CONDUIT_POWER.holder);
+        if (conduit != null) this.lureSpeed += (int)((conduit.getAmplifier() + 1) * 50.0);
+        MobEffectInstance blessing = owner.getEffect(MobEffects.BREATH_OF_THE_NAUTILUS);
+        if (blessing != null) this.lureSpeed += 50;
 
         String hook = rod.get(ModComponents.HOOK_COMPONENT);
 
@@ -152,7 +158,10 @@ public abstract class FishingHookMixin {
 
         float result = base;
 
-        if (owner.hasEffect(MobEffects.CONDUIT_POWER)) result += 1.0F;
+        MobEffectInstance conduit = owner.getEffect(ModEffects.PINFERNO_CONDUIT_POWER.holder);
+        if (conduit != null) result += (conduit.getAmplifier() + 1) * 0.5F;
+        MobEffectInstance blessing = owner.getEffect(MobEffects.BREATH_OF_THE_NAUTILUS);
+        if (blessing != null) result += 0.5F;
 
         String sinker = rod.get(ModComponents.SINKER_COMPONENT);
 
@@ -168,12 +177,13 @@ public abstract class FishingHookMixin {
 
     // trigger fish treasure advancement
     @Inject(method = "retrieve", at = @At(value = "INVOKE", target = "Ljava/util/List;iterator()Ljava/util/Iterator;"))
-    private void preserved_inferno$onEachFishedItem(ItemStack stack, CallbackInfoReturnable<Integer> cir, @Local(ordinal = 0) List<ItemStack> items) {
+    private void preserved_inferno$onEachFishedItem(ItemStack stack, CallbackInfoReturnable<Integer> cir, @Local(name = "items") List<ItemStack> items) {
         Player owner = this.getPlayerOwner();
         if (!(owner instanceof ServerPlayer serverPlayer)) return;
 
         for (ItemStack itemStack : items) {
             if (itemStack.is(ModTags.FISHING_LOOT_TREASURE)) ModTriggers.FISH_TREASURE.get().trigger(serverPlayer);
+            if (itemStack.is(ModTags.FISHING_LOOT_FISH) && serverPlayer.getVehicle() instanceof Nautilus) ModTriggers.FISH_ON_NAUTILUS.get().trigger(serverPlayer);
         }
     }
 

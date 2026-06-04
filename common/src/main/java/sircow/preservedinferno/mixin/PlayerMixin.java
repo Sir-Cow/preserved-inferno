@@ -16,6 +16,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -495,6 +496,23 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
             int level = Objects.requireNonNull(this.getEffect(ModEffects.HINDERED.holder)).getAmplifier() + 1;
             cir.setReturnValue((float)Math.pow(0.5, level));
         }
+    }
+
+    @ModifyVariable(method = "getDestroySpeed", at = @At(value = "STORE", ordinal = 0), name = "speed")
+    private float preserved_inferno$applyConduitModifier(float speed, BlockState state) {
+        Player self = (Player)(Object)this;
+        MobEffectInstance conduit = self.getEffect(ModEffects.PINFERNO_CONDUIT_POWER.holder);
+        if (conduit == null) return speed;
+
+        float conduitModifier = (conduit.getAmplifier() + 1) * 0.05F;
+
+        if (MobEffectUtil.hasDigSpeed(self)) {
+            float hasteBonus = (MobEffectUtil.getDigSpeedAmplification(self) + 1) * 0.2F;
+            speed /= 1.0F + hasteBonus;
+            speed *= 1.0F + hasteBonus + conduitModifier;
+        }
+        else speed *= 1.0F + conduitModifier;
+        return speed;
     }
 
     // cancel the multiplier

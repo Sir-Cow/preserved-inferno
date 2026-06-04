@@ -21,6 +21,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CommonClass {
+    //               :3
+//         \|/         (__)
+//             `\------(oo)
+//    \|/        ||    (__) - moo!
+//               ||w--||     \|/
+//           \|/
     public static void init() {
         if (Services.PLATFORM.isModLoaded("pinferno")) {
             Constants.LOG.info("Initialising " + Constants.MOD_NAME);

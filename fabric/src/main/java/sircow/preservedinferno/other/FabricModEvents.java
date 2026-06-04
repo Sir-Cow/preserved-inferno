@@ -573,7 +573,7 @@ public class FabricModEvents {
 
         Scoreboard scoreboard = currentServer.getScoreboard();
 
-        String[] rankIds = {"starter", "beginner", "novice", "disciple", "adequate", "advanced", "master", "champion", "infernal", "placeholder"};
+        String[] rankIds = {"starter", "beginner", "novice", "disciple", "squire", "knight", "master", "champion", "centurion", "infernal", "placeholder"};
         for (String rankId : rankIds) {
             PlayerTeam playerTeam = scoreboard.getPlayerTeam(rankId);
 

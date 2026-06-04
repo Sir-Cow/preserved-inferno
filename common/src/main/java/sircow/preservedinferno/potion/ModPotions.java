@@ -9,6 +9,7 @@ import net.minecraft.world.item.alchemy.Potion;
 import sircow.preservedinferno.Constants;
 
 public class ModPotions {
+    public static final Holder<Potion> NAUTILUS_BLESSING = register("nautilus_blessing", new Potion("nautilus_blessing", new MobEffectInstance(MobEffects.BREATH_OF_THE_NAUTILUS, 6000)));
     public static final Holder<Potion> HASTE = register("haste", new Potion("haste", new MobEffectInstance(MobEffects.HASTE, 6000)));
     public static final Holder<Potion> LONG_HASTE = register("long_haste", new Potion("haste", new MobEffectInstance(MobEffects.HASTE, 12000)));
     public static final Holder<Potion> STRONG_HASTE = register("strong_haste", new Potion("haste", new MobEffectInstance(MobEffects.HASTE, 6000, 1)));

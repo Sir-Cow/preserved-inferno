@@ -1,0 +1,38 @@
+{
+  "parent": "pinferno:fishing/root",
+  "criteria": {
+    "tamed_nautilus": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:nautilus"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:tame_animal"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.fishing.tame_nautilus.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:nautilus_shell"
+    },
+    "title": {
+      "translate": "advancements.pinferno.fishing.tame_nautilus.title"
+    }
+  },
+  "requirements": [
+    [
+      "tamed_nautilus"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

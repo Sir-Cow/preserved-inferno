@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:fishing/tame_a_nautilus",
+  "criteria": {
+    "fish_on_nautilus": {
+      "trigger": "pinferno:fish_on_nautilus"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.fishing.fish_on_nautilus.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:nautilus_spawn_egg"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.fishing.fish_on_nautilus.title"
+    }
+  },
+  "requirements": [
+    [
+      "fish_on_nautilus"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,8 +1,5 @@
 {
   "values": [
-    "minecraft:cod",
-    "minecraft:salmon",
-    "minecraft:pufferfish",
-    "minecraft:tropical_fish"
+    "#c:foods/raw_fish"
   ]
 }

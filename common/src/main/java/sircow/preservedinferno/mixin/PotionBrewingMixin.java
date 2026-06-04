@@ -79,6 +79,7 @@ public class PotionBrewingMixin {
         builder.addMix(Potions.WEAKNESS, Items.REDSTONE, Potions.LONG_WEAKNESS);
         builder.addMix(Potions.WATER, ModItems.PHANTOM_SINEW, Potions.SLOW_FALLING);
         builder.addMix(Potions.SLOW_FALLING, Items.REDSTONE, Potions.LONG_SLOW_FALLING);
+        builder.addMix(Potions.WATER, Items.NAUTILUS_SHELL, ModPotions.NAUTILUS_BLESSING);
         ci.cancel();
     }
 }

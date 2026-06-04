@@ -12,10 +12,9 @@ import java.util.concurrent.CompletableFuture;
 
 public final class UpdateChecker {
     private static final String PROJECT_ID = "preserved-inferno";
-    private static final String GAME_VERSION = "26.1";
     private static final String LOADER = Services.PLATFORM.getPlatformName().toLowerCase();
-    private static volatile String latestVersion = null;
-    private static volatile boolean checked = false;
+    private static volatile String latestVersion;
+    private static volatile boolean checked;
 
     public static void checkAsync(Runnable callback) {
         if (checked) return;
@@ -36,9 +35,6 @@ public final class UpdateChecker {
 
                 for (JsonElement element : versions) {
                     JsonObject obj = element.getAsJsonObject();
-
-                    JsonArray gv = obj.getAsJsonArray("game_versions");
-                    if (!gv.contains(new JsonPrimitive(GAME_VERSION))) continue;
 
                     JsonArray loaders = obj.getAsJsonArray("loaders");
                     if (!loaders.contains(new JsonPrimitive(LOADER))) continue;

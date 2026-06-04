@@ -25,7 +25,9 @@
           "minecraft:blindness": {},
           "minecraft:haste": {},
           "minecraft:luck": {},
-          "minecraft:mining_fatigue": {}
+          "minecraft:mining_fatigue": {},
+
+          "minecraft:breath_of_the_nautilus": {}
         }
       },
       "trigger": "minecraft:effects_changed"

@@ -1,5 +1,5 @@
 {
-  "parent": "pinferno:exploration/shiny_gear",
+  "parent": "pinferno:exploration/full_diamond",
   "criteria": {
     "netherite_armor": {
       "conditions": {

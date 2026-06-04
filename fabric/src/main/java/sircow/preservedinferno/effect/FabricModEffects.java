@@ -7,6 +7,7 @@ import sircow.preservedinferno.Constants;
 public class FabricModEffects {
     public static void registerFabricModEffects() {
         register(ModEffects.HINDERED);
+        register(ModEffects.PINFERNO_CONDUIT_POWER);
         register(ModEffects.WELL_RESTED);
     }
 
