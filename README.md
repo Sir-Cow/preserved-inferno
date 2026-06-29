@@ -1,11 +1,15 @@
 ![Preserved Banner](https://cdn.modrinth.com/data/cached_images/d1ca055434716b6fd679fc472efb193ff112edc1.png)
-## 🖥️ Download 
-[Modrinth](https://modrinth.com/mod/preserved-inferno) | [Curseforge](https://www.curseforge.com/minecraft/mc-mods/preserved-inferno)
+
+## 🖥️ Download
+| Modrinth | CurseForge |
+|:---:|:---:|
+| <div align="center">[![Modrinth Downloads](https://img.shields.io/modrinth/dt/t2tYNEC1?logo=modrinth)](https://modrinth.com/project/t2tYNEC1)</div> | <div align="center">[![CurseForge Downloads](https://cf.way2muchnoise.eu/full_1305791.svg)](https://www.curseforge.com/minecraft/mc-mods/preserved-inferno)</div> |
   
 ## 🔥 About
 Inferno is the core mod of the Preserved mod set which aims to enhance various aspects of the Minecraft experience. Inferno aims to change and add to existing gameplay features to further enhance the survival portions of Minecraft's gameplay. With changes to core mechanics and the game's progression, this mod is perfect for those who want an elevated survival experience.
 
 `NOTE: This mod is best played blind. Reading the gameplay modifications past this point is NOT advised.`
+
 ## ⛏️ Gameplay Modifications [SPOILERS]
 <details>
 <summary>Here is a brief look into what you can expect while playing this mod:</summary>
@@ -33,9 +37,12 @@ The following are the areas of the game that have been changed:
 - Weaving (NEW)
 - Leatherworking (NEW)
 - Nether Heat (NEW)</details>
+
 ## ⚙️ Modpack Usage
 Inferno is free to be used in any custom mod packs as long as credit is provided. However, compatibility with existing mods has not been tested for, so use at your own risk.
+
 ## 🔨 Version Support
 This mod is updated using the most modern version of Minecraft. Previous versions are not supported.
+
 ## 🐛 Issues
 If you happen to experience any issues while using this mod, please report it to our [GitHub issue tracker](https://github.com/Sir-Cow/preserved-inferno/issues)! Please be as clear as possible when reporting any bugs or issues.
