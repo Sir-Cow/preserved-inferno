@@ -27,7 +27,7 @@ import java.util.Set;
 public class AxeItemMixin {
     // modify axe attackDamage
     @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;axe(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;"), index = 1)
-    private static float preserved_inferno$modifyAttackDamage(float attackDamage) {
+    private static float pinferno$modifyAttackDamage(float attackDamage) {
         if (RegisterItemChecker.flip) {
             if (RegisterItemChecker.AXES.contains(RegisterItemChecker.itemName)) {
                 if (Set.of("iron_axe", "copper_axe").contains(RegisterItemChecker.itemName)) attackDamage = 4.0F;
@@ -39,7 +39,7 @@ public class AxeItemMixin {
     }
     // modify axe attackSpeed
     @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;axe(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;"), index = 2, remap = false)
-    private static float preserved_inferno$modifyAttackSpeed(float attackSpeed) {
+    private static float pinferno$modifyAttackSpeed(float attackSpeed) {
         if (RegisterItemChecker.flip) {
             if (RegisterItemChecker.AXES.contains(RegisterItemChecker.itemName)) attackSpeed = -2.8F;
             RegisterItemChecker.flip = false;
@@ -48,7 +48,7 @@ public class AxeItemMixin {
     }
 
     @Inject(method = "useOn", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z"), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private void preserved_inferno$beforeSetBlock(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir, Level level, BlockPos blockPos, Player player, Optional<BlockState> optional, ItemStack itemStack) {
+    private void pinferno$beforeSetBlock(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir, Level level, BlockPos blockPos, Player player, Optional<BlockState> optional, ItemStack itemStack) {
         if (optional.isEmpty()) return;
 
         BlockState before = level.getBlockState(blockPos);

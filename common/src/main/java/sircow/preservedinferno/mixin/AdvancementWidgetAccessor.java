@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(AdvancementWidget.class)
 public interface AdvancementWidgetAccessor {
     @Accessor("progress")
-    AdvancementProgress preserved_inferno$getProgress();
+    AdvancementProgress pinferno$getProgress();
 }

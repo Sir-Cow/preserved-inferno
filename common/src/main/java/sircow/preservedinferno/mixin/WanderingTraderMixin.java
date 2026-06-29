@@ -40,7 +40,7 @@ public abstract class WanderingTraderMixin extends AbstractVillager {
     }
 
     @Inject(method = "updateTrades", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$overrideTrades(CallbackInfo ci) {
+    private void pinferno$overrideTrades(CallbackInfo ci) {
         this.getOffers().clear();
 
         ServerLevel level = (ServerLevel) this.level();

@@ -20,8 +20,7 @@ public class PortalShapeMixin {
     @Shadow @Final @Mutable private static BlockBehaviour.StatePredicate FRAME;
 
     @Inject(method = "<clinit>", at = @At(value = "TAIL"))
-    private static void preserved_inferno$changeCheck(CallbackInfo ci) {
-        FRAME = (BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) ->
-                blockState.is(Blocks.OBSIDIAN) || blockState.getBlock() instanceof CryingObsidianBlock;
+    private static void pinferno$changeCheck(CallbackInfo ci) {
+        FRAME = (BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) -> blockState.is(Blocks.OBSIDIAN) || blockState.getBlock() instanceof CryingObsidianBlock;
     }
 }

@@ -1,11 +1,15 @@
 package sircow.preservedinferno.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Transformation;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
+import net.minecraft.util.Unit;
+import org.joml.Vector3f;
 import org.joml.Vector3fc;
 import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
@@ -13,6 +17,7 @@ import sircow.preservedinferno.Constants;
 import java.util.function.Consumer;
 
 public class CopperTridentSpecialRenderer implements NoDataSpecialModelRenderer {
+    public static final Transformation DEFAULT_TRANSFORMATION = new Transformation(null, null, new Vector3f(1.0F, -1.0F, -1.0F), null);
     private final CopperTridentModel model;
     public static final ModelLayerLocation COPPER_TRIDENT = new ModelLayerLocation(Constants.id("copper_trident"), "main");
 
@@ -29,9 +34,10 @@ public class CopperTridentSpecialRenderer implements NoDataSpecialModelRenderer 
             final boolean hasFoil,
             final int outlineColor
     ) {
-        submitNodeCollector.submitModelPart(
-                this.model.root(), poseStack, this.model.renderType(CopperTridentModel.TEXTURE), lightCoords, overlayCoords, null, false, hasFoil, -1, null, outlineColor
-        );
+        submitNodeCollector.order(0).submitModel(this.model, Unit.INSTANCE, poseStack, CopperTridentModel.TEXTURE, lightCoords, overlayCoords, outlineColor, null);
+        if (hasFoil) {
+            submitNodeCollector.order(1).submitModel(this.model, Unit.INSTANCE, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, outlineColor, null);
+        }
     }
 
     @Override

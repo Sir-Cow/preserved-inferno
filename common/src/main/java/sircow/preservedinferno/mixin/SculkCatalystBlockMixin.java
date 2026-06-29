@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SculkCatalystBlock.class)
-public abstract class SculkCatalystBlockMixin {
+public class SculkCatalystBlockMixin {
     @Shadow @Final @Mutable private IntProvider xpRange;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void preserved_inferno$modifyXpRange(CallbackInfo ci) {
+    private void pinferno$modifyXpRange(CallbackInfo ci) {
         this.xpRange = ConstantInt.of(50);
     }
 }

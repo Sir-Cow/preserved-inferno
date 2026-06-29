@@ -34,7 +34,7 @@ public class AnvilMenuMixin {
     @Unique private int number;
 
     @ModifyArg(method = "createResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/DataSlot;set(I)V", ordinal = 4), index = 0)
-    private int preserved_inferno$anvilRepairCostModifier(int originalCost) {
+    private int pinferno$anvilRepairCostModifier(int originalCost) {
         Container inputSlots = ((ItemCombinerMenuAccessor) this).getInputSlots();
         ItemStack itemStack = inputSlots.getItem(0);
         ItemStack itemStack3 = inputSlots.getItem(1);
@@ -56,7 +56,7 @@ public class AnvilMenuMixin {
     }
 
     @ModifyArg(method = "createResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/DataSlot;set(I)V", ordinal = 5), index = 0)
-    private int preserved_inferno$anvilRepairCostModifier2(int originalCost) {
+    private int pinferno$anvilRepairCostModifier2(int originalCost) {
         Container inputSlots = ((ItemCombinerMenuAccessor) this).getInputSlots();
         ItemStack itemStack = inputSlots.getItem(0);
         ItemStack itemStack3 = inputSlots.getItem(1);
@@ -73,7 +73,7 @@ public class AnvilMenuMixin {
     }
 
     @Inject(method = "onTake", at = @At("HEAD"))
-    private void preserved_inferno$triggerAnvilRepair(Player player, ItemStack stack, CallbackInfo ci) {
+    private void pinferno$triggerAnvilRepair(Player player, ItemStack stack, CallbackInfo ci) {
         if (!(player instanceof ServerPlayer serverPlayer)) return;
 
         if (this.number == 10) {
@@ -83,7 +83,7 @@ public class AnvilMenuMixin {
     }
 
     @Inject(method = "createResult", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$disableVanillaMaterialRepair(CallbackInfo ci) {
+    private void pinferno$disableVanillaMaterialRepair(CallbackInfo ci) {
         AnvilMenu self = (AnvilMenu) (Object) this;
         ItemCombinerMenuAccessor accessor = (ItemCombinerMenuAccessor) self;
         ItemStack left = accessor.getInputSlots().getItem(0);
@@ -101,7 +101,7 @@ public class AnvilMenuMixin {
     }
 
     @Inject(method = "createResult", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$customRepair(CallbackInfo ci) {
+    private void pinferno$customRepair(CallbackInfo ci) {
         AnvilMenu self = (AnvilMenu) (Object) this;
         ItemCombinerMenuAccessor accessor = (ItemCombinerMenuAccessor) self;
         ItemStack leftInput = accessor.getInputSlots().getItem(0);
@@ -212,8 +212,8 @@ public class AnvilMenuMixin {
         }
     }
 
-    @ModifyVariable(method = "createResult", at = @At(value = "STORE", ordinal = 0), ordinal = 0)
-    private int preserved_inferno$reduceMultitoolRepair(int repairAmount) {
+    @ModifyVariable(method = "createResult", at = @At(value = "STORE", ordinal = 0), name = "price")
+    private int pinferno$reduceMultitoolRepair(int repairAmount) {
         // cap multitool repair to 10%
         AnvilMenu self = (AnvilMenu) (Object) this;
         ItemCombinerMenuAccessor accessor = (ItemCombinerMenuAccessor) self;
@@ -225,7 +225,7 @@ public class AnvilMenuMixin {
     }
 
     @Inject(method = "createResult", at = @At("TAIL"))
-    private void preserved_inferno$stripEnchantmentsOnItemRepair(CallbackInfo ci) {
+    private void pinferno$stripEnchantmentsOnItemRepair(CallbackInfo ci) {
         AnvilMenu self = (AnvilMenu) (Object) this;
         ItemCombinerMenuAccessor accessor = (ItemCombinerMenuAccessor) self;
         ItemStack input = accessor.getInputSlots().getItem(0);

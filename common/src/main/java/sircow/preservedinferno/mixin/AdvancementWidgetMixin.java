@@ -38,14 +38,14 @@ public abstract class AdvancementWidgetMixin {
         if (prog != null && prog.isDone()) return instance.frameSprite(type);
 
         AdvancementProgress parentProg = null;
-        if (this.parent != null) parentProg = ((AdvancementWidgetAccessor)this.parent).preserved_inferno$getProgress();
+        if (this.parent != null) parentProg = ((AdvancementWidgetAccessor)this.parent).pinferno$getProgress();
         if (parent == null || (parentProg != null && parentProg.isDone())) return instance.frameSprite(type);
 
-        return ((HiddenSpriteAccessor)(Object)instance).preserved_inferno$getHiddenSprite(type);
+        return ((HiddenSpriteAccessor)(Object)instance).pinferno$getHiddenSprite(type);
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void preserved_inferno$attachToParent(AdvancementTab tab, Minecraft minecraft, AdvancementNode node, DisplayInfo display, CallbackInfo ci) {
+    private void pinferno$attachToParent(AdvancementTab tab, Minecraft minecraft, AdvancementNode node, DisplayInfo display, CallbackInfo ci) {
         if (parent == null && node.parent() != null) {
             parent = tab.getWidget(node.parent().holder());
             if (parent != null) parent.addChild((AdvancementWidget)(Object)this);
@@ -53,11 +53,11 @@ public abstract class AdvancementWidgetMixin {
     }
 
     @Redirect(method = "extractHover", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/advancements/AdvancementWidget;extractMultilineText(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Ljava/util/List;III)V"))
-    private void preserved_inferno$hideDescription(AdvancementWidget self, GuiGraphicsExtractor gfx, List<FormattedCharSequence> text, int x, int y, int color) {
+    private void pinferno$hideDescription(AdvancementWidget self, GuiGraphicsExtractor gfx, List<FormattedCharSequence> text, int x, int y, int color) {
         if (text == this.description) {
             AdvancementProgress prog = this.progress;
             AdvancementWidget parentWidget = this.parent;
-            AdvancementProgress parentProg = parentWidget == null ? null : ((AdvancementWidgetAccessor) parentWidget).preserved_inferno$getProgress();
+            AdvancementProgress parentProg = parentWidget == null ? null : ((AdvancementWidgetAccessor) parentWidget).pinferno$getProgress();
             boolean isThisDone = prog != null && prog.isDone();
             boolean isParentDone = parentProg != null && parentProg.isDone();
 
@@ -68,7 +68,7 @@ public abstract class AdvancementWidgetMixin {
     }
 
     @Redirect(method = "extractHover", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"))
-    private void preserved_inferno$$hideBox(GuiGraphicsExtractor guiGraphics, RenderPipeline pipeline, Identifier sprite, int x, int y, int width, int height) {
+    private void pinferno$$hideBox(GuiGraphicsExtractor guiGraphics, RenderPipeline pipeline, Identifier sprite, int x, int y, int width, int height) {
         if (sprite != TITLE_BOX_SPRITE) {
             guiGraphics.blitSprite(pipeline, sprite, x, y, width, height);
             return;
@@ -76,7 +76,7 @@ public abstract class AdvancementWidgetMixin {
 
         AdvancementProgress prog = this.progress;
         AdvancementWidget parentWidget = this.parent;
-        AdvancementProgress parentProg = parentWidget == null ? null : ((AdvancementWidgetAccessor) parentWidget).preserved_inferno$getProgress();
+        AdvancementProgress parentProg = parentWidget == null ? null : ((AdvancementWidgetAccessor) parentWidget).pinferno$getProgress();
 
         boolean isThisDone = prog != null && prog.isDone();
         boolean isParentDone = parentProg != null && parentProg.isDone();

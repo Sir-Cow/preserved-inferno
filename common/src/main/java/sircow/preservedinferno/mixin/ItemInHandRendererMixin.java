@@ -20,9 +20,7 @@ public class ItemInHandRendererMixin {
         if (newItem.getItem() instanceof PreservedShieldItem && player != null) {
             float swingProgress = player.getAttackAnim(client.getFrameTimeNs());
 
-            if (swingProgress > 0.0F) {
-                return;
-            }
+            if (swingProgress > 0.0F) return;
             cir.setReturnValue(true);
         }
     }

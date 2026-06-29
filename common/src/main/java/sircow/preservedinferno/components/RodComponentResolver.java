@@ -6,8 +6,7 @@ import sircow.preservedinferno.item.ModItems;
 
 public final class RodComponentResolver {
 
-    private RodComponentResolver() {
-    }
+    private RodComponentResolver() {}
 
     public static ItemStack resolveHook(ItemStack rod) {
         String type = rod.get(ModComponents.HOOK_COMPONENT);

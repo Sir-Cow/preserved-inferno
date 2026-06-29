@@ -21,7 +21,7 @@ public abstract class AdvancementWidgetTypeMixin implements HiddenSpriteAccessor
     @Unique private Identifier hiddenProgressingSprite;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void preserved_inferno$initialiseSprites(String boxSprite, int taskFrameSprite, Identifier challengeFrameSprite, Identifier goalFrameSprite, Identifier par5, Identifier par6, CallbackInfo ci) {
+    private void pinferno$initialiseSprites(String boxSprite, int taskFrameSprite, Identifier challengeFrameSprite, Identifier goalFrameSprite, Identifier par5, Identifier par6, CallbackInfo ci) {
         this.hiddenTaskSprite = Constants.id("advancements/task_frame_hidden");
         this.hiddenChallengeSprite = Constants.id("advancements/challenge_frame_hidden");
         this.hiddenGoalSprite = Constants.id("advancements/goal_frame_hidden");
@@ -35,14 +35,14 @@ public abstract class AdvancementWidgetTypeMixin implements HiddenSpriteAccessor
     }
 
     @Inject(method = "frameSprite", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$injectProgressingCase(AdvancementType type, CallbackInfoReturnable<Identifier> cir) {
+    private void pinferno$injectProgressingCase(AdvancementType type, CallbackInfoReturnable<Identifier> cir) {
         if (type.name().equals("PINFERNO_PROGRESSING") || type.name().equals("PINFERNO_ROOT") || type.name().equals("PINFERNO_MASTERY")) {
             cir.setReturnValue(this.progressingFrameSprite);
         }
     }
 
     @Override
-    public Identifier preserved_inferno$getHiddenSprite(AdvancementType type) {
+    public Identifier pinferno$getHiddenSprite(AdvancementType type) {
         if (type.name().equals("PINFERNO_PROGRESSING") || type.name().equals("PINFERNO_ROOT") || type.name().equals("PINFERNO_MASTERY")) {
             return this.hiddenProgressingSprite;
         }

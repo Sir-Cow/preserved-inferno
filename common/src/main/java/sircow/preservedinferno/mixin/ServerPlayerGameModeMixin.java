@@ -28,7 +28,7 @@ public class ServerPlayerGameModeMixin {
             .toList();
 
     @Inject(method = "useItemOn", at = @At(value = "RETURN"))
-    private void preserved_inferno$afterUseItemOnBlock(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
+    private void pinferno$afterUseItemOnBlock(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         if (cir.getReturnValue().consumesAction() && stack.is(Blocks.BOOKSHELF.asItem())) {
             BlockPos enchantmentTablePos = getEnchantmentTableInValidSpot(level, hitResult.getBlockPos().relative(hitResult.getDirection()));
 

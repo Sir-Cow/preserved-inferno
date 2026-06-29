@@ -17,7 +17,7 @@ public class AttributesMixin {
     @ModifyArg(method = "<clinit>",
             slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=armor")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/ai/attributes/RangedAttribute;<init>(Ljava/lang/String;DDD)V"))
-    private static String preserved_inferno$changeArmourMaxx(String descriptionId) {
+    private static String pinferno$changeArmourMaxx(String descriptionId) {
         if (Objects.equals(descriptionId, "attribute.name.armor")) {
             change = true;
         }
@@ -27,7 +27,7 @@ public class AttributesMixin {
     @ModifyArg(method = "<clinit>",
             slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=armor")), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/ai/attributes/RangedAttribute;<init>(Ljava/lang/String;DDD)V"), index = 3)
-    private static double preserved_inferno$changeArmourMax(double maxValue) {
+    private static double pinferno$changeArmourMax(double maxValue) {
         if (change) {
             maxValue = 150.0F;
             change = false;

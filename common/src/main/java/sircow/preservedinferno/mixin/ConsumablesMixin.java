@@ -40,7 +40,7 @@ public class ConsumablesMixin {
     @Mutable @Final @Shadow public static Consumable SPIDER_EYE;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
-    private static void preserved_inferno$modifyConsumableComponents(CallbackInfo ci) {
+    private static void pinferno$modifyConsumableComponents(CallbackInfo ci) {
         CHICKEN = defaultFood()
                 .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 0), 0.3F))
                 .build();
@@ -83,13 +83,8 @@ public class ConsumablesMixin {
                     public boolean apply(@NotNull Level level, @NotNull ItemStack itemStack, @NotNull LivingEntity livingEntity) {
                         if (livingEntity instanceof Player player) {
                             if (!level.isClientSide()) {
-                                int currentHeat = ((HeatAccessor) player).preserved_inferno$getHeat();
-                                if (currentHeat >= 15) {
-                                    ((HeatAccessor) player).preserved_inferno$decreaseHeat(15);
-                                }
-                                else if (currentHeat > 0) {
-                                    ((HeatAccessor) player).preserved_inferno$setHeat(0);
-                                }
+                                HeatAccessor heatAccessor = (HeatAccessor) player;
+                                if (heatAccessor.pinferno$getHeat() > 0) heatAccessor.pinferno$decreaseHeat(15);
                             }
                         }
                         return false;
@@ -110,5 +105,5 @@ public class ConsumablesMixin {
     }
 
     @ModifyConstant(method = "defaultDrink", constant = @Constant(floatValue = 1.6F))
-    private static float preserved_inferno$modifyFloatValue(float original) { return 0.8F; }
+    private static float pinferno$modifyFloatValue(float original) { return 0.8F; }
 }

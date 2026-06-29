@@ -18,7 +18,7 @@ import sircow.preservedinferno.other.ModTags;
 @Mixin(FuelValues.class)
 public abstract class FuelValuesMixin {
     @ModifyReturnValue(method = "vanillaBurnTimes(Lnet/minecraft/core/HolderLookup$Provider;Lnet/minecraft/world/flag/FeatureFlagSet;I)Lnet/minecraft/world/level/block/entity/FuelValues;", at = @At("RETURN"))
-    private static FuelValues preserved_inferno$modifyFuelValues(FuelValues original, HolderLookup.Provider registries, FeatureFlagSet enabledFeatures, int smeltingTime) {
+    private static FuelValues pinferno$modifyFuelValues(FuelValues original, HolderLookup.Provider registries, FeatureFlagSet enabledFeatures, int smeltingTime) {
         FuelValuesAccessor accessor = (FuelValuesAccessor) original;
         Object2IntSortedMap<Item> values = accessor.getValues();
 

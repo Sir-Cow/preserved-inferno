@@ -211,6 +211,16 @@
         ]
       }
     },
+    "disc_bounce": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:music_disc_bounce"
+          }
+        ]
+      }
+    },
     "pinferno:disc_aqua": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
@@ -257,6 +267,7 @@
     ["disc_pigstep"],
     ["disc_precipice"],
     ["disc_tears"],
+    ["disc_bounce"],
     ["pinferno:disc_aqua"]
   ],
   "sends_telemetry_event": true

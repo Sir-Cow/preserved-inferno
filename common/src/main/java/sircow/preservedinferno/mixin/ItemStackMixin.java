@@ -41,17 +41,17 @@ public class ItemStackMixin {
     @Unique private static final int HEAT_MODIFIER = 3;
 
     @Inject(method = "applyAfterUseComponentSideEffects", at = @At("HEAD"))
-    private void preserved_inferno$drinkReduceHeat(LivingEntity entity, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
+    private void pinferno$drinkReduceHeat(LivingEntity entity, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
         if (!entity.level().isClientSide() && entity instanceof Player player) {
             if (stack.getItem() instanceof PotionItem && !(stack.getItem() == Items.SPLASH_POTION)) {
-                if (((HeatAccessor) player).preserved_inferno$getHeat() >= HEAT_MODIFIER) {
-                    ((HeatAccessor) player).preserved_inferno$decreaseHeat(HEAT_MODIFIER);
+                if (((HeatAccessor) player).pinferno$getHeat() >= HEAT_MODIFIER) {
+                    ((HeatAccessor) player).pinferno$decreaseHeat(HEAT_MODIFIER);
                     if (player instanceof ServerPlayer serverPlayer) {
                         ModTriggers.DRINK_WATER.get().trigger(serverPlayer);
                     }
                 }
-                else if (((HeatAccessor) player).preserved_inferno$getHeat() < HEAT_MODIFIER && ((HeatAccessor) player).preserved_inferno$getHeat() > 0) {
-                    ((HeatAccessor) player).preserved_inferno$setHeat(0);
+                else if (((HeatAccessor) player).pinferno$getHeat() < HEAT_MODIFIER && ((HeatAccessor) player).pinferno$getHeat() > 0) {
+                    ((HeatAccessor) player).pinferno$setHeat(0);
                     if (player instanceof ServerPlayer serverPlayer) {
                         ModTriggers.DRINK_WATER.get().trigger(serverPlayer);
                     }
@@ -61,7 +61,7 @@ public class ItemStackMixin {
     }
 
     @Inject(method = "getHoverName", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$dynamicTemplateName(CallbackInfoReturnable<Component> cir) {
+    private void pinferno$dynamicTemplateName(CallbackInfoReturnable<Component> cir) {
         ItemStack self = (ItemStack)(Object)this;
 
         if (!self.is(ModTags.ARMOR_TRIM_TEMPLATES)) return;
@@ -76,7 +76,7 @@ public class ItemStackMixin {
     }
 
     @Inject(method = "addAttributeTooltips", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$replaceAttributeTooltips(Consumer<Component> tooltipAdder, TooltipDisplay tooltipDisplay, @Nullable Player player, CallbackInfo ci) {
+    private void pinferno$replaceAttributeTooltips(Consumer<Component> tooltipAdder, TooltipDisplay tooltipDisplay, @Nullable Player player, CallbackInfo ci) {
         if (!tooltipDisplay.shows(DataComponents.ATTRIBUTE_MODIFIERS)) return;
 
         ItemStack stack = (ItemStack)(Object)this;
@@ -142,11 +142,11 @@ public class ItemStackMixin {
     }
 
     @Inject(method = "postHurtEnemy", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$preventDoubleDurabilityLossOnAttack(LivingEntity enemy, LivingEntity attacker, CallbackInfo ci) {
+    private void pinferno$preventDoubleDurabilityLossOnAttack(LivingEntity mob, LivingEntity attacker, CallbackInfo ci) {
         ItemStack self = (ItemStack) (Object) this;
 
         if (self.is(ItemTags.PICKAXES) || self.is(ItemTags.SHOVELS) || self.is(ItemTags.HOES) || self.is(ItemTags.AXES)) {
-            self.getItem().postHurtEnemy(self, enemy, attacker);
+            self.getItem().postHurtEnemy(self, mob, attacker);
             self.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
             ci.cancel();
         }

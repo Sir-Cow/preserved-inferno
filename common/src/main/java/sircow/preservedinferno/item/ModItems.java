@@ -356,6 +356,33 @@ public class ModItems {
             .component(ModComponents.ON_COOLDOWN, true)
     );
 
+    public static final Item LAVA_BOTTLE = registerItem("lava_bottle", Item::new, new Item.Properties()
+            .component(DataComponents.CONSUMABLE, ModConsumables.LAVA_BOTTLE).usingConvertsTo(Items.GLASS_BOTTLE)
+            .stacksTo(4)
+    );
+    public static final Item SPLASH_LAVA_BOTTLE = registerItem("splash_lava_bottle", PreservedBottleItem::new, new Item.Properties()
+            .stacksTo(4)
+    );
+    public static final Item LINGERING_LAVA_BOTTLE = registerItem("lingering_lava_bottle", PreservedBottleItem::new, new Item.Properties()
+            .stacksTo(4)
+    );
+    public static final Item MILK_BOTTLE = registerItem("milk_bottle", Item::new, new Item.Properties()
+            .component(DataComponents.CONSUMABLE, ModConsumables.MILK_BOTTLE).usingConvertsTo(Items.GLASS_BOTTLE)
+            .stacksTo(4)
+    );
+    public static final Item SPLASH_MILK_BOTTLE = registerItem("splash_milk_bottle", PreservedBottleItem::new, new Item.Properties()
+            .stacksTo(4)
+    );
+    public static final Item LINGERING_MILK_BOTTLE = registerItem("lingering_milk_bottle", PreservedBottleItem::new, new Item.Properties()
+            .stacksTo(4)
+    );
+    public static final Item SPLASH_HONEY_BOTTLE = registerItem("splash_honey_bottle", PreservedBottleItem::new, new Item.Properties()
+            .stacksTo(4)
+    );
+    public static final Item LINGERING_HONEY_BOTTLE = registerItem("lingering_honey_bottle", PreservedBottleItem::new, new Item.Properties()
+            .stacksTo(4)
+    );
+
     // registering
     public static Item registerItem(String name, Function<Item.Properties, Item> itemFactory, Item.Properties properties) {
         ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, Constants.id(name));

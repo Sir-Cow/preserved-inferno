@@ -1,5 +1,7 @@
 {
   "type": "pinferno:cauldron",
+  "fluid": "water",
+  "fluid_cost": 1,
   "ingredient": "minecraft:leather_chestplate",
   "result": {
     "id": "minecraft:leather_chestplate"

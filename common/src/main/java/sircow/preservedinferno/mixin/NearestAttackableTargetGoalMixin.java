@@ -19,7 +19,7 @@ public abstract class NearestAttackableTargetGoalMixin extends TargetGoal {
     }
 
     @ModifyReturnValue(method = "getTargetConditions", at = @At("RETURN"))
-    private TargetingConditions preserved_inferno$modifyCreeperCrouchRange(TargetingConditions original) {
+    private TargetingConditions pinferno$modifyCreeperCrouchRange(TargetingConditions original) {
         if (!(this.mob instanceof Creeper)) return original;
 
         TargetingConditions vanillaConditions = original.copy().selector(null);

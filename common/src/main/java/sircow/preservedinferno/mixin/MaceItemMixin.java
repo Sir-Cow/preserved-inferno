@@ -12,7 +12,7 @@ import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 public class MaceItemMixin {
     // modify base damage
     @ModifyArg(method = "createAttributes", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/component/ItemAttributeModifiers$Builder;add(Lnet/minecraft/core/Holder;Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;Lnet/minecraft/world/entity/EquipmentSlotGroup;)Lnet/minecraft/world/item/component/ItemAttributeModifiers$Builder;", ordinal = 0), index = 1)
-    private static AttributeModifier preserved_inferno$modifyDamage(AttributeModifier modifier) {
+    private static AttributeModifier pinferno$modifyDamage(AttributeModifier modifier) {
         modifier = new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 9.0, AttributeModifier.Operation.ADD_VALUE);
         return modifier;
     }

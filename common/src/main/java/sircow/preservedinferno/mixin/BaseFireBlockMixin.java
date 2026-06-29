@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(BaseFireBlock.class)
 public class BaseFireBlockMixin {
     @Redirect(method = "isPortal", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
-    private static boolean preserved_inferno$allowCryingObsidian(BlockState state, Object obj) {
+    private static boolean pinferno$allowCryingObsidian(BlockState state, Object obj) {
         if (obj == Blocks.OBSIDIAN) {
             return state.is(Blocks.OBSIDIAN) || state.is(Blocks.CRYING_OBSIDIAN);
         }

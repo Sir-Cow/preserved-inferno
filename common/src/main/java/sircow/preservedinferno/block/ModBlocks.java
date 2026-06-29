@@ -15,6 +15,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.block.custom.*;
+import sircow.preservedinferno.fluid.ModFluids;
 
 import java.util.function.Function;
 
@@ -151,22 +152,22 @@ public class ModBlocks {
     public static final Block REINFORCED_COPPER_DOOR = register(
             "reinforced_copper_door",
             properties -> new PreservedWeatheringCopperDoorBlock(BlockSetType.COPPER, WeatheringCopper.WeatherState.UNAFFECTED, properties),
-            BlockBehaviour.Properties.of().mapColor(Blocks.COPPER_BLOCK.defaultMapColor()).strength(3.0F, 6.0F).noOcclusion().pushReaction(PushReaction.DESTROY), true
+            BlockBehaviour.Properties.of().mapColor(var1x -> Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.UNAFFECTED).defaultMapColor()).strength(3.0F, 6.0F).noOcclusion().pushReaction(PushReaction.DESTROY), true
     );
     public static final Block REINFORCED_EXPOSED_COPPER_DOOR = register(
             "reinforced_exposed_copper_door",
             properties -> new PreservedWeatheringCopperDoorBlock(BlockSetType.COPPER, WeatheringCopper.WeatherState.EXPOSED, properties),
-            BlockBehaviour.Properties.ofFullCopy(REINFORCED_COPPER_DOOR).mapColor(Blocks.EXPOSED_COPPER.defaultMapColor()), true
+            BlockBehaviour.Properties.ofFullCopy(REINFORCED_COPPER_DOOR).mapColor(var1x -> Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.EXPOSED).defaultMapColor()), true
     );
     public static final Block REINFORCED_OXIDIZED_COPPER_DOOR = register(
             "reinforced_oxidized_copper_door",
             properties -> new PreservedWeatheringCopperDoorBlock(BlockSetType.COPPER, WeatheringCopper.WeatherState.OXIDIZED, properties),
-            BlockBehaviour.Properties.ofFullCopy(REINFORCED_COPPER_DOOR).mapColor(Blocks.OXIDIZED_COPPER.defaultMapColor()), true
+            BlockBehaviour.Properties.ofFullCopy(REINFORCED_COPPER_DOOR).mapColor(var1x -> Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.OXIDIZED).defaultMapColor()), true
     );
     public static final Block REINFORCED_WEATHERED_COPPER_DOOR = register(
             "reinforced_weathered_copper_door",
             properties -> new PreservedWeatheringCopperDoorBlock(BlockSetType.COPPER, WeatheringCopper.WeatherState.WEATHERED, properties),
-            BlockBehaviour.Properties.ofFullCopy(REINFORCED_COPPER_DOOR).mapColor(Blocks.WEATHERED_COPPER.defaultMapColor()), true
+            BlockBehaviour.Properties.ofFullCopy(REINFORCED_COPPER_DOOR).mapColor(var1x -> Blocks.COPPER_BLOCK.weathering().pick(WeatheringCopper.WeatherState.WEATHERED).defaultMapColor()), true
     );
     public static final Block REINFORCED_WAXED_COPPER_DOOR = register(
             "reinforced_waxed_copper_door", properties -> new PreservedDoorBlock(BlockSetType.COPPER, properties), BlockBehaviour.Properties.ofFullCopy(REINFORCED_COPPER_DOOR), true
@@ -179,6 +180,51 @@ public class ModBlocks {
     );
     public static final Block REINFORCED_WAXED_WEATHERED_COPPER_DOOR = register(
             "reinforced_waxed_weathered_copper_door", properties -> new PreservedDoorBlock(BlockSetType.COPPER, properties), BlockBehaviour.Properties.ofFullCopy(REINFORCED_WEATHERED_COPPER_DOOR), true
+    );
+
+    // fluid
+    // (THESE DON'T EXIST AS ACTUAL FLUID THIS IS FOR JADE COMPAT
+    public static final Block HONEY = register(
+            "honey",
+            properties -> new PreservedLiquidBlock(ModFluids.HONEY, properties),
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.GOLD)
+                    .replaceable()
+                    .noCollision()
+                    .strength(100.0F)
+                    .pushReaction(PushReaction.DESTROY)
+                    .noLootTable()
+                    .liquid()
+                    .sound(SoundType.EMPTY),
+            false
+    );
+    public static final Block MILK = register(
+            "milk",
+            properties -> new PreservedLiquidBlock(ModFluids.MILK, properties),
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SNOW)
+                    .replaceable()
+                    .noCollision()
+                    .strength(100.0F)
+                    .pushReaction(PushReaction.DESTROY)
+                    .noLootTable()
+                    .liquid()
+                    .sound(SoundType.EMPTY),
+            false
+    );
+    public static final Block SNOW = register(
+            "snow",
+            properties -> new PreservedLiquidBlock(ModFluids.SNOW, properties),
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SNOW)
+                    .replaceable()
+                    .noCollision()
+                    .strength(100.0F)
+                    .pushReaction(PushReaction.DESTROY)
+                    .noLootTable()
+                    .liquid()
+                    .sound(SoundType.EMPTY),
+            false
     );
 
     private static Block register(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties settings, boolean shouldRegisterItem) {

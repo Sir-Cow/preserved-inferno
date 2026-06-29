@@ -21,13 +21,13 @@ public class CreeperMixin {
     @Shadow private int maxSwell;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void preserved_inferno$onInit(EntityType<? extends Creeper> entityType, Level level, CallbackInfo ci) {
+    private void pinferno$onInit(EntityType<? extends Creeper> entityType, Level level, CallbackInfo ci) {
         explosionRadius = 4;
         maxSwell = 24;
     }
 
     @Inject(method = "createAttributes", at = @At("RETURN"), cancellable = true)
-    private static void preserved_inferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+    private static void pinferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.setReturnValue(Monster.createMonsterAttributes()
                 .add(Attributes.FOLLOW_RANGE, 24.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.25)
@@ -35,15 +35,15 @@ public class CreeperMixin {
     }
 
     @ModifyConstant(method = "readAdditionalSaveData", constant = @Constant(intValue = 30))
-    private int preserved_inferno$modifySaveData(int original) {
+    private int pinferno$modifySaveData(int original) {
         return 24;
     }
     @ModifyConstant(method = "readAdditionalSaveData", constant = @Constant(intValue = 3))
-    private int preserved_inferno$modifySaveData2(int original) {
+    private int pinferno$modifySaveData2(int original) {
         return 4;
     }
     @ModifyConstant(method = "causeFallDamage", constant = @Constant(doubleValue = 1.5))
-    private double preserved_inferno$modifyFallDamageMulti(double original) {
+    private double pinferno$modifyFallDamageMulti(double original) {
         return 0;
     }
 }

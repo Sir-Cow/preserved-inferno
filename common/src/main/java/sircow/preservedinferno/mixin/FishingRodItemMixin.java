@@ -25,7 +25,7 @@ import java.util.Objects;
 @Mixin(FishingRodItem.class)
 public class FishingRodItemMixin {
     @Inject(method = "use", at = @At("HEAD"))
-    private void preserved_inferno$onUse(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+    private void pinferno$onUse(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         if (level.isClientSide()) return;
         if (player.gameMode() == GameType.CREATIVE) return;
 
@@ -40,7 +40,7 @@ public class FishingRodItemMixin {
     }
 
     @Redirect(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/FishingHook;retrieve(Lnet/minecraft/world/item/ItemStack;)I"))
-    private int preserved_inferno$cancelRetrieveDamage(FishingHook hook, ItemStack rod) {
+    private int pinferno$cancelRetrieveDamage(FishingHook hook, ItemStack rod) {
         hook.retrieve(rod);
         return 0;
     }

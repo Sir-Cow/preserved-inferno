@@ -52,7 +52,7 @@ public class HeatAggroGoal extends Goal {
         );
 
         for (ServerPlayer player : nearbyPlayers) {
-            int heat = ((HeatAccessor) player).preserved_inferno$getHeat();
+            int heat = ((HeatAccessor) player).pinferno$getHeat();
             if (heat < minimumHeatAggro) continue;
 
             double heatRadius = rangeMultiplier * heat;
@@ -91,7 +91,7 @@ public class HeatAggroGoal extends Goal {
         if (!(piglin.getTarget() instanceof ServerPlayer player)) return false;
         if (player.isCreative() || player.isSpectator()) return false;
 
-        int heat = ((HeatAccessor) player).preserved_inferno$getHeat();
+        int heat = ((HeatAccessor) player).pinferno$getHeat();
         double distSqr = piglin.distanceToSqr(player);
 
         return player.isAlive() && ((heat >= minimumHeatAggro && distSqr <= (rangeMultiplier * heat) * (rangeMultiplier * heat)) || distSqr <= 20 * 20);

@@ -1,11 +1,11 @@
 {
   "pack": {
-    "pack_format": 101.1,
+    "pack_format": 107.1,
     "description": "${mod_name}",
     "min_format": [
-      101.1,
+      107.1,
       1
     ],
-    "max_format": 101.1
+    "max_format": 107.1
   }
 }

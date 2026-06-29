@@ -1,4 +1,8 @@
 {
+  "block.pinferno.honey": "Honey",
+  "block.pinferno.milk": "Milk",
+  "block.pinferno.snow": "Snow",
+
   "item.pinferno.rhyolite": "Rhyolite",
   "item.pinferno.polished_rhyolite": "Polished Rhyolite",
   "item.pinferno.rhyolite_bricks": "Rhyolite Bricks",
@@ -189,6 +193,8 @@
   "effect.pinferno.well_rested_consume": "Maybe that was just a bad dream...",
   "effect.pinferno.well_rested_hardcore": "Is this all a bad dream?",
 
+  "entity.pinferno.preserved_area_effect_cloud": "Area Effect Cloud",
+
   "item.minecraft.potion.effect.haste": "Potion of Haste",
   "item.minecraft.splash_potion.effect.haste": "Splash Potion of Haste",
   "item.minecraft.lingering_potion.effect.haste": "Lingering Potion of Haste",
@@ -207,6 +213,14 @@
   "item.minecraft.potion.effect.nautilus_blessing": "Potion of Nautilus Blessing",
   "item.minecraft.splash_potion.effect.nautilus_blessing": "Splash Potion of Nautilus Blessing",
   "item.minecraft.lingering_potion.effect.nautilus_blessing": "Lingering Potion of Nautilus Blessing",
+  "item.pinferno.lava_bottle": "Lava Bottle",
+  "item.pinferno.splash_lava_bottle": "Splash Lava Bottle",
+  "item.pinferno.lingering_lava_bottle": "Lingering Lava Bottle",
+  "item.pinferno.milk_bottle": "Milk Bottle",
+  "item.pinferno.splash_milk_bottle": "Splash Milk Bottle",
+  "item.pinferno.lingering_milk_bottle": "Lingering Milk Bottle",
+  "item.pinferno.splash_honey_bottle": "Splash Honey Bottle",
+  "item.pinferno.lingering_honey_bottle": "Lingering Honey Bottle",
 
   "enchantment.pinferno.bashful": "Bashful",
   "enchantment.pinferno.buckler": "Buckler",

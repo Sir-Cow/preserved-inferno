@@ -114,15 +114,11 @@ public class CopperTridentItem extends Item implements ProjectileItem {
                         level.playSound(null, player, holder.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
                         return true;
                     }
-                    else {
-                        return false;
-                    }
+                    else return false;
                 }
             }
         }
-        else {
-            return false;
-        }
+        else return false;
     }
 
     @Override

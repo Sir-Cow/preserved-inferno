@@ -15,8 +15,8 @@ import sircow.preservedinferno.trigger.ModTriggers;
 @Mixin(BrushableBlockEntity.class)
 public class BrushableBlockEntityMixin {
     @Inject(method = "brushingCompleted", at = @At("TAIL"))
-    private void preserved_inferno$onBrushingCompleted(ServerLevel level, LivingEntity brusher, ItemStack stack, CallbackInfo ci) {
-        if (brusher instanceof Player player) {
+    private void pinferno$onBrushingCompleted(ServerLevel level, LivingEntity user, ItemStack brush, CallbackInfo ci) {
+        if (user instanceof Player player) {
             if (player instanceof ServerPlayer serverPlayer) ModTriggers.BRUSH_BLOCK.get().trigger(serverPlayer);
         }
     }

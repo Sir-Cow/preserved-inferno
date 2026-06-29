@@ -1,5 +1,7 @@
 {
   "type": "pinferno:cauldron",
+  "fluid": "water",
+  "fluid_cost": 1,
   "ingredient": "minecraft:cyan_concrete_powder",
   "result": {
     "count": 1,

@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(FireBlock.class)
 public interface FireBlockAccessor {
     @Accessor("igniteOdds")
-    Object2IntMap<Block> preserved_inferno$getIgniteOdds();
+    Object2IntMap<Block> pinferno$getIgniteOdds();
 
     @Accessor("burnOdds")
-    Object2IntMap<Block> preserved_inferno$getBurnOdds();
+    Object2IntMap<Block> pinferno$getBurnOdds();
 }

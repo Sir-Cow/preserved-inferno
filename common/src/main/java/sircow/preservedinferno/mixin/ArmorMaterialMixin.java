@@ -78,7 +78,7 @@ public class ArmorMaterialMixin {
 
     // modify toughness and defense values for individual armour pieces
     @Inject(method = "createAttributes", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$modifyValues(ArmorType armorType, CallbackInfoReturnable<ItemAttributeModifiers> cir) {
+    private void pinferno$modifyValues(ArmorType armorType, CallbackInfoReturnable<ItemAttributeModifiers> cir) {
         int defenseVal;
         float toughVal;
         ItemAttributeModifiers.Builder itemattributemodifiers$builder = ItemAttributeModifiers.builder();

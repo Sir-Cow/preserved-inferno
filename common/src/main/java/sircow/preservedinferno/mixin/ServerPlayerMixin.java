@@ -40,32 +40,32 @@ public abstract class ServerPlayerMixin extends Player {
 
     // prevent advancements where player needs to kill a mob from granting when killed by conduit
     @Inject(method = "awardKillScore", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$preventAdvancementStatIncrease(Entity entityKilled, DamageSource damageSource, CallbackInfo ci) {
+    private void pinferno$preventAdvancementStatIncrease(Entity entityKilled, DamageSource damageSource, CallbackInfo ci) {
         if (damageSource.is(ModDamageTypes.CONDUIT)) {
             ci.cancel();
         }
     }
 
     @Redirect(method = "die", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;resetStat(Lnet/minecraft/stats/Stat;)V", ordinal = 1))
-    private void preserved_inferno$preventTimeSinceRestResetOnDeath(ServerPlayer instance, Stat<?> stat) {
+    private void pinferno$preventTimeSinceRestResetOnDeath(ServerPlayer instance, Stat<?> stat) {
         if (stat != Stats.CUSTOM.get(Stats.TIME_SINCE_REST)) {
             instance.resetStat(stat);
         }
     }
 
     @Inject(method = "die", at = @At("HEAD"))
-    private void preserved_inferno$saveInventory(DamageSource source, CallbackInfo ci) {
+    private void pinferno$saveInventory(DamageSource source, CallbackInfo ci) {
         ServerPlayer player = (ServerPlayer) (Object) this;
         TempInventoryStorage.savePlayerInventory(player);
     }
 
     @ModifyConstant(method = "startSleepInBed", constant = @Constant(doubleValue = 5.0))
-    private double preserved_inferno$modifyDoubleValue(double original) {
+    private double pinferno$modifyDoubleValue(double original) {
         return 3.0;
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void preserved_inferno$tick(CallbackInfo ci) {
+    private void pinferno$tick(CallbackInfo ci) {
         ServerPlayer self = (ServerPlayer)(Object)this;
         if (this.getArmorValue() >= 100) {
             ModTriggers.ARMOR_VALUE.get().trigger(self);
@@ -80,7 +80,7 @@ public abstract class ServerPlayerMixin extends Player {
     }
 
     @Inject(method = "setRespawnPosition", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$removeMsgInHardcore(ServerPlayer.RespawnConfig respawnConfig, boolean displayInChat, CallbackInfo ci) {
+    private void pinferno$removeMsgInHardcore(ServerPlayer.RespawnConfig respawnConfig, boolean displayInChat, CallbackInfo ci) {
         if (this.level().getLevelData().isHardcore()) {
             this.respawnConfig = respawnConfig;
             ci.cancel();
@@ -88,7 +88,7 @@ public abstract class ServerPlayerMixin extends Player {
     }
 
     @Inject(method = "jumpFromGround", at = @At("TAIL"))
-    private void preserved_inferno$modifyJumpExhaustionHardcore(CallbackInfo ci) {
+    private void pinferno$modifyJumpExhaustionHardcore(CallbackInfo ci) {
         ServerPlayer self = (ServerPlayer)(Object)this;
         if (self.level().getServer().isHardcore()) {
             this.causeFoodExhaustion(0.01F);
@@ -99,7 +99,7 @@ public abstract class ServerPlayerMixin extends Player {
     }
 
     @Redirect(method = "checkMovementStatistics", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;causeFoodExhaustion(F)V"))
-    private void preserved_inferno$modifyWalkExhaustionHardcore(ServerPlayer player, float originalExhaustion) {
+    private void pinferno$modifyWalkExhaustionHardcore(ServerPlayer player, float originalExhaustion) {
         if (player.onGround() && player.level().getLevelData().isHardcore()) {
             this.causeFoodExhaustion(0.01F);
         }
@@ -109,7 +109,7 @@ public abstract class ServerPlayerMixin extends Player {
     }
 
     @Inject(method = "startSleepInBed", at = @At("RETURN"), cancellable = true)
-    private void preserved_inferno$overrideTooFarMessage(BlockPos at, CallbackInfoReturnable<Either<BedSleepingProblem, Unit>> cir) {
+    private void pinferno$overrideTooFarMessage(BlockPos at, CallbackInfoReturnable<Either<BedSleepingProblem, Unit>> cir) {
         Either<Player.BedSleepingProblem, Unit> result = cir.getReturnValue();
 
         if (result.left().isPresent() && result.left().get() == Player.BedSleepingProblem.TOO_FAR_AWAY) {
@@ -121,7 +121,7 @@ public abstract class ServerPlayerMixin extends Player {
     }
 
     @WrapOperation(method = "restoreFrom", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/gamerules/GameRules;get(Lnet/minecraft/world/level/gamerules/GameRule;)Ljava/lang/Object;"))
-    private Object preserved_inferno$modifyKeepInventoryRule(GameRules instance, GameRule<?> key, Operation<Object> original) {
+    private Object pinferno$modifyKeepInventoryRule(GameRules instance, GameRule<?> key, Operation<Object> original) {
         ServerPlayer self = (ServerPlayer) (Object) this;
         Object result = original.call(instance, key);
 

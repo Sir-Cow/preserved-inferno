@@ -16,7 +16,7 @@ import java.lang.reflect.Field;
 public class PhantomSweepAttackGoalMixin {
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$cancelSwoopNearEyeblossom(CallbackInfo ci) {
+    private void pinferno$cancelSwoopNearEyeblossom(CallbackInfo ci) {
         Goal goal = (Goal)(Object)this;
         try {
             Field outerField = goal.getClass().getDeclaredField("this$0");

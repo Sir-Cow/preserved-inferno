@@ -1,5 +1,5 @@
 [versions]
-moulconfig = "4.6.0"
+moulconfig = "4.7.2"
 
 [libraries]
-moulconfig = { module = "org.notenoughupdates.moulconfig:modern-26.1", version.ref = "moulconfig" }
+moulconfig = { module = "org.notenoughupdates.moulconfig:modern-26.2", version.ref = "moulconfig" }

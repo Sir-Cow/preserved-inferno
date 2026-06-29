@@ -75,7 +75,7 @@ public class ItemPropertiesMixin {
     }
 
     @ModifyReturnValue(method = "humanoidArmor", at = @At("RETURN"))
-    public Item.Properties preserved_inferno$modifyHumanoidArmorProperties(Item.Properties original, ArmorMaterial material, ArmorType type) {
+    public Item.Properties pinferno$modifyHumanoidArmorProperties(Item.Properties original, ArmorMaterial material, ArmorType type) {
         if (DURABILITY_MAP.containsKey(material) && DURABILITY_MAP.get(material).containsKey(type)) {
             return original.durability(DURABILITY_MAP.get(material).get(type));
         }
@@ -83,7 +83,7 @@ public class ItemPropertiesMixin {
     }
 
     @ModifyReturnValue(method = "axe", at = @At("RETURN"))
-    public Item.Properties preserved_inferno$modifyAxeProperties(Item.Properties original, ToolMaterial material, float attackDamage, float attackSpeed) {
-        return original.tool(material, BlockTags.MINEABLE_WITH_AXE, attackDamage, attackSpeed, 0.0F);
+    public Item.Properties pinferno$modifyAxeProperties(Item.Properties original, ToolMaterial material, float attackDamageBaseline, float attackSpeedBaseline) {
+        return original.tool(material, BlockTags.MINEABLE_WITH_AXE, attackDamageBaseline, attackSpeedBaseline, 0.0F);
     }
 }

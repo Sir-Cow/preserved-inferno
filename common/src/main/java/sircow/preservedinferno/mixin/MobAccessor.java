@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(Mob.class)
 public interface MobAccessor {
     @Accessor("targetSelector")
-    GoalSelector preserved_inferno$getTargetSelector();
+    GoalSelector pinferno$getTargetSelector();
 }

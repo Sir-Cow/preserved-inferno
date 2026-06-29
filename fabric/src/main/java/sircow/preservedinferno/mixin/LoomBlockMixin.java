@@ -29,7 +29,7 @@ public class LoomBlockMixin {
 
     @SuppressWarnings("rawtypes")
     @Inject(method = "getMenuProvider", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$injectGetMenuProvider(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
+    private void pinferno$injectGetMenuProvider(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
         cir.setReturnValue(new ExtendedMenuProvider() {
             @Override
             public PreservedInferno.BlockData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {

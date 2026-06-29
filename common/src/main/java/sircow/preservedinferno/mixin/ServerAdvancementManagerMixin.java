@@ -17,7 +17,7 @@ import java.util.Set;
 @Mixin(ServerAdvancementManager.class)
 public class ServerAdvancementManagerMixin {
     @Inject(method = "apply*", at = @At("HEAD"))
-    private void preserved_inferno$onApply(Map<Identifier, Advancement> advancementsIn, ResourceManager resourceManager, ProfilerFiller profiler, CallbackInfo ci) {
+    private void pinferno$onApply(Map<Identifier, Advancement> advancementsIn, ResourceManager resourceManager, ProfilerFiller profiler, CallbackInfo ci) {
         Set<Identifier> blacklist = new HashSet<>(Set.of(
                 Identifier.withDefaultNamespace("adventure/adventuring_time"),
                 Identifier.withDefaultNamespace("adventure/brush_armadillo"),
@@ -87,6 +87,7 @@ public class ServerAdvancementManagerMixin {
                 Identifier.withDefaultNamespace("husbandry/allay_deliver_item_to_player"),
                 Identifier.withDefaultNamespace("husbandry/make_a_sign_glow"),
                 Identifier.withDefaultNamespace("husbandry/remove_wolf_armor"),
+                Identifier.withDefaultNamespace("husbandry/uh_oh"),
                 Identifier.withDefaultNamespace("nether/explore_nether"),
                 Identifier.withDefaultNamespace("nether/fast_travel"),
                 Identifier.withDefaultNamespace("nether/ride_strider"),

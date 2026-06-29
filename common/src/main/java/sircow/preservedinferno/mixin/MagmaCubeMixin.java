@@ -1,6 +1,6 @@
 package sircow.preservedinferno.mixin;
 
-import net.minecraft.world.entity.monster.MagmaCube;
+import net.minecraft.world.entity.monster.cubemob.MagmaCube;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,12 +14,12 @@ public class MagmaCubeMixin {
     public int sizeTemp;
 
     @Inject(method = "setSize", at = @At("HEAD"))
-    public void preserved_inferno$setSizeTemp(int size, boolean resetHealth, CallbackInfo ci) {
+    public void pinferno$setSizeTemp(int size, boolean updateHealth, CallbackInfo ci) {
         this.sizeTemp = size;
     }
 
     @ModifyArg(method = "setSize(IZ)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;setBaseValue(D)V"), index = 0)
-    private double preserved_inferno$modifyArmorValue(double baseValue) {
+    private double pinferno$modifyArmorValue(double baseValue) {
         return this.sizeTemp * 15;
     }
 }

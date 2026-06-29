@@ -1,0 +1,10 @@
+{
+  "type": "pinferno:cauldron",
+  "fluid": "milk",
+  "fluid_cost": 1,
+  "ingredient": "minecraft:glass_bottle",
+  "result": {
+    "count": 1,
+    "id": "pinferno:milk_bottle"
+  }
+}

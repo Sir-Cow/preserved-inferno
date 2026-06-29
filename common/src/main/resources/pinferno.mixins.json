@@ -2,9 +2,10 @@
   "required": true,
   "minVersion": "0.8",
   "package": "sircow.preservedinferno.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
     "AbstractArrowMixin",
+    "AbstractCowMixin",
     "AbstractFishMixin",
     "AbstractFurnaceBlockEntityAccessor",
     "AbstractFurnaceBlockEntityMixin",
@@ -23,6 +24,7 @@
     "BlazeMixin",
     "BlocksMixin",
     "BoggedMixin",
+    "BottleItemMixin",
     "BreakDoorGoalMixin",
     "BrewingStandBlockEntityMixin",
     "BrushableBlockEntityMixin",
@@ -34,6 +36,8 @@
     "ConduitBlockEntityAccessor",
     "ConduitBlockEntityMixin",
     "ConsumablesMixin",
+    "CrafterBlockMixin",
+    "CrafterMenuMixin",
     "CraftingMenuMixin",
     "CreakingMixin",
     "CreeperMixin",
@@ -151,7 +155,7 @@
     "ClientLevelMixin",
     "GhostSlotAccessor",
     "GhostSlotsMixin",
-    "GuiMixin",
+    "HudMixin",
     "ItemInHandRendererMixin",
     "LightmapRenderStateExtractorMixin",
     "PlayerTabOverlayMixin",
@@ -163,5 +167,8 @@
   "server": [],
   "injectors": {
     "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
   }
 }

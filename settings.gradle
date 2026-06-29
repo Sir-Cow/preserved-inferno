@@ -21,5 +21,6 @@ plugins {
 }
 
 rootProject.name = 'preserved-inferno'
+includeBuild('build-logic')
 include('common')
 include('fabric')

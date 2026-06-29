@@ -23,7 +23,7 @@ public abstract class WitherSkeletonMixin extends AbstractSkeleton {
     }
 
     @Inject(method = "finalizeSpawn", at = @At("HEAD"))
-    public void preserved_inferno$modifyHealth(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
+    public void pinferno$modifyHealth(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
         Objects.requireNonNull(this.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(25.0F);
         this.setHealth(25.0F);
     }

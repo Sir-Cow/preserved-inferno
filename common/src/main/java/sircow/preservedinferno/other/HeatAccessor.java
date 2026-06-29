@@ -1,9 +1,9 @@
 package sircow.preservedinferno.other;
 
 public interface HeatAccessor {
-    int preserved_inferno$getHeat();
-    void preserved_inferno$setHeat(int heat);
-    void preserved_inferno$increaseHeat(int heat);
-    void preserved_inferno$decreaseHeat(int heat);
-    void preserved_inferno$setCanDoHeatChange(boolean canDoHeatChange);
+    int pinferno$getHeat();
+    void pinferno$setHeat(int heat);
+    void pinferno$increaseHeat(int heat);
+    void pinferno$decreaseHeat(int heat);
+    void pinferno$setCanDoHeatChange(boolean canDoHeatChange);
 }

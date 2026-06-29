@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(PlayerList.class)
-public abstract class PlayerListMixin {
+public class PlayerListMixin {
     // stop formatting on prefix
     @Redirect(method = "placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;getDisplayName()Lnet/minecraft/network/chat/Component;"))
-    private Component preserved_inferno$redirectPlayerDisplayName(ServerPlayer player) {
+    private Component pinferno$redirectPlayerDisplayName(ServerPlayer player) {
         PlayerTeam team = player.getTeam();
         if (team != null && !team.getPlayerPrefix().getString().isEmpty()) {
             MutableComponent prefixComponent = team.getPlayerPrefix().copy().withStyle(ChatFormatting.WHITE);

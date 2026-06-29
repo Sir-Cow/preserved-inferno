@@ -1,7 +1,6 @@
 package sircow.preservedinferno.trigger;
 
-import net.minecraft.advancements.CriterionTrigger;
-import sircow.preservedinferno.trigger.custom.*;
+import net.minecraft.advancements.triggers.CriterionTrigger;
 
 import java.util.function.Supplier;
 

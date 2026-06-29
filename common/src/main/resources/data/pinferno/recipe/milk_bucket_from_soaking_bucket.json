@@ -1,0 +1,10 @@
+{
+  "type": "pinferno:cauldron",
+  "fluid": "milk",
+  "fluid_cost": 8,
+  "ingredient": "minecraft:bucket",
+  "result": {
+    "count": 1,
+    "id": "minecraft:milk_bucket"
+  }
+}

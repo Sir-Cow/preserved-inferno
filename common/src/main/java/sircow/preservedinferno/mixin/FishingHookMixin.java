@@ -66,7 +66,7 @@ public abstract class FishingHookMixin {
 
     // hook effect
     @Inject(method = "catchingFish", at = @At("HEAD"))
-    private void preserved_inferno$addLureSpeed(BlockPos pos, CallbackInfo ci) {
+    private void pinferno$addLureSpeed(BlockPos pos, CallbackInfo ci) {
         if (lureSpeedModified) return;
 
         Player owner = this.getPlayerOwner();
@@ -94,7 +94,7 @@ public abstract class FishingHookMixin {
 
     // line effect
     @ModifyArg(method = "retrieve(Lnet/minecraft/world/item/ItemStack;)I", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/item/ItemEntity;<init>(Lnet/minecraft/world/level/Level;DDDLnet/minecraft/world/item/ItemStack;)V", ordinal = 0), index = 4)
-    private ItemStack preserved_inferno$addFortune(ItemStack originalStack) {
+    private ItemStack pinferno$addFortune(ItemStack originalStack) {
         Player owner = this.getPlayerOwner();
         if (owner == null || originalStack.isEmpty()) return originalStack;
 
@@ -148,7 +148,7 @@ public abstract class FishingHookMixin {
 
     // sinker effect
     @ModifyArgs(method = "retrieve(Lnet/minecraft/world/item/ItemStack;)I", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/storage/loot/LootParams$Builder;withLuck(F)Lnet/minecraft/world/level/storage/loot/LootParams$Builder;"))
-    private void preserved_inferno$addLuck(Args args) {
+    private void pinferno$addLuck(Args args) {
         float base = args.get(0);
         Player owner = this.getPlayerOwner();
         if (owner == null) return;
@@ -177,7 +177,7 @@ public abstract class FishingHookMixin {
 
     // trigger fish treasure advancement
     @Inject(method = "retrieve", at = @At(value = "INVOKE", target = "Ljava/util/List;iterator()Ljava/util/Iterator;"))
-    private void preserved_inferno$onEachFishedItem(ItemStack stack, CallbackInfoReturnable<Integer> cir, @Local(name = "items") List<ItemStack> items) {
+    private void pinferno$onEachFishedItem(ItemStack stack, CallbackInfoReturnable<Integer> cir, @Local(name = "items") List<ItemStack> items) {
         Player owner = this.getPlayerOwner();
         if (!(owner instanceof ServerPlayer serverPlayer)) return;
 
@@ -188,7 +188,7 @@ public abstract class FishingHookMixin {
     }
 
     @Inject(method = "retrieve", at = @At(value = "TAIL"))
-    private void preserved_inferno$causeExhaustion(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+    private void pinferno$causeExhaustion(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
         Player owner = this.getPlayerOwner();
         if (owner != null) owner.causeFoodExhaustion(0.2F);
     }

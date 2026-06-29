@@ -12,7 +12,7 @@ import sircow.preservedinferno.client.ClientRespawnData;
 @Mixin(ClientLevel.class)
 public class ClientLevelMixin {
     @Inject(method = "getRespawnData", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$overrideRespawnData(CallbackInfoReturnable<LevelData.RespawnData> cir) {
+    private void pinferno$overrideRespawnData(CallbackInfoReturnable<LevelData.RespawnData> cir) {
         GlobalPos respawn = ClientRespawnData.respawnPos;
 
         if (respawn != null) cir.setReturnValue(new LevelData.RespawnData(respawn, 0.0F, 0.0F));

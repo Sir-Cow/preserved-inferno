@@ -30,23 +30,23 @@ public class VillagerMixin implements VillagerFlags {
     @Unique private VillagerData pi$previousData;
 
     @Inject(method = "spawnGolemIfNeeded", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$cancelGolemSpawn(ServerLevel serverLevel, long gameTime, int minVillagerAmount, CallbackInfo ci) {
+    private void pinferno$cancelGolemSpawn(ServerLevel serverLevel, long gameTime, int minVillagerAmount, CallbackInfo ci) {
         ci.cancel();
     }
 
     @ModifyReturnValue(method = "canBreed", at = @At("RETURN"))
-    private boolean preserved_inferno$preventBreeding(boolean original) {
+    private boolean pinferno$preventBreeding(boolean original) {
         return false;
     }
 
     @Inject(method = "updateSpecialPrices", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$noCuringDiscounts(Player player, CallbackInfo ci) {
+    private void pinferno$noCuringDiscounts(Player player, CallbackInfo ci) {
         if (player.hasEffect(MobEffects.HERO_OF_THE_VILLAGE)) return;
         ci.cancel();
     }
 
     @Inject(method = "setVillagerData", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$keepProfession(VillagerData data, CallbackInfo ci) {
+    private void pinferno$keepProfession(VillagerData data, CallbackInfo ci) {
         Villager self = (Villager)(Object)this;
         this.pi$previousData = self.getVillagerData();
 
@@ -55,7 +55,7 @@ public class VillagerMixin implements VillagerFlags {
     }
 
     @Inject(method = "setVillagerData", at = @At("TAIL"))
-    private void preserved_inferno$onLevelUp(VillagerData data, CallbackInfo ci) {
+    private void pinferno$onLevelUp(VillagerData data, CallbackInfo ci) {
         Villager self = (Villager)(Object)this;
         if (!(self.level() instanceof ServerLevel level)) return;
         VillagerData prev = this.pi$previousData;
@@ -88,12 +88,12 @@ public class VillagerMixin implements VillagerFlags {
     @Override public void pi$setTradesRotatedToday(boolean value) { this.pi$tradesRotatedToday = value; }
 
     @Inject(method = "stopSleeping", at = @At("TAIL"))
-    private void preserved_inferno$markSlept(CallbackInfo ci) {
+    private void pinferno$markSlept(CallbackInfo ci) {
         this.pi$setDidSleep(true);
     }
 
     @Inject(method = "customServerAiStep", at = @At("HEAD"))
-    private void preserved_inferno$dailyCheckAndReset(ServerLevel level, CallbackInfo ci) {
+    private void pinferno$dailyCheckAndReset(ServerLevel level, CallbackInfo ci) {
         Villager self = (Villager)(Object)this;
         long dayTime = level.getOverworldClockTime() % 24000L;
 
@@ -128,7 +128,7 @@ public class VillagerMixin implements VillagerFlags {
     }
 
     @Inject(method = "updateTrades", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$replaceInitialTrades(CallbackInfo ci) {
+    private void pinferno$replaceInitialTrades(CallbackInfo ci) {
         // inital trade gen
         Villager self = (Villager)(Object)this;
         TradeRotator.rebuildTrades(self, self.getVillagerData().level(), self.getRandom());
@@ -136,7 +136,7 @@ public class VillagerMixin implements VillagerFlags {
     }
 
     @Inject(method = "rewardTradeXp", at = @At("RETURN"))
-    private void preserved_inferno$onTrade(MerchantOffer offer, CallbackInfo ci) {
+    private void pinferno$onTrade(MerchantOffer offer, CallbackInfo ci) {
         Villager villager = (Villager)(Object)this;
 
         if (!(villager.getTradingPlayer() instanceof ServerPlayer player)) return;
@@ -151,17 +151,17 @@ public class VillagerMixin implements VillagerFlags {
     }
 
     @ModifyReturnValue(method = "canRestock", at = @At("RETURN"))
-    private boolean preserved_inferno$blockCanRestock(boolean original) {
+    private boolean pinferno$blockCanRestock(boolean original) {
         return false;
     }
 
     @ModifyReturnValue(method = "shouldRestock", at = @At("RETURN"))
-    private boolean preserved_inferno$conditionalShouldRestock(boolean original) {
+    private boolean pinferno$conditionalShouldRestock(boolean original) {
         return false;
     }
 
     @Inject(method = "catchUpDemand", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$cancelCatchup(CallbackInfo ci) {
+    private void pinferno$cancelCatchup(CallbackInfo ci) {
         ci.cancel();
     }
 }

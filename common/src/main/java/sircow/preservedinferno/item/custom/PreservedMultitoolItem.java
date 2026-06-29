@@ -2,7 +2,7 @@ package sircow.preservedinferno.item.custom;
 
 import com.google.common.collect.BiMap;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderGetter;

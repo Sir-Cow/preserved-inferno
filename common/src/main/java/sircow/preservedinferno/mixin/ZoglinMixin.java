@@ -20,7 +20,7 @@ public class ZoglinMixin extends Monster {
     }
 
     @Inject(method = "createAttributes", at = @At("RETURN"), cancellable = true)
-    private static void preserved_inferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+    private static void pinferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.setReturnValue(Monster.createMonsterAttributes()
                 .add(Attributes.MAX_HEALTH, 40.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.3F)
@@ -32,7 +32,7 @@ public class ZoglinMixin extends Monster {
     }
 
     @Inject(method = "setBaby", at = @At("TAIL"))
-    private void preserved_inferno$modifyBaby(boolean baby, CallbackInfo ci) {
+    private void pinferno$modifyBaby(boolean baby, CallbackInfo ci) {
         if (this.level().isClientSide()) return;
 
         AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);

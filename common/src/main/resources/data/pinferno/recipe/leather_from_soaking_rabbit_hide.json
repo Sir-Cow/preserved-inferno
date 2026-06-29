@@ -1,5 +1,7 @@
 {
   "type": "pinferno:cauldron",
+  "fluid": "water",
+  "fluid_cost": 1,
   "ingredient": "minecraft:rabbit_hide",
   "result": {
     "count": 1,

@@ -21,7 +21,7 @@ import sircow.preservedinferno.other.ModTags;
 @Mixin(CraftingMenu.class)
 public abstract class CraftingMenuMixin {
     @Inject(method = "slotChangedCraftingGrid", at = @At("HEAD"), cancellable = true)
-    private static void preserved_inferno$blockIfNotExhaustedTemplate(AbstractContainerMenu menu, ServerLevel level, Player player, CraftingContainer craftSlots, ResultContainer resultSlots, RecipeHolder<?> recipe, CallbackInfo ci) {
+    private static void pinferno$blockIfNotExhaustedTemplate(AbstractContainerMenu menu, ServerLevel level, Player player, CraftingContainer craftSlots, ResultContainer resultSlots, RecipeHolder<?> recipe, CallbackInfo ci) {
         CraftingInput input = craftSlots.asCraftInput();
         for (int i = 0; i < input.size(); i++) {
             ItemStack stack = input.getItem(i);

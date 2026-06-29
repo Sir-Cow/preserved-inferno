@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(IronGolem.class)
 public class IronGolemMixin {
     @Inject(method = "createAttributes", at = @At("RETURN"), cancellable = true)
-    private static void preserved_inferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+    private static void pinferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.setReturnValue(Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 250.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.25)

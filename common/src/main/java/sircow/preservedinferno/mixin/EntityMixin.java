@@ -13,18 +13,18 @@ import sircow.preservedinferno.other.HeatAccessor;
 @Mixin(Entity.class)
 public class EntityMixin {
     @ModifyConstant(method = "getTicksRequiredToFreeze", constant = @Constant(intValue = 140))
-    private static int preserved_inferno$modifyIntValue(int constant) {
+    private static int pinferno$modifyIntValue(int constant) {
         return 60;
     }
 
     @Inject(method = "displayFireAnimation", at = @At("RETURN"), cancellable = true)
-    private void preserved_inferno$customFireCheck(CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$customFireCheck(CallbackInfoReturnable<Boolean> cir) {
         Entity self = (Entity) (Object) this;
 
         if (!(self instanceof AbstractClientPlayer player)) return;
         if (!(player instanceof HeatAccessor accessor)) return;
 
-        if (accessor.preserved_inferno$getHeat() < 100) return;
+        if (accessor.pinferno$getHeat() < 100) return;
         if (player.isSpectator()) return;
         if (player.isCreative()) return;
 

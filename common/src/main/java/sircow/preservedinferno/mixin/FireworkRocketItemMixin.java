@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(FireworkRocketItem.class)
 public class FireworkRocketItemMixin {
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$rocketCooldown(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+    private void pinferno$rocketCooldown(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         if (!(player instanceof ServerPlayer)) return;
 
         ItemStack stack = player.getItemInHand(hand);

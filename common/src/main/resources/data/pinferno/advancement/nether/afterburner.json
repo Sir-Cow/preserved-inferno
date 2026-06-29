@@ -8,13 +8,13 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:blaze"
+              "minecraft:entity_type": "minecraft:blaze"
             }
           }
         ],
         "killing_blow": {
           "direct_entity": {
-            "type": "pinferno:flare_gun_projectile"
+            "minecraft:entity_type": "pinferno:flare_gun_projectile"
           },
           "tags": [
             {

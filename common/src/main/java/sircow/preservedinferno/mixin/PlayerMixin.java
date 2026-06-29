@@ -1,6 +1,6 @@
 package sircow.preservedinferno.mixin;
 
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
@@ -83,16 +83,16 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
         super(entityType, world);
     }
 
-    @ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true)
-    private float preserved_inferno$damageIntercept(float originalAmount, ServerLevel level, DamageSource damageSource) {
+    @ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")
+    private float pinferno$damageIntercept(float damage, ServerLevel level, DamageSource damageSource) {
         Player player = (Player)(Object)this;
 
         if (damageSource.is(DamageTypes.FREEZE)) {
-            if (player instanceof ServerPlayer serverPlayer && preserved_inferno$getHeat() >= 1) ModTriggers.FREEZE_COOL.get().trigger(serverPlayer);
-            preserved_inferno$decreaseHeat(10);
+            if (player instanceof ServerPlayer serverPlayer && pinferno$getHeat() >= 1) ModTriggers.FREEZE_COOL.get().trigger(serverPlayer);
+            pinferno$decreaseHeat(10);
         }
 
-        if (damageSource.is(DamageTypes.ON_FIRE) && !player.hasEffect(MobEffects.FIRE_RESISTANCE) && player.level().dimension() == Level.NETHER) preserved_inferno$increaseHeat(1);
+        if (damageSource.is(DamageTypes.ON_FIRE) && !player.hasEffect(MobEffects.FIRE_RESISTANCE) && player.level().dimension() == Level.NETHER) pinferno$increaseHeat(1);
 
         ItemStack blockingStack = player.getUseItem();
 
@@ -122,7 +122,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
                     double dot = toSource.x * look.x + toSource.z * look.z;
 
-                    if (dot < 0.5D) return originalAmount;
+                    if (dot < 0.5D) return damage;
                 }
             }
 
@@ -135,12 +135,12 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
             if (damageSource.is(DamageTypeTags.BYPASSES_SHIELD)) {
                 ShieldStaminaHandler.lastBypassingSource = damageSource;
-                return originalAmount;
+                return damage;
             }
             else {
                 ShieldStaminaHandler.lastBypassingSource = null;
-                float finalDamageToApply = Math.max(0, originalAmount - currentStamina);
-                float newStamina = Math.max(0, currentStamina - originalAmount);
+                float finalDamageToApply = Math.max(0, damage - currentStamina);
+                float newStamina = Math.max(0, currentStamina - damage);
 
                 if (newStamina != currentStamina) player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
 
@@ -149,39 +149,39 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                 Optional<BlocksAttacks> blocksAttacks = Optional.ofNullable(blockingStack.get(DataComponents.BLOCKS_ATTACKS));
                 if (blocksAttacks.isPresent()) {
                     blocksAttacks.get().onBlocked(level, player);
-                    blocksAttacks.get().hurtBlockingItem(level, blockingStack, player, player.getUsedItemHand(), originalAmount);
+                    blocksAttacks.get().hurtBlockingItem(level, blockingStack, player, player.getUsedItemHand(), damage);
                 }
 
                 if (player instanceof ServerPlayer serverPlayer) {
-                    CriteriaTriggers.ENTITY_HURT_PLAYER.trigger(serverPlayer, damageSource, originalAmount, originalAmount, true);
-                    serverPlayer.awardStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(originalAmount * 10.0F));
+                    CriteriaTriggers.ENTITY_HURT_PLAYER.trigger(serverPlayer, damageSource, damage, damage, true);
+                    serverPlayer.awardStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(damage * 10.0F));
                 }
                 return finalDamageToApply;
             }
         }
-        return originalAmount;
+        return damage;
     }
 
     // modify bed sleeping
     @ModifyConstant(method = "tick", constant = @Constant(intValue = 100))
-    private int preserved_inferno$modifyIntValue(int original) {
+    private int pinferno$modifyIntValue(int original) {
         return 200;
     }
     @ModifyConstant(method = "tick", constant = @Constant(intValue = 110))
-    private int preserved_inferno$modifyIntValue2(int original) {
+    private int pinferno$modifyIntValue2(int original) {
         return 210;
     }
     @ModifyConstant(method = "stopSleepInBed", constant = @Constant(intValue = 100))
-    private int preserved_inferno$modifyIntValue3(int original) {
+    private int pinferno$modifyIntValue3(int original) {
         return 200;
     }
     @ModifyConstant(method = "isSleepingLongEnough", constant = @Constant(intValue = 100))
-    private int preserved_inferno$modifyIntValue4(int original) {
+    private int pinferno$modifyIntValue4(int original) {
         return 200;
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
-    private void preserved_inferno$tick(CallbackInfo ci) {
+    private void pinferno$tick(CallbackInfo ci) {
         Player player = (Player)(Object)this;
         // turtle helmet
         boolean isInWater = this.isEyeInFluid(FluidTags.WATER);
@@ -206,7 +206,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                 BlockPos blockBelow = this.blockPosition().below();
                 boolean onColdBlock = false;
 
-                if (preserved_inferno$standingOnBlock(this)) {
+                if (pinferno$standingOnBlock(this)) {
                     BlockState stateAtFeet = this.level().getBlockState(this.blockPosition().below());
                     if (stateAtFeet.getBlock() instanceof IceBlock ||
                             stateAtFeet.getBlock() instanceof SnowLayerBlock ||
@@ -219,7 +219,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                 }
 
                 if (onColdBlock) {
-                    preserved_inferno$setCanDoHeatChange(false);
+                    pinferno$setCanDoHeatChange(false);
                     lastSteppedOnIcePos = blockBelow.immutable();
 
                     if ((Player)(Object)this instanceof ServerPlayer serverPlayer) {
@@ -229,15 +229,15 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                     }
                 }
                 else if (lastSteppedOnIcePos != null && !lastSteppedOnIcePos.equals(blockBelow)) {
-                    preserved_inferno$setCanDoHeatChange(true);
+                    pinferno$setCanDoHeatChange(true);
                     lastSteppedOnIcePos = null;
                 }
-                else if (lastSteppedOnIcePos != null && lastSteppedOnIcePos.equals(blockBelow)) preserved_inferno$setCanDoHeatChange(false);
-                else if (lastSteppedOnIcePos == null) preserved_inferno$setCanDoHeatChange(true);
+                else if (lastSteppedOnIcePos != null && lastSteppedOnIcePos.equals(blockBelow)) pinferno$setCanDoHeatChange(false);
+                else if (lastSteppedOnIcePos == null) pinferno$setCanDoHeatChange(true);
             }
-            else preserved_inferno$setCanDoHeatChange(true);
+            else pinferno$setCanDoHeatChange(true);
 
-            if (preserved_inferno$canDoHeatChange()) preserved_inferno$doHeatChange();
+            if (pinferno$canDoHeatChange()) pinferno$doHeatChange();
         }
 
         // minecart advancements
@@ -267,7 +267,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     }
 
     @Unique
-    private boolean preserved_inferno$standingOnBlock(Entity entity) {
+    private boolean pinferno$standingOnBlock(Entity entity) {
         AABB box = new AABB(entity.blockPosition());
         Vec3 pos = entity.position();
         float expand = entity.getBbWidth() / 2;
@@ -276,12 +276,12 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     }
 
     @Inject(method = "turtleHelmetTick", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$cancelTurtleHelmetTick(CallbackInfo ci) {
+    private void pinferno$cancelTurtleHelmetTick(CallbackInfo ci) {
         ci.cancel();
     }
 
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
-    private void preserved_inferno$registerDataEarly(SynchedEntityData.Builder builder, CallbackInfo ci) {
+    private void pinferno$registerDataEarly(SynchedEntityData.Builder builder, CallbackInfo ci) {
         builder.define(ModEntityData.PLAYER_SHIELD_STAMINA, 0.0F);
         builder.define(ModEntityData.PLAYER_SHIELD_REGEN_DURATION, 0);
         builder.define(ModEntityData.PLAYER_HEAT, 0);
@@ -294,27 +294,27 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
-    public void preserved_inferno$readAdditionalSaveData(ValueInput input, CallbackInfo ci) {
-        this.entityData.set(ModEntityData.PLAYER_HEAT, input.getIntOr("preserved_inferno$heat", 0));
-        this.entityData.set(ModEntityData.PLAYER_SHIELD_STAMINA, input.getFloatOr("preserved_inferno$stamina", 0));
-        this.entityData.set(ModEntityData.PLAYER_SHIELD_REGEN_DURATION, input.getIntOr("preserved_inferno$shieldRegen", 0));
-        this.entityData.set(ModEntityData.PLAYER_WAS_BLOCKING, input.getBooleanOr("preserved_inferno$wasBlocking", false));
-        this.entityData.set(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE, input.getBooleanOr("preserved_inferno$canDoHeatChange", false));
-        this.entityData.set(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN, input.getLongOr("preserved_inferno$hardcoreRegenCooldown", 0L));
-        this.entityData.set(ModEntityData.PLAYER_HUNGER_INITIALIZED, input.getBooleanOr("preserved_inferno$hungerInitialized", false));
-        this.entityData.set(ModEntityData.RESET_HARDCORE_HEALTH, input.getBooleanOr("preserved_inferno$resetHardcoreHealthOnJoin", true));
+    public void pinferno$readAdditionalSaveData(ValueInput input, CallbackInfo ci) {
+        this.entityData.set(ModEntityData.PLAYER_HEAT, input.getIntOr("pinferno$heat", 0));
+        this.entityData.set(ModEntityData.PLAYER_SHIELD_STAMINA, input.getFloatOr("pinferno$stamina", 0));
+        this.entityData.set(ModEntityData.PLAYER_SHIELD_REGEN_DURATION, input.getIntOr("pinferno$shieldRegen", 0));
+        this.entityData.set(ModEntityData.PLAYER_WAS_BLOCKING, input.getBooleanOr("pinferno$wasBlocking", false));
+        this.entityData.set(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE, input.getBooleanOr("pinferno$canDoHeatChange", false));
+        this.entityData.set(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN, input.getLongOr("pinferno$hardcoreRegenCooldown", 0L));
+        this.entityData.set(ModEntityData.PLAYER_HUNGER_INITIALIZED, input.getBooleanOr("pinferno$hungerInitialized", false));
+        this.entityData.set(ModEntityData.RESET_HARDCORE_HEALTH, input.getBooleanOr("pinferno$resetHardcoreHealthOnJoin", true));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
-    public void preserved_inferno$addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
-        output.putInt("preserved_inferno$heat", this.entityData.get(ModEntityData.PLAYER_HEAT));
-        output.putFloat("preserved_inferno$stamina", this.entityData.get(ModEntityData.PLAYER_SHIELD_STAMINA));
-        output.putFloat("preserved_inferno$shieldRegen", this.entityData.get(ModEntityData.PLAYER_SHIELD_REGEN_DURATION));
-        output.putBoolean("preserved_inferno$wasBlocking", this.entityData.get(ModEntityData.PLAYER_WAS_BLOCKING));
-        output.putBoolean("preserved_inferno$canDoHeatChange", this.entityData.get(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE));
-        output.putLong("preserved_inferno$hardcoreRegenCooldown", this.entityData.get(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN));
-        output.putBoolean("preserved_inferno$hungerInitialized", this.entityData.get(ModEntityData.PLAYER_HUNGER_INITIALIZED));
-        output.putBoolean("preserved_inferno$resetHardcoreHealthOnJoin", this.entityData.get(ModEntityData.RESET_HARDCORE_HEALTH));
+    public void pinferno$addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
+        output.putInt("pinferno$heat", this.entityData.get(ModEntityData.PLAYER_HEAT));
+        output.putFloat("pinferno$stamina", this.entityData.get(ModEntityData.PLAYER_SHIELD_STAMINA));
+        output.putFloat("pinferno$shieldRegen", this.entityData.get(ModEntityData.PLAYER_SHIELD_REGEN_DURATION));
+        output.putBoolean("pinferno$wasBlocking", this.entityData.get(ModEntityData.PLAYER_WAS_BLOCKING));
+        output.putBoolean("pinferno$canDoHeatChange", this.entityData.get(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE));
+        output.putLong("pinferno$hardcoreRegenCooldown", this.entityData.get(ModEntityData.PLAYER_HARDCORE_REGEN_COOLDOWN));
+        output.putBoolean("pinferno$hungerInitialized", this.entityData.get(ModEntityData.PLAYER_HUNGER_INITIALIZED));
+        output.putBoolean("pinferno$resetHardcoreHealthOnJoin", this.entityData.get(ModEntityData.RESET_HARDCORE_HEALTH));
     }
 
     @Unique
@@ -352,39 +352,39 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
         return count;
     }
 
-    @Unique public int preserved_inferno$getHeat() {
+    @Unique public int pinferno$getHeat() {
         return this.entityData.get(ModEntityData.PLAYER_HEAT);
     }
-    @Unique public void preserved_inferno$setHeat(int heat) {
+    @Unique public void pinferno$setHeat(int heat) {
         this.entityData.set(ModEntityData.PLAYER_HEAT, heat);
     }
     @Unique
-    public boolean preserved_inferno$canDoHeatChange() {
+    public boolean pinferno$canDoHeatChange() {
         return this.entityData.get(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE);
     }
     @Unique
-    public void preserved_inferno$setCanDoHeatChange(boolean canDoHeatChange) {
+    public void pinferno$setCanDoHeatChange(boolean canDoHeatChange) {
         this.entityData.set(ModEntityData.PLAYER_CAN_DO_HEAT_CHANGE, canDoHeatChange);
     }
 
     @Unique
-    public void preserved_inferno$increaseHeat(int heat) {
-        int i = this.preserved_inferno$getHeat();
+    public void pinferno$increaseHeat(int heat) {
+        int i = this.pinferno$getHeat();
         this.entityData.set(ModEntityData.PLAYER_HEAT, i + heat);
         double randomNum = random.nextDouble();
         if (randomNum <= 0.4) this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.HEAT_UP, SoundSource.PLAYERS);
-//        Constants.LOG.info("heat increase: {}", preserved_inferno$getHeat());
+//        Constants.LOG.info("heat increase: {}", pinferno$getHeat());
     }
 
     @Unique
-    public void preserved_inferno$decreaseHeat(int heat) {
-        if (this.level().dimension() == Level.NETHER) this.entityData.set(ModEntityData.PLAYER_HEAT, Math.max(1, this.preserved_inferno$getHeat() - heat));
-        else this.entityData.set(ModEntityData.PLAYER_HEAT, Math.max(0, this.preserved_inferno$getHeat() - heat));
+    public void pinferno$decreaseHeat(int heat) {
+        if (this.level().dimension() == Level.NETHER) this.entityData.set(ModEntityData.PLAYER_HEAT, Math.max(1, this.pinferno$getHeat() - heat));
+        else this.entityData.set(ModEntityData.PLAYER_HEAT, Math.max(0, this.pinferno$getHeat() - heat));
     }
 
     @Unique
-    public void preserved_inferno$doHeatChange() {
-        int currentHeat = preserved_inferno$getHeat();
+    public void pinferno$doHeatChange() {
+        int currentHeat = pinferno$getHeat();
 
         // heat increase
         int tickCap;
@@ -393,15 +393,15 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
             if (this.hasEffect(MobEffects.FIRE_RESISTANCE)) tickCap += FIRE_RES_INCREASE;
 
-            int fireProt = preserved_inferno$fireProtCheck();
+            int fireProt = pinferno$fireProtCheck();
             if (fireProt > 0) tickCap += FIRE_PROT_INCREASE * fireProt;
 
-            if (currentHeat == 0) preserved_inferno$increaseHeat(1);
+            if (currentHeat == 0) pinferno$increaseHeat(1);
 
             if (currentHeat < 200) {
                 this.heatIncreaseTickCounter += 1;
                 if (this.heatIncreaseTickCounter >= tickCap) {
-                    preserved_inferno$increaseHeat(1);
+                    pinferno$increaseHeat(1);
                     this.heatIncreaseTickCounter = 0;
                 }
             }
@@ -413,13 +413,13 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
                 if (this.isInWater()) tickCap -= IN_WATER_CAP_REDUCTION;
                 this.heatDecreaseTickCounter += 1;
                 if (this.heatDecreaseTickCounter >= tickCap) {
-                    preserved_inferno$decreaseHeat(1);
+                    pinferno$decreaseHeat(1);
                     this.heatDecreaseTickCounter = 0;
                 }
             }
         }
         // heat damage
-        currentHeat = preserved_inferno$getHeat();
+        currentHeat = pinferno$getHeat();
 
         if (currentHeat >= 100) {
             this.heatDamageTickCounter++;
@@ -438,7 +438,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     }
 
     @Unique
-    public int preserved_inferno$fireProtCheck() {
+    public int pinferno$fireProtCheck() {
         int totalLevel = 0;
 
         for (EquipmentSlot slot : new EquipmentSlot[]{
@@ -457,7 +457,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     }
 
     @Inject(method = "dropEquipment", at = @At("HEAD"), cancellable = true)
-    public void preserved_inferno$preventInvDrop(ServerLevel level, CallbackInfo ci) {
+    public void pinferno$preventInvDrop(ServerLevel level, CallbackInfo ci) {
         Player player = (Player)(Object)this;
         if (player.hasEffect(ModEffects.WELL_RESTED.holder)) {
             ci.cancel();
@@ -465,7 +465,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     }
 
     @Inject(method = "getBaseExperienceReward", at = @At("HEAD"), cancellable = true)
-    public void preserved_inferno$preventExpDrop(ServerLevel level, CallbackInfoReturnable<Integer> cir) {
+    public void pinferno$preventExpDrop(ServerLevel level, CallbackInfoReturnable<Integer> cir) {
         Player player = (Player)(Object)this;
         if (player.hasEffect(ModEffects.WELL_RESTED.holder) || player.isSpectator()) {
             cir.setReturnValue(0);
@@ -475,7 +475,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
     // hardcore mode
     @Inject(method = "updatePlayerPose", at = @At("HEAD"))
-    private void preserved_inferno$blockSprinting(CallbackInfo ci) {
+    private void pinferno$blockSprinting(CallbackInfo ci) {
         Player player = (Player) (Object) this;
         if ((player.level().getLevelData().isHardcore() || this.hasEffect(ModEffects.HINDERED.holder)) && !player.isSpectator() && !player.isCreative()) {
             player.setSprinting(false);
@@ -485,12 +485,12 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     }
 
     @Inject(method = "aiStep", at = @At("HEAD"))
-    private void preserved_inferno$blockSprinting2(CallbackInfo ci) {
+    private void pinferno$blockSprinting2(CallbackInfo ci) {
         if (this.level().getLevelData().isHardcore() && !this.isSpectator() && !this.isCreative()) this.setSprinting(false);
     }
 
     @Inject(method = "getDestroySpeed", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$hinderedMining(BlockState state, CallbackInfoReturnable<Float> cir) {
+    private void pinferno$hinderedMining(BlockState state, CallbackInfoReturnable<Float> cir) {
         Player self = (Player)(Object)this;
         if (self.hasEffect(ModEffects.HINDERED.holder)) {
             int level = Objects.requireNonNull(this.getEffect(ModEffects.HINDERED.holder)).getAmplifier() + 1;
@@ -499,7 +499,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     }
 
     @ModifyVariable(method = "getDestroySpeed", at = @At(value = "STORE", ordinal = 0), name = "speed")
-    private float preserved_inferno$applyConduitModifier(float speed, BlockState state) {
+    private float pinferno$applyConduitModifier(float speed, BlockState state) {
         Player self = (Player)(Object)this;
         MobEffectInstance conduit = self.getEffect(ModEffects.PINFERNO_CONDUIT_POWER.holder);
         if (conduit == null) return speed;
@@ -517,18 +517,18 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
     // cancel the multiplier
     @ModifyConstant(method = "attack", constant = @Constant(floatValue = 1.5F))
-    private float preserved_inferno$removeCritMulti(float original) {
+    private float pinferno$removeCritMulti(float original) {
         return 1.0F;
     }
 
     // change crit multiplier to additive
-    @ModifyVariable(method = "attack", at = @At(value = "STORE", ordinal = 0), index = 2)
-    private float preserved_inferno$applyFlatCritDamage(float baseDamage, Entity target) {
+    @ModifyVariable(method = "attack", at = @At(value = "STORE", ordinal = 0), name = "baseDamage")
+    private float pinferno$applyFlatCritDamage(float baseDamage, Entity entity) {
         Player self = (Player) (Object) this;
         boolean isFullStrength = self.getAttackStrengthScale(0.5F) > 0.9F;
         float finalDamage = baseDamage;
 
-        if (isFullStrength && canCriticalAttack(target)) {
+        if (isFullStrength && canCriticalAttack(entity)) {
             int level = EnchantmentHelper.getItemEnchantmentLevel(self.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.SPLATTERING), self.getMainHandItem());
 
             if (self instanceof ServerPlayer serverPlayer) ModTriggers.CRIT_DAMAGE.get().trigger(serverPlayer);
@@ -539,7 +539,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     }
 
     @Inject(method = "canCriticalAttack", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$disableCritForNonWeapons(Entity target, CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$disableCritForNonWeapons(Entity entity, CallbackInfoReturnable<Boolean> cir) {
         Player self = (Player)(Object)this;
         ItemStack stack = self.getMainHandItem();
 

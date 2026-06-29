@@ -29,7 +29,7 @@ public class AnglingTableBlockMixin {
 
     @SuppressWarnings("rawtypes")
     @Inject(method = "getMenuProvider", at = @At("HEAD"), cancellable = true)
-    public void preserved_inferno$checkForAnglingTable(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
+    public void pinferno$checkForAnglingTable(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
         cir.setReturnValue(
                 new ExtendedMenuProvider() {
                     @Override

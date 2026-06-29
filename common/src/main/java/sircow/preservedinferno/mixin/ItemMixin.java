@@ -16,7 +16,7 @@ import java.util.Optional;
 @Mixin(Item.class)
 public class ItemMixin {
     @Inject(method = "getTooltipImage", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$fishingRodTooltip(ItemStack stack, CallbackInfoReturnable<Optional<TooltipComponent>> cir) {
+    private void pinferno$fishingRodTooltip(ItemStack stack, CallbackInfoReturnable<Optional<TooltipComponent>> cir) {
         if (!(stack.getItem() instanceof FishingRodItem)) return;
 
         ItemStack hook = RodComponentResolver.resolveHook(stack);

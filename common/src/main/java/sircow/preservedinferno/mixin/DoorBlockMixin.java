@@ -47,12 +47,12 @@ public abstract class DoorBlockMixin extends Block implements LiquidBlockContain
     }
 
     @Inject(method = "createBlockStateDefinition", at = @At("RETURN"))
-    private void preserved_inferno$addWaterloggedProperty(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
+    private void pinferno$addWaterloggedProperty(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
         builder.add(BlockStateProperties.WATERLOGGED);
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void preserved_inferno$onInit(BlockSetType type, Properties properties, CallbackInfo ci) {
+    private void pinferno$onInit(BlockSetType type, Properties properties, CallbackInfo ci) {
         BlockState defaultState = this.defaultBlockState();
         this.registerDefaultState(defaultState.setValue(BlockStateProperties.WATERLOGGED, false));
     }
@@ -63,7 +63,7 @@ public abstract class DoorBlockMixin extends Block implements LiquidBlockContain
     }
 
     @Inject(method = "updateShape", at = @At("TAIL"))
-    private void preserved_inferno$onUpdateShapeWaterlogged(
+    private void pinferno$onUpdateShapeWaterlogged(
             BlockState state,
             LevelReader level,
             ScheduledTickAccess scheduledTickAccess,
@@ -80,7 +80,7 @@ public abstract class DoorBlockMixin extends Block implements LiquidBlockContain
     }
 
     @Inject(method = "getStateForPlacement", at = @At("RETURN"), cancellable = true)
-    private void preserved_inferno$injectWaterloggedState(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir) {
+    private void pinferno$injectWaterloggedState(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir) {
         BlockState state = cir.getReturnValue();
         if (state != null) {
             FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
@@ -119,7 +119,7 @@ public abstract class DoorBlockMixin extends Block implements LiquidBlockContain
 
     // prevent zombies breaking reinforced doors
     @Inject(method = "isWoodenDoor(Lnet/minecraft/world/level/block/state/BlockState;)Z", at = @At("HEAD"), cancellable = true)
-    private static void preserved_inferno$doorBreak(BlockState state, CallbackInfoReturnable<Boolean> cir) {
+    private static void pinferno$doorBreak(BlockState state, CallbackInfoReturnable<Boolean> cir) {
         if (state.is(ModTags.REINFORCED_DOORS_BLOCK)) {
             cir.setReturnValue(false);
         }

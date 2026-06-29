@@ -8,7 +8,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:allay"
+              "minecraft:entity_type": "minecraft:allay"
             }
           }
         ]
@@ -22,7 +22,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:armadillo"
+              "minecraft:entity_type": "minecraft:armadillo"
             }
           }
         ]
@@ -36,7 +36,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:axolotl"
+              "minecraft:entity_type": "minecraft:axolotl"
             }
           }
         ]
@@ -50,7 +50,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:bat"
+              "minecraft:entity_type": "minecraft:bat"
             }
           }
         ]
@@ -64,7 +64,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:bee"
+              "minecraft:entity_type": "minecraft:bee"
             }
           }
         ]
@@ -78,7 +78,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:blaze"
+              "minecraft:entity_type": "minecraft:blaze"
             }
           }
         ]
@@ -92,7 +92,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:bogged"
+              "minecraft:entity_type": "minecraft:bogged"
             }
           }
         ]
@@ -106,7 +106,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:breeze"
+              "minecraft:entity_type": "minecraft:breeze"
             }
           }
         ]
@@ -120,7 +120,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:camel"
+              "minecraft:entity_type": "minecraft:camel"
             }
           }
         ]
@@ -134,7 +134,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:camel_husk"
+              "minecraft:entity_type": "minecraft:camel_husk"
             }
           }
         ]
@@ -148,7 +148,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:cat"
+              "minecraft:entity_type": "minecraft:cat"
             }
           }
         ]
@@ -162,7 +162,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:cave_spider"
+              "minecraft:entity_type": "minecraft:cave_spider"
             }
           }
         ]
@@ -176,7 +176,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:chicken"
+              "minecraft:entity_type": "minecraft:chicken"
             }
           }
         ]
@@ -190,7 +190,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:cod"
+              "minecraft:entity_type": "minecraft:cod"
             }
           }
         ]
@@ -204,7 +204,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:copper_golem"
+              "minecraft:entity_type": "minecraft:copper_golem"
             }
           }
         ]
@@ -218,7 +218,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:cow"
+              "minecraft:entity_type": "minecraft:cow"
             }
           }
         ]
@@ -232,7 +232,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:creaking"
+              "minecraft:entity_type": "minecraft:creaking"
             }
           }
         ]
@@ -246,7 +246,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:creeper"
+              "minecraft:entity_type": "minecraft:creeper"
             }
           }
         ]
@@ -260,7 +260,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:dolphin"
+              "minecraft:entity_type": "minecraft:dolphin"
             }
           }
         ]
@@ -274,7 +274,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:donkey"
+              "minecraft:entity_type": "minecraft:donkey"
             }
           }
         ]
@@ -288,7 +288,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:drowned"
+              "minecraft:entity_type": "minecraft:drowned"
             }
           }
         ]
@@ -302,7 +302,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:elder_guardian"
+              "minecraft:entity_type": "minecraft:elder_guardian"
             }
           }
         ]
@@ -316,7 +316,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:ender_dragon"
+              "minecraft:entity_type": "minecraft:ender_dragon"
             }
           }
         ]
@@ -330,7 +330,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:enderman"
+              "minecraft:entity_type": "minecraft:enderman"
             }
           }
         ]
@@ -344,7 +344,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:endermite"
+              "minecraft:entity_type": "minecraft:endermite"
             }
           }
         ]
@@ -358,7 +358,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:evoker"
+              "minecraft:entity_type": "minecraft:evoker"
             }
           }
         ]
@@ -372,7 +372,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:fox"
+              "minecraft:entity_type": "minecraft:fox"
             }
           }
         ]
@@ -386,7 +386,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:frog"
+              "minecraft:entity_type": "minecraft:frog"
             }
           }
         ]
@@ -400,7 +400,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:ghast"
+              "minecraft:entity_type": "minecraft:ghast"
             }
           }
         ]
@@ -414,7 +414,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:glow_squid"
+              "minecraft:entity_type": "minecraft:glow_squid"
             }
           }
         ]
@@ -428,7 +428,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:goat"
+              "minecraft:entity_type": "minecraft:goat"
             }
           }
         ]
@@ -442,7 +442,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:guardian"
+              "minecraft:entity_type": "minecraft:guardian"
             }
           }
         ]
@@ -456,7 +456,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:happy_ghast"
+              "minecraft:entity_type": "minecraft:happy_ghast"
             }
           }
         ]
@@ -470,7 +470,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:hoglin"
+              "minecraft:entity_type": "minecraft:hoglin"
             }
           }
         ]
@@ -484,7 +484,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:horse"
+              "minecraft:entity_type": "minecraft:horse"
             }
           }
         ]
@@ -498,7 +498,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:husk"
+              "minecraft:entity_type": "minecraft:husk"
             }
           }
         ]
@@ -512,7 +512,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:iron_golem"
+              "minecraft:entity_type": "minecraft:iron_golem"
             }
           }
         ]
@@ -526,7 +526,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:llama"
+              "minecraft:entity_type": "minecraft:llama"
             }
           }
         ]
@@ -540,7 +540,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:magma_cube"
+              "minecraft:entity_type": "minecraft:magma_cube"
             }
           }
         ]
@@ -554,7 +554,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:mooshroom"
+              "minecraft:entity_type": "minecraft:mooshroom"
             }
           }
         ]
@@ -568,7 +568,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:mule"
+              "minecraft:entity_type": "minecraft:mule"
             }
           }
         ]
@@ -582,7 +582,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:ocelot"
+              "minecraft:entity_type": "minecraft:ocelot"
             }
           }
         ]
@@ -596,7 +596,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:panda"
+              "minecraft:entity_type": "minecraft:panda"
             }
           }
         ]
@@ -610,7 +610,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:parched"
+              "minecraft:entity_type": "minecraft:parched"
             }
           }
         ]
@@ -624,7 +624,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:parrot"
+              "minecraft:entity_type": "minecraft:parrot"
             }
           }
         ]
@@ -638,7 +638,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:phantom"
+              "minecraft:entity_type": "minecraft:phantom"
             }
           }
         ]
@@ -652,7 +652,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:pig"
+              "minecraft:entity_type": "minecraft:pig"
             }
           }
         ]
@@ -666,7 +666,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:piglin"
+              "minecraft:entity_type": "minecraft:piglin"
             }
           }
         ]
@@ -680,7 +680,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:piglin_brute"
+              "minecraft:entity_type": "minecraft:piglin_brute"
             }
           }
         ]
@@ -694,7 +694,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:pillager"
+              "minecraft:entity_type": "minecraft:pillager"
             }
           }
         ]
@@ -708,7 +708,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:polar_bear"
+              "minecraft:entity_type": "minecraft:polar_bear"
             }
           }
         ]
@@ -722,7 +722,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:pufferfish"
+              "minecraft:entity_type": "minecraft:pufferfish"
             }
           }
         ]
@@ -736,7 +736,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:rabbit"
+              "minecraft:entity_type": "minecraft:rabbit"
             }
           }
         ]
@@ -750,7 +750,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:ravager"
+              "minecraft:entity_type": "minecraft:ravager"
             }
           }
         ]
@@ -764,7 +764,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:salmon"
+              "minecraft:entity_type": "minecraft:salmon"
             }
           }
         ]
@@ -778,7 +778,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:sheep"
+              "minecraft:entity_type": "minecraft:sheep"
             }
           }
         ]
@@ -792,7 +792,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:shulker"
+              "minecraft:entity_type": "minecraft:shulker"
             }
           }
         ]
@@ -806,7 +806,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:silverfish"
+              "minecraft:entity_type": "minecraft:silverfish"
             }
           }
         ]
@@ -820,7 +820,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:skeleton"
+              "minecraft:entity_type": "minecraft:skeleton"
             }
           }
         ]
@@ -834,7 +834,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:skeleton_horse"
+              "minecraft:entity_type": "minecraft:skeleton_horse"
             }
           }
         ]
@@ -848,7 +848,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:slime"
+              "minecraft:entity_type": "minecraft:slime"
             }
           }
         ]
@@ -862,7 +862,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:sniffer"
+              "minecraft:entity_type": "minecraft:sniffer"
             }
           }
         ]
@@ -876,7 +876,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:snow_golem"
+              "minecraft:entity_type": "minecraft:snow_golem"
             }
           }
         ]
@@ -890,7 +890,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:spider"
+              "minecraft:entity_type": "minecraft:spider"
             }
           }
         ]
@@ -904,7 +904,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:squid"
+              "minecraft:entity_type": "minecraft:squid"
             }
           }
         ]
@@ -918,7 +918,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:stray"
+              "minecraft:entity_type": "minecraft:stray"
             }
           }
         ]
@@ -932,7 +932,21 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:strider"
+              "minecraft:entity_type": "minecraft:strider"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "minecraft:sulfur_cube": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "minecraft:entity_type": "minecraft:sulfur_cube"
             }
           }
         ]
@@ -946,7 +960,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:tadpole"
+              "minecraft:entity_type": "minecraft:tadpole"
             }
           }
         ]
@@ -960,7 +974,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:trader_llama"
+              "minecraft:entity_type": "minecraft:trader_llama"
             }
           }
         ]
@@ -974,7 +988,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:tropical_fish"
+              "minecraft:entity_type": "minecraft:tropical_fish"
             }
           }
         ]
@@ -988,7 +1002,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:turtle"
+              "minecraft:entity_type": "minecraft:turtle"
             }
           }
         ]
@@ -1002,7 +1016,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:vex"
+              "minecraft:entity_type": "minecraft:vex"
             }
           }
         ]
@@ -1016,7 +1030,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:villager"
+              "minecraft:entity_type": "minecraft:villager"
             }
           }
         ]
@@ -1030,7 +1044,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:vindicator"
+              "minecraft:entity_type": "minecraft:vindicator"
             }
           }
         ]
@@ -1044,7 +1058,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:wandering_trader"
+              "minecraft:entity_type": "minecraft:wandering_trader"
             }
           }
         ]
@@ -1058,7 +1072,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:warden"
+              "minecraft:entity_type": "minecraft:warden"
             }
           }
         ]
@@ -1072,7 +1086,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:witch"
+              "minecraft:entity_type": "minecraft:witch"
             }
           }
         ]
@@ -1086,7 +1100,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:wither"
+              "minecraft:entity_type": "minecraft:wither"
             }
           }
         ]
@@ -1100,7 +1114,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:wither_skeleton"
+              "minecraft:entity_type": "minecraft:wither_skeleton"
             }
           }
         ]
@@ -1114,7 +1128,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:wolf"
+              "minecraft:entity_type": "minecraft:wolf"
             }
           }
         ]
@@ -1128,7 +1142,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:zoglin"
+              "minecraft:entity_type": "minecraft:zoglin"
             }
           }
         ]
@@ -1142,7 +1156,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:zombie"
+              "minecraft:entity_type": "minecraft:zombie"
             }
           }
         ]
@@ -1156,7 +1170,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:zombie_horse"
+              "minecraft:entity_type": "minecraft:zombie_horse"
             }
           }
         ]
@@ -1170,7 +1184,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:zombie_nautilus"
+              "minecraft:entity_type": "minecraft:zombie_nautilus"
             }
           }
         ]
@@ -1184,7 +1198,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:zombie_villager"
+              "minecraft:entity_type": "minecraft:zombie_villager"
             }
           }
         ]
@@ -1198,7 +1212,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecraft:zombified_piglin"
+              "minecraft:entity_type": "minecraft:zombified_piglin"
             }
           }
         ]
@@ -1288,6 +1302,7 @@
       "minecraft:squid",
       "minecraft:stray",
       "minecraft:strider",
+      "minecraft:sulfur_cube",
       "minecraft:tadpole",
       "minecraft:trader_llama",
       "minecraft:tropical_fish",

@@ -17,7 +17,7 @@ public class SensingMixin {
     @Shadow @Final private Mob mob;
 
     @Inject(method = "hasLineOfSight", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$zombieWallHack(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$zombieWallHack(Entity entity, CallbackInfoReturnable<Boolean> cir) {
         if (this.mob instanceof Zombie) {
             if (entity instanceof Player) {
                 if (this.mob.distanceToSqr(entity) <= 25.0 * 25.0) {

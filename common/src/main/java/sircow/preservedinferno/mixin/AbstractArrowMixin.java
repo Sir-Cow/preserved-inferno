@@ -14,12 +14,12 @@ public class AbstractArrowMixin {
     @Shadow private double baseDamage;
 
     @Unique
-    private static void preserved_inferno$catchArrowBaseDamage(double damage) {
+    private static void pinferno$catchArrowBaseDamage(double damage) {
         Captures.arrowBaseDamage = damage;
     }
 
     @Inject(method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V", at = @At("TAIL"))
     private void catchAndApply(CallbackInfo ci) {
-        preserved_inferno$catchArrowBaseDamage(baseDamage);
+        pinferno$catchArrowBaseDamage(baseDamage);
     }
 }

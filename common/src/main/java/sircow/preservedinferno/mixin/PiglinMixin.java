@@ -24,13 +24,13 @@ public class PiglinMixin extends Monster {
 
     // modify health value
     @ModifyArg(method = "createAttributes", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;add(Lnet/minecraft/core/Holder;D)Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;", ordinal = 0), index = 1)
-    private static double preserved_inferno$modifyHealth(double baseValue) {
+    private static double pinferno$modifyHealth(double baseValue) {
         baseValue = 24.0F;
         return baseValue;
     }
 
     @Inject(method = "setBaby", at = @At("TAIL"))
-    private void preserved_inferno$modifyBaby(boolean baby, CallbackInfo ci) {
+    private void pinferno$modifyBaby(boolean baby, CallbackInfo ci) {
         if (this.level().isClientSide()) return;
 
         AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);

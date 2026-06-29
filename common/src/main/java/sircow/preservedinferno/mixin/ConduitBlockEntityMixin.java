@@ -32,22 +32,22 @@ public class ConduitBlockEntityMixin {
 
     // extend conduit radius
     @ModifyConstant(method = "getDestroyRangeAABB", constant = @Constant(doubleValue = 8.0F))
-    private static double preserved_inferno$modifyDoubleValueAgain(double original) {
+    private static double pinferno$modifyDoubleValueAgain(double original) {
         return 16.0F;
     }
     // damage speed
     @ModifyConstant(method = "clientTick", constant = @Constant(longValue = 40L))
-    private static long preserved_inferno$modifyLongValue(long original) {
+    private static long pinferno$modifyLongValue(long original) {
         return 1L;
     }
     @ModifyConstant(method = "serverTick", constant = @Constant(longValue = 40L))
-    private static long preserved_inferno$modifyLongValueAgain(long original) {
+    private static long pinferno$modifyLongValueAgain(long original) {
         return 1L;
     }
 
     // remove in rain or water to grant effect
     @Inject(method = "applyEffects", at = @At("HEAD"), cancellable = true)
-    private static void preserved_inferno$givePlayersEffects(Level level, BlockPos pos, List<BlockPos> positions, CallbackInfo ci) {
+    private static void pinferno$givePlayersEffects(Level level, BlockPos pos, List<BlockPos> positions, CallbackInfo ci) {
         int structureSize = positions.size();
         int amplifier;
 
@@ -70,7 +70,7 @@ public class ConduitBlockEntityMixin {
 
     // change magic damage to custom damage type which makes player-killed loot drop
     @Inject(method = "updateAndAttackTarget", at = @At("HEAD"), cancellable = true)
-    private static void preserved_inferno$attackMultipleTargets(ServerLevel level, BlockPos pos, BlockState state, ConduitBlockEntity conduit, boolean canDestroy, CallbackInfo ci) {
+    private static void pinferno$attackMultipleTargets(ServerLevel level, BlockPos pos, BlockState state, ConduitBlockEntity conduit, boolean canDestroy, CallbackInfo ci) {
         if (!canDestroy) {
             return;
         }
@@ -101,7 +101,7 @@ public class ConduitBlockEntityMixin {
 
     // award conduit advancements
     @Inject(method = "serverTick", at = @At("TAIL"))
-    private static void preserved_inferno$onActivation(Level level, BlockPos pos, BlockState state, ConduitBlockEntity conduit, CallbackInfo ci) {
+    private static void pinferno$onActivation(Level level, BlockPos pos, BlockState state, ConduitBlockEntity conduit, CallbackInfo ci) {
         if (level.isClientSide()) return;
 
         ConduitBlockEntityMixin self = (ConduitBlockEntityMixin)(Object)conduit;

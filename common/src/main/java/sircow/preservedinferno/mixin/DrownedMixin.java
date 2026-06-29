@@ -31,14 +31,14 @@ public abstract class DrownedMixin extends Zombie implements RangedAttackMob {
     }
 
     @Inject(method = "createAttributes", at = @At("RETURN"), cancellable = true)
-    private static void preserved_inferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+    private static void pinferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.setReturnValue(Zombie.createAttributes()
                 .add(Attributes.STEP_HEIGHT, 1.0)
                 .add(Attributes.ARMOR, 10.0));
     }
 
     @Inject(method = "populateDefaultEquipmentSlots", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$modifyEquipment(RandomSource random, DifficultyInstance difficulty, CallbackInfo ci) {
+    private void pinferno$modifyEquipment(RandomSource random, DifficultyInstance difficulty, CallbackInfo ci) {
         float roll = random.nextFloat();
 
         if (roll < 0.15F) {
@@ -55,7 +55,7 @@ public abstract class DrownedMixin extends Zombie implements RangedAttackMob {
     }
 
     @Inject(method = "performRangedAttack", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$changeTrident(LivingEntity target, float distanceFactor, CallbackInfo ci) {
+    private void pinferno$changeTrident(LivingEntity target, float distanceFactor, CallbackInfo ci) {
         ItemStack itemStack = this.getMainHandItem();
         ItemStack itemStack2 = itemStack.is(ModItems.COPPER_TRIDENT) ? itemStack : new ItemStack(ModItems.COPPER_TRIDENT);
         ThrownCopperTrident thrownTrident = new ThrownCopperTrident(this.level(), this, itemStack2);

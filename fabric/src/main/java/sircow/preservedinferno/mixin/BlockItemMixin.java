@@ -24,7 +24,7 @@ import sircow.preservedinferno.other.SimpleBlockTransformationTask;
 public class BlockItemMixin {
     // make cold blocks go poof in the nether
     @Inject(method = "place", at = @At("HEAD"))
-    private void preserved_inferno$onPlace(BlockPlaceContext context, CallbackInfoReturnable<InteractionResult> cir) {
+    private void pinferno$onPlace(BlockPlaceContext context, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack itemStack = context.getItemInHand();
         BlockPos blockPos = context.getClickedPos();
         Level level = context.getLevel();

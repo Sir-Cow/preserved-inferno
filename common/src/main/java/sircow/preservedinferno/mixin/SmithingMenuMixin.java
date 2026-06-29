@@ -22,35 +22,28 @@ import java.util.Set;
 
 @Mixin(SmithingMenu.class)
 public abstract class SmithingMenuMixin extends ItemCombinerMenu {
-    @Unique
-    private ItemStack templateBeforeUse;
+    @Unique private ItemStack templateBeforeUse;
 
     public SmithingMenuMixin(@Nullable MenuType<?> menuType, int containerId, Inventory inventory, ContainerLevelAccess access, ItemCombinerMenuSlotDefinition slotDefinition) {
         super(menuType, containerId, inventory, access, slotDefinition);
     }
 
     @Inject(method = "onTake", at = @At("HEAD"))
-    private void preserved_inferno$captureTemplate(Player player, ItemStack stack, CallbackInfo ci) {
+    private void pinferno$captureTemplate(Player player, ItemStack stack, CallbackInfo ci) {
         ItemStack slot = this.inputSlots.getItem(SmithingMenu.TEMPLATE_SLOT);
 
-        if (slot.is(ModTags.ARMOR_TRIM_TEMPLATES)) {
-            templateBeforeUse = slot.copy();
-        } else {
-            templateBeforeUse = null;
-        }
+        if (slot.is(ModTags.ARMOR_TRIM_TEMPLATES)) templateBeforeUse = slot.copy();
+        else templateBeforeUse = null;
     }
 
     @Inject(method = "onTake", at = @At("TAIL"))
-    private void preserved_inferno$giveExhausted(Player player, ItemStack stack, CallbackInfo ci) {
-
+    private void pinferno$giveExhausted(Player player, ItemStack stack, CallbackInfo ci) {
         if (templateBeforeUse != null) {
             ItemStack exhausted = new ItemStack(templateBeforeUse.getItem());
             exhausted.set(ModComponents.EXHAUSTED_TEMPLATE, true);
 
             boolean added = player.getInventory().add(exhausted);
-            if (!added) {
-                player.drop(exhausted, false);
-            }
+            if (!added) player.drop(exhausted, false);
 
             templateBeforeUse = null;
         }
@@ -58,7 +51,7 @@ public abstract class SmithingMenuMixin extends ItemCombinerMenu {
 
 
     @Inject(method = "createResult", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$disallowExhaustedTemplate(CallbackInfo ci) {
+    private void pinferno$disallowExhaustedTemplate(CallbackInfo ci) {
         ItemStack template = this.inputSlots.getItem(SmithingMenu.TEMPLATE_SLOT);
         if (!template.isEmpty() && Boolean.TRUE.equals(template.get(ModComponents.EXHAUSTED_TEMPLATE))) {
             this.getSlot(SmithingMenu.RESULT_SLOT).set(ItemStack.EMPTY);
@@ -67,7 +60,7 @@ public abstract class SmithingMenuMixin extends ItemCombinerMenu {
     }
 
     @Inject(method = "createResult", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$preventResultForForbiddenHelmet(CallbackInfo ci) {
+    private void pinferno$preventResultForForbiddenHelmet(CallbackInfo ci) {
         ItemStack baseStack = this.inputSlots.getItem(SmithingMenu.BASE_SLOT);
         CustomData customData = baseStack.get(DataComponents.CUSTOM_DATA);
 
@@ -81,7 +74,7 @@ public abstract class SmithingMenuMixin extends ItemCombinerMenu {
     }
 
     @Inject(method = "createResult", at = @At("TAIL"))
-    private void preserved_inferno$dynamicHelmetNameAtTail(CallbackInfo ci) {
+    private void pinferno$dynamicHelmetNameAtTail(CallbackInfo ci) {
         ItemStack resultStack = this.resultSlots.getItem(0);
         CustomData customData = resultStack.get(DataComponents.CUSTOM_DATA);
         int prefixColour = 0;

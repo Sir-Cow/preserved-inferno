@@ -47,7 +47,7 @@ public class ZombieMixin extends Monster {
         Objects.requireNonNull(this.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE)).setBaseValue(this.random.nextDouble() * 0.1F);
     }
     @Inject(method = "createAttributes", at = @At("RETURN"), cancellable = true)
-    private static void preserved_inferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+    private static void pinferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.setReturnValue(Monster.createMonsterAttributes()
                 .add(Attributes.FOLLOW_RANGE, 40.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.23F)
@@ -58,23 +58,19 @@ public class ZombieMixin extends Monster {
     }
 
     @Inject(method = "setBaby", at = @At("TAIL"))
-    private void preserved_inferno$modifyBaby(boolean baby, CallbackInfo ci) {
+    private void pinferno$modifyBaby(boolean baby, CallbackInfo ci) {
         if (this.level().isClientSide()) return;
 
         AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
         if (health == null) return;
 
-        if (baby) {
-            health.setBaseValue(health.getBaseValue() * 0.75);
-        }
-        else {
-            health.setBaseValue(health.getBaseValue());
-        }
+        if (baby) health.setBaseValue(health.getBaseValue() * 0.75);
+        else health.setBaseValue(health.getBaseValue());
         this.setHealth(this.getMaxHealth());
     }
 
     @Inject(method = "killedEntity", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$alwaysConvertVillagers(ServerLevel level, LivingEntity entity, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$alwaysConvertVillagers(ServerLevel level, LivingEntity entity, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         Zombie self = (Zombie) (Object) this;
 
         if (entity instanceof Villager villager) {
@@ -84,23 +80,23 @@ public class ZombieMixin extends Monster {
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
-    private void preserved_inferno$forceCanBreakDoors(ValueInput input, CallbackInfo ci) {
+    private void pinferno$forceCanBreakDoors(ValueInput input, CallbackInfo ci) {
         Zombie self = (Zombie) (Object) this;
         self.setCanBreakDoors(true);
     }
 
     @Redirect(method = "finalizeSpawn", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/RandomSource;nextFloat()F", ordinal = 1))
-    private float preserved_inferno$alwaysAllowDoorBreaking(RandomSource randomSource) {
+    private float pinferno$alwaysAllowDoorBreaking(RandomSource randomSource) {
         return 0.0F;
     }
 
     @Inject(method = "<clinit>", at = @At("RETURN"))
-    private static void preserved_inferno$forceRemoveDifficultyCheck(CallbackInfo ci) {
+    private static void pinferno$forceRemoveDifficultyCheck(CallbackInfo ci) {
         DOOR_BREAKING_PREDICATE = difficulty -> true;
     }
 
     @Inject(method = "handleAttributes", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$boostLowYLeaderChance(float difficultyModifier, EntitySpawnReason spawnReason, CallbackInfo ci) {
+    private void pinferno$boostLowYLeaderChance(float difficultyModifier, EntitySpawnReason spawnReason, CallbackInfo ci) {
         Zombie self = (Zombie) (Object) this;
         BlockPos pos = self.blockPosition();
         boolean isLowY = pos.getY() <= 0;
@@ -141,7 +137,7 @@ public class ZombieMixin extends Monster {
     }
 
     @Inject(method = "populateDefaultEquipmentSlots", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$boostLowYWeapons(RandomSource random, DifficultyInstance difficulty, CallbackInfo ci) {
+    private void pinferno$boostLowYWeapons(RandomSource random, DifficultyInstance difficulty, CallbackInfo ci) {
         Zombie self = (Zombie) (Object) this;
         if (self.blockPosition().getY() <= 0) {
             float base = self.level().getDifficulty() == Difficulty.HARD ? 0.15F : 0.03F;

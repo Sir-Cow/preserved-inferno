@@ -11,7 +11,7 @@ import sircow.preservedinferno.client.CopperTridentSpecialRenderer;
 @Mixin(SpecialModelRenderers.class)
 public abstract class SpecialModelRenderersMixin {
     @Inject(method = "bootstrap", at = @At("TAIL"))
-    private static void preserved_inferno$injectCopperTridentRenderer(CallbackInfo ci) {
+    private static void pinferno$injectCopperTridentRenderer(CallbackInfo ci) {
         SpecialModelRenderersAccessor.getIdMapper().put(
                 Constants.id("copper_trident"),
                 CopperTridentSpecialRenderer.Unbaked.MAP_CODEC

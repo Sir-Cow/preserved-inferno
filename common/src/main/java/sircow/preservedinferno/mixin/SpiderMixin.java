@@ -7,7 +7,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.spider.CaveSpider;
 import net.minecraft.world.entity.monster.spider.Spider;
@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Spider.class)
 public abstract class SpiderMixin {
     @Inject(method = "finalizeSpawn", at = @At("RETURN"))
-    private void preserved_inferno$modifySpiderSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason reason, SpawnGroupData data, CallbackInfoReturnable<SpawnGroupData> cir) {
+    private void pinferno$modifySpiderSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason reason, SpawnGroupData data, CallbackInfoReturnable<SpawnGroupData> cir) {
         Spider self = (Spider) (Object) this;
         RandomSource random = level.getRandom();
         switch (reason) {
@@ -38,7 +38,7 @@ public abstract class SpiderMixin {
 
         // convert to cave spider
         if (!(self instanceof CaveSpider) && random.nextFloat() < -(self.getY() * 0.01F)) {
-            CaveSpider caveSpider = new CaveSpider(EntityType.CAVE_SPIDER, self.level());
+            CaveSpider caveSpider = new CaveSpider(EntityTypes.CAVE_SPIDER, self.level());
             caveSpider.setPos(self.getX(), self.getY(), self.getZ());
             caveSpider.setYRot(self.getYRot());
             caveSpider.setXRot(self.getXRot());

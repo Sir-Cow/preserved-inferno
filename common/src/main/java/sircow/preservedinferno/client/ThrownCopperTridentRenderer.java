@@ -7,10 +7,12 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.ThrownTridentRenderState;
-import net.minecraft.client.renderer.feature.ItemFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Unit;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
@@ -32,7 +34,7 @@ public class ThrownCopperTridentRenderer extends EntityRenderer<ThrownCopperTrid
         poseStack.mulPose(Axis.ZP.rotationDegrees(state.xRot + 90.0F));
         submitNodeCollector.order(0).submitModel(
                 this.model,
-                state,
+                Unit.INSTANCE,
                 poseStack,
                 TRIDENT_LOCATION,
                 state.lightCoords,
@@ -43,9 +45,9 @@ public class ThrownCopperTridentRenderer extends EntityRenderer<ThrownCopperTrid
         if (state.isFoil) {
             submitNodeCollector.order(1).submitModel(
                     this.model,
-                    state,
+                    Unit.INSTANCE,
                     poseStack,
-                    ItemFeatureRenderer.getFoilRenderType(this.model.renderType(TRIDENT_LOCATION), false),
+                    RenderTypes.entityGlint(),
                     state.lightCoords,
                     OverlayTexture.NO_OVERLAY,
                     state.outlineColor,
@@ -57,11 +59,15 @@ public class ThrownCopperTridentRenderer extends EntityRenderer<ThrownCopperTrid
         super.submit(state, poseStack, submitNodeCollector, camera);
     }
 
+    protected @NonNull AABB getBoundingBoxForCulling(final @NonNull ThrownCopperTrident entity) {
+        return super.getBoundingBoxForCulling(entity).inflate(1.5);
+    }
+
     public @NotNull ThrownTridentRenderState createRenderState() {
         return new ThrownTridentRenderState();
     }
 
-    public void extractRenderState(final ThrownCopperTrident entity, final ThrownTridentRenderState state, final float partialTicks) {
+    public void extractRenderState(final @NonNull ThrownCopperTrident entity, final @NonNull ThrownTridentRenderState state, final float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
         state.yRot = entity.getYRot(partialTicks);
         state.xRot = entity.getXRot(partialTicks);

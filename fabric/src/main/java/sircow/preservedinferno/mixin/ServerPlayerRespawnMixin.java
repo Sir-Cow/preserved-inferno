@@ -19,7 +19,7 @@ import sircow.preservedinferno.network.RespawnSyncPayload;
 public class ServerPlayerRespawnMixin {
     @Shadow @Final private MinecraftServer server;
     @Inject(method = "setRespawnPosition", at = @At("TAIL"))
-    private void preserved_inferno$syncRespawn(ServerPlayer.RespawnConfig respawnConfig, boolean showMessage, CallbackInfo ci) {
+    private void pinferno$syncRespawn(ServerPlayer.RespawnConfig respawnConfig, boolean showMessage, CallbackInfo ci) {
         ServerPlayer player = (ServerPlayer)(Object)this;
         GlobalPos pos = null;
 
@@ -40,7 +40,7 @@ public class ServerPlayerRespawnMixin {
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void preserved_inferno$validateRespawn(CallbackInfo ci) {
+    private void pinferno$validateRespawn(CallbackInfo ci) {
         ServerPlayer player = (ServerPlayer)(Object)this;
         ServerPlayer.RespawnConfig config = player.getRespawnConfig();
         GlobalPos pos = null;

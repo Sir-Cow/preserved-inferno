@@ -36,7 +36,7 @@ public abstract class WanderingTraderSpawnerMixin {
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void preserved_inferno$onInit(SavedDataStorage storage, CallbackInfo ci) {
+    private void pinferno$onInit(SavedDataStorage savedDataStorage, CallbackInfo ci) {
         WanderingTraderData data = this.getData();
         this.countdown = START_DELAY;
         data.setSpawnChance(0);
@@ -44,7 +44,7 @@ public abstract class WanderingTraderSpawnerMixin {
     }
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$onTick(ServerLevel level, boolean spawnEnemies, CallbackInfo ci) {
+    private void pinferno$onTick(ServerLevel level, boolean spawnEnemies, CallbackInfo ci) {
         if (!level.getGameRules().get(GameRules.SPAWN_WANDERING_TRADERS)) return;
 
         countdown--;

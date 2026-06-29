@@ -18,7 +18,7 @@ import java.util.List;
 @Mixin(StructureTemplate.class)
 public class StructureTemplateMixin {
     @Inject(method = "processBlockInfos", at = @At("RETURN"), cancellable = true)
-    private static void preserved_inferno$replaceCauldronsOnStructureGen(ServerLevelAccessor level, BlockPos position, BlockPos referencePos, StructurePlaceSettings settings, List<StructureTemplate.StructureBlockInfo> blockInfoList, CallbackInfoReturnable<List<StructureTemplate.StructureBlockInfo>> cir) {
+    private static void pinferno$replaceCauldronsOnStructureGen(ServerLevelAccessor level, BlockPos position, BlockPos referencePos, StructurePlaceSettings settings, List<StructureTemplate.StructureBlockInfo> blockInfoList, CallbackInfoReturnable<List<StructureTemplate.StructureBlockInfo>> cir) {
         List<StructureTemplate.StructureBlockInfo> result = new ArrayList<>(cir.getReturnValue());
 
         for (int i = 0; i < result.size(); i++) {

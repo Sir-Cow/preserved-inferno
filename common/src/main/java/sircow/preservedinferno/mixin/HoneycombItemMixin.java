@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(HoneycombItem.class)
 public abstract class HoneycombItemMixin {
     // make honeycomb edible
-    @ModifyVariable(method = "<init>", at = @At("HEAD"), argsOnly = true)
-    private static Item.Properties preserved_inferno$modifyItemSettings(Item.Properties value) {
-        value.food(new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build(), Consumable.builder().consumeSeconds(0.8F).build());
-        return value;
+    @ModifyVariable(method = "<init>", at = @At("HEAD"), argsOnly = true, name = "properties")
+    private static Item.Properties pinferno$modifyItemSettings(Item.Properties properties) {
+        properties.food(new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build(), Consumable.builder().consumeSeconds(0.8F).build());
+        return properties;
     }
 }

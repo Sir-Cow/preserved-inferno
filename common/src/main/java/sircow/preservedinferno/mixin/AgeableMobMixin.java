@@ -22,14 +22,14 @@ public abstract class AgeableMobMixin extends PathfinderMob {
     }
 
     @Inject(method = "setAge", at = @At("HEAD"))
-    private void preserved_inferno$storePrevAge(int age, CallbackInfo ci) {
+    private void pinferno$storePrevAge(int age, CallbackInfo ci) {
         if (!this.level().isClientSide()) {
             this.prevAge = this.getAge();
         }
     }
 
     @Inject(method = "setAge", at = @At("TAIL"))
-    private void preserved_inferno$onAgeChanged(int age, CallbackInfo ci) {
+    private void pinferno$onAgeChanged(int age, CallbackInfo ci) {
         if (this.level().isClientSide()) return;
 
         int now = this.getAge();

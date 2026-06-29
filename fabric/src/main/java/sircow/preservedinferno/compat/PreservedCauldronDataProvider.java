@@ -18,7 +18,19 @@ public class PreservedCauldronDataProvider implements StreamServerDataProvider<B
     @Override
     public Data streamData(@NonNull BlockAccessor accessor) {
         PreservedCauldronBlockEntity cauldron = accessor.typedBlockEntity();
-        return new Data(cauldron.progress, cauldron.maxProgress, List.of(cauldron.getItem(0), cauldron.getItem(1), cauldron.getItem(2)));
+
+        return new Data(
+                cauldron.progress,
+                cauldron.maxProgress,
+                cauldron.fluid.ordinal(),
+                cauldron.fluidAmount,
+                cauldron.maxFluidAmount,
+                List.of(
+                        cauldron.getItem(0),
+                        cauldron.getItem(1),
+                        cauldron.getItem(2)
+                )
+        );
     }
 
     @Override
@@ -31,7 +43,16 @@ public class PreservedCauldronDataProvider implements StreamServerDataProvider<B
         return JadePlugin.CAULDRON_PROGRESS;
     }
 
-    public record Data(int progress, int total, List<ItemStack> inventory) {
-        public static final StreamCodec<RegistryFriendlyByteBuf, Data> STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.VAR_INT, Data::progress, ByteBufCodecs.VAR_INT, Data::total, ItemStack.OPTIONAL_LIST_STREAM_CODEC, Data::inventory, Data::new);
+    public record Data(int progress, int total, int fluid, int fluidAmount, int maxFluid, List<ItemStack> inventory) {
+        public static final StreamCodec<RegistryFriendlyByteBuf, Data> STREAM_CODEC =
+                StreamCodec.composite(
+                        ByteBufCodecs.VAR_INT, Data::progress,
+                        ByteBufCodecs.VAR_INT, Data::total,
+                        ByteBufCodecs.VAR_INT, Data::fluid,
+                        ByteBufCodecs.VAR_INT, Data::fluidAmount,
+                        ByteBufCodecs.VAR_INT, Data::maxFluid,
+                        ItemStack.OPTIONAL_LIST_STREAM_CODEC, Data::inventory,
+                        Data::new
+                );
     }
 }

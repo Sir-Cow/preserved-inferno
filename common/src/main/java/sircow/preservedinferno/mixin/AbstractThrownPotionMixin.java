@@ -31,46 +31,46 @@ public abstract class AbstractThrownPotionMixin extends ThrowableItemProjectile 
     }
 
     @Inject(method = "onHitAsWater", at = @At("HEAD"))
-    public void preserved_inferno$waterThrow(ServerLevel level, CallbackInfo ci) {
-        AbstractThrownPotion thisAsPotion = (AbstractThrownPotion) (Object) this;
-        AABB aABB = thisAsPotion.getBoundingBox().inflate(4.0, 2.0, 4.0);
+    public void pinferno$waterThrow(ServerLevel level, CallbackInfo ci) {
+        AbstractThrownPotion potion = (AbstractThrownPotion) (Object) this;
+        AABB box = potion.getBoundingBox().inflate(4.0, 2.0, 4.0);
+
         hitPlayers.clear();
 
-        for (LivingEntity livingEntity : level.getEntitiesOfClass(LivingEntity.class, aABB, PLAYER)) {
-            if (livingEntity instanceof Player player) {
-                int currentHeat = ((HeatAccessor) player).preserved_inferno$getHeat();
-                if (!hitPlayers.contains(player)) {
-                    if (currentHeat >= HEAT_MODIFIER) {
-                        ((HeatAccessor) player).preserved_inferno$decreaseHeat(HEAT_MODIFIER);
-                    }
-                    else if (currentHeat < HEAT_MODIFIER && currentHeat > 0) {
-                        ((HeatAccessor) player).preserved_inferno$setHeat(0);
-                    }
-                    hitPlayers.add(player);
-                }
+        for (Player player : level.getEntitiesOfClass(Player.class, box, PLAYER)) {
+            if (!hitPlayers.add(player)) continue;
+
+            HeatAccessor heat = (HeatAccessor) player;
+            int currentHeat = heat.pinferno$getHeat();
+
+            if (currentHeat >= HEAT_MODIFIER) {
+                heat.pinferno$decreaseHeat(HEAT_MODIFIER);
+                continue;
             }
+
+            if (currentHeat > 0) heat.pinferno$setHeat(level.dimension() == Level.NETHER ? 1 : 0);
         }
     }
 
     @Inject(method = "onHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/throwableitemprojectile/AbstractThrownPotion;onHitAsPotion(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/phys/HitResult;)V", shift = At.Shift.BEFORE))
-    public void preserved_inferno$beforePotionHit(HitResult result, CallbackInfo ci) {
-        AbstractThrownPotion thisAsPotion = (AbstractThrownPotion) (Object) this;
-        AABB aABB = thisAsPotion.getBoundingBox().inflate(4.0, 2.0, 4.0);
+    public void pinferno$beforePotionHit(HitResult hitResult, CallbackInfo ci) {
+        AbstractThrownPotion potion = (AbstractThrownPotion) (Object) this;
+        AABB box = potion.getBoundingBox().inflate(4.0, 2.0, 4.0);
+
         hitPlayers.clear();
 
-        for (LivingEntity livingEntity : this.level().getEntitiesOfClass(LivingEntity.class, aABB, PLAYER)) {
-            if (livingEntity instanceof Player player) {
-                int currentHeat = ((HeatAccessor) player).preserved_inferno$getHeat();
-                if (!hitPlayers.contains(player)) {
-                    if (currentHeat >= HEAT_MODIFIER) {
-                        ((HeatAccessor) player).preserved_inferno$decreaseHeat(HEAT_MODIFIER);
-                    }
-                    else if (currentHeat < HEAT_MODIFIER && currentHeat > 0) {
-                        ((HeatAccessor) player).preserved_inferno$setHeat(0);
-                    }
-                    hitPlayers.add(player);
-                }
+        for (Player player : level().getEntitiesOfClass(Player.class, box, PLAYER)) {
+            if (!hitPlayers.add(player)) continue;
+
+            HeatAccessor heat = (HeatAccessor) player;
+            int currentHeat = heat.pinferno$getHeat();
+
+            if (currentHeat >= HEAT_MODIFIER) {
+                heat.pinferno$decreaseHeat(HEAT_MODIFIER);
+                continue;
             }
+
+            if (currentHeat > 0) heat.pinferno$setHeat(level().dimension() == Level.NETHER ? 1 : 0);
         }
     }
 }

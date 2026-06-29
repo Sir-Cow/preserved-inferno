@@ -1,0 +1,15 @@
+{
+  "type": "pinferno:cauldron",
+  "fluid": "water",
+  "fluid_cost": 1,
+  "ingredient": "minecraft:glass_bottle",
+  "result": {
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:water"
+      }
+    },
+    "count": 1,
+    "id": "minecraft:potion"
+  }
+}

@@ -20,7 +20,7 @@ public abstract class TamableAnimalMixin extends AgeableMob {
     }
 
     @Inject(method = "applyTamingSideEffects", at = @At("TAIL"))
-    private void preserved_inferno$applyBabyHealthModifier(CallbackInfo ci) {
+    private void pinferno$applyBabyHealthModifier(CallbackInfo ci) {
         if (this.level().isClientSide() || !this.isBaby()) return;
 
         AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
@@ -32,7 +32,7 @@ public abstract class TamableAnimalMixin extends AgeableMob {
     }
 
     @Inject(method = "getTeam", at = @At("RETURN"), cancellable = true)
-    private void preserved_inferno$preventRankPrefix(CallbackInfoReturnable<Team> cir) {
+    private void pinferno$preventRankPrefix(CallbackInfoReturnable<Team> cir) {
         TamableAnimal entity = (TamableAnimal) (Object) this;
         Team ownerTeam = cir.getReturnValue();
         if (ownerTeam == null || !entity.isTame()) return;

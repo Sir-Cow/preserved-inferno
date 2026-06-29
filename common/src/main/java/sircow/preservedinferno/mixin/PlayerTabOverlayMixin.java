@@ -15,7 +15,7 @@ import java.util.UUID;
 @Mixin(PlayerTabOverlay.class)
 public class PlayerTabOverlayMixin {
     @Inject(method = "getPlayerInfos", at = @At("RETURN"), cancellable = true)
-    private void preserved_inferno$modifyPlayerTabListSort(CallbackInfoReturnable<List<PlayerInfo>> cir) {
+    private void pinferno$modifyPlayerTabListSort(CallbackInfoReturnable<List<PlayerInfo>> cir) {
         List<PlayerInfo> sorted = new ArrayList<>(cir.getReturnValue());
 
         sorted.sort((a, b) -> {

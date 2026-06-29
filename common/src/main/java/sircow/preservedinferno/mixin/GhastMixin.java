@@ -15,13 +15,13 @@ public class GhastMixin {
     @Shadow private int explosionPower;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void preserved_inferno$onInit(EntityType<? extends Ghast> entityType, Level level, CallbackInfo ci) {
+    private void pinferno$onInit(EntityType<? extends Ghast> entityType, Level level, CallbackInfo ci) {
         explosionPower = 2;
     }
 
     // modify health value
     @ModifyArg(method = "createAttributes", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;add(Lnet/minecraft/core/Holder;D)Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;", ordinal = 0), index = 1)
-    private static double preserved_inferno$modifyHealth(double baseValue) {
+    private static double pinferno$modifyHealth(double baseValue) {
         baseValue = 40.0F;
         return baseValue;
     }

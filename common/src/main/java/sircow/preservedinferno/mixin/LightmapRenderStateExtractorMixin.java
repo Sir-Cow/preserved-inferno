@@ -12,7 +12,7 @@ import sircow.preservedinferno.effect.ModEffects;
 @Mixin(LightmapRenderStateExtractor.class)
 public class LightmapRenderStateExtractorMixin {
     @ModifyArg(method = "extract", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;hasEffect(Lnet/minecraft/core/Holder;)Z"))
-    private static Holder<MobEffect> preserved_inferno$replaceConduitPower(Holder<MobEffect> effect) {
+    private static Holder<MobEffect> pinferno$replaceConduitPower(Holder<MobEffect> effect) {
         return effect == MobEffects.CONDUIT_POWER ? ModEffects.PINFERNO_CONDUIT_POWER.holder : effect;
     }
 }

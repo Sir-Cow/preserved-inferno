@@ -1,6 +1,6 @@
 package sircow.preservedinferno.trigger;
 
-import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.advancements.triggers.CriterionTrigger;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import sircow.preservedinferno.Constants;

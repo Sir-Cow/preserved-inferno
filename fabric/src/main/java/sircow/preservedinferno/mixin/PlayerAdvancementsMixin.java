@@ -24,7 +24,7 @@ public abstract class PlayerAdvancementsMixin {
     @Shadow private AdvancementTree tree;
 
     @Inject(method = "award", at = @At("RETURN"))
-    private void preserved_inferno$onAwardAdvancement(AdvancementHolder advancementHolder, String criterionKey, CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$onAwardAdvancement(AdvancementHolder advancementHolder, String criterionKey, CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue()) return;
 
         MinecraftServer server = player.level().getServer();
@@ -46,7 +46,7 @@ public abstract class PlayerAdvancementsMixin {
     }
 
     @Inject(method = "revoke", at = @At("RETURN"))
-    private void preserved_inferno$onRevokeAdvancement(AdvancementHolder advancementHolder, String criterionKey, CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$onRevokeAdvancement(AdvancementHolder advancementHolder, String criterionKey, CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue()) return;
         FabricWorldDataManager.syncPlayerPointsWithAdvancements(player.level().getServer(), player);
     }

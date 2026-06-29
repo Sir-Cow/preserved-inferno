@@ -13,14 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ElderGuardian.class)
 public class ElderGuardianMixin {
     @Inject(method = "createAttributes", at = @At("RETURN"), cancellable = true)
-    private static void preserved_inferno$modifyMaxHealth(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+    private static void pinferno$modifyMaxHealth(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         AttributeSupplier.Builder builder = cir.getReturnValue();
         builder.add(Attributes.MAX_HEALTH, 300.0D);
         cir.setReturnValue(builder);
     }
 
     @ModifyConstant(method = "customServerAiStep", constant = @Constant(intValue = 1200))
-    private int preserved_inferno$modifyInterval(int original) {
+    private int pinferno$modifyInterval(int original) {
         return 20;
     }
 }

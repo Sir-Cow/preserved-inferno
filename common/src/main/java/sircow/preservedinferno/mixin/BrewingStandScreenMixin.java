@@ -27,12 +27,12 @@ public abstract class BrewingStandScreenMixin extends AbstractContainerScreen<Br
     }
 
     @ModifyConstant(method = "extractBackground", constant = @Constant(floatValue = 400.0F))
-    private float preserved_inferno$modifyBrewTime(float original) {
+    private float pinferno$modifyBrewTime(float original) {
         return 160;
     }
 
     @Inject(method = "extractBackground", at = @At("TAIL"))
-    private void preserved_inferno$addBrewingGUIs(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a, CallbackInfo ci) {
+    private void pinferno$addBrewingGUIs(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a, CallbackInfo ci) {
         graphics.blitSprite(RenderPipelines.GUI_TEXTURED, BREWING_GUIDE_LEFT, this.leftPos - 112, this.topPos, 112, 176);
         graphics.blitSprite(RenderPipelines.GUI_TEXTURED, BREWING_MODIFIERS_RIGHT, this.leftPos + 180, this.topPos, 112, 64);
     }

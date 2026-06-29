@@ -20,7 +20,7 @@ import java.util.List;
 @Mixin(Block.class)
 public class BlockMixin {
     @Inject(method = "getDrops(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/entity/BlockEntity;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/item/ItemInstance;)Ljava/util/List;", at = @At("HEAD"), cancellable = true)
-    private static void preserved_inferno$injectedGetDroppedStacks(BlockState state, ServerLevel level, BlockPos pos, BlockEntity blockEntity, Entity breaker, ItemInstance tool, CallbackInfoReturnable<List<ItemStack>> cir) {
+    private static void pinferno$injectedGetDroppedStacks(BlockState state, ServerLevel level, BlockPos pos, BlockEntity blockEntity, Entity breaker, ItemInstance tool, CallbackInfoReturnable<List<ItemStack>> cir) {
         if (DelayedBlockTransformationTask.isNoDropBlock(pos)) cir.setReturnValue(Collections.emptyList());
     }
 }

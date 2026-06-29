@@ -6,7 +6,7 @@
         "damage": {
           "type": {
             "direct_entity": {
-              "type": "minecraft:player",
+              "minecraft:entity_type": "minecraft:player",
               "equipment": {
                 "mainhand": {
                   "items": "minecraft:mace"

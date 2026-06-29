@@ -68,7 +68,7 @@ public abstract class DelayedBlockTransformationTask {
         }
 
         int progress = (int) (((float)(maxDelay - delayTicks) / maxDelay) * 10);
-        progress = Math.max(0, Math.min(9, progress));
+        progress = Math.clamp(progress, 0, 9);
 
         sendBreakingProgressToClients(progress);
     }

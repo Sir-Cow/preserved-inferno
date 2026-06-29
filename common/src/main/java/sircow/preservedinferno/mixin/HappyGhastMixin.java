@@ -14,13 +14,13 @@ import sircow.preservedinferno.trigger.ModTriggers;
 public class HappyGhastMixin {
     // modify health value
     @ModifyArg(method = "createAttributes", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;add(Lnet/minecraft/core/Holder;D)Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;", ordinal = 0), index = 1)
-    private static double preserved_inferno$modifyHealth(double baseValue) {
+    private static double pinferno$modifyHealth(double baseValue) {
         baseValue = 40.0F;
         return baseValue;
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void preserved_inferno$checkBuildLimit(CallbackInfo ci) {
+    private void pinferno$checkBuildLimit(CallbackInfo ci) {
         HappyGhast ghast = (HappyGhast)(Object)this;
 
         if (ghast.level().isClientSide()) return;

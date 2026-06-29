@@ -18,13 +18,13 @@ public class FurnaceResultSlotMixin {
     @Shadow @Final private Player player;
 
     @Inject(method = "onTake", at = @At("HEAD"))
-    private void preserved_inferno$onLeatherFabricTaken(Player player, ItemStack stack, CallbackInfo ci) {
+    private void pinferno$onLeatherFabricTaken(Player player, ItemStack stack, CallbackInfo ci) {
         if (stack.is(ModItems.LEATHER_FABRIC)) {
             if (player instanceof ServerPlayer serverPlayer) ModTriggers.SMELT_LEATHER_FABRIC.get().trigger(serverPlayer);
         }
     }
     @Inject(method = "onQuickCraft", at = @At("HEAD"))
-    private void preserved_inferno$onLeatherFabricTakenShifted(ItemStack stack, int count, CallbackInfo ci) {
+    private void pinferno$onLeatherFabricTakenShifted(ItemStack stack, int count, CallbackInfo ci) {
         if (stack.is(ModItems.LEATHER_FABRIC)) {
             if (this.player instanceof ServerPlayer serverPlayer) ModTriggers.SMELT_LEATHER_FABRIC.get().trigger(serverPlayer);
         }

@@ -13,7 +13,7 @@ import sircow.preservedinferno.trigger.ModTriggers;
 @Mixin(Arrow.class)
 public abstract class ArrowMixin {
     @Inject(method = "doPostHurtEffects", at = @At("HEAD"))
-    private void preserved_inferno$onTippedArrowEffect(LivingEntity target, CallbackInfo ci) {
+    private void pinferno$onTippedArrowEffect(LivingEntity target, CallbackInfo ci) {
         Arrow arrow = (Arrow) (Object) this;
 
         if (arrow.getColor() == -1) return;

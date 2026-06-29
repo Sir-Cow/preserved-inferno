@@ -15,7 +15,7 @@ import sircow.preservedinferno.other.HeatAggroGoal;
 @Mixin(ZombifiedPiglin.class)
 public class ZombifiedPiglinMixin {
     @Inject(method = "createAttributes", at = @At("RETURN"), cancellable = true)
-    private static void preserved_inferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+    private static void pinferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.setReturnValue(Zombie.createAttributes()
                 .add(Attributes.SPAWN_REINFORCEMENTS_CHANCE, 0.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.3F)
@@ -25,19 +25,19 @@ public class ZombifiedPiglinMixin {
     }
 
     @Inject(method = "alertOthers", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$disableVanillaAlert(CallbackInfo ci) {
+    private void pinferno$disableVanillaAlert(CallbackInfo ci) {
         ci.cancel();
     }
 
     @Inject(method = "maybeAlertOthers", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$disableMaybeGroupAlert(CallbackInfo ci) {
+    private void pinferno$disableMaybeGroupAlert(CallbackInfo ci) {
         ci.cancel();
     }
 
     @Inject(method = "addBehaviourGoals", at = @At("TAIL"))
-    private void preserved_inferno$replaceHurtByGoal(CallbackInfo ci) {
+    private void pinferno$replaceHurtByGoal(CallbackInfo ci) {
         ZombifiedPiglin self = (ZombifiedPiglin)(Object)this;
-        ((MobAccessor) self).preserved_inferno$getTargetSelector().removeAllGoals(goal -> goal instanceof HurtByTargetGoal);
-        ((MobAccessor) self).preserved_inferno$getTargetSelector().addGoal(1, new HeatAggroGoal(self));
+        ((MobAccessor) self).pinferno$getTargetSelector().removeAllGoals(goal -> goal instanceof HurtByTargetGoal);
+        ((MobAccessor) self).pinferno$getTargetSelector().addGoal(1, new HeatAggroGoal(self));
     }
 }

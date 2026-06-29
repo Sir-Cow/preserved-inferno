@@ -12,7 +12,7 @@ import snownee.jade.api.BlockAccessor;
 @Mixin(ItemStorageProvider.class)
 public class ItemStorageProviderMixin {
     @Inject(method = "shouldRequestData", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$disableItems(Accessor<?> accessor, CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$disableItems(Accessor<?> accessor, CallbackInfoReturnable<Boolean> cir) {
         if (accessor instanceof BlockAccessor blockAccessor && blockAccessor.getBlockEntity() instanceof PreservedCauldronBlockEntity) {
             cir.setReturnValue(false);
         }

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class WolfMixin {
     // modify health value
     @Inject(method = "createAttributes", at = @At("RETURN"), cancellable = true)
-    private static void preserved_inferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+    private static void pinferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.setReturnValue(Animal.createAnimalAttributes()
                 .add(Attributes.MOVEMENT_SPEED, 0.3F)
                 .add(Attributes.MAX_HEALTH, 20.0)
@@ -24,7 +24,7 @@ public class WolfMixin {
     }
 
     @Inject(method = "applyTamingSideEffects", at = @At("TAIL"))
-    private void preserved_inferno$fixTamingHealth(CallbackInfo ci) {
+    private void pinferno$fixTamingHealth(CallbackInfo ci) {
         Wolf wolf = (Wolf) (Object) this;
         AttributeInstance healthAttr = wolf.getAttribute(Attributes.MAX_HEALTH);
 

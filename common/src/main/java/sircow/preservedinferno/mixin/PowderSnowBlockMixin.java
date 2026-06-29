@@ -18,7 +18,7 @@ public abstract class PowderSnowBlockMixin extends Block {
     }
 
     @Redirect(method = "entityInside", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/InsideBlockEffectApplier;runBefore" + "(Lnet/minecraft/world/entity/InsideBlockEffectType;" + "Ljava/util/function/Consumer;)V"))
-    private void preserved_inferno$blockExtinguishBreak(InsideBlockEffectApplier applier, InsideBlockEffectType type, Consumer<Entity> callback) {
+    private void pinferno$blockExtinguishBreak(InsideBlockEffectApplier applier, InsideBlockEffectType type, Consumer<Entity> callback) {
         if (type == InsideBlockEffectType.EXTINGUISH) {
             return;
         }

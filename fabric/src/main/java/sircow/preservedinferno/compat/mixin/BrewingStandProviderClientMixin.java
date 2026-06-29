@@ -11,7 +11,7 @@ import snownee.jade.addon.vanilla.BrewingStandProvider;
 @Mixin(BrewingStandProvider.Client.class)
 public class BrewingStandProviderClientMixin {
     @Redirect(method = "appendTooltip*", at = @At(value = "NEW", target = "(Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/world/item/ItemStack;"))
-    private ItemStack preserved_inferno$replaceFuelItem(ItemLike item) {
+    private ItemStack pinferno$replaceFuelItem(ItemLike item) {
         if (item == Items.BLAZE_POWDER) return new ItemStack(Items.NETHER_WART);
         return new ItemStack(item);
     }

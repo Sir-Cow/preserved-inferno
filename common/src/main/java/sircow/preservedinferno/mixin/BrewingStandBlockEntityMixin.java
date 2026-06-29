@@ -17,24 +17,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BrewingStandBlockEntity.class)
 public abstract class BrewingStandBlockEntityMixin extends BaseContainerBlockEntity {
-    @Shadow int fuel;
+    @Shadow private int fuel;
 
     protected BrewingStandBlockEntityMixin(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
     }
 
     @ModifyConstant(method = "serverTick", constant = @Constant(intValue = 400))
-    private static int preserved_inferno$modifyBrewTime(int original) {
+    private static int pinferno$modifyBrewTime(int original) {
         return 160;
     }
 
     @Redirect(method = "serverTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/tags/TagKey;)Z", ordinal = 0))
-    private static boolean preserved_inferno$disableVanillaFuelCheck(ItemStack instance, TagKey<Item> tag) {
+    private static boolean pinferno$disableVanillaFuelCheck(ItemStack instance, TagKey<Item> tag) {
         return false;
     }
 
     @Inject(method = "serverTick", at = @At(value = "HEAD"))
-    private static void preserved_inferno$handleCustomFuel(Level level, BlockPos pos, BlockState state, BrewingStandBlockEntity blockEntity, CallbackInfo ci) {
+    private static void pinferno$handleCustomFuel(Level level, BlockPos pos, BlockState state, BrewingStandBlockEntity blockEntity, CallbackInfo ci) {
         BrewingStandBlockEntityMixin self = (BrewingStandBlockEntityMixin) (Object) blockEntity;
         if (self != null) {
             ItemStack fuelStack = self.getItem(4);

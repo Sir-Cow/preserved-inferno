@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "minecraft:freeze",
     "pinferno:conduit",
     "pinferno:true_damage"
   ]

@@ -130,6 +130,14 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.MUSIC_DISC_AQUA);
 
                     entries.accept(ModItems.FLARE_GUN);
+                    entries.accept(ModItems.LAVA_BOTTLE);
+                    entries.accept(ModItems.SPLASH_LAVA_BOTTLE);
+                    entries.accept(ModItems.LINGERING_LAVA_BOTTLE);
+                    entries.accept(ModItems.MILK_BOTTLE);
+                    entries.accept(ModItems.SPLASH_MILK_BOTTLE);
+                    entries.accept(ModItems.LINGERING_MILK_BOTTLE);
+                    entries.accept(ModItems.SPLASH_HONEY_BOTTLE);
+                    entries.accept(ModItems.LINGERING_HONEY_BOTTLE);
 
                     entries.accept(ModBlocks.INDUCTOR_RAIL.asItem());
                     entries.accept(ModBlocks.EXPOSED_INDUCTOR_RAIL.asItem());

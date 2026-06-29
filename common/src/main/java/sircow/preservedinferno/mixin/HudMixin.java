@@ -3,8 +3,8 @@ package sircow.preservedinferno.mixin;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -20,8 +20,8 @@ import sircow.preservedinferno.item.custom.PreservedShieldItem;
 import sircow.preservedinferno.other.HeatAccessor;
 import sircow.preservedinferno.other.ShieldStaminaHandler;
 
-@Mixin(Gui.class)
-public class GuiMixin {
+@Mixin(Hud.class)
+public class HudMixin {
     @Unique private static final Identifier HEAT_EMPTY_SPRITE = Constants.id("textures/gui/sprites/hud/heat_bar_empty.png");
     @Unique private static final Identifier HEAT_FILLED_SPRITE = Constants.id("textures/gui/sprites/hud/heat_bar_filled.png");
     @Unique private static final Identifier HEAT_100_SPRITE = Constants.id("textures/gui/sprites/hud/heat_100.png");
@@ -36,16 +36,16 @@ public class GuiMixin {
     @Unique private Player player;
 
     @Inject(method = "extractRenderState", at = @At("HEAD"))
-    public void preserved_inferno$renderHeat(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+    public void pinferno$renderHeat(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player != null) {
             this.player = minecraft.player;
-            this.heat = ((HeatAccessor) player).preserved_inferno$getHeat();
+            this.heat = ((HeatAccessor) player).pinferno$getHeat();
         }
     }
 
-    @Inject(method = "extractPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;extractAirBubbles(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/entity/player/Player;III)V", shift = At.Shift.AFTER))
-    public void preserved_inferno$renderHeatBar(GuiGraphicsExtractor guiGraphics, CallbackInfo ci) {
+    @Inject(method = "extractPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;extractAirBubbles(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/entity/player/Player;III)V", shift = At.Shift.AFTER))
+    public void pinferno$renderHeatBar(GuiGraphicsExtractor guiGraphics, CallbackInfo ci) {
         int screenWidth = guiGraphics.guiWidth();
         int screenHeight = guiGraphics.guiHeight();
         int x = screenWidth / 2 + 91;
@@ -87,7 +87,7 @@ public class GuiMixin {
 
     // replace vanilla with custom armour bar
     @Inject(method = "extractArmor", at = @At("HEAD"), cancellable = true)
-    private static void preserved_inferno$modifyArmourBar(GuiGraphicsExtractor guiGraphics, Player player, int y, int heartRows, int height, int x, CallbackInfo ci) {
+    private static void pinferno$modifyArmourBar(GuiGraphicsExtractor guiGraphics, Player player, int y, int heartRows, int height, int x, CallbackInfo ci) {
         double maxArmourVal = 100.0F; // its actually 150 but this is a cap for only the bar
         int armourVal = player.getArmorValue();
         double percentageMultiplier;
@@ -108,10 +108,8 @@ public class GuiMixin {
     }
 
     // shield stamina
-    @Inject(method = "extractHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/contextualbar/ContextualBarRenderer;extractRenderState(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/DeltaTracker;)V",
-            shift = At.Shift.AFTER)
-    )
-    private void preserved_inferno$renderShieldBar(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+    @Inject(method = "extractHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/contextualbar/ContextualBar;extractRenderState(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/DeltaTracker;)V", shift = At.Shift.AFTER))
+    private void pinferno$renderShieldBar(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         int barWidth = 182;
         int barHeight = 5;
         double percentageMultiplier;
@@ -141,13 +139,13 @@ public class GuiMixin {
 
     // extend sleep overlay time
     @ModifyConstant(method = "extractSleepOverlay", constant = @Constant(floatValue = 100.0F))
-    private float preserved_inferno$modifyFloatValue(float original) {
+    private float pinferno$modifyFloatValue(float original) {
         return 200.0F;
     }
 
-    @Redirect(method = "extractHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/contextualbar/ContextualBarRenderer;extractExperienceLevel(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/gui/Font;I)V"))
-    private void preserved_inferno$moveXPNumber(GuiGraphicsExtractor guiGraphics, Font font, int level) {
-        Component component = Component.translatable("gui.experience.level", level);
+    @Redirect(method = "extractHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/contextualbar/ContextualBar;extractExperienceLevel(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/gui/Font;I)V"))
+    private void pinferno$moveXPNumber(GuiGraphicsExtractor guiGraphics, Font font, int experienceLevel) {
+        Component component = Component.translatable("gui.experience.level", experienceLevel);
         int i = (guiGraphics.guiWidth() - font.width(component)) / 2;
         int j = guiGraphics.guiHeight() - 24 - 9 - 5;
 

@@ -31,7 +31,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.Constants;
@@ -56,7 +58,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$preventEffectsOnShieldBlock(MobEffectInstance effectInstance, Entity source, CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$preventEffectsOnShieldBlock(MobEffectInstance newEffect, Entity source, CallbackInfoReturnable<Boolean> cir) {
         if ((LivingEntity)(Object)this instanceof Player player) {
             if (player.isBlocking()) {
                 if (source instanceof Monster) cir.setReturnValue(false);
@@ -64,8 +66,8 @@ public abstract class LivingEntityMixin extends Entity {
         }
     }
 
-    @Inject(method = "knockback", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$cancelKnockback(double strength, double x, double z, CallbackInfo ci) {
+    @Inject(method = "knockback(DDDLnet/minecraft/world/damagesource/DamageSource;FZ)V", at = @At("HEAD"), cancellable = true)
+    private void pinferno$cancelKnockback(double power, double xd, double zd, final DamageSource source, final float damage, final boolean comesFromEffect, CallbackInfo ci) {
         if ((Object)this instanceof Player player) {
             if (player.isBlocking() && player.getUseItem().getItem() instanceof PreservedShieldItem) {
                 ci.cancel();
@@ -74,7 +76,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "travel", at = @At("HEAD"))
-    private void preserved_inferno$applyHindered(Vec3 travelVector, CallbackInfo ci) {
+    private void pinferno$applyHindered(Vec3 input, CallbackInfo ci) {
         if (!this.hasEffect(ModEffects.HINDERED.holder)) {
             AttributeInstance speedAttr = this.getAttribute(Attributes.MOVEMENT_SPEED);
             if (speedAttr != null && speedAttr.getModifier(HINDERED_SPEED_ID) != null) speedAttr.removeModifier(HINDERED_SPEED_ID);
@@ -106,7 +108,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "hurtServer", at = @At("HEAD"))
-    private void preserved_inferno$onDamage(ServerLevel serverLevel, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$onDamage(ServerLevel serverLevel, DamageSource source, float damage, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity self = (LivingEntity)(Object)this;
         this.preDamageHealth = self.getHealth();
         // hindered effect on freeze
@@ -117,7 +119,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "hurtServer", at = @At("RETURN"))
-    private void preserved_inferno$onDamage2(ServerLevel serverLevel, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$onDamage2(ServerLevel serverLevel, DamageSource source, float damage, CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValueZ()) return;
 
         LivingEntity self = (LivingEntity)(Object)this;
@@ -128,7 +130,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "canGlide", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$disableElytraOnCooldown(CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$disableElytraOnCooldown(CallbackInfoReturnable<Boolean> cir) {
         LivingEntity self = (LivingEntity)(Object)this;
 
         if (!(self instanceof Player player)) return;
@@ -136,7 +138,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "jumpFromGround", at = @At("TAIL"))
-    private void preserved_inferno$reduceJumpHeight(CallbackInfo ci) {
+    private void pinferno$reduceJumpHeight(CallbackInfo ci) {
         if (this.hasEffect(ModEffects.HINDERED.holder)) {
             int level = this.getEffect(ModEffects.HINDERED.holder).getAmplifier() + 1;
             double heightFraction = Math.pow(0.3, level);
@@ -149,7 +151,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "dropAllDeathLoot", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$modifyMobDrops(ServerLevel level, DamageSource damageSource, CallbackInfo ci) {
+    private void pinferno$modifyMobDrops(ServerLevel level, DamageSource damageSource, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
         if (entity instanceof Player) return; // if the entity is a player, always allow drops
@@ -163,7 +165,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "getItemBlockingWith", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$bucklerEnchant(CallbackInfoReturnable<ItemStack> cir) {
+    private void pinferno$bucklerEnchant(CallbackInfoReturnable<ItemStack> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (!entity.isUsingItem()) return;
 
@@ -178,5 +180,10 @@ public abstract class LivingEntityMixin extends Entity {
 
         if (usedTicks >= delay) cir.setReturnValue(stack);
         else cir.setReturnValue(null);
+    }
+
+    @ModifyConstant(method = "aiStep", constant = @Constant(intValue = 40))
+    private int pinferno$freezeDamageInterval(int original) {
+        return 1;
     }
 }

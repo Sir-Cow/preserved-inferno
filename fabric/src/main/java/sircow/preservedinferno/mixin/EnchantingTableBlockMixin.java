@@ -34,7 +34,7 @@ import java.util.stream.Stream;
 public class EnchantingTableBlockMixin {
     @SuppressWarnings("rawtypes")
     @Inject(method = "getMenuProvider", at = @At("HEAD"), cancellable = true)
-    public void preserved_inferno$getMenuProvider(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
+    public void pinferno$getMenuProvider(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
         BlockEntity blockentity = level.getBlockEntity(pos);
         if (blockentity instanceof EnchantingTableBlockEntity) {
             Component component = ((Nameable) blockentity).getDisplayName();
@@ -58,7 +58,7 @@ public class EnchantingTableBlockMixin {
     }
 
     @Redirect(method = "<clinit>", at = @At(value = "INVOKE", target = "Ljava/util/stream/Stream;toList()Ljava/util/List;", remap = false))
-    private static List<BlockPos> preserved_inferno$redirectBookshelfOffsets(Stream<BlockPos> stream) {
+    private static List<BlockPos> pinferno$redirectBookshelfOffsets(Stream<BlockPos> stream) {
         return BlockPos.betweenClosedStream(-3, -3, -3, 3, 3, 3)
                 .filter(pos -> !pos.equals(BlockPos.ZERO))
                 .map(BlockPos::immutable)

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AdvancementType.class)
 public class AdvancementTypeMixin {
     @Inject(method = "getChatColor", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$overrideColour(CallbackInfoReturnable<ChatFormatting> cir) {
+    private void pinferno$overrideColour(CallbackInfoReturnable<ChatFormatting> cir) {
         AdvancementType self = (AdvancementType)(Object)this;
         if (self == AdvancementType.CHALLENGE) cir.setReturnValue(ChatFormatting.GOLD);
 

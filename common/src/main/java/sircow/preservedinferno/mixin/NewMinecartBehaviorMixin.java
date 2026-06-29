@@ -15,13 +15,12 @@ import sircow.preservedinferno.block.ModBlocks;
 @Mixin(NewMinecartBehavior.class)
 public abstract class NewMinecartBehaviorMixin {
     @Inject(method = "calculateBoostTrackSpeed", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$railSpeed(Vec3 speed, BlockPos pos, BlockState state, CallbackInfoReturnable<Vec3> cir) {
-        double speedLen = speed.length();
+    private void pinferno$railSpeed(Vec3 deltaMovement, BlockPos pos, BlockState state, CallbackInfoReturnable<Vec3> cir) {
+        double speedLen = deltaMovement.length();
 
         if (speedLen <= 0.01) return;
 
-        double boost; // default boost
-        double maxSpeed; // default max (8 blocks/sec = 0.4 blocks/tick)
+        double boost, maxSpeed; // default max (8 blocks/sec = 0.4 blocks/tick)
 
         if (state.is(ModBlocks.OXIDIZED_INDUCTOR_RAIL) || state.is(ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL)) {
             boost = 0.06;
@@ -43,10 +42,7 @@ public abstract class NewMinecartBehaviorMixin {
             boost = 0.03;
             maxSpeed = 1.6;
         }
-        else {
-            return;
-        }
-
-        cir.setReturnValue(speed.normalize().scale(Math.min(speedLen + boost, maxSpeed)));
+        else return;
+        cir.setReturnValue(deltaMovement.normalize().scale(Math.min(speedLen + boost, maxSpeed)));
     }
 }

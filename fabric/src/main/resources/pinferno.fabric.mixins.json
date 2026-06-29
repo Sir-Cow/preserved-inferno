@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "sircow.preservedinferno.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
     "AbstractCauldronBlockMixin",
     "AdvancementTypeFabricMixin",
@@ -13,15 +13,20 @@
     "EnchantingTableBlockMixin",
     "LoomBlockMixin",
     "PlayerAdvancementsMixin",
+    "PointedDripstoneBlockMixin",
     "ServerPlayerRespawnMixin",
     "StructureTemplateMixin"
   ],
   "client": [
     "ClientAdvancementsMixin",
+    "FabricGuiMixin",
     "MinecraftMixin"
   ],
   "server": [],
   "injectors": {
     "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
   }
 }

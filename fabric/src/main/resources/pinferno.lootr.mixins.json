@@ -3,13 +3,15 @@
   "minVersion": "0.8",
   "package": "sircow.preservedinferno.compat.mixin",
   "plugin": "sircow.preservedinferno.compat.LootrMixinPlugin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
     "LootrBrushableBlockEntityMixin"
   ],
-  "client": [
-  ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
   }
 }

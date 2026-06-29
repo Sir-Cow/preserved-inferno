@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ComposterBlockMixin {
     @Shadow public static final Object2FloatMap<ItemLike> COMPOSTABLES = new Object2FloatOpenHashMap<>();
     @Inject(method = "bootStrap", at = @At("HEAD"), cancellable = true)
-    private static void preserved_inferno$newComposterValues(CallbackInfo ci) {
+    private static void pinferno$newComposterValues(CallbackInfo ci) {
         COMPOSTABLES.defaultReturnValue(-1.0F);
         add(0.08F, Items.ACACIA_LEAVES);
         add(0.08F, Items.ALLIUM);

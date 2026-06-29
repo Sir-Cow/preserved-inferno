@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(WaterFluid.class)
 public abstract class WaterFluidMixin {
     @Inject(method = "beforeDestroyingBlock", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$preventDestroyingPowderSnow(LevelAccessor level, BlockPos pos, BlockState state, CallbackInfo ci) {
+    private void pinferno$preventDestroyingPowderSnow(LevelAccessor level, BlockPos pos, BlockState state, CallbackInfo ci) {
         if (state.is(Blocks.POWDER_SNOW)) {
             ci.cancel();
         }

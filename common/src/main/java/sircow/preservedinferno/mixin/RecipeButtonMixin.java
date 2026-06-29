@@ -19,7 +19,7 @@ public abstract class RecipeButtonMixin extends AbstractWidget {
     }
 
     @Inject(method = "extractWidgetRenderState", at = @At("TAIL"))
-    private void preserved_inferno$renderDurabilityBar(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
+    private void pinferno$renderDurabilityBar(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
         ItemStack stack = ((RecipeButton)(Object)this).getDisplayStack();
 
         if (!stack.isEmpty() && stack.isDamaged()) {

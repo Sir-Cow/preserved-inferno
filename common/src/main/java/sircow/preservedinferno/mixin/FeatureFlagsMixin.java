@@ -17,7 +17,7 @@ public class FeatureFlagsMixin {
 
     // enable minecraft experiments by default
     @ModifyExpressionValue(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/flag/FeatureFlagSet;of(Lnet/minecraft/world/flag/FeatureFlag;)Lnet/minecraft/world/flag/FeatureFlagSet;"))
-    private static FeatureFlagSet preserved_inferno$forceDefault(FeatureFlagSet original) {
+    private static FeatureFlagSet pinferno$forceDefault(FeatureFlagSet original) {
         FeatureFlagSet featureFlagSet = FeatureFlagSet.of(VANILLA);
         featureFlagSet = featureFlagSet.join(FeatureFlagSet.of(MINECART_IMPROVEMENTS));
         ExperimentsUtil.addGlobalFeature("minecart_improvements");

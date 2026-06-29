@@ -10,7 +10,7 @@ import sircow.preservedinferno.RegisterItemChecker;
 public class ShovelItemMixin {
     // modify shovel attackDamage
     @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;shovel(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;"), index = 1)
-    private static float preserved_inferno$modifyAttackDamage(float attackDamage) {
+    private static float pinferno$modifyAttackDamage(float attackDamage) {
         if (RegisterItemChecker.flip) {
             if (RegisterItemChecker.SHOVELS.contains(RegisterItemChecker.itemName)) {
                 switch (RegisterItemChecker.itemName) {
@@ -27,7 +27,7 @@ public class ShovelItemMixin {
     }
     // modify shovel attackSpeed
     @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;shovel(Lnet/minecraft/world/item/ToolMaterial;FF)Lnet/minecraft/world/item/Item$Properties;"), index = 2, remap = false)
-    private static float preserved_inferno$modifyAttackSpeed(float attackSpeed) {
+    private static float pinferno$modifyAttackSpeed(float attackSpeed) {
         if (RegisterItemChecker.flip) {
             if (RegisterItemChecker.SHOVELS.contains(RegisterItemChecker.itemName)) {
                 attackSpeed = -2.6F;

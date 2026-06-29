@@ -16,18 +16,18 @@ import sircow.preservedinferno.Captures;
 public class CrossbowMixin {
     // make the crossbow only use 1 durability when firing a rocket
     @ModifyConstant(method = "getDurabilityUse", constant = @Constant(intValue = 3))
-    private int preserved_inferno$modifyIntValue(int original) {
+    private int pinferno$modifyIntValue(int original) {
         return 1;
     }
 
     // reduce damage by 75% if multishot is present
     @Inject(method = "shootProjectile", at = @At("HEAD"))
-    private void preserved_inferno$modifyArrowDamage(LivingEntity shooter, Projectile projectile, int index, float speed, float divergence, float yaw, LivingEntity target, CallbackInfo ci) {
-        ItemStack[] hands = {shooter.getMainHandItem(), shooter.getOffhandItem()};
-        if (projectile instanceof AbstractArrow arrow) {
+    private void pinferno$modifyArrowDamage(LivingEntity livingEntity, Projectile projectileEntity, int index, float power, float uncertainty, float angle, LivingEntity targetOverride, CallbackInfo ci) {
+        ItemStack[] hands = {livingEntity.getMainHandItem(), livingEntity.getOffhandItem()};
+        if (projectileEntity instanceof AbstractArrow arrow) {
             for (ItemStack itemStack : hands) {
                 if (itemStack.getItem() instanceof CrossbowItem &&
-                        EnchantmentHelper.getItemEnchantmentLevel(shooter.level().registryAccess()
+                        EnchantmentHelper.getItemEnchantmentLevel(livingEntity.level().registryAccess()
                                 .lookupOrThrow(Enchantments.MULTISHOT.registryKey())
                                 .getOrThrow(Enchantments.MULTISHOT), itemStack) > 0) {
                     double originalDamage = Captures.arrowBaseDamage;
@@ -40,8 +40,8 @@ public class CrossbowMixin {
     }
 
     // modify crossbow draw speed
-    @ModifyVariable(method = "getChargeDuration", at = @At("STORE"), ordinal = 0)
-    private static float preserved_inferno$modifyDrawSpd(float originalValue) {
+    @ModifyVariable(method = "getChargeDuration", at = @At("STORE"), name = "duration")
+    private static float pinferno$modifyDrawSpd(float duration) {
         return 1.0F;
     }
 }

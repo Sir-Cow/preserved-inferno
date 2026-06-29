@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MinecraftServer.class)
 public abstract class MinecraftServerMixin {
     @Inject(method = "loadLevel", at = @At("TAIL"))
-    private void preserved_inferno$setNaturalRegenFalseIfHardcore(CallbackInfo ci) {
+    private void pinferno$setNaturalRegenFalseIfHardcore(CallbackInfo ci) {
         MinecraftServer server = (MinecraftServer) (Object) this;
         ServerLevel overworld = server.overworld();
 

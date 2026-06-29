@@ -34,7 +34,7 @@ public class CarversMixin {
     }
 
     @Inject(method = "bootstrap", at = @At("HEAD"), cancellable = true)
-    private static void preserved_inferno$modifyCarver(BootstrapContext<ConfiguredWorldCarver<?>> context, CallbackInfo ci) {
+    private static void pinferno$modifyCarver(BootstrapContext<ConfiguredWorldCarver<?>> context, CallbackInfo ci) {
         HolderGetter<Block> holderGetter = context.lookup(Registries.BLOCK);
         context.register(
                 CAVE,

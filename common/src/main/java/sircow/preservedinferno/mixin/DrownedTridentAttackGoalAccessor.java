@@ -7,5 +7,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(targets = "net.minecraft.world.entity.monster.zombie.Drowned$DrownedTridentAttackGoal")
 public interface DrownedTridentAttackGoalAccessor {
     @Accessor("drowned")
-    Drowned preserved_inferno$getDrowned();
+    Drowned pinferno$getDrowned();
 }

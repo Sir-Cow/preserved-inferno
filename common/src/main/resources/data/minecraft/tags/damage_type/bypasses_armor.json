@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "minecraft:freeze",
     "pinferno:heat",
     "pinferno:true_damage"
   ]

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.core.filter.AbstractFilter;
 import sircow.preservedinferno.block.ModBlocks;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.entity.ModEntities;
+import sircow.preservedinferno.fluid.ModFluids;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.other.ModDamageTypes;
 import sircow.preservedinferno.other.ModEntityData;
@@ -21,16 +22,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CommonClass {
-    //               :3
-//         \|/         (__)
-//             `\------(oo)
-//    \|/        ||    (__) - moo!
-//               ||w--||     \|/
-//           \|/
     public static void init() {
         if (Services.PLATFORM.isModLoaded("pinferno")) {
             Constants.LOG.info("Initialising " + Constants.MOD_NAME);
             // registering
+            ModFluids.registerModFluids();
             ModBlocks.registerModBlocks();
             ModItems.registerModItems();
             ModTags.registerModTags();

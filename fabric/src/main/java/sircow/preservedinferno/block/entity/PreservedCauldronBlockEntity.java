@@ -3,6 +3,7 @@ package sircow.preservedinferno.block.entity;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -16,10 +17,10 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -29,28 +30,39 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.shapes.Shapes;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.block.ModBlockProperties;
+import sircow.preservedinferno.fluid.CauldronFluid;
+import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.recipe.CauldronRecipe;
 import sircow.preservedinferno.recipe.CauldronRecipeInput;
 import sircow.preservedinferno.recipe.ModRecipes;
 import sircow.preservedinferno.screen.PreservedCauldronMenu;
 import sircow.preservedinferno.sound.ModSounds;
 
-import java.util.Optional;
+import java.util.*;
 
 @SuppressWarnings("rawtypes")
 public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity implements ExtendedMenuProvider, WorldlyContainer {
-    private NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
+    private NonNullList<ItemStack> inventory = NonNullList.withSize(4, ItemStack.EMPTY);
     private static final int INPUT_SLOT = 0;
     private static final int INPUT_SLOT_TWO = 1;
     private static final int OUTPUT_SLOT = 2;
+    private static final int OUTPUT_SLOT_TWO = 3;
     protected final ContainerData propertyDelegate, propertyDelegateTwo;
-    public int progress, progressWater;
+    public int progress, fluidAmount;
     public int maxProgress = 100;
-    public int maxWaterProgress = 64;
+    public int maxFluidAmount = 64;
+    public int fluidValueBottle = 1;
+    public int fluidValueBucket = 8;
+    public int fluidValueHoneyBlock = 4;
     private boolean needsInitialUpdate = true;
+    public CauldronFluid fluid = CauldronFluid.EMPTY;
+    private final Map<UUID, Integer> snowCauldronTimers = new HashMap<>();
+    private final Set<Integer> entitiesInHoney = new HashSet<>();
 
     public PreservedCauldronBlockEntity(BlockPos pos, BlockState state) {
         super(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, pos, state);
@@ -81,8 +93,9 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
             @Override
             public int get(int index) {
                 return switch (index) {
-                    case 0 -> PreservedCauldronBlockEntity.this.progressWater;
-                    case 1 -> PreservedCauldronBlockEntity.this.maxWaterProgress;
+                    case 0 -> PreservedCauldronBlockEntity.this.fluidAmount;
+                    case 1 -> PreservedCauldronBlockEntity.this.maxFluidAmount;
+                    case 2 -> PreservedCauldronBlockEntity.this.fluid.ordinal();
                     default -> 0;
                 };
             }
@@ -90,14 +103,18 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
             @Override
             public void set(int index, int value) {
                 switch (index) {
-                    case 0 -> PreservedCauldronBlockEntity.this.progressWater = value;
-                    case 1 -> PreservedCauldronBlockEntity.this.maxWaterProgress = value;
+                    case 0 -> PreservedCauldronBlockEntity.this.fluidAmount = value;
+                    case 1 -> PreservedCauldronBlockEntity.this.maxFluidAmount = value;
+                    case 2 -> {
+                        CauldronFluid[] values = CauldronFluid.values();
+                        PreservedCauldronBlockEntity.this.fluid = value >= 0 && value < values.length ? values[value] : CauldronFluid.EMPTY;
+                    }
                 }
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return 3;
             }
         };
     }
@@ -117,7 +134,8 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         super.saveAdditional(output);
         ContainerHelper.saveAllItems(output, this.inventory, false);
         output.putInt("CauldronProgress", this.progress);
-        output.putInt("CauldronWaterProgress", this.progressWater);
+        output.putInt("CauldronFluidAmount", this.fluidAmount);
+        output.putString("CauldronFluid", this.fluid.name());
     }
 
     @Override
@@ -125,22 +143,23 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         super.loadAdditional(input);
         ContainerHelper.loadAllItems(input, this.inventory);
         this.progress = input.getIntOr("CauldronProgress", 0);
-        this.progressWater = input.getIntOr("CauldronWaterProgress", 0);
+        this.fluidAmount = input.getIntOr("CauldronFluidAmount", 0);
+        this.fluid = CauldronFluid.valueOf(input.getStringOr("CauldronFluid", "EMPTY"));
     }
 
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this, (blockEntity, registryAccess) -> {
-            CompoundTag tag = new CompoundTag();
-            tag.putInt("CauldronWaterProgress", this.progressWater);
-            tag.putInt("CauldronMaxWaterProgress", this.maxWaterProgress);
-            return tag;
-        });
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public @NonNull CompoundTag getUpdateTag(HolderLookup.@NonNull Provider provider) {
+        return this.saveWithoutMetadata(provider);
     }
 
     public void sendInitialUpdate() {
         if (level != null && !level.isClientSide()) {
-            setChanged(level, worldPosition, getBlockState());
+            this.setChanged();
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
             needsInitialUpdate = false;
         }
@@ -157,57 +176,93 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     public static void tick(ServerLevel level, BlockPos pos, BlockState state, PreservedCauldronBlockEntity cauldron) {
+        boolean shouldBeLit = (cauldron.fluid == CauldronFluid.LAVA);
+        if (state.hasProperty(ModBlockProperties.IS_LIT) && state.getValue(ModBlockProperties.IS_LIT) != shouldBeLit) {
+            BlockState newState = state.setValue(ModBlockProperties.IS_LIT, shouldBeLit);
+            level.setBlock(pos, newState, 3);
+            level.sendBlockUpdated(pos, state, newState, 3);
+        }
+
         if (level.isClientSide()) return;
         if (cauldron.needsInitialUpdate) cauldron.sendInitialUpdate();
 
-        if (cauldron.isOutputSlotEmptyOrReceivable()) {
-            if (cauldron.hasRecipe() && cauldron.progressWater > 0) {
-                cauldron.increaseCraftProgress();
-                setChanged(level, pos, state);
+        cauldron.snowCauldronTimers.entrySet().removeIf(entry -> {
+            Entity entity = level.getEntity(entry.getKey());
+            return entity == null || !entity.getBoundingBox().intersects(Shapes.block().bounds().move(pos));
+        });
 
-                if (cauldron.hasCraftingFinished()) {
-                    cauldron.craftItem();
-                    cauldron.resetProgress();
-                }
-            }
-            else cauldron.resetProgress();
+        cauldron.entitiesInHoney.removeIf(id -> {
+            Entity entity = level.getEntity(id);
+            if (entity == null) return true;
+
+            BlockPos entityPos = entity.blockPosition();
+            return !entityPos.equals(cauldron.worldPosition);
+        });
+
+        ItemStack fluidStack = cauldron.getItem(INPUT_SLOT_TWO);
+
+        if (!fluidStack.isEmpty()) {
+            cauldron.insertBottle();
+            cauldron.insertBucket();
+            cauldron.insertMisc();
         }
-        else {
+
+        if (!cauldron.hasRecipe()) {
             cauldron.resetProgress();
-            setChanged(level, pos, state);
+            return;
         }
-        cauldron.insertWater();
+
+        cauldron.increaseCraftProgress();
+        setChanged(level, pos, state);
+
+        if (cauldron.hasCraftingFinished()) {
+            cauldron.craftItem();
+            cauldron.resetProgress();
+        }
     }
 
     private void resetProgress() {
         this.progress = 0;
     }
 
+    private boolean canInsertFluid(CauldronFluid newFluid) {
+        return fluid == CauldronFluid.EMPTY || fluid == newFluid;
+    }
+
     private void craftItem() {
-        Optional<RecipeHolder<CauldronRecipe>> recipe = getCurrentRecipe();
-        if (recipe.isEmpty()) return;
-
-        var outputTemplate = recipe.get().value().output();
+        var recipe = getCurrentRecipe().orElse(null);
         ItemStack inputStack = this.getItem(INPUT_SLOT);
+        int amountToDeduct = 1;
 
-        if (inputStack.has(DataComponents.DYED_COLOR)) {
-            ItemStack result = inputStack.copy();
-            result.remove(DataComponents.DYED_COLOR);
-            this.setItem(OUTPUT_SLOT, result);
+        if (recipe != null) {
+            var outputTemplate = recipe.value().output();
+            amountToDeduct = recipe.value().fluidCost();
+
+            if (inputStack.has(DataComponents.DYED_COLOR)) {
+                ItemStack result = inputStack.copy();
+                result.remove(DataComponents.DYED_COLOR);
+                this.setItem(OUTPUT_SLOT, result);
+            }
+            else if (outputTemplate != null) {
+                ItemStack templateStack = outputTemplate.create();
+                templateStack.setCount(this.getItem(OUTPUT_SLOT).getCount() + templateStack.getCount());
+                this.setItem(OUTPUT_SLOT, templateStack);
+            }
         }
-        else if (outputTemplate != null) {
-            ItemStack templateStack = outputTemplate.create();
-            templateStack.setCount(this.getItem(OUTPUT_SLOT).getCount() + templateStack.getCount());
-            this.setItem(OUTPUT_SLOT, templateStack);
+        else if (!(this.fluid == CauldronFluid.LAVA && !inputStack.has(DataComponents.DAMAGE_RESISTANT))) {
+            return;
         }
 
         this.removeItem(INPUT_SLOT, 1);
-        this.progressWater -= 1;
+        this.fluidAmount -= amountToDeduct;
+
         setChanged();
+        normaliseFluidState();
 
         if (level != null) {
             if (!level.isClientSide()) level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
-            level.playSound(null, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), ModSounds.CAULDRON_BUBBLE, SoundSource.BLOCKS);
+
+            level.playSound(null, this.getBlockPos(), ModSounds.CAULDRON_BUBBLE, SoundSource.BLOCKS, 1.0F, 1.0F);
         }
     }
 
@@ -219,53 +274,123 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         progress++;
     }
 
-    private void insertWater() {
-        boolean waterProgressChanged = false;
+    public void insertBottle() {
+        ItemStack stack = getItem(INPUT_SLOT_TWO);
+        CauldronFluid insertedFluid;
 
-        PotionContents potionContentsComponent = getItem(INPUT_SLOT_TWO).get(DataComponents.POTION_CONTENTS);
-        // water bucket
-        if ((getItem(INPUT_SLOT_TWO).getItem() == Items.WATER_BUCKET)
-                && ((this.progressWater != this.maxWaterProgress)
-                || (this.progressWater + 8 < this.maxWaterProgress))) {
-            ItemStack emptyBucket = new ItemStack(Items.BUCKET);
-            this.progressWater += 8;
-            this.removeItem(INPUT_SLOT_TWO, 1);
-            this.setItem(INPUT_SLOT_TWO, new ItemStack(emptyBucket.getItem()));
-            if (level != null) level.playSound(null, getBlockPos(), SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
-            waterProgressChanged = true;
+        if (stack.is(Items.POTION)) {
+            PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
+            if (contents == null || !contents.is(Potions.WATER)) return;
+            insertedFluid = CauldronFluid.WATER;
         }
-        // water bottle
-        else if ((getItem(INPUT_SLOT_TWO).getItem() == Items.POTION && (potionContentsComponent != null && potionContentsComponent.is(Potions.WATER)))
-                && ((this.progressWater != this.maxWaterProgress)
-                || (this.progressWater + (getItem(INPUT_SLOT_TWO).getCount() * 2) < this.maxWaterProgress))) {
-            int stackSize = getItem(INPUT_SLOT_TWO).getCount();
-            this.progressWater += stackSize * 2;
-            ItemStack emptyBottle = new ItemStack(Items.GLASS_BOTTLE);
-            this.removeItem(INPUT_SLOT_TWO, 1);
-            this.setItem(INPUT_SLOT_TWO, new ItemStack(emptyBottle.getItem(), stackSize));
-            if (level != null) level.playSound(null, getBlockPos(), SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
-            waterProgressChanged = true;
+        else if (stack.is(ModItems.MILK_BOTTLE)) insertedFluid = CauldronFluid.MILK;
+        else if (stack.is(Items.HONEY_BOTTLE)) insertedFluid = CauldronFluid.HONEY;
+        else if (stack.is(ModItems.LAVA_BOTTLE)) insertedFluid = CauldronFluid.LAVA;
+        else return;
+
+        if (!canInsertFluid(insertedFluid)) return;
+        if (fluidAmount >= maxFluidAmount) return;
+
+        ItemStack emptyBottle = new ItemStack(Items.GLASS_BOTTLE);
+
+        if (!canInsertItemIntoOutputSlotTwo(emptyBottle)) return;
+        if (!canInsertAmountIntoOutputSlotTwo(emptyBottle)) return;
+
+        fluid = insertedFluid;
+        fluidAmount += fluidValueBottle;
+
+        stack.shrink(1);
+
+        ItemStack output = getItem(OUTPUT_SLOT_TWO);
+        if (output.isEmpty()) setItem(OUTPUT_SLOT_TWO, emptyBottle);
+        else output.grow(1);
+
+        setChanged();
+        normaliseFluidState();
+
+        if (level != null) {
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+            level.playSound(null, getBlockPos(), SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1F, 1F);
         }
-        // cap water limit at 64
-        if (this.progressWater > this.maxWaterProgress) this.progressWater = 64;
-        if (waterProgressChanged) {
-            if (level != null && !level.isClientSide()) {
-                setChanged(level, worldPosition, getBlockState());
-                level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
-            }
+    }
+
+    public void insertBucket() {
+        ItemStack stack = getItem(INPUT_SLOT_TWO);
+        CauldronFluid insertedFluid;
+
+        if (stack.is(Items.WATER_BUCKET)) insertedFluid = CauldronFluid.WATER;
+        else if (stack.is(Items.LAVA_BUCKET)) insertedFluid = CauldronFluid.LAVA;
+        else if (stack.is(Items.MILK_BUCKET)) insertedFluid = CauldronFluid.MILK;
+        else if (stack.is(Items.POWDER_SNOW_BUCKET)) insertedFluid = CauldronFluid.SNOW;
+        else return;
+
+        if (!canInsertFluid(insertedFluid)) return;
+        if (fluidAmount > maxFluidAmount - fluidValueBucket) return;
+
+        ItemStack emptyBucket = new ItemStack(Items.BUCKET);
+
+        if (!canInsertItemIntoOutputSlotTwo(emptyBucket)) return;
+        if (!canInsertAmountIntoOutputSlotTwo(emptyBucket)) return;
+
+        fluid = insertedFluid;
+        fluidAmount += fluidValueBucket;
+
+        stack.shrink(1);
+
+        ItemStack output = getItem(OUTPUT_SLOT_TWO);
+        if (output.isEmpty()) setItem(OUTPUT_SLOT_TWO, emptyBucket);
+        else output.grow(1);
+
+        setChanged();
+        normaliseFluidState();
+
+        if (level != null) {
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+            level.playSound(null, getBlockPos(), SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1F, 1F);
+        }
+    }
+
+    public void insertMisc() {
+        ItemStack stack = getItem(INPUT_SLOT_TWO);
+        CauldronFluid insertedFluid;
+
+        if (stack.is(Items.HONEY_BLOCK)) insertedFluid = CauldronFluid.HONEY;
+        else return;
+
+        if (!canInsertFluid(insertedFluid)) return;
+        if (fluidAmount > maxFluidAmount - fluidValueHoneyBlock) return;
+
+        fluid = insertedFluid;
+        fluidAmount += fluidValueHoneyBlock;
+        fluidAmount = Math.min(fluidAmount, maxFluidAmount);
+
+        stack.shrink(1);
+        setChanged();
+        normaliseFluidState();
+
+        if (level != null) {
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+            level.playSound(null, getBlockPos(), SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1F, 1F);
         }
     }
 
     private boolean hasRecipe() {
-        ItemStack input = inventory.getFirst();
+        ItemStack input = this.getItem(INPUT_SLOT);
+        if (input.isEmpty()) return false;
         if (isLeatherArmor(input) && !input.has(DataComponents.DYED_COLOR)) return false;
 
         Optional<RecipeHolder<CauldronRecipe>> recipe = getCurrentRecipe();
-        if (recipe.isEmpty()) return false;
 
-        ItemStack outputStack = recipe.get().value().output().create();
+        if (recipe.isPresent()) {
+            ItemStack outputStack = recipe.get().value().output().create();
+            int requiredFluid = recipe.get().value().fluidCost();
 
-        return this.progressWater >= 1 && canInsertAmountIntoOutputSlot(outputStack) && canInsertItemIntoOutputSlot(outputStack);
+            return this.fluidAmount >= requiredFluid && canInsertAmountIntoOutputSlot(outputStack) && canInsertItemIntoOutputSlot(outputStack);
+        }
+
+        if (this.fluid == CauldronFluid.LAVA && !input.has(DataComponents.DAMAGE_RESISTANT)) return this.fluidAmount >= 1;
+
+        return false;
     }
 
     private Optional<RecipeHolder<CauldronRecipe>> getCurrentRecipe() {
@@ -276,32 +401,38 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         if (original.has(DataComponents.DYED_COLOR) && original.getItem().getDescriptionId().contains("leather_")) {
             ItemStack normalized = original.copy();
             normalized.remove(DataComponents.DYED_COLOR);
-            return serverLevel.recipeAccess().getRecipeFor(ModRecipes.CAULDRON_TYPE, new CauldronRecipeInput(normalized), serverLevel);
+            return serverLevel.recipeAccess().getRecipeFor(ModRecipes.CAULDRON_TYPE, new CauldronRecipeInput(normalized, this.fluid, this.fluidAmount), serverLevel);
         }
-        return serverLevel.recipeAccess().getRecipeFor(ModRecipes.CAULDRON_TYPE, new CauldronRecipeInput(original), serverLevel);
+        return serverLevel.recipeAccess().getRecipeFor(ModRecipes.CAULDRON_TYPE, new CauldronRecipeInput(original, this.fluid, this.fluidAmount), serverLevel);
     }
 
     private boolean isLeatherArmor(ItemStack stack) {
-        Item item = stack.getItem();
-        String id = item.getDescriptionId();
-        return id.contains("leather_helmet") || id.contains("leather_chestplate") || id.contains("leather_leggings") || id.contains("leather_boots");
+        return stack.is(Items.LEATHER_HELMET) || stack.is(Items.LEATHER_CHESTPLATE) || stack.is(Items.LEATHER_LEGGINGS) || stack.is(Items.LEATHER_BOOTS);
     }
 
     private boolean canInsertItemIntoOutputSlot(ItemStack item) {
-        return this.getItem(OUTPUT_SLOT).getItem() == item.getItem() || this.getItem(OUTPUT_SLOT).isEmpty();
+        ItemStack output = this.getItem(OUTPUT_SLOT);
+        return output.isEmpty() || ItemStack.isSameItemSameComponents(output, item);
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
-        return this.getItem(OUTPUT_SLOT).getCount() + result.getCount() <= getItem(OUTPUT_SLOT).getMaxStackSize();
+        ItemStack output = getItem(OUTPUT_SLOT);
+        return output.getCount() + result.getCount() <= output.getMaxStackSize();
     }
 
-    private boolean isOutputSlotEmptyOrReceivable() {
-        return this.getItem(OUTPUT_SLOT).isEmpty() || this.getItem(OUTPUT_SLOT).getCount() < this.getItem(OUTPUT_SLOT).getMaxStackSize();
+    private boolean canInsertItemIntoOutputSlotTwo(ItemStack item) {
+        ItemStack output = this.getItem(OUTPUT_SLOT_TWO);
+        return output.isEmpty() || ItemStack.isSameItemSameComponents(output, item);
+    }
+
+    private boolean canInsertAmountIntoOutputSlotTwo(ItemStack stack) {
+        ItemStack output = this.getItem(OUTPUT_SLOT_TWO);
+        return output.getCount() + stack.getCount() <= output.getMaxStackSize();
     }
 
     @Override
     public int getContainerSize() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -310,15 +441,10 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     }
 
     @Override
-    public void setChanged() {
-        super.setChanged();
-    }
-
-    @Override
     public int @NonNull [] getSlotsForFace(Direction side) {
         return switch (side) {
             case UP -> new int[]{INPUT_SLOT};
-            case DOWN -> new int[]{OUTPUT_SLOT};
+            case DOWN -> new int[]{OUTPUT_SLOT, OUTPUT_SLOT_TWO};
             default -> new int[]{INPUT_SLOT_TWO};
         };
     }
@@ -326,21 +452,71 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     @Override
     public boolean canPlaceItemThroughFace(int slot, @NonNull ItemStack stack, Direction direction) {
         if (slot == INPUT_SLOT) return direction == Direction.UP;
+        if (slot == INPUT_SLOT_TWO) return canAcceptFluidItem(stack);
 
-        if (slot == INPUT_SLOT_TWO) {
-            if (stack.is(Items.WATER_BUCKET)) return true;
-
-            if (stack.is(Items.POTION)) {
-                var contents = stack.get(DataComponents.POTION_CONTENTS);
-                return contents != null && contents.is(Potions.WATER);
-            }
-            return false;
-        }
         return false;
     }
 
     @Override
-    public boolean canTakeItemThroughFace(int slot, @NonNull ItemStack stack, @NonNull Direction direction) {
-        return slot == OUTPUT_SLOT && direction == Direction.DOWN;
+    public boolean canTakeItemThroughFace(int slot, @NotNull ItemStack stack, @NotNull Direction direction) {
+        return (slot == OUTPUT_SLOT || slot == OUTPUT_SLOT_TWO) && direction == Direction.DOWN;
+    }
+
+    public static boolean isFluidInputItem(ItemStack stack) {
+        if (stack.is(Items.WATER_BUCKET)) return true;
+        if (stack.is(Items.LAVA_BUCKET)) return true;
+        if (stack.is(Items.MILK_BUCKET)) return true;
+        if (stack.is(Items.POWDER_SNOW_BUCKET)) return true;
+        if (stack.is(ModItems.MILK_BOTTLE)) return true;
+        if (stack.is(Items.HONEY_BOTTLE)) return true;
+        if (stack.is(ModItems.LAVA_BOTTLE)) return true;
+        if (stack.is(Items.HONEY_BLOCK)) return true;
+
+        if (stack.is(Items.POTION)) {
+            PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
+            return contents != null && contents.is(Potions.WATER);
+        }
+
+        return false;
+    }
+
+    private boolean canAcceptFluidItem(ItemStack stack) {
+        if (!isFluidInputItem(stack)) return false;
+
+        CauldronFluid insertedFluid;
+
+        if (stack.is(Items.WATER_BUCKET)) insertedFluid = CauldronFluid.WATER;
+        else if (stack.is(Items.LAVA_BUCKET)) insertedFluid = CauldronFluid.LAVA;
+        else if (stack.is(Items.MILK_BUCKET)) insertedFluid = CauldronFluid.MILK;
+        else if (stack.is(Items.POWDER_SNOW_BUCKET)) insertedFluid = CauldronFluid.SNOW;
+        else if (stack.is(ModItems.MILK_BOTTLE)) insertedFluid = CauldronFluid.MILK;
+        else if (stack.is(Items.HONEY_BOTTLE)) insertedFluid = CauldronFluid.HONEY;
+        else if (stack.is(ModItems.LAVA_BOTTLE)) insertedFluid = CauldronFluid.LAVA;
+        else if (stack.is(Items.HONEY_BLOCK)) insertedFluid = CauldronFluid.HONEY;
+        else insertedFluid = CauldronFluid.EMPTY;
+
+        return fluidAmount < maxFluidAmount && canInsertFluid(insertedFluid);
+    }
+
+    public boolean markEntityInHoney(Entity entity) {
+        return this.entitiesInHoney.add(entity.getId());
+    }
+
+    public int incrementSnowCauldronTimer(Entity entity) {
+        UUID uuid = entity.getUUID();
+        int ticks = snowCauldronTimers.getOrDefault(uuid, 0) + 1;
+        snowCauldronTimers.put(uuid, ticks);
+        return ticks;
+    }
+
+    public void resetSnowCauldronTimer(Entity entity) {
+        snowCauldronTimers.remove(entity.getUUID());
+    }
+
+    private void normaliseFluidState() {
+        if (this.fluidAmount <= 0) {
+            this.fluidAmount = 0;
+            this.fluid = CauldronFluid.EMPTY;
+        }
     }
 }

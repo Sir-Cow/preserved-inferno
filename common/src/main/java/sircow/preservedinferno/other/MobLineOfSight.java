@@ -35,9 +35,7 @@ public class MobLineOfSight {
                         )
                 );
 
-                if (hitResult.getType() == HitResult.Type.MISS) {
-                    return true;
-                }
+                if (hitResult.getType() == HitResult.Type.MISS) return true;
             }
         }
         return false;

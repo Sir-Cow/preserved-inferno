@@ -11,7 +11,7 @@ import sircow.preservedinferno.other.ExperimentsUtil;
 @Mixin(ServerPacksSource.class)
 public class ServerPacksSourceMixin {
     @ModifyExpressionValue(method = "createBuiltInPackLocation", at = @At(value = "FIELD", target = "Lnet/minecraft/server/packs/repository/PackSource;FEATURE:Lnet/minecraft/server/packs/repository/PackSource;"))
-    private static PackSource preserved_inferno$changePackSource(PackSource original, @Local(argsOnly = true) String id) {
+    private static PackSource pinferno$changePackSource(PackSource original, @Local(argsOnly = true, name = "id") String id) {
         if (ExperimentsUtil.getGlobalFeatures().contains(id)) return PackSource.BUILT_IN;
         return original;
     }

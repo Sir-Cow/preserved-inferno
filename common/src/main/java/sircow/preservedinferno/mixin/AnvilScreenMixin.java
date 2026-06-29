@@ -12,8 +12,8 @@ import sircow.preservedinferno.item.ModItems;
 
 @Mixin(AnvilScreen.class)
 public class AnvilScreenMixin {
-    @ModifyVariable(method = "extractLabels", at = @At(value = "STORE"), ordinal = 0)
-    private Component preserved_inferno$replaceRepairText(Component line) {
+    @ModifyVariable(method = "extractLabels", at = @At(value = "STORE"), name = "line")
+    private Component pinferno$replaceRepairText(Component line) {
         if (line == null) return null;
 
         if (line.getContents() instanceof TranslatableContents contents) {

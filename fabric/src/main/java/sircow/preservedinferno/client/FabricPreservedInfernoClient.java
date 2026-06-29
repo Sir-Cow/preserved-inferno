@@ -5,15 +5,19 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponents;
@@ -37,6 +41,7 @@ import sircow.preservedinferno.components.RodTooltipComponent;
 import sircow.preservedinferno.config.MiscCategory;
 import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.entity.ModEntities;
+import sircow.preservedinferno.fluid.ModFluids;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.item.custom.ReverbCompassItem;
 import sircow.preservedinferno.mixin.ClientAdvancementsAccessor;
@@ -63,12 +68,12 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     public void onInitializeClient() {
         registerMenuScreens();
         registerEntities();
+        registerFluids();
         registerCustomTooltip();
         compassDistance();
         clockTime();
         tickAdvancement();
         respawnSyncClient();
-        BlockEntityRenderers.register(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, PreservedCauldronBlockEntityRenderer::new);
         ModMessages.registerS2CPackets();
     }
 
@@ -84,7 +89,41 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     private void registerEntities() {
         EntityRenderers.register(ModEntities.FLARE_GUN_PROJECTILE, (ThrownItemRenderer::new));
         EntityRenderers.register(ModEntities.COPPER_TRIDENT, (ThrownCopperTridentRenderer::new));
+        EntityRenderers.register(ModEntities.PRESERVED_LINGERING_BOTTLE, (ThrownItemRenderer::new));
+        EntityRenderers.register(ModEntities.PRESERVED_SPLASH_BOTTLE, (ThrownItemRenderer::new));
+        EntityRenderers.register(ModEntities.PRESERVED_AREA_EFFECT_CLOUD, (NoopRenderer::new));
         ModelLayerRegistry.registerModelLayer(ThrownCopperTridentRenderer.COPPER_TRIDENT, CopperTridentModel::createLayer);
+        BlockEntityRenderers.register(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, PreservedCauldronBlockEntityRenderer::new);
+    }
+
+    private void registerFluids() {
+        FluidRenderingRegistry.register(
+                ModFluids.HONEY,
+                new FluidModel.Unbaked(
+                        new Material(Constants.id("block/honey_still")),
+                        new Material(Constants.id("block/honey_still")),
+                        null,
+                        null
+                )
+        );
+        FluidRenderingRegistry.register(
+                ModFluids.MILK,
+                new FluidModel.Unbaked(
+                        new Material(Constants.id("block/milk_still")),
+                        new Material(Constants.id("block/milk_still")),
+                        null,
+                        null
+                )
+        );
+        FluidRenderingRegistry.register(
+                ModFluids.SNOW,
+                new FluidModel.Unbaked(
+                        new Material(Constants.id("block/snow_still")),
+                        new Material(Constants.id("block/snow_still")),
+                        null,
+                        null
+                )
+        );
     }
 
     private void registerCustomTooltip() {
@@ -334,7 +373,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             if (advancementDelayTicks > 0) advancementDelayTicks--;
             else if (advancementDelayTicks == 0) {
                 advancementDelayTicks = -1;
-                ((IMinecraftMixin) client).startWaitForAdvancement(client, 0);
+                ((IMinecraftMixin) client.gui).startWaitForAdvancement(client, 0);
             }
 
             if (initialMessageDelay > 0) {
@@ -356,7 +395,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             if (!advancementGranted) {
                 KeyMapping key = Minecraft.getInstance().options.keyAdvancements;
                 Component actionbar = Component.translatable("advancement.pinferno.actionbar.open_advancements", Component.keybind(key.getName()));
-                client.gui.setOverlayMessage(actionbar, false);
+                client.gui.hud.setOverlayMessage(actionbar, false);
             }
         });
 

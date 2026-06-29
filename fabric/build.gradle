@@ -33,7 +33,7 @@ dependencies {
     implementation "com.terraformersmc:modmenu:${project.modmenu_version}"
     include "net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}"
     implementation "net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}"
-    compileOnly "noobanidus.mods:lootr-fabric:${lootr_version}"
+    compileOnly "maven.modrinth:lootr:${lootr_version}-fabric,26.2"
     compileOnly "maven.modrinth:jade:${jade_version}"
     implementation(libs.moulconfig)
     include(libs.moulconfig)
@@ -66,8 +66,8 @@ loom {
 }
 
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
-['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements', 'includeInternal', 'modCompileClasspath'].each { variant ->
-    configurations.named("$variant") {
+['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
+    configurations.named(variant) {
         attributes {
             attribute(loaderAttribute, 'fabric')
         }
@@ -75,7 +75,7 @@ def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', Strin
 }
 sourceSets.configureEach {
     [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant->
-        configurations.named("$variant") {
+        configurations.named(variant) {
             attributes {
                 attribute(loaderAttribute, 'fabric')
             }

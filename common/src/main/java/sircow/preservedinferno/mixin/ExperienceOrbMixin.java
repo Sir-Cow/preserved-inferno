@@ -25,7 +25,7 @@ public abstract class ExperienceOrbMixin extends Entity {
     }
 
     @Inject(method = "playerTouch", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$onPlayerTouch(Player player, CallbackInfo ci) {
+    private void pinferno$onPlayerTouch(Player player, CallbackInfo ci) {
         if (!(player instanceof ServerPlayer)) return;
         if (player.takeXpDelay != 0) return;
 

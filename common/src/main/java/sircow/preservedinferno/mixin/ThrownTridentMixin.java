@@ -1,6 +1,6 @@
 package sircow.preservedinferno.mixin;
 
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
@@ -37,36 +37,32 @@ public abstract class ThrownTridentMixin extends AbstractArrow {
     }
 
     // modify thrown trident damage
-    @ModifyVariable(method = "onHitEntity", at = @At("STORE"), ordinal = 0)
-    private float preserved_inferno$modifyDamage(float originalValue) {
+    @ModifyVariable(method = "onHitEntity", at = @At("STORE"), name = "dmg")
+    private float pinferno$modifyDamage(float dmg) {
         return 12.0F;
     }
 
     // cap distance loyalty trident can be thrown
     @Inject(method = "tick", at = @At("HEAD"))
-    private void preserved_inferno$captureInitialPos(CallbackInfo ci) {
-        if (initialPos == null) {
-            initialPos = this.position();
-        }
+    private void pinferno$captureInitialPos(CallbackInfo ci) {
+        if (initialPos == null) initialPos = this.position();
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
-    private void preserved_inferno$checkDistanceAndForceReturn(CallbackInfo ci) {
+    private void pinferno$checkDistanceAndForceReturn(CallbackInfo ci) {
         if (!dealtDamage && initialPos != null) {
             byte loyalty = this.entityData.get(ID_LOYALTY);
             if (loyalty > 0) {
                 double distanceTravelled = this.position().distanceTo(initialPos);
                 double maxDistance = 60.0;
-                if (distanceTravelled > maxDistance) {
-                    this.dealtDamage = true;
-                }
+                if (distanceTravelled > maxDistance) this.dealtDamage = true;
             }
         }
     }
 
     // trigger channeled lightning here because it won't work when one-hitting
     @Inject(method = "onHitEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurtOrSimulate(Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
-    private void preserved_inferno$triggerChanneledLightning(EntityHitResult result, CallbackInfo ci) {
+    private void pinferno$triggerChanneledLightning(EntityHitResult result, CallbackInfo ci) {
         ThrownTrident trident = (ThrownTrident) (Object) this;
         Entity victim = result.getEntity();
 

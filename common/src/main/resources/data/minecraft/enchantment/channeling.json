@@ -28,7 +28,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "type": [
+                "minecraft:entity_type": [
                   "minecraft:trident",
                   "pinferno:copper_trident"
                 ]
@@ -86,7 +86,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "direct_attacker",
               "predicate": {
-                "type": [
+                "minecraft:entity_type": [
                   "minecraft:trident",
                   "pinferno:copper_trident"
                 ]

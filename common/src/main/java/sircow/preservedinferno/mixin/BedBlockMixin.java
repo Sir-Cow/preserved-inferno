@@ -33,7 +33,7 @@ public abstract class BedBlockMixin extends HorizontalDirectionalBlock {
     }
 
     @Inject(method = "useWithoutItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;startSleepInBed(Lnet/minecraft/core/BlockPos;)Lcom/mojang/datafixers/util/Either;", shift = At.Shift.BEFORE), cancellable = true)
-    private void preserved_inferno$onUseWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
+    private void pinferno$onUseWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack mainHandItem = player.getItemInHand(InteractionHand.MAIN_HAND);
         ItemStack offHandItem = player.getItemInHand(InteractionHand.OFF_HAND);
         boolean holdingDreamcatcher = mainHandItem.getItem() == ModItems.DREAMCATCHER || offHandItem.getItem() == ModItems.DREAMCATCHER;

@@ -15,7 +15,7 @@ public class ShulkerMixin {
     @Unique private static final AttributeModifier NEW_COVERED_ARMOR_MODIFIER = new AttributeModifier(COVERED_ARMOR_MODIFIER_ID, 150.0, AttributeModifier.Operation.ADD_VALUE);
 
     @ModifyArg(method = "setRawPeekAmount", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;addPermanentModifier(Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;)V"))
-    private AttributeModifier preserved_inferno$replaceCoveredModifier(AttributeModifier original) {
+    private AttributeModifier pinferno$replaceCoveredModifier(AttributeModifier original) {
         return NEW_COVERED_ARMOR_MODIFIER;
     }
 }

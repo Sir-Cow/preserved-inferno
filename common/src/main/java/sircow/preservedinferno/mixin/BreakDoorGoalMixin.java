@@ -32,7 +32,7 @@ public abstract class BreakDoorGoalMixin extends DoorInteractGoal {
     }
 
     @ModifyReturnValue(method = "getDoorBreakTime", at = @At("RETURN"))
-    private int preserved_inferno$doorBreakTime(int original) {
+    private int pinferno$doorBreakTime(int original) {
         BlockState state = this.mob.level().getBlockState(this.doorPos);
         if (state.is(ModTags.REINFORCED_DOORS_BLOCK)) return Integer.MAX_VALUE;
         if (state.is(ModTags.COPPER_DOORS)) return 15 * 20;
@@ -41,7 +41,7 @@ public abstract class BreakDoorGoalMixin extends DoorInteractGoal {
     }
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$checkDoorTypeDist(CallbackInfo ci) {
+    private void pinferno$checkDoorTypeDist(CallbackInfo ci) {
         var level = this.mob.level();
         var pos = this.doorPos;
         var state = level.getBlockState(pos);
@@ -98,7 +98,7 @@ public abstract class BreakDoorGoalMixin extends DoorInteractGoal {
     }
 
     @Inject(method = "canUse", at = @At("RETURN"), cancellable = true)
-    private void preserved_inferno$allowFenceGatesAndDoors(CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$allowFenceGatesAndDoors(CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue()) {
             for (BlockPos pos : BlockPos.betweenClosed(
                     this.mob.blockPosition().offset(-1, -1, -1),
@@ -133,7 +133,7 @@ public abstract class BreakDoorGoalMixin extends DoorInteractGoal {
     }
 
     @Inject(method = "canContinueToUse", at = @At("HEAD"), cancellable = true)
-    private void preserved_inferno$stopIfFenceGateGone(CallbackInfoReturnable<Boolean> cir) {
+    private void pinferno$stopIfFenceGateGone(CallbackInfoReturnable<Boolean> cir) {
         if (!this.hasDoor) {
             cir.setReturnValue(false);
             return;

@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(FlowingFluid.class)
 public abstract class FlowingFluidMixin {
     @Inject(method = "spreadTo", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/LevelAccessor;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z"), cancellable = true)
-    private void preserved_inferno$preventReplacingPowderSnow(LevelAccessor level, BlockPos pos, BlockState blockState, Direction direction, FluidState fluidState, CallbackInfo ci) {
-        if (blockState.is(Blocks.POWDER_SNOW)) {
+    private void pinferno$preventReplacingPowderSnow(LevelAccessor level, BlockPos pos, BlockState state, Direction direction, FluidState target, CallbackInfo ci) {
+        if (state.is(Blocks.POWDER_SNOW)) {
             ci.cancel();
         }
     }

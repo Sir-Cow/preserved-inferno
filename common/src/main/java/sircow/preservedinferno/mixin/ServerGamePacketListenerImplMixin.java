@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(ServerGamePacketListenerImpl.class)
 public class ServerGamePacketListenerImplMixin {
     @Redirect(method = "removePlayerFromWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;getDisplayName()Lnet/minecraft/network/chat/Component;"))
-    private Component preserved_inferno$redirectPlayerDisplayName(ServerPlayer player) {
+    private Component pinferno$redirectPlayerDisplayName(ServerPlayer player) {
         PlayerTeam team = player.getTeam();
         if (team != null && !team.getPlayerPrefix().getString().isEmpty()) {
             MutableComponent prefixComponent = team.getPlayerPrefix().copy().withStyle(ChatFormatting.WHITE);

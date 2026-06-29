@@ -19,7 +19,7 @@ public abstract class SculkSensorBlockMixin extends BaseEntityBlock {
     }
 
     @Inject(method = "spawnAfterBreak", at = @At("TAIL"), cancellable = true)
-    private void preserved_inferno$increaseXp(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack, boolean dropExperience, CallbackInfo ci) {
+    private void pinferno$increaseXp(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack, boolean dropExperience, CallbackInfo ci) {
         if (dropExperience) {
             this.tryDropExperience(level, pos, stack, ConstantInt.of(10));
         }

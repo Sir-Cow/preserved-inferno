@@ -2,13 +2,11 @@
   "type": "minecraft:entity",
   "pools": [
     {
-      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "add": false,
               "count": {
                 "type": "minecraft:uniform",
                 "max": 2.0,
@@ -32,7 +30,6 @@
       "rolls": 1.0
     },
     {
-      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -42,14 +39,13 @@
               "entity": "this",
               "predicate": {
                 "vehicle": {
-                  "type": "minecraft:zombie_horse"
+                  "minecraft:entity_type": "minecraft:zombie_horse"
                 }
               }
             }
           ],
           "functions": [
             {
-              "add": false,
               "count": {
                 "type": "minecraft:uniform",
                 "max": 1.0,
@@ -106,7 +102,7 @@
                       "condition": "minecraft:entity_properties",
                       "entity": "this",
                       "predicate": {
-                        "flags": {
+                        "minecraft:flags": {
                           "is_on_fire": true
                         }
                       }
@@ -115,7 +111,7 @@
                       "condition": "minecraft:entity_properties",
                       "entity": "direct_attacker",
                       "predicate": {
-                        "equipment": {
+                        "minecraft:equipment": {
                           "mainhand": {
                             "predicates": {
                               "minecraft:enchantments": [
@@ -140,7 +136,6 @@
       "rolls": 1.0
     },
     {
-      "bonus_rolls": 0.0,
       "conditions": [
         {
           "condition": "minecraft:killed_by_player"
@@ -165,7 +160,6 @@
       "rolls": 1.0
     },
     {
-      "bonus_rolls": 0.0,
       "conditions": [
         {
           "condition": "minecraft:killed_by_player"
@@ -174,11 +168,11 @@
           "condition": "minecraft:entity_properties",
           "entity": "this",
           "predicate": {
-            "flags": {
+            "minecraft:flags": {
               "is_baby": true
             },
             "vehicle": {
-              "type": "minecraft:chicken"
+              "minecraft:entity_type": "minecraft:chicken"
             }
           }
         }
