@@ -59,6 +59,8 @@ public class PreservedAreaEffectCloud extends AreaEffectCloud {
 
             if (this.bottleItem == ModItems.LINGERING_HONEY_BOTTLE) {
                 livingEntity.addEffect(new MobEffectInstance(ModEffects.HINDERED.holder, 160, 0));
+                livingEntity.removeEffect(ModEffects.FUMIGATED.holder);
+                livingEntity.removeEffect(MobEffects.HUNGER);
                 livingEntity.removeEffect(MobEffects.POISON);
                 consumedStage = true;
             }

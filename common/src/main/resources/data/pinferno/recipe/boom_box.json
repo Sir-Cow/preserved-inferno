@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "X": "#minecraft:planks",
+    "#": "#minecraft:wooden_slabs",
+    "0": "minecraft:gunpowder",
+    "1": "minecraft:string"
+  },
+  "pattern": [
+    "X1X",
+    "X0X",
+    "X#X"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pinferno:boom_box"
+  }
+}

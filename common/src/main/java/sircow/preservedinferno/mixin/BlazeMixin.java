@@ -14,7 +14,7 @@ public class BlazeMixin {
     @Inject(method = "createAttributes", at = @At("RETURN"), cancellable = true)
     private static void pinferno$overwriteAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.setReturnValue(Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 30.0)
+                .add(Attributes.MAX_HEALTH, 40.0)
                 .add(Attributes.ATTACK_DAMAGE, 6.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.23F)
                 .add(Attributes.FOLLOW_RANGE, 48.0)

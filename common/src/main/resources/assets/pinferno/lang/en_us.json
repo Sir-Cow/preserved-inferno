@@ -15,8 +15,8 @@
   "item.pinferno.rhyolite_slab": "Rhyolite Slab",
   "item.pinferno.polished_rhyolite_slab": "Polished Rhyolite Slab",
   "item.pinferno.rhyolite_brick_slab": "Rhyolite Brick Slab",
-
   "item.pinferno.sparkling_blackstone": "Sparkling Blackstone",
+  "item.pinferno.boom_box": "Boom Box",
 
   "item.pinferno.reverb_compass": "Reverb Compass",
   "item.pinferno.dreamcatcher": "Dreamcatcher",
@@ -110,6 +110,7 @@
   "item.pinferno.music_disc_aqua": "Aqua Music Disc",
   "item.pinferno.angling_table": "Angling Table",
 
+  "item.pinferno.dynamite": "Dynamite",
   "item.pinferno.flare_gun": "Flare Gun",
 
   "item.pinferno.inductor_rail": "Inductor Rail",
@@ -146,16 +147,19 @@
 
   "itemgroup.pinferno.items": "Preserved: Inferno",
 
-  "sounds.pinferno.enchant_click": "Enchantment selected",
-  "sounds.pinferno.enchant": "Enchantment applied",
-  "sounds.pinferno.enchant_close": "Closed enchanting table",
-  "sounds.pinferno.shield_cooldown": "Stamina depleted",
-  "sounds.pinferno.heat_up": "Heats up",
-  "sounds.pinferno.cauldron_bubble": "Cauldron bubbles",
-  "sounds.pinferno.cache_open": "Cache opens",
+  "sounds.pinferno.boom_box_load": "Boom Box loaded",
+  "sounds.pinferno.boom_box_primed": "Boom Box fizzes",
   "sounds.pinferno.cache_close": "Cache closes",
+  "sounds.pinferno.cache_open": "Cache opens",
+  "sounds.pinferno.cauldron_bubble": "Cauldron bubbles",
+  "sounds.pinferno.dynamite_throw": "Dynamite flies",
+  "sounds.pinferno.enchant": "Enchantment applied",
+  "sounds.pinferno.enchant_click": "Enchantment selected",
+  "sounds.pinferno.enchant_close": "Closed enchanting table",
+  "sounds.pinferno.heat_up": "Heats up",
   "sounds.pinferno.reverb_compass_use": "Reverb Compass used",
   "sounds.pinferno.sculk_infusion": "Sculk Infusion consumed",
+  "sounds.pinferno.shield_cooldown": "Stamina depleted",
 
   "death.attack.heat": "%1$s burned up",
   "death.attack.heat.player": "%1$s burned up whilst trying to escape %2$s",
@@ -185,8 +189,9 @@
   "item.pinferno.leggings": "Leggings",
   "item.pinferno.compass_tooltip": "Distance: ",
 
-  "effect.pinferno.hindered": "Hindered",
   "effect.pinferno.conduit_power": "Conduit Power",
+  "effect.pinferno.fumigated": "Fumigated",
+  "effect.pinferno.hindered": "Hindered",
   "effect.pinferno.well_rested": "Well Rested",
   "effect.pinferno.well_rested_awake": "You awaken feeling well rested",
   "effect.pinferno.well_rested_awake_not_sleeping": "A new day dawns over you. Thank %s!",
@@ -194,6 +199,10 @@
   "effect.pinferno.well_rested_hardcore": "Is this all a bad dream?",
 
   "entity.pinferno.preserved_area_effect_cloud": "Area Effect Cloud",
+  "entity.pinferno.copper_trident": "Copper Trident",
+  "entity.pinferno.dynamite_projectile": "Dynamite",
+  "entity.pinferno.flare_gun_projectile": "Flare",
+  "entity.pinferno.primed_boom_box": "Primed Boom Box",
 
   "item.minecraft.potion.effect.haste": "Potion of Haste",
   "item.minecraft.splash_potion.effect.haste": "Splash Potion of Haste",

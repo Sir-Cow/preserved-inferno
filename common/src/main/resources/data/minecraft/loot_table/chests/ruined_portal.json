@@ -5,17 +5,32 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "minecraft:obsidian",
+          "weight": 40,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
           "functions": [
             {
               "count": {
                 "type": "minecraft:uniform",
-                "max": 2.0,
-                "min": 1.0
+                "max": 2,
+                "min": 1
               },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "minecraft:obsidian",
+          "name": "minecraft:crying_obsidian",
           "weight": 40
         },
         {
@@ -24,28 +39,13 @@
             {
               "count": {
                 "type": "minecraft:uniform",
-                "max": 4.0,
-                "min": 1.0
+                "max": 4,
+                "min": 1
               },
               "function": "minecraft:set_count"
             }
           ],
           "name": "minecraft:flint",
-          "weight": 40
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 9.0,
-                "min": 4.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "minecraft:iron_nugget",
           "weight": 40
         },
         {
@@ -69,8 +69,8 @@
             {
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12.0,
-                "min": 2.0
+                "max": 6,
+                "min": 3
               },
               "function": "minecraft:set_count"
             }
@@ -183,8 +183,8 @@
             {
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12.0,
-                "min": 4.0
+                "max": 8,
+                "min": 6
               },
               "function": "minecraft:set_count"
             }
@@ -208,8 +208,8 @@
             {
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12.0,
-                "min": 4.0
+                "max": 8,
+                "min": 6
               },
               "function": "minecraft:set_count"
             }
@@ -228,8 +228,8 @@
             {
               "count": {
                 "type": "minecraft:uniform",
-                "max": 8.0,
-                "min": 2.0
+                "max": 8,
+                "min": 2
               },
               "function": "minecraft:set_count"
             }
@@ -251,8 +251,8 @@
             {
               "count": {
                 "type": "minecraft:uniform",
-                "max": 2.0,
-                "min": 1.0
+                "max": 2,
+                "min": 1
               },
               "function": "minecraft:set_count"
             }
@@ -262,8 +262,8 @@
       ],
       "rolls": {
         "type": "minecraft:uniform",
-        "max": 8.0,
-        "min": 4.0
+        "max": 7,
+        "min": 6
       }
     }
   ],

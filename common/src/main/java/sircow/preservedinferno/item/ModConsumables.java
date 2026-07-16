@@ -15,6 +15,7 @@ import sircow.preservedinferno.other.HeatAccessor;
 
 public class ModConsumables {
     public static final Consumable LAVA_BOTTLE = defaultDrink()
+            .consumeSeconds(0.8F)
             .onConsume(new IgniteConsumeEffect(15.0F))
             .onConsume(new ConsumeEffect() {
                 @Override
@@ -33,6 +34,7 @@ public class ModConsumables {
             })
             .build();
     public static final Consumable MILK_BOTTLE = defaultDrink()
+            .consumeSeconds(0.8F)
             .onConsume(ClearAllStatusEffectsConsumeEffect.INSTANCE)
             .onConsume(new ConsumeEffect() {
                 @Override

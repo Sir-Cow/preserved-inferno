@@ -19,15 +19,14 @@ public abstract class NearestAttackableTargetGoalMixin extends TargetGoal {
     }
 
     @ModifyReturnValue(method = "getTargetConditions", at = @At("RETURN"))
-    private TargetingConditions pinferno$modifyCreeperCrouchRange(TargetingConditions original) {
-        if (!(this.mob instanceof Creeper)) return original;
-
+    private TargetingConditions pinferno$modifyMobTargetConditions(TargetingConditions original) {
         TargetingConditions vanillaConditions = original.copy().selector(null);
 
         return original.selector((LivingEntity candidate, ServerLevel level) -> {
-            if (candidate instanceof Player player && player.isCrouching()) {
-                return player.distanceTo(this.mob) <= 20.0D;
+            if (this.mob instanceof Creeper) {
+                if (candidate instanceof Player player && player.isCrouching()) return player.distanceTo(this.mob) <= 20.0D;
             }
+
             return vanillaConditions.test(level, this.mob, candidate);
         });
     }

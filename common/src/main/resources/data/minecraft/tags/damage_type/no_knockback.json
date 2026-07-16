@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "pinferno:conduit",
+    "pinferno:fumigated",
     "pinferno:heat"
   ]
 }

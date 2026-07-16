@@ -83,6 +83,8 @@ public class ThrownPreservedSplashBottle extends ThrowableItemProjectile {
                 int finalDuration = (int) (scale * baseDuration + 0.5);
 
                 if (finalDuration > 20) livingEntity.addEffect(new MobEffectInstance(ModEffects.HINDERED.holder, finalDuration, 0), this.getEffectSource());
+                livingEntity.removeEffect(ModEffects.FUMIGATED.holder);
+                livingEntity.removeEffect(MobEffects.HUNGER);
                 livingEntity.removeEffect(MobEffects.POISON);
             }
         }

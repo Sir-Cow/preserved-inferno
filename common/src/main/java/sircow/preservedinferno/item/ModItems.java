@@ -355,6 +355,9 @@ public class ModItems {
             .component(ModComponents.FLARE_PARTICLE_COMPONENT, "0xFFFFFF")
             .component(ModComponents.ON_COOLDOWN, true)
     );
+    public static final Item DYNAMITE = registerItem("dynamite", DynamiteItem::new, new Item.Properties()
+            .useCooldown(1.0F)
+    );
 
     public static final Item LAVA_BOTTLE = registerItem("lava_bottle", Item::new, new Item.Properties()
             .component(DataComponents.CONSUMABLE, ModConsumables.LAVA_BOTTLE).usingConvertsTo(Items.GLASS_BOTTLE)

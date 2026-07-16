@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "minecraft:freeze",
+    "pinferno:fumigated",
     "pinferno:heat",
     "pinferno:true_damage"
   ]

@@ -1,0 +1,106 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "pinferno:boom_box"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "pinferno:dynamite",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "pinferno:boom_box",
+              "properties": {
+                "dynamite": "1"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1.0
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "pinferno:dynamite",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "pinferno:boom_box",
+              "properties": {
+                "dynamite": "2"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 2.0
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "pinferno:dynamite",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "pinferno:boom_box",
+              "properties": {
+                "dynamite": "3"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 3.0
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "pinferno:dynamite",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "pinferno:boom_box",
+              "properties": {
+                "dynamite": "4"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 4.0
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "pinferno:blocks/boom_box"
+}

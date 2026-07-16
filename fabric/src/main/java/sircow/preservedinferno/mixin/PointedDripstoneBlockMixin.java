@@ -50,6 +50,8 @@ public class PointedDripstoneBlockMixin {
     @Inject(method = "animateTick", at = @At("HEAD"), cancellable = true)
     private void pinferno$honeyParticleDrip(BlockState state, Level level, BlockPos pos, RandomSource random, CallbackInfo ci) {
         if (DripstoneHoneyHelper.hasHoneySource(level, pos, state)) {
+            ci.cancel();
+
             float randomValue = random.nextFloat();
             if (randomValue < 0.12F) {
                 BlockPos tipPos = DripstoneHoneyHelper.findTip(state, level, pos, 11, false);
@@ -62,7 +64,6 @@ public class PointedDripstoneBlockMixin {
                     level.addParticle(ParticleTypes.DRIPPING_HONEY, x, y, z, 0.0, 0.0, 0.0);
                 }
             }
-            ci.cancel();
         }
     }
 }

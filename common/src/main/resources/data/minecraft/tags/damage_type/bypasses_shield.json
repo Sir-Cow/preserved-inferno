@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pinferno:fumigated",
     "pinferno:heat"
   ]
 }

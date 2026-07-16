@@ -39,8 +39,9 @@
           "minecraft:wither": {},
 
           "minecraft:luck": {},
-          "pinferno:hindered": {},
           "pinferno:conduit_power": {},
+          "pinferno:fumigated": {},
+          "pinferno:hindered": {},
           "pinferno:well_rested": {}
         }
       },

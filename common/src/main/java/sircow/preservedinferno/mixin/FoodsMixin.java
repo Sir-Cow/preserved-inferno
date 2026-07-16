@@ -62,23 +62,23 @@ public class FoodsMixin {
         COOKED_CHICKEN = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
         COOKED_COD = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
         COOKED_MUTTON = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
-        COOKED_PORKCHOP = new FoodProperties.Builder().nutrition(4).saturationModifier(0.7F).build();
+        COOKED_PORKCHOP = new FoodProperties.Builder().nutrition(4).saturationModifier(0.8F).build();
         COOKED_RABBIT = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
         COOKED_SALMON = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
         COOKIE = new FoodProperties.Builder().nutrition(2).saturationModifier(0.1F).build();
         DRIED_KELP = new FoodProperties.Builder().nutrition(1).saturationModifier(0.2F).build();
-        ENCHANTED_GOLDEN_APPLE = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0F).alwaysEdible().build();
+        ENCHANTED_GOLDEN_APPLE = new FoodProperties.Builder().nutrition(8).saturationModifier(1.4F).alwaysEdible().build();
         GOLDEN_APPLE = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0F).alwaysEdible().build();
         GLOW_BERRIES = new FoodProperties.Builder().nutrition(3).saturationModifier(0.3F).build();
-        GOLDEN_CARROT = new FoodProperties.Builder().nutrition(12).saturationModifier(1.4F).build();
+        GOLDEN_CARROT = new FoodProperties.Builder().nutrition(8).saturationModifier(1.4F).build();
         HONEY_BOTTLE = new FoodProperties.Builder().nutrition(6).saturationModifier(0.6F).build();
         MELON_SLICE = new FoodProperties.Builder().nutrition(3).saturationModifier(0.2F).build();
         MUSHROOM_STEW = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0F).build();
         POISONOUS_POTATO = new FoodProperties.Builder().nutrition(2).saturationModifier(0.0F).build();
         POTATO = new FoodProperties.Builder().nutrition(2).saturationModifier(0.6F).build();
         PUFFERFISH = new FoodProperties.Builder().nutrition(1).saturationModifier(0.1F).build();
-        PUMPKIN_PIE = new FoodProperties.Builder().nutrition(8).saturationModifier(1.4F).build();
-        RABBIT_STEW = new FoodProperties.Builder().nutrition(10).saturationModifier(1.4F).build();
+        PUMPKIN_PIE = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0F).build();
+        RABBIT_STEW = new FoodProperties.Builder().nutrition(10).saturationModifier(1.0F).build();
         BEEF = new FoodProperties.Builder().nutrition(2).saturationModifier(0.2F).build();
         CHICKEN = new FoodProperties.Builder().nutrition(2).saturationModifier(0.2F).build();
         COD = new FoodProperties.Builder().nutrition(2).saturationModifier(0.2F).build();
@@ -89,7 +89,7 @@ public class FoodsMixin {
         ROTTEN_FLESH = new FoodProperties.Builder().nutrition(2).saturationModifier(0.0F).build();
         SPIDER_EYE = new FoodProperties.Builder().nutrition(2).saturationModifier(0.0F).build();
         COOKED_BEEF = new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build();
-        SUSPICIOUS_STEW = new FoodProperties.Builder().nutrition(8).saturationModifier(1.4F).alwaysEdible().build();
+        SUSPICIOUS_STEW = new FoodProperties.Builder().nutrition(8).saturationModifier(1.0F).alwaysEdible().build();
         SWEET_BERRIES = new FoodProperties.Builder().nutrition(3).saturationModifier(0.3F).build();
         TROPICAL_FISH = new FoodProperties.Builder().nutrition(2).saturationModifier(0.2F).build();
     }

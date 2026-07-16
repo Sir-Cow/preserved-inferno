@@ -32,9 +32,7 @@ public abstract class SpiderMixin {
         Holder<MobEffect> effect = chooseEffect(random);
         int amplifier = 0;
 
-        if (random.nextFloat() < 0.10F * difficulty.getSpecialMultiplier()) {
-            amplifier = 1;
-        }
+        if (random.nextFloat() < 0.10F * difficulty.getSpecialMultiplier()) amplifier = 1;
 
         // convert to cave spider
         if (!(self instanceof CaveSpider) && random.nextFloat() < -(self.getY() * 0.01F)) {

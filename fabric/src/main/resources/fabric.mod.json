@@ -50,6 +50,10 @@
     },
     "custom": {
         "modmenu": {
+            "links": {
+                "modmenu.modrinth": "https://modrinth.com/mod/preserved-inferno",
+                "modmenu.curseforge": "https://curseforge.com/minecraft/mc-mods/preserved-inferno"
+            },
             "update_checker": true
         }
     }

@@ -404,7 +404,7 @@ public class BlocksMixin {
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/BlockIds;PALE_OAK_WALL_SIGN:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Lnet/minecraft/references/BlockItemId;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
     private static BlockBehaviour.Properties pinferno$modifyPaleOakWallSign(BlockBehaviour.Properties original) {
-        return wallVariant(Blocks.PALE_OAK_SIGN, true)
+        return BlockBehaviour.Properties.of()
                 .mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
                 .forceSolidOn()
                 .instrument(NoteBlockInstrument.BASS)
@@ -424,7 +424,7 @@ public class BlocksMixin {
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/BlockIds;PALE_OAK_WALL_HANGING_SIGN:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Blocks;register(Lnet/minecraft/references/BlockItemId;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;", ordinal = 0), index = 2)
     private static BlockBehaviour.Properties pinferno$modifyPaleOakWallHangingSign(BlockBehaviour.Properties original) {
-        return wallVariant(Blocks.PALE_OAK_HANGING_SIGN, true)
+        return BlockBehaviour.Properties.of()
                 .mapColor(Blocks.PALE_OAK_PLANKS.defaultMapColor())
                 .forceSolidOn()
                 .instrument(NoteBlockInstrument.BASS)
@@ -544,16 +544,6 @@ public class BlocksMixin {
     @Shadow
     private static ToIntFunction<BlockState> litBlockEmission(int lightValue) {
         return blockState -> blockState.getValue(BlockStateProperties.LIT) ? lightValue : 0;
-    }
-
-    @Shadow
-    private static BlockBehaviour.Properties wallVariant(final Block standingBlock, final boolean copyName) {
-        BlockBehaviour.Properties wallProperties = BlockBehaviour.Properties.of().overrideLootTable(standingBlock.getLootTable());
-        if (copyName) {
-            wallProperties = wallProperties.overrideDescription(standingBlock.getDescriptionId());
-        }
-
-        return wallProperties;
     }
 
     @Shadow

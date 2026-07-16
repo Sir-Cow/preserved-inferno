@@ -96,13 +96,13 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
     public PreservedEnchantmentMenu(int containerId, Inventory playerInventory, final ContainerLevelAccess access) {
         super(Constants.PRESERVED_ENCHANT_MENU_TYPE.get(), containerId);
         this.access = access;
-        this.addSlot(new Slot(this.enchantSlots, 0, 25, 53) {
+        this.addSlot(new Slot(this.enchantSlots, 0, 25, 98) {
             @Override
             public int getMaxStackSize() {
                 return 1;
             }
         });
-        this.addSlot(new Slot(this.enchantSlots, 1, 45, 53) {
+        this.addSlot(new Slot(this.enchantSlots, 1, 47, 98) {
             @Override
             public boolean mayPlace(@NotNull ItemStack stack) {
                 return stack.is(Items.LAPIS_LAZULI);
@@ -114,7 +114,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
             }
         });
         this.addDataSlot(this.enchantmentPower);
-        this.addStandardInventorySlots(playerInventory, 8, 84);
+        this.addStandardInventorySlots(playerInventory, 8, 140);
     }
 
     @Override
@@ -139,6 +139,11 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
     @Override
     public void slotsChanged(@NotNull Container inventory) {
         if (inventory == this.enchantSlots) {
+            if (this.enchantSlots.getItem(0).isEmpty()) {
+                this.enchantSelected = false;
+                this.selectedEnchantID = -1;
+            }
+
             this.access.execute((world, pos) -> {
                 int bookshelfCount = 0;
 
@@ -290,6 +295,8 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
             itemStack = itemStack2.copy();
             if (slot == 0) {
                 if (!this.moveItemStackTo(itemStack2, 2, 38, true)) return ItemStack.EMPTY;
+                this.enchantSelected = false;
+                this.selectedEnchantID = -1;
             }
             else if (slot == 1) {
                 if (!this.moveItemStackTo(itemStack2, 2, 38, true)) return ItemStack.EMPTY;

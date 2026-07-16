@@ -35,7 +35,6 @@ public final class DripstoneHoneyHelper {
             BlockState current = level.getBlockState(cursor);
 
             if (current.is(state.getBlock()) && current.hasProperty(BlockStateProperties.VERTICAL_DIRECTION) && current.getValue(BlockStateProperties.VERTICAL_DIRECTION) == Direction.DOWN) continue;
-            if (current.is(Blocks.DRIPSTONE_BLOCK)) continue;
 
             if (current.is(Blocks.BEEHIVE) || current.is(Blocks.BEE_NEST)) {
                 if (current.hasProperty(BeehiveBlock.HONEY_LEVEL)) return current.getValue(BeehiveBlock.HONEY_LEVEL) >= 5;

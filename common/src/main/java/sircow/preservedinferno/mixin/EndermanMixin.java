@@ -1,16 +1,26 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EnderMan.class)
 public class EndermanMixin {
     // modify health value
     @ModifyArg(method = "createAttributes", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;add(Lnet/minecraft/core/Holder;D)Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;", ordinal = 0), index = 1)
     private static double pinferno$modifyHealth(double baseValue) {
-        baseValue = 60.0F;
+        baseValue = 100.0F;
         return baseValue;
+    }
+
+    @Inject(method = "teleport(DDD)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/EnderMan;randomTeleport(DDDZ)Z"))
+    private void pinferno$stopRidingBeforeTeleport(double x, double y, double z, CallbackInfoReturnable<Boolean> cir) {
+        EnderMan enderman = (EnderMan) (Object) this;
+
+        if (enderman.getVehicle() instanceof AbstractBoat) enderman.stopRiding();
     }
 }

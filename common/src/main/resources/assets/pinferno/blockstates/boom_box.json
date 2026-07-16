@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "dynamite=0": { "model": "pinferno:block/boom_box_empty" },
+    "dynamite=1": { "model": "pinferno:block/boom_box_dynamite1" },
+    "dynamite=2": { "model": "pinferno:block/boom_box_dynamite2" },
+    "dynamite=3": { "model": "pinferno:block/boom_box_dynamite3" },
+    "dynamite=4": { "model": "pinferno:block/boom_box_dynamite4" }
+  }
+}

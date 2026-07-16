@@ -1,5 +1,6 @@
 package sircow.preservedinferno.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -16,6 +17,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sircow.preservedinferno.Constants;
+import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
 import sircow.preservedinferno.other.HeatAccessor;
 import sircow.preservedinferno.other.ShieldStaminaHandler;
@@ -154,5 +156,10 @@ public class HudMixin {
         guiGraphics.text(font, component, i, j + 1, -16777216, false);
         guiGraphics.text(font, component, i, j - 1, -16777216, false);
         guiGraphics.text(font, component, i, j, -8323296, false);
+    }
+
+    @ModifyExpressionValue(method = "extractFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;hasEffect(Lnet/minecraft/core/Holder;)Z"))
+    private boolean pinferno$useHungerForFumigated(boolean original) {
+        return original || player.hasEffect(ModEffects.FUMIGATED.holder);
     }
 }

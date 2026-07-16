@@ -32,6 +32,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.attribute.EnvironmentAttributes;
@@ -246,7 +247,13 @@ public class FabricModEvents {
                 Objects.requireNonNull(newPlayer.level().getServer()).execute(() -> newPlayer.sendSystemMessage(Component.translatable("effect.pinferno.well_rested_consume"), true));
             }
 
+            // force min insomnia timer if over 48000
+            int insomnia = newPlayer.getStats().getValue(Stats.CUSTOM.get(Stats.TIME_SINCE_REST));
+            if (insomnia > 48000) newPlayer.getStats().setValue(newPlayer, Stats.CUSTOM.get(Stats.TIME_SINCE_REST), 48000);
+
+            // health & hunger reduction
             if (!alive) {
+                if (newPlayer.level().getDifficulty() != Difficulty.HARD) return;
                 int oldFood = oldPlayer.getFoodData().getFoodLevel();
                 float saturation;
 
@@ -259,10 +266,10 @@ public class FabricModEvents {
                     newPlayer.setHealth(16.0F);
 
                     if (oldFood < 16) {
-                        int newFood = Math.max(oldFood, 10);
+                        int newFood = Math.max(oldFood, 12);
                         newPlayer.getFoodData().setFoodLevel(newFood);
 
-                        if (oldFood < 10) saturation = 1.0F;
+                        if (oldFood < 12) saturation = 1.0F;
                         else saturation = 6.0F;
                     }
                     else {
@@ -274,7 +281,7 @@ public class FabricModEvents {
                     newPlayer.setHealth(12.0F);
 
                     if (oldFood < 12) {
-                        int newFood = Math.max(oldFood, 6);
+                        int newFood = Math.max(oldFood, 8);
                         newPlayer.getFoodData().setFoodLevel(newFood);
                         saturation = 1.0F;
                     }

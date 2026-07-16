@@ -129,6 +129,8 @@ public class FabricModItemGroups {
                     entries.accept(ModItems.NETHERITE_SINKER);
                     entries.accept(ModItems.MUSIC_DISC_AQUA);
 
+                    entries.accept(ModBlocks.BOOM_BOX.asItem());
+                    entries.accept(ModItems.DYNAMITE);
                     entries.accept(ModItems.FLARE_GUN);
                     entries.accept(ModItems.LAVA_BOTTLE);
                     entries.accept(ModItems.SPLASH_LAVA_BOTTLE);
@@ -179,6 +181,5 @@ public class FabricModItemGroups {
 
     public static void registerItemGroups() {
         register();
-        //Constants.LOG.info("Registering Mod Item Groups for " + Constants.MOD_ID);
     }
 }

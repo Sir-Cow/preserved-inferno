@@ -36,6 +36,9 @@ import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.MenuTypes;
 import sircow.preservedinferno.PreservedInferno;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntityRenderer;
+import sircow.preservedinferno.client.renderer.BoomBoxRenderer;
+import sircow.preservedinferno.client.renderer.RodTooltipComponentRenderer;
+import sircow.preservedinferno.client.renderer.ThrownCopperTridentRenderer;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.components.RodTooltipComponent;
 import sircow.preservedinferno.config.MiscCategory;
@@ -87,7 +90,9 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     }
 
     private void registerEntities() {
+        EntityRenderers.register(ModEntities.DYNAMITE_PROJECTILE, (ThrownItemRenderer::new));
         EntityRenderers.register(ModEntities.FLARE_GUN_PROJECTILE, (ThrownItemRenderer::new));
+        EntityRenderers.register(ModEntities.PRIMED_BOOM_BOX, (BoomBoxRenderer::new));
         EntityRenderers.register(ModEntities.COPPER_TRIDENT, (ThrownCopperTridentRenderer::new));
         EntityRenderers.register(ModEntities.PRESERVED_LINGERING_BOTTLE, (ThrownItemRenderer::new));
         EntityRenderers.register(ModEntities.PRESERVED_SPLASH_BOTTLE, (ThrownItemRenderer::new));

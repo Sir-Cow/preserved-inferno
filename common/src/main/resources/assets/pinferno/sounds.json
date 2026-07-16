@@ -121,5 +121,32 @@
       "pinferno:silence"
     ],
     "subtitle": "sounds.pinferno.sculk_infusion"
+  },
+  "boom_box_load": {
+    "sounds": [
+      {
+        "name": "minecraft:block.grass.place",
+        "type": "event"
+      }
+    ],
+    "subtitle": "sounds.pinferno.boom_box_load"
+  },
+  "boom_box_primed": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.tnt.primed",
+        "type": "event"
+      }
+    ],
+    "subtitle": "sounds.pinferno.boom_box_primed"
+  },
+  "dynamite_throw": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.snowball.throw",
+        "type": "event"
+      }
+    ],
+    "subtitle": "sounds.pinferno.dynamite_throw"
   }
 }

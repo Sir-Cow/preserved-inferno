@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.other.HeatAccessor;
 
 import java.util.List;
@@ -71,6 +72,17 @@ public class ConsumablesMixin {
         HONEY_BOTTLE = defaultDrink()
                 .consumeSeconds(0.8F)
                 .sound(SoundEvents.HONEY_DRINK)
+                .onConsume(new ConsumeEffect() {
+                    @Override
+                    public @NotNull Type<? extends ConsumeEffect> getType() { return null; }
+
+                    @Override
+                    public boolean apply(@NotNull Level level, @NotNull ItemStack itemStack, @NotNull LivingEntity livingEntity) {
+                        if (ModEffects.FUMIGATED.holder != null) livingEntity.removeEffect(ModEffects.FUMIGATED.holder);
+                        return true;
+                    }
+                })
+                .onConsume(new RemoveStatusEffectsConsumeEffect(MobEffects.HUNGER))
                 .onConsume(new RemoveStatusEffectsConsumeEffect(MobEffects.POISON))
                 .build();
         MILK_BUCKET = defaultDrink()

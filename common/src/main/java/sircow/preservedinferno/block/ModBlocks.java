@@ -1,11 +1,14 @@
 package sircow.preservedinferno.block;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.dispenser.ShulkerBoxDispenseBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -72,6 +75,17 @@ public class ModBlocks {
                     .strength(2.5F)
                     .sound(SoundType.WOOD)
                     .ignitedByLava(),
+            true
+    );
+
+    public static final Block BOOM_BOX = register("boom_box",
+            BoomBoxBlock::new, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .instrument(NoteBlockInstrument.HARP)
+                    .strength(2.5F)
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()
+                    .isRedstoneConductor(ModBlocks::never),
             true
     );
 
@@ -254,7 +268,12 @@ public class ModBlocks {
         return register(name, (properties) -> new PreservedStairBlock(baseBlockState, properties), BlockBehaviour.Properties.ofFullCopy(baseBlock), true);
     }
 
+    public static boolean never(final BlockState state, final BlockGetter blockGetter, final BlockPos blockPos) {
+        return false;
+    }
+
     public static void registerModBlocks() {
-        // Constants.LOG.info("Registering Mod Blocks for " + Constants.MOD_ID);
+        // register boom box dispenser behaviour here instead of the mixin, or it will crash
+        DispenserBlock.registerBehavior(BOOM_BOX.asItem(), new ShulkerBoxDispenseBehavior());
     }
 }

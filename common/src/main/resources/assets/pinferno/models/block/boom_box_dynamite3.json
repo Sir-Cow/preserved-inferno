@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "pinferno:block/boom_box_bottom_top",
+    "east": "pinferno:block/boom_box_side",
+    "north": "pinferno:block/boom_box_side",
+    "particle": "pinferno:block/boom_box_side",
+    "south": "pinferno:block/boom_box_side",
+    "up": "pinferno:block/boom_box_bottom_top",
+    "west": "pinferno:block/boom_box_side"
+  }
+}

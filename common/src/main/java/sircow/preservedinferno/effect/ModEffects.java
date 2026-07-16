@@ -3,6 +3,7 @@ package sircow.preservedinferno.effect;
 import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import sircow.preservedinferno.effect.custom.FumigatedEffect;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -19,11 +20,12 @@ public class ModEffects {
         }
     }
 
-    public static final EffectEntry HINDERED = new EffectEntry("hindered", () -> new HinderedEffect(MobEffectCategory.HARMFUL, 0x6C4EB7));
-    public static final EffectEntry PINFERNO_CONDUIT_POWER = new EffectEntry("conduit_power", () -> new PreservedConduitPowerEffect(MobEffectCategory.BENEFICIAL, 1950417));
-    public static final EffectEntry WELL_RESTED = new EffectEntry("well_rested", () -> new WellRestedEffect(MobEffectCategory.BENEFICIAL, 0xE3884E));
+    public static final EffectEntry FUMIGATED = new EffectEntry("fumigated", FumigatedEffect::new);
+    public static final EffectEntry HINDERED = new EffectEntry("hindered", () -> new PreservedEffect(MobEffectCategory.HARMFUL, 0x6C4EB7));
+    public static final EffectEntry PINFERNO_CONDUIT_POWER = new EffectEntry("conduit_power", () -> new PreservedEffect(MobEffectCategory.BENEFICIAL, 1950417));
+    public static final EffectEntry WELL_RESTED = new EffectEntry("well_rested", () -> new PreservedEffect(MobEffectCategory.BENEFICIAL, 0xE3884E));
 
     public static final List<EffectEntry> ALL_EFFECTS = List.of(
-            HINDERED, PINFERNO_CONDUIT_POWER, WELL_RESTED
+            FUMIGATED, HINDERED, PINFERNO_CONDUIT_POWER, WELL_RESTED
     );
 }

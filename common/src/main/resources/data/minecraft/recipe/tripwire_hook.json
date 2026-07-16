@@ -3,7 +3,7 @@
   "category": "redstone",
   "key": {
     "#": "#minecraft:planks",
-    "I": "minecraft:copper_ingot",
+    "I": "minecraft:copper_nugget",
     "S": "minecraft:stick"
   },
   "pattern": [

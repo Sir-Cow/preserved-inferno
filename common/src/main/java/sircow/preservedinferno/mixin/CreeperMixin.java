@@ -1,5 +1,9 @@
 package sircow.preservedinferno.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -45,5 +49,13 @@ public class CreeperMixin {
     @ModifyConstant(method = "causeFallDamage", constant = @Constant(doubleValue = 1.5))
     private double pinferno$modifyFallDamageMulti(double original) {
         return 0;
+    }
+
+    @WrapOperation(method = "explodeCreeper", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;explode(Lnet/minecraft/world/entity/Entity;DDDFLnet/minecraft/world/level/Level$ExplosionInteraction;)V"))
+    private void pinferno$modifyExplosionMultiplier(ServerLevel level, Entity source, double x, double y, double z, float radius, Level.ExplosionInteraction interaction, Operation<Void> original) {
+        Creeper creeper = (Creeper) (Object) this;
+        float multiplier = creeper.isPowered() ? 1.5F : 0.75F;
+
+        original.call(level, source, x, y, z, this.explosionRadius * multiplier, interaction);
     }
 }

@@ -30,16 +30,14 @@ import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
+import sircow.preservedinferno.other.FreezeAccessor;
 import sircow.preservedinferno.other.cooldowns.ElytraCooldown;
 
 import java.util.Objects;
@@ -185,5 +183,21 @@ public abstract class LivingEntityMixin extends Entity {
     @ModifyConstant(method = "aiStep", constant = @Constant(intValue = 40))
     private int pinferno$freezeDamageInterval(int original) {
         return 1;
+    }
+
+    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setTicksFrozen(I)V"))
+    private void pinferno$delayThawing(LivingEntity entity, int ticksFrozen) {
+        FreezeAccessor access = (FreezeAccessor) entity;
+
+        if (ticksFrozen < entity.getTicksFrozen() && access.pinferno$getFreezeDelay() < 20) return;
+
+        entity.setTicksFrozen(ticksFrozen);
+    }
+
+    @Inject(method = "aiStep", at = @At("HEAD"))
+    private void pinferno$tickFreezeDelay(CallbackInfo ci) {
+        FreezeAccessor access = (FreezeAccessor) this;
+
+        if (access.pinferno$getFreezeDelay() < 20) access.pinferno$setFreezeDelay(access.pinferno$getFreezeDelay() + 1);
     }
 }

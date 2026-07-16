@@ -1,5 +1,6 @@
 package sircow.preservedinferno.block;
 
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 
 public class FabricModBlocks {
@@ -19,6 +20,7 @@ public class FabricModBlocks {
         OxidizableBlocksRegistry.registerWaxable(ModBlocks.REINFORCED_EXPOSED_COPPER_DOOR, ModBlocks.REINFORCED_WAXED_EXPOSED_COPPER_DOOR);
         OxidizableBlocksRegistry.registerWaxable(ModBlocks.REINFORCED_WEATHERED_COPPER_DOOR, ModBlocks.REINFORCED_WAXED_WEATHERED_COPPER_DOOR);
         OxidizableBlocksRegistry.registerWaxable(ModBlocks.REINFORCED_OXIDIZED_COPPER_DOOR, ModBlocks.REINFORCED_WAXED_OXIDIZED_COPPER_DOOR);
-        // Constants.LOG.info("Registering Fabric Mod Blocks for " + Constants.MOD_ID);
+
+        FlammableBlockRegistry.getDefaultInstance().add(ModBlocks.BOOM_BOX, 15, 100);
     }
 }

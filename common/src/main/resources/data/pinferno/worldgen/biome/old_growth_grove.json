@@ -138,7 +138,7 @@
         "type": "minecraft:skeleton",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 20
       },
       {
         "type": "minecraft:creeper",
@@ -163,6 +163,12 @@
         "maxCount": 1,
         "minCount": 1,
         "weight": 5
+      },
+      {
+        "type": "minecraft:stray",
+        "maxCount": 4,
+        "minCount": 4,
+        "weight": 80
       }
     ],
     "underground_water_creature": [
