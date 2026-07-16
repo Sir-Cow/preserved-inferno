@@ -1,33 +1,34 @@
 package sircow.preservedinferno.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(NearestAttackableTargetGoal.class)
-public abstract class NearestAttackableTargetGoalMixin extends TargetGoal {
-    private NearestAttackableTargetGoalMixin(Mob mob, boolean mustSee, boolean mustReach) {
-        super(mob, mustSee, mustReach);
-    }
+public class NearestAttackableTargetGoalMixin<T extends LivingEntity> {
+    @Shadow @Final protected TargetingConditions targetConditions;
 
-    @ModifyReturnValue(method = "getTargetConditions", at = @At("RETURN"))
-    private TargetingConditions pinferno$modifyMobTargetConditions(TargetingConditions original) {
-        TargetingConditions vanillaConditions = original.copy().selector(null);
+    @Inject(method = "<init>(Lnet/minecraft/world/entity/Mob;Ljava/lang/Class;ZLnet/minecraft/world/entity/ai/targeting/TargetingConditions$Selector;)V", at = @At("TAIL"))
+    private void pinferno$modifyMobTargetConditions(Mob mob, Class<T> targetType, boolean mustSee, TargetingConditions.Selector selector, CallbackInfo ci) {
+        if (!(mob instanceof Creeper)) return;
 
-        return original.selector((LivingEntity candidate, ServerLevel level) -> {
-            if (this.mob instanceof Creeper) {
-                if (candidate instanceof Player player && player.isCrouching()) return player.distanceTo(this.mob) <= 20.0D;
-            }
+        TargetingConditions.Selector originalSelector = selector;
 
-            return vanillaConditions.test(level, this.mob, candidate);
+        this.targetConditions.selector((candidate, level) -> {
+            if (originalSelector != null && !originalSelector.test(candidate, level)) return false;
+
+            if (candidate instanceof Player player && player.isCrouching()) return player.distanceTo(mob) <= 20.0D;
+
+            return true;
         });
     }
 }
