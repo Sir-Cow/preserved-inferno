@@ -174,6 +174,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                     lines.add(insertIndex, Component.translatable("item.color", Component.literal(particleVal).withStyle(Style.EMPTY.withColor(parsedParticleVal))).withStyle(ChatFormatting.GRAY));
                 }
             }
+            addCustomBottleTooltip(lines, stack);
             addSmithingTemplateTooltip(lines, insertIndex, stack);
             addForgeMaterialTooltip(lines, stack);
             addAquaDiscTooltip(lines, stack);
@@ -188,6 +189,24 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             }
         }
         return lines.size();
+    }
+
+    private void addCustomBottleTooltip(List<Component> lines, ItemStack stack) {
+        boolean isHoney = stack.is(Items.HONEY_BOTTLE) || stack.is(ModItems.SPLASH_HONEY_BOTTLE) || stack.is(ModItems.LINGERING_HONEY_BOTTLE);
+        boolean isLava = stack.is(ModItems.LAVA_BOTTLE) || stack.is(ModItems.SPLASH_LAVA_BOTTLE) || stack.is(ModItems.LINGERING_LAVA_BOTTLE);
+        boolean isMilk = stack.is(ModItems.MILK_BOTTLE) || stack.is(ModItems.SPLASH_MILK_BOTTLE) || stack.is(ModItems.LINGERING_MILK_BOTTLE);
+
+        if (isLava || isMilk || isHoney) {
+            String noEffectsText = Component.translatable("effect.none").getString();
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).getString().equals(noEffectsText)) {
+                    if (isHoney) lines.set(i, Component.translatable("item.pinferno.honey_bottle_tooltip").withStyle(ChatFormatting.RED));
+                    else if (isLava) lines.set(i, Component.translatable("item.pinferno.lava_bottle_tooltip").withStyle(ChatFormatting.RED));
+                    else lines.set(i, Component.translatable("item.pinferno.milk_bottle_tooltip").withStyle(ChatFormatting.BLUE));
+                    break;
+                }
+            }
+        }
     }
 
     private void addShieldTooltip(List<Component> lines, int insertIndex, Integer maxStamina, Float staminaRegenRate) {

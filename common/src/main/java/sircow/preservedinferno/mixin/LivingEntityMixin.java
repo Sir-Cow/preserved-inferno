@@ -9,6 +9,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -40,6 +41,7 @@ import sircow.preservedinferno.item.custom.PreservedShieldItem;
 import sircow.preservedinferno.other.FreezeAccessor;
 import sircow.preservedinferno.other.cooldowns.ElytraCooldown;
 
+import java.util.Collection;
 import java.util.Objects;
 
 @Mixin(LivingEntity.class)
@@ -47,9 +49,11 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow public abstract boolean hasEffect(Holder<MobEffect> effect);
     @Shadow public abstract MobEffectInstance getEffect(Holder<MobEffect> effect);
     @Shadow public abstract AttributeInstance getAttribute(Holder<Attribute> attribute);
+
     @Unique private float preDamageHealth;
     @Unique private static final Identifier HINDERED_SPEED_ID = Constants.id("hindered_speed");
     @Unique private static final Identifier HINDERED_ATTACK_ID = Constants.id("hindered_attack");
+    @Unique private static final Identifier FLYING_SPEED_EFFECT_ID = Identifier.withDefaultNamespace("effect/flying_speed");
 
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -199,5 +203,41 @@ public abstract class LivingEntityMixin extends Entity {
         FreezeAccessor access = (FreezeAccessor) this;
 
         if (access.pinferno$getFreezeDelay() < 20) access.pinferno$setFreezeDelay(access.pinferno$getFreezeDelay() + 1);
+    }
+
+    @Inject(method = "onEffectAdded", at = @At("TAIL"))
+    private void pinferno$onEffectAdded(MobEffectInstance effect, Entity source, CallbackInfo ci) {
+        updateFlyingSpeedModifier(effect);
+    }
+
+    @Inject(method = "onEffectUpdated", at = @At("TAIL"))
+    private void pinferno$onEffectUpdated(MobEffectInstance effect, boolean doRefreshAttributes, Entity source, CallbackInfo ci) {
+        updateFlyingSpeedModifier(effect);
+    }
+
+    @Inject(method = "onEffectsRemoved", at = @At("TAIL"))
+    private void pinferno$onEffectRemoved(Collection<MobEffectInstance> effects, CallbackInfo ci) {
+        AttributeInstance flyingSpeed = ((LivingEntity) (Object) this).getAttribute(Attributes.FLYING_SPEED);
+
+        if (flyingSpeed != null) flyingSpeed.removeModifier(FLYING_SPEED_EFFECT_ID);
+    }
+
+    @Unique
+    private void updateFlyingSpeedModifier(MobEffectInstance effect) {
+        if (!effect.is(MobEffects.SPEED) && !effect.is(MobEffects.SLOWNESS)) return;
+
+        AttributeInstance flyingSpeed = ((LivingEntity) (Object) this).getAttribute(Attributes.FLYING_SPEED);
+        if (flyingSpeed == null) return;
+
+        flyingSpeed.removeModifier(FLYING_SPEED_EFFECT_ID);
+
+        double amount;
+        AttributeModifier.Operation operation;
+
+        if (effect.is(MobEffects.SPEED)) amount = 0.2D * (effect.getAmplifier() + 1);
+        else amount = -0.15D * (effect.getAmplifier() + 1);
+
+        operation = AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL;
+        flyingSpeed.addPermanentModifier(new AttributeModifier(FLYING_SPEED_EFFECT_ID, amount, operation));
     }
 }

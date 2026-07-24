@@ -26,7 +26,7 @@
             "sircow.preservedinferno.datagen.ModDataGenerator"
         ],
         "jade": [
-            "sircow.preservedinferno.compat.JadePlugin"
+            "sircow.preservedinferno.compat.jade.JadePlugin"
         ],
         "modmenu": [
             "sircow.preservedinferno.config.ModMenuCompat"
@@ -35,15 +35,17 @@
     "mixins": [
         "pinferno.mixins.json",
         "pinferno.fabric.mixins.json",
-        "pinferno.jade.mixins.json"
+        "pinferno.betteradvancements.mixins.json",
+        "pinferno.jade.mixins.json",
+        "pinferno.lootr.mixins.json"
     ],
     "accessWidener": "pinferno.classtweaker",
     "depends": {
-        "fabricloader": ">=0.19.0",
+        "fabricloader": ">=${fabric_loader_version}",
         "fabric-api": "*",
-        "minecraft": "~26.2",
+        "minecraft": "~${minecraft_version}",
         "java": ">=${java_version}",
-        "fabric-language-kotlin": ">=1.13.12"
+        "fabric-language-kotlin": ">=1.13.13"
     },
     "breaks": {
         "reverbcompass": "*"

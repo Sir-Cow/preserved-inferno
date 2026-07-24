@@ -547,4 +547,9 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
             cir.setReturnValue(false);
         }
     }
+
+    @Redirect(method = "getDestroySpeed", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;onGround()Z"))
+    private boolean pinferno$removeMountMiningSpeedPenalty(Player player) {
+        return player.onGround() || player.isPassenger();
+    }
 }

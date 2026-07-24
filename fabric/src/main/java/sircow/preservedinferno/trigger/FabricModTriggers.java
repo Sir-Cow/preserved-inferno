@@ -35,6 +35,7 @@ public class FabricModTriggers {
         register(ModTriggers.MASTERY_SQUIRE);
         register(ModTriggers.MASTERY_STARTER);
         register(ModTriggers.MAX_ENCHANTING_TABLE);
+        register(ModTriggers.MAX_HORSE_STATS);
         register(ModTriggers.MAX_VILLAGER);
         register(ModTriggers.OPENED_ADVANCEMENT_SCREEN);
         register(ModTriggers.PLACE_BOOKSHELF);
@@ -47,6 +48,8 @@ public class FabricModTriggers {
         register(ModTriggers.STAND_ON_ICE);
         register(ModTriggers.TRADE_EVERY_VILLAGER);
         register(ModTriggers.TRIPLE_KILL);
+        register(ModTriggers.UPGRADE_HORSE_ATTRIBUTE);
+        register(ModTriggers.UPGRADE_HORSE_HEALTH);
         register(ModTriggers.USE_REVERB_COMPASS);
         register(ModTriggers.USE_TIPPED_ARROW);
         register(ModTriggers.USED_ANVIL_REPAIR);

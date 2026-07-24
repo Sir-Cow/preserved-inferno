@@ -33,6 +33,7 @@ public class ModTriggers {
     public static final TriggerEntry<CustomTrigger> MASTERY_SQUIRE = new TriggerEntry<>("mastery_squire", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> MASTERY_STARTER = new TriggerEntry<>("mastery_starter", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> MAX_ENCHANTING_TABLE = new TriggerEntry<>("max_enchanting_table", CustomTrigger::new);
+    public static final TriggerEntry<CustomTrigger> MAX_HORSE_STATS = new TriggerEntry<>("max_horse_stats", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> MAX_VILLAGER = new TriggerEntry<>("max_villager", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> OPENED_ADVANCEMENT_SCREEN = new TriggerEntry<>("open_advancement_menu", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> PLACE_BOOKSHELF = new TriggerEntry<>("place_bookshelf", CustomTrigger::new);
@@ -45,6 +46,8 @@ public class ModTriggers {
     public static final TriggerEntry<CustomTrigger> STAND_ON_ICE = new TriggerEntry<>("stand_on_ice", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> TRADE_EVERY_VILLAGER = new TriggerEntry<>("trade_every_villager", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> TRIPLE_KILL = new TriggerEntry<>("triple_kill", CustomTrigger::new);
+    public static final TriggerEntry<CustomTrigger> UPGRADE_HORSE_ATTRIBUTE = new TriggerEntry<>("upgrade_horse_attribute", CustomTrigger::new);
+    public static final TriggerEntry<CustomTrigger> UPGRADE_HORSE_HEALTH = new TriggerEntry<>("upgrade_horse_health", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> USE_REVERB_COMPASS = new TriggerEntry<>("use_reverb_compass", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> USE_TIPPED_ARROW = new TriggerEntry<>("use_tipped_arrow", CustomTrigger::new);
     public static final TriggerEntry<CustomTrigger> USED_ANVIL_REPAIR = new TriggerEntry<>("used_anvil_repair", CustomTrigger::new);

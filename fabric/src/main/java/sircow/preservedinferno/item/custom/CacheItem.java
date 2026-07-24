@@ -63,7 +63,7 @@ public class CacheItem extends Item {
         final ItemStack finalStackContext = stackContext;
         return new ExtendedMenuProvider() {
             @Override
-            public PreservedInferno.ItemData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
+            public PreservedInferno.@NonNull ItemData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
                 return new PreservedInferno.ItemData(CacheItem.this.size);
             }
 

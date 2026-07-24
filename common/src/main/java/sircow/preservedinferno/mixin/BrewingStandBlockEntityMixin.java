@@ -5,6 +5,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -14,6 +15,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import sircow.preservedinferno.item.ModItems;
 
 @Mixin(BrewingStandBlockEntity.class)
 public abstract class BrewingStandBlockEntityMixin extends BaseContainerBlockEntity {
@@ -49,6 +52,26 @@ public abstract class BrewingStandBlockEntityMixin extends BaseContainerBlockEnt
                 }
 
                 BrewingStandBlockEntity.setChanged(level, pos, state);
+            }
+        }
+    }
+
+    @Inject(method = "canPlaceItem", at = @At("HEAD"), cancellable = true)
+    private void pinferno$allowCustomBottlesInBrewingStand(int slot, ItemStack itemStack, CallbackInfoReturnable<Boolean> cir) {
+        if (slot != 3 && slot != 4) {
+            BrewingStandBlockEntity stand = (BrewingStandBlockEntity) (Object) this;
+            if (stand.getItem(slot).isEmpty()) {
+                if (itemStack.is(Items.HONEY_BOTTLE)
+                        || itemStack.is(ModItems.SPLASH_HONEY_BOTTLE)
+                        || itemStack.is(ModItems.LINGERING_HONEY_BOTTLE)
+                        || itemStack.is(ModItems.LAVA_BOTTLE)
+                        || itemStack.is(ModItems.SPLASH_LAVA_BOTTLE)
+                        || itemStack.is(ModItems.LINGERING_LAVA_BOTTLE)
+                        || itemStack.is(ModItems.MILK_BOTTLE)
+                        || itemStack.is(ModItems.SPLASH_MILK_BOTTLE)
+                        || itemStack.is(ModItems.LINGERING_MILK_BOTTLE)) {
+                    cir.setReturnValue(true);
+                }
             }
         }
     }

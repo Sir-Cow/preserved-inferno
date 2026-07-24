@@ -260,7 +260,12 @@ public class FabricModEvents {
                 ServerPlayer.RespawnConfig respawnConfig = newPlayer.getRespawnConfig();
                 boolean isBedSpawn = false;
 
-                if (respawnConfig != null) isBedSpawn = newPlayer.level().getBlockState(respawnConfig.respawnData().pos()).getBlock() instanceof BedBlock;
+                if (respawnConfig != null) {
+                    BlockPos respawnPos = respawnConfig.respawnData().pos();
+                    if (newPlayer.level().isLoaded(respawnPos)) {
+                        isBedSpawn = newPlayer.level().getBlockState(respawnPos).getBlock() instanceof BedBlock;
+                    }
+                }
 
                 if (isBedSpawn) {
                     newPlayer.setHealth(16.0F);

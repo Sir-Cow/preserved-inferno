@@ -1,7 +1,6 @@
 package sircow.preservedinferno.mixin;
 
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
@@ -12,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import sircow.preservedinferno.other.BabyHealthHelper;
 
 @Mixin(Zoglin.class)
 public class ZoglinMixin extends Monster {
@@ -33,17 +33,6 @@ public class ZoglinMixin extends Monster {
 
     @Inject(method = "setBaby", at = @At("TAIL"))
     private void pinferno$modifyBaby(boolean baby, CallbackInfo ci) {
-        if (this.level().isClientSide()) return;
-
-        AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
-        if (health == null) return;
-
-        if (baby) {
-            health.setBaseValue(health.getBaseValue() * 0.75);
-        }
-        else {
-            health.setBaseValue(health.getBaseValue());
-        }
-        this.setHealth(this.getMaxHealth());
+        BabyHealthHelper.updateBabyHealth(this, baby);
     }
 }

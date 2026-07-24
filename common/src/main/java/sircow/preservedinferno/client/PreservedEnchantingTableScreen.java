@@ -125,18 +125,18 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
         itemCategorySlots.put("pickaxeSharp", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Unbreaking")));
         itemCategorySlots.put("pickaxeSmite", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
         // shovel
-        itemCategorySlots.put("shovel", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Splattering"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelFort", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Smite"), idx("Splattering"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelSilk", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Efficiency"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Splattering"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelFortBane", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Splattering"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelFortSharp", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Splattering"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelFortSmite", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Smite"), idx("Splattering"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelSilkBane", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Efficiency"), idx("Looting"), idx("Silk Touch"), idx("Splattering"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelSilkSharp", Set.of(idx("Breach"), idx("Efficiency"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Splattering"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelSilkSmite", Set.of(idx("Breach"), idx("Efficiency"), idx("Looting"), idx("Silk Touch"), idx("Smite"), idx("Splattering"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelBane", Set.of(idx("Bane Of Arthropods"), idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Silk Touch"), idx("Splattering"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelSharp", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Splattering"), idx("Unbreaking")));
-        itemCategorySlots.put("shovelSmite", Set.of(idx("Breach"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Silk Touch"), idx("Smite"), idx("Splattering"), idx("Unbreaking")));
+        itemCategorySlots.put("shovel", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Splattering"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelFort", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Smite"), idx("Splattering"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelSilk", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Splattering"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelFortBane", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Splattering"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelFortSharp", Set.of(idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Splattering"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelFortSmite", Set.of(idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Smite"), idx("Splattering"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelSilkBane", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Looting"), idx("Silk Touch"), idx("Splattering"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelSilkSharp", Set.of( idx("Efficiency"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Splattering"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelSilkSmite", Set.of( idx("Efficiency"), idx("Looting"), idx("Silk Touch"), idx("Smite"), idx("Splattering"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelBane", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Silk Touch"), idx("Splattering"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelSharp", Set.of( idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Splattering"), idx("Unbreaking")));
+        itemCategorySlots.put("shovelSmite", Set.of(idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Silk Touch"), idx("Smite"), idx("Splattering"), idx("Unbreaking")));
         // tool weapon
         itemCategorySlots.put("toolWeapon", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Sharpness"), idx("Silk Touch"), idx("Smite"), idx("Unbreaking")));
         itemCategorySlots.put("toolWeaponBane", Set.of(idx("Bane Of Arthropods"), idx("Efficiency"), idx("Fortune"), idx("Looting"), idx("Silk Touch"), idx("Unbreaking")));
@@ -474,13 +474,15 @@ public class PreservedEnchantingTableScreen extends AbstractContainerScreen<Pres
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if (super.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) return true;
+
         if (this.shouldScroll()) {
             int max = this.getMaxScroll();
             this.scrollAmount = Mth.clamp(this.scrollAmount - (float) (scrollY / (double) max), 0.0F, 1.0F);
             this.scrollOffset = (int) ((this.scrollAmount * (float) max) + 0.5F) * 4;
             return true;
         }
-        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+        return false;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

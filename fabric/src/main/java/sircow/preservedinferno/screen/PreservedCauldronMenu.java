@@ -126,13 +126,24 @@ public class PreservedCauldronMenu extends AbstractContainerMenu {
                         Optional<RecipeHolder<CauldronRecipe>> recipeMatch =
                                 serverLevel.recipeAccess().getRecipeFor(
                                         ModRecipes.CAULDRON_TYPE,
-                                        new CauldronRecipeInput(checkStack, this.getFluid(), this.getFluidAmount()),
+                                        new CauldronRecipeInput(checkStack, this.getFluid(), this.getMaxFluidAmount()),
                                         serverLevel
                                 );
 
                         if (recipeMatch.isPresent()) canInsertIntoInput = true;
-                        else if (this.getFluid() == CauldronFluid.LAVA && !originalStack.has(DataComponents.DAMAGE_RESISTANT)) canInsertIntoInput = true;
-
+                        else if (this.getFluid() == CauldronFluid.EMPTY) {
+                            for (RecipeHolder<?> holder : serverLevel.recipeAccess().getRecipes()) {
+                                if (holder.value() instanceof CauldronRecipe cauldronRecipe) {
+                                    if (cauldronRecipe.inputItem().test(checkStack)) {
+                                        canInsertIntoInput = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else if (this.getFluid() == CauldronFluid.LAVA && !originalStack.has(DataComponents.DAMAGE_RESISTANT)) {
+                            canInsertIntoInput = true;
+                        }
                     }
 
                     if (canInsertIntoInput) {

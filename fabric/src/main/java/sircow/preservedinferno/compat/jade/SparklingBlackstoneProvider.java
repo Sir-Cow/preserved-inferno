@@ -1,4 +1,4 @@
-package sircow.preservedinferno.compat;
+package sircow.preservedinferno.compat.jade;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -10,8 +10,6 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
-
-import java.awt.*;
 
 public class SparklingBlackstoneProvider implements IBlockComponentProvider {
     public static final SparklingBlackstoneProvider INSTANCE = new SparklingBlackstoneProvider();

@@ -12,13 +12,16 @@ import net.minecraft.util.Unit;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.Consumable;
-import net.minecraft.world.item.component.Weapon;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.*;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorMaterials;
@@ -75,8 +78,15 @@ public class ItemsMixin {
     private static int pinferno$modifySnowballStackSize(int old) { return 64; }
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;ENDER_PEARL:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;stacksTo(I)Lnet/minecraft/world/item/Item$Properties;", ordinal = 0))
     private static int pinferno$modifyEnderPearlStackSize(int old) { return 64; }
-    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;HONEY_BOTTLE:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;stacksTo(I)Lnet/minecraft/world/item/Item$Properties;", ordinal = 0))
-    private static int pinferno$modifyHoneyBottleStackSize(int old) { return 4; }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;HONEY_BOTTLE:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Items;registerItem(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
+    private static Item.Properties pinferno$modifyHoneyBottle(Item.Properties original) {
+        return original
+                .craftRemainder(Items.GLASS_BOTTLE)
+                .food(Foods.HONEY_BOTTLE, Consumables.HONEY_BOTTLE)
+                .usingConvertsTo(Items.GLASS_BOTTLE)
+                .stacksTo(4)
+                .component(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
+    }
 
     // modify shears durability
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;SHEARS:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;durability(I)Lnet/minecraft/world/item/Item$Properties;", ordinal = 0))
@@ -361,7 +371,7 @@ public class ItemsMixin {
     private static Function<Item.Properties, Item> pinferno$modifyDiamondHoe(Function<Item.Properties, Item> p) {
         return (properties) -> new HoeItem(ToolMaterial.DIAMOND, 2.0F, -2.2F, properties);
     }
-    @ModifyArg(method = "<clinit>", slice = @Slice (from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;NETHERITE_HOE:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Items;registerItem(Lnet/minecraft/resources/ResourceKey;Ljava/util/function/Function;)Lnet/minecraft/world/item/Item;", ordinal = 0))
+    @ModifyArg(method = "<clinit>", slice = @Slice (from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;NETHERITE_HOE:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Items;registerItem(Lnet/minecraft/resources/ResourceKey;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
     private static Function<Item.Properties, Item> pinferno$modifyNetheriteHoe(Function<Item.Properties, Item> p) {
         return (properties) -> new HoeItem(ToolMaterial.NETHERITE, 2.0F, -2.2F, properties);
     }
@@ -394,5 +404,50 @@ public class ItemsMixin {
     @ModifyArg(method = "<clinit>", slice = @Slice (from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;NETHERITE_PICKAXE:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Items;registerItem(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0), index = 1)
     private static Item.Properties pinferno$modifyNetheritePickaxe(Item.Properties properties) {
         return new Item.Properties().pickaxe(ToolMaterial.NETHERITE, 4.0F, -3.0F).fireResistant();
+    }
+
+    // modify spear properties
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;WOODEN_SPEAR:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;spear(Lnet/minecraft/world/item/ToolMaterial;FFFFFFFFF)Lnet/minecraft/world/item/Item$Properties;"), index = 2)
+    private static float pinferno$modifyWoodenSpear(float damageMultiplier) {
+        return 0.66F;
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;STONE_SPEAR:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item$Properties;spear(Lnet/minecraft/world/item/ToolMaterial;FFFFFFFFF)Lnet/minecraft/world/item/Item$Properties;"), index = 2)
+    private static float pinferno$modifyStoneSpear(float damageMultiplier) {
+        return 0.7F;
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;COPPER_SPEAR:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Items;registerItem(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;"), index = 1)
+    private static Item.Properties pinferno$modifyCopperSpear(Item.Properties properties) {
+        return setAttributes(properties, ToolMaterial.COPPER.attackDamageBonus() + 1.0F, 1.18F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;IRON_SPEAR:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Items;registerItem(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;"), index = 1)
+    private static Item.Properties pinferno$modifyIronSpear(Item.Properties properties) {
+        return setAttributes(properties, ToolMaterial.IRON.attackDamageBonus() + 1.0F, 1.05F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;GOLDEN_SPEAR:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Items;registerItem(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;"), index = 1)
+    private static Item.Properties pinferno$modifyGoldenSpear(Item.Properties properties) {
+        Item.Properties newProps = new Item.Properties().spear(ToolMaterial.GOLD, 1.54F, 0.82F, 0.65F, 2.5F, 9.0F, 5.5F, 5.1F, 8.75F, 4.6F);
+        return setAttributes(newProps, ToolMaterial.GOLD.attackDamageBonus() + 2.0F, 1.54F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;DIAMOND_SPEAR:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Items;registerItem(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;"), index = 1)
+    private static Item.Properties pinferno$modifyDiamondSpear(Item.Properties properties) {
+        return setAttributes(properties, ToolMaterial.DIAMOND.attackDamageBonus() + 2.0F, 0.95F);
+    }
+    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;NETHERITE_SPEAR:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Items;registerItem(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;"), index = 1)
+    private static Item.Properties pinferno$modifyNetheriteSpear(Item.Properties properties) {
+        Item.Properties newProps = new Item.Properties().spear(ToolMaterial.NETHERITE, 1.15F, 1.2F, 0.4F, 2.5F, 9.0F, 5.5F, 5.1F, 8.75F, 4.6F).fireResistant();
+        return setAttributes(newProps, ToolMaterial.NETHERITE.attackDamageBonus() + 2.0F, 0.87F);
+    }
+
+    @Unique
+    private static Item.Properties setAttributes(Item.Properties properties, float totalAttackDamage, float speedModifier) {
+        int durationTicks = (int) Math.round(20.0 / speedModifier);
+        return properties
+                .component(DataComponents.SWING_ANIMATION, new SwingAnimation(SwingAnimationType.STAB, durationTicks))
+                .component(DataComponents.ATTRIBUTE_MODIFIERS,
+                ItemAttributeModifiers.builder()
+                        .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, totalAttackDamage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                        .add(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_ID, speedModifier - 4.0F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                        .build()
+        );
     }
 }

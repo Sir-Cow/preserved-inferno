@@ -10,10 +10,12 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.profiling.Profiler;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sircow.preservedinferno.Constants;
@@ -37,6 +39,11 @@ public class HudMixin {
     @Unique private int heat;
     @Unique private Player player;
 
+    @Shadow @Final private Minecraft minecraft;
+    @Shadow @Final private static Identifier HEART_VEHICLE_CONTAINER_SPRITE = Identifier.withDefaultNamespace("hud/heart/vehicle_container");
+    @Shadow @Final private static Identifier HEART_VEHICLE_FULL_SPRITE = Identifier.withDefaultNamespace("hud/heart/vehicle_full");
+    @Shadow @Final private static Identifier HEART_VEHICLE_HALF_SPRITE = Identifier.withDefaultNamespace("hud/heart/vehicle_half");
+
     @Inject(method = "extractRenderState", at = @At("HEAD"))
     public void pinferno$renderHeat(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         Minecraft minecraft = Minecraft.getInstance();
@@ -51,14 +58,21 @@ public class HudMixin {
         int screenWidth = guiGraphics.guiWidth();
         int screenHeight = guiGraphics.guiHeight();
         int x = screenWidth / 2 + 91;
-        int baseY = screenHeight - 39;
-        int heatBarY = baseY - 10;
-        int barWidth = 81;
-        int barHeight = 9;
-        boolean hasAirBar = player.isEyeInFluid(FluidTags.WATER) || player.getAirSupply() < player.getMaxAirSupply();
+        int y = screenHeight - 39;
 
-        if (hasAirBar) heatBarY -= 10;
-        this.renderHeat(guiGraphics, x, heatBarY, barWidth, barHeight);
+        if (player.isEyeInFluid(FluidTags.WATER) || player.getAirSupply() < player.getMaxAirSupply()) y -= 10;
+
+        Entity vehicle = player.getVehicle();
+        if (vehicle instanceof LivingEntity living && living.showVehicleHealth()) {
+            float maxHealth = living.getMaxHealth();
+            int hearts = Math.min((int) (maxHealth + 0.5F) / 2, 30);
+            int rows = (int) Math.ceil(hearts / 10.0);
+
+            y -= (rows - 1) * 10;
+        }
+
+        y -= 10;
+        renderHeat(guiGraphics, x, y, 81, 9);
     }
 
     @Unique
@@ -161,5 +175,46 @@ public class HudMixin {
     @ModifyExpressionValue(method = "extractFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;hasEffect(Lnet/minecraft/core/Holder;)Z"))
     private boolean pinferno$useHungerForFumigated(boolean original) {
         return original || player.hasEffect(ModEffects.FUMIGATED.holder);
+    }
+
+    @Overwrite
+    private void extractVehicleHealth(final GuiGraphicsExtractor graphics) {
+        Player player = this.minecraft.player;
+        if (player == null) return;
+
+        Entity vehicle = player.getVehicle();
+        if (!(vehicle instanceof LivingEntity vehicleWithHearts) || !vehicleWithHearts.showVehicleHealth()) return;
+
+        int hearts = Math.min((int) (vehicleWithHearts.getMaxHealth() + 0.5F) / 2, 30);
+        if (hearts == 0) return;
+
+        float currentHealth = vehicleWithHearts.getHealth();
+
+        Profiler.get().popPush("mountHealth");
+
+        int y = graphics.guiHeight() - 39;
+        int xRight = graphics.guiWidth() / 2 + 91;
+
+        for (int baseHealth = 0; hearts > 0; baseHealth += 20) {
+            int rowHearts = Math.min(hearts, 10);
+            hearts -= rowHearts;
+
+            for (int i = 0; i < rowHearts; i++) {
+                int x = xRight - i * 8 - 9;
+
+                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, HEART_VEHICLE_CONTAINER_SPRITE, x, y, 9, 9);
+
+                float heartStart = baseHealth + i * 2.0F;
+
+                if (currentHealth >= heartStart + 2.0F) {
+                    graphics.blitSprite(RenderPipelines.GUI_TEXTURED, HEART_VEHICLE_FULL_SPRITE, x, y, 9, 9);
+                }
+                else if (currentHealth > heartStart) {
+                    graphics.blitSprite(RenderPipelines.GUI_TEXTURED, HEART_VEHICLE_HALF_SPRITE, x, y, 9, 9);
+                }
+            }
+
+            y -= 10;
+        }
     }
 }

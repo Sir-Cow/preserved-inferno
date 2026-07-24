@@ -22,8 +22,9 @@
     "minecraft:warped_fungus_on_a_stick",
     "minecraft:mace",
     "#minecraft:spears",
-    "#pinferno:shields",
     "#pinferno:multitools",
-    "#pinferno:rod_upgrades"
+    "#pinferno:rod_upgrades",
+    "#pinferno:shields",
+    "pinferno:copper_trident"
   ]
 }

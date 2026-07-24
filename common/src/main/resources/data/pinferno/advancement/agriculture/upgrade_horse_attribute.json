@@ -1,0 +1,27 @@
+{
+  "parent": "pinferno:agriculture/upgrade_horse_health",
+  "criteria": {
+    "upgrade_horse_attribute": {
+      "trigger": "pinferno:upgrade_horse_attribute"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.upgrade_horse_attribute.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:diamond_horse_armor"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.upgrade_horse_attribute.title"
+    }
+  },
+  "requirements": [
+    [
+      "upgrade_horse_attribute"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

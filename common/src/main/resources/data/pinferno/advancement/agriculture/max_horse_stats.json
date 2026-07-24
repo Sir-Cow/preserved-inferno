@@ -1,0 +1,31 @@
+{
+  "parent": "pinferno:agriculture/upgrade_horse_attribute",
+  "criteria": {
+    "max_horse_stats": {
+      "trigger": "pinferno:max_horse_stats"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.max_horse_stats.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:netherite_horse_armor"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.max_horse_stats.title"
+    }
+  },
+  "requirements": [
+    [
+      "max_horse_stats"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

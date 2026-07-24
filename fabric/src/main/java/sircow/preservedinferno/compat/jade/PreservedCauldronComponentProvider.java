@@ -1,4 +1,4 @@
-package sircow.preservedinferno.compat;
+package sircow.preservedinferno.compat.jade;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;

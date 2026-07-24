@@ -142,7 +142,7 @@ public class ArmorMaterialMixin {
                 case CHESTPLATE -> 30;
                 case LEGGINGS -> 25;
                 case BOOTS -> 15;
-                case BODY -> 11;
+                case BODY -> 80;
             };
         }
         else if (assetId.toString().contains("turtle")) {

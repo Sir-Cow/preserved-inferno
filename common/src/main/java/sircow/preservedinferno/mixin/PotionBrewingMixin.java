@@ -1,5 +1,6 @@
 package sircow.preservedinferno.mixin;
 
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.alchemy.Potions;
@@ -7,6 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.potion.ModPotions;
 
@@ -17,8 +19,23 @@ public class PotionBrewingMixin {
         builder.addContainer(Items.POTION);
         builder.addContainer(Items.SPLASH_POTION);
         builder.addContainer(Items.LINGERING_POTION);
+        builder.addContainer(Items.HONEY_BOTTLE);
+        builder.addContainer(ModItems.SPLASH_HONEY_BOTTLE);
+        builder.addContainer(ModItems.LINGERING_HONEY_BOTTLE);
+        builder.addContainer(ModItems.LAVA_BOTTLE);
+        builder.addContainer(ModItems.SPLASH_LAVA_BOTTLE);
+        builder.addContainer(ModItems.LINGERING_LAVA_BOTTLE);
+        builder.addContainer(ModItems.MILK_BOTTLE);
+        builder.addContainer(ModItems.SPLASH_MILK_BOTTLE);
+        builder.addContainer(ModItems.LINGERING_MILK_BOTTLE);
         builder.addContainerRecipe(Items.POTION, Items.GUNPOWDER, Items.SPLASH_POTION);
         builder.addContainerRecipe(Items.POTION, Items.FIRE_CHARGE, Items.LINGERING_POTION);
+        builder.addContainerRecipe(Items.HONEY_BOTTLE, Items.GUNPOWDER, ModItems.SPLASH_HONEY_BOTTLE);
+        builder.addContainerRecipe(ModItems.SPLASH_HONEY_BOTTLE, Items.FIRE_CHARGE, ModItems.LINGERING_HONEY_BOTTLE);
+        builder.addContainerRecipe(ModItems.LAVA_BOTTLE, Items.GUNPOWDER, ModItems.SPLASH_LAVA_BOTTLE);
+        builder.addContainerRecipe(ModItems.SPLASH_LAVA_BOTTLE, Items.FIRE_CHARGE, ModItems.LINGERING_LAVA_BOTTLE);
+        builder.addContainerRecipe(ModItems.MILK_BOTTLE, Items.GUNPOWDER, ModItems.SPLASH_MILK_BOTTLE);
+        builder.addContainerRecipe(ModItems.SPLASH_MILK_BOTTLE, Items.FIRE_CHARGE, ModItems.LINGERING_MILK_BOTTLE);
         builder.addMix(Potions.WATER, Items.AMETHYST_SHARD, ModPotions.HASTE);
         builder.addMix(ModPotions.HASTE, Items.REDSTONE, ModPotions.LONG_HASTE);
         builder.addMix(ModPotions.HASTE, Items.GLOWSTONE_DUST, ModPotions.STRONG_HASTE);
@@ -81,5 +98,29 @@ public class PotionBrewingMixin {
         builder.addMix(Potions.SLOW_FALLING, Items.REDSTONE, Potions.LONG_SLOW_FALLING);
         builder.addMix(Potions.WATER, Items.NAUTILUS_SHELL, ModPotions.NAUTILUS_BLESSING);
         ci.cancel();
+    }
+
+    @Inject(method = "mix", at = @At("HEAD"), cancellable = true)
+    private void pinferno$mixCustomContainers(ItemStack ingredient, ItemStack source, CallbackInfoReturnable<ItemStack> cir) {
+        if (source.isEmpty()) return;
+
+        ItemStack result = null;
+
+        if (ingredient.is(Items.GUNPOWDER)) {
+            if (source.is(Items.HONEY_BOTTLE)) result = new ItemStack(ModItems.SPLASH_HONEY_BOTTLE);
+            else if (source.is(ModItems.LAVA_BOTTLE)) result = new ItemStack(ModItems.SPLASH_LAVA_BOTTLE);
+            else if (source.is(ModItems.MILK_BOTTLE)) result = new ItemStack(ModItems.SPLASH_MILK_BOTTLE);
+        }
+
+        else if (ingredient.is(Items.FIRE_CHARGE)) {
+            if (source.is(ModItems.SPLASH_HONEY_BOTTLE)) result = new ItemStack(ModItems.LINGERING_HONEY_BOTTLE);
+            else if (source.is(ModItems.SPLASH_LAVA_BOTTLE)) result = new ItemStack(ModItems.LINGERING_LAVA_BOTTLE);
+            else if (source.is(ModItems.SPLASH_MILK_BOTTLE)) result = new ItemStack(ModItems.LINGERING_MILK_BOTTLE);
+        }
+
+        if (result != null) {
+            result.applyComponents(source.getComponentsPatch());
+            cir.setReturnValue(result);
+        }
     }
 }

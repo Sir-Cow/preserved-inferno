@@ -86,23 +86,6 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:enchant_randomly",
-              "options": [
-                "pinferno:buckler",
-                "pinferno:respite",
-                "pinferno:endurance",
-                "pinferno:vigor",
-                "pinferno:bashful"
-              ]
-            }
-          ],
-          "name": "pinferno:iron_shield",
-          "weight": 2
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
               "count": {
                 "type": "minecraft:uniform",
                 "max": 2.0,

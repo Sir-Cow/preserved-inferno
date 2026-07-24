@@ -38,9 +38,8 @@ public class AdvancementsScreenMixin extends Screen {
         guiGraphics.text(mc.font, pointsText, this.leftPos + 142, this.topPos + 6, -12566464, false);
     }
 
-
     @Inject(method = "onAddAdvancementRoot", at = @At("HEAD"), cancellable = true)
-    private void pinferno$preventTabCreationWithoutRootProgress(AdvancementNode advancement, CallbackInfo ci) {
+    private void pinferno$preventTabCreationWithoutRootProgress(AdvancementNode root, CallbackInfo ci) {
         Map<AdvancementHolder, AdvancementProgress> progress = ((ClientAdvancementsAccessor)this.advancements).getProgress();
 
         if (progress == null) {
@@ -48,7 +47,7 @@ public class AdvancementsScreenMixin extends Screen {
             return;
         }
 
-        AdvancementHolder rootAdvancement = advancement.holder();
+        AdvancementHolder rootAdvancement = root.holder();
 
         if (!progress.containsKey(rootAdvancement)) {
             ci.cancel();

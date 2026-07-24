@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import sircow.preservedinferno.other.ModTags;
 
 @Mixin(FuelValues.class)
-public abstract class FuelValuesMixin {
+public class FuelValuesMixin {
     @ModifyReturnValue(method = "vanillaBurnTimes(Lnet/minecraft/core/HolderLookup$Provider;Lnet/minecraft/world/flag/FeatureFlagSet;I)Lnet/minecraft/world/level/block/entity/FuelValues;", at = @At("RETURN"))
     private static FuelValues pinferno$modifyFuelValues(FuelValues original, HolderLookup.Provider registries, FeatureFlagSet enabledFeatures, int smeltingTime) {
         FuelValuesAccessor accessor = (FuelValuesAccessor) original;
@@ -40,6 +40,7 @@ public abstract class FuelValuesMixin {
         values.put(Items.BLAZE_POWDER, smeltingTime * 8);
         values.put(Items.BLAZE_ROD, smeltingTime * 16);
         values.put(Items.CHARCOAL, smeltingTime * 4);
+        values.put(Items.LAVA_BUCKET, smeltingTime * 32);
         values.put(Blocks.COAL_BLOCK.asItem(), smeltingTime * 8 * 5);
         values.put(Blocks.DRIED_KELP_BLOCK.asItem(), smeltingTime * 8);
         values.put(Blocks.LEAF_LITTER.asItem(), (int) (smeltingTime * 0.25F));

@@ -1,4 +1,4 @@
-package sircow.preservedinferno.compat;
+package sircow.preservedinferno.compat.jade;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;

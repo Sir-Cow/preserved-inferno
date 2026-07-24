@@ -13,6 +13,7 @@ public class JadeMixinPlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         if (mixinClassName.endsWith("BrewingStandProviderClientMixin")
                 || mixinClassName.endsWith("CommonProxyMixin")
+                || mixinClassName.endsWith("HorseStatsProviderMixin")
                 || mixinClassName.endsWith("ItemStorageProviderMixin")
         ) {
             return Services.PLATFORM.isModLoaded("jade");

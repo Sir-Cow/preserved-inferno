@@ -13,6 +13,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
@@ -361,28 +362,36 @@ public class ModItems {
 
     public static final Item LAVA_BOTTLE = registerItem("lava_bottle", Item::new, new Item.Properties()
             .component(DataComponents.CONSUMABLE, ModConsumables.LAVA_BOTTLE).usingConvertsTo(Items.GLASS_BOTTLE)
+            .component(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
             .stacksTo(4)
     );
     public static final Item SPLASH_LAVA_BOTTLE = registerItem("splash_lava_bottle", PreservedBottleItem::new, new Item.Properties()
+            .component(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
             .stacksTo(4)
     );
     public static final Item LINGERING_LAVA_BOTTLE = registerItem("lingering_lava_bottle", PreservedBottleItem::new, new Item.Properties()
+            .component(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
             .stacksTo(4)
     );
     public static final Item MILK_BOTTLE = registerItem("milk_bottle", Item::new, new Item.Properties()
             .component(DataComponents.CONSUMABLE, ModConsumables.MILK_BOTTLE).usingConvertsTo(Items.GLASS_BOTTLE)
+            .component(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
             .stacksTo(4)
     );
     public static final Item SPLASH_MILK_BOTTLE = registerItem("splash_milk_bottle", PreservedBottleItem::new, new Item.Properties()
+            .component(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
             .stacksTo(4)
     );
     public static final Item LINGERING_MILK_BOTTLE = registerItem("lingering_milk_bottle", PreservedBottleItem::new, new Item.Properties()
+            .component(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
             .stacksTo(4)
     );
     public static final Item SPLASH_HONEY_BOTTLE = registerItem("splash_honey_bottle", PreservedBottleItem::new, new Item.Properties()
+            .component(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
             .stacksTo(4)
     );
     public static final Item LINGERING_HONEY_BOTTLE = registerItem("lingering_honey_bottle", PreservedBottleItem::new, new Item.Properties()
+            .component(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
             .stacksTo(4)
     );
 

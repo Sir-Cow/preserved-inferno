@@ -2,6 +2,7 @@ package sircow.preservedinferno.mixin;
 
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import org.spongepowered.asm.mixin.Mixin;
@@ -64,5 +65,23 @@ public class EntityMixin implements FreezeAccessor {
         if (ticks >= this.pinferno$lastFrozenTicks && ticks > 0) this.pinferno$freezeDelay = 0;
 
         this.pinferno$lastFrozenTicks = ticks;
+    }
+
+    @Inject(method = "addPassenger", at = @At("TAIL"))
+    private void pinferno$horseMount(Entity passenger, CallbackInfo ci) {
+        Entity entity = (Entity) (Object) this;
+
+        if (entity instanceof AbstractHorse horse && !horse.level().isClientSide()) {
+            horse.clearHome();
+        }
+    }
+
+    @Inject(method = "removePassenger", at = @At("TAIL"))
+    private void pinferno$horseDismount(Entity passenger, CallbackInfo ci) {
+        Entity entity = (Entity) (Object) this;
+
+        if (entity instanceof AbstractHorse horse && !horse.level().isClientSide() && horse.isSaddled() && !horse.isVehicle()) {
+            horse.setHomeTo(horse.blockPosition(), 4);
+        }
     }
 }

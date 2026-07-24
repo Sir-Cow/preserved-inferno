@@ -8,11 +8,6 @@ import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(GameRules.class)
 public class GameRulesMixin {
-    // set the locatorBar gamerule to false by default
-    @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=locator_bar")), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/gamerules/GameRules;registerBoolean(Ljava/lang/String;Lnet/minecraft/world/level/gamerules/GameRuleCategory;Z)Lnet/minecraft/world/level/gamerules/GameRule;", ordinal = 0))
-    private static boolean pinferno$changeVal(boolean val) {
-        return false;
-    }
     // change default max minecart speed
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=max_minecart_speed")), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/gamerules/GameRules;registerInteger(Ljava/lang/String;Lnet/minecraft/world/level/gamerules/GameRuleCategory;IIILnet/minecraft/world/flag/FeatureFlagSet;)Lnet/minecraft/world/level/gamerules/GameRule;", ordinal = 0), index = 2)
     private static int pinferno$changeVal2(int val) {

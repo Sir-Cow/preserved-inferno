@@ -1,5 +1,6 @@
 package sircow.preservedinferno.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.happyghast.HappyGhast;
@@ -21,7 +22,7 @@ public class HappyGhastMixin {
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void pinferno$checkBuildLimit(CallbackInfo ci) {
-        HappyGhast ghast = (HappyGhast)(Object)this;
+        HappyGhast ghast = (HappyGhast) (Object) this;
 
         if (ghast.level().isClientSide()) return;
 
@@ -32,5 +33,29 @@ public class HappyGhastMixin {
                 if (player.getY() >= maxY) ModTriggers.HAPPY_GHAST_BUILD_HEIGHT.get().trigger(player);
             }
         }
+    }
+
+    @ModifyExpressionValue(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/happyghast/HappyGhast;getAttributeValue(Lnet/minecraft/core/Holder;)D"))
+    private double pinferno$increaseFlightSpeed(double original) {
+        HappyGhast ghast = (HappyGhast) (Object) this;
+
+        int y = ghast.blockPosition().getY();
+        if (y <= 87) return original;
+
+        int steps = Math.min((y - 87) / 10, 10);
+
+        return original + steps * 0.005D;
+    }
+
+    @ModifyExpressionValue(method = "getRiddenInput", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/happyghast/HappyGhast;getAttributeValue(Lnet/minecraft/core/Holder;)D"))
+    private double pinferno$increaseRiddenFlightSpeed(double original) {
+        HappyGhast ghast = (HappyGhast) (Object) this;
+
+        int y = ghast.blockPosition().getY();
+        if (y <= 87) return original;
+
+        int steps = Math.min((y - 87) / 10, 10);
+
+        return original + steps * 0.005D;
     }
 }

@@ -30,7 +30,6 @@
     "description": {
       "translate": "advancements.adventure.revaulting.description"
     },
-    "frame": "progressing",
     "icon": {
       "count": 1,
       "id": "minecraft:ominous_trial_key"

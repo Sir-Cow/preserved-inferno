@@ -1,0 +1,28 @@
+{
+  "parent": "pinferno:agriculture/tame_an_animal",
+  "criteria": {
+    "upgrade_horse_health": {
+      "trigger": "pinferno:upgrade_horse_health"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.pinferno.agriculture.upgrade_horse_health.description"
+    },
+    "frame": "progressing",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:saddle"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pinferno.agriculture.upgrade_horse_health.title"
+    }
+  },
+  "requirements": [
+    [
+      "upgrade_horse_health"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

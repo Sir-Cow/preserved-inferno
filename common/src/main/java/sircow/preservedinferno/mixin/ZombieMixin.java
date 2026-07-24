@@ -11,7 +11,6 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -31,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import sircow.preservedinferno.other.BabyHealthHelper;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -59,14 +59,7 @@ public class ZombieMixin extends Monster {
 
     @Inject(method = "setBaby", at = @At("TAIL"))
     private void pinferno$modifyBaby(boolean baby, CallbackInfo ci) {
-        if (this.level().isClientSide()) return;
-
-        AttributeInstance health = this.getAttribute(Attributes.MAX_HEALTH);
-        if (health == null) return;
-
-        if (baby) health.setBaseValue(health.getBaseValue() * 0.75);
-        else health.setBaseValue(health.getBaseValue());
-        this.setHealth(this.getMaxHealth());
+        BabyHealthHelper.updateBabyHealth(this, baby);
     }
 
     @Inject(method = "killedEntity", at = @At("HEAD"), cancellable = true)
@@ -139,13 +132,34 @@ public class ZombieMixin extends Monster {
     @Inject(method = "populateDefaultEquipmentSlots", at = @At("HEAD"), cancellable = true)
     private void pinferno$boostLowYWeapons(RandomSource random, DifficultyInstance difficulty, CallbackInfo ci) {
         Zombie self = (Zombie) (Object) this;
-        if (self.blockPosition().getY() <= 0) {
-            float base = self.level().getDifficulty() == Difficulty.HARD ? 0.15F : 0.03F;
-            if (random.nextFloat() < base) {
-                int i = random.nextInt(3);
-                self.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(i == 0 ? Items.IRON_SWORD : Items.IRON_SHOVEL));
-            }
-            ci.cancel();
+
+        float equipChance = switch (self.level().getDifficulty()) {
+            case EASY -> 0.10F;
+            case NORMAL -> 0.20F;
+            case HARD -> self.blockPosition().getY() < 0 ? 0.60F : 0.30F;
+            default -> 0.0F;
+        };
+
+        if (random.nextFloat() < equipChance) {
+            float roll = random.nextFloat();
+
+            ItemStack weapon;
+
+            if (roll < 0.07F) weapon = new ItemStack(Items.STONE_SPEAR);
+            else if (roll < 0.14F) weapon = new ItemStack(Items.STONE_SHOVEL);
+            else if (roll < 0.28F) weapon = new ItemStack(Items.STONE_SWORD);
+            else if (roll < 0.405F) weapon = new ItemStack(Items.COPPER_SPEAR);
+            else if (roll < 0.53F) weapon = new ItemStack(Items.COPPER_SHOVEL);
+            else if (roll < 0.78F) weapon = new ItemStack(Items.COPPER_SWORD);
+            else if (roll < 0.83F) weapon = new ItemStack(Items.IRON_SPEAR);
+            else if (roll < 0.88F) weapon = new ItemStack(Items.IRON_SHOVEL);
+            else if (roll < 0.98F) weapon = new ItemStack(Items.IRON_SWORD);
+            else if (roll < 0.985F) weapon = new ItemStack(Items.DIAMOND_SPEAR);
+            else if (roll < 0.99F) weapon = new ItemStack(Items.DIAMOND_SHOVEL);
+            else weapon = new ItemStack(Items.DIAMOND_SWORD);
+
+            self.setItemSlot(EquipmentSlot.MAINHAND, weapon);
         }
+        ci.cancel();
     }
 }

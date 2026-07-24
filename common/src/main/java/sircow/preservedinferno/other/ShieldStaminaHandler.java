@@ -58,12 +58,21 @@ public class ShieldStaminaHandler {
         if (stamina <= 0) regenBlockMap.remove(player.getUUID());
 
         ItemStack stack = player.getOffhandItem();
-        if (stack.getItem() instanceof PreservedShieldItem shieldItem && !player.isBlocking() && !isOnCooldown(player) && !isRegenBlocked(player)) {
-            int maxStamina = shieldItem.getMaxStamina(stack);
-            float regenRate = shieldItem.getRegenerationRate(stack);
+        float maxStamina = getShieldMaxStamina(stack);
 
-            float newStamina = Math.min(maxStamina, stamina + regenRate);
-            if (newStamina != stamina) player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
+        if (stamina > maxStamina) {
+            float newStamina = Math.max(maxStamina, stamina - 0.05F);
+            player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
+            return;
+        }
+
+        if (stack.getItem() instanceof PreservedShieldItem shieldItem) {
+            if (!player.isBlocking() && !isOnCooldown(player) && !isRegenBlocked(player)) {
+                float regenRate = shieldItem.getRegenerationRate(stack);
+                float newStamina = Math.min(maxStamina, stamina + regenRate);
+
+                if (newStamina != stamina) player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, newStamina);
+            }
         }
     }
 

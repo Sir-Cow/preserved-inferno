@@ -10,15 +10,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MagmaCube.class)
 public class MagmaCubeMixin {
-    @Unique
-    public int sizeTemp;
+    @Unique public int sizeTemp;
 
     @Inject(method = "setSize", at = @At("HEAD"))
     public void pinferno$setSizeTemp(int size, boolean updateHealth, CallbackInfo ci) {
         this.sizeTemp = size;
     }
 
-    @ModifyArg(method = "setSize(IZ)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;setBaseValue(D)V"), index = 0)
+    @ModifyArg(method = "setSize(IZ)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;setBaseValue(D)V", ordinal = 1), index = 0)
     private double pinferno$modifyArmorValue(double baseValue) {
         return this.sizeTemp * 15;
     }
