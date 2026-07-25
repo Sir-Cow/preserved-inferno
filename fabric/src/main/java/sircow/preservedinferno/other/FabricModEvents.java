@@ -188,7 +188,7 @@ public class FabricModEvents {
 
         EntitySleepEvents.STOP_SLEEPING.register((entity, sleepingPos) -> {
             if (entity instanceof Player player) {
-                if (player.getSleepTimer() > 20) {
+                if (player.isSleepingLongEnough()) {
                     MinecraftServer server = player.level().getServer();
                     if (server != null) {
                         for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers()) {
