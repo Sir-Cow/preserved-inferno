@@ -7,6 +7,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +19,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.other.ModDamageTypes;
 import sircow.preservedinferno.other.NoLootingPlayerWrapper;
 import sircow.preservedinferno.trigger.ModTriggers;
@@ -63,19 +63,17 @@ public class ConduitBlockEntityMixin {
         for (Player player : players) {
             if (!pos.closerThan(player.blockPosition(), radius)) continue;
 
-            player.addEffect(new MobEffectInstance(ModEffects.PINFERNO_CONDUIT_POWER.holder, 100, amplifier, true, true));
+            player.addEffect(new MobEffectInstance(MobEffects.CONDUIT_POWER, 100, amplifier, true, true));
         }
         ci.cancel();
     }
 
     // change magic damage to custom damage type which makes player-killed loot drop
     @Inject(method = "updateAndAttackTarget", at = @At("HEAD"), cancellable = true)
-    private static void pinferno$attackMultipleTargets(ServerLevel level, BlockPos pos, BlockState state, ConduitBlockEntity conduit, boolean canDestroy, CallbackInfo ci) {
-        if (!canDestroy) {
-            return;
-        }
+    private static void pinferno$attackMultipleTargets(ServerLevel level, BlockPos worldPosition, BlockState blockState, ConduitBlockEntity conduit, boolean isActive, CallbackInfo ci) {
+        if (!isActive) return;
 
-        AABB range = new AABB(pos).inflate(16.0);
+        AABB range = new AABB(worldPosition).inflate(16.0);
         List<LivingEntity> targets = level.getEntitiesOfClass(
                 LivingEntity.class,
                 range,

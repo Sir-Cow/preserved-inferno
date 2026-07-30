@@ -358,7 +358,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "stone",
+          "name": "minecraft:stone",
           "weight": 10,
           "conditions": [
             {

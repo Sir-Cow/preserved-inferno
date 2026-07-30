@@ -13,7 +13,7 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "pinferno:gui/advancements/backgrounds/dirt",
+    "background": "minecraft:block/dirt",
     "description": {
       "translate": "advancements.pinferno.agriculture.root.description"
     },

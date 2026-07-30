@@ -11,6 +11,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -27,7 +28,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.entity.custom.ThrownCopperTrident;
 
 import java.util.List;
@@ -72,7 +72,7 @@ public class CopperTridentItem extends Item implements ProjectileItem {
             }
             else {
                 float riptideStrength = EnchantmentHelper.getTridentSpinAttackStrength(stack, player);
-                if (riptideStrength > 0.0F && (!player.hasEffect(ModEffects.PINFERNO_CONDUIT_POWER.holder) && !player.isInWaterOrRain())) {
+                if (riptideStrength > 0.0F && (!player.hasEffect(MobEffects.CONDUIT_POWER) && !player.isInWaterOrRain())) {
                     return false;
                 }
                 else if (stack.nextDamageWillBreak()) {
@@ -127,7 +127,7 @@ public class CopperTridentItem extends Item implements ProjectileItem {
         if (itemStack.nextDamageWillBreak()) {
             return InteractionResult.FAIL;
         }
-        else if (EnchantmentHelper.getTridentSpinAttackStrength(itemStack, player) > 0.0F && (!player.hasEffect(ModEffects.PINFERNO_CONDUIT_POWER.holder) && !player.isInWaterOrRain())) {
+        else if (EnchantmentHelper.getTridentSpinAttackStrength(itemStack, player) > 0.0F && (!player.hasEffect(MobEffects.CONDUIT_POWER) && !player.isInWaterOrRain())) {
             return InteractionResult.FAIL;
         }
         else {

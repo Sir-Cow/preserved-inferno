@@ -19,7 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import sircow.preservedinferno.components.ModComponents;
-import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.other.ModTags;
 import sircow.preservedinferno.trigger.ModTriggers;
 
@@ -75,7 +74,7 @@ public abstract class FishingHookMixin {
         ItemStack rod = getRod(owner);
         if (rod.isEmpty()) return;
 
-        MobEffectInstance conduit = owner.getEffect(ModEffects.PINFERNO_CONDUIT_POWER.holder);
+        MobEffectInstance conduit = owner.getEffect(MobEffects.CONDUIT_POWER);
         if (conduit != null) this.lureSpeed += (int)((conduit.getAmplifier() + 1) * 50.0);
         MobEffectInstance blessing = owner.getEffect(MobEffects.BREATH_OF_THE_NAUTILUS);
         if (blessing != null) this.lureSpeed += 50;
@@ -158,7 +157,7 @@ public abstract class FishingHookMixin {
 
         float result = base;
 
-        MobEffectInstance conduit = owner.getEffect(ModEffects.PINFERNO_CONDUIT_POWER.holder);
+        MobEffectInstance conduit = owner.getEffect(MobEffects.CONDUIT_POWER);
         if (conduit != null) result += (conduit.getAmplifier() + 1) * 0.5F;
         MobEffectInstance blessing = owner.getEffect(MobEffects.BREATH_OF_THE_NAUTILUS);
         if (blessing != null) result += 0.5F;
@@ -175,20 +174,19 @@ public abstract class FishingHookMixin {
         args.set(0, result);
     }
 
-    // trigger fish treasure advancement
+    // trigger advancement
     @Inject(method = "retrieve", at = @At(value = "INVOKE", target = "Ljava/util/List;iterator()Ljava/util/Iterator;"))
-    private void pinferno$onEachFishedItem(ItemStack stack, CallbackInfoReturnable<Integer> cir, @Local(name = "items") List<ItemStack> items) {
+    private void pinferno$onEachFishedItem(ItemStack rod, CallbackInfoReturnable<Integer> cir, @Local(name = "items") List<ItemStack> items) {
         Player owner = this.getPlayerOwner();
         if (!(owner instanceof ServerPlayer serverPlayer)) return;
 
         for (ItemStack itemStack : items) {
-            if (itemStack.is(ModTags.FISHING_LOOT_TREASURE)) ModTriggers.FISH_TREASURE.get().trigger(serverPlayer);
             if (itemStack.is(ModTags.FISHING_LOOT_FISH) && serverPlayer.getVehicle() instanceof Nautilus) ModTriggers.FISH_ON_NAUTILUS.get().trigger(serverPlayer);
         }
     }
 
     @Inject(method = "retrieve", at = @At(value = "TAIL"))
-    private void pinferno$causeExhaustion(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+    private void pinferno$causeExhaustion(ItemStack rod, CallbackInfoReturnable<Integer> cir) {
         Player owner = this.getPlayerOwner();
         if (owner != null) owner.causeFoodExhaustion(0.2F);
     }

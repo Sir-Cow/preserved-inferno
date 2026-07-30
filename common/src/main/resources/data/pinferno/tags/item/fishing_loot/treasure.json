@@ -1,19 +1,19 @@
 {
   "values": [
-    "minecraft:bow",
-    "minecraft:crossbow",
-    "minecraft:emerald",
-    "minecraft:diamond",
-    "minecraft:book",
-    "minecraft:name_tag",
-    "minecraft:nautilus_shell",
+    "minecraft:experience_bottle",
+    "minecraft:music_disc_otherside",
+    "minecraft:enchanted_golden_apple",
     "minecraft:golden_apple",
     "pinferno:aquatic_fiber",
-    "minecraft:enchanted_golden_apple",
-    "minecraft:music_disc_otherside",
-    "minecraft:experience_bottle",
+    "minecraft:nautilus_shell",
+    "minecraft:name_tag",
+    "minecraft:book",
+    "minecraft:enchanted_book",
+    "minecraft:diamond",
+    "minecraft:emerald",
+    "minecraft:crossbow",
+    "minecraft:bow",
     "pinferno:cache",
-    "pinferno:music_disc_aqua",
-    "minecraft:enchanted_book"
+    "pinferno:music_disc_aqua"
   ]
 }

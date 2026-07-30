@@ -23,7 +23,7 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "pinferno:gui/advancements/backgrounds/stone",
+    "background": "minecraft:block/stone",
     "description": {
       "translate": "advancements.pinferno.adventure.root.description"
     },

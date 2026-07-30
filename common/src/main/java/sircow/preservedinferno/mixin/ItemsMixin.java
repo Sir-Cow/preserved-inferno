@@ -315,7 +315,6 @@ public class ItemsMixin {
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/references/ItemIds;FISHING_ROD:Lnet/minecraft/resources/ResourceKey;", opcode = Opcodes.GETSTATIC)), at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Items;registerItem(Lnet/minecraft/resources/ResourceKey;Ljava/util/function/Function;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;", ordinal = 0))
     private static Item.Properties pinferno$modifyFishingRod(Item.Properties properties) {
         return new Item.Properties()
-                .enchantable(1)
                 .stacksTo(1)
                 .component(ModComponents.HOOK_COMPONENT, "none")
                 .component(ModComponents.HOOK_DURABILITY, 0)

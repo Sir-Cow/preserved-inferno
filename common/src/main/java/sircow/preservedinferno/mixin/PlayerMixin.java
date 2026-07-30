@@ -501,7 +501,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @ModifyVariable(method = "getDestroySpeed", at = @At(value = "STORE", ordinal = 0), name = "speed")
     private float pinferno$applyConduitModifier(float speed, BlockState state) {
         Player self = (Player)(Object)this;
-        MobEffectInstance conduit = self.getEffect(ModEffects.PINFERNO_CONDUIT_POWER.holder);
+        MobEffectInstance conduit = self.getEffect(MobEffects.CONDUIT_POWER);
         if (conduit == null) return speed;
 
         float conduitModifier = (conduit.getAmplifier() + 1) * 0.05F;

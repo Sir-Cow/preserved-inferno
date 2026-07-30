@@ -8,7 +8,6 @@ public class FabricModEffects {
     public static void registerFabricModEffects() {
         register(ModEffects.FUMIGATED);
         register(ModEffects.HINDERED);
-        register(ModEffects.PINFERNO_CONDUIT_POWER);
         register(ModEffects.WELL_RESTED);
     }
 

@@ -3,13 +3,11 @@
   "criteria": {
     "cache": {
       "conditions": {
-        "items": [
-          {
-            "items": "pinferno:cache"
-          }
-        ]
+        "item": {
+          "items": "pinferno:cache"
+        }
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:fishing_rod_hooked"
     }
   },
   "display": {

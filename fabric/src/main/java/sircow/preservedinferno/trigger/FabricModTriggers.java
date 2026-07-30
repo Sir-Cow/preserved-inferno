@@ -21,7 +21,6 @@ public class FabricModTriggers {
         register(ModTriggers.DRINK_WATER);
         register(ModTriggers.EAT_CAKE_FAST);
         register(ModTriggers.FISH_ON_NAUTILUS);
-        register(ModTriggers.FISH_TREASURE);
         register(ModTriggers.FREEZE_COOL);
         register(ModTriggers.HAPPY_GHAST_BUILD_HEIGHT);
         register(ModTriggers.MASTERY_BEGINNER);

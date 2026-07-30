@@ -1,13 +1,13 @@
 {
   "values": [
     "minecraft:bone",
+    "pinferno:raw_hide",
     "minecraft:string",
     "minecraft:rabbit_foot",
     "minecraft:iron_ingot",
     "minecraft:gold_ingot",
     "minecraft:copper_ingot",
     "minecraft:golden_carrot",
-    "pinferno:raw_hide",
     "minecraft:sugar_cane",
     "minecraft:acacia_sapling",
     "minecraft:birch_sapling",
@@ -25,8 +25,6 @@
     "minecraft:mushroom_stem",
     "minecraft:oak_sapling",
     "minecraft:oxeye_daisy",
-    "minecraft:leaf_litter",
-    "minecraft:pale_hanging_moss",
     "minecraft:pale_oak_sapling",
     "minecraft:poppy",
     "minecraft:prismarine_crystals",

@@ -9,7 +9,7 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "pinferno:gui/advancements/backgrounds/netherrack",
+    "background": "minecraft:block/netherrack",
     "description": {
       "translate": "advancements.pinferno.nether.enter_the_nether.description"
     },

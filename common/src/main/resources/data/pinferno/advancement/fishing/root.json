@@ -1,33 +1,9 @@
 {
   "criteria": {
-    "cod": {
+    "fish": {
       "conditions": {
         "item": {
-          "items": "minecraft:cod"
-        }
-      },
-      "trigger": "minecraft:fishing_rod_hooked"
-    },
-    "pufferfish": {
-      "conditions": {
-        "item": {
-          "items": "minecraft:pufferfish"
-        }
-      },
-      "trigger": "minecraft:fishing_rod_hooked"
-    },
-    "salmon": {
-      "conditions": {
-        "item": {
-          "items": "minecraft:salmon"
-        }
-      },
-      "trigger": "minecraft:fishing_rod_hooked"
-    },
-    "tropical_fish": {
-      "conditions": {
-        "item": {
-          "items": "minecraft:tropical_fish"
+          "items": "#pinferno:fishing_loot/fish"
         }
       },
       "trigger": "minecraft:fishing_rod_hooked"
@@ -35,7 +11,7 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "pinferno:gui/advancements/backgrounds/prismarine_bricks",
+    "background": "minecraft:block/prismarine_bricks",
     "description": {
       "translate": "advancements.pinferno.story.fishing.description"
     },
@@ -51,10 +27,7 @@
   },
   "requirements": [
     [
-      "cod",
-      "tropical_fish",
-      "pufferfish",
-      "salmon"
+      "fish"
     ]
   ],
   "sends_telemetry_event": true

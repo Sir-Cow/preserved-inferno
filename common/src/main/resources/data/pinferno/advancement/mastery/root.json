@@ -6,7 +6,7 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "pinferno:gui/advancements/backgrounds/white_concrete",
+    "background": "minecraft:block/white_concrete",
     "description": {
       "translate": "advancements.pinferno.mastery.world_join.description"
     },

@@ -2,7 +2,12 @@
   "parent": "pinferno:fishing/root",
   "criteria": {
     "fish_treasure": {
-      "trigger": "pinferno:fish_treasure"
+      "conditions": {
+        "item": {
+          "items": "#pinferno:fishing_loot/treasure"
+        }
+      },
+      "trigger": "minecraft:fishing_rod_hooked"
     }
   },
   "display": {
