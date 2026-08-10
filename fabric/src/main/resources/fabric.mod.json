@@ -28,6 +28,9 @@
         "jade": [
             "sircow.preservedinferno.compat.jade.JadePlugin"
         ],
+        "jei_mod_plugin": [
+            "sircow.preservedinferno.compat.jei.PreservedJeiPlugin"
+        ],
         "modmenu": [
             "sircow.preservedinferno.config.ModMenuCompat"
         ]

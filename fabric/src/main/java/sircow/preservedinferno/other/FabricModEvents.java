@@ -45,6 +45,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -69,6 +70,8 @@ import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.network.BashfulPayload;
 import sircow.preservedinferno.network.ModMessages;
 import sircow.preservedinferno.network.RespawnSyncPayload;
+import sircow.preservedinferno.network.SyncLoomRecipesPayload;
+import sircow.preservedinferno.recipe.LoomRecipe;
 import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
 import sircow.preservedinferno.trigger.ModTriggers;
 
@@ -668,6 +671,23 @@ public class FabricModEvents {
         });
     }
 
+    public static void syncLoomRecipes() {
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerPlayer player = handler.player;
+            ServerLevel level = server.overworld();
+
+            List<LoomRecipe> loomRecipes = level.recipeAccess()
+                    .getRecipes()
+                    .stream()
+                    .map(RecipeHolder::value)
+                    .filter(LoomRecipe.class::isInstance)
+                    .map(LoomRecipe.class::cast)
+                    .toList();
+
+            ServerPlayNetworking.send(player, new SyncLoomRecipesPayload(loomRecipes));
+        });
+    }
+
     public static void registerModEvents() {
         initialiseMasteries();
         checkInitialAdvancement();
@@ -686,5 +706,6 @@ public class FabricModEvents {
         staminaRegenTick();
         bashfulEnchant();
         updateCheck();
+        syncLoomRecipes();
     }
 }

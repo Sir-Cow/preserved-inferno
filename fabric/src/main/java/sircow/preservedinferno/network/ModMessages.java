@@ -8,6 +8,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.advancement.ModAdvancements;
+import sircow.preservedinferno.compat.jei.PreservedRecipeCache;
 
 import java.util.UUID;
 
@@ -36,9 +37,11 @@ public class ModMessages {
 
     public static void registerS2CPackets() {
         ClientPlayNetworking.registerGlobalReceiver(PlayerPointsPayload.TYPE, (payload, context) -> context.client().execute(() -> ModAdvancements.setPlayerPoints(payload.playerUUID(), payload.points())));
+        ClientPlayNetworking.registerGlobalReceiver(SyncLoomRecipesPayload.TYPE, (payload, context) -> context.client().execute(() -> PreservedRecipeCache.setLoomRecipes(payload.recipes())));
     }
 
     public static void registerMessages() {
         PayloadTypeRegistry.clientboundPlay().register(PlayerPointsPayload.TYPE, PlayerPointsPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(SyncLoomRecipesPayload.TYPE, SyncLoomRecipesPayload.CODEC);
     }
 }
