@@ -1,7 +1,7 @@
 {
   "type": "pinferno:loom",
   "input": "minecraft:light_blue_wool",
-  "shears": "minecraft:shears",
+  "shears": "#c:tools/shear",
   "result": {
     "id": "pinferno:light_blue_cloth",
     "count": 1

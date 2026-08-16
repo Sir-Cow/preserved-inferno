@@ -7,6 +7,9 @@
     "minecraft:soul_speed",
     "minecraft:frost_walker",
     "minecraft:wind_burst",
-    "pinferno:bashful"
+    "pinferno:bashful",
+    "pinferno:blustering",
+    "pinferno:collision",
+    "pinferno:repulsor"
   ]
 }

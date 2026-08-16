@@ -2,6 +2,7 @@ package sircow.preservedinferno.network;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -18,7 +19,7 @@ public record RespawnSyncPayload(GlobalPos pos) implements CustomPacketPayload {
         boolean present = buf.readBoolean();
         if (!present) return new RespawnSyncPayload(null);
 
-        ResourceKey<Level> dimension = buf.readResourceKey(net.minecraft.core.registries.Registries.DIMENSION);
+        ResourceKey<Level> dimension = buf.readResourceKey(Registries.DIMENSION);
         BlockPos pos = buf.readBlockPos();
         return new RespawnSyncPayload(GlobalPos.of(dimension, pos));
     }

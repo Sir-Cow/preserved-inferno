@@ -1,7 +1,7 @@
 {
   "type": "pinferno:loom",
   "input": "minecraft:string",
-  "shears": "minecraft:shears",
+  "shears": "#c:tools/shear",
   "result": {
     "id": "minecraft:white_wool",
     "count": 1

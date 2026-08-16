@@ -6,11 +6,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.*;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -82,5 +85,14 @@ public class CacheItem extends Item {
     @Override
     public boolean canFitInsideContainerItems() {
         return false;
+    }
+
+    @Override
+    public void onDestroyed(final ItemEntity entity) {
+        ItemContainerContents contents = entity.getItem().get(DataComponents.CONTAINER);
+        if (contents != null) {
+            entity.getItem().set(DataComponents.CONTAINER, ItemContainerContents.EMPTY);
+            ItemUtils.onContainerDestroyed(entity, contents.allItemsCopyStream());
+        }
     }
 }

@@ -27,7 +27,7 @@ public class CreeperMixin {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void pinferno$onInit(EntityType<? extends Creeper> entityType, Level level, CallbackInfo ci) {
         explosionRadius = 4;
-        maxSwell = 24;
+        maxSwell = 20;
     }
 
     @Inject(method = "createAttributes", at = @At("RETURN"), cancellable = true)

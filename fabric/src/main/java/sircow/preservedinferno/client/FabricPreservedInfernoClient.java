@@ -192,7 +192,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     }
 
     private void addCustomBottleTooltip(List<Component> lines, ItemStack stack) {
-        boolean isHoney = stack.is(Items.HONEY_BOTTLE) || stack.is(ModItems.SPLASH_HONEY_BOTTLE) || stack.is(ModItems.LINGERING_HONEY_BOTTLE);
+        boolean isHoney = stack.is(ModItems.SPLASH_HONEY_BOTTLE) || stack.is(ModItems.LINGERING_HONEY_BOTTLE);
         boolean isLava = stack.is(ModItems.LAVA_BOTTLE) || stack.is(ModItems.SPLASH_LAVA_BOTTLE) || stack.is(ModItems.LINGERING_LAVA_BOTTLE);
         boolean isMilk = stack.is(ModItems.MILK_BOTTLE) || stack.is(ModItems.SPLASH_MILK_BOTTLE) || stack.is(ModItems.LINGERING_MILK_BOTTLE);
 

@@ -49,7 +49,7 @@
     "frame": "goal",
     "icon": {
       "count": 1,
-      "id": "minecraft:archer_pottery_sherd"
+      "id": "minecraft:raiser_armor_trim_smithing_template"
     },
     "title": {
       "translate": "advancements.pinferno.adventure.all_trail_armor_trims.title"

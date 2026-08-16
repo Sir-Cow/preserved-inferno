@@ -147,6 +147,7 @@
 
   "itemgroup.pinferno.items": "Preserved: Inferno",
 
+  "sounds.pinferno.angling_table_use": "Angling Table used",
   "sounds.pinferno.boom_box_load": "Boom Box loaded",
   "sounds.pinferno.boom_box_primed": "Boom Box fizzes",
   "sounds.pinferno.cache_close": "Cache closes",
@@ -235,11 +236,14 @@
   "item.pinferno.splash_honey_bottle": "Splash Honey Bottle",
   "item.pinferno.lingering_honey_bottle": "Lingering Honey Bottle",
 
+  "enchantment.pinferno.blustering": "Blustering",
+  "enchantment.pinferno.collision": "Collision",
   "enchantment.pinferno.bashful": "Bashful",
   "enchantment.pinferno.buckler": "Buckler",
   "enchantment.pinferno.endurance": "Endurance",
   "enchantment.pinferno.respite": "Respite",
   "enchantment.pinferno.vigor": "Vigor",
+  "enchantment.pinferno.repulsor": "Repulsor",
   "enchantment.pinferno.splattering": "Splattering",
 
   "enchanting_table.pinferno.bookshelf_power": "Bookshelf Power: %s",

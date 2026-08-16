@@ -29,11 +29,6 @@ import java.util.Optional;
 public class VillagerMixin implements VillagerFlags {
     @Unique private VillagerData pi$previousData;
 
-    @Inject(method = "spawnGolemIfNeeded", at = @At("HEAD"), cancellable = true)
-    private void pinferno$cancelGolemSpawn(ServerLevel serverLevel, long gameTime, int minVillagerAmount, CallbackInfo ci) {
-        ci.cancel();
-    }
-
     @ModifyReturnValue(method = "canBreed", at = @At("RETURN"))
     private boolean pinferno$preventBreeding(boolean original) {
         return false;
@@ -165,4 +160,3 @@ public class VillagerMixin implements VillagerFlags {
         ci.cancel();
     }
 }
-

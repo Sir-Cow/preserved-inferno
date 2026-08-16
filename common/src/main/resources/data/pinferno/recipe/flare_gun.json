@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "#": "minecraft:copper_ingot",
+    "#": "#c:ingots/copper",
     "X": "minecraft:firework_rocket"
   },
   "pattern": [

@@ -1,14 +1,10 @@
 package sircow.preservedinferno.mixin;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.piglin.Piglin;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jspecify.annotations.NonNull;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -31,11 +27,5 @@ public class PiglinMixin extends Monster {
     @Inject(method = "setBaby", at = @At("TAIL"))
     private void pinferno$modifyBaby(boolean baby, CallbackInfo ci) {
         BabyHealthHelper.updateBabyHealth(this, baby);
-    }
-
-    // force picking up when mobGriefing false
-    @Overwrite
-    public boolean wantsToPickUp(@NonNull ServerLevel level, @NonNull ItemStack stack) {
-        return this.canPickUpLoot() && PiglinAiAccessor.callWantsToPickup((Piglin) (Object) this, stack);
     }
 }

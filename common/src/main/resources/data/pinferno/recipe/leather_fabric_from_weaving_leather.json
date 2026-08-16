@@ -1,7 +1,7 @@
 {
   "type": "pinferno:loom",
   "input": "minecraft:leather",
-  "shears": "minecraft:shears",
+  "shears": "#c:tools/shear",
   "result": {
     "id": "pinferno:leather_fabric",
     "count": 8

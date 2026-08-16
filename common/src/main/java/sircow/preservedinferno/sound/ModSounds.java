@@ -7,6 +7,7 @@ import net.minecraft.sounds.SoundEvent;
 import sircow.preservedinferno.Constants;
 
 public class ModSounds {
+    public static final SoundEvent ANGLING_TABLE_USE = register("angling_table_use");
     public static final SoundEvent BOOM_BOX_LOAD = register("boom_box_load");
     public static final SoundEvent BOOM_BOX_PRIMED = register("boom_box_primed");
     public static final SoundEvent CACHE_OPEN = register("cache_open");
