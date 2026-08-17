@@ -2,6 +2,7 @@ package sircow.preservedinferno.mixin;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,15 +18,22 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.animal.golem.IronGolem;
+import net.minecraft.world.entity.animal.nautilus.AbstractNautilus;
+import net.minecraft.world.entity.animal.pig.Pig;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.skeleton.Skeleton;
+import net.minecraft.world.entity.monster.Strider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.BlocksAttacks;
+import net.minecraft.world.item.component.UseCooldown;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -49,6 +57,9 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow public abstract boolean hasEffect(Holder<MobEffect> effect);
     @Shadow public abstract MobEffectInstance getEffect(Holder<MobEffect> effect);
     @Shadow public abstract AttributeInstance getAttribute(Holder<Attribute> attribute);
+    @Shadow protected abstract boolean shouldDropLoot(ServerLevel level);
+    @Shadow protected abstract void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean killedByPlayer);
+    @Shadow protected abstract void dropEquipment(ServerLevel level);
 
     @Unique private float preDamageHealth;
     @Unique private static final Identifier HINDERED_SPEED_ID = Constants.id("hindered_speed");
@@ -161,8 +172,18 @@ public abstract class LivingEntityMixin extends Entity {
                 || damageSource.getEntity() instanceof IronGolem
                 || damageSource.getEntity() instanceof Frog
                 || (damageSource.getEntity() instanceof Skeleton && entity instanceof Creeper)
+                || damageSource.is(DamageTypes.LIGHTNING_BOLT)
         ) return;
-
+        else if (entity instanceof AbstractHorse
+                || entity instanceof AbstractNautilus
+                || entity instanceof Pig
+                || entity instanceof Strider
+        ) {
+            if (this.shouldDropLoot(level)) {
+                this.dropCustomDeathLoot(level, damageSource, false);
+            }
+            this.dropEquipment(level);
+        }
         ci.cancel();
     }
 
@@ -178,7 +199,7 @@ public abstract class LivingEntityMixin extends Entity {
         if (blocks == null) return;
 
         int usedTicks = stack.getUseDuration(entity) - entity.getUseItemRemainingTicks();
-        int delay = stack.getEnchantments().getLevel(level().registryAccess().lookupOrThrow(ModEnchantments.BUCKLER.registryKey()).getOrThrow(ModEnchantments.BUCKLER)) > 0 ? 1 : blocks.blockDelayTicks();
+        int delay = stack.getEnchantments().getLevel(level().registryAccess().lookupOrThrow(ModEnchantments.BUCKLER.registryKey()).getOrThrow(ModEnchantments.BUCKLER)) > 0 ? Math.max(0, blocks.blockDelayTicks() - 5) : blocks.blockDelayTicks();
 
         if (usedTicks >= delay) cir.setReturnValue(stack);
         else cir.setReturnValue(null);
@@ -220,6 +241,24 @@ public abstract class LivingEntityMixin extends Entity {
         AttributeInstance flyingSpeed = ((LivingEntity) (Object) this).getAttribute(Attributes.FLYING_SPEED);
 
         if (flyingSpeed != null) flyingSpeed.removeModifier(FLYING_SPEED_EFFECT_ID);
+    }
+
+    @Inject(method = "die", at = @At("HEAD"))
+    private void pinferno$resetBlusteringOnKill(DamageSource source, CallbackInfo ci) {
+        if (!(source.getEntity() instanceof ServerPlayer player)) return;
+
+        Holder<Enchantment> blustering = player.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.BLUSTERING);
+
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack stack = player.getInventory().getItem(i);
+            if (stack.isEmpty()) continue;
+
+            if (EnchantmentHelper.getItemEnchantmentLevel(blustering, stack) > 0) {
+                UseCooldown useCooldown = stack.get(DataComponents.USE_COOLDOWN);
+                if (useCooldown != null && useCooldown.cooldownGroup().isPresent()) player.getCooldowns().removeCooldown(useCooldown.cooldownGroup().get());
+                else player.getCooldowns().removeCooldown(player.getCooldowns().getCooldownGroup(stack));
+            }
+        }
     }
 
     @Unique

@@ -13,6 +13,7 @@
   "item.minecraft.netherite_hoe": "Netherite Scythe",
   "item.minecraft.golden_hoe": "Golden Scythe",
   "item.minecraft.ender_eye": "Awakened Eye",
+  "item.minecraft.trident": "Elder Trident",
 
   "block.minecraft.bed.no_sleep": "",
   "block.minecraft.bed.not_safe": "You may not sleep now; there are monsters nearby",
@@ -21,6 +22,7 @@
   "effect.minecraft.breath_of_the_nautilus": "Nautilus Blessing",
 
   "entity.minecraft.eye_of_ender": "Awakened Eye",
+  "entity.minecraft.trident": "Elder Trident",
 
   "container.repair.cost": "Enchanting Cost: %1$s",
 

@@ -81,6 +81,7 @@ import java.util.*;
 public class FabricModEvents {
     private static final long REGEN_COOLDOWN_MS = 10 * 60 * 1000;
     private static boolean updateCheckScheduled;
+    private static boolean mobGriefingChanged;
     private static MinecraftServer currentServer;
     private static final Map<UUID, CakeSession> CAKE_SESSIONS = new HashMap<>();
 
@@ -398,6 +399,27 @@ public class FabricModEvents {
         });
     }
 
+    public static void checkMobGriefing() {
+        // mob griefing now no longer needs to be false so this retroactively updates worlds
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            if (server.getGameRules().get(GameRules.MOB_GRIEFING)) return;
+
+            server.getGameRules().set(GameRules.MOB_GRIEFING, true, server);
+            Constants.LOG.info("The Mob Griefing gamerule for this world was previously false and has been updated to true due to changes in beta-1.6.1");
+            mobGriefingChanged = true;
+        });
+
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            if (!mobGriefingChanged) return;
+
+            ServerPlayer player = handler.player;
+            Component message = Component.literal("[Preserved: Inferno]").withStyle(ChatFormatting.RED)
+                    .append(Component.literal(" The Mob Griefing gamerule was automatically changed to true due to changes in beta-1.6.1").withStyle(ChatFormatting.WHITE));
+
+            player.sendSystemMessage(message);
+        });
+    }
+
     @SuppressWarnings("rawtypes")
     public static void openFletchingTable() {
         UseBlockCallback.EVENT.register((player, level, hand, hitResult) -> {
@@ -459,7 +481,7 @@ public class FabricModEvents {
                         float baseRegen = getEffectiveRegenRate(shield, player.level().registryAccess());
                         float totalRegen = baseRegen + 0.25F;
 
-                        if (currentStamina < maxStamina) {
+                        if (currentStamina > 0 && currentStamina < maxStamina) {
                             player.getEntityData().set(ModEntityData.PLAYER_SHIELD_STAMINA, Math.min(maxStamina, currentStamina + totalRegen));
                         }
                     }
@@ -470,14 +492,14 @@ public class FabricModEvents {
     }
 
     public static float getEffectiveMaxStamina(ItemStack stack, RegistryAccess registryAccess) {
-        return stack.getOrDefault(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 100).floatValue() + (stack.getEnchantments().getLevel(registryAccess.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.ENDURANCE)) * 4.0F);
+        return stack.getOrDefault(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 100).floatValue() + (stack.getEnchantments().getLevel(registryAccess.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.ENDURANCE)) * 5.0F);
     }
 
     public static float getEffectiveRegenRate(ItemStack stack, RegistryAccess registryAccess) {
-        float baseRate = stack.getOrDefault(ModComponents.SHIELD_REGEN_RATE_COMPONENT, 0.1f);
+        float baseRate = stack.getOrDefault(ModComponents.SHIELD_REGEN_RATE_COMPONENT, 0.1F);
         int vigorLevel = stack.getEnchantments().getLevel(registryAccess.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.VIGOR));
 
-        return baseRate * (1.0f + (vigorLevel * 0.5f));
+        return baseRate * (1.0F + (vigorLevel * 0.5F));
     }
 
     private static void bashfulEnchant() {
@@ -494,7 +516,7 @@ public class FabricModEvents {
                     if (player.isPassenger() || player.isFallFlying() || player.isInWater()) return;
 
                     float currentStamina = player.getEntityData().get(ModEntityData.PLAYER_SHIELD_STAMINA);
-                    float cost = 4.0F;
+                    float cost = 5.0F;
 
                     if (currentStamina < cost) return;
 
@@ -504,7 +526,7 @@ public class FabricModEvents {
 
                         if (newStamina <= 0.0F && currentStamina > 0.0F) ShieldStaminaHandler.triggerCooldown(player, shield);
                         ShieldStaminaHandler.triggerRegenBlock(player, 40);
-                        player.causeFoodExhaustion(4.0F * level);
+                        player.causeFoodExhaustion(5.0F * level);
                         shield.hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
                     }
 
@@ -534,33 +556,31 @@ public class FabricModEvents {
                 if (!updateCheckScheduled) {
                     updateCheckScheduled = true;
 
-                    UpdateChecker.checkAsync(() -> {
-                        client.execute(() -> {
-                            if (client.player == null) return;
+                    UpdateChecker.checkAsync(() -> client.execute(() -> {
+                        if (client.player == null) return;
 
-                            String current = Constants.INSTANCE.getVersion();
-                            String latest = UpdateChecker.getLatest();
+                        String current = Constants.INSTANCE.getVersion();
+                        String latest = UpdateChecker.getLatest();
 
-                            if (latest == null) return;
+                        if (latest == null) return;
 
-                            if (UpdateChecker.hasUpdate()) {
-                                ClickEvent click = new ClickEvent.OpenUrl(URI.create("https://modrinth.com/mod/preserved-inferno/version/" + latest));
-                                HoverEvent hover = new HoverEvent.ShowText(Component.literal("Open version page"));
-                                Style updateLink = Style.EMPTY
-                                        .withClickEvent(click)
-                                        .withHoverEvent(hover)
-                                        .withUnderlined(true)
-                                        .withColor(ChatFormatting.BLUE);
+                        if (UpdateChecker.hasUpdate()) {
+                            ClickEvent click = new ClickEvent.OpenUrl(URI.create("https://modrinth.com/mod/preserved-inferno/version/" + latest));
+                            HoverEvent hover = new HoverEvent.ShowText(Component.literal("Open version page"));
+                            Style updateLink = Style.EMPTY
+                                    .withClickEvent(click)
+                                    .withHoverEvent(hover)
+                                    .withUnderlined(true)
+                                    .withColor(ChatFormatting.BLUE);
 
-                                Component message = Component.literal("[Preserved: Inferno]").withStyle(ChatFormatting.RED)
-                                        .append(Component.literal(" Update available: ").withStyle(ChatFormatting.WHITE))
-                                        .append(Component.literal(latest).setStyle(updateLink))
-                                        .append(Component.literal(" (current: " + current + ")").withStyle(ChatFormatting.WHITE));
+                            Component message = Component.literal("[Preserved: Inferno]").withStyle(ChatFormatting.RED)
+                                    .append(Component.literal(" Update available: ").withStyle(ChatFormatting.WHITE))
+                                    .append(Component.literal(latest).setStyle(updateLink))
+                                    .append(Component.literal(" (current: " + current + ")").withStyle(ChatFormatting.WHITE));
 
-                                client.player.sendSystemMessage(message);
-                            }
-                        });
-                    });
+                            client.player.sendSystemMessage(message);
+                        }
+                    }));
                 }
             });
         }
@@ -701,6 +721,7 @@ public class FabricModEvents {
         keyPressForFirstAdvancement();
         hardcoreSetup();
         enableMinecartExperiment();
+        checkMobGriefing();
         openFletchingTable();
         afterDeath();
         staminaRegenTick();

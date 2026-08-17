@@ -22,7 +22,7 @@ public class ZombieHorseMixin {
     // modify health value
     @ModifyArg(method = "createAttributes", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;add(Lnet/minecraft/core/Holder;D)Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;", ordinal = 0), index = 1)
     private static double pinferno$modifyHealth(double baseValue) {
-        baseValue = 30.0F;
+        baseValue = 20.0F;
         return baseValue;
     }
 
@@ -32,17 +32,21 @@ public class ZombieHorseMixin {
         ItemStack stack = player.getItemInHand(hand);
 
         if (!stack.is(Items.RED_MUSHROOM)) return;
+        if (!horse.isTamed()) return;
+
+        if (!player.level().isClientSide()) stack.consume(1, player);
 
         var attribute = horse.getAttribute(Attributes.MAX_HEALTH);
 
-        if (attribute != null && horse.getRandom().nextFloat() < 0.15F && attribute.getBaseValue() < 30.0D) {
-            if (!player.level().isClientSide()) {
+        if (attribute != null) {
+            if (attribute.getBaseValue() >= 40.0D) horse.heal(1.0F);
+            else if (horse.getRandom().nextFloat() < 0.15F) {
                 double oldValue = attribute.getBaseValue();
-                double newValue = Math.min(oldValue + 1.0D, 30.0D);
+                double newValue = Math.min(oldValue + 1.0D, 40.0D);
 
                 if (newValue > oldValue) {
                     attribute.setBaseValue(newValue);
-                    horse.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 20 * 5, 0, false, true));
+                    horse.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * 5, 0, false, true));
 
                     if (player instanceof ServerPlayer serverPlayer) {
                         ModTriggers.UPGRADE_HORSE_HEALTH.get().trigger(serverPlayer);
@@ -50,17 +54,13 @@ public class ZombieHorseMixin {
                         var speed = horse.getAttribute(Attributes.MOVEMENT_SPEED);
                         var jump = horse.getAttribute(Attributes.JUMP_STRENGTH);
 
-                        if (speed != null && jump != null && speed.getBaseValue() >= 0.4633D && jump.getBaseValue() >= 1.0D && attribute.getBaseValue() >= 30.0D) {
+                        if (speed != null && jump != null && speed.getBaseValue() >= 0.4633D && jump.getBaseValue() >= 1.0D && attribute.getBaseValue() >= 40.0D) {
                             ModTriggers.MAX_HORSE_STATS.get().trigger(serverPlayer);
                         }
                     }
                 }
-                stack.consume(1, player);
-                if (player instanceof ServerPlayer serverPlayer) {
-                    ModTriggers.UPGRADE_HORSE_HEALTH.get().trigger(serverPlayer);
-                }
             }
-            cir.setReturnValue(InteractionResult.SUCCESS);
         }
+        cir.setReturnValue(InteractionResult.SUCCESS);
     }
 }

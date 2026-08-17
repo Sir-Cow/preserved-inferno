@@ -50,8 +50,7 @@ public abstract class BreakDoorGoalMixin extends DoorInteractGoal {
         if (block instanceof DoorBlock door) {
             if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
                 var lower = doorPos.below();
-                if (this.mob.level().getBlockState(lower).getBlock() == door)
-                    this.doorPos = lower;
+                if (this.mob.level().getBlockState(lower).getBlock() == door) this.doorPos = lower;
             }
         }
         double distanceSq = this.mob.distanceToSqr(this.doorPos.getX() + 0.5D, this.doorPos.getY(), this.doorPos.getZ() + 0.5D);
@@ -71,9 +70,7 @@ public abstract class BreakDoorGoalMixin extends DoorInteractGoal {
 
             if (this.mob.getRandom().nextInt(20) == 0) {
                 this.mob.level().levelEvent(1019, this.doorPos, 0);
-                if (!this.mob.swinging) {
-                    this.mob.swing(this.mob.getUsedItemHand());
-                }
+                if (!this.mob.swinging) this.mob.swing(this.mob.getUsedItemHand());
             }
 
             int required = this.getDoorBreakTime();
@@ -104,9 +101,7 @@ public abstract class BreakDoorGoalMixin extends DoorInteractGoal {
                     this.mob.blockPosition().offset(-1, -1, -1),
                     this.mob.blockPosition().offset(1, 1, 1)))
             {
-                if (pos.getY() < this.mob.blockPosition().getY() || pos.getY() > this.mob.blockPosition().getY() + 1) {
-                    continue;
-                }
+                if (pos.getY() < this.mob.blockPosition().getY() || pos.getY() > this.mob.blockPosition().getY() + 1) continue;
 
                 BlockState state = this.mob.level().getBlockState(pos);
                 boolean foundBreakableTarget = false;
@@ -115,11 +110,7 @@ public abstract class BreakDoorGoalMixin extends DoorInteractGoal {
                     foundBreakableTarget = true;
                 }
                 else if (state.getBlock() instanceof DoorBlock) {
-                    if (state.is(ModTags.BREAKABLE_DOORS)) {
-                        if (!state.getValue(DoorBlock.OPEN)) {
-                            foundBreakableTarget = true;
-                        }
-                    }
+                    if (state.is(ModTags.BREAKABLE_DOORS)) foundBreakableTarget = true;
                 }
 
                 if (foundBreakableTarget) {
@@ -147,9 +138,15 @@ public abstract class BreakDoorGoalMixin extends DoorInteractGoal {
                 this.doorPos = this.mob.blockPosition();
                 cir.setReturnValue(false);
             }
-            else {
-                cir.setReturnValue(true);
+            else cir.setReturnValue(true);
+        }
+        else if (state.getBlock() instanceof DoorBlock) {
+            if (this.breakTime > this.getDoorBreakTime() || !this.doorPos.closerToCenterThan(this.mob.position(), 2.0)) {
+                this.hasDoor = false;
+                this.doorPos = this.mob.blockPosition();
+                cir.setReturnValue(false);
             }
+            else cir.setReturnValue(true);
         }
     }
 }

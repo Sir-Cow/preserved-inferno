@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "F": "pinferno:aquatic_fiber",
-    "X": "minecraft:gold_ingot"
+    "X": "#c:ingots/gold"
   },
   "pattern": [
     "  F",

@@ -1,4 +1,13 @@
 {
+  "angling_table_use": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.fishing_bobber.retrieve",
+        "type": "event"
+      }
+    ],
+    "subtitle": "sounds.pinferno.angling_table_use"
+  },
   "enchant_click": {
     "subtitle": "sounds.pinferno.enchant_click",
     "sounds": [

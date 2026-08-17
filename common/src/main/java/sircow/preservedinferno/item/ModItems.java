@@ -35,12 +35,12 @@ import java.util.function.Function;
 public class ModItems {
     // shield stuff
     static DecimalFormat df = new DecimalFormat("0.000", new DecimalFormatSymbols(Locale.US));
-    static double COPPER_REGEN_PARSE = 2F / 75F;
-    static double NETHERITE_REGEN_PARSE = 2F / 15F;
+    static double COPPER_REGEN_PARSE = 1F / 30F;
+    static double NETHERITE_REGEN_PARSE = 1F / 6F;
     static float COPPER_REGEN = Float.parseFloat(df.format(COPPER_REGEN_PARSE));
-    static float IRON_REGEN = 6F / 125F;
-    static float DIAMOND_REGEN = 2F / 25F;
-    static float NETHERITE_REGEN = Float.parseFloat(df.format(NETHERITE_REGEN_PARSE));
+    static float IRON_REGEN = 3F / 50F;
+    static float DIAMOND_REGEN = 1F / 10F;
+    static float NETHERITE_REGEN = (float) NETHERITE_REGEN_PARSE;
     static float GOLD_REGEN = 1F / 10F;
     public static final ToolMaterial NETHER_ALLOY_TOOL = new ToolMaterial(ModTags.INCORRECT_FOR_NETHER_ALLOY_TOOL, 512, 16.0F, 0.0F, 5, ModTags.NETHER_ALLOY_TOOL_MATERIALS);
     public static final ToolMaterial QUARTZITE_TOOL = new ToolMaterial(ModTags.INCORRECT_FOR_QUARTZITE_TOOL, 128, 8.0F, 0.0F, 4, ModTags.QUARTZITE_TOOL_MATERIALS);
@@ -56,7 +56,7 @@ public class ModItems {
     public static final Item RAW_HIDE = registerItem("raw_hide", Item::new, new Item.Properties());
     public static final Item LEATHER_FABRIC = registerItem("leather_fabric", Item::new, new Item.Properties());
     public static final Item GILDEN_BERRIES = registerItem("gilden_berries", Item::new, new Item.Properties().food(
-            new FoodProperties.Builder().nutrition(6).saturationModifier(1.2F).alwaysEdible().build(),
+            new FoodProperties.Builder().nutrition(4).saturationModifier(1.2F).alwaysEdible().build(),
             defaultFood().consumeSeconds(0.8F).onConsume(new ApplyStatusEffectsConsumeEffect(List.of(new MobEffectInstance(MobEffects.REGENERATION, 100, 0)))).build()));
     public static final Item RESIN_SPECK = registerItem("resin_speck", Item::new, new Item.Properties());
 
@@ -147,7 +147,7 @@ public class ModItems {
                             )
                     )
                     .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
-                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 8)
+                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 10)
                     .component(ModComponents.SHIELD_REGEN_RATE_COMPONENT, COPPER_REGEN)
     );
     public static final Item IRON_SHIELD = registerItem("iron_shield", PreservedShieldItem::new,
@@ -169,7 +169,7 @@ public class ModItems {
                             )
                     )
                     .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
-                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 12)
+                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 15)
                     .component(ModComponents.SHIELD_REGEN_RATE_COMPONENT, IRON_REGEN)
     );
     public static final Item DIAMOND_SHIELD = registerItem("diamond_shield", PreservedShieldItem::new,
@@ -191,7 +191,7 @@ public class ModItems {
                             )
                     )
                     .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
-                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 16)
+                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 20)
                     .component(ModComponents.SHIELD_REGEN_RATE_COMPONENT, DIAMOND_REGEN)
     );
     public static final Item NETHERITE_SHIELD = registerItem("netherite_shield", PreservedShieldItem::new,
@@ -214,7 +214,7 @@ public class ModItems {
                             )
                     )
                     .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
-                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 20)
+                    .component(ModComponents.SHIELD_MAX_STAMINA_COMPONENT, 25)
                     .component(ModComponents.SHIELD_REGEN_RATE_COMPONENT, NETHERITE_REGEN)
     );
     public static final Item GOLDEN_SHIELD = registerItem("golden_shield", PreservedShieldItem::new,

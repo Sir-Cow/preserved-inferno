@@ -87,13 +87,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     private float pinferno$damageIntercept(float damage, ServerLevel level, DamageSource damageSource) {
         Player player = (Player)(Object)this;
 
-        if (damageSource.is(DamageTypes.FREEZE)) {
-            if (player instanceof ServerPlayer serverPlayer && pinferno$getHeat() >= 1) ModTriggers.FREEZE_COOL.get().trigger(serverPlayer);
-            pinferno$decreaseHeat(10);
-        }
-
         if (damageSource.is(DamageTypes.ON_FIRE) && !player.hasEffect(MobEffects.FIRE_RESISTANCE) && player.level().dimension() == Level.NETHER) pinferno$increaseHeat(1);
-
         ItemStack blockingStack = player.getUseItem();
 
         if (player.isBlocking() && blockingStack.getItem() instanceof PreservedShieldItem) {
@@ -160,6 +154,15 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
             }
         }
         return damage;
+    }
+
+    @Inject(method = "hurtServer", at = @At("RETURN"))
+    private void pinferno$freezeCoolDown(ServerLevel level, DamageSource damageSource, float damage, CallbackInfoReturnable<Boolean> cir) {
+        Player player = (Player)(Object)this;
+        if (damageSource.is(DamageTypes.FREEZE) && cir.getReturnValue()) {
+            if (player instanceof ServerPlayer serverPlayer && pinferno$getHeat() >= 1) ModTriggers.FREEZE_COOL.get().trigger(serverPlayer);
+            pinferno$decreaseHeat(10);
+        }
     }
 
     // modify bed sleeping

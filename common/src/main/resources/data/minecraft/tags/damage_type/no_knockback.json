@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "minecraft:mace_smash",
     "pinferno:conduit",
     "pinferno:fumigated",
     "pinferno:heat"

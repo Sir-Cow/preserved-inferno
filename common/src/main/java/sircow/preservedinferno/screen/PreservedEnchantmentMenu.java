@@ -51,12 +51,12 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
             new EnchantmentInfo("Bane Of Arthropods", "10", Enchantments.BANE_OF_ARTHROPODS),
             new EnchantmentInfo("Blast Protection", "10", Enchantments.BLAST_PROTECTION),
             new EnchantmentInfo("Breach", "30", Enchantments.BREACH),
-            new EnchantmentInfo("Buckler", "20", ModEnchantments.BUCKLER),
+            new EnchantmentInfo("Buckler", "10", ModEnchantments.BUCKLER),
             new EnchantmentInfo("Channeling", "30", Enchantments.CHANNELING),
             new EnchantmentInfo("Density", "30", Enchantments.DENSITY),
             new EnchantmentInfo("Depth Strider", "20", Enchantments.DEPTH_STRIDER),
             new EnchantmentInfo("Efficiency", "10", Enchantments.EFFICIENCY),
-            new EnchantmentInfo("Endurance", "20", ModEnchantments.ENDURANCE),
+            new EnchantmentInfo("Endurance", "10", ModEnchantments.ENDURANCE),
             new EnchantmentInfo("Feather Falling", "20", Enchantments.FEATHER_FALLING),
             new EnchantmentInfo("Fire Aspect", "20", Enchantments.FIRE_ASPECT),
             new EnchantmentInfo("Fire Protection", "10", Enchantments.FIRE_PROTECTION),
@@ -85,7 +85,7 @@ public class PreservedEnchantmentMenu extends AbstractContainerMenu {
             new EnchantmentInfo("Sweeping Edge", "20", Enchantments.SWEEPING_EDGE),
             new EnchantmentInfo("Thorns", "10", Enchantments.THORNS),
             new EnchantmentInfo("Unbreaking", "20", Enchantments.UNBREAKING),
-            new EnchantmentInfo("Vigor", "20", ModEnchantments.VIGOR)
+            new EnchantmentInfo("Vigor", "10", ModEnchantments.VIGOR)
     );
 
     public PreservedEnchantmentMenu(int containerId, Inventory playerInventory) {

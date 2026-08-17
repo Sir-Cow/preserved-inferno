@@ -40,9 +40,9 @@ public class HudMixin {
     @Unique private Player player;
 
     @Shadow @Final private Minecraft minecraft;
-    @Shadow @Final private static Identifier HEART_VEHICLE_CONTAINER_SPRITE = Identifier.withDefaultNamespace("hud/heart/vehicle_container");
-    @Shadow @Final private static Identifier HEART_VEHICLE_FULL_SPRITE = Identifier.withDefaultNamespace("hud/heart/vehicle_full");
-    @Shadow @Final private static Identifier HEART_VEHICLE_HALF_SPRITE = Identifier.withDefaultNamespace("hud/heart/vehicle_half");
+    @Shadow private static Identifier HEART_VEHICLE_CONTAINER_SPRITE = Identifier.withDefaultNamespace("hud/heart/vehicle_container");
+    @Shadow private static Identifier HEART_VEHICLE_FULL_SPRITE = Identifier.withDefaultNamespace("hud/heart/vehicle_full");
+    @Shadow private static Identifier HEART_VEHICLE_HALF_SPRITE = Identifier.withDefaultNamespace("hud/heart/vehicle_half");
 
     @Inject(method = "extractRenderState", at = @At("HEAD"))
     public void pinferno$renderHeat(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {

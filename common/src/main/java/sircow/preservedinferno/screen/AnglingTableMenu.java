@@ -19,6 +19,7 @@ import sircow.preservedinferno.block.ModBlocks;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.other.ModTags;
+import sircow.preservedinferno.sound.ModSounds;
 
 import java.util.Objects;
 
@@ -73,6 +74,8 @@ public class AnglingTableMenu extends AbstractContainerMenu {
                     AnglingTableMenu.this.sinkerInputSlot.set(ItemStack.EMPTY);
                     AnglingTableMenu.this.sinkerPresent = false;
                 }
+                AnglingTableMenu.this.access.execute((level, blockPos) ->
+                        level.playSound(null, blockPos, ModSounds.ANGLING_TABLE_USE, net.minecraft.sounds.SoundSource.BLOCKS, 1.0F, 1.0F));
                 super.onTake(player, stack);
             }
         });

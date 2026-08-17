@@ -497,6 +497,10 @@ public class BlocksMixin {
                 .noOcclusion()
                 .ignitedByLava();
     }
+    @Redirect(method = "shulkerBoxProperties", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;strength(F)Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;"))
+    private static BlockBehaviour.Properties pInferno$modifyShulkerBoxStrength(BlockBehaviour.Properties properties, float destroyTime) {
+        return properties.strength(0.5F);
+    }
 
     @Shadow
     private static ToIntFunction<BlockState> litBlockEmission(int lightEmission) {

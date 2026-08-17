@@ -1,0 +1,21 @@
+{
+  "anvil_cost": 1,
+  "description": {
+    "translate": "enchantment.pinferno.collision"
+  },
+  "exclusive_set": "#pinferno:exclusive_set/mace",
+  "max_cost": {
+    "base": 12,
+    "per_level_above_first": 11
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 1,
+    "per_level_above_first": 11
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#minecraft:enchantable/mace",
+  "weight": 5
+}

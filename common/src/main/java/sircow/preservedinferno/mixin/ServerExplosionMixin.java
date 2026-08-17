@@ -1,10 +1,13 @@
 package sircow.preservedinferno.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball;
 import net.minecraft.world.level.ServerExplosion;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
@@ -35,5 +38,13 @@ public abstract class ServerExplosionMixin {
         int duration = Math.max(60, (int)(600 * (1.0D - normalized)));
 
         living.addEffect(new MobEffectInstance(ModEffects.FUMIGATED.holder, duration, 0), creeper);
+    }
+
+    @WrapOperation(method = "explode", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/ServerExplosion;interactsWithBlocks()Z"))
+    private boolean pinferno$preventBlockDamage(ServerExplosion instance, Operation<Boolean> original) {
+        if (this.source instanceof Creeper || this.source instanceof LargeFireball) {
+            return false;
+        }
+        return original.call(instance);
     }
 }

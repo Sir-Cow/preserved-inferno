@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "F": "pinferno:aquatic_fiber",
-    "X": "minecraft:diamond"
+    "X": "#c:gems/diamond"
   },
   "pattern": [
     "  F",

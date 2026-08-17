@@ -136,6 +136,19 @@
           "type": "minecraft:item",
           "functions": [
             {
+              "function": "minecraft:enchant_randomly",
+              "options": [
+                "pinferno:bashful",
+                "pinferno:repulsor"
+              ]
+            }
+          ],
+          "name": "minecraft:book"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
@@ -157,7 +170,8 @@
                 "pinferno:respite",
                 "pinferno:endurance",
                 "pinferno:vigor",
-                "pinferno:bashful"
+                "pinferno:bashful",
+                "pinferno:repulsor"
               ]
             }
           ],

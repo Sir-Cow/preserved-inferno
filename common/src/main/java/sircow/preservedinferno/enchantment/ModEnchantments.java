@@ -13,12 +13,16 @@ import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.other.ModTags;
 
 public class ModEnchantments {
+    // mace
+    public static final ResourceKey<Enchantment> BLUSTERING = key("blustering");
+    public static final ResourceKey<Enchantment> COLLISION = key("collision");
     // shield
     public static final ResourceKey<Enchantment> BUCKLER = key("buckler");
     public static final ResourceKey<Enchantment> RESPITE = key("respite");
     public static final ResourceKey<Enchantment> ENDURANCE = key("endurance");
     public static final ResourceKey<Enchantment> VIGOR = key("vigor");
     public static final ResourceKey<Enchantment> BASHFUL = key("bashful");
+    public static final ResourceKey<Enchantment> REPULSOR = key("repulsor");
     // shovel
     public static final ResourceKey<Enchantment> SPLATTERING = key("splattering");
 
@@ -29,6 +33,28 @@ public class ModEnchantments {
     public static void bootstrap(BootstrapContext<Enchantment> context) {
         HolderGetter<Item> items = context.lookup(Registries.ITEM);
 
+        register(context, BLUSTERING, Enchantment.enchantment(
+                Enchantment.definition(
+                        items.getOrThrow(ItemTags.MACE_ENCHANTABLE),
+                        5,
+                        1,
+                        Enchantment.dynamicCost(1, 11),
+                        Enchantment.dynamicCost(12, 11),
+                        1,
+                        EquipmentSlotGroup.MAINHAND
+                )
+        ));
+        register(context, COLLISION, Enchantment.enchantment(
+                Enchantment.definition(
+                        items.getOrThrow(ItemTags.MACE_ENCHANTABLE),
+                        5,
+                        1,
+                        Enchantment.dynamicCost(1, 11),
+                        Enchantment.dynamicCost(12, 11),
+                        1,
+                        EquipmentSlotGroup.MAINHAND
+                )
+        ));
         register(context, BUCKLER, Enchantment.enchantment(
                         Enchantment.definition(
                                 items.getOrThrow(ModTags.SHIELDS_COMMON),
@@ -74,6 +100,17 @@ public class ModEnchantments {
                 ))
         );
         register(context, BASHFUL, Enchantment.enchantment(
+                Enchantment.definition(
+                        items.getOrThrow(ModTags.SHIELDS_COMMON),
+                        5,
+                        1,
+                        Enchantment.dynamicCost(1, 11),
+                        Enchantment.dynamicCost(12, 11),
+                        1,
+                        EquipmentSlotGroup.OFFHAND
+                ))
+        );
+        register(context, REPULSOR, Enchantment.enchantment(
                 Enchantment.definition(
                         items.getOrThrow(ModTags.SHIELDS_COMMON),
                         5,

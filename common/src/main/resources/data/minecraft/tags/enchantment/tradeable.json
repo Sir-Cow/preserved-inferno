@@ -4,6 +4,7 @@
     "#minecraft:non_treasure",
     "minecraft:binding_curse",
     "minecraft:vanishing_curse",
-    "minecraft:frost_walker"
+    "minecraft:frost_walker",
+    "pinferno:repulsor"
   ]
 }
