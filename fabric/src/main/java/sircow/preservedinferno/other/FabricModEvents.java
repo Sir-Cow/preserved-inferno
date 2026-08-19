@@ -68,9 +68,11 @@ import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.network.BashfulPayload;
-import sircow.preservedinferno.network.ModMessages;
+import sircow.preservedinferno.network.ModNetworking;
 import sircow.preservedinferno.network.RespawnSyncPayload;
+import sircow.preservedinferno.network.SyncCauldronRecipesPayload;
 import sircow.preservedinferno.network.SyncLoomRecipesPayload;
+import sircow.preservedinferno.recipe.CauldronRecipe;
 import sircow.preservedinferno.recipe.LoomRecipe;
 import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
 import sircow.preservedinferno.trigger.ModTriggers;
@@ -663,7 +665,7 @@ public class FabricModEvents {
             FabricWorldDataManager.syncPlayerPointsWithAdvancements(server, player);
 
             int currentPoints = WorldDataManager.getPlayerPoints(server, player.getUUID());
-            ServerPlayNetworking.send(player, new ModMessages.PlayerPointsPayload(player.getUUID(), currentPoints));
+            ServerPlayNetworking.send(player, new ModNetworking.PlayerPointsPayload(player.getUUID(), currentPoints));
         });
     }
 
@@ -691,11 +693,18 @@ public class FabricModEvents {
         });
     }
 
-    public static void syncLoomRecipes() {
+    public static void syncRecipes() {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.player;
             ServerLevel level = server.overworld();
 
+            List<CauldronRecipe> cauldronRecipes = level.recipeAccess()
+                    .getRecipes()
+                    .stream()
+                    .map(RecipeHolder::value)
+                    .filter(CauldronRecipe.class::isInstance)
+                    .map(CauldronRecipe.class::cast)
+                    .toList();
             List<LoomRecipe> loomRecipes = level.recipeAccess()
                     .getRecipes()
                     .stream()
@@ -704,6 +713,7 @@ public class FabricModEvents {
                     .map(LoomRecipe.class::cast)
                     .toList();
 
+            ServerPlayNetworking.send(player, new SyncCauldronRecipesPayload(cauldronRecipes));
             ServerPlayNetworking.send(player, new SyncLoomRecipesPayload(loomRecipes));
         });
     }
@@ -727,6 +737,6 @@ public class FabricModEvents {
         staminaRegenTick();
         bashfulEnchant();
         updateCheck();
-        syncLoomRecipes();
+        syncRecipes();
     }
 }

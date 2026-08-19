@@ -48,7 +48,7 @@ import sircow.preservedinferno.fluid.ModFluids;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.item.custom.ReverbCompassItem;
 import sircow.preservedinferno.mixin.ClientAdvancementsAccessor;
-import sircow.preservedinferno.network.ModMessages;
+import sircow.preservedinferno.network.ModNetworking;
 import sircow.preservedinferno.network.RespawnSyncPayload;
 import sircow.preservedinferno.other.IMinecraftMixin;
 import sircow.preservedinferno.other.ModTags;
@@ -77,7 +77,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         clockTime();
         tickAdvancement();
         respawnSyncClient();
-        ModMessages.registerS2CPackets();
+        ModNetworking.registerS2CPackets();
     }
 
     private void registerMenuScreens() {

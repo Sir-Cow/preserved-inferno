@@ -12,7 +12,7 @@ import sircow.preservedinferno.compat.jei.PreservedRecipeCache;
 
 import java.util.UUID;
 
-public class ModMessages {
+public class ModNetworking {
     public record PlayerPointsPayload(UUID playerUUID, int points) implements CustomPacketPayload {
         public static final Type<PlayerPointsPayload> TYPE = new Type<>(Constants.id("player_points_update"));
 
@@ -38,10 +38,12 @@ public class ModMessages {
     public static void registerS2CPackets() {
         ClientPlayNetworking.registerGlobalReceiver(PlayerPointsPayload.TYPE, (payload, context) -> context.client().execute(() -> ModAdvancements.setPlayerPoints(payload.playerUUID(), payload.points())));
         ClientPlayNetworking.registerGlobalReceiver(SyncLoomRecipesPayload.TYPE, (payload, context) -> context.client().execute(() -> PreservedRecipeCache.setLoomRecipes(payload.recipes())));
+        ClientPlayNetworking.registerGlobalReceiver(SyncCauldronRecipesPayload.TYPE, (payload, context) -> context.client().execute(() -> PreservedRecipeCache.setCauldronRecipes(payload.recipes())));
     }
 
-    public static void registerMessages() {
+    public static void registerNetworking() {
         PayloadTypeRegistry.clientboundPlay().register(PlayerPointsPayload.TYPE, PlayerPointsPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(SyncLoomRecipesPayload.TYPE, SyncLoomRecipesPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(SyncCauldronRecipesPayload.TYPE, SyncCauldronRecipesPayload.CODEC);
     }
 }

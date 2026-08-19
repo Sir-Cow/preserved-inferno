@@ -531,5 +531,7 @@
   "advancements.toast.mastery": "Mastery Upgraded!",
 
   "config.jade.plugin_pinferno.cauldron_progress": "Cauldron Progress",
-  "config.jade.plugin_pinferno.sparkling_blackstone_stage": "Sparkling Blackstone Growth Stage"
+  "config.jade.plugin_pinferno.sparkling_blackstone_stage": "Sparkling Blackstone Growth Stage",
+
+  "jei.pinferno.cauldron.fuel_required": "Consumes %s fluid"
 }
