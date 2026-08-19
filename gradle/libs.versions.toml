@@ -1,5 +1,7 @@
 [versions]
 moulconfig = "4.7.2"
+kotlin = "2.4.10"
 
 [libraries]
 moulconfig = { module = "org.notenoughupdates.moulconfig:modern-26.2", version.ref = "moulconfig" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
