@@ -103,6 +103,7 @@
     "MobAccessor",
     "MonsterMixin",
     "NearestAttackableTargetGoalMixin",
+    "NetherWorldCarverMixin",
     "NewMinecartBehaviorMixin",
     "PhantomMixin",
     "PhantomSweepAttackGoalMixin",

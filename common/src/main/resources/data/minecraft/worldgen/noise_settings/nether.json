@@ -60,7 +60,7 @@
                       },
                       "argument2": {
                         "type": "minecraft:add",
-                        "argument1": 0,
+                        "argument1": 0.1,
                         "argument2": "minecraft:nether/base_3d_noise"
                       }
                     }
@@ -100,7 +100,7 @@
     "vein_toggle": 0
   },
   "ore_veins_enabled": false,
-  "sea_level": 0,
+  "sea_level": 1,
   "spawn_target": [],
   "surface_rule": {
     "type": "minecraft:sequence",
