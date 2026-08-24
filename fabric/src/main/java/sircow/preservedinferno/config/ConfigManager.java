@@ -8,7 +8,7 @@ import io.github.notenoughupdates.moulconfig.processor.MoulConfigProcessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.commons.io.FileUtils;
-import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.FabricPreservedInferno;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,8 +37,8 @@ public class ConfigManager {
             saveConfig(loaded);
         }
 
-        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) PreservedInferno.clientConfig = loaded;
-        else PreservedInferno.serverConfig = loaded;
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) FabricPreservedInferno.clientConfig = loaded;
+        else FabricPreservedInferno.serverConfig = loaded;
 
         recreateProcessor();
     }
@@ -59,10 +59,10 @@ public class ConfigManager {
 
     public void recreateProcessor() {
         if (FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT) return;
-        processor = new MoulConfigProcessor<>(PreservedInferno.clientConfig);
+        processor = new MoulConfigProcessor<>(FabricPreservedInferno.clientConfig);
         BuiltinMoulConfigGuis.addProcessors(processor);
         ConfigProcessorDriver driver = new ConfigProcessorDriver(processor);
         driver.warnForPrivateFields = false;
-        driver.processConfig(PreservedInferno.clientConfig);
+        driver.processConfig(FabricPreservedInferno.clientConfig);
     }
 }

@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
-import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.FabricPreservedInferno;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockData;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
 import sircow.preservedinferno.fluid.CauldronFluid;
@@ -33,7 +33,7 @@ public class PreservedCauldronMenu extends AbstractContainerMenu {
     }
 
     public PreservedCauldronMenu(int syncId, Inventory playerInventory, ContainerData arrayPropertyDelegate, ContainerData arrayPropertyDelegateTwo, Container inventory) {
-        super(PreservedInferno.PRESERVED_CAULDRON_MENU_TYPE, syncId);
+        super(FabricPreservedInferno.PRESERVED_CAULDRON_MENU_TYPE, syncId);
         checkContainerSize(inventory, 4);
         checkContainerDataCount(arrayPropertyDelegate, 2);
         checkContainerDataCount(arrayPropertyDelegateTwo, 3);

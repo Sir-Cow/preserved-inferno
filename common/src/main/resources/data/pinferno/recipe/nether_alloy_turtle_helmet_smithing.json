@@ -16,7 +16,7 @@
         {
           "type": "minecraft:armor_toughness",
           "id": "pinferno:nether_alloy_helmet_modifier_toughness",
-          "amount": 1,
+          "amount": 3,
           "operation": "add_value",
           "slot": "head"
         }

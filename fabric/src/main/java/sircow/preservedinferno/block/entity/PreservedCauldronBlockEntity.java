@@ -33,7 +33,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.shapes.Shapes;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
-import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.FabricPreservedInferno;
 import sircow.preservedinferno.block.ModBlockProperties;
 import sircow.preservedinferno.fluid.CauldronFluid;
 import sircow.preservedinferno.item.ModItems;
@@ -65,7 +65,7 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
     private final Set<Integer> entitiesInHoney = new HashSet<>();
 
     public PreservedCauldronBlockEntity(BlockPos pos, BlockState state) {
-        super(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, pos, state);
+        super(FabricPreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, pos, state);
         this.propertyDelegate = new ContainerData() {
             @Override
             public int get(int index) {

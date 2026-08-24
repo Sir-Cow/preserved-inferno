@@ -9,7 +9,7 @@
         {
           "type": "minecraft:armor",
           "id": "pinferno:nether_alloy_helmet_modifier_armor",
-          "amount": 14,
+          "amount": 15,
           "operation": "add_value",
           "slot": "head"
         }

@@ -13,7 +13,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import sircow.preservedinferno.advancement.ModAdvancements;
-import sircow.preservedinferno.network.ModMessages;
+import sircow.preservedinferno.network.ModNetworking;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,9 +26,9 @@ public class FabricWorldDataManager {
 
         ServerPlayer player = server.getPlayerList().getPlayer(playerUUID);
         if (player != null) {
-            ServerPlayNetworking.send(player, new ModMessages.PlayerPointsPayload(playerUUID, points));
+            ServerPlayNetworking.send(player, new ModNetworking.PlayerPointsPayload(playerUUID, points));
             for (ServerPlayer other : server.getPlayerList().getPlayers()) {
-                if (!other.getUUID().equals(playerUUID)) ServerPlayNetworking.send(other, new ModMessages.PlayerPointsPayload(playerUUID, points));
+                if (!other.getUUID().equals(playerUUID)) ServerPlayNetworking.send(other, new ModNetworking.PlayerPointsPayload(playerUUID, points));
             }
         }
     }

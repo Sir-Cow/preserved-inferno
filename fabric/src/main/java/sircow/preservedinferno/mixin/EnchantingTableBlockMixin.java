@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.FabricPreservedInferno;
 import sircow.preservedinferno.screen.PreservedEnchantmentMenu;
 
 import java.util.List;
@@ -40,8 +40,8 @@ public class EnchantingTableBlockMixin {
             Component component = ((Nameable) blockentity).getDisplayName();
             cir.setReturnValue(new ExtendedMenuProvider() {
                 @Override
-                public PreservedInferno.BlockData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
-                    return new PreservedInferno.BlockData(level.getBlockEntity(pos) == null);
+                public FabricPreservedInferno.BlockData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
+                    return new FabricPreservedInferno.BlockData(level.getBlockEntity(pos) == null);
                 }
 
                 @Override

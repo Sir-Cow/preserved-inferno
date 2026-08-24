@@ -30,11 +30,12 @@ import net.minecraft.world.item.CompassItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.LodestoneTracker;
 import net.minecraft.world.level.Level;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.MenuTypes;
-import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.FabricPreservedInferno;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntityRenderer;
 import sircow.preservedinferno.client.renderer.BoomBoxRenderer;
 import sircow.preservedinferno.client.renderer.RodTooltipComponentRenderer;
@@ -47,8 +48,9 @@ import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.fluid.ModFluids;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.item.custom.ReverbCompassItem;
+import sircow.preservedinferno.potion.ModPotions;
 import sircow.preservedinferno.mixin.ClientAdvancementsAccessor;
-import sircow.preservedinferno.network.ModMessages;
+import sircow.preservedinferno.network.ModNetworking;
 import sircow.preservedinferno.network.RespawnSyncPayload;
 import sircow.preservedinferno.other.IMinecraftMixin;
 import sircow.preservedinferno.other.ModTags;
@@ -77,7 +79,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         clockTime();
         tickAdvancement();
         respawnSyncClient();
-        ModMessages.registerS2CPackets();
+        ModNetworking.registerS2CPackets();
     }
 
     private void registerMenuScreens() {
@@ -98,7 +100,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         EntityRenderers.register(ModEntities.PRESERVED_SPLASH_BOTTLE, (ThrownItemRenderer::new));
         EntityRenderers.register(ModEntities.PRESERVED_AREA_EFFECT_CLOUD, (NoopRenderer::new));
         ModelLayerRegistry.registerModelLayer(ThrownCopperTridentRenderer.COPPER_TRIDENT, CopperTridentModel::createLayer);
-        BlockEntityRenderers.register(PreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, PreservedCauldronBlockEntityRenderer::new);
+        BlockEntityRenderers.register(FabricPreservedInferno.PRESERVED_CAULDRON_BLOCK_ENTITY, PreservedCauldronBlockEntityRenderer::new);
     }
 
     private void registerFluids() {
@@ -176,6 +178,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             }
             addCustomBottleTooltip(lines, stack);
             addSmithingTemplateTooltip(lines, insertIndex, stack);
+            addNautilusBlessingTooltip(lines, insertIndex, stack);
             addForgeMaterialTooltip(lines, stack);
             addAquaDiscTooltip(lines, stack);
         });
@@ -234,6 +237,15 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             lines.add(insertIndex++, Component.literal(" ").append(Component.translatable("item.pinferno.leggings").withStyle(ChatFormatting.BLUE)));
             lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.ingredients").withStyle(ChatFormatting.GRAY));
             lines.add(insertIndex, Component.literal(" ").append(Component.translatable("item.pinferno.echoing_prism").withStyle(ChatFormatting.BLUE)));
+        }
+    }
+
+    private void addNautilusBlessingTooltip(List<Component> lines, int insertIndex, ItemStack stack) {
+        PotionContents potionContents = stack.get(DataComponents.POTION_CONTENTS);
+        if (potionContents != null && potionContents.is(ModPotions.NAUTILUS_BLESSING)) {
+            lines.add(insertIndex++, Component.empty());
+            lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.fishing_speed", 0.5).withStyle(ChatFormatting.BLUE));
+            lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", 0.5).withStyle(ChatFormatting.BLUE));
         }
     }
 
@@ -319,7 +331,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
                 if (!((stack.getItem() instanceof CompassItem) || stack.getItem() == Items.RECOVERY_COMPASS || stack.getItem() instanceof ReverbCompassItem)) return;
             }
 
-            MiscCategory.UnitSystem unit = PreservedInferno.clientConfig.miscCategory.unitSystem;
+            MiscCategory.UnitSystem unit = FabricPreservedInferno.clientConfig.miscCategory.unitSystem;
             BlockPos targetPos = null;
             LodestoneTracker tracker = stack.get(DataComponents.LODESTONE_TRACKER);
 
@@ -372,7 +384,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             int minutes = (int) ((dayTime % 1000) * 60 / 1000);
 
             String formatted;
-            switch (PreservedInferno.clientConfig.miscCategory.timeFormat) {
+            switch (FabricPreservedInferno.clientConfig.miscCategory.timeFormat) {
                 case TWELVE_HOUR -> {
                     int hour12 = hour24 % 12;
                     if (hour12 == 0) hour12 = 12;

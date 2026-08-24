@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.FabricPreservedInferno;
 import sircow.preservedinferno.other.BlueIceSequenceTask;
 import sircow.preservedinferno.other.PackedIceSequenceTask;
 import sircow.preservedinferno.other.SimpleBlockTransformationTask;
@@ -32,30 +32,30 @@ public class BlockItemMixin {
         if (!level.isClientSide() && itemStack.getItem() instanceof BlockItem && level.dimension() == Level.NETHER) {
             Block placedBlock = ((BlockItem) itemStack.getItem()).getBlock();
             ServerLevel serverLevel = (ServerLevel) level;
-            PreservedInferno instance = PreservedInferno.INSTANCE;
+            FabricPreservedInferno instance = FabricPreservedInferno.INSTANCE;
 
-            if (placedBlock == Blocks.ICE) PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.ICE, 2 * 20));
-            else if (placedBlock == Blocks.SNOW_BLOCK) PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.SNOW_BLOCK, 5 * 20));
-            else if (placedBlock instanceof SnowLayerBlock) PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), placedBlock, 2 * 20));
+            if (placedBlock == Blocks.ICE) FabricPreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.ICE, 2 * 20));
+            else if (placedBlock == Blocks.SNOW_BLOCK) FabricPreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.SNOW_BLOCK, 5 * 20));
+            else if (placedBlock instanceof SnowLayerBlock) FabricPreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), placedBlock, 2 * 20));
             else if (placedBlock == Blocks.PACKED_ICE) schedulePackedIceSequence(instance, serverLevel, blockPos);
             else if (placedBlock == Blocks.BLUE_ICE) scheduleBlueIceSequence(instance, serverLevel, blockPos);
-            else if (placedBlock == Blocks.POWDER_SNOW) PreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.POWDER_SNOW, 20));
+            else if (placedBlock == Blocks.POWDER_SNOW) FabricPreservedInferno.scheduleDelayedTask(new SimpleBlockTransformationTask(instance, serverLevel, blockPos, Blocks.AIR.defaultBlockState(), Blocks.POWDER_SNOW, 20));
         }
     }
 
     @Unique
-    private void schedulePackedIceSequence(PreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos) {
+    private void schedulePackedIceSequence(FabricPreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos) {
         int packedToIceDelay = 3 * 20;
         int iceToAirDelay = 2 * 20;
-        PreservedInferno.scheduleDelayedTask(new PackedIceSequenceTask(modInstance, serverLevel, pos, packedToIceDelay, iceToAirDelay));
+        FabricPreservedInferno.scheduleDelayedTask(new PackedIceSequenceTask(modInstance, serverLevel, pos, packedToIceDelay, iceToAirDelay));
     }
 
     @Unique
-    private void scheduleBlueIceSequence(PreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos) {
+    private void scheduleBlueIceSequence(FabricPreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos) {
         int blueToPackedDelay = 15 * 20;
         int packedToIceDelay = 3 * 20;
         int iceToAirDelay = 2 * 20;
-        PreservedInferno.scheduleDelayedTask(new BlueIceSequenceTask(modInstance, serverLevel, pos, blueToPackedDelay, packedToIceDelay, iceToAirDelay));
+        FabricPreservedInferno.scheduleDelayedTask(new BlueIceSequenceTask(modInstance, serverLevel, pos, blueToPackedDelay, packedToIceDelay, iceToAirDelay));
     }
 }
 

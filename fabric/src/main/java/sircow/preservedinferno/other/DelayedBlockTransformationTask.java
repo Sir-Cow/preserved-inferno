@@ -6,7 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.FabricPreservedInferno;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -17,12 +17,12 @@ public abstract class DelayedBlockTransformationTask {
     protected final BlockPos pos;
     protected final BlockState newState;
     protected int delayTicks;
-    protected final PreservedInferno modInstance;
+    protected final FabricPreservedInferno modInstance;
     protected final int breakerId;
     public final Block expectedInitialBlock;
     private static final Set<BlockPos> noDropBlocks = Collections.synchronizedSet(new HashSet<>());
 
-    public DelayedBlockTransformationTask(PreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, BlockState newState, Block expectedInitialBlock, int delayTicks) {
+    public DelayedBlockTransformationTask(FabricPreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, BlockState newState, Block expectedInitialBlock, int delayTicks) {
         this.modInstance = modInstance;
         this.serverLevel = serverLevel;
         this.pos = pos;
@@ -121,7 +121,7 @@ public abstract class DelayedBlockTransformationTask {
 class PackedIceToIceTask extends DelayedBlockTransformationTask {
     private final int iceToAirDelay, initialPackedToIceDelay;
 
-    public PackedIceToIceTask(PreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, int packedToIceDelay, int iceToAirDelay) {
+    public PackedIceToIceTask(FabricPreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, int packedToIceDelay, int iceToAirDelay) {
         super(modInstance, serverLevel, pos, Blocks.ICE.defaultBlockState(), Blocks.PACKED_ICE, packedToIceDelay);
         this.iceToAirDelay = iceToAirDelay;
         this.initialPackedToIceDelay = packedToIceDelay;
@@ -155,7 +155,7 @@ class PackedIceToIceTask extends DelayedBlockTransformationTask {
 class BlueIceToPackedIceTask extends DelayedBlockTransformationTask {
     private final int packedToIceDelay, iceToAirDelay, initialBlueToPackedDelay;
 
-    public BlueIceToPackedIceTask(PreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, int blueToPackedDelay, int packedToIceDelay, int iceToAirDelay) {
+    public BlueIceToPackedIceTask(FabricPreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, int blueToPackedDelay, int packedToIceDelay, int iceToAirDelay) {
         super(modInstance, serverLevel, pos, Blocks.PACKED_ICE.defaultBlockState(), Blocks.BLUE_ICE, blueToPackedDelay);
         this.packedToIceDelay = packedToIceDelay;
         this.iceToAirDelay = iceToAirDelay;

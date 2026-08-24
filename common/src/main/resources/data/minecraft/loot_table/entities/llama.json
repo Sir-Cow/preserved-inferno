@@ -9,19 +9,21 @@
             {
               "count": {
                 "type": "minecraft:uniform",
-                "max": 2.0,
+                "max": 1.0,
                 "min": 0.0
               },
               "function": "minecraft:set_count"
             },
             {
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 1.0,
-                "min": 0.0
-              },
+              "function": "minecraft:enchanted_count_increase",
+              "count": 1,
               "enchantment": "minecraft:looting",
-              "function": "minecraft:enchanted_count_increase"
+              "conditions": [
+                {
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.1
+                }
+              ]
             }
           ],
           "name": "pinferno:raw_hide"

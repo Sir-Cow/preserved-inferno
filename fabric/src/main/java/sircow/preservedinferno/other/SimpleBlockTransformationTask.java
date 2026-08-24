@@ -9,13 +9,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.FabricPreservedInferno;
 
 public class SimpleBlockTransformationTask extends DelayedBlockTransformationTask {
     private final Block expectedOriginalBlock;
     private final int initialDelay;
 
-    public SimpleBlockTransformationTask(PreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, BlockState newState, Block expectedOriginalBlock, int delayTicks) {
+    public SimpleBlockTransformationTask(FabricPreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, BlockState newState, Block expectedOriginalBlock, int delayTicks) {
         super(modInstance, serverLevel, pos, newState, expectedOriginalBlock, delayTicks);
         this.expectedOriginalBlock = expectedOriginalBlock;
         this.initialDelay = delayTicks;

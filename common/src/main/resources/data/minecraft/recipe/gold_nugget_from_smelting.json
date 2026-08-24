@@ -19,7 +19,8 @@
     "pinferno:golden_shield",
     "pinferno:golden_fishing_hook",
     "pinferno:golden_laced_fishing_line",
-    "pinferno:golden_sinker"
+    "pinferno:golden_sinker",
+    "pinferno:golden_multitool"
   ],
   "result": {
     "id": "minecraft:gold_nugget"

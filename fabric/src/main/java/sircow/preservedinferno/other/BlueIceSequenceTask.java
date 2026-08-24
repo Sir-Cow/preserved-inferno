@@ -3,12 +3,12 @@ package sircow.preservedinferno.other;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Blocks;
-import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.FabricPreservedInferno;
 
 public class BlueIceSequenceTask extends DelayedBlockTransformationTask {
     private final int packedToIceDelay, iceToAirDelay, initialBlueToPackedDelay;
 
-    public BlueIceSequenceTask(PreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, int blueToPackedDelay, int packedToIceDelay, int iceToAirDelay) {
+    public BlueIceSequenceTask(FabricPreservedInferno modInstance, ServerLevel serverLevel, BlockPos pos, int blueToPackedDelay, int packedToIceDelay, int iceToAirDelay) {
         super(modInstance, serverLevel, pos, Blocks.BLUE_ICE.defaultBlockState(), Blocks.BLUE_ICE, blueToPackedDelay);
         this.packedToIceDelay = packedToIceDelay;
         this.iceToAirDelay = iceToAirDelay;

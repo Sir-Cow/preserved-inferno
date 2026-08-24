@@ -45,6 +45,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -59,16 +60,16 @@ import net.minecraft.world.scores.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.FabricPreservedInferno;
 import sircow.preservedinferno.block.ModBlocks;
 import sircow.preservedinferno.block.custom.SparklingBlackstoneBlock;
 import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.item.ModItems;
-import sircow.preservedinferno.network.BashfulPayload;
-import sircow.preservedinferno.network.ModMessages;
-import sircow.preservedinferno.network.RespawnSyncPayload;
+import sircow.preservedinferno.network.*;
+import sircow.preservedinferno.recipe.CauldronRecipe;
+import sircow.preservedinferno.recipe.LoomRecipe;
 import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
 import sircow.preservedinferno.trigger.ModTriggers;
 
@@ -315,10 +316,10 @@ public class FabricModEvents {
                 int maxLayers = 8;
 
                 if (currentLayers < maxLayers) {
-                    PreservedInferno.cancelTaskAt(targetPos);
-                    PreservedInferno.scheduleDelayedTask(
+                    FabricPreservedInferno.cancelTaskAt(targetPos);
+                    FabricPreservedInferno.scheduleDelayedTask(
                             new SimpleBlockTransformationTask(
-                                    PreservedInferno.INSTANCE,
+                                    FabricPreservedInferno.INSTANCE,
                                     (ServerLevel) level,
                                     targetPos,
                                     Blocks.AIR.defaultBlockState(),
@@ -440,7 +441,7 @@ public class FabricModEvents {
                         @Override
                         public Object getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
                             boolean isEmpty = level.getBlockEntity(pos) == null;
-                            return new PreservedInferno.BlockData(isEmpty);
+                            return new FabricPreservedInferno.BlockData(isEmpty);
                         }
                     });
 
@@ -660,7 +661,7 @@ public class FabricModEvents {
             FabricWorldDataManager.syncPlayerPointsWithAdvancements(server, player);
 
             int currentPoints = WorldDataManager.getPlayerPoints(server, player.getUUID());
-            ServerPlayNetworking.send(player, new ModMessages.PlayerPointsPayload(player.getUUID(), currentPoints));
+            ServerPlayNetworking.send(player, new ModNetworking.PlayerPointsPayload(player.getUUID(), currentPoints));
         });
     }
 
@@ -688,6 +689,31 @@ public class FabricModEvents {
         });
     }
 
+    public static void syncRecipes() {
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerPlayer player = handler.player;
+            ServerLevel level = server.overworld();
+
+            List<CauldronRecipe> cauldronRecipes = level.recipeAccess()
+                    .getRecipes()
+                    .stream()
+                    .map(RecipeHolder::value)
+                    .filter(CauldronRecipe.class::isInstance)
+                    .map(CauldronRecipe.class::cast)
+                    .toList();
+            List<LoomRecipe> loomRecipes = level.recipeAccess()
+                    .getRecipes()
+                    .stream()
+                    .map(RecipeHolder::value)
+                    .filter(LoomRecipe.class::isInstance)
+                    .map(LoomRecipe.class::cast)
+                    .toList();
+
+            ServerPlayNetworking.send(player, new SyncCauldronRecipesPayload(cauldronRecipes));
+            ServerPlayNetworking.send(player, new SyncLoomRecipesPayload(loomRecipes));
+        });
+    }
+
     public static void registerModEvents() {
         initialiseMasteries();
         checkInitialAdvancement();
@@ -707,5 +733,6 @@ public class FabricModEvents {
         staminaRegenTick();
         bashfulEnchant();
         updateCheck();
+        syncRecipes();
     }
 }

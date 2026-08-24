@@ -23,7 +23,8 @@
     "pinferno:iron_shield",
     "pinferno:iron_fishing_hook",
     "pinferno:iron_laced_fishing_line",
-    "pinferno:iron_sinker"
+    "pinferno:iron_sinker",
+    "pinferno:iron_multitool"
   ],
   "result": {
     "id": "minecraft:iron_nugget"

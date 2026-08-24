@@ -91,7 +91,7 @@ public class AnvilMenuMixin {
 
         if (left.isEmpty() || right.isEmpty()) return;
 
-        if (left.is(ModItems.SCULK_INFUSION) || right.is(ModItems.SCULK_INFUSION)) {
+        if (left.is(ModItems.SCULK_INFUSION) || right.is(ModItems.SCULK_INFUSION) || left.is(ModItems.DREAMCATCHER) || right.is(ModItems.DREAMCATCHER)) {
             accessor.getResultSlots().setItem(0, ItemStack.EMPTY);
             this.cost.set(0);
             ci.cancel();
@@ -240,7 +240,7 @@ public class AnvilMenuMixin {
 
         if (input.isEmpty() || addition.isEmpty()) return;
 
-        boolean usingBook = addition.has(net.minecraft.core.component.DataComponents.STORED_ENCHANTMENTS);
+        boolean usingBook = addition.has(DataComponents.STORED_ENCHANTMENTS);
 
         if (!usingBook && input.is(addition.getItem()) && input.isDamageableItem()) {
             ItemStack result = accessor.getResultSlots().getItem(0);

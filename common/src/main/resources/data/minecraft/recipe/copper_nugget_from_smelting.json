@@ -21,7 +21,8 @@
     "pinferno:copper_shield",
     "pinferno:copper_fishing_hook",
     "pinferno:copper_laced_fishing_line",
-    "pinferno:copper_sinker"
+    "pinferno:copper_sinker",
+    "pinferno:copper_multitool"
   ],
   "result": {
     "id": "minecraft:copper_nugget"

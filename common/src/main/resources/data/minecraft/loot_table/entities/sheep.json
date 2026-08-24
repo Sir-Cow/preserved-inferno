@@ -51,13 +51,15 @@
               "function": "minecraft:furnace_smelt"
             },
             {
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 1.0,
-                "min": 0.0
-              },
+              "function": "minecraft:enchanted_count_increase",
+              "count": 1,
               "enchantment": "minecraft:looting",
-              "function": "minecraft:enchanted_count_increase"
+              "conditions": [
+                {
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.1
+                }
+              ]
             }
           ],
           "name": "minecraft:mutton"

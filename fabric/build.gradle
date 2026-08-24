@@ -1,6 +1,15 @@
 plugins {
     id 'multiloader-loader'
     id 'net.fabricmc.fabric-loom'
+    id 'com.gradleup.shadow' version '9.6.1'
+}
+
+configurations {
+    shade
+    moulconfigClean {
+        canBeResolved = true
+        canBeConsumed = false
+    }
 }
 
 repositories {
@@ -8,10 +17,17 @@ repositories {
         name = "MoulConfig"
         url = "https://maven.notenoughupdates.org/releases/"
     }
-
     maven {
         name = "Modrinth"
         url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.dev"
     }
 }
 
@@ -21,24 +37,51 @@ fabricApi {
     }
 }
 
+def cleanMoulconfig = tasks.register('cleanMoulconfig', Zip) {
+    from({ zipTree(configurations.moulconfigClean.singleFile) })
+    exclude 'fabric.mod.json'
+    exclude 'moulconfig.accesswidener'
+    archiveFileName = 'moulconfig-clean.jar'
+    destinationDirectory = layout.buildDirectory.dir('shade')
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 
     compileOnly "maven.modrinth:better-advancements:${betteradvancements_version}-fabric,${minecraft_version}"
-    include "net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}"
-    implementation "net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}"
     compileOnly "maven.modrinth:jade:${jade_version}"
+    compileOnly("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
+    runtimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
     compileOnly "maven.modrinth:lootr:${lootr_version}-fabric,${minecraft_version}"
     implementation "maven.modrinth:modmenu:${project.modmenu_version}"
 
     implementation(libs.moulconfig)
-    include(libs.moulconfig)
+    implementation(libs.kotlin.stdlib)
+
+    moulconfigClean(libs.moulconfig)
+    shade(files(cleanMoulconfig.flatMap { it.archiveFile }))
+    shade(libs.kotlin.stdlib) {
+        exclude group: 'org.jetbrains', module: 'annotations'
+    }
 }
 
 tasks.jar {
+    archiveClassifier.set("unshaded")
+}
+
+tasks.shadowJar {
     archiveClassifier.set("")
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    configurations = [project.configurations.shade]
+    relocate('io.github.notenoughupdates.moulconfig', 'sircow.preservedinferno.shadow.moulconfig')
+    relocate('kotlin', 'sircow.preservedinferno.shadow.kotlin')
+    mergeServiceFiles()
+}
+
+tasks.build {
+    dependsOn(tasks.shadowJar)
 }
 
 loom {
@@ -47,18 +90,23 @@ loom {
         accessWidenerPath.set(aw)
     }
     runs {
-        client {
-            client()
-            setConfigName('Fabric Client')
-            ideConfigGenerated(true)
-            runDir('runs/client')
-            programArgs "--tweakClass", "io.github.notenoughupdates.moulconfig.tweaker.DevelopmentResourceTweaker"
-        }
-        server {
-            server()
-            setConfigName('Fabric Server')
-            ideConfigGenerated(true)
-            runDir('runs/server')
+        runs {
+            client {
+                client()
+                displayName = 'Fabric Client'
+                generateRunConfig = true
+                runDirectory = file('runs/client')
+                getProgramArguments().addAll(
+                        "--tweakClass",
+                        "io.github.notenoughupdates.moulconfig.tweaker.DevelopmentResourceTweaker"
+                )
+            }
+            server {
+                server()
+                displayName = 'Fabric Server'
+                generateRunConfig = true
+                runDirectory = file('runs/server')
+            }
         }
     }
 }

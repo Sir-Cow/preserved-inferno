@@ -30,7 +30,7 @@ import sircow.preservedinferno.effect.FabricModEffects;
 import sircow.preservedinferno.item.FabricModItemGroups;
 import sircow.preservedinferno.item.FabricModItems;
 import sircow.preservedinferno.network.BashfulPayload;
-import sircow.preservedinferno.network.ModMessages;
+import sircow.preservedinferno.network.ModNetworking;
 import sircow.preservedinferno.network.RespawnSyncPayload;
 import sircow.preservedinferno.other.*;
 import sircow.preservedinferno.screen.*;
@@ -41,9 +41,9 @@ import java.util.List;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
-public class PreservedInferno implements ModInitializer {
+public class FabricPreservedInferno implements ModInitializer {
     private static final List<DelayedBlockTransformationTask> scheduledTasks = new ArrayList<>();
-    public static PreservedInferno INSTANCE;
+    public static FabricPreservedInferno INSTANCE;
     public static PreservedInfernoConfig clientConfig;
     public static PreservedInfernoConfig serverConfig;
     public static ConfigManager configManager;
@@ -66,7 +66,7 @@ public class PreservedInferno implements ModInitializer {
                     new ExtendedMenuType<>((pWindowID, pInventory, pData) -> new PreservedEnchantmentMenu(pWindowID, pInventory), BlockData.CODEC));
     private static final MenuType<CacheMenu> CACHE_MENU_TYPE =
             Registry.register(BuiltInRegistries.MENU, Constants.id("cache"),
-                    new ExtendedMenuType<>(CacheMenu::new, PreservedInferno.ItemData.CODEC));
+                    new ExtendedMenuType<>(CacheMenu::new, FabricPreservedInferno.ItemData.CODEC));
 
     static {
         Constants.ANGLING_TABLE_MENU_TYPE = () -> ANGLING_TABLE_MENU_TYPE;
@@ -183,7 +183,7 @@ public class PreservedInferno implements ModInitializer {
         FabricModEffects.registerFabricModEffects();
         FabricModTriggers.registerFabricModTriggers();
         ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
-        ModMessages.registerMessages();
+        ModNetworking.registerNetworking();
         createConfig();
     }
 }

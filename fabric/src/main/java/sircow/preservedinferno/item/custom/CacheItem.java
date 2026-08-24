@@ -13,12 +13,11 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
-import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
-import sircow.preservedinferno.PreservedInferno;
+import sircow.preservedinferno.FabricPreservedInferno;
 import sircow.preservedinferno.other.CacheContainer;
 import sircow.preservedinferno.screen.CacheMenu;
 import sircow.preservedinferno.sound.ModSounds;
@@ -66,8 +65,8 @@ public class CacheItem extends Item {
         final ItemStack finalStackContext = stackContext;
         return new ExtendedMenuProvider() {
             @Override
-            public PreservedInferno.@NonNull ItemData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
-                return new PreservedInferno.ItemData(CacheItem.this.size);
+            public FabricPreservedInferno.@NonNull ItemData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
+                return new FabricPreservedInferno.ItemData(CacheItem.this.size);
             }
 
             @Override

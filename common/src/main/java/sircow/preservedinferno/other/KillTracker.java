@@ -14,7 +14,7 @@ public class KillTracker {
     private static final Map<UUID, KillSession> ACTIVE_SESSIONS = new HashMap<>();
 
     public static void onEntityKilled(ServerPlayer serverPlayer, LivingEntity livingEntity, DamageSource source) {
-        if (source.getWeaponItem() == null || !source.getWeaponItem().is(ItemTags.MELEE_WEAPON_ENCHANTABLE)) return;
+        if (source.getWeaponItem() == null || !source.getWeaponItem().is(ItemTags.SWORDS)) return;
 
         var session = ACTIVE_SESSIONS.computeIfAbsent(serverPlayer.getUUID(), id -> new KillSession());
         session.registerKill(serverPlayer.level().getGameTime());
