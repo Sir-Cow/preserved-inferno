@@ -90,7 +90,7 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "travel", at = @At("HEAD"))
     private void pinferno$applyHindered(Vec3 input, CallbackInfo ci) {
-        if (!this.hasEffect(ModEffects.HINDERED.holder)) {
+        if (!this.hasEffect(ModEffects.hinderedHolder())) {
             AttributeInstance speedAttr = this.getAttribute(Attributes.MOVEMENT_SPEED);
             if (speedAttr != null && speedAttr.getModifier(HINDERED_SPEED_ID) != null) speedAttr.removeModifier(HINDERED_SPEED_ID);
             AttributeInstance atk = this.getAttribute(Attributes.ATTACK_SPEED);
@@ -98,7 +98,7 @@ public abstract class LivingEntityMixin extends Entity {
             return;
         }
 
-        int level = Objects.requireNonNull(this.getEffect(ModEffects.HINDERED.holder)).getAmplifier() + 1;
+        int level = Objects.requireNonNull(this.getEffect(ModEffects.hinderedHolder())).getAmplifier() + 1;
         AttributeInstance speedAttr = this.getAttribute(Attributes.MOVEMENT_SPEED);
 
         if (speedAttr.getModifier(HINDERED_SPEED_ID) == null) {
@@ -126,7 +126,7 @@ public abstract class LivingEntityMixin extends Entity {
         this.preDamageHealth = self.getHealth();
         // hindered effect on freeze
         if (!self.level().isClientSide() && source.is(DamageTypes.FREEZE)) {
-            MobEffectInstance newInstance = new MobEffectInstance(ModEffects.HINDERED.holder, 160, 0, false, true, true);
+            MobEffectInstance newInstance = new MobEffectInstance(ModEffects.hinderedHolder(), 160, 0, false, true, true);
             self.addEffect(newInstance);
         }
     }
@@ -152,8 +152,8 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "jumpFromGround", at = @At("TAIL"))
     private void pinferno$reduceJumpHeight(CallbackInfo ci) {
-        if (this.hasEffect(ModEffects.HINDERED.holder)) {
-            int level = this.getEffect(ModEffects.HINDERED.holder).getAmplifier() + 1;
+        if (this.hasEffect(ModEffects.hinderedHolder())) {
+            int level = this.getEffect(ModEffects.hinderedHolder()).getAmplifier() + 1;
             double heightFraction = Math.pow(0.3, level);
             float baseJump = 0.42F;
             float jumpVelocity = (float) (baseJump * Math.sqrt(heightFraction));

@@ -59,7 +59,7 @@ public class SculkInfusionItem extends Item {
 
         }
         if (livingEntity instanceof ServerPlayer serverPlayer) {
-            ModTriggers.CONSUME_SCULK_INFUSION.get().trigger(serverPlayer);
+            ModTriggers.CONSUME_SCULK_INFUSION.trigger(serverPlayer);
         }
         return stack;
     }

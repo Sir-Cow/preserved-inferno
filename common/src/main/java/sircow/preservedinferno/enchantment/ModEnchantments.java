@@ -8,9 +8,8 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.effects.*;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.other.ModTags;
+import sircow.preservedinferno.tag.ModTags;
 
 public class ModEnchantments {
     // mace

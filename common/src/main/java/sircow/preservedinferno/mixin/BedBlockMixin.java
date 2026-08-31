@@ -36,7 +36,7 @@ public abstract class BedBlockMixin extends HorizontalDirectionalBlock {
     private void pinferno$onUseWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack mainHandItem = player.getItemInHand(InteractionHand.MAIN_HAND);
         ItemStack offHandItem = player.getItemInHand(InteractionHand.OFF_HAND);
-        boolean holdingDreamcatcher = mainHandItem.getItem() == ModItems.DREAMCATCHER || offHandItem.getItem() == ModItems.DREAMCATCHER;
+        boolean holdingDreamcatcher = mainHandItem.getItem() == ModItems.DREAMCATCHER.get() || offHandItem.getItem() == ModItems.DREAMCATCHER.get();
 
         if (level.getLevelData().isHardcore() && !holdingDreamcatcher) {
             long now = System.currentTimeMillis();

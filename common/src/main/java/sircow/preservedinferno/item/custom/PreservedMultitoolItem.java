@@ -81,7 +81,7 @@ public class PreservedMultitoolItem extends Item {
                 Optional<BlockState> prev = WeatheringCopper.getPrevious(before);
 
                 if (prev.isPresent() && prev.get().getBlock() == after.getBlock()) {
-                    if (player instanceof ServerPlayer serverPlayer) ModTriggers.SCRAPE_COPPER.get().trigger(serverPlayer);
+                    if (player instanceof ServerPlayer serverPlayer) ModTriggers.SCRAPE_COPPER.trigger(serverPlayer);
                 }
             }
 

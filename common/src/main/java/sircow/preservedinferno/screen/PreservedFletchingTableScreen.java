@@ -1,4 +1,4 @@
-package sircow.preservedinferno.client;
+package sircow.preservedinferno.screen;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -8,7 +8,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
+import sircow.preservedinferno.menu.PreservedFletchingTableMenu;
 
 public class PreservedFletchingTableScreen extends AbstractContainerScreen<PreservedFletchingTableMenu> {
     private static final Identifier TEXTURE = Constants.id("textures/gui/container/preserved_fletching_table_gui.png");

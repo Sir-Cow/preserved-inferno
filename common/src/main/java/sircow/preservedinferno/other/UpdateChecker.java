@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public final class UpdateChecker {
@@ -22,33 +23,86 @@ public final class UpdateChecker {
 
         CompletableFuture.runAsync(() -> {
             try {
-                HttpClient client = HttpClient.newHttpClient();
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create("https://api.modrinth.com/v2/project/" + PROJECT_ID + "/version"))
                         .header("User-Agent", "pinferno-update-checker")
                         .GET()
                         .build();
 
-                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                HttpResponse<String> response;
+
+                try (HttpClient client = HttpClient.newHttpClient()) {
+                    response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                }
+
                 JsonArray versions = JsonParser.parseString(response.body()).getAsJsonArray();
-                String best = null;
+                String bestVer = null;
+                int[] bestMc = null;
 
                 for (JsonElement element : versions) {
                     JsonObject obj = element.getAsJsonObject();
-
                     JsonArray loaders = obj.getAsJsonArray("loaders");
+
                     if (!loaders.contains(new JsonPrimitive(LOADER))) continue;
 
                     String ver = obj.get("version_number").getAsString();
-                    if (best == null) best = ver;
-                }
+                    SemVer parsed = SemVer.parse(ver);
 
-                latestVersion = best;
+                    if (parsed == null) continue;
+
+                    JsonArray gameVersions = obj.getAsJsonArray("game_versions");
+                    int[] mc = parseMcVersion(gameVersions);
+
+                    if (mc == null) continue;
+
+                    if (bestVer == null || compareIntArrays(mc, bestMc) > 0 || (compareIntArrays(mc, bestMc) == 0 && parsed.compareTo(Objects.requireNonNull(SemVer.parse(bestVer))) > 0)) {
+                        bestVer = ver;
+                        bestMc = mc;
+                    }
+                }
+                latestVersion = bestVer;
             }
             catch (Exception ignored) {}
 
             if (callback != null) callback.run();
         });
+    }
+
+    private static int[] parseMcVersion(JsonArray gameVersions) {
+        int[] best = null;
+
+        for (JsonElement gv : gameVersions) {
+            String v = gv.getAsString();
+            int[] parsed = parseVersionString(v);
+            if (parsed != null && (best == null || compareIntArrays(parsed, best) > 0)) {
+                best = parsed;
+            }
+        }
+        return best;
+    }
+
+    private static int[] parseVersionString(String v) {
+        String[] parts = v.split("\\.");
+        int[] result = new int[parts.length];
+
+        try {
+            for (int i = 0; i < parts.length; i++) {
+                result[i] = Integer.parseInt(parts[i]);
+            }
+        }
+        catch (NumberFormatException e) {
+            return null;
+        }
+        return result;
+    }
+
+    private static int compareIntArrays(int[] a, int[] b) {
+        int len = Math.min(a.length, b.length);
+
+        for (int i = 0; i < len; i++) {
+            if (a[i] != b[i]) return Integer.compare(a[i], b[i]);
+        }
+        return Integer.compare(a.length, b.length);
     }
 
     public static boolean hasUpdate() {

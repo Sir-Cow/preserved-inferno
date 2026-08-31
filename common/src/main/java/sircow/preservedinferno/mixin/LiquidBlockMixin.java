@@ -14,7 +14,7 @@ public class LiquidBlockMixin {
     @ModifyArg(method = "shouldSpreadLiquid(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;setBlockAndUpdate(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z", ordinal = 0), index = 1)
     private BlockState pinferno$replaceObsidian(BlockState originalState) {
         if (originalState.getBlock() == Blocks.OBSIDIAN) {
-            return ModBlocks.RHYOLITE.defaultBlockState();
+            return ModBlocks.RHYOLITE.get().defaultBlockState();
         }
         return originalState;
     }

@@ -10,7 +10,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.Optional;
 
 public class CustomTrigger extends SimpleCriterionTrigger<CustomTrigger.Instance> {
-
     @Override
     public @NonNull Codec<Instance> codec() {
         return Instance.CODEC;
@@ -21,8 +20,7 @@ public class CustomTrigger extends SimpleCriterionTrigger<CustomTrigger.Instance
     }
 
     public static final class Instance implements SimpleInstance {
-        public static final Codec<Instance> CODEC =
-                MapCodec.unit(new Instance()).codec();
+        public static final Codec<Instance> CODEC = MapCodec.unit(new Instance()).codec();
 
         @Override
         public @NonNull Optional<ContextAwarePredicate> player() {

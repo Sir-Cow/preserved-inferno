@@ -1,12 +1,15 @@
 package sircow.preservedinferno.sound;
 
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import sircow.preservedinferno.Constants;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class ModSounds {
+    private static final Map<Identifier, SoundEvent> SOUNDS = new LinkedHashMap<>();
+
     public static final SoundEvent ANGLING_TABLE_USE = register("angling_table_use");
     public static final SoundEvent BOOM_BOX_LOAD = register("boom_box_load");
     public static final SoundEvent BOOM_BOX_PRIMED = register("boom_box_primed");
@@ -37,10 +40,12 @@ public class ModSounds {
     }
 
     private static SoundEvent register(Identifier name, Identifier location) {
-        return Registry.register(BuiltInRegistries.SOUND_EVENT, name, SoundEvent.createVariableRangeEvent(location));
+        SoundEvent soundEvent = SoundEvent.createVariableRangeEvent(location);
+        SOUNDS.put(name, soundEvent);
+        return soundEvent;
     }
 
-    public static void registerSounds() {
-        // Constants.LOG.info("Registering Mod Sounds for " + Constants.MOD_ID);
+    public static Map<Identifier, SoundEvent> getSounds() {
+        return SOUNDS;
     }
 }

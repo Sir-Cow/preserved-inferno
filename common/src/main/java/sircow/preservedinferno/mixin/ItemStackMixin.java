@@ -28,10 +28,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.component.ModComponents;
 import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.other.HeatAccessor;
-import sircow.preservedinferno.other.ModTags;
+import sircow.preservedinferno.tag.ModTags;
 import sircow.preservedinferno.trigger.ModTriggers;
 
 import java.util.function.Consumer;
@@ -47,13 +47,13 @@ public class ItemStackMixin {
                 if (((HeatAccessor) player).pinferno$getHeat() >= HEAT_MODIFIER) {
                     ((HeatAccessor) player).pinferno$decreaseHeat(HEAT_MODIFIER);
                     if (player instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.DRINK_WATER.get().trigger(serverPlayer);
+                        ModTriggers.DRINK_WATER.trigger(serverPlayer);
                     }
                 }
                 else if (((HeatAccessor) player).pinferno$getHeat() < HEAT_MODIFIER && ((HeatAccessor) player).pinferno$getHeat() > 0) {
                     ((HeatAccessor) player).pinferno$setHeat(0);
                     if (player instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.DRINK_WATER.get().trigger(serverPlayer);
+                        ModTriggers.DRINK_WATER.trigger(serverPlayer);
                     }
                 }
             }
@@ -120,23 +120,23 @@ public class ItemStackMixin {
     @Unique
     private static float getBaseSpeed(Item item) {
         float baseSpeed = 1.0F;
-        if (item == Items.WOODEN_PICKAXE || item == Items.WOODEN_SHOVEL || item == Items.WOODEN_AXE || item == Items.WOODEN_HOE || item == ModItems.WOODEN_MULTITOOL)
+        if (item == Items.WOODEN_PICKAXE || item == Items.WOODEN_SHOVEL || item == Items.WOODEN_AXE || item == Items.WOODEN_HOE || item == ModItems.WOODEN_MULTITOOL.get())
             baseSpeed = 1.5F;
-        else if (item == Items.STONE_PICKAXE || item == Items.STONE_SHOVEL || item == Items.STONE_AXE || item == Items.STONE_HOE || item == ModItems.STONE_MULTITOOL)
+        else if (item == Items.STONE_PICKAXE || item == Items.STONE_SHOVEL || item == Items.STONE_AXE || item == Items.STONE_HOE || item == ModItems.STONE_MULTITOOL.get())
             baseSpeed = 3.0F;
-        else if (item == Items.COPPER_PICKAXE || item == Items.COPPER_SHOVEL || item == Items.COPPER_AXE || item == Items.COPPER_HOE || item == ModItems.COPPER_MULTITOOL)
+        else if (item == Items.COPPER_PICKAXE || item == Items.COPPER_SHOVEL || item == Items.COPPER_AXE || item == Items.COPPER_HOE || item == ModItems.COPPER_MULTITOOL.get())
             baseSpeed = 4.5F;
-        else if (item == Items.IRON_PICKAXE || item == Items.IRON_SHOVEL || item == Items.IRON_AXE || item == Items.IRON_HOE || item == ModItems.IRON_MULTITOOL)
+        else if (item == Items.IRON_PICKAXE || item == Items.IRON_SHOVEL || item == Items.IRON_AXE || item == Items.IRON_HOE || item == ModItems.IRON_MULTITOOL.get())
             baseSpeed = 6.0F;
-        else if (item == Items.GOLDEN_PICKAXE || item == Items.GOLDEN_SHOVEL || item == Items.GOLDEN_AXE || item == Items.GOLDEN_HOE || item == ModItems.GOLDEN_MULTITOOL)
+        else if (item == Items.GOLDEN_PICKAXE || item == Items.GOLDEN_SHOVEL || item == Items.GOLDEN_AXE || item == Items.GOLDEN_HOE || item == ModItems.GOLDEN_MULTITOOL.get())
             baseSpeed = 12.0F;
-        else if (item == Items.DIAMOND_PICKAXE || item == Items.DIAMOND_SHOVEL || item == Items.DIAMOND_AXE || item == Items.DIAMOND_HOE || item == ModItems.DIAMOND_MULTITOOL)
+        else if (item == Items.DIAMOND_PICKAXE || item == Items.DIAMOND_SHOVEL || item == Items.DIAMOND_AXE || item == Items.DIAMOND_HOE || item == ModItems.DIAMOND_MULTITOOL.get())
             baseSpeed = 9.0F;
-        else if (item == Items.NETHERITE_PICKAXE || item == Items.NETHERITE_SHOVEL || item == Items.NETHERITE_AXE || item == Items.NETHERITE_HOE || item == ModItems.NETHERITE_MULTITOOL)
+        else if (item == Items.NETHERITE_PICKAXE || item == Items.NETHERITE_SHOVEL || item == Items.NETHERITE_AXE || item == Items.NETHERITE_HOE || item == ModItems.NETHERITE_MULTITOOL.get())
             baseSpeed = 16.0F;
-        else if (item == ModItems.QUARTZITE_PICKAXE || item == ModItems.QUARTZITE_SHOVEL || item == ModItems.QUARTZITE_AXE || item == ModItems.QUARTZITE_SCYTHE || item == ModItems.QUARTZITE_MULTITOOL)
+        else if (item == ModItems.QUARTZITE_PICKAXE.get() || item == ModItems.QUARTZITE_SHOVEL.get() || item == ModItems.QUARTZITE_AXE.get() || item == ModItems.QUARTZITE_SCYTHE.get() || item == ModItems.QUARTZITE_MULTITOOL.get())
             baseSpeed = 8.0F;
-        else if (item == ModItems.NETHER_ALLOY_PICKAXE || item == ModItems.NETHER_ALLOY_SHOVEL || item == ModItems.NETHER_ALLOY_AXE || item == ModItems.NETHER_ALLOY_SCYTHE || item == ModItems.NETHER_ALLOY_MULTITOOL)
+        else if (item == ModItems.NETHER_ALLOY_PICKAXE.get() || item == ModItems.NETHER_ALLOY_SHOVEL.get() || item == ModItems.NETHER_ALLOY_AXE.get() || item == ModItems.NETHER_ALLOY_SCYTHE.get() || item == ModItems.NETHER_ALLOY_MULTITOOL.get())
             baseSpeed = 16.0F;
         return baseSpeed;
     }

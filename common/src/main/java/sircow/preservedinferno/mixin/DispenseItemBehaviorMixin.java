@@ -12,6 +12,6 @@ import sircow.preservedinferno.item.ModItems;
 public interface DispenseItemBehaviorMixin {
     @Inject(method = "bootStrap", at = @At("TAIL"))
     private static void pinferno$newDispenserBehavior(CallbackInfo ci) {
-        DispenserBlock.registerProjectileBehavior(ModItems.DYNAMITE);
+        DispenserBlock.registerProjectileBehavior(ModItems.DYNAMITE.get());
     }
 }

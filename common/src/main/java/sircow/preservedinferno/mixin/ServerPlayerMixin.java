@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.effect.ModEffects;
-import sircow.preservedinferno.other.ModDamageTypes;
+import sircow.preservedinferno.damagetype.ModDamageTypes;
 import sircow.preservedinferno.other.TempInventoryStorage;
 import sircow.preservedinferno.trigger.ModTriggers;
 
@@ -68,7 +68,7 @@ public abstract class ServerPlayerMixin extends Player {
     private void pinferno$tick(CallbackInfo ci) {
         ServerPlayer self = (ServerPlayer)(Object)this;
         if (this.getArmorValue() >= 100) {
-            ModTriggers.ARMOR_VALUE.get().trigger(self);
+            ModTriggers.ARMOR_VALUE.trigger(self);
         }
         // hardcore
         if (this.level().getLevelData().isHardcore()) {
@@ -128,7 +128,7 @@ public abstract class ServerPlayerMixin extends Player {
         if (key == GameRules.KEEP_INVENTORY) {
             boolean ruleValue = false;
             if (result instanceof Boolean) ruleValue = (Boolean) result;
-            return ruleValue || self.hasEffect(ModEffects.WELL_RESTED.holder);
+            return ruleValue || self.hasEffect(ModEffects.wellRestedHolder());
         }
 
         return result;

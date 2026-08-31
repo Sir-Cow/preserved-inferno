@@ -43,7 +43,7 @@ public class SkeletonHorseMixin {
         SkeletonHorse horse = (SkeletonHorse) (Object) this;
         ItemStack stack = player.getItemInHand(hand);
 
-        if (!stack.is(ModItems.PHANTOM_SINEW)) return;
+        if (!stack.is(ModItems.PHANTOM_SINEW.get())) return;
 
         if (!horse.isTamed()) {
             if (!player.level().isClientSide()) {
@@ -70,13 +70,13 @@ public class SkeletonHorseMixin {
                     horse.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * 5, 0, false, true));
 
                     if (player instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.UPGRADE_HORSE_HEALTH.get().trigger(serverPlayer);
+                        ModTriggers.UPGRADE_HORSE_HEALTH.trigger(serverPlayer);
 
                         var speed = horse.getAttribute(Attributes.MOVEMENT_SPEED);
                         var jump = horse.getAttribute(Attributes.JUMP_STRENGTH);
 
                         if (speed != null && jump != null && speed.getBaseValue() >= 0.4633D && jump.getBaseValue() >= 1.0D && attribute.getBaseValue() >= 40.0D) {
-                            ModTriggers.MAX_HORSE_STATS.get().trigger(serverPlayer);
+                            ModTriggers.MAX_HORSE_STATS.trigger(serverPlayer);
                         }
                     }
                 }
@@ -92,7 +92,7 @@ public class SkeletonHorseMixin {
         if (horse.isTamed() && player.isSecondaryUseActive()) return;
 
         ItemStack stack = player.getItemInHand(hand);
-        if (stack.is(ModItems.PHANTOM_SINEW)) return;
+        if (stack.is(ModItems.PHANTOM_SINEW.get())) return;
 
         if (!stack.isEmpty()) {
             if (horse.isFood(stack)) {

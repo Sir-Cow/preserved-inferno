@@ -20,9 +20,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.component.ModComponents;
 import sircow.preservedinferno.item.ModItems;
-import sircow.preservedinferno.other.ModTags;
+import sircow.preservedinferno.tag.ModTags;
 import sircow.preservedinferno.trigger.ModTriggers;
 
 @Mixin(AnvilMenu.class)
@@ -77,8 +77,8 @@ public class AnvilMenuMixin {
         if (!(player instanceof ServerPlayer serverPlayer)) return;
 
         if (this.number == 10) {
-            if (((ItemCombinerMenuAccessor) this).getInputSlots().getItem(1).is(ModItems.REPAIR_KIT)) ModTriggers.USED_ANVIL_REPAIR.get().trigger(serverPlayer);
-            if (((ItemCombinerMenuAccessor) this).getInputSlots().getItem(1).is(ModItems.FORGE_DUST)) ModTriggers.USED_FORGE_DUST.get().trigger(serverPlayer);
+            if (((ItemCombinerMenuAccessor) this).getInputSlots().getItem(1).is(ModItems.REPAIR_KIT.get())) ModTriggers.USED_ANVIL_REPAIR.trigger(serverPlayer);
+            if (((ItemCombinerMenuAccessor) this).getInputSlots().getItem(1).is(ModItems.FORGE_DUST.get())) ModTriggers.USED_FORGE_DUST.trigger(serverPlayer);
         }
     }
 
@@ -91,14 +91,14 @@ public class AnvilMenuMixin {
 
         if (left.isEmpty() || right.isEmpty()) return;
 
-        if (left.is(ModItems.SCULK_INFUSION) || right.is(ModItems.SCULK_INFUSION) || left.is(ModItems.DREAMCATCHER) || right.is(ModItems.DREAMCATCHER)) {
+        if (left.is(ModItems.SCULK_INFUSION.get()) || right.is(ModItems.SCULK_INFUSION.get()) || left.is(ModItems.DREAMCATCHER.get()) || right.is(ModItems.DREAMCATCHER.get())) {
             accessor.getResultSlots().setItem(0, ItemStack.EMPTY);
             this.cost.set(0);
             ci.cancel();
             return;
         }
 
-        if (right.is(ModItems.REPAIR_KIT) || right.is(ModItems.FORGE_DUST) || (left.is(ModTags.ROD_UPGRADES) && right.is(ModItems.AQUATIC_FIBER))) return;
+        if (right.is(ModItems.REPAIR_KIT.get()) || right.is(ModItems.FORGE_DUST.get()) || (left.is(ModTags.ROD_UPGRADES) && right.is(ModItems.AQUATIC_FIBER.get()))) return;
 
         if (left.isDamageableItem() && left.isValidRepairItem(right)) {
             accessor.getResultSlots().setItem(0, ItemStack.EMPTY);
@@ -117,7 +117,7 @@ public class AnvilMenuMixin {
         if (leftInput.isEmpty() || rightInput.isEmpty()) return;
 
         // repair kit
-        if (rightInput.is(ModItems.REPAIR_KIT) && leftInput.isDamageableItem()) {
+        if (rightInput.is(ModItems.REPAIR_KIT.get()) && leftInput.isDamageableItem()) {
             double repairFraction = getRepairFraction(leftInput);
             if (repairFraction <= 0) return;
 
@@ -156,7 +156,7 @@ public class AnvilMenuMixin {
         }
 
         // forge dust
-        if (rightInput.is(ModItems.FORGE_DUST) && leftInput.isDamageableItem()) {
+        if (rightInput.is(ModItems.FORGE_DUST.get()) && leftInput.isDamageableItem()) {
             String material = rightInput.get(ModComponents.FORGE_MATERIAL_COMPONENT);
             if (material == null) return;
             boolean valid = switch (material) {
@@ -166,7 +166,7 @@ public class AnvilMenuMixin {
                 case "Diamond" -> leftInput.isValidRepairItem(new ItemStack(Items.DIAMOND));
                 case "Netherite" -> leftInput.isValidRepairItem(new ItemStack(Items.NETHERITE_SCRAP));
                 case "Quartzite" -> leftInput.isValidRepairItem(new ItemStack(Items.QUARTZ));
-                case "Nether Alloy" -> leftInput.isValidRepairItem(new ItemStack(ModItems.NETHER_ALLOY_INGOT));
+                case "Nether Alloy" -> leftInput.isValidRepairItem(new ItemStack(ModItems.NETHER_ALLOY_INGOT.get()));
                 default -> false;
             };
 
@@ -206,7 +206,7 @@ public class AnvilMenuMixin {
         }
 
         // aquatic fiber
-        if (leftInput.is(ModTags.ROD_UPGRADES) && rightInput.getItem() == ModItems.AQUATIC_FIBER) {
+        if (leftInput.is(ModTags.ROD_UPGRADES) && rightInput.getItem() == ModItems.AQUATIC_FIBER.get()) {
             ItemStack result = leftInput.copy();
             int repairedDamage = Math.max(result.getDamageValue() - 200, 0);
 
@@ -263,9 +263,9 @@ public class AnvilMenuMixin {
         if (stack.isValidRepairItem(new ItemStack(Items.COBBLESTONE))) return 0.3334;
         if (stack.isValidRepairItem(new ItemStack(Items.QUARTZ))) return 0.25;
         if (stack.isValidRepairItem(new ItemStack(Items.COPPER_INGOT))
-                || stack.is(ModItems.PRISMARINE_FISHING_HOOK)
-                || stack.is(ModItems.PRISMARINE_LACED_FISHING_LINE)
-                || stack.is(ModItems.PRISMARINE_SINKER)
+                || stack.is(ModItems.PRISMARINE_FISHING_HOOK.get())
+                || stack.is(ModItems.PRISMARINE_LACED_FISHING_LINE.get())
+                || stack.is(ModItems.PRISMARINE_SINKER.get())
                 || stack.is(Items.WOLF_ARMOR)
         ) return 0.1667;
         if (stack.isValidRepairItem(new ItemStack(Items.GOLD_INGOT))) return 0.125;
@@ -275,7 +275,7 @@ public class AnvilMenuMixin {
                 || stack.is(Items.MACE)
                 || stack.is(Items.ELYTRA)
         ) return 0.0834;
-        if (stack.isValidRepairItem(new ItemStack(ModItems.NETHER_ALLOY_INGOT))) return 0.0625;
+        if (stack.isValidRepairItem(new ItemStack(ModItems.NETHER_ALLOY_INGOT.get()))) return 0.0625;
         if (stack.isValidRepairItem(new ItemStack(Items.DIAMOND))) return 0.015625;
         if (stack.isValidRepairItem(new ItemStack(Items.NETHERITE_SCRAP))) return 0.0078125;
 

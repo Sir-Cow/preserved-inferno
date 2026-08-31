@@ -19,8 +19,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import sircow.preservedinferno.components.RodComponentResolver;
-import sircow.preservedinferno.components.RodTooltipComponent;
+import sircow.preservedinferno.component.RodComponentResolver;
+import sircow.preservedinferno.component.RodTooltipComponent;
 import sircow.preservedinferno.enchantment.ModEnchantments;
 
 import java.util.Optional;

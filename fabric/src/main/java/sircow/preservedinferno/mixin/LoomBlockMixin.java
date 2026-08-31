@@ -19,8 +19,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import sircow.preservedinferno.FabricPreservedInferno;
-import sircow.preservedinferno.screen.PreservedLoomMenu;
+import sircow.preservedinferno.codec.BlockData;
+import sircow.preservedinferno.menu.PreservedLoomMenu;
 
 @Mixin(LoomBlock.class)
 public class LoomBlockMixin {
@@ -32,8 +32,8 @@ public class LoomBlockMixin {
     private void pinferno$injectGetMenuProvider(BlockState state, Level level, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
         cir.setReturnValue(new ExtendedMenuProvider() {
             @Override
-            public FabricPreservedInferno.BlockData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
-                return new FabricPreservedInferno.BlockData(level.getBlockEntity(pos) == null);
+            public BlockData getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
+                return new BlockData(level.getBlockEntity(pos) == null);
             }
 
             @Override

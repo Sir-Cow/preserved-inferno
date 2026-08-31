@@ -42,7 +42,7 @@ public abstract class DrownedMixin extends Zombie implements RangedAttackMob {
         float roll = random.nextFloat();
 
         if (roll < 0.15F) {
-            this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.COPPER_TRIDENT));
+            this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.COPPER_TRIDENT.get()));
             ci.cancel();
         }
         else if (roll < 0.15F + 0.0625F) {
@@ -57,7 +57,7 @@ public abstract class DrownedMixin extends Zombie implements RangedAttackMob {
     @Inject(method = "performRangedAttack", at = @At("HEAD"), cancellable = true)
     private void pinferno$changeTrident(LivingEntity target, float distanceFactor, CallbackInfo ci) {
         ItemStack itemStack = this.getMainHandItem();
-        ItemStack itemStack2 = itemStack.is(ModItems.COPPER_TRIDENT) ? itemStack : new ItemStack(ModItems.COPPER_TRIDENT);
+        ItemStack itemStack2 = itemStack.is(ModItems.COPPER_TRIDENT.get()) ? itemStack : new ItemStack(ModItems.COPPER_TRIDENT.get());
         ThrownCopperTrident thrownTrident = new ThrownCopperTrident(this.level(), this, itemStack2);
         double d = target.getX() - this.getX();
         double e = target.getY(0.3333333333333333) - thrownTrident.getY();

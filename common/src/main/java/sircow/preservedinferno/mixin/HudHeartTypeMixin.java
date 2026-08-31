@@ -10,6 +10,6 @@ import sircow.preservedinferno.effect.ModEffects;
 public class HudHeartTypeMixin {
     @ModifyExpressionValue(method = "forPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;hasEffect(Lnet/minecraft/core/Holder;)Z", ordinal = 0))
     private static boolean pinferno$fumigatedPoisonHearts(boolean original, Player player) {
-        return original || player.hasEffect(ModEffects.FUMIGATED.holder);
+        return original || player.hasEffect(ModEffects.fumigatedHolder());
     }
 }

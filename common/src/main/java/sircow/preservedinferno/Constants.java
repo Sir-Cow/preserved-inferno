@@ -4,8 +4,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.inventory.MenuType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sircow.preservedinferno.menu.*;
 import sircow.preservedinferno.other.VersionChecker;
-import sircow.preservedinferno.screen.*;
 
 import java.util.function.Supplier;
 
@@ -16,6 +16,7 @@ public class Constants {
     public static VersionChecker INSTANCE;
 
 	public static Supplier<MenuType<AnglingTableMenu>> ANGLING_TABLE_MENU_TYPE;
+	public static Supplier<MenuType<CacheMenu>> CACHE_MENU_TYPE;
 	public static Supplier<MenuType<PreservedEnchantmentMenu>> PRESERVED_ENCHANT_MENU_TYPE;
 	public static Supplier<MenuType<PreservedFletchingTableMenu>> PRESERVED_FLETCHING_TABLE_MENU_TYPE;
 	public static Supplier<MenuType<PreservedLoomMenu>> PRESERVED_LOOM_MENU_TYPE;

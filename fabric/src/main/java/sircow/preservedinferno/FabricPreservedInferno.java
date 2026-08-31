@@ -12,9 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.MenuType;
@@ -23,17 +20,23 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import sircow.preservedinferno.block.FabricModBlocks;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockData;
 import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntity;
+import sircow.preservedinferno.codec.BlockData;
+import sircow.preservedinferno.codec.ItemData;
+import sircow.preservedinferno.component.FabricModComponents;
 import sircow.preservedinferno.config.ConfigGuiManager;
 import sircow.preservedinferno.config.ConfigManager;
 import sircow.preservedinferno.config.PreservedInfernoConfig;
 import sircow.preservedinferno.effect.FabricModEffects;
 import sircow.preservedinferno.item.FabricModItemGroups;
 import sircow.preservedinferno.item.FabricModItems;
+import sircow.preservedinferno.menu.*;
 import sircow.preservedinferno.network.BashfulPayload;
 import sircow.preservedinferno.network.ModNetworking;
 import sircow.preservedinferno.network.RespawnSyncPayload;
 import sircow.preservedinferno.other.*;
-import sircow.preservedinferno.screen.*;
+import sircow.preservedinferno.potion.FabricModPotions;
+import sircow.preservedinferno.screen.PreservedCauldronMenu;
+import sircow.preservedinferno.sound.FabricModSounds;
 import sircow.preservedinferno.trigger.FabricModTriggers;
 
 import java.util.ArrayList;
@@ -52,6 +55,9 @@ public class FabricPreservedInferno implements ModInitializer {
     private static final MenuType<AnglingTableMenu> ANGLING_TABLE_MENU_TYPE =
             Registry.register(BuiltInRegistries.MENU, Constants.id("angling_table"),
                     new ExtendedMenuType<>((pWindowID, pInventory, pData) -> new AnglingTableMenu(pWindowID, pInventory), BlockData.CODEC));
+    private static final MenuType<CacheMenu> CACHE_MENU_TYPE =
+            Registry.register(BuiltInRegistries.MENU, Constants.id("cache"),
+                    new ExtendedMenuType<>(CacheMenu::new, ItemData.CODEC));
     public static final MenuType<PreservedCauldronMenu> PRESERVED_CAULDRON_MENU_TYPE =
             Registry.register(BuiltInRegistries.MENU, Constants.id("preserved_cauldron"),
                     new ExtendedMenuType<>(PreservedCauldronMenu::new, PreservedCauldronBlockData.STREAM_CODEC));
@@ -64,42 +70,14 @@ public class FabricPreservedInferno implements ModInitializer {
     private static final MenuType<PreservedEnchantmentMenu> PRESERVED_ENCHANT_MENU_TYPE =
             Registry.register(BuiltInRegistries.MENU, Constants.id("preserved_enchant"),
                     new ExtendedMenuType<>((pWindowID, pInventory, pData) -> new PreservedEnchantmentMenu(pWindowID, pInventory), BlockData.CODEC));
-    private static final MenuType<CacheMenu> CACHE_MENU_TYPE =
-            Registry.register(BuiltInRegistries.MENU, Constants.id("cache"),
-                    new ExtendedMenuType<>(CacheMenu::new, FabricPreservedInferno.ItemData.CODEC));
 
     static {
         Constants.ANGLING_TABLE_MENU_TYPE = () -> ANGLING_TABLE_MENU_TYPE;
-        MenuTypes.CACHE_MENU_TYPE = () -> CACHE_MENU_TYPE;
+        Constants.CACHE_MENU_TYPE = () -> CACHE_MENU_TYPE;
         Constants.PRESERVED_ENCHANT_MENU_TYPE = () -> PRESERVED_ENCHANT_MENU_TYPE;
         Constants.PRESERVED_FLETCHING_TABLE_MENU_TYPE = () -> PRESERVED_FLETCHING_TABLE_MENU_TYPE;
         Constants.PRESERVED_LOOM_MENU_TYPE = () -> PRESERVED_LOOM_MENU_TYPE;
         MenuTypes.PRESERVED_CAULDRON_MENU_TYPE = () -> PRESERVED_CAULDRON_MENU_TYPE;
-    }
-
-    // codecs
-    public record BlockData(boolean empty) {
-        public static final StreamCodec<RegistryFriendlyByteBuf, BlockData> CODEC = StreamCodec.composite(
-                ByteBufCodecs.BOOL,
-                BlockData::empty,
-                BlockData::new
-        );
-    }
-
-    public record ItemData(int containerSize) {
-        public static final StreamCodec<RegistryFriendlyByteBuf, ItemData> CODEC = StreamCodec.composite(
-                ByteBufCodecs.VAR_INT,
-                ItemData::containerSize,
-                ItemData::new
-        );
-
-        public void write(RegistryFriendlyByteBuf buf) {
-            buf.writeVarInt(containerSize);
-        }
-
-        public static ItemData read(RegistryFriendlyByteBuf buf) {
-            return new ItemData(buf.readVarInt());
-        }
     }
 
     // block entities
@@ -176,11 +154,14 @@ public class FabricPreservedInferno implements ModInitializer {
         INSTANCE = this;
         Constants.INSTANCE = new FabricVersionChecker();
         CommonClass.init();
-        FabricModEvents.registerModEvents();
-        FabricModItems.registerModItems();
-        FabricModBlocks.registerBlocks();
+        FabricModBlocks.registerFabricModBlocks();
+        FabricModItems.registerFabricModItems();
         FabricModItemGroups.registerItemGroups();
+        FabricModComponents.registerFabricModComponents();
+        FabricModEvents.registerModEvents();
+        FabricModSounds.registerFabricModSounds();
         FabricModEffects.registerFabricModEffects();
+        FabricModPotions.registerFabricModPotions();
         FabricModTriggers.registerFabricModTriggers();
         ServerTickEvents.END_SERVER_TICK.register(this::onServerTick);
         ModNetworking.registerNetworking();

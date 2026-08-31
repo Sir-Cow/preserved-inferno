@@ -8,6 +8,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
+import sircow.preservedinferno.menu.CacheMenu;
 
 public class CacheScreen extends AbstractContainerScreen<CacheMenu> {
     private static final Identifier BG_LOCATION = Constants.id("textures/gui/container/cache_gui.png");

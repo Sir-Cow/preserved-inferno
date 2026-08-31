@@ -1,4 +1,4 @@
-package sircow.preservedinferno.client;
+package sircow.preservedinferno.screen;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
@@ -25,8 +25,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.enchantment.ModEnchantments;
-import sircow.preservedinferno.other.ModTags;
-import sircow.preservedinferno.screen.PreservedEnchantmentMenu;
+import sircow.preservedinferno.tag.ModTags;
+import sircow.preservedinferno.menu.PreservedEnchantmentMenu;
 import sircow.preservedinferno.sound.ModSounds;
 
 import java.util.*;

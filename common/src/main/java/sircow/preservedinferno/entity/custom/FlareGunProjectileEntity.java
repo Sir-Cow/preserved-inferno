@@ -24,10 +24,10 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.component.ModComponents;
 import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.item.ModItems;
-import sircow.preservedinferno.other.ModDamageTypes;
+import sircow.preservedinferno.damagetype.ModDamageTypes;
 
 public class FlareGunProjectileEntity extends ThrowableItemProjectile {
     private static final String TAG_FIRED_FROM = "FiredFromItem";
@@ -42,10 +42,10 @@ public class FlareGunProjectileEntity extends ThrowableItemProjectile {
         super(ModEntities.FLARE_GUN_PROJECTILE, owner, level, item);
         this.setItem(item);
         this.setOwner(owner);
-        if (owner.getItemInHand(InteractionHand.MAIN_HAND).getItem() == ModItems.FLARE_GUN) {
+        if (owner.getItemInHand(InteractionHand.MAIN_HAND).getItem() == ModItems.FLARE_GUN.get()) {
             firedFrom = owner.getItemInHand(InteractionHand.MAIN_HAND);
         }
-        else if (owner.getItemInHand(InteractionHand.OFF_HAND).getItem() == ModItems.FLARE_GUN) {
+        else if (owner.getItemInHand(InteractionHand.OFF_HAND).getItem() == ModItems.FLARE_GUN.get()) {
             firedFrom = owner.getItemInHand(InteractionHand.OFF_HAND);
         }
         else {

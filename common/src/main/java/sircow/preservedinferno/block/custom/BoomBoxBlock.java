@@ -139,7 +139,7 @@ public class BoomBoxBlock extends Block implements WorldlyContainerHolder {
         if (!level.isClientSide() && player.isCreative()) {
             int dynamite = state.getValue(DYNAMITE);
 
-            if (dynamite > 0) popResource(level, pos, new ItemStack(ModItems.DYNAMITE, dynamite));
+            if (dynamite > 0) popResource(level, pos, new ItemStack(ModItems.DYNAMITE.get(), dynamite));
         }
         return super.playerWillDestroy(level, pos, state, player);
     }
@@ -175,7 +175,7 @@ public class BoomBoxBlock extends Block implements WorldlyContainerHolder {
         public @NonNull ItemStack getItem(int slot) {
             if (slot == 1) {
                 int dynamite = this.state.getValue(DYNAMITE);
-                return dynamite > 0 ? new ItemStack(ModItems.DYNAMITE, dynamite) : ItemStack.EMPTY;
+                return dynamite > 0 ? new ItemStack(ModItems.DYNAMITE.get(), dynamite) : ItemStack.EMPTY;
             }
             return ItemStack.EMPTY;
         }
@@ -189,7 +189,7 @@ public class BoomBoxBlock extends Block implements WorldlyContainerHolder {
 
         @Override
         public boolean canPlaceItemThroughFace(int slot, @NonNull ItemStack stack, @Nullable Direction direction) {
-            return direction == Direction.UP && slot == 0 && stack.is(ModItems.DYNAMITE) && this.state.getValue(DYNAMITE) < 4;
+            return direction == Direction.UP && slot == 0 && stack.is(ModItems.DYNAMITE.get()) && this.state.getValue(DYNAMITE) < 4;
         }
 
         @Override
@@ -206,7 +206,7 @@ public class BoomBoxBlock extends Block implements WorldlyContainerHolder {
                     int removed = Math.min(amount, dynamite);
 
                     this.level.setBlock(this.pos, this.state.setValue(DYNAMITE, dynamite - removed), 3);
-                    return new ItemStack(ModItems.DYNAMITE, removed);
+                    return new ItemStack(ModItems.DYNAMITE.get(), removed);
                 }
             }
             return ItemStack.EMPTY;
@@ -219,7 +219,7 @@ public class BoomBoxBlock extends Block implements WorldlyContainerHolder {
 
                 if (dynamite > 0) {
                     this.level.setBlock(this.pos, this.state.setValue(DYNAMITE, 0), 3);
-                    return new ItemStack(ModItems.DYNAMITE, dynamite);
+                    return new ItemStack(ModItems.DYNAMITE.get(), dynamite);
                 }
             }
             return ItemStack.EMPTY;
@@ -227,7 +227,7 @@ public class BoomBoxBlock extends Block implements WorldlyContainerHolder {
 
         @Override
         public void setItem(int slot, @NonNull ItemStack stack) {
-            if (slot == 0 && stack.is(ModItems.DYNAMITE)) {
+            if (slot == 0 && stack.is(ModItems.DYNAMITE.get())) {
                 int current = this.state.getValue(DYNAMITE);
                 int amount = Math.min(4, current + stack.getCount());
 

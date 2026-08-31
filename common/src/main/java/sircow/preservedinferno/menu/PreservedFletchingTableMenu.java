@@ -1,4 +1,4 @@
-package sircow.preservedinferno.screen;
+package sircow.preservedinferno.menu;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
@@ -83,7 +83,7 @@ public class PreservedFletchingTableMenu extends AbstractContainerMenu {
                     }
                 }
                 PreservedFletchingTableMenu.this.potionInputSlot.remove(1);
-                if (player instanceof ServerPlayer serverPlayer) ModTriggers.CRAFT_ARROWS.get().trigger(serverPlayer);
+                if (player instanceof ServerPlayer serverPlayer) ModTriggers.CRAFT_ARROWS.trigger(serverPlayer);
                 super.onTake(player, stack);
             }
         });

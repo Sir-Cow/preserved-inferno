@@ -54,16 +54,16 @@ public abstract class PlayerAdvancementsMixin {
     @Unique
     private void triggerRankAdvancement(String rank, ServerPlayer player) {
         switch (rank) {
-            case "infernal" -> ModTriggers.MASTERY_INFERNAL.get().trigger(player);
-            case "champion" -> ModTriggers.MASTERY_CHAMPION.get().trigger(player);
-            case "centurion" -> ModTriggers.MASTERY_CENTURION.get().trigger(player);
-            case "master" -> ModTriggers.MASTERY_MASTER.get().trigger(player);
-            case "knight" -> ModTriggers.MASTERY_KNIGHT.get().trigger(player);
-            case "squire" -> ModTriggers.MASTERY_SQUIRE.get().trigger(player);
-            case "disciple" -> ModTriggers.MASTERY_DISCIPLE.get().trigger(player);
-            case "novice" -> ModTriggers.MASTERY_NOVICE.get().trigger(player);
-            case "beginner" -> ModTriggers.MASTERY_BEGINNER.get().trigger(player);
-            case "starter" -> ModTriggers.MASTERY_STARTER.get().trigger(player);
+            case "infernal" -> ModTriggers.MASTERY_INFERNAL.trigger(player);
+            case "champion" -> ModTriggers.MASTERY_CHAMPION.trigger(player);
+            case "centurion" -> ModTriggers.MASTERY_CENTURION.trigger(player);
+            case "master" -> ModTriggers.MASTERY_MASTER.trigger(player);
+            case "knight" -> ModTriggers.MASTERY_KNIGHT.trigger(player);
+            case "squire" -> ModTriggers.MASTERY_SQUIRE.trigger(player);
+            case "disciple" -> ModTriggers.MASTERY_DISCIPLE.trigger(player);
+            case "novice" -> ModTriggers.MASTERY_NOVICE.trigger(player);
+            case "beginner" -> ModTriggers.MASTERY_BEGINNER.trigger(player);
+            case "starter" -> ModTriggers.MASTERY_STARTER.trigger(player);
         }
     }
 

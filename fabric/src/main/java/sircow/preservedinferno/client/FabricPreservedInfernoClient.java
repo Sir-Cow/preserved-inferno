@@ -40,8 +40,8 @@ import sircow.preservedinferno.block.entity.PreservedCauldronBlockEntityRenderer
 import sircow.preservedinferno.client.renderer.BoomBoxRenderer;
 import sircow.preservedinferno.client.renderer.RodTooltipComponentRenderer;
 import sircow.preservedinferno.client.renderer.ThrownCopperTridentRenderer;
-import sircow.preservedinferno.components.ModComponents;
-import sircow.preservedinferno.components.RodTooltipComponent;
+import sircow.preservedinferno.component.ModComponents;
+import sircow.preservedinferno.component.RodTooltipComponent;
 import sircow.preservedinferno.config.MiscCategory;
 import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.entity.ModEntities;
@@ -53,9 +53,8 @@ import sircow.preservedinferno.mixin.ClientAdvancementsAccessor;
 import sircow.preservedinferno.network.ModNetworking;
 import sircow.preservedinferno.network.RespawnSyncPayload;
 import sircow.preservedinferno.other.IMinecraftMixin;
-import sircow.preservedinferno.other.ModTags;
-import sircow.preservedinferno.screen.CacheScreen;
-import sircow.preservedinferno.screen.PreservedCauldronScreen;
+import sircow.preservedinferno.tag.ModTags;
+import sircow.preservedinferno.screen.*;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -84,7 +83,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
 
     private void registerMenuScreens() {
         MenuScreens.register(Constants.ANGLING_TABLE_MENU_TYPE.get(), AnglingTableScreen::new);
-        MenuScreens.register(MenuTypes.CACHE_MENU_TYPE.get(), CacheScreen::new);
+        MenuScreens.register(Constants.CACHE_MENU_TYPE.get(), CacheScreen::new);
         MenuScreens.register(Constants.PRESERVED_ENCHANT_MENU_TYPE.get(), PreservedEnchantingTableScreen::new);
         MenuScreens.register(Constants.PRESERVED_FLETCHING_TABLE_MENU_TYPE.get(), PreservedFletchingTableScreen::new);
         MenuScreens.register(Constants.PRESERVED_LOOM_MENU_TYPE.get(), PreservedLoomScreen::new);
@@ -169,7 +168,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             }
             if (stack.is(ModTags.ROD_UPGRADES)) addFishingUpgradeTooltip(lines, insertIndex, stack.getItem());
             if ((hook != null && !hook.equals("none")) || (line != null && !line.equals("none")) || (sinker != null && !sinker.equals("none"))) addFishingUpgradeTooltip(lines, insertIndex, hook, line, sinker);
-            if (stack.is(ModItems.FLARE_GUN)) {
+            if (stack.is(ModItems.FLARE_GUN.get())) {
                 if (particleVal != null) {
                     if (particleVal.equals("0xFFFFFF")) particleVal = "#FFFFFF";
                     int parsedParticleVal = Integer.parseInt(particleVal.replace("#", ""), 16);
@@ -195,9 +194,9 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     }
 
     private void addCustomBottleTooltip(List<Component> lines, ItemStack stack) {
-        boolean isHoney = stack.is(ModItems.SPLASH_HONEY_BOTTLE) || stack.is(ModItems.LINGERING_HONEY_BOTTLE);
-        boolean isLava = stack.is(ModItems.LAVA_BOTTLE) || stack.is(ModItems.SPLASH_LAVA_BOTTLE) || stack.is(ModItems.LINGERING_LAVA_BOTTLE);
-        boolean isMilk = stack.is(ModItems.MILK_BOTTLE) || stack.is(ModItems.SPLASH_MILK_BOTTLE) || stack.is(ModItems.LINGERING_MILK_BOTTLE);
+        boolean isHoney = stack.is(ModItems.SPLASH_HONEY_BOTTLE.get()) || stack.is(ModItems.LINGERING_HONEY_BOTTLE.get());
+        boolean isLava = stack.is(ModItems.LAVA_BOTTLE.get()) || stack.is(ModItems.SPLASH_LAVA_BOTTLE.get()) || stack.is(ModItems.LINGERING_LAVA_BOTTLE.get());
+        boolean isMilk = stack.is(ModItems.MILK_BOTTLE.get()) || stack.is(ModItems.SPLASH_MILK_BOTTLE.get()) || stack.is(ModItems.LINGERING_MILK_BOTTLE.get());
 
         if (isLava || isMilk || isHoney) {
             String noEffectsText = Component.translatable("effect.none").getString();
@@ -222,7 +221,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     }
 
     private void addSmithingTemplateTooltip(List<Component> lines, int insertIndex, ItemStack stack) {
-        if (stack.is(ModItems.NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE)) {
+        if (stack.is(ModItems.NETHER_ALLOY_UPGRADE_SMITHING_TEMPLATE.get())) {
             lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template").withStyle(ChatFormatting.GRAY));
             lines.add(insertIndex++, Component.empty());
             lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.applies_to").withStyle(ChatFormatting.GRAY));
@@ -230,7 +229,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
             lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.ingredients").withStyle(ChatFormatting.GRAY));
             lines.add(insertIndex, Component.literal(" ").append(Component.translatable("item.pinferno.nether_alloy_ingot").withStyle(ChatFormatting.BLUE)));
         }
-        if (stack.is(ModItems.ECHOING_PRISM_UPGRADE_SMITHING_TEMPLATE)) {
+        if (stack.is(ModItems.ECHOING_PRISM_UPGRADE_SMITHING_TEMPLATE.get())) {
             lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template").withStyle(ChatFormatting.GRAY));
             lines.add(insertIndex++, Component.empty());
             lines.add(insertIndex++, Component.translatable("item.minecraft.smithing_template.applies_to").withStyle(ChatFormatting.GRAY));
@@ -242,7 +241,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
 
     private void addNautilusBlessingTooltip(List<Component> lines, int insertIndex, ItemStack stack) {
         PotionContents potionContents = stack.get(DataComponents.POTION_CONTENTS);
-        if (potionContents != null && potionContents.is(ModPotions.NAUTILUS_BLESSING)) {
+        if (potionContents != null && potionContents.is(ModPotions.nautilusBlessingHolder())) {
             lines.add(insertIndex++, Component.empty());
             lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.fishing_speed", 0.5).withStyle(ChatFormatting.BLUE));
             lines.add(insertIndex, Component.translatable("item.pinferno.modifiers.luck", 0.5).withStyle(ChatFormatting.BLUE));
@@ -272,28 +271,28 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
         lines.add(insertIndex++, Component.translatable("item.pinferno.modifiers.on_rod").withStyle(ChatFormatting.GRAY));
 
         Map<Item, Double> fishingSpeedMap = Map.of(
-                ModItems.COPPER_FISHING_HOOK, 0.5,
-                ModItems.IRON_FISHING_HOOK, 1.0,
-                ModItems.PRISMARINE_FISHING_HOOK, 1.5,
-                ModItems.GOLDEN_FISHING_HOOK, 1.5,
-                ModItems.DIAMOND_FISHING_HOOK, 2.0,
-                ModItems.NETHERITE_FISHING_HOOK, 3.0
+                ModItems.COPPER_FISHING_HOOK.get(), 0.5,
+                ModItems.IRON_FISHING_HOOK.get(), 1.0,
+                ModItems.PRISMARINE_FISHING_HOOK.get(), 1.5,
+                ModItems.GOLDEN_FISHING_HOOK.get(), 1.5,
+                ModItems.DIAMOND_FISHING_HOOK.get(), 2.0,
+                ModItems.NETHERITE_FISHING_HOOK.get(), 3.0
         );
         Map<Item, Double> fortuneMap = Map.of(
-                ModItems.COPPER_LACED_FISHING_LINE, 0.5,
-                ModItems.IRON_LACED_FISHING_LINE, 1.0,
-                ModItems.PRISMARINE_LACED_FISHING_LINE, 1.5,
-                ModItems.GOLDEN_LACED_FISHING_LINE, 1.5,
-                ModItems.DIAMOND_LACED_FISHING_LINE, 2.0,
-                ModItems.NETHERITE_LACED_FISHING_LINE, 3.0
+                ModItems.COPPER_LACED_FISHING_LINE.get(), 0.5,
+                ModItems.IRON_LACED_FISHING_LINE.get(), 1.0,
+                ModItems.PRISMARINE_LACED_FISHING_LINE.get(), 1.5,
+                ModItems.GOLDEN_LACED_FISHING_LINE.get(), 1.5,
+                ModItems.DIAMOND_LACED_FISHING_LINE.get(), 2.0,
+                ModItems.NETHERITE_LACED_FISHING_LINE.get(), 3.0
         );
         Map<Item, Double> luckMap = Map.of(
-                ModItems.COPPER_SINKER, 0.5,
-                ModItems.IRON_SINKER, 1.0,
-                ModItems.PRISMARINE_SINKER, 1.5,
-                ModItems.GOLDEN_SINKER, 1.5,
-                ModItems.DIAMOND_SINKER, 2.0,
-                ModItems.NETHERITE_SINKER, 3.0
+                ModItems.COPPER_SINKER.get(), 0.5,
+                ModItems.IRON_SINKER.get(), 1.0,
+                ModItems.PRISMARINE_SINKER.get(), 1.5,
+                ModItems.GOLDEN_SINKER.get(), 1.5,
+                ModItems.DIAMOND_SINKER.get(), 2.0,
+                ModItems.NETHERITE_SINKER.get(), 3.0
         );
 
         addIfPresent(lines, insertIndex, item, fishingSpeedMap, "item.pinferno.modifiers.fishing_speed");
@@ -309,7 +308,7 @@ public class FabricPreservedInfernoClient implements ClientModInitializer {
     }
 
     private void addAquaDiscTooltip(List<Component> lines, ItemStack stack) {
-        if (stack.is(ModItems.MUSIC_DISC_AQUA)) {
+        if (stack.is(ModItems.MUSIC_DISC_AQUA.get())) {
             lines.add(1, Component.literal("Not yet implemented...").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
         }
     }

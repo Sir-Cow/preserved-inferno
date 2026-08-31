@@ -28,7 +28,7 @@ public class TempInventoryStorage {
     private static final Map<UUID, Boolean> PLAYER_HAD_WELL_RESTED_ON_DEATH = new HashMap<>();
 
     public static void savePlayerInventory(Player player) {
-        if (player.hasEffect(ModEffects.WELL_RESTED.holder)) {
+        if (player.hasEffect(ModEffects.wellRestedHolder())) {
             ListTag inventoryTag = new ListTag();
             Inventory inventory = player.getInventory();
 
@@ -145,7 +145,7 @@ public class TempInventoryStorage {
 
         boolean hadWellRestedEffectOnDeath = PLAYER_HAD_WELL_RESTED_ON_DEATH.remove(uuid) != null;
 
-        if (hadWellRestedEffectOnDeath) player.removeEffect(ModEffects.WELL_RESTED.holder);
+        if (hadWellRestedEffectOnDeath) player.removeEffect(ModEffects.wellRestedHolder());
 
         return hadWellRestedEffectOnDeath;
     }

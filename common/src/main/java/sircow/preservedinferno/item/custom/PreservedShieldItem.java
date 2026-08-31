@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.component.ModComponents;
 import sircow.preservedinferno.other.ShieldStaminaHandler;
 
 public class PreservedShieldItem extends ShieldItem {

@@ -21,7 +21,7 @@ public class GrindstoneMenuMixin {
         ItemStack left = this.repairSlots.getItem(0);
         ItemStack right = this.repairSlots.getItem(1);
 
-        if (left.is(ModItems.SCULK_INFUSION) || right.is(ModItems.SCULK_INFUSION) || left.is(ModItems.DREAMCATCHER) || right.is(ModItems.DREAMCATCHER)) {
+        if (left.is(ModItems.SCULK_INFUSION.get()) || right.is(ModItems.SCULK_INFUSION.get()) || left.is(ModItems.DREAMCATCHER.get()) || right.is(ModItems.DREAMCATCHER.get())) {
             this.resultSlots.setItem(0, ItemStack.EMPTY);
             ((GrindstoneMenu)(Object) this).broadcastChanges();
             ci.cancel();

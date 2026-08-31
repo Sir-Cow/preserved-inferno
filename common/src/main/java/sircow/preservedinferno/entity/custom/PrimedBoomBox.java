@@ -37,7 +37,7 @@ import java.util.Optional;
 public class PrimedBoomBox extends Entity implements TraceableEntity {
     private static final EntityDataAccessor<Integer> DATA_FUSE_ID = SynchedEntityData.defineId(PrimedBoomBox.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<BlockState> DATA_BLOCK_STATE_ID = SynchedEntityData.defineId(PrimedBoomBox.class, EntityDataSerializers.BLOCK_STATE);
-    private static final BlockState DEFAULT_BLOCK_STATE = ModBlocks.BOOM_BOX.defaultBlockState();
+    private static final BlockState DEFAULT_BLOCK_STATE = ModBlocks.BOOM_BOX.get().defaultBlockState();
     public static final ExplosionDamageCalculator USED_PORTAL_DAMAGE_CALCULATOR = new ExplosionDamageCalculator() {
         @Override
         public boolean shouldBlockExplode(final @NonNull Explosion explosion, final @NonNull BlockGetter level, final @NonNull BlockPos pos, final BlockState state, final float power) {
@@ -146,7 +146,7 @@ public class PrimedBoomBox extends Entity implements TraceableEntity {
                                 primedTnt.setFuse((short)(level.getRandom().nextInt(primedTnt.getFuse() / 4) + primedTnt.getFuse() / 8));
                                 level.addFreshEntity(primedTnt);
                             }
-                            else if (targetState.is(ModBlocks.BOOM_BOX) && targetState.getValue(BoomBoxBlock.DYNAMITE) > 0) {
+                            else if (targetState.is(ModBlocks.BOOM_BOX.get()) && targetState.getValue(BoomBoxBlock.DYNAMITE) > 0) {
                                 level.setBlock(targetPos, Blocks.AIR.defaultBlockState(), 3);
 
                                 PrimedBoomBox primedBoomBox = new PrimedBoomBox(level, targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, this.getOwner());

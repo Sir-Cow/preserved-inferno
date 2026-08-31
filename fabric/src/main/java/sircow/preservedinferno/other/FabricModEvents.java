@@ -63,14 +63,16 @@ import sircow.preservedinferno.Constants;
 import sircow.preservedinferno.FabricPreservedInferno;
 import sircow.preservedinferno.block.ModBlocks;
 import sircow.preservedinferno.block.custom.SparklingBlackstoneBlock;
-import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.codec.BlockData;
+import sircow.preservedinferno.component.ModComponents;
 import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.item.ModItems;
+import sircow.preservedinferno.menu.PreservedFletchingTableMenu;
 import sircow.preservedinferno.network.*;
 import sircow.preservedinferno.recipe.CauldronRecipe;
 import sircow.preservedinferno.recipe.LoomRecipe;
-import sircow.preservedinferno.screen.PreservedFletchingTableMenu;
+import sircow.preservedinferno.tag.ModTags;
 import sircow.preservedinferno.trigger.ModTriggers;
 
 import java.net.URI;
@@ -118,7 +120,7 @@ public class FabricModEvents {
             session.slices++;
 
             if (session.slices >= 7) {
-                if ((now - session.startTime) <= 5000) ModTriggers.EAT_CAKE_FAST.get().trigger(serverPlayer);
+                if ((now - session.startTime) <= 5000) ModTriggers.EAT_CAKE_FAST.trigger(serverPlayer);
                 CAKE_SESSIONS.remove(uuid);
             }
 
@@ -160,7 +162,7 @@ public class FabricModEvents {
         EntitySleepEvents.ALLOW_SLEEPING.register((Player player, BlockPos pos) -> {
             ItemStack mainHandItem = player.getItemInHand(InteractionHand.MAIN_HAND);
             ItemStack offHandItem = player.getItemInHand(InteractionHand.OFF_HAND);
-            boolean holdingDreamcatcher = mainHandItem.getItem() == ModItems.DREAMCATCHER || offHandItem.getItem() == ModItems.DREAMCATCHER;
+            boolean holdingDreamcatcher = mainHandItem.getItem() == ModItems.DREAMCATCHER.get() || offHandItem.getItem() == ModItems.DREAMCATCHER.get();
             float moonAngle = player.level().environmentAttributes().getValue(EnvironmentAttributes.MOON_ANGLE, new Vec3(player.getX(), player.getY(), player.getZ()), null);
             boolean moonVisible = moonAngle > 0.0F;
 
@@ -183,8 +185,8 @@ public class FabricModEvents {
                 ItemStack main = player.getMainHandItem();
                 ItemStack off = player.getOffhandItem();
 
-                if (main.is(ModItems.DREAMCATCHER)) main.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
-                else if (off.is(ModItems.DREAMCATCHER)) off.hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
+                if (main.is(ModItems.DREAMCATCHER.get())) main.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+                else if (off.is(ModItems.DREAMCATCHER.get())) off.hurtAndBreak(1, player, EquipmentSlot.OFFHAND);
             }
         });
 
@@ -194,7 +196,7 @@ public class FabricModEvents {
                     MinecraftServer server = player.level().getServer();
                     if (server != null) {
                         for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers()) {
-                            serverPlayer.addEffect(new MobEffectInstance(ModEffects.WELL_RESTED.holder, 24000, 0, false, false, true));
+                            serverPlayer.addEffect(new MobEffectInstance(ModEffects.wellRestedHolder(), 24000, 0, false, false, true));
                             if (player.getUUID() == serverPlayer.getUUID()) serverPlayer.sendOverlayMessage(Component.translatable("effect.pinferno.well_rested_awake"));
                             else serverPlayer.sendOverlayMessage(Component.translatable("effect.pinferno.well_rested_awake_not_sleeping", player.getName()));
                         }
@@ -219,9 +221,9 @@ public class FabricModEvents {
             if (livingEntity instanceof Player player) TempInventoryStorage.savePlayerInventory(player);
             // hardcore
             if (livingEntity instanceof ServerPlayer player) {
-                if (player.level().getLevelData().isHardcore() && player.hasEffect(ModEffects.WELL_RESTED.holder)) {
+                if (player.level().getLevelData().isHardcore() && player.hasEffect(ModEffects.wellRestedHolder())) {
                     player.setHealth(1.0F);
-                    player.removeEffect(ModEffects.WELL_RESTED.holder);
+                    player.removeEffect(ModEffects.wellRestedHolder());
                     player.invulnerableTime = 60;
                     player.sendOverlayMessage(Component.translatable("effect.pinferno.well_rested_hardcore"));
                     return false;
@@ -351,18 +353,18 @@ public class FabricModEvents {
 
                 if (state.getBlock() instanceof CropBlock cropBlock) isFullyGrown = cropBlock.isMaxAge(state);
                 else if (state.getBlock() instanceof NetherWartBlock) isFullyGrown = state.hasProperty(NetherWartBlock.AGE) && state.getValue(NetherWartBlock.AGE) == NetherWartBlock.MAX_AGE;
-                if (isFullyGrown && mainHandItem.is(ItemTags.HOES)) ModTriggers.BREAK_GROWN_CROP.get().trigger((ServerPlayer) player);
+                if (isFullyGrown && mainHandItem.is(ItemTags.HOES)) ModTriggers.BREAK_GROWN_CROP.trigger((ServerPlayer) player);
             }
 
             if (mainHandItem.is(ItemTags.HOES) && (state.is(Blocks.SHORT_GRASS) || state.is(Blocks.TALL_GRASS))) mainHandItem.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
-            if (state.is(Blocks.SCULK_SHRIEKER)) ModTriggers.BREAK_SCULK_SHRIEKER.get().trigger((ServerPlayer) player);
-            if (state.is(Blocks.CREAKING_HEART) && state.getValue(BlockStateProperties.CREAKING_HEART_STATE) == CreakingHeartState.AWAKE) ModTriggers.BREAK_CREAKING_HEART.get().trigger((ServerPlayer) player);
-            if (state.is(ModBlocks.SPARKLING_BLACKSTONE) && state.getValue(SparklingBlackstoneBlock.STAGE) == 4) ModTriggers.BREAK_SPARKLING_BLACKSTONE.get().trigger((ServerPlayer) player);
+            if (state.is(Blocks.SCULK_SHRIEKER)) ModTriggers.BREAK_SCULK_SHRIEKER.trigger((ServerPlayer) player);
+            if (state.is(Blocks.CREAKING_HEART) && state.getValue(BlockStateProperties.CREAKING_HEART_STATE) == CreakingHeartState.AWAKE) ModTriggers.BREAK_CREAKING_HEART.trigger((ServerPlayer) player);
+            if (state.is(ModBlocks.SPARKLING_BLACKSTONE.get()) && state.getValue(SparklingBlackstoneBlock.STAGE) == 4) ModTriggers.BREAK_SPARKLING_BLACKSTONE.trigger((ServerPlayer) player);
         });
     }
 
     private static void keyPressForFirstAdvancement() {
-        ServerPlayNetworking.registerGlobalReceiver(OpenAdvancementPayload.ID, (payload, context) -> ModTriggers.OPENED_ADVANCEMENT_SCREEN.get().trigger(context.player())
+        ServerPlayNetworking.registerGlobalReceiver(OpenAdvancementPayload.ID, (payload, context) -> ModTriggers.OPENED_ADVANCEMENT_SCREEN.trigger(context.player())
         );
     }
 
@@ -441,7 +443,7 @@ public class FabricModEvents {
                         @Override
                         public Object getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
                             boolean isEmpty = level.getBlockEntity(pos) == null;
-                            return new FabricPreservedInferno.BlockData(isEmpty);
+                            return new BlockData(isEmpty);
                         }
                     });
 
@@ -556,13 +558,18 @@ public class FabricModEvents {
 
                     UpdateChecker.checkAsync(() -> client.execute(() -> {
                         if (client.player == null) return;
+                        Constants.LOG.info("Starting Preserved: Inferno version check...");
 
                         String current = Constants.INSTANCE.getVersion();
                         String latest = UpdateChecker.getLatest();
 
-                        if (latest == null) return;
+                        if (latest == null) {
+                            Constants.LOG.error("Error checking for latest version of Preserved: Inferno");
+                            return;
+                        }
 
                         if (UpdateChecker.hasUpdate()) {
+                            Constants.LOG.info("Found new version of Preserved: Inferno, {}", latest);
                             ClickEvent click = new ClickEvent.OpenUrl(URI.create("https://modrinth.com/mod/preserved-inferno/version/" + latest));
                             HoverEvent hover = new HoverEvent.ShowText(Component.literal("Open version page"));
                             Style updateLink = Style.EMPTY
@@ -578,6 +585,7 @@ public class FabricModEvents {
 
                             client.player.sendSystemMessage(message);
                         }
+                        else Constants.LOG.info("No new version of Preserved: Inferno found");
                     }));
                 }
             });
@@ -656,7 +664,7 @@ public class FabricModEvents {
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.player;
-            ModTriggers.WORLD_JOIN.get().trigger(player);
+            ModTriggers.WORLD_JOIN.trigger(player);
             assignPlayerToRankTeam(player);
             FabricWorldDataManager.syncPlayerPointsWithAdvancements(server, player);
 
@@ -671,7 +679,7 @@ public class FabricModEvents {
                 var advancement = server.getAdvancements().get(Identifier.withDefaultNamespace("story/root"));
                 if (advancement == null) continue;
                 if (player.getAdvancements().getOrStartProgress(advancement).isDone()) {
-                    ModTriggers.WORLD_JOIN.get().trigger(player);
+                    ModTriggers.WORLD_JOIN.trigger(player);
                 }
             }
         });

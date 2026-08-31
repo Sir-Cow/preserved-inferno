@@ -1,4 +1,4 @@
-package sircow.preservedinferno.client;
+package sircow.preservedinferno.screen;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -8,7 +8,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.screen.AnglingTableMenu;
+import sircow.preservedinferno.menu.AnglingTableMenu;
 
 public class AnglingTableScreen extends AbstractContainerScreen<AnglingTableMenu> {
     private static final Identifier BG_LOCATION = Constants.id("textures/gui/container/angling_table_gui.png");

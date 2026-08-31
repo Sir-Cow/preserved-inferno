@@ -29,9 +29,9 @@ public class PreservedAreaEffectCloud extends AreaEffectCloud {
         this.setPos(x, y, z);
         this.bottleItem = bottleItem;
 
-        if (bottleItem == ModItems.LINGERING_HONEY_BOTTLE) this.setCustomParticle(ParticleTypes.LANDING_HONEY);
-        else if (bottleItem == ModItems.LINGERING_LAVA_BOTTLE) this.setCustomParticle(ParticleTypes.LAVA);
-        else if (bottleItem == ModItems.LINGERING_MILK_BOTTLE) this.setCustomParticle(ParticleTypes.ITEM_SNOWBALL);
+        if (bottleItem == ModItems.LINGERING_HONEY_BOTTLE.get()) this.setCustomParticle(ParticleTypes.LANDING_HONEY);
+        else if (bottleItem == ModItems.LINGERING_LAVA_BOTTLE.get()) this.setCustomParticle(ParticleTypes.LAVA);
+        else if (bottleItem == ModItems.LINGERING_MILK_BOTTLE.get()) this.setCustomParticle(ParticleTypes.ITEM_SNOWBALL);
     }
 
     @Override
@@ -57,18 +57,18 @@ public class PreservedAreaEffectCloud extends AreaEffectCloud {
 
             if (dist > radius * radius) continue;
 
-            if (this.bottleItem == ModItems.LINGERING_HONEY_BOTTLE) {
-                livingEntity.addEffect(new MobEffectInstance(ModEffects.HINDERED.holder, 160, 0));
-                livingEntity.removeEffect(ModEffects.FUMIGATED.holder);
+            if (this.bottleItem == ModItems.LINGERING_HONEY_BOTTLE.get()) {
+                livingEntity.addEffect(new MobEffectInstance(ModEffects.hinderedHolder(), 160, 0));
+                livingEntity.removeEffect(ModEffects.fumigatedHolder());
                 livingEntity.removeEffect(MobEffects.HUNGER);
                 livingEntity.removeEffect(MobEffects.POISON);
                 consumedStage = true;
             }
-            else if (this.bottleItem == ModItems.LINGERING_LAVA_BOTTLE && !livingEntity.fireImmune()) {
+            else if (this.bottleItem == ModItems.LINGERING_LAVA_BOTTLE.get() && !livingEntity.fireImmune()) {
                 livingEntity.igniteForSeconds(15.0F);
                 consumedStage = true;
             }
-            else if (this.bottleItem == ModItems.LINGERING_MILK_BOTTLE) {
+            else if (this.bottleItem == ModItems.LINGERING_MILK_BOTTLE.get()) {
                 if (livingEntity instanceof Player player && !livingEntity.getActiveEffects().isEmpty()) {
                     if (!level.isClientSide()) {
                         HeatAccessor heatAccessor = (HeatAccessor) player;

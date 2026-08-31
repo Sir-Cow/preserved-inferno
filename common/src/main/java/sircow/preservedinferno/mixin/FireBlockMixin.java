@@ -52,14 +52,14 @@ public class FireBlockMixin {
 
     @Inject(method = "checkBurnOut", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z"), cancellable = true)
     private void pinferno$preventEmptyBoomBoxFire(Level level, BlockPos pos, int chance, RandomSource random, int age, CallbackInfo ci, @Local(name = "oldState") BlockState oldState) {
-        if (oldState.is(ModBlocks.BOOM_BOX) && oldState.getValue(BoomBoxBlock.DYNAMITE) <= 0) {
+        if (oldState.is(ModBlocks.BOOM_BOX.get()) && oldState.getValue(BoomBoxBlock.DYNAMITE) <= 0) {
             ci.cancel();
         }
     }
 
     @Inject(method = "checkBurnOut", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;removeBlock(Lnet/minecraft/core/BlockPos;Z)Z"), cancellable = true)
     private void pinferno$handleBoomBoxBurnout(Level level, BlockPos pos, int chance, RandomSource random, int age, CallbackInfo ci, @Local(name = "oldState") BlockState oldState) {
-        if (!oldState.is(ModBlocks.BOOM_BOX)) return;
+        if (!oldState.is(ModBlocks.BOOM_BOX.get())) return;
 
         if (oldState.getValue(BoomBoxBlock.DYNAMITE) <= 0) {
             ci.cancel();

@@ -283,9 +283,9 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
             if (contents == null || !contents.is(Potions.WATER)) return;
             insertedFluid = CauldronFluid.WATER;
         }
-        else if (stack.is(ModItems.MILK_BOTTLE)) insertedFluid = CauldronFluid.MILK;
+        else if (stack.is(ModItems.MILK_BOTTLE.get())) insertedFluid = CauldronFluid.MILK;
         else if (stack.is(Items.HONEY_BOTTLE)) insertedFluid = CauldronFluid.HONEY;
-        else if (stack.is(ModItems.LAVA_BOTTLE)) insertedFluid = CauldronFluid.LAVA;
+        else if (stack.is(ModItems.LAVA_BOTTLE.get())) insertedFluid = CauldronFluid.LAVA;
         else return;
 
         if (!canInsertFluid(insertedFluid)) return;
@@ -467,9 +467,9 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         if (stack.is(Items.LAVA_BUCKET)) return true;
         if (stack.is(Items.MILK_BUCKET)) return true;
         if (stack.is(Items.POWDER_SNOW_BUCKET)) return true;
-        if (stack.is(ModItems.MILK_BOTTLE)) return true;
+        if (stack.is(ModItems.MILK_BOTTLE.get())) return true;
         if (stack.is(Items.HONEY_BOTTLE)) return true;
-        if (stack.is(ModItems.LAVA_BOTTLE)) return true;
+        if (stack.is(ModItems.LAVA_BOTTLE.get())) return true;
         if (stack.is(Items.HONEY_BLOCK)) return true;
 
         if (stack.is(Items.POTION)) {
@@ -489,9 +489,9 @@ public class PreservedCauldronBlockEntity extends BaseContainerBlockEntity imple
         else if (stack.is(Items.LAVA_BUCKET)) insertedFluid = CauldronFluid.LAVA;
         else if (stack.is(Items.MILK_BUCKET)) insertedFluid = CauldronFluid.MILK;
         else if (stack.is(Items.POWDER_SNOW_BUCKET)) insertedFluid = CauldronFluid.SNOW;
-        else if (stack.is(ModItems.MILK_BOTTLE)) insertedFluid = CauldronFluid.MILK;
+        else if (stack.is(ModItems.MILK_BOTTLE.get())) insertedFluid = CauldronFluid.MILK;
         else if (stack.is(Items.HONEY_BOTTLE)) insertedFluid = CauldronFluid.HONEY;
-        else if (stack.is(ModItems.LAVA_BOTTLE)) insertedFluid = CauldronFluid.LAVA;
+        else if (stack.is(ModItems.LAVA_BOTTLE.get())) insertedFluid = CauldronFluid.LAVA;
         else if (stack.is(Items.HONEY_BLOCK)) insertedFluid = CauldronFluid.HONEY;
         else insertedFluid = CauldronFluid.EMPTY;
 

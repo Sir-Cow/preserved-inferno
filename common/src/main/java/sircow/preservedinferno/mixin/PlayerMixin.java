@@ -51,7 +51,7 @@ import sircow.preservedinferno.effect.ModEffects;
 import sircow.preservedinferno.enchantment.ModEnchantments;
 import sircow.preservedinferno.item.custom.PreservedShieldItem;
 import sircow.preservedinferno.other.HeatAccessor;
-import sircow.preservedinferno.other.ModDamageTypes;
+import sircow.preservedinferno.damagetype.ModDamageTypes;
 import sircow.preservedinferno.other.ModEntityData;
 import sircow.preservedinferno.other.ShieldStaminaHandler;
 import sircow.preservedinferno.sound.ModSounds;
@@ -160,7 +160,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     private void pinferno$freezeCoolDown(ServerLevel level, DamageSource damageSource, float damage, CallbackInfoReturnable<Boolean> cir) {
         Player player = (Player)(Object)this;
         if (damageSource.is(DamageTypes.FREEZE) && cir.getReturnValue()) {
-            if (player instanceof ServerPlayer serverPlayer && pinferno$getHeat() >= 1) ModTriggers.FREEZE_COOL.get().trigger(serverPlayer);
+            if (player instanceof ServerPlayer serverPlayer && pinferno$getHeat() >= 1) ModTriggers.FREEZE_COOL.trigger(serverPlayer);
             pinferno$decreaseHeat(10);
         }
     }
@@ -227,7 +227,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
 
                     if ((Player)(Object)this instanceof ServerPlayer serverPlayer) {
                         if (this.level().getBlockState(this.blockPosition().below()).getBlock() instanceof IceBlock || this.level().getBlockState(this.blockPosition().below()).getBlock() == Blocks.PACKED_ICE || this.level().getBlockState(this.blockPosition().below()).getBlock() == Blocks.BLUE_ICE) {
-                            ModTriggers.STAND_ON_ICE.get().trigger(serverPlayer);
+                            ModTriggers.STAND_ON_ICE.trigger(serverPlayer);
                         }
                     }
                 }
@@ -257,13 +257,13 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
             double displacement = Math.sqrt(dx * dx + dz * dz);
 
             if (displacement >= 500) {
-                if (player instanceof ServerPlayer serverPlayer) ModTriggers.RIDE_MINECART_FAR.get().trigger(serverPlayer);
+                if (player instanceof ServerPlayer serverPlayer) ModTriggers.RIDE_MINECART_FAR.trigger(serverPlayer);
             }
             if (displacement >= 50) {
-                if (player instanceof ServerPlayer serverPlayer) ModTriggers.RIDE_MINECART.get().trigger(serverPlayer);
+                if (player instanceof ServerPlayer serverPlayer) ModTriggers.RIDE_MINECART.trigger(serverPlayer);
             }
             if (minecart.getDeltaMovement().horizontalDistance() >= 1.6) {
-                if (player instanceof ServerPlayer serverPlayer) ModTriggers.RIDE_MINECART_MAX_SPEED.get().trigger(serverPlayer);
+                if (player instanceof ServerPlayer serverPlayer) ModTriggers.RIDE_MINECART_MAX_SPEED.trigger(serverPlayer);
             }
         }
         else rideStartPos = null;
@@ -462,7 +462,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @Inject(method = "dropEquipment", at = @At("HEAD"), cancellable = true)
     public void pinferno$preventInvDrop(ServerLevel level, CallbackInfo ci) {
         Player player = (Player)(Object)this;
-        if (player.hasEffect(ModEffects.WELL_RESTED.holder)) {
+        if (player.hasEffect(ModEffects.wellRestedHolder())) {
             ci.cancel();
         }
     }
@@ -470,7 +470,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @Inject(method = "getBaseExperienceReward", at = @At("HEAD"), cancellable = true)
     public void pinferno$preventExpDrop(ServerLevel level, CallbackInfoReturnable<Integer> cir) {
         Player player = (Player)(Object)this;
-        if (player.hasEffect(ModEffects.WELL_RESTED.holder) || player.isSpectator()) {
+        if (player.hasEffect(ModEffects.wellRestedHolder()) || player.isSpectator()) {
             cir.setReturnValue(0);
             cir.cancel();
         }
@@ -480,7 +480,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @Inject(method = "updatePlayerPose", at = @At("HEAD"))
     private void pinferno$blockSprinting(CallbackInfo ci) {
         Player player = (Player) (Object) this;
-        if ((player.level().getLevelData().isHardcore() || this.hasEffect(ModEffects.HINDERED.holder)) && !player.isSpectator() && !player.isCreative()) {
+        if ((player.level().getLevelData().isHardcore() || this.hasEffect(ModEffects.hinderedHolder())) && !player.isSpectator() && !player.isCreative()) {
             player.setSprinting(false);
             player.getAbilities().mayfly = false;
             player.getAbilities().flying = false;
@@ -495,8 +495,8 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
     @Inject(method = "getDestroySpeed", at = @At("HEAD"), cancellable = true)
     private void pinferno$hinderedMining(BlockState state, CallbackInfoReturnable<Float> cir) {
         Player self = (Player)(Object)this;
-        if (self.hasEffect(ModEffects.HINDERED.holder)) {
-            int level = Objects.requireNonNull(this.getEffect(ModEffects.HINDERED.holder)).getAmplifier() + 1;
+        if (self.hasEffect(ModEffects.hinderedHolder())) {
+            int level = Objects.requireNonNull(this.getEffect(ModEffects.hinderedHolder())).getAmplifier() + 1;
             cir.setReturnValue((float)Math.pow(0.5, level));
         }
     }
@@ -534,7 +534,7 @@ public abstract class PlayerMixin extends LivingEntity implements HeatAccessor, 
         if (isFullStrength && canCriticalAttack(entity)) {
             int level = EnchantmentHelper.getItemEnchantmentLevel(self.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.SPLATTERING), self.getMainHandItem());
 
-            if (self instanceof ServerPlayer serverPlayer) ModTriggers.CRIT_DAMAGE.get().trigger(serverPlayer);
+            if (self instanceof ServerPlayer serverPlayer) ModTriggers.CRIT_DAMAGE.trigger(serverPlayer);
             if (level > 0) finalDamage += (3.0F * level);
             finalDamage += 3.0F;
         }

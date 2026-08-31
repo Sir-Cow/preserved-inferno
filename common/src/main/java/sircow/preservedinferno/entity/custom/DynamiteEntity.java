@@ -43,7 +43,7 @@ public class DynamiteEntity extends ThrowableItemProjectile {
 
     @Override
     protected @NonNull Item getDefaultItem() {
-        return ModItems.DYNAMITE;
+        return ModItems.DYNAMITE.get();
     }
 
     private ParticleOptions getParticle() {
@@ -100,7 +100,7 @@ public class DynamiteEntity extends ThrowableItemProjectile {
                             primedTnt.setFuse((short)(level.getRandom().nextInt(primedTnt.getFuse() / 4) + primedTnt.getFuse() / 8));
                             level.addFreshEntity(primedTnt);
                         }
-                        else if (state.is(ModBlocks.BOOM_BOX) && state.getValue(BoomBoxBlock.DYNAMITE) > 0) {
+                        else if (state.is(ModBlocks.BOOM_BOX.get()) && state.getValue(BoomBoxBlock.DYNAMITE) > 0) {
                             level.setBlock(targetPos, Blocks.AIR.defaultBlockState(), 3);
                             PrimedBoomBox primedBoomBox = new PrimedBoomBox(level, targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, explosionOwner);
                             primedBoomBox.setBlockState(state);

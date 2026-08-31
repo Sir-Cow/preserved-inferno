@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sircow.preservedinferno.effect.ModEffects;
-import sircow.preservedinferno.other.ModDamageTypes;
+import sircow.preservedinferno.damagetype.ModDamageTypes;
 
 @Mixin(Creaking.class)
 public class CreakingMixin {
@@ -43,7 +43,7 @@ public class CreakingMixin {
         );
 
         living.hurt(source, damage);
-        living.addEffect(new MobEffectInstance(ModEffects.HINDERED.holder, 60, 0, false, true, true));
+        living.addEffect(new MobEffectInstance(ModEffects.hinderedHolder(), 60, 0, false, true, true));
         self.swing(self.getUsedItemHand());
         self.level().broadcastEntityEvent(self, (byte)4);
         cir.setReturnValue(true);

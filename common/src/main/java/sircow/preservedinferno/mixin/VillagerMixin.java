@@ -62,7 +62,7 @@ public class VillagerMixin implements VillagerFlags {
             MerchantOffers offers = self.getOffers();
             offers.clear();
             TradeRotator.rebuildTrades(self, data.level(), self.getRandom());
-            if (data.level() == 5) level.getPlayers(player -> player.distanceToSqr(self) <= 100 * 100).forEach(ModTriggers.MAX_VILLAGER.get()::trigger);
+            if (data.level() == 5) level.getPlayers(player -> player.distanceToSqr(self) <= 100 * 100).forEach(ModTriggers.MAX_VILLAGER::trigger);
         }
     }
 
@@ -111,7 +111,7 @@ public class VillagerMixin implements VillagerFlags {
 
             if (this.pi$didSleep && this.pi$didGather && !this.pi$didPanic) {
                 TradeRotator.rebuildTrades(self, self.getVillagerData().level(), self.getRandom());
-                level.getPlayers(player -> player.distanceToSqr(self) <= 100 * 100).forEach(ModTriggers.VILLAGER_RESTOCK.get()::trigger);
+                level.getPlayers(player -> player.distanceToSqr(self) <= 100 * 100).forEach(ModTriggers.VILLAGER_RESTOCK::trigger);
             }
 
             this.pi$setDidSleep(false);
@@ -141,7 +141,7 @@ public class VillagerMixin implements VillagerFlags {
             Optional<ResourceKey<VillagerProfession>> profKeyOpt = villager.getVillagerData().profession().unwrapKey();
             profKeyOpt.ifPresent(access::markTraded);
 
-            if (access.hasTradedAll()) ModTriggers.TRADE_EVERY_VILLAGER.get().trigger(player);
+            if (access.hasTradedAll()) ModTriggers.TRADE_EVERY_VILLAGER.trigger(player);
         }
     }
 

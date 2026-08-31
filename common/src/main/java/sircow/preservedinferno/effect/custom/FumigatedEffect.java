@@ -8,7 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.effect.PreservedEffect;
-import sircow.preservedinferno.other.ModDamageTypes;
+import sircow.preservedinferno.damagetype.ModDamageTypes;
 
 public class FumigatedEffect extends PreservedEffect {
     public FumigatedEffect() {

@@ -37,7 +37,7 @@ public abstract class ServerExplosionMixin {
         normalized = Math.clamp(normalized, 0.0D, 1.0D);
         int duration = Math.max(60, (int)(600 * (1.0D - normalized)));
 
-        living.addEffect(new MobEffectInstance(ModEffects.FUMIGATED.holder, duration, 0), creeper);
+        living.addEffect(new MobEffectInstance(ModEffects.fumigatedHolder(), duration, 0), creeper);
     }
 
     @WrapOperation(method = "explode", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/ServerExplosion;interactsWithBlocks()Z"))

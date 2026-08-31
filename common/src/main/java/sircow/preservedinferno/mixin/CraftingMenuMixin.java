@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import sircow.preservedinferno.components.ModComponents;
-import sircow.preservedinferno.other.ModTags;
+import sircow.preservedinferno.component.ModComponents;
+import sircow.preservedinferno.tag.ModTags;
 
 @Mixin(CraftingMenu.class)
 public abstract class CraftingMenuMixin {

@@ -19,7 +19,7 @@ public abstract class ArrowMixin {
         if (arrow.getColor() == -1) return;
 
         if (arrow.getOwner() instanceof Player player) {
-            if (player instanceof ServerPlayer serverPlayer) ModTriggers.USE_TIPPED_ARROW.get().trigger(serverPlayer);
+            if (player instanceof ServerPlayer serverPlayer) ModTriggers.USE_TIPPED_ARROW.trigger(serverPlayer);
         }
     }
 }

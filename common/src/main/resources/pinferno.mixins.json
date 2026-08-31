@@ -114,7 +114,6 @@
     "PoisonMobEffectMixin",
     "PortalShapeMixin",
     "PotionBrewingBuilderMixin",
-    "PotionBrewingMixin",
     "PotionsMixin",
     "PowderSnowBlockMixin",
     "RabbitMixin",

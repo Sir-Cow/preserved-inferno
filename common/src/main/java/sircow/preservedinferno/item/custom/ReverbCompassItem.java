@@ -55,7 +55,7 @@ public class ReverbCompassItem extends Item {
 
         if (slot == EquipmentSlot.OFFHAND) {
             ItemStack mainHand = player.getMainHandItem();
-            if (mainHand.getItem() instanceof CompassItem || mainHand.getItem() == ModItems.REVERB_COMPASS) return;
+            if (mainHand.getItem() instanceof CompassItem || mainHand.getItem() == ModItems.REVERB_COMPASS.get()) return;
         }
     }
 
@@ -82,7 +82,7 @@ public class ReverbCompassItem extends Item {
 
         if (replaceExistingStack) itemStack.set(DataComponents.LODESTONE_TRACKER, target);
         else {
-            ItemStack lodestoneCompass = itemStack.transmuteCopy(ModItems.REVERB_COMPASS, 1);
+            ItemStack lodestoneCompass = itemStack.transmuteCopy(ModItems.REVERB_COMPASS.get(), 1);
             itemStack.consume(1, player);
             lodestoneCompass.set(DataComponents.LODESTONE_TRACKER, target);
 
@@ -110,7 +110,7 @@ public class ReverbCompassItem extends Item {
             level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.REVERB_COMPASS_USE2, SoundSource.PLAYERS, 1.0F, 1.0F);
             level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.REVERB_COMPASS_USE3, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-            if (player instanceof ServerPlayer serverPlayer) ModTriggers.USE_REVERB_COMPASS.get().trigger(serverPlayer);
+            if (player instanceof ServerPlayer serverPlayer) ModTriggers.USE_REVERB_COMPASS.trigger(serverPlayer);
 
             if (!player.hasInfiniteMaterials()) {
                 ItemStack newCompass = new ItemStack(Items.COMPASS);

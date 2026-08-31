@@ -57,7 +57,7 @@ public class AxeItemMixin {
             Optional<BlockState> prev = WeatheringCopper.getPrevious(before);
 
             if (prev.isPresent() && prev.get().getBlock() == optional.get().getBlock()) {
-                if (player instanceof ServerPlayer serverPlayer) ModTriggers.SCRAPE_COPPER.get().trigger(serverPlayer);
+                if (player instanceof ServerPlayer serverPlayer) ModTriggers.SCRAPE_COPPER.trigger(serverPlayer);
             }
         }
     }

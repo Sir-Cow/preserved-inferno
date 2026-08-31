@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.entity.FuelValues;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import sircow.preservedinferno.block.ModBlocks;
-import sircow.preservedinferno.other.ModTags;
+import sircow.preservedinferno.tag.ModTags;
 
 @Mixin(FuelValues.class)
 public class FuelValuesMixin {
@@ -43,21 +43,21 @@ public class FuelValuesMixin {
         values.put(Items.BLAZE_ROD, baseUnit * 16);
         values.put(Items.CHARCOAL, baseUnit * 4);
         values.put(Items.LAVA_BUCKET, baseUnit * 32);
-        values.put(ModBlocks.ANGLING_TABLE.asItem(), (int) (baseUnit * 1.5F));
+        values.put(ModBlocks.ANGLING_TABLE.get().asItem(), (int) (baseUnit * 1.5F));
         values.put(Blocks.COAL_BLOCK.asItem(), baseUnit * 8 * 5);
         values.put(Blocks.DRIED_KELP_BLOCK.asItem(), baseUnit * 8);
         values.put(Blocks.LEAF_LITTER.asItem(), (int) (baseUnit * 0.25F));
         values.put(Blocks.MANGROVE_ROOTS.asItem(), baseUnit * 2);
-        values.put(ModBlocks.REINFORCED_ACACIA_DOOR.asItem(), baseUnit);
-        values.put(ModBlocks.REINFORCED_BAMBOO_DOOR.asItem(), baseUnit);
-        values.put(ModBlocks.REINFORCED_BIRCH_DOOR.asItem(), baseUnit);
-        values.put(ModBlocks.REINFORCED_CHERRY_DOOR.asItem(), baseUnit);
-        values.put(ModBlocks.REINFORCED_DARK_OAK_DOOR.asItem(), baseUnit);
-        values.put(ModBlocks.REINFORCED_JUNGLE_DOOR.asItem(), baseUnit);
-        values.put(ModBlocks.REINFORCED_MANGROVE_DOOR.asItem(), baseUnit);
-        values.put(ModBlocks.REINFORCED_OAK_DOOR.asItem(), baseUnit);
-        values.put(ModBlocks.REINFORCED_PALE_OAK_DOOR.asItem(), baseUnit);
-        values.put(ModBlocks.REINFORCED_SPRUCE_DOOR.asItem(), baseUnit);
+        values.put(ModBlocks.REINFORCED_ACACIA_DOOR.get().asItem(), baseUnit);
+        values.put(ModBlocks.REINFORCED_BAMBOO_DOOR.get().asItem(), baseUnit);
+        values.put(ModBlocks.REINFORCED_BIRCH_DOOR.get().asItem(), baseUnit);
+        values.put(ModBlocks.REINFORCED_CHERRY_DOOR.get().asItem(), baseUnit);
+        values.put(ModBlocks.REINFORCED_DARK_OAK_DOOR.get().asItem(), baseUnit);
+        values.put(ModBlocks.REINFORCED_JUNGLE_DOOR.get().asItem(), baseUnit);
+        values.put(ModBlocks.REINFORCED_MANGROVE_DOOR.get().asItem(), baseUnit);
+        values.put(ModBlocks.REINFORCED_OAK_DOOR.get().asItem(), baseUnit);
+        values.put(ModBlocks.REINFORCED_PALE_OAK_DOOR.get().asItem(), baseUnit);
+        values.put(ModBlocks.REINFORCED_SPRUCE_DOOR.get().asItem(), baseUnit);
 
         return original;
     }

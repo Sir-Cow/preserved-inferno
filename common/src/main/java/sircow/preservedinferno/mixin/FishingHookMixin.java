@@ -18,8 +18,8 @@ import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
-import sircow.preservedinferno.components.ModComponents;
-import sircow.preservedinferno.other.ModTags;
+import sircow.preservedinferno.component.ModComponents;
+import sircow.preservedinferno.tag.ModTags;
 import sircow.preservedinferno.trigger.ModTriggers;
 
 import java.util.List;
@@ -181,7 +181,7 @@ public abstract class FishingHookMixin {
         if (!(owner instanceof ServerPlayer serverPlayer)) return;
 
         for (ItemStack itemStack : items) {
-            if (itemStack.is(ModTags.FISHING_LOOT_FISH) && serverPlayer.getVehicle() instanceof Nautilus) ModTriggers.FISH_ON_NAUTILUS.get().trigger(serverPlayer);
+            if (itemStack.is(ModTags.FISHING_LOOT_FISH) && serverPlayer.getVehicle() instanceof Nautilus) ModTriggers.FISH_ON_NAUTILUS.trigger(serverPlayer);
         }
     }
 

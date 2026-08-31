@@ -22,7 +22,7 @@ public class AnvilScreenMixin {
                 AnvilMenu menu = screen.getMenu();
                 ItemStack second = menu.getSlot(1).getItem();
 
-                if (second.is(ModItems.REPAIR_KIT) || second.is(ModItems.FORGE_DUST)) {
+                if (second.is(ModItems.REPAIR_KIT.get()) || second.is(ModItems.FORGE_DUST.get())) {
                     int cost = menu.getCost();
                     return Component.translatable("container.pinferno.repair.cost", cost);
                 }

@@ -18,9 +18,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import sircow.preservedinferno.FabricPreservedInferno;
 import sircow.preservedinferno.block.custom.AnglingTableBlock;
-import sircow.preservedinferno.screen.AnglingTableMenu;
+import sircow.preservedinferno.codec.BlockData;
+import sircow.preservedinferno.menu.AnglingTableMenu;
 
 @Mixin(AnglingTableBlock.class)
 public class AnglingTableBlockMixin {
@@ -45,7 +45,7 @@ public class AnglingTableBlockMixin {
                     @Override
                     public Object getScreenOpeningData(@NonNull ServerPlayer serverPlayer) {
                         boolean isEmpty = level.getBlockEntity(pos) == null;
-                        return new FabricPreservedInferno.BlockData(isEmpty);
+                        return new BlockData(isEmpty);
                     }
                 }
         );

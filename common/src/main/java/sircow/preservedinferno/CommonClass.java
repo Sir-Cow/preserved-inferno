@@ -6,17 +6,14 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.filter.AbstractFilter;
 import sircow.preservedinferno.block.ModBlocks;
-import sircow.preservedinferno.components.ModComponents;
 import sircow.preservedinferno.entity.ModEntities;
 import sircow.preservedinferno.fluid.ModFluids;
 import sircow.preservedinferno.item.ModItems;
-import sircow.preservedinferno.other.ModDamageTypes;
+import sircow.preservedinferno.damagetype.ModDamageTypes;
 import sircow.preservedinferno.other.ModEntityData;
-import sircow.preservedinferno.other.ModTags;
+import sircow.preservedinferno.tag.ModTags;
 import sircow.preservedinferno.platform.Services;
-import sircow.preservedinferno.potion.ModPotions;
 import sircow.preservedinferno.recipe.ModRecipes;
-import sircow.preservedinferno.sound.ModSounds;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,12 +28,9 @@ public class CommonClass {
             ModItems.registerModItems();
             ModTags.registerModTags();
             ModDamageTypes.registerModDamageTypes();
-            ModSounds.registerSounds();
-            ModComponents.registerModComponents();
             ModEntityData.registerModEntityData();
             ModEntities.registerModEntities();
             ModRecipes.registerModRecipes();
-            ModPotions.registerModPotions();
             // other
             suppressSpecificLogLines();
         }

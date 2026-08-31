@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import sircow.preservedinferno.other.ModDamageTypes;
+import sircow.preservedinferno.damagetype.ModDamageTypes;
 import sircow.preservedinferno.other.NoLootingPlayerWrapper;
 import sircow.preservedinferno.trigger.ModTriggers;
 
@@ -115,7 +115,7 @@ public class ConduitBlockEntityMixin {
                 List<Player> nearbyPlayers = level.getEntitiesOfClass(Player.class, new AABB(pos).inflate(16));
                 for (Player player : nearbyPlayers) {
                     if (player instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.CONDUIT_POWER.get().trigger(serverPlayer);
+                        ModTriggers.CONDUIT_POWER.trigger(serverPlayer);
                     }
                 }
             }
@@ -125,7 +125,7 @@ public class ConduitBlockEntityMixin {
                 List<Player> nearbyPlayers = level.getEntitiesOfClass(Player.class, new AABB(pos).inflate(16));
                 for (Player player : nearbyPlayers) {
                     if (player instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.CONDUIT_POWER_FULL.get().trigger(serverPlayer);
+                        ModTriggers.CONDUIT_POWER_FULL.trigger(serverPlayer);
                     }
                 }
             }

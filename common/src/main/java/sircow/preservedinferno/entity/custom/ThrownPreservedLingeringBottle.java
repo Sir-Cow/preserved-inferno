@@ -49,7 +49,7 @@ public class ThrownPreservedLingeringBottle extends ThrowableItemProjectile {
 
         AreaEffectCloud cloud;
 
-        if (item == ModItems.LINGERING_HONEY_BOTTLE || item == ModItems.LINGERING_LAVA_BOTTLE || item == ModItems.LINGERING_MILK_BOTTLE) cloud = new PreservedAreaEffectCloud(level, this.getX(), this.getY(), this.getZ(), item);
+        if (item == ModItems.LINGERING_HONEY_BOTTLE.get() || item == ModItems.LINGERING_LAVA_BOTTLE.get() || item == ModItems.LINGERING_MILK_BOTTLE.get()) cloud = new PreservedAreaEffectCloud(level, this.getX(), this.getY(), this.getZ(), item);
         else cloud = new AreaEffectCloud(level, this.getX(), this.getY(), this.getZ());
 
         if (this.getOwner() instanceof LivingEntity owner) cloud.setOwner(owner);

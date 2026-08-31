@@ -66,9 +66,9 @@ public class AbstractCauldronBlockMixin {
                         bucketInsert = true;
                     }
                     else if (heldItem.is(Items.POTION) && potionContentsComponent != null && potionContentsComponent.is(Potions.WATER)) insertedFluid = CauldronFluid.WATER;
-                    else if (heldItem.is(ModItems.MILK_BOTTLE)) insertedFluid = CauldronFluid.MILK;
+                    else if (heldItem.is(ModItems.MILK_BOTTLE.get())) insertedFluid = CauldronFluid.MILK;
                     else if (heldItem.is(Items.HONEY_BOTTLE)) insertedFluid = CauldronFluid.HONEY;
-                    else if (heldItem.is(ModItems.LAVA_BOTTLE)) insertedFluid = CauldronFluid.LAVA;
+                    else if (heldItem.is(ModItems.LAVA_BOTTLE.get())) insertedFluid = CauldronFluid.LAVA;
                     else if (heldItem.is(Items.HONEY_BLOCK)) {
                         insertedFluid = CauldronFluid.HONEY;
                         isHoneyBlock = true;
@@ -139,8 +139,8 @@ public class AbstractCauldronBlockMixin {
                         if (cauldron.fluidAmount >= cauldron.fluidValueBottle) {
                             ItemStack resultBottle = switch (cauldron.fluid) {
                                 case HONEY -> new ItemStack(Items.HONEY_BOTTLE);
-                                case LAVA -> new ItemStack(ModItems.LAVA_BOTTLE);
-                                case MILK -> new ItemStack(ModItems.MILK_BOTTLE);
+                                case LAVA -> new ItemStack(ModItems.LAVA_BOTTLE.get());
+                                case MILK -> new ItemStack(ModItems.MILK_BOTTLE.get());
                                 case WATER -> {
                                     ItemStack stack = new ItemStack(Items.POTION);
                                     stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.WATER));

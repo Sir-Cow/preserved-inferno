@@ -10,8 +10,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NonNull;
 import sircow.preservedinferno.Constants;
-import sircow.preservedinferno.components.ModComponents;
-import sircow.preservedinferno.components.RodTooltipComponent;
+import sircow.preservedinferno.component.ModComponents;
+import sircow.preservedinferno.component.RodTooltipComponent;
 
 public class RodTooltipComponentRenderer implements ClientTooltipComponent {
     private final RodTooltipComponent component;
@@ -56,10 +56,12 @@ public class RodTooltipComponentRenderer implements ClientTooltipComponent {
                 case SINKER -> SINKER_SLOT_TEXTURE;
             };
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, x + 4, y + 4, 16, 16);
-            return;
         }
-        graphics.item(stack, x + 4, y + 4);
-        graphics.itemDecorations(Minecraft.getInstance().font, stack, x + 4, y + 4);
+        else {
+            graphics.item(stack, x + 4, y + 4);
+            graphics.itemDecorations(Minecraft.getInstance().font, stack, x + 4, y + 4);
+        }
+
         renderDurabilityBar(graphics, x, y, part);
     }
 

@@ -62,14 +62,14 @@ public abstract class BrewingStandBlockEntityMixin extends BaseContainerBlockEnt
             BrewingStandBlockEntity stand = (BrewingStandBlockEntity) (Object) this;
             if (stand.getItem(slot).isEmpty()) {
                 if (itemStack.is(Items.HONEY_BOTTLE)
-                        || itemStack.is(ModItems.SPLASH_HONEY_BOTTLE)
-                        || itemStack.is(ModItems.LINGERING_HONEY_BOTTLE)
-                        || itemStack.is(ModItems.LAVA_BOTTLE)
-                        || itemStack.is(ModItems.SPLASH_LAVA_BOTTLE)
-                        || itemStack.is(ModItems.LINGERING_LAVA_BOTTLE)
-                        || itemStack.is(ModItems.MILK_BOTTLE)
-                        || itemStack.is(ModItems.SPLASH_MILK_BOTTLE)
-                        || itemStack.is(ModItems.LINGERING_MILK_BOTTLE)) {
+                        || itemStack.is(ModItems.SPLASH_HONEY_BOTTLE.get())
+                        || itemStack.is(ModItems.LINGERING_HONEY_BOTTLE.get())
+                        || itemStack.is(ModItems.LAVA_BOTTLE.get())
+                        || itemStack.is(ModItems.SPLASH_LAVA_BOTTLE.get())
+                        || itemStack.is(ModItems.LINGERING_LAVA_BOTTLE.get())
+                        || itemStack.is(ModItems.MILK_BOTTLE.get())
+                        || itemStack.is(ModItems.SPLASH_MILK_BOTTLE.get())
+                        || itemStack.is(ModItems.LINGERING_MILK_BOTTLE.get())) {
                     cir.setReturnValue(true);
                 }
             }

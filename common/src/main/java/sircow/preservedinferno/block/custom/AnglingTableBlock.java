@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
-import sircow.preservedinferno.screen.AnglingTableMenu;
+import sircow.preservedinferno.menu.AnglingTableMenu;
 
 public class AnglingTableBlock extends Block {
     public static final MapCodec<AnglingTableBlock> CODEC = simpleCodec(AnglingTableBlock::new);

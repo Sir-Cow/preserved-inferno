@@ -1,4 +1,4 @@
-package sircow.preservedinferno.screen;
+package sircow.preservedinferno.menu;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerLevel;
@@ -131,7 +131,7 @@ public class PreservedLoomMenu extends AbstractContainerMenu {
 
                 // award advancement
                 if (stack.is(ItemTags.WOOL)) {
-                    if (player instanceof ServerPlayer serverPlayer) ModTriggers.WOOL_FROM_LOOM.get().trigger(serverPlayer);
+                    if (player instanceof ServerPlayer serverPlayer) ModTriggers.WOOL_FROM_LOOM.trigger(serverPlayer);
                 }
 
                 access.execute((level, blockPos) -> {

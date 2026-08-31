@@ -14,9 +14,9 @@ import net.minecraft.world.item.crafting.display.ShapelessCraftingRecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
-import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.component.ModComponents;
 import sircow.preservedinferno.item.ModItems;
-import sircow.preservedinferno.other.ModTags;
+import sircow.preservedinferno.tag.ModTags;
 
 import java.util.List;
 
@@ -150,7 +150,7 @@ public class ForgeDustRecipe extends NormalCraftingRecipe {
         if (stack.is(ItemTags.DIAMOND_TOOL_MATERIALS)) return "Diamond";
         if (stack.is(ModTags.REPAIRS_NETHERITE_TOOL)) return "Netherite";
         if (stack.is(ModTags.QUARTZITE_TOOL_MATERIALS)) return "Quartzite";
-        if (stack.is(ModItems.NETHER_ALLOY_PLATE)) return "Nether Alloy";
+        if (stack.is(ModItems.NETHER_ALLOY_PLATE.get())) return "Nether Alloy";
         return "None";
     }
 }

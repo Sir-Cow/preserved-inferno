@@ -1,21 +1,15 @@
 package sircow.preservedinferno.effect;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import sircow.preservedinferno.Constants;
+import net.minecraft.world.effect.MobEffect;
 
 public class FabricModEffects {
     public static void registerFabricModEffects() {
-        register(ModEffects.FUMIGATED);
-        register(ModEffects.HINDERED);
-        register(ModEffects.WELL_RESTED);
-    }
-
-    private static void register(ModEffects.EffectEntry entry) {
-        entry.holder = Registry.registerForHolder(
-                BuiltInRegistries.MOB_EFFECT,
-                Constants.id(entry.id),
-                entry.factory.get()
-        );
+        ModEffects.getEffects().forEach((id, effect) -> {
+            Holder<MobEffect> holder = Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, id, effect);
+            ModEffects.getHolders().put(id, holder);
+        });
     }
 }

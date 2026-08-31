@@ -15,7 +15,7 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
-import sircow.preservedinferno.components.ModComponents;
+import sircow.preservedinferno.component.ModComponents;
 import sircow.preservedinferno.item.ModItems;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class FlareParticleDyeRecipe extends NormalCraftingRecipe {
             ItemStack stack = input.getItem(i);
             if (stack.isEmpty()) continue;
 
-            if (stack.is(ModItems.FLARE_GUN)) {
+            if (stack.is(ModItems.FLARE_GUN.get())) {
                 if (hasTarget) return false;
                 hasTarget = true;
             }
@@ -71,7 +71,7 @@ public class FlareParticleDyeRecipe extends NormalCraftingRecipe {
             ItemStack stack = input.getItem(i);
             if (stack.isEmpty()) continue;
 
-            if (stack.is(ModItems.FLARE_GUN)) {
+            if (stack.is(ModItems.FLARE_GUN.get())) {
                 if (!targetStack.isEmpty()) return ItemStack.EMPTY;
                 targetStack = stack.copy();
             }
@@ -104,7 +104,7 @@ public class FlareParticleDyeRecipe extends NormalCraftingRecipe {
     @Override
     protected @NonNull PlacementInfo createPlacementInfo() {
         return PlacementInfo.create(List.of(
-                Ingredient.of(ModItems.FLARE_GUN),
+                Ingredient.of(ModItems.FLARE_GUN.get()),
                 Ingredient.of(BuiltInRegistries.ITEM.getOrThrow(ItemTags.DYES))
         ));
     }

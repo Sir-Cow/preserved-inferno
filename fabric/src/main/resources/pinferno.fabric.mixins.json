@@ -11,6 +11,8 @@
     "BlockMixin",
     "CauldronBlockMixin",
     "EnchantingTableBlockMixin",
+    "FabricItemMixin",
+    "FabricPotionBrewingMixin",
     "LoomBlockMixin",
     "PlayerAdvancementsMixin",
     "PointedDripstoneBlockMixin",

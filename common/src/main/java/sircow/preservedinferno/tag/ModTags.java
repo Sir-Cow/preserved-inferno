@@ -1,4 +1,4 @@
-package sircow.preservedinferno.other;
+package sircow.preservedinferno.tag;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -42,7 +42,5 @@ public class ModTags {
     public static final TagKey<Block> INCORRECT_FOR_QUARTZITE_TOOL = TagKey.create(Registries.BLOCK, Constants.id("incorrect_for_quartzite_tool"));
     public static final TagKey<Block> INCORRECT_FOR_NETHER_ALLOY_TOOL = TagKey.create(Registries.BLOCK, Constants.id("incorrect_for_nether_alloy_tool"));
 
-    public static void registerModTags() {
-        // Constants.LOG.info("Registering Mod Tags for " + Constants.MOD_ID);
-    }
+    public static void registerModTags() {}
 }

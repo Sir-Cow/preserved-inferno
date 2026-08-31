@@ -30,7 +30,7 @@ public class AbstractCowMixin {
         if (stack.is(Items.GLASS_BOTTLE) && !cow.isBaby()) {
             player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
 
-            ItemStack result = ItemUtils.createFilledResult(stack, player, new ItemStack(ModItems.MILK_BOTTLE));
+            ItemStack result = ItemUtils.createFilledResult(stack, player, new ItemStack(ModItems.MILK_BOTTLE.get()));
 
             player.setItemInHand(hand, result);
             cir.setReturnValue(InteractionResult.SUCCESS);

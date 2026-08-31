@@ -49,7 +49,7 @@ public class PreservedBottleItem extends Item implements ProjectileItem {
 
     private static boolean isLingering(ItemStack stack) {
         Item item = stack.getItem();
-        return item == ModItems.LINGERING_LAVA_BOTTLE || item == ModItems.LINGERING_MILK_BOTTLE || item == ModItems.LINGERING_HONEY_BOTTLE;
+        return item == ModItems.LINGERING_LAVA_BOTTLE.get() || item == ModItems.LINGERING_MILK_BOTTLE.get() || item == ModItems.LINGERING_HONEY_BOTTLE.get();
     }
 
     @Override

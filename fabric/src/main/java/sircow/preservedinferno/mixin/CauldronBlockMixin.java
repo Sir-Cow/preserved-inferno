@@ -212,7 +212,7 @@ public abstract class CauldronBlockMixin extends AbstractCauldronBlock implement
             }
             if (entity instanceof LivingEntity livingEntity) {
                 if (cauldron.fluid == CauldronFluid.HONEY && cauldron.fluidAmount >= 8) {
-                    livingEntity.addEffect(new MobEffectInstance(ModEffects.HINDERED.holder, 8 * 20, 0, true, true, true));
+                    livingEntity.addEffect(new MobEffectInstance(ModEffects.hinderedHolder(), 8 * 20, 0, true, true, true));
                     livingEntity.removeEffect(MobEffects.POISON);
                     if (cauldron.markEntityInHoney(entity)) {
                         level.playSound(null, pos, SoundEvents.HONEY_BLOCK_SLIDE, SoundSource.BLOCKS, 1F, 1F);

@@ -33,10 +33,10 @@ public class ServerPlayerGameModeMixin {
             BlockPos enchantmentTablePos = getEnchantmentTableInValidSpot(level, hitResult.getBlockPos().relative(hitResult.getDirection()));
 
             if (enchantmentTablePos != null) {
-                ModTriggers.PLACE_BOOKSHELF.get().trigger(player);
+                ModTriggers.PLACE_BOOKSHELF.trigger(player);
                 int bookshelfCount = countValidBookshelvesAroundEnchantingTable(level, enchantmentTablePos);
                 if (bookshelfCount >= 10) {
-                    ModTriggers.MAX_ENCHANTING_TABLE.get().trigger(player);
+                    ModTriggers.MAX_ENCHANTING_TABLE.trigger(player);
                 }
             }
         }

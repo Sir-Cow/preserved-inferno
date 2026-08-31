@@ -17,7 +17,7 @@ public class BrushableBlockEntityMixin {
     @Inject(method = "brushingCompleted", at = @At("TAIL"))
     private void pinferno$onBrushingCompleted(ServerLevel level, LivingEntity user, ItemStack brush, CallbackInfo ci) {
         if (user instanceof Player player) {
-            if (player instanceof ServerPlayer serverPlayer) ModTriggers.BRUSH_BLOCK.get().trigger(serverPlayer);
+            if (player instanceof ServerPlayer serverPlayer) ModTriggers.BRUSH_BLOCK.trigger(serverPlayer);
         }
     }
 }

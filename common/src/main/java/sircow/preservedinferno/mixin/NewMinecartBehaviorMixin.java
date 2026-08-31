@@ -22,19 +22,19 @@ public abstract class NewMinecartBehaviorMixin {
 
         double boost, maxSpeed; // default max (8 blocks/sec = 0.4 blocks/tick)
 
-        if (state.is(ModBlocks.OXIDIZED_INDUCTOR_RAIL) || state.is(ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL)) {
+        if (state.is(ModBlocks.OXIDIZED_INDUCTOR_RAIL.get()) || state.is(ModBlocks.WAXED_OXIDIZED_INDUCTOR_RAIL.get())) {
             boost = 0.06;
             maxSpeed = 0.2;
         }
-        else if (state.is(ModBlocks.WEATHERED_INDUCTOR_RAIL) || state.is(ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL)) {
+        else if (state.is(ModBlocks.WEATHERED_INDUCTOR_RAIL.get()) || state.is(ModBlocks.WAXED_WEATHERED_INDUCTOR_RAIL.get())) {
             boost = 0.12;
             maxSpeed = 0.4;
         }
-        else if (state.is(ModBlocks.EXPOSED_INDUCTOR_RAIL) || state.is(ModBlocks.WAXED_EXPOSED_INDUCTOR_RAIL)) {
+        else if (state.is(ModBlocks.EXPOSED_INDUCTOR_RAIL.get()) || state.is(ModBlocks.WAXED_EXPOSED_INDUCTOR_RAIL.get())) {
             boost = 0.18;
             maxSpeed = 0.6;
         }
-        else if (state.is(ModBlocks.INDUCTOR_RAIL) || state.is(ModBlocks.WAXED_INDUCTOR_RAIL)) {
+        else if (state.is(ModBlocks.INDUCTOR_RAIL.get()) || state.is(ModBlocks.WAXED_INDUCTOR_RAIL.get())) {
             boost = 0.24;
             maxSpeed = 0.8;
         }

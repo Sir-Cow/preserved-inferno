@@ -96,7 +96,7 @@ public class AbstractHorseMixin {
                         attribute.setBaseValue(newValue);
                         pinferno$onMovementSpeedIncrease();
                         if (player instanceof ServerPlayer serverPlayer) {
-                            ModTriggers.UPGRADE_HORSE_ATTRIBUTE.get().trigger(serverPlayer);
+                            ModTriggers.UPGRADE_HORSE_ATTRIBUTE.trigger(serverPlayer);
                         }
                         pinferno$checkMaxHorseStats(horse, player);
                     }
@@ -118,7 +118,7 @@ public class AbstractHorseMixin {
                         attribute.setBaseValue(newValue);
                         pinferno$onJumpStrengthIncrease();
                         if (player instanceof ServerPlayer serverPlayer) {
-                            ModTriggers.UPGRADE_HORSE_ATTRIBUTE.get().trigger(serverPlayer);
+                            ModTriggers.UPGRADE_HORSE_ATTRIBUTE.trigger(serverPlayer);
                         }
                         pinferno$checkMaxHorseStats(horse, player);
                     }
@@ -197,7 +197,7 @@ public class AbstractHorseMixin {
         if (speed == null || jump == null || health == null) return;
 
         if (speed.getBaseValue() >= 0.4633D && jump.getBaseValue() >= 1.0D && health.getBaseValue() >= 40.0D) {
-            ModTriggers.MAX_HORSE_STATS.get().trigger(serverPlayer);
+            ModTriggers.MAX_HORSE_STATS.trigger(serverPlayer);
         }
     }
 }

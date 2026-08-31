@@ -1,4 +1,4 @@
-package sircow.preservedinferno.screen;
+package sircow.preservedinferno.menu;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;

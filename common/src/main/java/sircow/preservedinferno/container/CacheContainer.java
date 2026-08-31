@@ -1,4 +1,4 @@
-package sircow.preservedinferno.other;
+package sircow.preservedinferno.container;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;

@@ -35,8 +35,8 @@ import sircow.preservedinferno.item.ModItems;
 import java.util.List;
 
 public class ThrownCopperTrident extends AbstractArrow {
-    public static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(ThrownCopperTrident.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownCopperTrident.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Byte> ID_LOYALTY;
+    private static final EntityDataAccessor<Boolean> ID_FOIL;
     private static final float WATER_INERTIA = 0.99F;
     private static final boolean DEFAULT_DEALT_DAMAGE = false;
     private boolean dealtDamage;
@@ -88,8 +88,8 @@ public class ThrownCopperTrident extends AbstractArrow {
         }
 
         Entity entity = this.getOwner();
-        int i = this.entityData.get(ID_LOYALTY);
-        if (i > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) {
+        int loyalty = this.entityData.get(ID_LOYALTY);
+        if (loyalty > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) {
             if (!this.isAcceptibleReturnOwner()) {
                 if (this.level() instanceof ServerLevel serverLevel && this.pickup == AbstractArrow.Pickup.ALLOWED) {
                     this.spawnAtLocation(serverLevel, this.getPickupItem(), 0.1F);
@@ -105,9 +105,9 @@ public class ThrownCopperTrident extends AbstractArrow {
 
                 this.setNoPhysics(true);
                 Vec3 vec3 = entity.getEyePosition().subtract(this.position());
-                this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.015 * i, this.getZ());
-                double d = 0.05 * i;
-                this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec3.normalize().scale(d)));
+                this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.015 * loyalty, this.getZ());
+                double accel = 0.05 * loyalty;
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec3.normalize().scale(accel)));
                 if (this.clientSideReturnTridentTickCount == 0) {
                     this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F);
                 }
@@ -137,15 +137,15 @@ public class ThrownCopperTrident extends AbstractArrow {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         Entity entity = result.getEntity();
-        float f = 9.0F;
-        Entity entity2 = this.getOwner();
-        DamageSource damageSource = this.damageSources().trident(this, entity2 == null ? this : entity2);
+        float dmg = 9.0F;
+        Entity currentOwner = this.getOwner();
+        DamageSource damageSource = this.damageSources().trident(this, currentOwner == null ? this : currentOwner);
         if (this.level() instanceof ServerLevel serverLevel) {
-            f = EnchantmentHelper.modifyDamage(serverLevel, this.getWeaponItem(), entity, damageSource, f);
+            dmg = EnchantmentHelper.modifyDamage(serverLevel, this.getWeaponItem(), entity, damageSource, dmg);
         }
 
         this.dealtDamage = true;
-        if (entity.hurtOrSimulate(damageSource, f)) {
+        if (entity.hurtOrSimulate(damageSource, dmg)) {
             if (entity.getType() == EntityTypes.ENDERMAN) {
                 return;
             }
@@ -174,16 +174,7 @@ public class ThrownCopperTrident extends AbstractArrow {
     @Override
     protected void hitBlockEnchantmentEffects(@NotNull ServerLevel level, BlockHitResult hitResult, @NotNull ItemStack stack) {
         Vec3 vec3 = hitResult.getBlockPos().clampLocationWithin(hitResult.getLocation());
-        EnchantmentHelper.onHitBlock(
-                level,
-                stack,
-                this.getOwner() instanceof LivingEntity livingEntity ? livingEntity : null,
-                this,
-                null,
-                vec3,
-                level.getBlockState(hitResult.getBlockPos()),
-                item -> this.kill(level)
-        );
+        EnchantmentHelper.onHitBlock(level, stack, this.getOwner() instanceof LivingEntity livingEntity ? livingEntity : null, this, null, vec3, level.getBlockState(hitResult.getBlockPos()), item -> this.kill(level));
     }
 
     @Override
@@ -198,7 +189,7 @@ public class ThrownCopperTrident extends AbstractArrow {
 
     @Override
     protected @NotNull ItemStack getDefaultPickupItem() {
-        return new ItemStack(ModItems.COPPER_TRIDENT);
+        return new ItemStack(ModItems.COPPER_TRIDENT.get());
     }
 
     @Override
@@ -248,5 +239,10 @@ public class ThrownCopperTrident extends AbstractArrow {
     @Override
     public boolean shouldRender(double x, double y, double z) {
         return true;
+    }
+
+    static {
+        ID_LOYALTY = SynchedEntityData.defineId(ThrownCopperTrident.class, EntityDataSerializers.BYTE);
+        ID_FOIL = SynchedEntityData.defineId(ThrownCopperTrident.class, EntityDataSerializers.BOOLEAN);
     }
 }

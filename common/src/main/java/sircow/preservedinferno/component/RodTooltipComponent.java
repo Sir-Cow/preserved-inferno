@@ -1,4 +1,4 @@
-package sircow.preservedinferno.components;
+package sircow.preservedinferno.component;
 
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;

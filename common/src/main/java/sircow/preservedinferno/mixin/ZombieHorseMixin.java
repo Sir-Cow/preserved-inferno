@@ -49,13 +49,13 @@ public class ZombieHorseMixin {
                     horse.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * 5, 0, false, true));
 
                     if (player instanceof ServerPlayer serverPlayer) {
-                        ModTriggers.UPGRADE_HORSE_HEALTH.get().trigger(serverPlayer);
+                        ModTriggers.UPGRADE_HORSE_HEALTH.trigger(serverPlayer);
 
                         var speed = horse.getAttribute(Attributes.MOVEMENT_SPEED);
                         var jump = horse.getAttribute(Attributes.JUMP_STRENGTH);
 
                         if (speed != null && jump != null && speed.getBaseValue() >= 0.4633D && jump.getBaseValue() >= 1.0D && attribute.getBaseValue() >= 40.0D) {
-                            ModTriggers.MAX_HORSE_STATS.get().trigger(serverPlayer);
+                            ModTriggers.MAX_HORSE_STATS.trigger(serverPlayer);
                         }
                     }
                 }

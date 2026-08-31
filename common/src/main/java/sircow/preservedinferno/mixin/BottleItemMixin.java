@@ -36,7 +36,7 @@ public class BottleItemMixin extends Item {
         if (level.getFluidState(pos).is(FluidTags.LAVA)) {
             level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BOTTLE_FILL, SoundSource.NEUTRAL, 1.0F, 1.0F);
             level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
-            cir.setReturnValue(InteractionResult.SUCCESS.heldItemTransformedTo(this.turnBottleIntoItem(itemStack, player, new ItemStack(ModItems.LAVA_BOTTLE))));
+            cir.setReturnValue(InteractionResult.SUCCESS.heldItemTransformedTo(this.turnBottleIntoItem(itemStack, player, new ItemStack(ModItems.LAVA_BOTTLE.get()))));
         }
     }
 

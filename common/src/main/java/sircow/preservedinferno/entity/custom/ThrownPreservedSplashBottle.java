@@ -64,12 +64,12 @@ public class ThrownPreservedSplashBottle extends ThrowableItemProjectile {
             if (dist >= 16.0) continue;
             double scale = 1.0 - Math.sqrt(dist) / 4.0;
 
-            if (item == ModItems.SPLASH_LAVA_BOTTLE) {
+            if (item == ModItems.SPLASH_LAVA_BOTTLE.get()) {
                 float scaledIgniteDuration = (float) (scale * 15.0);
 
                 if (scaledIgniteDuration > 0.0F && !livingEntity.fireImmune()) livingEntity.igniteForSeconds(scaledIgniteDuration);
             }
-            else if (item == ModItems.SPLASH_MILK_BOTTLE) {
+            else if (item == ModItems.SPLASH_MILK_BOTTLE.get()) {
                 if (livingEntity instanceof Player player && !livingEntity.getActiveEffects().isEmpty()) {
                     if (!level.isClientSide()) {
                         HeatAccessor heatAccessor = (HeatAccessor) player;
@@ -78,12 +78,12 @@ public class ThrownPreservedSplashBottle extends ThrowableItemProjectile {
                 }
                 livingEntity.removeAllEffects();
             }
-            else if (item == ModItems.SPLASH_HONEY_BOTTLE) {
+            else if (item == ModItems.SPLASH_HONEY_BOTTLE.get()) {
                 int baseDuration = 8 * 20;
                 int finalDuration = (int) (scale * baseDuration + 0.5);
 
-                if (finalDuration > 20) livingEntity.addEffect(new MobEffectInstance(ModEffects.HINDERED.holder, finalDuration, 0), this.getEffectSource());
-                livingEntity.removeEffect(ModEffects.FUMIGATED.holder);
+                if (finalDuration > 20) livingEntity.addEffect(new MobEffectInstance(ModEffects.hinderedHolder(), finalDuration, 0), this.getEffectSource());
+                livingEntity.removeEffect(ModEffects.fumigatedHolder());
                 livingEntity.removeEffect(MobEffects.HUNGER);
                 livingEntity.removeEffect(MobEffects.POISON);
             }
@@ -97,21 +97,21 @@ public class ThrownPreservedSplashBottle extends ThrowableItemProjectile {
     private void spawnImpactParticles(ServerLevel level, Item item) {
         var pos = this.position();
 
-        if (item == ModItems.SPLASH_LAVA_BOTTLE) {
+        if (item == ModItems.SPLASH_LAVA_BOTTLE.get()) {
             level.sendParticles(
                     ParticleTypes.LAVA,
                     pos.x(), pos.y(), pos.z(),
                     16, 0.8, 0.2, 0.8, 0.02
             );
         }
-        else if (item == ModItems.SPLASH_MILK_BOTTLE) {
+        else if (item == ModItems.SPLASH_MILK_BOTTLE.get()) {
             level.sendParticles(
                     ParticleTypes.ITEM_SNOWBALL,
                     pos.x(), pos.y(), pos.z(),
                     16, 0.8, 0.2, 0.8, 0.02
             );
         }
-        else if (item == ModItems.SPLASH_HONEY_BOTTLE) {
+        else if (item == ModItems.SPLASH_HONEY_BOTTLE.get()) {
             level.sendParticles(
                     ParticleTypes.LANDING_HONEY,
                     pos.x(), pos.y(), pos.z(),

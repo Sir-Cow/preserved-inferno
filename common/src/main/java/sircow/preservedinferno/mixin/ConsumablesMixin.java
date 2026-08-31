@@ -78,7 +78,7 @@ public class ConsumablesMixin {
 
                     @Override
                     public boolean apply(@NotNull Level level, @NotNull ItemStack itemStack, @NotNull LivingEntity livingEntity) {
-                        if (ModEffects.FUMIGATED.holder != null) livingEntity.removeEffect(ModEffects.FUMIGATED.holder);
+                        livingEntity.removeEffect(ModEffects.fumigatedHolder());
                         return true;
                     }
                 })

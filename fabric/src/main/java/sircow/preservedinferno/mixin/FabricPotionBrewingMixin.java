@@ -13,40 +13,40 @@ import sircow.preservedinferno.item.ModItems;
 import sircow.preservedinferno.potion.ModPotions;
 
 @Mixin(PotionBrewing.class)
-public class PotionBrewingMixin {
+public class FabricPotionBrewingMixin {
     @Inject(method = "addVanillaMixes", at = @At("HEAD"), cancellable = true)
     private static void pinferno$addVanillaMixes(PotionBrewing.Builder builder, CallbackInfo ci) {
         builder.addContainer(Items.POTION);
         builder.addContainer(Items.SPLASH_POTION);
         builder.addContainer(Items.LINGERING_POTION);
         builder.addContainer(Items.HONEY_BOTTLE);
-        builder.addContainer(ModItems.SPLASH_HONEY_BOTTLE);
-        builder.addContainer(ModItems.LINGERING_HONEY_BOTTLE);
-        builder.addContainer(ModItems.LAVA_BOTTLE);
-        builder.addContainer(ModItems.SPLASH_LAVA_BOTTLE);
-        builder.addContainer(ModItems.LINGERING_LAVA_BOTTLE);
-        builder.addContainer(ModItems.MILK_BOTTLE);
-        builder.addContainer(ModItems.SPLASH_MILK_BOTTLE);
-        builder.addContainer(ModItems.LINGERING_MILK_BOTTLE);
+        builder.addContainer(ModItems.SPLASH_HONEY_BOTTLE.get());
+        builder.addContainer(ModItems.LINGERING_HONEY_BOTTLE.get());
+        builder.addContainer(ModItems.LAVA_BOTTLE.get());
+        builder.addContainer(ModItems.SPLASH_LAVA_BOTTLE.get());
+        builder.addContainer(ModItems.LINGERING_LAVA_BOTTLE.get());
+        builder.addContainer(ModItems.MILK_BOTTLE.get());
+        builder.addContainer(ModItems.SPLASH_MILK_BOTTLE.get());
+        builder.addContainer(ModItems.LINGERING_MILK_BOTTLE.get());
         builder.addContainerRecipe(Items.POTION, Items.GUNPOWDER, Items.SPLASH_POTION);
         builder.addContainerRecipe(Items.POTION, Items.FIRE_CHARGE, Items.LINGERING_POTION);
-        builder.addContainerRecipe(Items.HONEY_BOTTLE, Items.GUNPOWDER, ModItems.SPLASH_HONEY_BOTTLE);
-        builder.addContainerRecipe(ModItems.SPLASH_HONEY_BOTTLE, Items.FIRE_CHARGE, ModItems.LINGERING_HONEY_BOTTLE);
-        builder.addContainerRecipe(ModItems.LAVA_BOTTLE, Items.GUNPOWDER, ModItems.SPLASH_LAVA_BOTTLE);
-        builder.addContainerRecipe(ModItems.SPLASH_LAVA_BOTTLE, Items.FIRE_CHARGE, ModItems.LINGERING_LAVA_BOTTLE);
-        builder.addContainerRecipe(ModItems.MILK_BOTTLE, Items.GUNPOWDER, ModItems.SPLASH_MILK_BOTTLE);
-        builder.addContainerRecipe(ModItems.SPLASH_MILK_BOTTLE, Items.FIRE_CHARGE, ModItems.LINGERING_MILK_BOTTLE);
-        builder.addMix(Potions.WATER, Items.AMETHYST_SHARD, ModPotions.HASTE);
-        builder.addMix(ModPotions.HASTE, Items.REDSTONE, ModPotions.LONG_HASTE);
-        builder.addMix(ModPotions.HASTE, Items.GLOWSTONE_DUST, ModPotions.STRONG_HASTE);
-        builder.addMix(ModPotions.HASTE, Items.FERMENTED_SPIDER_EYE, ModPotions.MINING_FATIGUE);
-        builder.addMix(ModPotions.MINING_FATIGUE, Items.REDSTONE, ModPotions.LONG_MINING_FATIGUE);
-        builder.addMix(ModPotions.MINING_FATIGUE, Items.GLOWSTONE_DUST, ModPotions.STRONG_MINING_FATIGUE);
-        builder.addMix(Potions.WATER, Items.INK_SAC, ModPotions.BLINDNESS);
-        builder.addMix(ModPotions.BLINDNESS, Items.REDSTONE, ModPotions.LONG_BLINDNESS);
-        builder.addMix(Potions.WATER, Items.RABBIT_FOOT, ModPotions.LUCK);
-        builder.addMix(ModPotions.LUCK, Items.REDSTONE, ModPotions.LONG_LUCK);
-        builder.addMix(ModPotions.LUCK, Items.GLOWSTONE_DUST, ModPotions.STRONG_LUCK);
+        builder.addContainerRecipe(Items.HONEY_BOTTLE, Items.GUNPOWDER, ModItems.SPLASH_HONEY_BOTTLE.get());
+        builder.addContainerRecipe(ModItems.SPLASH_HONEY_BOTTLE.get(), Items.FIRE_CHARGE, ModItems.LINGERING_HONEY_BOTTLE.get());
+        builder.addContainerRecipe(ModItems.LAVA_BOTTLE.get(), Items.GUNPOWDER, ModItems.SPLASH_LAVA_BOTTLE.get());
+        builder.addContainerRecipe(ModItems.SPLASH_LAVA_BOTTLE.get(), Items.FIRE_CHARGE, ModItems.LINGERING_LAVA_BOTTLE.get());
+        builder.addContainerRecipe(ModItems.MILK_BOTTLE.get(), Items.GUNPOWDER, ModItems.SPLASH_MILK_BOTTLE.get());
+        builder.addContainerRecipe(ModItems.SPLASH_MILK_BOTTLE.get(), Items.FIRE_CHARGE, ModItems.LINGERING_MILK_BOTTLE.get());
+        builder.addMix(Potions.WATER, Items.AMETHYST_SHARD, ModPotions.hasteHolder());
+        builder.addMix(ModPotions.hasteHolder(), Items.REDSTONE, ModPotions.longHasteHolder());
+        builder.addMix(ModPotions.hasteHolder(), Items.GLOWSTONE_DUST, ModPotions.strongHasteHolder());
+        builder.addMix(ModPotions.hasteHolder(), Items.FERMENTED_SPIDER_EYE, ModPotions.miningFatigueHolder());
+        builder.addMix(ModPotions.miningFatigueHolder(), Items.REDSTONE, ModPotions.longMiningFatigueHolder());
+        builder.addMix(ModPotions.miningFatigueHolder(), Items.GLOWSTONE_DUST, ModPotions.strongMiningFatigueHolder());
+        builder.addMix(Potions.WATER, Items.INK_SAC, ModPotions.blindnessHolder());
+        builder.addMix(ModPotions.blindnessHolder(), Items.REDSTONE, ModPotions.longBlindnessHolder());
+        builder.addMix(Potions.WATER, Items.RABBIT_FOOT, ModPotions.luckHolder());
+        builder.addMix(ModPotions.luckHolder(), Items.REDSTONE, ModPotions.longLuckHolder());
+        builder.addMix(ModPotions.luckHolder(), Items.GLOWSTONE_DUST, ModPotions.strongLuckHolder());
         builder.addMix(Potions.WATER, Items.BREEZE_ROD, Potions.WIND_CHARGED);
         builder.addMix(Potions.WATER, Items.SLIME_BLOCK, Potions.OOZING);
         builder.addMix(Potions.WATER, Items.STONE, Potions.INFESTED);
@@ -94,9 +94,9 @@ public class PotionBrewingMixin {
         builder.addMix(Potions.STRENGTH, Items.GLOWSTONE_DUST, Potions.STRONG_STRENGTH);
         builder.addMix(Potions.STRENGTH, Items.FERMENTED_SPIDER_EYE, Potions.WEAKNESS);
         builder.addMix(Potions.WEAKNESS, Items.REDSTONE, Potions.LONG_WEAKNESS);
-        builder.addMix(Potions.WATER, ModItems.PHANTOM_SINEW, Potions.SLOW_FALLING);
+        builder.addMix(Potions.WATER, ModItems.PHANTOM_SINEW.get(), Potions.SLOW_FALLING);
         builder.addMix(Potions.SLOW_FALLING, Items.REDSTONE, Potions.LONG_SLOW_FALLING);
-        builder.addMix(Potions.WATER, Items.NAUTILUS_SHELL, ModPotions.NAUTILUS_BLESSING);
+        builder.addMix(Potions.WATER, Items.NAUTILUS_SHELL, ModPotions.nautilusBlessingHolder());
         ci.cancel();
     }
 
@@ -107,15 +107,15 @@ public class PotionBrewingMixin {
         ItemStack result = null;
 
         if (ingredient.is(Items.GUNPOWDER)) {
-            if (source.is(Items.HONEY_BOTTLE)) result = new ItemStack(ModItems.SPLASH_HONEY_BOTTLE);
-            else if (source.is(ModItems.LAVA_BOTTLE)) result = new ItemStack(ModItems.SPLASH_LAVA_BOTTLE);
-            else if (source.is(ModItems.MILK_BOTTLE)) result = new ItemStack(ModItems.SPLASH_MILK_BOTTLE);
+            if (source.is(Items.HONEY_BOTTLE)) result = new ItemStack(ModItems.SPLASH_HONEY_BOTTLE.get());
+            else if (source.is(ModItems.LAVA_BOTTLE.get())) result = new ItemStack(ModItems.SPLASH_LAVA_BOTTLE.get());
+            else if (source.is(ModItems.MILK_BOTTLE.get())) result = new ItemStack(ModItems.SPLASH_MILK_BOTTLE.get());
         }
 
         else if (ingredient.is(Items.FIRE_CHARGE)) {
-            if (source.is(ModItems.SPLASH_HONEY_BOTTLE)) result = new ItemStack(ModItems.LINGERING_HONEY_BOTTLE);
-            else if (source.is(ModItems.SPLASH_LAVA_BOTTLE)) result = new ItemStack(ModItems.LINGERING_LAVA_BOTTLE);
-            else if (source.is(ModItems.SPLASH_MILK_BOTTLE)) result = new ItemStack(ModItems.LINGERING_MILK_BOTTLE);
+            if (source.is(ModItems.SPLASH_HONEY_BOTTLE.get())) result = new ItemStack(ModItems.LINGERING_HONEY_BOTTLE.get());
+            else if (source.is(ModItems.SPLASH_LAVA_BOTTLE.get())) result = new ItemStack(ModItems.LINGERING_LAVA_BOTTLE.get());
+            else if (source.is(ModItems.SPLASH_MILK_BOTTLE.get())) result = new ItemStack(ModItems.LINGERING_MILK_BOTTLE.get());
         }
 
         if (result != null) {

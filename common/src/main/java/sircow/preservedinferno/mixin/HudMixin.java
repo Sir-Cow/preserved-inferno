@@ -174,7 +174,7 @@ public class HudMixin {
 
     @ModifyExpressionValue(method = "extractFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;hasEffect(Lnet/minecraft/core/Holder;)Z"))
     private boolean pinferno$useHungerForFumigated(boolean original) {
-        return original || player.hasEffect(ModEffects.FUMIGATED.holder);
+        return original || player.hasEffect(ModEffects.fumigatedHolder());
     }
 
     @Overwrite

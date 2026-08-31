@@ -19,6 +19,6 @@ public class DrownedAttackGoalMixin extends RangedAttackGoal {
 
     @Overwrite
     public boolean canUse() {
-        return super.canUse() && this.drowned.getMainHandItem().is(ModItems.COPPER_TRIDENT);
+        return super.canUse() && this.drowned.getMainHandItem().is(ModItems.COPPER_TRIDENT.get());
     }
 }

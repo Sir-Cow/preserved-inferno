@@ -30,7 +30,7 @@ public class HappyGhastMixin {
 
         for (Entity passenger : ghast.getPassengers()) {
             if (passenger instanceof ServerPlayer player) {
-                if (player.getY() >= maxY) ModTriggers.HAPPY_GHAST_BUILD_HEIGHT.get().trigger(player);
+                if (player.getY() >= maxY) ModTriggers.HAPPY_GHAST_BUILD_HEIGHT.trigger(player);
             }
         }
     }

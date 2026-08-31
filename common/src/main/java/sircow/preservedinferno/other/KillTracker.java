@@ -20,7 +20,7 @@ public class KillTracker {
         session.registerKill(serverPlayer.level().getGameTime());
 
         if (session.kills >= 3) {
-            ModTriggers.TRIPLE_KILL.get().trigger(serverPlayer);
+            ModTriggers.TRIPLE_KILL.trigger(serverPlayer);
             ACTIVE_SESSIONS.remove(serverPlayer.getUUID());
         }
     }

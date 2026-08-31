@@ -1,4 +1,4 @@
-package sircow.preservedinferno.screen;
+package sircow.preservedinferno.menu;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -12,8 +12,8 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
-import sircow.preservedinferno.FabricPreservedInferno;
-import sircow.preservedinferno.MenuTypes;
+import sircow.preservedinferno.Constants;
+import sircow.preservedinferno.codec.ItemData;
 import sircow.preservedinferno.item.custom.CacheItem;
 import sircow.preservedinferno.sound.ModSounds;
 
@@ -22,7 +22,7 @@ public class CacheMenu extends AbstractContainerMenu {
     private final ItemStack stackContext;
 
     public CacheMenu(int syncId, Inventory playerInventory, Container container, ItemStack stackContext) {
-        super(MenuTypes.CACHE_MENU_TYPE.get(), syncId);
+        super(Constants.CACHE_MENU_TYPE.get(), syncId);
         this.container = container;
         this.stackContext = stackContext;
         container.startOpen(playerInventory.player);
@@ -30,8 +30,8 @@ public class CacheMenu extends AbstractContainerMenu {
         setupSlots(playerInventory);
     }
 
-    public CacheMenu(int containerId, Inventory playerInventory, FabricPreservedInferno.ItemData data) {
-        super(MenuTypes.CACHE_MENU_TYPE.get(), containerId);
+    public CacheMenu(int containerId, Inventory playerInventory, ItemData data) {
+        super(Constants.CACHE_MENU_TYPE.get(), containerId);
         this.container = new SimpleContainer(data.containerSize());
         this.stackContext = ItemStack.EMPTY;
         checkContainerSize(this.container, data.containerSize());
@@ -100,15 +100,7 @@ public class CacheMenu extends AbstractContainerMenu {
         super.removed(player);
         this.container.stopOpen(player);
         if (player instanceof ServerPlayer serverPlayer) {
-            serverPlayer.level().playSound(null,
-                    serverPlayer.getX(),
-                    serverPlayer.getY(),
-                    serverPlayer.getZ(),
-                    ModSounds.CACHE_CLOSE,
-                    SoundSource.PLAYERS,
-                    1.0F,
-                    1.0F
-            );
+            serverPlayer.level().playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), ModSounds.CACHE_CLOSE, SoundSource.PLAYERS, 1.0F, 1.0F);
         }
     }
 }
